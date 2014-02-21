@@ -1,0 +1,8 @@
+{
+  "name": "bunsen front end",
+  "dependencies": {
+    "lodash": "~2.4.1",
+    "angular": "~1.2.13",
+    "angular-ui-router": "https://github.com/angular-ui/ui-router/archive/0.2.8-bowratic-tedium.tar.gz"
+  }
+}
