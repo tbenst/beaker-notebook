@@ -1,2 +1,4 @@
-h1 hello bunsen market place
-a(ui-sref="marketItem({id: 1})") market item 1
+h1 bunsen market place
+ul
+  li(ng-repeat="item in data")
+    a(ui-sref="marketItem({id: item.id})") {{item.title}}

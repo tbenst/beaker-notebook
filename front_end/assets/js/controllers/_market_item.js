@@ -1,9 +1,7 @@
 !(function(angular, app) {
   app.controller('marketItem', ['$scope', 'Restangular', '$state', function($scope, Restangular, $state) {
-    $scope.item = {
-      title: "a sample title",
-      vendor: "vendor X",
-      description: "this is the description"
-    };
+    Restangular.one('data_sets', $state.params.id).get().then(function(d) {
+      $scope.item = d;
+    });
   }]);
 })(angular, window.bunsen);
