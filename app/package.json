@@ -1,0 +1,27 @@
+{
+  "name": "bunsen",
+  "version": "0.0.0",
+  "description": "Big data for fun and profit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/twosigma/bunsen.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/twosigma/bunsen/issues"
+  },
+  "homepage": "https://github.com/twosigma/bunsen",
+  "dependencies": {
+    "jade": "1.1.5",
+    "express": "3.4.8",
+    "sequelize": "1.7.0-rc6",
+    "pg": "2.11.1",
+    "lodash": "2.4.1",
+    "when": "2.8.0"
+  }
+}
