@@ -10,10 +10,14 @@ var path = require('path');
 var app = express();
 
 app.Models = require('./models');
+app.Controllers = require('./controllers');
+app.Routes = require('./routes');
 
 when(app)
   .then(appConfig)
   .then(app.Models.init)
+  .then(app.Controllers.init)
+  .then(app.Routes.init)
   .then(appStart)
   .catch(function(err) {
     console.log(err.stack);
