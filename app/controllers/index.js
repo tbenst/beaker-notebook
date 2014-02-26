@@ -3,4 +3,4 @@ module.exports.init = function(app) {
   module.exports.ProjectsController = require('./projects_controller.js')(app);
 
   return app;
-}
+};
