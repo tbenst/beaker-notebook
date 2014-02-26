@@ -1,14 +1,14 @@
 module.exports = function(sequelize, DataTypes) {
-  var User = sequelize.define('User', {
+  var Project = sequelize.define('Project', {
     name: DataTypes.STRING,
-    email: DataTypes.STRING
+    description: DataTypes.TEXT
   }, {
     classMethods: {
       associate: function(models) {
-        User.hasMany(models.Project, {foreignKey: 'ownerId'});
+        Project.belongsTo(models.User, {foreignKey: 'ownerId'});
       }
     }
   });
 
-  return User;
+  return Project;
 };
