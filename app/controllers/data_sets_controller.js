@@ -10,29 +10,23 @@ module.exports = function(app) {
           req.dataSet = dataSet;
           next();
         })
-        .catch(function(err) {
-          next(err);
-        });
+        .catch(next);
     },
 
     index: function(req, res, next) {
       DataSet.findAll()
         .then(function(dataSets) {
-          res.json(200, dataSets);
+          res.json(dataSets);
         })
-        .catch(function(err) {
-          next(err);
-        });
+        .catch(next);
     },
 
     create: function(req, res, next) {
       DataSet.create({title: req.params.title})
         .then(function(dataSet) {
-          res.json(200, dataSet);
+          res.json(dataSet);
         })
-        .catch(function(err) {
-          next(err);
-        });
+        .catch(next);
     },
 
     get: function(req, res, next) {
@@ -42,21 +36,17 @@ module.exports = function(app) {
     update: function(req, res, next) {
       req.dataSet.updateAttributes(req.body, ['title', 'vendor', 'description', 'url'])
         .then(function(dataSet) {
-          res.json(200, dataSet);
+          res.json(dataSet);
         })
-        .catch(function(err) {
-          next(err);
-        });
+        .catch(next);
     },
 
     destroy: function(req, res, next) {
       req.dataSet.destroy()
         .then(function() {
-          res.json(200, dataSet);
+          res.json(dataSet);
         })
-        .catch(function(err) {
-          next(err);
-        });
+        .catch(next);
     }
   };
 };
