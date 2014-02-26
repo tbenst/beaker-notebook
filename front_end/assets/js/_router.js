@@ -9,6 +9,16 @@
         }
       }
     });
+
+    $stateProvider.state('marketItem', {
+      url: '/market_place/:id',
+      views: {
+        app: {
+          controller: 'marketItem',
+          template: templates.market_item
+        }
+      }
+    });
   }]);
 
 })(angular, window.bunsen, templates);

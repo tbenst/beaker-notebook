@@ -18,7 +18,7 @@ module.exports = function(app) {
     index: function(req, res, next) {
       DataSet.findAll()
         .then(function(dataSets) {
-          res.json(200, {dataSets: dataSets});
+          res.json(200, dataSets);
         })
         .catch(function(err) {
           next(err);

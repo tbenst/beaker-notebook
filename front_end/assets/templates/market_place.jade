@@ -1,1 +1,4 @@
-h1 hello bunsen market place
+h1 bunsen market place
+ul
+  li(ng-repeat="item in data")
+    a(ui-sref="marketItem({id: item.id})") {{item.title}}
