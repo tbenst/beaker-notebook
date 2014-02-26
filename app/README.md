@@ -7,5 +7,5 @@ Bunsen API Server
   - `createdb bunsenDevelopment`
 * `cp config/config.json.sample config/config.json`
 * run your migrations via `npm run-script migrate`
-* `node seed.js` to seed the database
+* to seed the database `npm run-script seed`
 * `npm start`

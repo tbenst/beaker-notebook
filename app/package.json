@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "migrate": "./node_modules/sequelize/bin/sequelize -m"
+    "migrate": "./node_modules/sequelize/bin/sequelize -m",
+    "seed": "node seed.js"
   },
   "repository": {
     "type": "git",
