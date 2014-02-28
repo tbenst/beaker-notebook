@@ -6,6 +6,6 @@ Bunsen API Server
 * if this is the first time you are running the server you will need to create a new database
   - `createdb bunsenDevelopment`
 * `cp config/config.json.sample config/config.json`
-* run your migrations via `./node_modules/sequelize/bin/sequelize -m`
-* `node seed.js` to seed the database
-* `node app.js`
+* run your migrations via `npm run-script migrate`
+* to seed the database `npm run-script seed`
+* `npm start`
