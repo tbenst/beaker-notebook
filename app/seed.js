@@ -5,6 +5,14 @@ var models = require('./models');
 
 var data = [
   {
+    model: 'User',
+    data: {
+      name: "Dummy",
+      email: "dummy@example.com"
+    }
+  },
+
+  {
     model: 'DataSet',
     data: {
       title: "Credit Card Complaints",
