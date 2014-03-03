@@ -5,7 +5,14 @@ module.exports = function(sequelize, DataTypes) {
     description: DataTypes.TEXT,
     url: DataTypes.STRING
   }, {
-    tableName: 'data_sets'
+    tableName: 'data_sets',
+    classMethods: {
+      associate: function(models) {
+        DataSet.hasMany(models.User, {
+          through: "data_sets_Users"
+        });
+      }
+    }
   });
 
   return DataSet;

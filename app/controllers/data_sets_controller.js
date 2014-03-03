@@ -30,7 +30,10 @@ module.exports = function(app) {
     },
 
     get: function(req, res, next) {
-      res.json(200, req.dataSet);
+      req.dataSet.getUsers().then(function(users) {
+        req.dataSet['dataValues'].users = users;
+        res.json(req.dataSet);
+      }).catch(next);
     },
 
     update: function(req, res, next) {
