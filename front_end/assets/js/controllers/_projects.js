@@ -2,14 +2,14 @@
   app.controller('projects', ['$scope', 'Restangular', function($scope, Restangular) {
     var R = Restangular;
 
-    R.one('users', 1)
+    R.one('users', window.userID)
      .getList('projects')
      .then(function(d) {
         $scope.projects = d;
       });
 
     $scope.createProject = function() {
-      R.one('users', 1)
+      R.one('users', window.userID)
         .all('projects').post({
           name: "sample project " + Math.random()
         })

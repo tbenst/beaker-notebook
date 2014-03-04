@@ -6,6 +6,10 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         User.hasMany(models.Project, {foreignKey: 'ownerId'});
+        User.hasMany(models.DataSet, {
+          as: 'subscriptions',
+          through: 'data_sets_Users'
+        });
       }
     }
   });
