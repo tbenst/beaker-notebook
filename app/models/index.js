@@ -18,7 +18,7 @@ module.exports.init = function(app) {
     throw new Error("'" + app.get('env') + "'" + "environment not defined in /config/config.json")
   }
 
-  var sequelize = new Sequelize(config['database'], config['user'], config['password'], {dialect: "postgres"});
+  var sequelize = new Sequelize(config['database'], config['username'], config['password'], {dialect: "postgres"});
 
   fs.readdirSync(__dirname)
     .filter(function(file) {
