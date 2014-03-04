@@ -2,7 +2,6 @@ module.exports = function(app) {
 
   var ProjectsController = app.Controllers.ProjectsController;
 
-  app.param('user_id', ProjectsController.userIdParam);
   app.param('project_id', ProjectsController.projectIdParam);
 
   app.get('/api/users/:user_id/projects', ProjectsController.index);
