@@ -4,17 +4,6 @@ module.exports = function(app) {
       User = app.Models.User;
 
   return {
-    userIdParam: function(req, res, next, id) {
-      User.find({where: {id: req.params.user_id}})
-        .then(function(user) {
-          if (!user) {
-            throw new Error('User not found');
-          }
-          req.user = user;
-        })
-        .done(next, next);
-    },
-
     projectIdParam: function(req, res, next, id) {
       req.user.getProjects({where: {id: req.params.project_id}})
         .then(function(projects) {
