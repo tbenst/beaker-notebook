@@ -1,13 +1,13 @@
 {
   "development": {
     "database": "bunsenDevelopment",
-    "user": "root",
+    "username": "root",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
     "database": "bunsen",
-    "user": "root",
+    "username": "root",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }
