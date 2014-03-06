@@ -20,6 +20,16 @@
       }
     });
 
+    $stateProvider.state('projectEdit', {
+      url: '/projects/:id/edits',
+      views: {
+        app: {
+          controller: 'projectEdit',
+          template: templates.project_edit
+        }
+      }
+    });
+
     $stateProvider.state('marketPlace', {
       url: '/market_place',
       views: {
