@@ -1,5 +1,6 @@
-module.exports = function(app) {
+var _  = require('lodash');
 
+module.exports = function(app) {
   var DataSet = app.Models.DataSet;
 
   return {
@@ -14,7 +15,15 @@ module.exports = function(app) {
     },
 
     index: function(req, res, next) {
-      DataSet.findAll()
+      var options = _.defaults({
+        offset: req.query.offset,
+        limit: req.query.limit
+      },{
+        offset: 0,
+        limit: 10
+      });
+
+      DataSet.findAll(options)
         .then(function(dataSets) {
           res.json(dataSets);
         })
