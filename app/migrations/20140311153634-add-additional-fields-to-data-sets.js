@@ -4,7 +4,7 @@ module.exports = {
       migration.addColumn('data_sets', 'rows', DataTypes.BIGINT);
     }).then(function() {
       migration.addColumn('data_sets', 'last_updated', DataTypes.DATE);
-    }).then(done);
+    }).complete(done);
   },
 
   down: function(migration, DataTypes, done) {
@@ -12,6 +12,6 @@ module.exports = {
       migration.removeColumn('data_sets', 'rows');
     }).then(function() {
       migration.removeColumn('data_sets', 'last_updated');
-    }).then(done);
+    }).complete(done);
   }
 }
