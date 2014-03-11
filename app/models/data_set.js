@@ -24,6 +24,11 @@ module.exports = function(sequelize, DataTypes) {
           as: "Tags",
           through: "data_sets_data_tags"
         });
+
+        DataSet.hasMany(models.Category, {
+          as: 'categories',
+          through: 'DataSetsCategories'
+        });
       }
     }
   });
