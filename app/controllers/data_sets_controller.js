@@ -1,7 +1,9 @@
 var _  = require('lodash');
 
 module.exports = function(app) {
-  var DataSet = app.Models.DataSet;
+
+  var DataSet = app.Models.DataSet,
+      Category = app.Models.Category;
 
   return {
     idParam: function(req, res, next, id) {
@@ -22,7 +24,7 @@ module.exports = function(app) {
         limit: 10
       });
 
-      DataSet.findAll(options)
+      DataSet.findByCategory(req.category, options)
         .then(function(dataSets) {
           res.json(dataSets);
         })
