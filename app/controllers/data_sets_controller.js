@@ -7,11 +7,10 @@ module.exports = function(app) {
     idParam: function(req, res, next, id) {
       DataSet.find({where: {id: req.params.data_set_id}})
         .then(function(dataSet) {
-          if (!dataSet) return next(new Error('DataSet not found'));
+          if (!dataSet) throw new Error('DataSet not found');
           req.dataSet = dataSet;
-          next();
         })
-        .catch(next);
+        .done(next, next);
     },
 
     index: function(req, res, next) {
