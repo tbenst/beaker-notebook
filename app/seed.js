@@ -2,6 +2,9 @@ var express = require('express');
 var app = express();
 var sf = require('sequelize-fixtures');
 var models = require('./models');
+var _ = require('lodash');
+var when = require('when');
+var util = require('util');
 
 var data = [
   {
@@ -39,6 +42,9 @@ var data = [
       rows: 350,
       format: "XML",
       vendor_id: 1
+    },
+    associations: {
+      category: "Consumer Finance"
     }
   },
 
@@ -51,6 +57,9 @@ var data = [
       rows: 1000,
       format: "CSV",
       vendor_id: 2
+    },
+    associations: {
+      category: "U.S. Energy Information Administration"
     }
   },
 
@@ -63,6 +72,9 @@ var data = [
       rows: 9000,
       format: "TXT",
       vendor_id: 3
+    },
+    associations: {
+      category: "U.S. Energy Information Administration"
     }
   },
 
@@ -75,6 +87,9 @@ var data = [
       rows: 55,
       format: "XML",
       vendor_id: 1
+    },
+    associations: {
+      category: "U.S. Energy Information Administration"
     }
   },
 
@@ -87,6 +102,49 @@ var data = [
       rows: 2312,
       format: "CSV",
       vendor_id: 1
+    },
+    associations: {
+      category: "U.S. Energy Information Administration"
+    }
+  },
+
+  {
+    model: 'Category',
+    data: {
+      name: "Organizations",
+      path: "1"
+    }
+  },
+
+  {
+    model: 'Category',
+    data: {
+      name: "U.S. Energy Information Administration",
+      path: "1.1"
+    }
+  },
+
+  {
+    model: 'Category',
+    data: {
+      name: "Consumer Finance",
+      path: "1.2"
+    }
+  },
+
+  {
+    model: 'Category',
+    data: {
+      name: "Currated Collections",
+      path: "2"
+    }
+  },
+
+  {
+    model: 'Category',
+    data: {
+      name: "United States",
+      path: "2.1"
     }
   }
 ];
@@ -94,5 +152,23 @@ var data = [
 models.init(app);
 
 sf.loadFixtures(data, app.Models, function(err) {
-  console.log("Database seeded.");
+  setUpDataSetsCategories(data, app.Models)
+    .done(function() {
+      console.log("DB seeded.");
+    });
 });
+
+function setUpDataSetsCategories(data, models) {
+  var dataSets = _.where(data, {model: 'DataSet'});
+
+  return when.map(dataSets, function(attrs) {
+    return models.DataSet.find({where: {title: attrs['data']['title']}})
+      .then(function(dataSet) {
+        if (!dataSet) {throw new Error('DataSet not found');}
+        return models.Category.find({where: {name: attrs['associations']['category']}})
+        .then(function(category) {
+          return dataSet.setCategories([category]);
+        });
+      });
+  });
+}
