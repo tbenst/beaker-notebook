@@ -10,6 +10,14 @@ module.exports = function(app) {
           req.category = category;
         })
         .done(next, next);
+    },
+
+    index: function(req, res, next) {
+      Category.tree()
+        .then(function(tree) {
+          res.json(tree);
+        })
+        .catch(next);
     }
   };
 };
