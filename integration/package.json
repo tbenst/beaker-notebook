@@ -4,7 +4,8 @@
   "description": "Specifying big data for fun and profit by example",
   "main": "dill",
   "scripts": {
-    "dill": "dill features/ --require step_definitions/"
+    "start": "dill features/ --require util/ --require step_definitions/ --require widgets/",
+    "test": "node-debug --web-port 8081 --debug-port 5859 dill features/ --require util/ --require step_definitions/ --require widgets/"
   },
   "repository": {
     "type": "git",
