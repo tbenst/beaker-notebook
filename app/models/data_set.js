@@ -9,30 +9,33 @@ module.exports = function(sequelize, DataTypes) {
     url: DataTypes.STRING,
     format: DataTypes.STRING,
     rows: DataTypes.BIGINT,
-    last_updated: DataTypes.DATE,
-    vendor_id: DataTypes.INTEGER
+    lastUpdated: DataTypes.DATE,
+    vendorId: DataTypes.INTEGER
   }, {
-    tableName: 'data_sets',
+    tableName: 'DataSets',
     classMethods: {
       associate: function(models) {
         DataSet.models = models;
 
         DataSet.hasOne(models.Vendor, {
-          foreignKey: 'vendor_id'
+          foreignKey: 'vendorId'
         });
 
         DataSet.hasMany(models.User, {
-          through: "data_sets_Users"
+          through: "DataSetsUsers",
+          foreignKey: 'dataSetId'
         });
 
         DataSet.hasMany(models.DataTag, {
           as: "Tags",
-          through: "data_sets_data_tags"
+          through: "DataSetsDataTags",
+          foreignKey: 'dataSetId'
         });
 
         DataSet.hasMany(models.Category, {
           as: 'categories',
-          through: 'DataSetsCategories'
+          through: 'DataSetsCategories',
+          foreignKey: 'dataSetId'
         });
       },
 
@@ -41,17 +44,17 @@ module.exports = function(sequelize, DataTypes) {
 
         var Category = this.models.Category;
 
-        return Category.findAll({where: ["path <@ ?", category.path]}) // ltree expression to find all categories at the level of current category or below
+        return Category.findAll({where: ["path <@ ?", category.path]}) // ltree expression to find all categories that belong to a sub-tree which starts in the current category (including it)
           .then(function(categories) {
             var ids = _.map(categories, function(category) {
               return category.id;
             }).join(",");
 
             var query =
-              "SELECT data_sets.*\n" +
-              "FROM data_sets\n" +
-              "INNER JOIN \"DataSetsCategories\" ON data_sets.id = \"DataSetsCategories\".\"data_setId\" AND\n" +
-              "\"DataSetsCategories\".\"CategoryId\" IN (%s)\n" +
+              "SELECT \"DataSets\".*\n" +
+              "FROM \"DataSets\"\n" +
+              "INNER JOIN \"DataSetsCategories\" ON \"DataSets\".id = \"DataSetsCategories\".\"dataSetId\" AND\n" +
+              "\"DataSetsCategories\".\"categoryId\" IN (%s)\n" +
               "LIMIT %d OFFSET %d";
 
             query = util.format(query, ids, options['limit'], options['offset']);

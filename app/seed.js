@@ -41,7 +41,7 @@ var data = [
       url: "https://data.consumerfinance.gov/api/views/x3w3-u78g/rows.csv?accessType=DOWNLOAD",
       rows: 350,
       format: "XML",
-      vendor_id: 1
+      vendorId: 1
     },
     associations: {
       category: "Consumer Finance"
@@ -56,7 +56,7 @@ var data = [
       url: "http://api.eia.gov/bulk/ELEC.zip",
       rows: 1000,
       format: "CSV",
-      vendor_id: 2
+      vendorId: 2
     },
     associations: {
       category: "U.S. Energy Information Administration"
@@ -71,7 +71,7 @@ var data = [
       url: "http://api.eia.gov/bulk/NG.zip",
       rows: 9000,
       format: "TXT",
-      vendor_id: 3
+      vendorId: 3
     },
     associations: {
       category: "U.S. Energy Information Administration"
@@ -86,7 +86,7 @@ var data = [
       url: "http://api.eia.gov/bulk/PET.zip",
       rows: 55,
       format: "XML",
-      vendor_id: 1
+      vendorId: 1
     },
     associations: {
       category: "U.S. Energy Information Administration"
@@ -101,7 +101,7 @@ var data = [
       url: "http://api.eia.gov/bulk/SEDS.zip",
       rows: 2312,
       format: "CSV",
-      vendor_id: 1
+      vendorId: 1
     },
     associations: {
       category: "U.S. Energy Information Administration"

@@ -10,7 +10,8 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         Category.hasMany(models.DataSet, {
           as: 'dataSets',
-          through: 'DataSetsCategories'
+          through: 'DataSetsCategories',
+          foreignKey: 'categoryId'
         });
       },
 
