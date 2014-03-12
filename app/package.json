@@ -21,7 +21,7 @@
   "dependencies": {
     "jade": "1.1.5",
     "express": "3.4.8",
-    "sequelize": "1.7.0-rc6",
+    "sequelize": "1.7.0",
     "pg": "2.11.1",
     "lodash": "2.4.1",
     "sequelize-fixtures": "0.1.0",
