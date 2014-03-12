@@ -1,7 +1,8 @@
-button.btn(ng-click="createProject()") create a project
+.manage-projects
+  button.btn.create-project(ng-click="createProject()") create a project
 
-h1 your projects
-ul
-  li(ng-show="projects.length === 0") no projects yet.
-  li(ng-repeat="project in projects")
-    a(ui-sref="project({id: project.id})") {{project.name}}
+  h1 your projects
+  ul
+    li(ng-show="projects.length === 0") no projects yet.
+    li(ng-repeat="project in projects")
+      a.project(ui-sref="project({id: project.id})") {{project.name}}
