@@ -14,9 +14,9 @@ module.exports = function() {
       reqConfig.json = jsonBody;
     }
     return request.$(httpMethod, reqConfig).then(
-      function(response, body) {
+      function(response) {
         if (response.statusCode == 200) {
-          return body;
+          return response.body;
         }
         else {
           throw Error("Status code " + response.statusCode + " from app seed request.  Body of response: " + body);
