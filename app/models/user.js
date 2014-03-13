@@ -8,7 +8,8 @@ module.exports = function(sequelize, DataTypes) {
         User.hasMany(models.Project, {foreignKey: 'ownerId'});
         User.hasMany(models.DataSet, {
           as: 'subscriptions',
-          through: 'data_sets_Users'
+          through: 'DataSetsUsers',
+          foreignKey: 'userId'
         });
       }
     }
