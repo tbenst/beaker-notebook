@@ -6,11 +6,16 @@ module.exports = function(sequelize, DataTypes) {
     url: DataTypes.STRING,
     format: DataTypes.STRING,
     rows: DataTypes.BIGINT,
-    last_updated: DataTypes.DATE
+    last_updated: DataTypes.DATE,
+    vendor_id: DataTypes.INTEGER
   }, {
     tableName: 'data_sets',
     classMethods: {
       associate: function(models) {
+        DataSet.hasOne(models.Vendor, {
+          foreignKey: 'vendor_id'
+        });
+
         DataSet.hasMany(models.User, {
           through: "data_sets_Users"
         });
