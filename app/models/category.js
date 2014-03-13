@@ -32,7 +32,9 @@ module.exports = function(sequelize, DataTypes) {
         function initNodes(categories) {
           _.each(categories, function(category) {
             nodes[category.path] = {
-              category: category,
+              category: category.name,
+              id: category.id,
+              path: category.path,
               children: []
             };
           });
@@ -54,7 +56,7 @@ module.exports = function(sequelize, DataTypes) {
             });
 
             return _.map(roots, function(root) {
-              return nodes[root.category.path];
+              return nodes[root.path];
             });
           });
       }
