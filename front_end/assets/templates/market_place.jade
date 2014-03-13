@@ -1,5 +1,6 @@
 h1 bunsen market place
 input(type="text", ng-model="filterBy", placeholder="Search for Data")
+h4 Matching Results {{(data | filter:filterBy).length}}
 ul
   li(ng-repeat="item in data | filter:filterBy")
     p
