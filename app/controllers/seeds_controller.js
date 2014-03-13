@@ -6,7 +6,7 @@ module.exports = function(app) {
     clear: function(req, res, next) {
       var modelNames = _(app.Models).keys().filter(function(key) {
         return !!app.Models[key].tableName;
-      });
+      }).value();
 
       W.map(modelNames, function(modelName) {
         return app.Models[modelName].destroy(null, {truncate: true});
