@@ -15,6 +15,17 @@ module.exports = function(sequelize, DataTypes) {
         });
       },
 
+      findAllWithCounts: function() {
+        var query =
+          "SELECT id, name, path, COUNT(\"DataSetsCategories\".\"dataSetId\") AS \"dataCount\"\n" +
+          "FROM \"Categories\"\n" +
+          "LEFT OUTER JOIN \"DataSetsCategories\" ON \"Categories\".id = \"DataSetsCategories\".\"categoryId\"\n" +
+          "GROUP BY id, name, path\n" +
+          "ORDER BY path";
+
+        return sequelize.query(query);
+      },
+
       tree: function() {
         var nodes = {},
             roots = [];
@@ -35,12 +46,13 @@ module.exports = function(sequelize, DataTypes) {
               category: category.name,
               id: category.id,
               path: category.path,
+              count: +category.dataCount,
               children: []
             };
           });
         }
 
-        return Category.findAll({order: 'path'})
+        return Category.findAllWithCounts()
           .then(function(categories) {
 
             initNodes(categories);
@@ -50,6 +62,7 @@ module.exports = function(sequelize, DataTypes) {
                   node = nodes[category.path];
               if (parentNode) {
                 parentNode.children.push(node);
+                parentNode.count = parentNode.count + node.count;
               } else {
                 roots.push(node);
               }
