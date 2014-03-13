@@ -11,6 +11,11 @@ module.exports = function(sequelize, DataTypes) {
         DataSet.hasMany(models.User, {
           through: "data_sets_Users"
         });
+
+        DataSet.hasMany(models.DataTag, {
+          as: "Tags",
+          through: "data_sets_data_tags"
+        });
       }
     }
   });
