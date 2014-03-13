@@ -9,7 +9,7 @@ treecontrol.tree-classic.col-quarter(
 .col-half
   input(type="text", ng-model="filterBy", placeholder="Search for Data")
   ul
-    li(ng-repeat="item in data | filter:categoryFilter | filter:filterBy ")
+    li(ng-repeat="item in data | filter:filterBy ")
       a(ui-sref="marketItem({id: item.id})") {{item.title}}
       p.description {{item.description | limitTo:100}}...
 .cl

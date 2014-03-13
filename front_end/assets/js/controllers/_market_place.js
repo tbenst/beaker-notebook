@@ -17,10 +17,6 @@
       });
     }
 
-    $scope.categoryFilter = function() {
-      return true;
-    }
-
     Restangular.one('categories').getList().then(function(treeData) {
       $scope.treeData = treeData;
     });
