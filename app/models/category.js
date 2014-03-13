@@ -57,14 +57,14 @@ module.exports = function(sequelize, DataTypes) {
 
             initNodes(categories);
 
-            _.each(categories, function(category) {
+            _.each(categories.reverse(), function(category) {
               var parentNode = parent(category.path),
                   node = nodes[category.path];
               if (parentNode) {
-                parentNode.children.push(node);
+                parentNode.children.unshift(node);
                 parentNode.count = parentNode.count + node.count;
               } else {
-                roots.push(node);
+                roots.unshift(node);
               }
             });
 
