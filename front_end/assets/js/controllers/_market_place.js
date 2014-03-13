@@ -11,24 +11,18 @@
 
     $scope.onTreeSelection = function(node) {
       $scope.categoryFilterBy = node.category;
+
+      Restangular.one('categories', node.id).getList('data_sets').then(function(d) {
+        $scope.data = d;
+      });
     }
 
     $scope.categoryFilter = function() {
       return true;
     }
 
-    $scope.treeData = [
-      { "category" : "hats", "count" : "2", "children" : [
-        {
-          "category": "top hats", "count" : 1, children: []
-        },
-        {
-          "category": "baseball hats", "count" : 1, children: []
-        },
-      ]},
-      { "category" : "pants", "count": 4, children: []},
-      { "category" : "shirts", "count": 4, children: []},
-    ];
-
+    Restangular.one('categories').getList().then(function(treeData) {
+      $scope.treeData = treeData;
+    });
   }]);
 })(angular, window.bunsen);
