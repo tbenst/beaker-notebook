@@ -9,3 +9,12 @@ Bunsen API Server
 * run your migrations via `npm run-script migrate`
 * to seed the database `npm run-script seed`
 * `npm start`
+
+### Problems migrating / seeding ?
+The reality is, sometimes things go very wrong with your database. Here are some steps to recover from a place that you might find yourself in.
+
+* `dropDB "bunsenDevelopment"`
+* `createDB "bunsenDevelopment"`
+* `npm run-script migrate`
+* `npm run-script seed`
+* take a deep breath
