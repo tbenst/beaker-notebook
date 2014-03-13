@@ -8,10 +8,10 @@ html(ng-app="bunsen")
     script(src="js/templates.js", type="text/javascript")
     script(src="js/main.js", type="text/javascript")
   body
-    nav
-      a(ui-sref="marketPlace") market place
+    nav.main-nav
+      a.market-place(ui-sref="marketPlace") market place
       br
-      a(ui-sref="projects") projects
+      a.projects(ui-sref="projects") projects
       hr
     #app(ui-view="app")
       != content

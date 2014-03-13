@@ -1,0 +1,26 @@
+{
+  "name": "bunsen-features",
+  "version": "0.0.0",
+  "description": "Specifying big data for fun and profit by example",
+  "main": "dill",
+  "scripts": {
+    "start": "dill features/ --require util/ --require step_definitions/ --require widgets/",
+    "test": "node-debug --web-port 8081 --debug-port 5859 dill features/ --require util/ --require step_definitions/ --require widgets/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/twosigma/bunsen.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/twosigma/bunsen/issues"
+  },
+  "homepage": "https://github.com/twosigma/bunsen",
+  "dependencies": {
+    "dill": "git://github.com/mojotech/dill.js.git#mf/bunsen",
+    "request": "2.33.0"
+  },
+  "devDependencies": {
+    "node-inspector": "0.7.0"
+  }
+}
