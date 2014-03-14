@@ -1,5 +1,6 @@
 var request = require('request');
 var util = require('util');
+var _ = require('lodash');
 
 module.exports = function() {
 
@@ -32,7 +33,8 @@ module.exports = function() {
   });
 
   this.seed = function(modelName, modelData) {
-    return seedRequest('post', modelName, modelData);
+    var bodyArray = _.isArray(modelData) ? modelData : [modelData];
+    return seedRequest('post', modelName, bodyArray);
   };
 
 };
