@@ -1,5 +1,3 @@
-var W       = require('when');
-
 module.exports = function(app) {
   var User    = app.Models.User;
   var DataSet = app.Models.DataSet;
