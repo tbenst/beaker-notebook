@@ -5,6 +5,16 @@ module.exports = function(app) {
   var DataSet = app.Models.DataSet,
       Category = app.Models.Category;
 
+  function getOptions(req) {
+    return _.defaults({
+        offset: req.query.offset,
+        limit: req.query.limit
+      },{
+        offset: 0,
+        limit: 10
+      });
+  };
+
   return {
     idParam: function(req, res, next, id) {
       DataSet.find({where: {id: req.params.data_set_id}})
@@ -16,19 +26,9 @@ module.exports = function(app) {
     },
 
     index: function(req, res, next) {
-      var options = _.defaults({
-        offset: req.query.offset,
-        limit: req.query.limit
-      },{
-        offset: 0,
-        limit: 10
-      });
-
-      DataSet.findByCategory(req.category, options)
-        .then(function(dataSets) {
-          res.json(dataSets);
-        })
-        .catch(next);
+      DataSet.findMatching(req.query, getOptions(req)).then(function(dataSets) {
+        res.json(dataSets);
+      }).catch(next);
     },
 
     create: function(req, res, next) {
