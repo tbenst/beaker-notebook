@@ -5,7 +5,7 @@ module.exports = function(app) {
   var DataSet = app.Models.DataSet;
 
   return {
-    userIdParam: function(req, res, next, id) {
+    userIdParam: function(req, res, next) {
       User.find({where: {id: req.params.user_id}})
         .then(function(user) {
           if (!user) {
