@@ -15,6 +15,17 @@ module.exports = function(sequelize, DataTypes) {
         });
       },
 
+      findAllWithCounts: function() {
+        var query =
+          "SELECT id, name, path, COUNT(\"DataSetsCategories\".\"dataSetId\") AS \"dataCount\"\n" +
+          "FROM \"Categories\"\n" +
+          "LEFT OUTER JOIN \"DataSetsCategories\" ON \"Categories\".id = \"DataSetsCategories\".\"categoryId\"\n" +
+          "GROUP BY id, name, path\n" +
+          "ORDER BY path";
+
+        return sequelize.query(query);
+      },
+
       tree: function() {
         var nodes = {},
             roots = [];
@@ -32,29 +43,33 @@ module.exports = function(sequelize, DataTypes) {
         function initNodes(categories) {
           _.each(categories, function(category) {
             nodes[category.path] = {
-              category: category,
+              category: category.name,
+              id: category.id,
+              path: category.path,
+              count: +category.dataCount,
               children: []
             };
           });
         }
 
-        return Category.findAll({order: 'path'})
+        return Category.findAllWithCounts()
           .then(function(categories) {
 
             initNodes(categories);
 
-            _.each(categories, function(category) {
+            _.each(categories.reverse(), function(category) {
               var parentNode = parent(category.path),
                   node = nodes[category.path];
               if (parentNode) {
-                parentNode.children.push(node);
+                parentNode.children.unshift(node);
+                parentNode.count = parentNode.count + node.count;
               } else {
-                roots.push(node);
+                roots.unshift(node);
               }
             });
 
             return _.map(roots, function(root) {
-              return nodes[root.category.path];
+              return nodes[root.path];
             });
           });
       }
