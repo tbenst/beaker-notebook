@@ -54,6 +54,10 @@ module.exports = function(sequelize, DataTypes) {
           steps.push(this.categoryQueryBuilder(filters.categoryID));
         }
 
+        if(filters.tagIDs) {
+          steps.push(this.tagQueryBuilder(decodeURIComponent(filters.tagIDs)));
+        }
+
         W.all(steps).then(function(queries) {
           if (steps.length === 0) {
             DataSet.findAll(options).then(deferred.resolve, deferred.reject);
@@ -63,6 +67,17 @@ module.exports = function(sequelize, DataTypes) {
         });
 
         return deferred.promise;
+      },
+
+      tagQueryBuilder: function(ids) {
+        var d     = W.defer();
+        var query =
+          "SELECT id, title, description FROM \"DataSets\" \n"+
+          "JOIN \"DataSetsDataTags\" on \"DataSets\".\"id\"=\"DataSetsDataTags\".\"dataSetId\" \n"+
+          "WHERE \"dataTagId\" IN (%s)"
+        d.resolve(util.format(query, ids));
+
+        return d.promise;
       },
 
       vendorQueryBuilder: function(ids) {
