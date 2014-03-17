@@ -6,7 +6,9 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true
       },
-      name: DataTypes.STRING
+      name: DataTypes.STRING,
+      createdAt: DataTypes.DATE,
+      updatedAt: DataTypes.DATE
     }).complete(done);
   },
   down: function(migration, DataTypes, done) {
