@@ -10,7 +10,8 @@ module.exports = [
       vendorId: 1
     },
     associations: {
-      category: "Consumer Finance"
+      category: "Consumer Finance",
+      tags: ["Orc", "Zerg"]
     }
   },
 
@@ -25,7 +26,8 @@ module.exports = [
       vendorId: 2
     },
     associations: {
-      category: "U.S. Energy Information Administration"
+      category: "U.S. Energy Information Administration",
+      tags: ["Romulan"]
     }
   },
 
@@ -40,7 +42,8 @@ module.exports = [
       vendorId: 3
     },
     associations: {
-      category: "U.S. Energy Information Administration"
+      category: "U.S. Energy Information Administration",
+      tags: ["Romulan", "Zerg", "Protoss"]
     }
   },
 
@@ -55,7 +58,8 @@ module.exports = [
       vendorId: 1
     },
     associations: {
-      category: "U.S. Energy Information Administration"
+      category: "U.S. Energy Information Administration",
+      tags: ["Orc"]
     }
   },
 
@@ -70,7 +74,8 @@ module.exports = [
       vendorId: 1
     },
     associations: {
-      category: "U.S. Energy Information Administration"
+      category: "U.S. Energy Information Administration",
+      tags: ["Human"]
     }
   }
 ];
