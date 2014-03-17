@@ -5,6 +5,7 @@ var models = require('./models');
 var _ = require('lodash');
 var when = require('when');
 var util = require('util');
+var inflection = require('inflection');
 
 var data = Array.prototype.concat(
   require('./seed_files/vendors'),
@@ -16,43 +17,44 @@ var data = Array.prototype.concat(
 models.init(app);
 
 sf.loadFixtures(data, app.Models, function(err) {
-  setUpDataSetsTags(data, app.Models)
-  .then(setUpDataSetsCategories(data, app.Models))
-    .done(function() {
-      console.log("DB seeded.");
-    });
+  setAssociations(data, app.Models)
+  .done(function() {
+    console.log("DB seeded.");
+  });
 });
 
+function addAssociation(modelKey, modelName, dataSet, models) {
+  return models[modelKey].find({where: {name: modelName}})
+         .then(function(toAssociate) {
+            if (!toAssociate) {throw new Error(key + ' with a name '+modelName+' not found');}
 
-function setUpDataSetsTags(data, models) {
-  var dataSets = _.where(data, {model: 'DataSet'});
-
-  return when.map(dataSets, function(attrs) {
-    return models.DataSet.find({where: {title: attrs['data']['title']}}).then(function(dataSet) {
-      if (!dataSet) {throw new Error('DataSet not found');}
-
-      return when.map(attrs['associations']['tags'], function(tagName) {
-        return models.DataTag.find({where: {name: tagName}}).then(function(tag) {
-          if (!tag) {throw new Error('Tag with a name '+tagName+' not found');}
-          return dataSet.addTag(tag);
-        });
-      });
-
-    });
-  });
+            return dataSet["add"+modelKey](toAssociate);
+         });
 }
 
-function setUpDataSetsCategories(data, models) {
+function addDataSetAssociation(dataSet, seedAttributes, models) {
+  if (!dataSet) {throw new Error('DataSet '+ seedAttributes['data']['title'] +' not found');}
+
+  // loop through the associations set on the dataSet
+  return when.map(_.keys(seedAttributes['associations']), function(key) {
+
+    // normalize modelKey to be camelCase and singular
+    var lookup = inflection.camelize(inflection.singularize(key));
+    var lookups = Array.prototype.concat(seedAttributes['associations'][key])
+
+    return when.map(lookups, function(modelName) {
+      return addAssociation(lookup, modelName, dataSet, models);
+    })
+  });
+};
+
+function setAssociations(data, models) {
   var dataSets = _.where(data, {model: 'DataSet'});
 
-  return when.map(dataSets, function(attrs) {
-    return models.DataSet.find({where: {title: attrs['data']['title']}})
+  return when.map(dataSets, function(seedAttributes) {
+    return models.DataSet.find({where: {title: seedAttributes['data']['title']}})
       .then(function(dataSet) {
-        if (!dataSet) {throw new Error('DataSet not found');}
-        return models.Category.find({where: {name: attrs['associations']['category']}})
-        .then(function(category) {
-          return dataSet.setCategories([category]);
-        });
+        return addDataSetAssociation(dataSet, seedAttributes, models);
       });
   });
 }

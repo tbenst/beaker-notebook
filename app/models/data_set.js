@@ -29,7 +29,7 @@ module.exports = function(sequelize, DataTypes) {
         });
 
         DataSet.hasMany(models.DataTag, {
-          as: "Tags",
+          as: "DataTags",
           through: "DataSetsDataTags",
           foreignKey: 'dataSetId'
         });
