@@ -44,7 +44,6 @@ module.exports = function(sequelize, DataTypes) {
       findMatching: function(filters, options) {
         var deferred = W.defer();
         var steps    = [];
-        var Category = this.models.Category;
 
         if(filters.vendorIDs) {
           steps.push(this.vendorQueryBuilder(decodeURIComponent(filters.vendorIDs).split(",")));
