@@ -9,3 +9,8 @@ Bunsen API Server
 * run your migrations via `npm run-script migrate`
 * to seed the database `npm run-script seed`
 * `npm start`
+
+## Reseed database
+This task will drop the development DB, recreate it, run migrations, and then reseed the data.
+
+* `npm run-script reseed`
