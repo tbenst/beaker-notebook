@@ -13,3 +13,10 @@
   .last-updated Updated: {{item.updatedAt | date: 'dd/MM/yyyy'}}
   .categories Categories: {{item.categories | names}}
 
+  span {{item.vendor}}
+
+  hr
+  p data previews
+  ul
+    li(ng-repeat="preview in item.dataPreviews")
+      img(ng-src="{{preview.previewUrl}}")

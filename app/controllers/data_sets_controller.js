@@ -3,7 +3,8 @@ var _  = require('lodash');
 module.exports = function(app) {
 
   var DataSet = app.Models.DataSet,
-      Category = app.Models.Category;
+      Category = app.Models.Category,
+      DataPreview = app.Models.DataPreview;
 
   function getOptions(req) {
     return _.defaults({
@@ -19,7 +20,10 @@ module.exports = function(app) {
     idParam: function(req, res, next, id) {
       DataSet.find({
         where: {id: req.params.data_set_id},
-        include: [{model: Category, as: 'categories'}]
+        include: [
+          {model: Category, as: 'categories'},
+          {model: DataPreview, as: 'DataPreviews'}
+        ]
       })
         .then(function(dataSet) {
           if (!dataSet) throw new Error('DataSet not found');
