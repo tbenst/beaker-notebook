@@ -18,3 +18,8 @@ The reality is, sometimes things go very wrong with your database. Here are some
 * `npm run-script migrate`
 * `npm run-script seed`
 * take a deep breath
+
+## Reseed database
+This task will drop the development DB, recreate it, run migrations, and then reseed the data.
+
+* `npm run-script reseed`

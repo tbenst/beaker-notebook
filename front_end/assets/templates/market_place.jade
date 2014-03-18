@@ -12,6 +12,9 @@ treecontrol.tree-classic.col-quarter(
   select(multiple="multiple", ng-model="vendorScope")
     option(ng-repeat="v in vendors", value="{{v.id}}") {{v.name}}
 
+  select(multiple="multiple", ng-model="tagScope")
+    option(ng-repeat="v in tags", value="{{v.id}}") {{v.name}}
+
   ul
     li(ng-repeat="item in data | filter:filterBy ")
       p

@@ -29,7 +29,7 @@ module.exports = function(sequelize, DataTypes) {
         });
 
         DataSet.hasMany(models.DataTag, {
-          as: "Tags",
+          as: "DataTags",
           through: "DataSetsDataTags",
           foreignKey: 'dataSetId'
         });
@@ -42,41 +42,49 @@ module.exports = function(sequelize, DataTypes) {
       },
 
       findMatching: function(filters, options) {
-        var deferred = W.defer();
-        var steps    = [];
-        var Category = this.models.Category;
-
-        if(filters.vendorIDs) {
-          steps.push(this.vendorQueryBuilder(decodeURIComponent(filters.vendorIDs).split(",")));
-        }
-
-        if(filters.categoryID) {
-          steps.push(this.categoryQueryBuilder(filters.categoryID));
-        }
-
-        W.all(steps).then(function(queries) {
-          if (steps.length === 0) {
-            DataSet.findAll(options).then(deferred.resolve, deferred.reject);
-          } else {
-            sequelize.query(queries.join("\nINTERSECT\n"), DataSet).then(deferred.resolve, deferred.reject);
+        return this.getQueries(filters).then(function(queries) {
+          if (queries.length === 0) {
+            return DataSet.findAll(options);
           }
-        });
 
-        return deferred.promise;
+          return sequelize.query(queries.join("\nINTERSECT\n"), DataSet)
+        });
       },
 
-      vendorQueryBuilder: function(ids) {
+      // loops over the filter keys to see if anything was passed via query params
+      // if something was loop over the query builders and build N queries.
+      getQueries: function(filters) {
+        var filterKeys  = ["vendorIDs", "categoryID", "tagIDs"];
+
+        return W.all(_(filterKeys).map(function(key) {
+          if (filters[key]) {
+            return this[key+"QueryBuilder"](decodeURIComponent(filters[key]))
+          }
+        }, this).compact().value());
+      },
+
+      tagIDsQueryBuilder: function(ids) {
         var d     = W.defer();
         var query =
-          "SELECT \"DataSets\".*\n" +
-          "FROM \"DataSets\"\n" +
+          "SELECT id, title, description FROM \"DataSets\" \n"+
+          "JOIN \"DataSetsDataTags\" on \"DataSets\".\"id\"=\"DataSetsDataTags\".\"dataSetId\" \n"+
+          "WHERE \"dataTagId\" IN (%s)"
+        d.resolve(util.format(query, ids));
+
+        return d.promise;
+      },
+
+      vendorIDsQueryBuilder: function(ids) {
+        var d     = W.defer();
+        var query =
+          "SELECT id, title, description FROM \"DataSets\" \n" +
           "WHERE (\"DataSets\".\"vendorId\" IN (%s))";
 
         d.resolve(util.format(query, ids));
         return d.promise;
       },
 
-      categoryQueryBuilder: function(id){
+      categoryIDQueryBuilder: function(id){
         var Category = this.models.Category;
 
         return Category.find({
@@ -89,8 +97,7 @@ module.exports = function(sequelize, DataTypes) {
               }).join(",");
 
               var query =
-                "SELECT \"DataSets\".*\n" +
-                "FROM \"DataSets\"\n" +
+                "SELECT id, title, description FROM \"DataSets\"\n" +
                 "INNER JOIN \"DataSetsCategories\" ON \"DataSets\".id = \"DataSetsCategories\".\"dataSetId\" AND\n" +
                 "\"DataSetsCategories\".\"categoryId\" IN (%s)\n";
 
