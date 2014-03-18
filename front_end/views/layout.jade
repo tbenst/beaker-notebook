@@ -14,5 +14,6 @@ html(ng-app="bunsen")
       a.projects(ui-sref="projects") projects
       hr
     .application(ng-controller="application")
+      .nav.col-quarter(ui-view="nav")
       #app(ui-view="app")
         != content

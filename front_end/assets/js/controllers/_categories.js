@@ -7,6 +7,7 @@
     }
 
     $scope.onTreeSelection = function(node) {
+      $state.go('marketPlace');
       $scope.categoryID = node.id;
 
       DataSetsFactory.getItems($scope).then(function(d) {
