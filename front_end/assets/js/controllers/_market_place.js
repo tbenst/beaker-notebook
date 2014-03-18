@@ -36,24 +36,6 @@
       Restangular.one('data_sets').getList("", buildQuery($scope)).then(function(d) {
         $scope.data = d;
       })
-    });
 
-
-    $scope.treeOptions = {
-      nodeChildren: "children",
-      dirSelectable: true,
-    }
-
-    $scope.onTreeSelection = function(node) {
-      $scope.categoryID = node.id;
-
-      Restangular.one('data_sets').getList("", buildQuery($scope)).then(function(d) {
-        $scope.data = d;
-      })
-    }
-
-    Restangular.one('categories').getList().then(function(treeData) {
-      $scope.treeData = treeData;
-    });
-  }]);
+    });  }]);
 })(angular, window.bunsen);
