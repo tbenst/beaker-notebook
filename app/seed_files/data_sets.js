@@ -11,7 +11,11 @@ module.exports = [
     },
     associations: {
       category: "Consumer Finance",
-      dataTags: ["Orc", "Zerg"]
+      dataTags: ["Orc", "Zerg"],
+      dataPreviews: {
+        lookupColumn: "previewUrl",
+        values: ["http://placehold.it/400x401", "http://placehold.it/401x401"]
+      }
     }
   },
 
@@ -43,7 +47,11 @@ module.exports = [
     },
     associations: {
       category: "U.S. Energy Information Administration",
-      dataTags: ["Romulan", "Zerg", "Protoss"]
+      dataTags: ["Romulan", "Zerg", "Protoss"],
+      dataPreviews: {
+        lookupColumn: "previewUrl",
+        values: "http://placehold.it/402x401"
+      }
     }
   },
 
@@ -59,7 +67,11 @@ module.exports = [
     },
     associations: {
       category: "U.S. Energy Information Administration",
-      dataTags: "Orc"
+      dataTags: "Orc",
+      dataPreviews: {
+        lookupColumn: "previewUrl",
+        values: "http://placehold.it/403x401"
+      }
     }
   },
 
@@ -75,7 +87,11 @@ module.exports = [
     },
     associations: {
       category: "U.S. Energy Information Administration",
-      dataTags: "Human"
+      dataTags: "Human",
+      dataPreviews: {
+        lookupColumn: "previewUrl",
+        values: "http://placehold.it/405x401"
+      }
     }
   }
 ];

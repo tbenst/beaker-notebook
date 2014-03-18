@@ -34,6 +34,12 @@ module.exports = function(sequelize, DataTypes) {
           foreignKey: 'dataSetId'
         });
 
+        DataSet.hasMany(models.DataPreview, {
+          as: "DataPreviews",
+          through: "DataSetsDataPreviews",
+          foreignKey: 'dataSetId'
+        });
+
         DataSet.hasMany(models.Category, {
           as: 'categories',
           through: 'DataSetsCategories',
