@@ -16,6 +16,10 @@
         query.tagIDs = encodeURIComponent($scope.tagScope.join(','));
       }
 
+      if ($scope.typeScope !== void(0) && $scope.typeScope.length > 0) {
+        query.formats = encodeURIComponent($scope.typeScope.join(','));
+      }
+
       return query;
     }
 

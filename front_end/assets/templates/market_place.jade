@@ -9,6 +9,9 @@ h1 bunsen market place
   select(multiple="multiple", ng-model="tagScope")
     option(ng-repeat="v in tags", value="{{v.id}}") {{v.name}}
 
+  select(multiple="multiple", ng-model="typeScope")
+    option(ng-repeat="v in formats", value="{{v}}") {{v}}
+
   ul
     li(ng-repeat="item in marketPlace.data | filter:filterBy ")
       p

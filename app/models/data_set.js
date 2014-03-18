@@ -54,13 +54,28 @@ module.exports = function(sequelize, DataTypes) {
       // loops over the filter keys to see if anything was passed via query params
       // if something was loop over the query builders and build N queries.
       getQueries: function(filters) {
-        var filterKeys  = ["vendorIDs", "categoryID", "tagIDs"];
+        var filterKeys  = ["vendorIDs", "categoryID", "tagIDs", "formats"];
 
         return W.all(_(filterKeys).map(function(key) {
           if (filters[key]) {
             return this[key+"QueryBuilder"](decodeURIComponent(filters[key]))
           }
         }, this).compact().value());
+      },
+
+      formatsQueryBuilder: function(names) {
+        names = names.split(",").map(function(v){
+          return '\''+v+'\'';
+        }).join(',');
+
+        var d     = W.defer();
+        var query =
+          "SELECT \"DataSets\".* FROM \"DataSets\" \n"+
+          "WHERE \"DataSets\".\"format\" in (%s)";
+
+        d.resolve(util.format(query, names));
+
+        return d.promise;
       },
 
       tagIDsQueryBuilder: function(ids) {
