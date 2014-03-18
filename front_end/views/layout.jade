@@ -13,5 +13,6 @@ html(ng-app="bunsen")
       br
       a.projects(ui-sref="projects") projects
       hr
-    #app(ui-view="app")
-      != content
+    .application(ng-controller="application")
+      #app(ui-view="app")
+        != content
