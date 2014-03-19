@@ -12,10 +12,15 @@
       $scope.tags = d;
     });
 
+    Restangular.one('data_sets').getList("formats").then(function(d) {
+      $scope.formats = d;
+    });
+
     VendorsFactory.then(function(v) {
       $scope.marketPlace.vendors = v;
     });
 
+    $scope.$watch('typeScope', getDataSets);
     $scope.$watch('vendorScope', getDataSets);
     $scope.$watch('tagScope', getDataSets);
   }]);

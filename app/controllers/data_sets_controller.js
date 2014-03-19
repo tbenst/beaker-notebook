@@ -34,6 +34,15 @@ module.exports = function(app) {
       }).catch(next);
     },
 
+    formatIndex: function(req, res, next) {
+      DataSet.findAll({
+        attributes: [DataSet.sequelize.fn('DISTINCT', DataSet.sequelize.col('format'))],
+        order: 'format ASC'
+      }).then(function(formats) {
+        res.json(_.pluck(formats, "format"));
+      }).catch(next);
+    },
+
     create: function(req, res, next) {
       DataSet.create({title: req.params.title})
         .then(function(dataSet) {
