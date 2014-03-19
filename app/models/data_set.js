@@ -66,7 +66,8 @@ module.exports = function(sequelize, DataTypes) {
       tagIDsQueryBuilder: function(ids) {
         var d     = W.defer();
         var query =
-          "SELECT id, title, description FROM \"DataSets\" \n"+
+          "SELECT \"DataSets\".*\n" +
+          "FROM \"DataSets\"\n" +
           "JOIN \"DataSetsDataTags\" on \"DataSets\".\"id\"=\"DataSetsDataTags\".\"dataSetId\" \n"+
           "WHERE \"dataTagId\" IN (%s)"
         d.resolve(util.format(query, ids));
@@ -77,7 +78,8 @@ module.exports = function(sequelize, DataTypes) {
       vendorIDsQueryBuilder: function(ids) {
         var d     = W.defer();
         var query =
-          "SELECT id, title, description FROM \"DataSets\" \n" +
+          "SELECT \"DataSets\".*\n" +
+          "FROM \"DataSets\"\n" +
           "WHERE (\"DataSets\".\"vendorId\" IN (%s))";
 
         d.resolve(util.format(query, ids));
@@ -97,7 +99,8 @@ module.exports = function(sequelize, DataTypes) {
               }).join(",");
 
               var query =
-                "SELECT id, title, description FROM \"DataSets\"\n" +
+                "SELECT \"DataSets\".*\n" +
+                "FROM \"DataSets\"\n" +
                 "INNER JOIN \"DataSetsCategories\" ON \"DataSets\".id = \"DataSetsCategories\".\"dataSetId\" AND\n" +
                 "\"DataSetsCategories\".\"categoryId\" IN (%s)\n";
 

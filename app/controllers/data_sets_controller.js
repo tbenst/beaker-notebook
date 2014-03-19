@@ -17,7 +17,10 @@ module.exports = function(app) {
 
   return {
     idParam: function(req, res, next, id) {
-      DataSet.find({where: {id: req.params.data_set_id}})
+      DataSet.find({
+        where: {id: req.params.data_set_id},
+        include: [{model: Category, as: 'categories'}]
+      })
         .then(function(dataSet) {
           if (!dataSet) throw new Error('DataSet not found');
           req.dataSet = dataSet;

@@ -1,7 +1,15 @@
-button(ng-click="subscribed ? unsubscribe() : subscribe()") {{subscribed ? "unsubscribe" : "subscribe"}}
-h1 {{item.title}}
-p {{item.description}}
-.label-pair
-  label vendor
+.col-half
+  button(ng-click="subscribed ? unsubscribe() : subscribe()") {{subscribed ? "unsubscribe" : "subscribe"}}
+  h1 {{item.title}}
+  p {{item.description}}
   br
-  span {{item.vendor}}
+  .vendor(ng-show="marketPlace.vendors") Vendor: {{vendorName(item)}}
+
+  br
+
+  h2 Details
+  .format Format: {{item.format}}
+  .released Released: {{item.createdAt | date: 'dd/MM/yyyy'}}
+  .last-updated Updated: {{item.updatedAt | date: 'dd/MM/yyyy'}}
+  .categories Categories: {{item.categories | names}}
+
