@@ -71,6 +71,22 @@ module.exports = function(sequelize, DataTypes) {
         });
       },
 
+      findMatchingTags: function(filters) {
+        return this.findMatchingSql(filters).then(function(query) {
+          var tagsQuery =
+            "SELECT \"DataTags\".*, COUNT(\"DataTags\".id) AS tagCount FROM (\n" +
+              query +
+            ") AS matching\n" +
+            "INNER JOIN \"DataSetsDataTags\" ON matching.id = \"DataSetsDataTags\".\"dataSetId\"\n" +
+            "INNER JOIN \"DataTags\" ON \"DataTags\".id = \"DataSetsDataTags\".\"dataTagId\"\n" +
+            "GROUP BY \"DataTags\".id\n" +
+            "ORDER BY tagCount DESC\n" +
+            "LIMIT 10";
+
+          return sequelize.query(tagsQuery, null, {raw: true}, {limit: null, offset: null});
+        });
+      },
+
       // loops over the filter keys to see if anything was passed via query params
       // if something was loop over the query builders and build N queries.
       getQueries: function(filters) {
