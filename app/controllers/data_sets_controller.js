@@ -4,7 +4,8 @@ module.exports = function(app) {
 
   var DataSet = app.Models.DataSet,
       Category = app.Models.Category,
-      DataPreview = app.Models.DataPreview;
+      DataPreview = app.Models.DataPreview,
+      DataTag = app.Models.DataTag;
 
   function getOptions(req) {
     return _.defaults({
@@ -22,7 +23,8 @@ module.exports = function(app) {
         where: {id: req.params.data_set_id},
         include: [
           {model: Category, as: 'categories'},
-          {model: DataPreview, as: 'DataPreviews'}
+          {model: DataPreview, as: 'DataPreviews'},
+          {model: DataTag, as: "DataTags"
         ]
       })
         .then(function(dataSet) {
