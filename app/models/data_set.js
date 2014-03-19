@@ -47,13 +47,27 @@ module.exports = function(sequelize, DataTypes) {
         });
       },
 
-      findMatching: function(filters, options) {
+      findAllSql: function() {
+        var query =
+          "SELECT \"DataSets\".*\n" +
+          "FROM \"DataSets\"\n" +
+          "LIMIT :limit OFFSET :offset\n";
+        return query;
+      },
+
+      findMatchingSql: function(filters) {
         return this.getQueries(filters).then(function(queries) {
           if (queries.length === 0) {
-            return DataSet.findAll(options);
+            return DataSet.findAllSql();
           }
 
-          return sequelize.query(queries.join("\nINTERSECT\n"), DataSet)
+          return queries.join("\nINTERSECT\n");
+        });
+      },
+
+      findMatching: function(filters, options) {
+        return this.findMatchingSql(filters, options).then(function(query) {
+          return sequelize.query(query, DataSet, {}, options);
         });
       },
 
