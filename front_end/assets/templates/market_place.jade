@@ -15,9 +15,12 @@ h1 bunsen market place
   ul
     li(ng-repeat="item in marketPlace.data | filter:filterBy ")
       p
-        a(ui-sref="marketPlace.item({id: item.id})") {{item.title}}
-        p.description {{item.description | limitTo:100}}...
-        .vendor Publisher: {{vendorName(item)}}
-        .format Format: {{item.format}}
-        .last-updated Updated: {{item.updatedAt | date: 'dd/MM/yyyy'}}
+        .col-three-quarters
+          a(ui-sref="marketPlace.item({id: item.id})") {{item.title}}
+          p.description {{item.description | limitTo:100}}...
+          .vendor Publisher: {{vendorName(item)}}
+          .format Format: {{item.format}}
+        .col-quarter
+          .last-updated Updated: {{item.updatedAt | date: 'dd/MM/yyyy'}}
+        .cl
 .cl
