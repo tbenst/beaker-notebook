@@ -74,37 +74,30 @@ module.exports = function(sequelize, DataTypes) {
           return '\''+v+'\'';
         }).join(',');
 
-        var d     = W.defer();
         var query =
           "SELECT \"DataSets\".* FROM \"DataSets\" \n"+
           "WHERE \"DataSets\".\"format\" in (%s)";
 
-        d.resolve(util.format(query, names));
-
-        return d.promise;
+        return util.format(query, names);
       },
 
       tagIDsQueryBuilder: function(ids) {
-        var d     = W.defer();
         var query =
           "SELECT \"DataSets\".*\n" +
           "FROM \"DataSets\"\n" +
           "JOIN \"DataSetsDataTags\" on \"DataSets\".\"id\"=\"DataSetsDataTags\".\"dataSetId\" \n"+
-          "WHERE \"dataTagId\" IN (%s)"
-        d.resolve(util.format(query, ids));
+          "WHERE \"dataTagId\" IN (%s)";
 
-        return d.promise;
+        return util.format(query, ids);
       },
 
       vendorIDsQueryBuilder: function(ids) {
-        var d     = W.defer();
         var query =
           "SELECT \"DataSets\".*\n" +
           "FROM \"DataSets\"\n" +
           "WHERE (\"DataSets\".\"vendorId\" IN (%s))";
 
-        d.resolve(util.format(query, ids));
-        return d.promise;
+        return util.format(query, ids);
       },
 
       categoryIDQueryBuilder: function(id){
