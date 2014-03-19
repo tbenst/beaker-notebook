@@ -24,7 +24,7 @@ module.exports = function(app) {
         include: [
           {model: Category, as: 'categories'},
           {model: DataPreview, as: 'DataPreviews'},
-          {model: DataTag, as: "DataTags"
+          {model: DataTag, as: "DataTags"}
         ]
       })
         .then(function(dataSet) {
