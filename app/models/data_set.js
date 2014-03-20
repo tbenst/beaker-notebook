@@ -12,7 +12,8 @@ module.exports = function(sequelize, DataTypes) {
     format: DataTypes.STRING,
     rows: DataTypes.BIGINT,
     lastUpdated: DataTypes.DATE,
-    vendorId: DataTypes.INTEGER
+    vendorId: DataTypes.INTEGER,
+    updateFrequency: DataTypes.STRING
   }, {
     tableName: 'DataSets',
     classMethods: {

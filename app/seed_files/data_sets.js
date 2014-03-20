@@ -7,7 +7,8 @@ module.exports = [
       url: "https://data.consumerfinance.gov/api/views/x3w3-u78g/rows.csv?accessType=DOWNLOAD",
       rows: 350,
       format: "XML",
-      vendorId: 1
+      vendorId: 1,
+      updateFrequency: "Weekly"
     },
     associations: {
       category: "Consumer Finance",
@@ -27,7 +28,8 @@ module.exports = [
       url: "http://api.eia.gov/bulk/ELEC.zip",
       rows: 1000,
       format: "CSV",
-      vendorId: 2
+      vendorId: 2,
+      updateFrequency: "Annually"
     },
     associations: {
       category: "U.S. Energy Information Administration",
@@ -43,7 +45,8 @@ module.exports = [
       url: "http://api.eia.gov/bulk/NG.zip",
       rows: 9000,
       format: "TXT",
-      vendorId: 3
+      vendorId: 3,
+      updateFrequency: "Quarterly"
     },
     associations: {
       category: "U.S. Energy Information Administration",
@@ -63,7 +66,8 @@ module.exports = [
       url: "http://api.eia.gov/bulk/PET.zip",
       rows: 55,
       format: "XML",
-      vendorId: 1
+      vendorId: 1,
+      updateFrequency: "Annually"
     },
     associations: {
       category: "U.S. Energy Information Administration",
@@ -83,7 +87,8 @@ module.exports = [
       url: "http://api.eia.gov/bulk/SEDS.zip",
       rows: 2312,
       format: "CSV",
-      vendorId: 1
+      vendorId: 1,
+      updateFrequency: "Daily"
     },
     associations: {
       category: "U.S. Energy Information Administration",

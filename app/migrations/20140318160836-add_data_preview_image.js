@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true
       },
-    }, function() {
+    }).complete(function() {
       migration.createTable('DataSetsDataPreviews', {
         dataSetId: DataTypes.INTEGER,
         dataPreviewId: DataTypes.INTEGER,
@@ -20,8 +20,8 @@ module.exports = {
   },
 
   down: function(migration, DataTypes, done) {
-    migration.dropTable('DataPreviews', function() {
-      migration.dropTable('DataSetsDataPreviews', done);
+    migration.dropTable('DataPreviews').complete(function() {
+      migration.dropTable('DataSetsDataPreviews').complete(done);
     });
   }
 }
