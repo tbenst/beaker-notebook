@@ -15,6 +15,7 @@
     .last-updated Updated: {{item.updatedAt | date: 'dd/MM/yyyy'}}
     .update-frequency Update Frequency {{item.updateFrequency}}
     .categories Categories: {{item.categories | names}}
+    .start-date(ng-show="item.startDate !== null") Data Start Date: {{item.startDate | date: 'dd/MM/yyyy'}}
 
   span {{item.vendor}}
   hr
