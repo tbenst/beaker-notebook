@@ -1,6 +1,6 @@
 !(function(angular, app) {
 
-  app.controller('categories', ['$scope', '$state', 'Restangular', 'DataSetsFactory', function($scope, $state, Restangular, DataSetsFactory) {
+  app.controller('marketNav', ['$scope', '$state', 'Restangular', 'DataSetsFactory', 'RelatedTagsFactory', function($scope, $state, Restangular, DataSetsFactory, RelatedTagsFactory) {
     $scope.treeOptions = {
       nodeChildren: "children",
       dirSelectable: true,
