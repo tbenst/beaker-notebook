@@ -5,4 +5,11 @@ treecontrol.tree-classic(
 
   item: {{node.category}} - ({{node.count}})
 
-
+br
+.label-pair
+  label
+    b Related Tags
+  br
+  dl
+    dt(ng-repeat="tag in marketPlace.relatedTags")
+      a(ng-click="searchByTag(tag)" href='') {{tag.name}}

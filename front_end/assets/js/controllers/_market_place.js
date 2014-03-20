@@ -1,10 +1,14 @@
 !(function(angular, app) {
 
-  app.controller('marketPlace', ['$scope', 'Restangular', 'VendorsFactory', 'DataSetsFactory', function($scope, Restangular, VendorsFactory, DataSetsFactory) {
+  app.controller('marketPlace', ['$scope', 'Restangular', 'VendorsFactory', 'DataSetsFactory', 'RelatedTagsFactory', function($scope, Restangular, VendorsFactory, DataSetsFactory, RelatedTagsFactory) {
 
     function getDataSets() {
       DataSetsFactory.getItems($scope.marketPlace).then(function(d) {
         $scope.marketPlace.data = d;
+      });
+
+      RelatedTagsFactory.getItems($scope.marketPlace).then(function(tags) {
+        $scope.marketPlace.relatedTags = tags;
       });
     }
 
