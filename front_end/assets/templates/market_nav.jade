@@ -13,3 +13,4 @@ br
   dl
     dt(ng-repeat="tag in marketPlace.relatedTags")
       a(ng-click="searchByTag(tag)" href='') {{tag.name}}
+      span(ng-show='isTagSelected(tag)') *

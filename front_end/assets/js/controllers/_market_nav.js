@@ -37,6 +37,10 @@
       getDataSets();
     };
 
+    $scope.isTagSelected = function(tag) {
+      return _.contains($scope.marketPlace.tagScope, tag.id.toString());
+    };
+
     Restangular.one('categories').getList().then(function(treeData) {
       $scope.treeData = treeData;
     });
