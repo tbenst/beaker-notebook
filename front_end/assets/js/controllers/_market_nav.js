@@ -8,9 +8,9 @@
 
     $scope.onTreeSelection = function(node) {
       $state.go('marketPlace');
-      $scope.categoryID = node.id;
+      $scope.marketPlace.categoryID = node.id;
 
-      DataSetsFactory.getItems($scope).then(function(d) {
+      DataSetsFactory.getItems($scope.marketPlace).then(function(d) {
         $scope.marketPlace.data = d;
       });
     }

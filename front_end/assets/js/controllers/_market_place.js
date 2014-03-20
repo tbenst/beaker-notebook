@@ -3,7 +3,7 @@
   app.controller('marketPlace', ['$scope', 'Restangular', 'VendorsFactory', 'DataSetsFactory', function($scope, Restangular, VendorsFactory, DataSetsFactory) {
 
     function getDataSets() {
-      DataSetsFactory.getItems($scope).then(function(d) {
+      DataSetsFactory.getItems($scope.marketPlace).then(function(d) {
         $scope.marketPlace.data = d;
       });
     }
@@ -20,9 +20,9 @@
       $scope.marketPlace.vendors = v;
     });
 
-    $scope.$watch('typeScope', getDataSets);
-    $scope.$watch('vendorScope', getDataSets);
-    $scope.$watch('tagScope', getDataSets);
+    $scope.$watch('marketPlace.typeScope', getDataSets);
+    $scope.$watch('marketPlace.vendorScope', getDataSets);
+    $scope.$watch('marketPlace.tagScope', getDataSets);
   }]);
 
 })(angular, window.bunsen);
