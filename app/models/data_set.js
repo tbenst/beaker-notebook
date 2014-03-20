@@ -47,13 +47,43 @@ module.exports = function(sequelize, DataTypes) {
         });
       },
 
-      findMatching: function(filters, options) {
+      findAllSql: function() {
+        var query =
+          "SELECT \"DataSets\".*\n" +
+          "FROM \"DataSets\"\n" +
+          "LIMIT :limit OFFSET :offset\n";
+        return query;
+      },
+
+      findMatchingSql: function(filters) {
         return this.getQueries(filters).then(function(queries) {
           if (queries.length === 0) {
-            return DataSet.findAll(options);
+            return DataSet.findAllSql();
           }
 
-          return sequelize.query(queries.join("\nINTERSECT\n"), DataSet)
+          return queries.join("\nINTERSECT\n");
+        });
+      },
+
+      findMatching: function(filters, options) {
+        return this.findMatchingSql(filters, options).then(function(query) {
+          return sequelize.query(query, DataSet, {}, options);
+        });
+      },
+
+      findMatchingTags: function(filters) {
+        return this.findMatchingSql(filters).then(function(query) {
+          var tagsQuery =
+            "SELECT \"DataTags\".*, COUNT(\"DataTags\".id) AS tagCount FROM (\n" +
+              query +
+            ") AS matching\n" +
+            "INNER JOIN \"DataSetsDataTags\" ON matching.id = \"DataSetsDataTags\".\"dataSetId\"\n" +
+            "INNER JOIN \"DataTags\" ON \"DataTags\".id = \"DataSetsDataTags\".\"dataTagId\"\n" +
+            "GROUP BY \"DataTags\".id\n" +
+            "ORDER BY tagCount DESC\n" +
+            "LIMIT 10";
+
+          return sequelize.query(tagsQuery, null, {raw: true}, {limit: null, offset: null});
         });
       },
 

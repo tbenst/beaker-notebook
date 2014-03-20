@@ -10,8 +10,8 @@
             template: templates.market_place
           },
           nav: {
-            controller: 'categories',
-            template: templates.categories
+            controller: 'marketNav',
+            template: templates.market_nav
           }
         }
       })
