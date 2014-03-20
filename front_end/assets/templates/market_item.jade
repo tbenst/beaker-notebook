@@ -1,5 +1,6 @@
 .col-half
-  button(ng-click="subscribed ? unsubscribe() : subscribe()") {{subscribed ? "unsubscribe" : "subscribe"}}
+  .btn-group
+    .btn(ng-click="subscribed ? unsubscribe() : subscribe()") {{subscribed ? "unsubscribe" : "subscribe"}}
   h1 {{item.title}}
   p {{item.description}}
   .label-pair

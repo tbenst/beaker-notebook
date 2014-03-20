@@ -1,6 +1,13 @@
 !(function(angular, app) {
 
   app.controller('marketPlace', ['$scope', 'Restangular', 'VendorsFactory', 'DataSetsFactory', 'RelatedTagsFactory', function($scope, Restangular, VendorsFactory, DataSetsFactory, RelatedTagsFactory) {
+    $scope.isSelected = function(value, model){
+      if (model === void(0)) {
+        return false;
+      }
+
+      return ~model.indexOf(value+"");
+    }
 
     function getDataSets() {
       DataSetsFactory.getItems($scope.marketPlace).then(function(d) {
