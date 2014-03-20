@@ -18,7 +18,9 @@ module.exports = function(app) {
     },
 
     index: function(req, res, next) {
-      Vendor.findAll().then(function(vendors) {
+      Vendor.findAll({
+        order: "name ASC"
+      }).then(function(vendors) {
         res.json(vendors);
       }).catch(next);
     }
