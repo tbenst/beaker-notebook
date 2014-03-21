@@ -2,7 +2,7 @@ h1 bunsen market place
 
 .col-half
   input(type="text", ng-model="filterBy", placeholder="Search for Data")
-  h4 {{(data | filter:filterBy).length}} results
+  h4 {{(marketPlace.data | filter:filterBy).length}} results
   .label-pair.col-quarter
     label
       b vendors
