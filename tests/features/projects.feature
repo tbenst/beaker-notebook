@@ -19,3 +19,9 @@ As a researcher, I want to manage my projects.
     Then I should see that the project details are:
       | name            | description          |
       | Science Project | For the Science Fair |
+
+  Scenario: Delete a project
+    Given I'm looking at a project
+    When I edit the project
+    And I delete the project
+    Then I should see that I have no projects in my list

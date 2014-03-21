@@ -42,4 +42,13 @@ module.exports = function() {
     projectDetailWidget.name().should.eventually.equal(deets.name);
     return projectDetailWidget.description().should.eventually.equal(deets.description);
   });
+
+  this.When(/^I delete the project$/, function(table) {
+    return new this.Widgets.ProjectForm().delete();
+  });
+
+  this.When(/^I should see that I have no projects in my list$/, function(table) {
+    return new this.Widgets.ProjectManager().items().should.eventually.have.length(0);
+  });
+
 }
