@@ -11,4 +11,14 @@ module.exports = function() {
     projects.items().should.eventually.have.length(1);
   });
 
+  this.When(/^I open the project$/, function() {
+    new this.Widgets.ProjectManager().items().then(function(items) {
+      items[0].click();
+    });
+  });
+
+  this.Then(/^I should see the project detail page$/, function() {
+    new this.Widgets.ProjectDetail().isPresent().should.eventually.equal(true);
+  });
+
 }
