@@ -12,6 +12,8 @@ h1 bunsen market place
   select(multiple="multiple", ng-model="marketPlace.typeScope")
     option(ng-repeat="v in formats", value="{{v}}", ng-selected="isSelected(v, marketPlace.typeScope)") {{v}}
 
+  ul.current-filters
+    li.tag.filter(ng-repeat="filter in currentFilters", ng-click="removeFilter(filter.value, filter.model)") {{filter.name}} ✖
   ul
     li(ng-repeat="item in marketPlace.data | filter:filterBy ")
       p
