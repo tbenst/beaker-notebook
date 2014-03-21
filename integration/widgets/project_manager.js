@@ -1,14 +1,14 @@
 module.exports = function() {
-  return this.Widgets.ProjectManager = this.Widget.List.extend(function() {
-    this.root = '.manage-projects';
-    this.itemSelector = '.project';
+  return this.Widgets.ProjectManager = this.Widget.List.extend({
+    root: '.manage-projects',
+    itemSelector: '.project',
 
-    this.createNew = function() {
+    createNew: function() {
       this.click('.create-project');
-    };
+    },
 
-    this.waitForItem = function() {
+    waitForItem: function() {
       this.find(this.itemSelector);
-    };
+    }
   });
 };
