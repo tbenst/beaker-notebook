@@ -9,3 +9,13 @@ As a researcher, I want to manage my projects.
     Then I should see a new project in my list
     When I open the project
     Then I should see the project detail page
+
+  Scenario: Edit a project
+    Given I'm looking at a project
+    When I edit the project
+    And I update the project as follows:
+      | name            | description          |
+      | Science Project | For the Science Fair |
+    Then I should see that the project details are:
+      | name            | description          |
+      | Science Project | For the Science Fair |
