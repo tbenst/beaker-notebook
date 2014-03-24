@@ -78,6 +78,17 @@ module.exports = function(sequelize, DataTypes) {
         })
       },
 
+      findMatchingCount: function(filters) {
+        return this.findMatchingSql(filters).then(function(query) {
+          var countQuery =
+            "SELECT COUNT(matching.id) AS \"matchingCount\" FROM (\n" +
+              query +
+            ") AS matching";
+
+          return sequelize.query(countQuery, null, {raw: true}, {limit: null, offset: null});
+        });
+      },
+
       findMatchingTags: function(filters) {
         return this.findMatchingSql(filters).then(function(query) {
           var tagsQuery =
