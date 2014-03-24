@@ -51,8 +51,8 @@ module.exports = function(sequelize, DataTypes) {
       findAllSql: function() {
         var query =
           "SELECT \"DataSets\".*\n" +
-          "FROM \"DataSets\"\n" +
-          "LIMIT :limit OFFSET :offset\n";
+          "FROM \"DataSets\"";
+
         return query;
       },
 
@@ -67,9 +67,15 @@ module.exports = function(sequelize, DataTypes) {
       },
 
       findMatching: function(filters, options) {
-        return this.findMatchingSql(filters, options).then(function(query) {
-          return sequelize.query(query, DataSet, {}, options);
-        });
+        return this.findMatchingSql(filters).then(function(query) {
+          var paginatedQuery =
+            "SELECT * FROM (\n" +
+              query +
+            ") AS matching\n" +
+            "LIMIT :limit OFFSET :offset";
+
+          return sequelize.query(paginatedQuery, DataSet, {}, options);
+        })
       },
 
       findMatchingTags: function(filters) {
