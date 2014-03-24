@@ -3,3 +3,4 @@
 #= require "../../bower_components/lodash/dist/lodash.js"
 #= require "../../bower_components/restangular/dist/restangular.js"
 #= require "../../bower_components/angular-tree-control/angular-tree-control.js"
+#= require "../../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"
