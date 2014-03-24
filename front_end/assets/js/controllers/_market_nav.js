@@ -7,6 +7,8 @@
     }
 
     function getDataSets() {
+      $scope.marketPlace.currentPage = 1;
+
       DataSetsFactory.getItems($scope.marketPlace).then(function(d) {
         $scope.marketPlace.data = d;
       });

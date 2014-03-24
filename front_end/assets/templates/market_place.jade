@@ -37,4 +37,8 @@ h1 bunsen market place
         .col-quarter
           .last-updated Updated: {{item.updatedAt | date: 'dd/MM/yyyy'}}
         .cl
+
+  br
+  pagination(page="marketPlace.currentPage" max-size="marketPlace.maxSize" items-per-page="marketPlace.itemsPerPage" total-items="marketPlace.totalItems")
+
 .cl
