@@ -6,14 +6,17 @@
         app: {
           controller: 'projects',
           template: templates.projects
+        },
+        nav: {
+          controller: 'projectsList',
+          template: templates.project_list
         }
       }
-    });
-
-    $stateProvider.state('project', {
-      url: '/projects/:id',
+    })
+    .state('projects.item', {
+      url: '/:id',
       views: {
-        app: {
+        "app@": {
           controller: 'project',
           template: templates.project
         }
