@@ -29,6 +29,20 @@ module.exports =  [
     }
   },
   {
+    model: "Category",
+    data: {
+      name: "Canada",
+      path: "2.2"
+    }
+  },
+  {
+    model: "Category",
+    data: {
+      name: "Federal Government",
+      path: "2.2.1"
+    }
+  },
+  {
     model: 'Category',
     data: {
       name: "United States",
