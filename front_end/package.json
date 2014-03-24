@@ -6,6 +6,6 @@
   },
   "devDependencies": {
     "bower": "~1.2.8",
-    "roots": "~2.1.2"
+    "roots": "2.1.3"
   }
 }
