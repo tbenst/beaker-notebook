@@ -46,6 +46,12 @@ module.exports = function(app) {
       }).catch(next);
     },
 
+    count: function(req, res, next) {
+      DataSet.findMatchingCount(req.query).then(function(tags) {
+        res.json(tags);
+      }).catch(next);
+    },
+
     formatIndex: function(req, res, next) {
       DataSet.findAll({
         attributes: [DataSet.sequelize.fn('DISTINCT', DataSet.sequelize.col('format'))],
