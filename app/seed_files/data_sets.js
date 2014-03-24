@@ -98,5 +98,70 @@ module.exports = [
         values: "http://placehold.it/405x401"
       }
     }
+  },
+  {
+    model: 'DataSet',
+    data: {
+      description: "Yearly crime rates in Canada. This data is based on crimes reported to the police. Unites: rate per 100,000 population.",
+      title: "Crime Rates, Canada",
+      format: "XML",
+      url: "http://www.quandl.com/api/v1/datasets/STATSCAN/CRIME.xml?&trim_start=1962-12-31&trim_end=2011-12-31&sort_order=desc"
+    },
+    associations: {
+      category: "Federal Government",
+      dataTags: "Human"
+    }
+  },
+  {
+    model: 'DataSet',
+    data: {
+      description: "Canadian population by year, in millions of persons, dating back to 1960",
+      title: "Population in Canada",
+      format: "JSON",
+      url: "http://www.quandl.com/api/v1/datasets/FRED/CANPOPL.json?&trim_start=1960-01-01&trim_end=2011-01-01&sort_order=desc"
+    },
+    associations: {
+      category: "Federal Government",
+      dataTags: ["Zerg", "Protoss"]
+    }
+  },
+  {
+    model: 'DataSet',
+    data: {
+      description: "U.S. Federal Employee Salaries data from the Office of Personnel Management (OPM).",
+      title: "Federal Employee Salaries",
+      format: "CSV",
+      url: "https://app.enigma.io/table/us.gov.opm.salaries.2011/#/california"
+    },
+    associations: {
+      category: "Federal Government",
+      dataTags: ["Romulan", "Orc"]
+    }
+  },
+  {
+    model: 'DataSet',
+    data: {
+      description: "Retail cash price of self-serve, motor vehicle No. 2 diesel fuel sold for on-highway use.",
+      title: "Weekly Retail On-Highway Diesel Prices",
+      format: "XLS",
+      url: "http://www.eia.gov/oog/ftparea/wogirs/xls/psw18vwall.xls"
+    },
+    associations: {
+      category: "United States",
+      dataTags: ["Orc", "Protoss"]
+    }
+  },
+  {
+    model: 'DataSet',
+    data: {
+      description: "Accommodation and Food Services Earnings in Rhode Island. Update frequency is quarterly. Data is seasonally adjusted. Units in Mil. of $.",
+      title: "Accommodation and Food Services Earnings in Rhode Island",
+      format: "CSV",
+      url: "https://app.enigma.io/table/us.gov.frs.stlouis.fred.rieacc"
+    },
+    associations: {
+      category: "United States",
+      dataTags: ["Zerg", "Human"]
+    }
   }
 ];
