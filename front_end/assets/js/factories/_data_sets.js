@@ -1,7 +1,10 @@
 !(function(app) {
 
   function buildQuery(scope) {
-    var query = {};
+    var query = {
+      offset: (scope.currentPage - 1) * scope.itemsPerPage,
+      limit: scope.itemsPerPage
+    };
 
     if (scope.vendorScope !== void(0) && scope.vendorScope.length > 0) {
       query.vendorIDs = encodeURIComponent(scope.vendorScope.join(","));
@@ -26,6 +29,13 @@
     return {
       getItems: function(scope) {
         return Restangular.one('data_sets').getList("", buildQuery(scope));
+      },
+
+      getCount: function(scope) {
+        return Restangular.one('data_sets').one("count").get(buildQuery(scope))
+          .then(function(d) {
+            return +d[0].matchingCount;
+          });
       }
     };
   });
