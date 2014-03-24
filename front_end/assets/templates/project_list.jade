@@ -1,0 +1,5 @@
+h1 your projects
+ul
+  li(ng-show="projects.length === 0") no projects yet.
+  li(ng-repeat="project in projects")
+    a.project(ui-sref="projects.item({id: project.id})") {{project.name | limitTo:22}}...
