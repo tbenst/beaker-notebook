@@ -1,6 +1,7 @@
 module.exports = function(sequelize, DataTypes) {
   var DataPreview = sequelize.define('DataPreview', {
     previewUrl: DataTypes.STRING,
+    smallPreviewUrl: DataTypes.STRING
   }, {
     tableName: 'DataPreviews',
     classMethods: {

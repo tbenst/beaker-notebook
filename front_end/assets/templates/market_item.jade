@@ -23,7 +23,8 @@
   p data previews
   ul
     li(ng-repeat="preview in item.dataPreviews")
-      img(ng-src="{{preview.previewUrl}}")
+      a(ng-href="{{preview.previewUrl}}", target="_blank")
+        img(ng-src="{{preview.smallPreviewUrl}}")
   hr
   .label-pair
     label
