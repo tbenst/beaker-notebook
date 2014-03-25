@@ -52,7 +52,11 @@ module.exports.list = function(options) {
   return nodefn.call(glob, notebooks.dir)
     .then(function(files) {
       return when.map(files, function(file) {
-        return keys.all({name: path.basename(file, '.bkr'), lastModified: lastModified(file)});
+        return keys.all({
+          name: path.basename(file, '.bkr'),
+          lastModified: lastModified(file),
+          numCommits: numCommits(file)
+        });
       });
     });
 };
@@ -85,4 +89,11 @@ function lastModified(filePath) {
     .then(function(data) {
       return data.mtime;
     });
+}
+
+function numCommits(filePath) {
+  var git = new Git(path.dirname(filePath));
+
+  return git.open()
+    .then(git.numCommits.bind(git));
 }

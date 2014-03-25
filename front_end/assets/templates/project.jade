@@ -1,16 +1,18 @@
-.project-detail
+.project-detail.col-half
   h1.project-name {{project.name}}
   p.project-description {{project.description}}
+  .commits Commits: {{numCommits}}
   a.btn.edit-project(ui-sref="projectEdit({id: project.id})") edit project
 
-  .col-half
-    h3 Notebooks
-    ul
-      li(ng-show="notebooks.length === 0") no notebooks yet.
-      li(ng-repeat="notebook in notebooks")
-        .col-quarter
-          b {{notebook.name}}
-        .col-quarter
-          a(href='') Open
-        .col-two-quarters Updated at: {{notebook.lastModified | date: 'short'}}
-        .cl
+  h3 Notebooks
+  ul
+    li(ng-show="notebooks.length === 0") no notebooks yet.
+    li(ng-repeat="notebook in notebooks")
+      .col-quarter
+        b {{notebook.name}}
+      .col-quarter
+        a(href='') Open
+      .col-quarter Updated at: {{notebook.lastModified | date: 'short'}}
+      .col-quarter Commits: {{notebook.numCommits}}
+      .cl
+

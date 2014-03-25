@@ -9,6 +9,9 @@
 
     project.getList("notebooks").then(function(notebooks) {
       $scope.notebooks = notebooks;
+      $scope.numCommits = _.reduce(notebooks, function(sum, notebook) {
+        return sum + notebook.numCommits;
+      }, 0);
     });
 
   }]);
