@@ -25,7 +25,7 @@
     return query;
   }
 
-  app.factory('DataSetsFactory', function(Restangular) {
+  app.factory('DataSetsFactory', ['Restangular', function(Restangular) {
     return {
       getItems: function(scope) {
         return Restangular.one('data_sets').getList("", buildQuery(scope));
@@ -38,14 +38,14 @@
           });
       }
     };
-  });
+  }]);
 
-  app.factory('RelatedTagsFactory', function(Restangular) {
+  app.factory('RelatedTagsFactory', ['Restangular', function(Restangular) {
     return {
       getItems: function(scope) {
         return Restangular.one('data_sets').getList("tags", buildQuery(scope));
       }
     };
-  });
+  }]);
 
 })(window.bunsen);

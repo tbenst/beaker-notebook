@@ -16,11 +16,12 @@ module.exports = function(app) {
     },
 
     index: function(req, res, next) {
-      req.user.getProjects()
-        .then(function(projects) {
-          res.json(projects);
-        })
-        .catch(next);
+      Project.findMatching({
+        userId: req.user.id,
+        filterBy: req.query.filterBy
+      }).then(function(projects) {
+        res.json(projects);
+      }).catch(next);
     },
 
     create: function(req, res, next) {

@@ -10,7 +10,7 @@
 
     $scope.updateProject = function() {
       $scope.project.put().then(function() {
-        $state.go("project", {id: $scope.project.id});
+        $state.go("projects.item", {id: $scope.project.id});
       });
      }
 

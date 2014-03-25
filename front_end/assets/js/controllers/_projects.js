@@ -1,15 +1,7 @@
-!(function(angular, app) {
-  app.controller('projects', ['$scope', 'Restangular', function($scope, Restangular) {
-    var R = Restangular;
-
+;(function(angular, app) {
+  app.controller('projects', ['$scope', 'ProjectsFactory', function($scope, ProjectsFactory) {
     $scope.createProject = function() {
-      R.one('users', window.userID)
-        .all('projects').post({
-          name: "sample project " + Math.random()
-        })
-        .then(function(p) {
-          $scope.projects.push(p);
-        });
+      ProjectsFactory.createProject($scope.projects.list);
     };
   }]);
 })(angular, window.bunsen);
