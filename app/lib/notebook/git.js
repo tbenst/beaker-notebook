@@ -1,4 +1,5 @@
 var ngit = require('nodegit'),
+    sort = ngit.RevWalk.Sort,
     when = require('when'),
     path = require('path'),
     nodefn = require("when/node/function"),
@@ -64,6 +65,25 @@ _.extend(Git.prototype, {
       .then(function(commitId) {
         console.log("New Commit:", commitId.sha());
       });
+  },
+
+  numCommits: function() {
+    var deferred = when.defer();
+    var i = 0;
+
+    this.repo.getMaster(function(error, branch) {
+      if (error) throw error;
+
+      var history = branch.history(sort.Time);
+
+      // History emits 'commit' event for each commit in the branch's history
+      history.on('commit', function() {i++});
+      history.on('end', function() {deferred.resolve(i)});
+
+      history.start();
+    });
+
+    return deferred.promise;
   }
 });
 
