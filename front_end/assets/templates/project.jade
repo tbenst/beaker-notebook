@@ -1,6 +1,7 @@
 .project-detail
   h1.project-name {{project.name}}
   p.project-description {{project.description}}
+  .commits Commits: {{numCommits}}
   a.btn.edit-project(ui-sref="projectEdit({id: project.id})") edit project
 
   .col-half
