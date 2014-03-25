@@ -3,6 +3,14 @@ var notebook = require('../lib/notebook');
 module.exports = function(app) {
 
   return {
+    index: function(req, res, next) {
+      notebook.list({userId: req.user.id, projectId: req.project.id})
+        .then(function(notebooks) {
+          res.json(notebooks);
+        })
+        .catch(next);
+    },
+
     create: function(req, res, next) {
       notebook.create({userId: req.user.id,
         projectId: req.project.id,
