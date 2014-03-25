@@ -1,11 +1,8 @@
 ;(function(angular, app) {
-  app.controller('projectsList', ['$scope', 'Restangular', function($scope, Restangular) {
-    var R = Restangular;
+  app.controller('projectsList', ['$scope', 'ProjectsFactory', function($scope, ProjectsFactory) {
+    ProjectsFactory.getProjects($scope).then(function(d) {
+      $scope.projects.list = d;
+    });
 
-    R.one('users', window.userID)
-     .getList('projects')
-     .then(function(d) {
-        $scope.projects = d;
-      });
   }]);
 })(angular, window.bunsen);
