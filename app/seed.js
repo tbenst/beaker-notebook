@@ -6,6 +6,10 @@ var _ = require('lodash');
 var when = require('when');
 var util = require('util');
 var inflection = require('inflection');
+var notebook = require('./lib/notebook');
+
+var notebookData = require('./seed_files/notebooks.json');
+
 
 var data = Array.prototype.concat(
   require('./seed_files/users'),
@@ -21,6 +25,9 @@ models.init(app);
 
 sf.loadFixtures(data, app.Models, function(err) {
   setAssociations(data, app.Models)
+  .then(function() {
+    return createNotebooks(app.Models);
+  })
   .done(function() {
     console.log("DB seeded.");
   });
@@ -68,4 +75,21 @@ function setAssociations(data, models) {
         return addDataSetAssociation(dataSet, seedAttributes, models);
       });
   });
+}
+
+
+function createNotebooks(models) {
+  return models.User.find({where: {email: 'dummy@example.com'}})
+    .then(function(user) {
+      return user.getProjects()
+      .then(function(projects) {
+        return when.map(notebookData, function(n) {
+          return notebook.create({userId: user.id,
+            projectId: projects[0].id,
+            name: n.name,
+            data: n.data
+          });
+        });
+      });
+    });
 }

@@ -1,0 +1,523 @@
+[
+  {
+    "name": "Beaker tutorial",
+    "data": {
+        "beaker": "2",
+        "evaluators": [
+            {
+                "name": "Html",
+                "plugin": "./plugin/evaluator/html.js",
+                "shellID": null
+            },
+            {
+                "name": "Latex",
+                "plugin": "./plugin/evaluator/latex.js",
+                "shellID": null
+            },
+            {
+                "name": "IPython",
+                "plugin": "IPython",
+                "shellID": "5408B3329A4744D98EEC3BB131400225",
+                "imports": "",
+                "supplementalClassPath": ""
+            },
+            {
+                "name": "JavaScript",
+                "plugin": "JavaScript",
+                "shellID": null,
+                "jsSetting2": "",
+                "jsSetting1": ""
+            },
+            {
+                "name": "R",
+                "plugin": "R",
+                "shellID": "bbebd5ac-70db-4bc2-a7b2-708d02e9011e"
+            },
+            {
+                "name": "Groovy",
+                "plugin": "Groovy",
+                "shellID": "b469f452-4dfd-4451-8ec6-3f6b4f705b85"
+            }
+        ],
+        "cells": [
+            {
+                "id": "section001",
+                "type": "section",
+                "level": 1,
+                "title": "Beaker Tutorial",
+                "collapsed": false
+            },
+            {
+                "id": "codewQAk41",
+                "type": "code",
+                "evaluator": "Html",
+                "input": {
+                    "body": "<div class=\"row-fluid\">\n\n  <div class=\"span9\">\n\n    <h1>Overview</h1>\n\n\t\t<p>Beaker is the ideal environment for analyzing data and documenting your process and results using the languages and toolkits of your choice.</p>\n\n    <h2>Language support</h2>\n\n    <p><strong>Text:</strong> Markdown, HTML, Latex, plain text</p>\n\n    <p><strong>Code:</strong> Python (with IPython additions), Julia, JavaScript, R, Groovy</p>\n\n    <h2>Plugins</h2>\n\n\t<p>All of the languages available in Beaker are added via plugins, so if we've missed your favorite language, you can create a plugin, and it will be treated as a first-class citizen.</p>\n    \n  </div>  \n  \n  \n  <div class=\"span3\">\n    <h1>Additional tutorials</h1>\n    <h2>Beaker</h2>\n    <p><a href=\"http://dl.dropboxusercontent.com/s/hkl3gbypachu9qz/faq.html\" target=\"_blank\">Help/FAQ</a> </p>\n    <p><a href=\"#/open?uri=file:config%2Ftutorials%2Fform.bkr\">Basic forms in Beaker</a> </p>\n\n    <h2>Python</h2>\n    <a href=\"#/open?uri=ipynb:%2Fhttp:%2F%2Fatwallab.cshl.edu%2Fteaching%2FQBbootcamp3.ipynb\">Scientific Computing with Python</a> - From Mickey Atwal\n    \n    <h2>R</h2>\n    TODO\n\n    <h2>Groovy</h2>\n    TODO\n  </div>  \n\n  \n</div>",
+                    "hidden": true
+                },
+                "output": {
+                    "selectedType": "BeakerDisplay",
+                    "result": {
+                        "type": "BeakerDisplay",
+                        "innertype": "Html",
+                        "object": "<div class=\"row-fluid\">\n\n  <div class=\"span9\">\n\n    <h1>Overview</h1>\n\n\t\t<p>Beaker is the ideal environment for analyzing data and documenting your process and results using the languages and toolkits of your choice.</p>\n\n    <h2>Language support</h2>\n\n    <p><strong>Text:</strong> Markdown, HTML, Latex, plain text</p>\n\n    <p><strong>Code:</strong> Python (with IPython additions), Julia, JavaScript, R, Groovy</p>\n\n    <h2>Plugins</h2>\n\n\t<p>All of the languages available in Beaker are added via plugins, so if we've missed your favorite language, you can create a plugin, and it will be treated as a first-class citizen.</p>\n    \n  </div>  \n  \n  \n  <div class=\"span3\">\n    <h1>Additional tutorials</h1>\n    <h2>Beaker</h2>\n    <p><a href=\"http://dl.dropboxusercontent.com/s/hkl3gbypachu9qz/faq.html\" target=\"_blank\">Help/FAQ</a> </p>\n    <p><a href=\"#/open?uri=file:config%2Ftutorials%2Fform.bkr\">Basic forms in Beaker</a> </p>\n\n    <h2>Python</h2>\n    <a href=\"#/open?uri=ipynb:%2Fhttp:%2F%2Fatwallab.cshl.edu%2Fteaching%2FQBbootcamp3.ipynb\">Scientific Computing with Python</a> - From Mickey Atwal\n    \n    <h2>R</h2>\n    TODO\n\n    <h2>Groovy</h2>\n    TODO\n  </div>  \n\n  \n</div>"
+                    },
+                    "elapsedTime": 0
+                }
+            },
+            {
+                "id": "Section8EWbZ9",
+                "type": "section",
+                "level": 1,
+                "title": "Running code",
+                "collapsed": false
+            },
+            {
+                "id": "markdownEmlByI",
+                "type": "markdown",
+                "body": "Here's some IPython code. To run it, move your cursor into the cell and press CTRL-ENTER.",
+                "mode": "preview"
+            },
+            {
+                "id": "codeh1TYII",
+                "type": "code",
+                "evaluator": "IPython",
+                "input": {
+                    "body": "a = 1\na"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "outputArrived": true,
+                    "elapsedTime": 80
+                }
+            },
+            {
+                "id": "markdownCInWzc",
+                "type": "markdown",
+                "body": "And here's a basic histogram from matplotlib.",
+                "mode": "preview"
+            },
+            {
+                "id": "code3E0zXv",
+                "type": "code",
+                "evaluator": "IPython",
+                "input": {
+                    "body": "hist([1,2,2])"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "outputArrived": true,
+                    "elapsedTime": 463
+                }
+            },
+            {
+                "id": "Section2enUlh",
+                "type": "section",
+                "level": 1,
+                "title": "Working with cells",
+                "collapsed": false
+            },
+            {
+                "id": "SectionIQvToW",
+                "type": "section",
+                "level": 2,
+                "title": "Adding cells",
+                "collapsed": false
+            },
+            {
+                "id": "markdownDfaAFR",
+                "type": "markdown",
+                "body": "Move your cursor to the area below this text. You'll see a bar appear with the text 'insert cell.' Click on that bar and add a new JavaScript cell.\n\nClick into the new cell and press CTRL-SHIFT-A. This will create a new cell of the same type.\n\n",
+                "mode": "preview"
+            },
+            {
+                "id": "SectionkfKSFY",
+                "type": "section",
+                "level": 2,
+                "title": "Manipulating cells",
+                "collapsed": false
+            },
+            {
+                "id": "markdownB58chY",
+                "type": "markdown",
+                "body": "Move your cursor into one of our JavaScript cells. Note that using the UP and DOWN keys will move your cursor between the different code cells. \n\nPressing CTRL-SHIFT-E within a code cell will allow you to change the cell's language.\n\nTo the right of the cells, you'll see a hierarchical representation of brackets. Clicking on the brackets will bring up menus that let you do everything from change languages to hiding output to deleting cells. Explore the options available in these menus.",
+                "mode": "preview"
+            },
+            {
+                "id": "SectionEt3gzB",
+                "type": "section",
+                "level": 2,
+                "title": "Section cells",
+                "collapsed": false
+            },
+            {
+                "id": "markdownso9XEe",
+                "type": "markdown",
+                "body": "Notice that all the headings have +/- toggles on them. These are 'section cells' in Beaker, and they can contain any type of cell including other sections. Try clicking the +/- buttons to get a feel for how the hierarchy works and how it corresponds to the bracket menus on the right.\n\nTry adding and removing some section cells of different levels.",
+                "mode": "preview"
+            },
+            {
+                "id": "SectionpjDGkv",
+                "type": "section",
+                "level": 1,
+                "title": "R examples",
+                "collapsed": false
+            },
+            {
+                "id": "codeHZjtj9",
+                "type": "code",
+                "evaluator": "R",
+                "input": {
+                    "body": "data <- c(1,1,1,2,3,3,4,5,5,5)"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "elapsedTime": 138
+                }
+            },
+            {
+                "id": "codeY69oh7",
+                "type": "code",
+                "evaluator": "R",
+                "input": {
+                    "body": "hist(data)"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "elapsedTime": 197
+                }
+            },
+            {
+                "id": "code9i3xs2",
+                "type": "code",
+                "evaluator": "R",
+                "input": {
+                    "body": "DF = data.frame(x=c(\"b\",\"b\",\"b\",\"a\",\"a\"),v=rnorm(5))"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "elapsedTime": 227
+                }
+            },
+            {
+                "id": "codeZCInZV",
+                "type": "code",
+                "evaluator": "R",
+                "input": {
+                    "body": "library(ggplot2)\nqplot(1:10, data)"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "elapsedTime": 201
+                }
+            },
+            {
+                "id": "codezB5I5w",
+                "type": "code",
+                "evaluator": "R",
+                "input": {
+                    "body": "library(ggplot2)\ncde <- geom_histogram(position=\"fill\", binwidth = 500)\nggplot(diamonds, aes(x=price, fill=clarity)) + cde"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "elapsedTime": 1369
+                }
+            },
+            {
+                "id": "coden2V0oT",
+                "type": "code",
+                "evaluator": "R",
+                "input": {
+                    "body": "occur <- matrix(c(4,3,2),ncol=3,byrow=TRUE)\ncolnames(occur) <- c(\"A\",\"B\",\"C\")\noccur"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "elapsedTime": 105
+                }
+            },
+            {
+                "id": "codenl0dfP",
+                "type": "code",
+                "evaluator": "R",
+                "input": {
+                    "body": "a <- c(\"Sometimes\",\"Sometimes\",\"Never\",\"Always\",\"Always\",\"Sometimes\",\"Sometimes\",\"Never\")\nb <- c(\"Maybe\",\"Maybe\",\"Yes\",\"Maybe\",\"Maybe\",\"No\",\"Yes\",\"No\")\nresults <- table(a,b)"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "elapsedTime": 114
+                }
+            },
+            {
+                "id": "SectionpfjX2U",
+                "type": "section",
+                "level": 1,
+                "title": "Python examples",
+                "collapsed": false
+            },
+            {
+                "id": "codeqPMAfv",
+                "type": "code",
+                "evaluator": "IPython",
+                "input": {
+                    "body": "import pandas as pd\ndf = pd.DataFrame([[1, 2], [1, 3], [4, 6]], columns=['A', 'B'])\ndf"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "outputArrived": true,
+                    "elapsedTime": 169
+                }
+            },
+            {
+                "id": "codeK0EmdK",
+                "type": "code",
+                "evaluator": "IPython",
+                "input": {
+                    "body": "df['A']"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "outputArrived": true,
+                    "elapsedTime": 77
+                }
+            },
+            {
+                "id": "codeDF97hS",
+                "type": "code",
+                "evaluator": "IPython",
+                "input": {
+                    "body": "df['A'].hist(figsize=(10,10))"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "outputArrived": true,
+                    "elapsedTime": 369
+                }
+            },
+            {
+                "id": "codeAEuaJ8",
+                "type": "code",
+                "evaluator": "IPython",
+                "input": {
+                    "body": "plot([1,4,3,5,2])"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "outputArrived": true,
+                    "elapsedTime": 261
+                }
+            },
+            {
+                "id": "sectionF7ZQVV",
+                "type": "section",
+                "title": "Groovy examples",
+                "level": 1,
+                "collapsed": false
+            },
+            {
+                "id": "codelwaUwX",
+                "type": "code",
+                "evaluator": "Groovy",
+                "input": {
+                    "body": "def a = 1 //local variable\nb = 2 //global variable"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "elapsedTime": 465
+                }
+            },
+            {
+                "id": "codeiXI4Hu",
+                "type": "code",
+                "evaluator": "Groovy",
+                "input": {
+                    "body": "a //error"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "elapsedTime": 102
+                }
+            },
+            {
+                "id": "codeZsp72T",
+                "type": "code",
+                "evaluator": "Groovy",
+                "input": {
+                    "body": "b //this works"
+                },
+                "output": {
+                    "selectedType": "Hidden"
+                }
+            },
+            {
+                "id": "codeyiu160",
+                "type": "code",
+                "evaluator": "Groovy",
+                "input": {
+                    "body": "//closure example\ntimesTwo = {x -> x*2}"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "elapsedTime": 129
+                }
+            },
+            {
+                "id": "code0SVic5",
+                "type": "code",
+                "evaluator": "Groovy",
+                "input": {
+                    "body": "timesTwo(4)"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "elapsedTime": 130
+                }
+            },
+            {
+                "id": "codexiOErG",
+                "type": "code",
+                "evaluator": "Groovy",
+                "input": {
+                    "body": "timesTwo(\"Multiplying Strings!\")"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "elapsedTime": 114
+                }
+            },
+            {
+                "id": "code77FYkc",
+                "type": "code",
+                "evaluator": "Groovy",
+                "input": {
+                    "body": "l = [1,2,3,4] //list\nm = [a:1, b:2] //map"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "elapsedTime": 77
+                }
+            },
+            {
+                "id": "Sectionviqq24",
+                "type": "section",
+                "level": 1,
+                "title": "Working with d3.js",
+                "collapsed": false
+            },
+            {
+                "id": "markdownmEE28X",
+                "type": "markdown",
+                "body": "This example loads some data using Python then builds a bar chart of the data using d3 in HTML and JavaScript cells.\n\nRight now the process for getting the data from Python to JS is fairly complex. We are looking into ways to simplify this.",
+                "mode": "preview"
+            },
+            {
+                "id": "codezCEI2n",
+                "type": "code",
+                "evaluator": "IPython",
+                "input": {
+                    "body": "#Load some data into a DataFrame\n\nimport pandas as pd\ndf = pd.DataFrame([[1, 2], [1, 3], [4, 6]], columns=['A', 'B'])\ndf"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "outputArrived": true,
+                    "elapsedTime": 829
+                }
+            },
+            {
+                "id": "codeyA37u9",
+                "type": "code",
+                "evaluator": "Html",
+                "input": {
+                    "body": "<!--\nCreate an element for our chart and define some styles\n-->\n\n<div id=\"barchart1\" class=\"chart\">The d3 bar chart will appear here</div>\n\n<style>\n.chart div {\n  background-color: #AACCFF;\n  text-align: right;\n  padding: 3px;\n  margin: 1px;\n}\n</style>"
+                },
+                "output": {
+                    "selectedType": "Hidden",
+                    "elapsedTime": 65
+                }
+            },
+            {
+                "id": "codetIF8Fx",
+                "type": "code",
+                "evaluator": "JavaScript",
+                "input": {
+                    "body": "//Currently accessing Python values from JavaScript requires constructing a full cell object\n//The \"body\" is Python code that will be evaluated, in this case, simply returning the DataFrame created above\nvar cell = { evaluator: \"IPython\", input: { body: \"df\" }, output: {} };\n\n//Use the bkHelper API to evaluate the cell\nbkHelper.evaluate(cell).then(function(){\n  \n  \t//After the evaluation we are reading one column of the data into an array\n\tvar data = cell.output.result.values;\n\tvar col = [];\n  \t_.each(data, function(a){col.push(a[2])})\n    \n    //Here is the D3 part\n\td3.select(\"#barchart1\")\n  \t\t.selectAll(\"div\")\n    \t.data(col)\n  \t\t.enter().append(\"div\")\n    \t.style(\"width\", function(d) { return d * 10 + \"px\"; })\n    \t.text(function(d) { return d; });\n})"
+                },
+                "output": {
+                    "selectedType": "Hidden"
+                }
+            }
+        ]
+    }
+
+  },
+
+  {
+    "name": "Beaker test",
+    "data": {
+        "beaker": "2",
+        "evaluators": [
+            {
+                "name": "Html",
+                "plugin": "./plugin/evaluator/html.js",
+                "shellID": null
+            },
+            {
+                "name": "Latex",
+                "plugin": "./plugin/evaluator/latex.js",
+                "shellID": null
+            },
+            {
+                "name": "IPython",
+                "plugin": "IPython",
+                "shellID": "5408B3329A4744D98EEC3BB131400225",
+                "imports": "",
+                "supplementalClassPath": ""
+            },
+            {
+                "name": "JavaScript",
+                "plugin": "JavaScript",
+                "shellID": null,
+                "jsSetting2": "",
+                "jsSetting1": ""
+            },
+            {
+                "name": "R",
+                "plugin": "R",
+                "shellID": "bbebd5ac-70db-4bc2-a7b2-708d02e9011e"
+            },
+            {
+                "name": "Groovy",
+                "plugin": "Groovy",
+                "shellID": "b469f452-4dfd-4451-8ec6-3f6b4f705b85"
+            }
+        ],
+        "cells": [
+            {
+                "id": "section001",
+                "type": "section",
+                "level": 1,
+                "title": "Beaker Test",
+                "collapsed": false
+            },
+            {
+                "id": "codewQAk41",
+                "type": "code",
+                "evaluator": "Html",
+                "input": {
+                    "body": "<div class=\"row-fluid\">\n\n  <div class=\"span9\">\n\n    <h1>Overview</h1>\n\n\t\t<p>Beaker is the ideal environment for analyzing data and documenting your process and results using the languages and toolkits of your choice.</p>\n\n    <h2>Language support</h2>\n\n    <p><strong>Text:</strong> Markdown, HTML, Latex, plain text</p>\n\n    <p><strong>Code:</strong> Python (with IPython additions), Julia, JavaScript, R, Groovy</p>\n\n    <h2>Plugins</h2>\n\n\t<p>All of the languages available in Beaker are added via plugins, so if we've missed your favorite language, you can create a plugin, and it will be treated as a first-class citizen.</p>\n    \n  </div>  \n  \n  \n  <div class=\"span3\">\n    <h1>Additional tutorials</h1>\n    <h2>Beaker</h2>\n    <p><a href=\"http://dl.dropboxusercontent.com/s/hkl3gbypachu9qz/faq.html\" target=\"_blank\">Help/FAQ</a> </p>\n    <p><a href=\"#/open?uri=file:config%2Ftutorials%2Fform.bkr\">Basic forms in Beaker</a> </p>\n\n    <h2>Python</h2>\n    <a href=\"#/open?uri=ipynb:%2Fhttp:%2F%2Fatwallab.cshl.edu%2Fteaching%2FQBbootcamp3.ipynb\">Scientific Computing with Python</a> - From Mickey Atwal\n    \n    <h2>R</h2>\n    TODO\n\n    <h2>Groovy</h2>\n    TODO\n  </div>  \n\n  \n</div>",
+                    "hidden": true
+                },
+                "output": {
+                    "selectedType": "BeakerDisplay",
+                    "result": {
+                        "type": "BeakerDisplay",
+                        "innertype": "Html",
+                        "object": "<div class=\"row-fluid\">\n\n  <div class=\"span9\">\n\n    <h1>Overview</h1>\n\n\t\t<p>Beaker is the ideal environment for analyzing data and documenting your process and results using the languages and toolkits of your choice.</p>\n\n    <h2>Language support</h2>\n\n    <p><strong>Text:</strong> Markdown, HTML, Latex, plain text</p>\n\n    <p><strong>Code:</strong> Python (with IPython additions), Julia, JavaScript, R, Groovy</p>\n\n    <h2>Plugins</h2>\n\n\t<p>All of the languages available in Beaker are added via plugins, so if we've missed your favorite language, you can create a plugin, and it will be treated as a first-class citizen.</p>\n    \n  </div>  \n  \n  \n  <div class=\"span3\">\n    <h1>Additional tutorials</h1>\n    <h2>Beaker</h2>\n    <p><a href=\"http://dl.dropboxusercontent.com/s/hkl3gbypachu9qz/faq.html\" target=\"_blank\">Help/FAQ</a> </p>\n    <p><a href=\"#/open?uri=file:config%2Ftutorials%2Fform.bkr\">Basic forms in Beaker</a> </p>\n\n    <h2>Python</h2>\n    <a href=\"#/open?uri=ipynb:%2Fhttp:%2F%2Fatwallab.cshl.edu%2Fteaching%2FQBbootcamp3.ipynb\">Scientific Computing with Python</a> - From Mickey Atwal\n    \n    <h2>R</h2>\n    TODO\n\n    <h2>Groovy</h2>\n    TODO\n  </div>  \n\n  \n</div>"
+                    },
+                    "elapsedTime": 0
+                }
+            }
+        ]
+    }
+
+  }
+]
