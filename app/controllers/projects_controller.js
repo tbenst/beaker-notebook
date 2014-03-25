@@ -16,11 +16,9 @@ module.exports = function(app) {
     },
 
     index: function(req, res, next) {
-      req.user.getProjects()
-        .then(function(projects) {
-          res.json(projects);
-        })
-        .catch(next);
+      Project.findAllByUser(req.user.id).then(function(projects) {
+        res.json(projects);
+      }).catch(next);
     },
 
     create: function(req, res, next) {
