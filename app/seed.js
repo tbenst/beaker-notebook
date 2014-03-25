@@ -8,6 +8,7 @@ var util = require('util');
 var inflection = require('inflection');
 
 var data = Array.prototype.concat(
+  require('./seed_files/users'),
   require('./seed_files/vendors'),
   require('./seed_files/data_sets'),
   require('./seed_files/data_tags'),

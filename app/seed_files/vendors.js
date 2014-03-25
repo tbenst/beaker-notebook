@@ -16,12 +16,5 @@ module.exports = [
     data: {
       name: "Need More Oil Ventures"
     }
-  },
-  {
-    model: 'User',
-    data: {
-      name: "Dummy",
-      email: "dummy@example.com"
-    }
   }
 ];
