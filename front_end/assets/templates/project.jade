@@ -1,4 +1,4 @@
-h1 {{project.name}}
-p {{project.description}}
-.btn-group
-  .btn(ui-sref="projectEdit({id: project.id})") edit project
+.project-detail
+  h1.project-name {{project.name}}
+  p.project-description {{project.description}}
+  a.btn.edit-project(ui-sref="projectEdit({id: project.id})") edit project

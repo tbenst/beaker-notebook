@@ -1,5 +1,6 @@
 var request = require('request');
 var util = require('util');
+var _ = require('lodash');
 
 module.exports = function() {
 
@@ -13,9 +14,9 @@ module.exports = function() {
       reqConfig.json = jsonBody;
     }
     return request.$(httpMethod, reqConfig).then(
-      function(response, body) {
+      function(response) {
         if (response.statusCode == 200) {
-          return body;
+          return response.body;
         }
         else {
           throw Error("Status code " + response.statusCode + " from app seed request.  Body of response: " + body);
@@ -32,7 +33,8 @@ module.exports = function() {
   });
 
   this.seed = function(modelName, modelData) {
-    return seedRequest('post', modelName, modelData);
+    var bodyArray = _.isArray(modelData) ? modelData : [modelData];
+    return seedRequest('post', modelName, bodyArray);
   };
 
 };

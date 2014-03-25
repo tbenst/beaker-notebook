@@ -1,10 +1,11 @@
-label project name
-br
-input(ng-model="project.name")
-br
-label project description
-br
-textarea(ng-model="project.description")
-.btn-group
-  .btn(ng-click="updateProject()") Save
-  .btn(ng-click="deleteProject()") Delete
+form.project-form(ng-submit="updateProject()")
+  label project name
+  br
+  input(name="name", ng-model="project.name")
+  br
+  label project description
+  br
+  textarea(name="description", ng-model="project.description")
+  .btn-group
+    input.btn(value="Save", type="submit")
+    button.btn.delete-project(ng-click="deleteProject()") Delete
