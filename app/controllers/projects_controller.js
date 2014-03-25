@@ -16,7 +16,10 @@ module.exports = function(app) {
     },
 
     index: function(req, res, next) {
-      Project.findAllByUser(req.user.id).then(function(projects) {
+      Project.findMatching({
+        userId: req.user.id,
+        filterBy: req.query.filterBy
+      }).then(function(projects) {
         res.json(projects);
       }).catch(next);
     },

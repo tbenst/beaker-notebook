@@ -9,12 +9,31 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         Project.belongsTo(models.User, {foreignKey: 'ownerId'});
       },
-      findAllByUser: function(userId) {
+
+      findMatching: function(filters) {
+        var queries = [Project.findByUserSql(filters.userId)];
+
+        if (filters.filterBy !== void(0) && filters.filterBy.length) {
+          queries.push(Project.findBySearchParam(filters.filterBy));
+        }
+
+        return sequelize.query(queries.join("\nINTERSECT\n"));
+      },
+
+      findBySearchParam: function(searchTerm) {
+        var query =
+          "SELECT \"Projects\".* FROM \"Projects\"\n"+
+          "WHERE \"name\" LIKE '%%%s%%' \n"
+
+        return util.format(query, searchTerm);
+      },
+
+      findByUserSql: function(userId) {
         var query =
           "SELECT \"Projects\".* FROM \"Projects\"\n"+
           "WHERE \"ownerId\" = %d \n";
 
-        return sequelize.query(util.format(query, userId));
+        return util.format(query, userId);
       },
     }
   });
