@@ -5,7 +5,9 @@ var Git = require('./git'),
     nodefn = require("when/node/function"),
     mkdirp = require("mkdirp"),
     getDirName = require("path").dirname,
-    when = require('when');
+    glob = require("glob"),
+    when = require('when'),
+    keys = require('when/keys');
 
 
 // Create new notebook repo
@@ -43,6 +45,18 @@ module.exports.load = function(options) {
   return readFile(notebook['path']);
 };
 
+// List all notebooks for a given project
+module.exports.list = function(options) {
+  var notebooks = notebookFile(options['userId'], options['projectId'], '*/*.bkr');
+
+  return nodefn.call(glob, notebooks.dir)
+    .then(function(files) {
+      return when.map(files, function(file) {
+        return keys.all({name: path.basename(file, '.bkr'), lastModified: lastModified(file)});
+      });
+    });
+};
+
 function notebookFile(userId, projectId, name) {
   var file = name + ".bkr";
   var dir = path.join("repos", userId.toString(), projectId.toString(), name);
@@ -63,5 +77,12 @@ function readFile(filePath) {
   return nodefn.call(fs.readFile, filePath)
     .then(function(data) {
       return JSON.parse(data);
+    });
+}
+
+function lastModified(filePath) {
+  return nodefn.call(fs.stat, filePath)
+    .then(function(data) {
+      return data.mtime;
     });
 }
