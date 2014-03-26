@@ -10,7 +10,7 @@ html(ng-app="bunsen")
   body
     nav.main-nav
       a.nav-item.market-place(ui-sref="marketPlace.items") market place
-      a.nav-item.projects(ui-sref="projects") projects
-    .application(ng-controller="application")
+      a.nav-item.projects(ui-sref="projects.items") projects
+    .application
       #root(ui-view="root")
         != content
