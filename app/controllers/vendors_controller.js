@@ -18,11 +18,13 @@ module.exports = function(app) {
     },
 
     index: function(req, res, next) {
-      Vendor.findAll({
-        order: "name ASC"
-      }).then(function(vendors) {
-        res.json(vendors);
-      }).catch(next);
+      app.DB.knex('Vendors')
+            .select()
+            .orderBy("name", "ASC")
+            .then(function(vendors){
+              res.json(vendors)
+            })
+            .catch(next);
     }
   }
 }
