@@ -42,7 +42,13 @@ module.exports.update = function(options) {
 // Load notebook from repo
 module.exports.load = function(options) {
   var notebook = notebookFile(options['userId'], options['projectId'], options['name']);
-  return readFile(notebook['path']);
+  return readFile(notebook['path'])
+    .then(function(data) {
+      return {
+        name: options['name'],
+        data: data
+      };
+    });
 };
 
 // List all notebooks for a given project
