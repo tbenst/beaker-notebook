@@ -29,14 +29,7 @@ module.exports.init = function(app) {
       app.Models[model.name] = model;
     });
 
-  Object.keys(app.Models).forEach(function(modelName) {
-    if ('associate' in app.Models[modelName]) {
-      app.Models[modelName].associate(app.Models);
-    }
-  });
-
-  app.sequelize = sequelize;
-  app.Sequelize = Sequelize;
+  app.DB = DB;
 
   return app;
 };
