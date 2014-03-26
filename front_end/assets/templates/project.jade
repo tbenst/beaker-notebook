@@ -13,7 +13,7 @@
       .col-quarter
         b {{notebook.name}}
       .col-quarter
-        a(href='') Open
+        a(ui-sref="projects.items.item.notebook({id: project.id, name: notebook.name})") Open
       .col-quarter Updated at: {{notebook.lastModified | date: 'short'}}
       .col-quarter Commits: {{notebook.numCommits}}
       .cl

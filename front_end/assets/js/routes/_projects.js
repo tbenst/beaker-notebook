@@ -30,6 +30,19 @@
           template: templates.project
         }
       }
+    })
+    .state('projects.items.item.notebook', {
+      url: '/notebooks/:name',
+      views: {
+        "app@projects": {
+          controller: 'notebook',
+          template: templates.notebook
+        },
+        "nav@projects": {
+          controller: 'project',
+          template: templates.notebook_list
+        }
+      }
     });
 
     $stateProvider.state('projects.projectEdit', {
