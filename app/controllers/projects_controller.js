@@ -18,7 +18,7 @@ module.exports = function(app) {
     index: function(req, res, next) {
       Project.findMatching({
         userId: req.user.id,
-        filterBy: req.query.filterBy
+        filterBy: decodeURIComponent(req.query.filterBy || '')
       }).then(function(projects) {
         res.json(projects);
       }).catch(next);
