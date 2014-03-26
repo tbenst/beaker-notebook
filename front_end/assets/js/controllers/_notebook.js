@@ -4,6 +4,9 @@
     var project = R.one('users', window.userID).one('projects', $state.params.id);
     var notebook = project.one('notebooks', $state.params.name);
 
+    $scope.projects.search = '';
+    $scope.projects.list = [];
+
     project.get().then(function(project) {
       $scope.project = project;
     });

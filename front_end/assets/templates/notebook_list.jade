@@ -1,5 +1,14 @@
-{{project.name}}
-ul
-  li(ng-show="notebooks.length === 0") no notebooks yet.
-  li(ng-repeat="notebook in notebooks")
-    a.notebook(ui-sref-active="active", ui-sref="projects.item.notebook({id: project.id, name: notebook.name})") {{notebook.name | limitTo:22}}
+input.search(ng-model="projects.search", placeholder="Search projects")
+ul.projects(ng-show="projects.search.length > 0")
+  li(ng-show="projects.list.length === 0") no projects found.
+  li(ng-repeat="project in projects.list")
+    a.project(ui-sref-active="active", ui-sref="projects.items.item({id: project.id})") {{project.name | limitTo:22}}
+
+br
+.notebooks
+  h1 {{project.name | limitTo:22}}
+  div Notebooks:
+  ul
+    li(ng-show="notebooks.length === 0") no notebooks yet.
+    li(ng-repeat="notebook in notebooks")
+      a.notebook(ui-sref-active="active", ui-sref="projects.items.item.notebook({id: project.id, name: notebook.name})") {{notebook.name | limitTo:22}}
