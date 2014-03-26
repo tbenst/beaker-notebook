@@ -2,6 +2,8 @@
   h1.project-name {{project.name}}
   p.project-description {{project.description}}
   .commits Commits: {{numCommits}}
+  .last-updated Last updated: {{lastUpdated | date: 'short'}}
+  .last-executed Last executed: {{project.lastExecuted || "N/A" | date: 'short'}}
   a.btn.edit-project(ui-sref="projectEdit({id: project.id})") edit project
 
   h3 Notebooks
