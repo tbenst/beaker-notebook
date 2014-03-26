@@ -9,9 +9,8 @@ html(ng-app="bunsen")
     script(src="js/main.js", type="text/javascript")
   body
     nav.main-nav
-      a.nav-item.market-place(ui-sref="marketPlace") market place
+      a.nav-item.market-place(ui-sref="marketPlace.items") market place
       a.nav-item.projects(ui-sref="projects") projects
     .application(ng-controller="application")
-      .nav.col-quarter(ui-view="nav")
-      #app(ui-view="app")
+      #root(ui-view="root")
         != content

@@ -19,7 +19,7 @@
     }
 
     $scope.onTreeSelection = function(node) {
-      $state.go('marketPlace');
+      $state.go('marketPlace.items');
       $scope.marketPlace.categoryID = node.id;
 
       getDataSets();
@@ -32,7 +32,7 @@
     }
 
     $scope.searchByTag = function(tag) {
-      $state.go('marketPlace');
+      $state.go('marketPlace.items');
       clearSearch();
       $scope.marketPlace.tagScope = [tag.id.toString()];
 
