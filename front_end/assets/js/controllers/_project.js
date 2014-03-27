@@ -1,5 +1,5 @@
 !(function(angular, app) {
-  app.controller('project', ['$scope', 'Restangular', '$state', function($scope, Restangular, $state) {
+  app.controller('project', ['$scope', 'Restangular', '$state', 'NotebooksFactory', function($scope, Restangular, $state, NotebooksFactory) {
     var R = Restangular;
     var project = R.one('users', window.userID).one('projects', $state.params.id);
 
@@ -8,15 +8,10 @@
       $scope.updatedAt = new Date(d.updatedAt);
     });
 
-    project.getList("notebooks").then(function(notebooks) {
-      $scope.notebooks = notebooks;
-      $scope.numCommits = _.reduce(notebooks, function(sum, notebook) {
-        return sum + notebook.numCommits;
-      }, 0);
-
-      var updates = _.map(notebooks, function(notebook) {return new Date(notebook.lastModified)});
-      $scope.notebookUpdated = Math.max.apply(null, updates);
-
+    NotebooksFactory.getNotebooks($state.params.id).then(function(notebooks) {
+      $scope.notebooks = notebooks.list;
+      $scope.numCommits = notebooks.numCommits;
+      $scope.notebookUpdated = notebooks.lastUpdated;
     });
 
     $scope.$watch('updatedAt + notebookUpdated', function() {
