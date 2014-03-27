@@ -1,6 +1,6 @@
 !(function(angular, app) {
 
-  app.controller('marketPlace', ['$scope', 'Restangular', 'VendorsFactory', 'DataSetsFactory', 'RelatedTagsFactory', 'TagNormalizeService', 'TagsFactory', function($scope, Restangular, VendorsFactory, DataSetsFactory, RelatedTagsFactory, TagNormalizeService, TagsFactory) {
+  app.controller('marketPlace', ['$scope', 'VendorsFactory', 'DataSetsFactory', 'RelatedTagsFactory', 'TagNormalizeService', 'TagsFactory', 'FormatsFactory', function($scope, VendorsFactory, DataSetsFactory, RelatedTagsFactory, TagNormalizeService, TagsFactory, FormatsFactory) {
     $scope.isSelected = function(value, model){
       if (model === void(0)) {
         return false;
@@ -58,7 +58,7 @@
       $scope.tags = d;
     });
 
-    Restangular.one('data_sets').getList("formats").then(function(d) {
+    FormatsFactory.getFormats().then(function(d) {
       $scope.formats = d;
     });
 
