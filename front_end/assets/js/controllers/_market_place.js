@@ -1,6 +1,6 @@
 !(function(angular, app) {
 
-  app.controller('marketPlace', ['$scope', 'Restangular', 'VendorsFactory', 'DataSetsFactory', 'RelatedTagsFactory', 'TagNormalizeService', function($scope, Restangular, VendorsFactory, DataSetsFactory, RelatedTagsFactory, TagNormalizeService) {
+  app.controller('marketPlace', ['$scope', 'Restangular', 'VendorsFactory', 'DataSetsFactory', 'RelatedTagsFactory', 'TagNormalizeService', 'TagsFactory', function($scope, Restangular, VendorsFactory, DataSetsFactory, RelatedTagsFactory, TagNormalizeService, TagsFactory) {
     $scope.isSelected = function(value, model){
       if (model === void(0)) {
         return false;
@@ -54,7 +54,7 @@
     $scope.marketPlace.itemsPerPage = 10;
     $scope.marketPlace.maxSize = 5;
 
-    Restangular.one('data_tags').getList().then(function(d) {
+    TagsFactory.then(function(d) {
       $scope.tags = d;
     });
 
