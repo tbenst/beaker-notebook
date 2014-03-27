@@ -1,6 +1,6 @@
 !(function(angular, app) {
 
-  app.controller('marketNav', ['$scope', '$state', 'Restangular', 'DataSetsFactory', 'RelatedTagsFactory', function($scope, $state, Restangular, DataSetsFactory, RelatedTagsFactory) {
+  app.controller('marketNav', ['$scope', '$state', 'DataSetsFactory', 'RelatedTagsFactory', 'CategoriesFactory', function($scope, $state, DataSetsFactory, RelatedTagsFactory, CategoriesFactory) {
     $scope.treeOptions = {
       nodeChildren: "children",
       dirSelectable: true,
@@ -43,7 +43,7 @@
       return _.contains($scope.marketPlace.tagScope, tag.id.toString());
     };
 
-    Restangular.one('categories').getList().then(function(treeData) {
+    CategoriesFactory.then(function(treeData) {
       $scope.treeData = treeData;
     });
   }]);
