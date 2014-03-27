@@ -1,10 +1,8 @@
 !(function(angular, app) {
-  app.controller('marketItem', ['$scope', 'Restangular', '$state', 'VendorsFactory', function($scope, Restangular, $state, VendorsFactory) {
-    var R = Restangular;
-
+  app.controller('marketItem', ['$scope', '$state', 'DataSetsFactory','VendorsFactory', function($scope, $state, DataSetsFactory, VendorsFactory) {
     $scope.item = {};
 
-    R.one('data_sets', $state.params.id).get().then(function(d) {
+    DataSetsFactory.getDataSet($state.params.id).then(function(d) {
       $scope.item = d;
       $scope.subscribed = !!(_.findWhere(d.users, {id: window.userID}));
     });

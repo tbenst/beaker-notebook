@@ -1,12 +1,9 @@
 !(function(angular, app) {
-  app.controller('projectEdit', ['$scope', 'Restangular', '$state', function($scope, Restangular, $state) {
-    var R = Restangular;
+  app.controller('projectEdit', ['$scope', '$state', 'ProjectsFactory', function($scope, $state, ProjectsFactory) {
 
-    R.one('users', window.userID)
-      .one('projects', $state.params.id)
-      .get().then(function(d) {
-        $scope.project = d;
-      });
+    ProjectsFactory.getProject($state.params.id).then(function(d) {
+      $scope.project = d;
+    });
 
     $scope.updateProject = function() {
       $scope.project.put().then(function() {
@@ -15,11 +12,9 @@
      }
 
     $scope.deleteProject = function() {
-      R.one('users', window.userID)
-       .one('projects', $state.params.id)
-       .remove().then(function() {
-          $state.go('projects');
-       });
+      ProjectsFactory.deleteProject($state.params.id).then(function() {
+        $state.go('projects.items');
+      });
     };
   }]);
 })(angular, window.bunsen);

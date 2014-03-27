@@ -1,6 +1,6 @@
 !(function(angular, app) {
 
-  app.controller('marketPlace', ['$scope', 'Restangular', 'VendorsFactory', 'DataSetsFactory', 'RelatedTagsFactory', 'TagNormalizeService', function($scope, Restangular, VendorsFactory, DataSetsFactory, RelatedTagsFactory, TagNormalizeService) {
+  app.controller('marketPlace', ['$scope', 'VendorsFactory', 'DataSetsFactory', 'RelatedTagsFactory', 'TagNormalizeService', 'TagsFactory', 'FormatsFactory', function($scope, VendorsFactory, DataSetsFactory, RelatedTagsFactory, TagNormalizeService, TagsFactory, FormatsFactory) {
     $scope.isSelected = function(value, model){
       if (model === void(0)) {
         return false;
@@ -29,7 +29,7 @@
     }
 
     function getDataSets() {
-      DataSetsFactory.getItems($scope.marketPlace).then(function(d) {
+      DataSetsFactory.getDataSets($scope.marketPlace).then(function(d) {
         $scope.marketPlace.data = d;
       });
 
@@ -37,7 +37,7 @@
         $scope.marketPlace.totalItems = count;
       });
 
-      RelatedTagsFactory.getItems($scope.marketPlace).then(function(tags) {
+      RelatedTagsFactory.getTags($scope.marketPlace).then(function(tags) {
         $scope.marketPlace.relatedTags = tags;
       });
 
@@ -54,11 +54,11 @@
     $scope.marketPlace.itemsPerPage = 10;
     $scope.marketPlace.maxSize = 5;
 
-    Restangular.one('data_tags').getList().then(function(d) {
+    TagsFactory.then(function(d) {
       $scope.tags = d;
     });
 
-    Restangular.one('data_sets').getList("formats").then(function(d) {
+    FormatsFactory.getFormats().then(function(d) {
       $scope.formats = d;
     });
 

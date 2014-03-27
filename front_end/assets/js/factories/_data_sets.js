@@ -27,7 +27,11 @@
 
   app.factory('DataSetsFactory', ['Restangular', function(Restangular) {
     return {
-      getItems: function(scope) {
+      getDataSet: function(id) {
+        return Restangular.one('data_sets', id).get();
+      },
+
+      getDataSets: function(scope) {
         return Restangular.one('data_sets').getList("", buildQuery(scope));
       },
 
@@ -42,8 +46,16 @@
 
   app.factory('RelatedTagsFactory', ['Restangular', function(Restangular) {
     return {
-      getItems: function(scope) {
+      getTags: function(scope) {
         return Restangular.one('data_sets').getList("tags", buildQuery(scope));
+      }
+    };
+  }]);
+
+  app.factory('FormatsFactory', ['Restangular', function(Restangular) {
+    return {
+      getFormats: function() {
+        return Restangular.one('data_sets').getList('formats');
       }
     };
   }]);
