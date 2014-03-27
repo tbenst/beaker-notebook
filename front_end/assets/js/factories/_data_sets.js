@@ -27,7 +27,7 @@
 
   app.factory('DataSetsFactory', ['Restangular', function(Restangular) {
     return {
-      getItems: function(scope) {
+      getDataSets: function(scope) {
         return Restangular.one('data_sets').getList("", buildQuery(scope));
       },
 
@@ -42,7 +42,7 @@
 
   app.factory('RelatedTagsFactory', ['Restangular', function(Restangular) {
     return {
-      getItems: function(scope) {
+      getTags: function(scope) {
         return Restangular.one('data_sets').getList("tags", buildQuery(scope));
       }
     };

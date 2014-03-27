@@ -29,7 +29,7 @@
     }
 
     function getDataSets() {
-      DataSetsFactory.getItems($scope.marketPlace).then(function(d) {
+      DataSetsFactory.getDataSets($scope.marketPlace).then(function(d) {
         $scope.marketPlace.data = d;
       });
 
@@ -37,7 +37,7 @@
         $scope.marketPlace.totalItems = count;
       });
 
-      RelatedTagsFactory.getItems($scope.marketPlace).then(function(tags) {
+      RelatedTagsFactory.getTags($scope.marketPlace).then(function(tags) {
         $scope.marketPlace.relatedTags = tags;
       });
 
