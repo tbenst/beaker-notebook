@@ -30,7 +30,7 @@ h1 bunsen market place
     li(ng-repeat="item in marketPlace.data | filter:filterBy ")
       p
         .col-three-quarters
-          a(ui-sref="marketPlace.item({id: item.id})") {{item.title}}
+          a(ui-sref="marketPlace.items.item({id: item.id})") {{item.title}}
           p.description {{item.description | limitTo:100}}...
           .vendor Publisher: {{vendorName(item)}}
           .format Format: {{item.format}}

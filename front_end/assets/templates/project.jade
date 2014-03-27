@@ -4,7 +4,7 @@
   .commits Commits: {{numCommits}}
   .last-updated Last updated: {{lastUpdated | date: 'short'}}
   .last-executed Last executed: {{project.lastExecuted || "N/A" | date: 'short'}}
-  a.btn.edit-project(ui-sref="projectEdit({id: project.id})") edit project
+  a.btn.edit-project(ui-sref="projects.projectEdit({id: project.id})") edit project
 
   h3 Notebooks
   ul
@@ -13,7 +13,7 @@
       .col-quarter
         b {{notebook.name}}
       .col-quarter
-        a(href='') Open
+        a(ui-sref="projects.items.item.notebook({id: project.id, name: notebook.name})") Open
       .col-quarter Updated at: {{notebook.lastModified | date: 'short'}}
       .col-quarter Commits: {{notebook.numCommits}}
       .cl

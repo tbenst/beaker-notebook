@@ -3,22 +3,31 @@
 
     $stateProvider
       .state('marketPlace', {
+        abstract: true,
+        views: {
+          "root": {
+            controller: 'marketPlaceRoot',
+            template: templates.market_place_root
+          }
+        }
+      })
+      .state('marketPlace.items', {
         url: '/market_place',
         views: {
-          app: {
+          "app@marketPlace": {
             controller: 'marketPlace',
             template: templates.market_place
           },
-          nav: {
+          "nav@marketPlace": {
             controller: 'marketNav',
             template: templates.market_nav
           }
         }
       })
-      .state('marketPlace.item', {
+      .state('marketPlace.items.item', {
         url: '/:id',
         views: {
-          "app@": {
+          "app@marketPlace": {
             controller: 'marketItem',
             template: templates.market_item
           }

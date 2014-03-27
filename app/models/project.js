@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
       findBySearchParam: function(searchTerm) {
         var query =
           "SELECT \"Projects\".* FROM \"Projects\"\n"+
-          "WHERE \"name\" LIKE '%%%s%%' \n"
+          "WHERE \"name\" ILIKE '%%%s%%' \n"
 
         return util.format(query, searchTerm);
       },
