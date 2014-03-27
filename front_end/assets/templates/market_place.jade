@@ -15,7 +15,7 @@ h1 bunsen market place
       b tags
     br
     select(multiple="multiple", ng-model="marketPlace.tagScope")
-      option(ng-repeat="v in tags", value="{{v.id}}", ng-selected="isSelected(v.id, marketPlace.tagScope)") {{v.name}}
+      option(ng-repeat="v in marketPlace.relatedTags", value="{{v.id}}", ng-selected="isSelected(v.id, marketPlace.tagScope)") {{v.name}}
 
   .label-pair.col-quarter
     label
