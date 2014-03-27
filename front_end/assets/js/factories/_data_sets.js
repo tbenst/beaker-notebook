@@ -27,6 +27,10 @@
 
   app.factory('DataSetsFactory', ['Restangular', function(Restangular) {
     return {
+      getDataSet: function(id) {
+        return Restangular.one('data_sets', id).get();
+      },
+
       getDataSets: function(scope) {
         return Restangular.one('data_sets').getList("", buildQuery(scope));
       },
