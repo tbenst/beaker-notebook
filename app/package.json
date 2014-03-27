@@ -8,7 +8,7 @@
     "start": "node app.js",
     "migrate": "./node_modules/sequelize/bin/sequelize -m",
     "seed": "node seed.js",
-    "reseed": "dropDB 'bunsenDevelopment'; createDB 'bunsenDevelopment'; npm run-script migrate; npm run-script seed;",
+    "reseed": "dropdb 'bunsenDevelopment'; createdb 'bunsenDevelopment'; npm run-script migrate; npm run-script seed;",
     "debug": "node-debug app.js"
   },
   "repository": {

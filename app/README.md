@@ -13,8 +13,8 @@ Bunsen API Server
 ### Problems migrating / seeding ?
 The reality is, sometimes things go very wrong with your database. Here are some steps to recover from a place that you might find yourself in.
 
-* `dropDB "bunsenDevelopment"`
-* `createDB "bunsenDevelopment"`
+* `dropdb "bunsenDevelopment"`
+* `createdb "bunsenDevelopment"`
 * `npm run-script migrate`
 * `npm run-script seed`
 * take a deep breath
