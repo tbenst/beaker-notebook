@@ -1,13 +1,9 @@
 !(function(angular, app) {
-  app.controller('notebook', ['$scope', 'Restangular', '$state', 'NotebooksFactory', function($scope, Restangular, $state, NotebooksFactory) {
-    var R = Restangular;
-    var project = R.one('users', window.userID).one('projects', $state.params.id);
-    var notebook = project.one('notebooks', $state.params.name);
-
+  app.controller('notebook', ['$scope', '$state', 'NotebooksFactory', 'ProjectsFactory', function($scope, $state, NotebooksFactory, ProjectsFactory) {
     $scope.projects.search = '';
     $scope.projects.list = [];
 
-    project.get().then(function(project) {
+    ProjectsFactory.getProject($state.params.id).then(function(project) {
       $scope.project = project;
     });
 

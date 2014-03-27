@@ -3,6 +3,14 @@
     var R = Restangular;
 
     return {
+      deleteProject: function(id) {
+        return R.one('users', window.userID).one('projects', id).remove();
+      },
+
+      getProject: function(id) {
+        return R.one('users', window.userID).one('projects', id).get();
+      },
+
       getProjects: function(scope, filterBy) {
         var query = {};
 

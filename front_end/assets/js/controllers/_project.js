@@ -1,9 +1,7 @@
 !(function(angular, app) {
-  app.controller('project', ['$scope', 'Restangular', '$state', 'NotebooksFactory', function($scope, Restangular, $state, NotebooksFactory) {
-    var R = Restangular;
-    var project = R.one('users', window.userID).one('projects', $state.params.id);
+  app.controller('project', ['$scope', '$state', 'NotebooksFactory', 'ProjectsFactory', function($scope, $state, NotebooksFactory, ProjectsFactory) {
 
-    project.get().then(function(d) {
+    ProjectsFactory.getProject($state.params.id).then(function(d) {
       $scope.project = d;
       $scope.updatedAt = new Date(d.updatedAt);
     });
