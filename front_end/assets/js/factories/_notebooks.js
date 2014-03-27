@@ -7,6 +7,10 @@
     }
 
     return {
+      getNotebook: function(projectId, name) {
+        return project(projectId).one('notebooks', name).get();
+      },
+
       getNotebooks: function(projectId) {
         return project(projectId).getList('notebooks').then(function(notebooks) {
           var updates = _.map(notebooks, function(notebook) {
