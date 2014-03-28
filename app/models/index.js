@@ -3,13 +3,13 @@ module.exports.init = function(app) {
 
   var fs = require('fs'),
     path = require('path'),
-    Sequelize = require('sequelize'),
+    Bookshelf = require('bookshelf')
     _ = require('lodash');
 
   try {
     config = require('../config/config.json');
   } catch(e) {
-    throw new Error('Error reading Sequelize config from /config/config.json')
+    throw new Error('Error reading config from /config/config.json')
   }
 
   if (config[app.get('env')]) {
