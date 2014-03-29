@@ -1,24 +1,21 @@
 module.exports.init = function(app) {
   app.Models = app.Models || {};
 
-  var fs = require('fs'),
-    path = require('path'),
-    Bookshelf = require('bookshelf')
-    _ = require('lodash');
+  var fs      = require('fs'),
+    path      = require('path'),
+    Bookshelf = require('bookshelf'),
+    _         = require('lodash'),
+    config    = {};
 
   try {
-    config = require('../config/config.json');
+    config = require('../config.js');
   } catch(e) {
-    throw new Error('Error reading config from /config/config.json')
+    throw new Error('Error reading config from config.js')
   }
 
-  if (config[app.get('env')]) {
-    config = config[app.get('env')];
-  } else {
-    throw new Error("'" + app.get('env') + "'" + "environment not defined in /config/config.json")
-  }
+  config = config[app.get('env')] || config["development"];
 
-  var sequelize = new Sequelize(config['database'], config['username'], config['password'], {dialect: "postgres"});
+  var DB = Bookshelf.initialize(config.database);
 
   fs.readdirSync(__dirname)
     .filter(function(file) {

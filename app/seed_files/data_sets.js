@@ -10,14 +10,20 @@ module.exports = [
       vendorId: 1,
       updateFrequency: "Weekly"
     },
-    associations: {
-      category: "Consumer Finance",
-      dataTags: ["Orc", "Zerg"],
-      dataPreviews: {
-        lookupColumn: "previewUrl",
-        values: ["http://placehold.it/400x401", "http://placehold.it/401x401"]
+    associations: [
+      {
+        joinTable: "DataSetsCategories",
+        lookup: {
+          "Category": {name: "Consumer Finance"}
+        }
+      },
+      {
+        joinTable: "DataSetsDataTags",
+        lookup: {
+          "DataTag": [{name: "Orc"}, {name: "Zerg"}]
+        }
       }
-    }
+    ]
   },
 
   {
@@ -31,12 +37,21 @@ module.exports = [
       vendorId: 2,
       updateFrequency: "Annually"
     },
-    associations: {
-      category: "U.S. Energy Information Administration",
-      dataTags: "Romulan"
-    }
+    associations: [
+      {
+        joinTable: "DataSetsCategories",
+        lookup: {
+          "Category": {name: "U.S. Energy Information Administration"}
+        }
+      },
+      {
+        joinTable: "DataSetsDataTags",
+        lookup: {
+          "DataTag": {name: "Romulan"}
+        }
+      }
+    ]
   },
-
   {
     model: 'DataSet',
     data: {
@@ -48,14 +63,26 @@ module.exports = [
       vendorId: 3,
       updateFrequency: "Quarterly"
     },
-    associations: {
-      category: "U.S. Energy Information Administration",
-      dataTags: ["Romulan", "Zerg", "Protoss"],
-      dataPreviews: {
-        lookupColumn: "previewUrl",
-        values: "http://placehold.it/402x401"
+    associations: [
+      {
+        joinTable: "DataSetsCategories",
+        lookup: {
+          "Category": {name: "U.S. Energy Information Administration"}
+        }
+      },
+      {
+        joinTable: "DataSetsDataTags",
+        lookup: {
+          "DataTag": [{name: "Romulan"}, {name: "Zerg"}, {name: "Protoss"}]
+        }
+      },
+      {
+        joinTable: "DataSetsDataPreviews",
+        lookup: {
+          "DataPreview": {previewUrl: "http://placehold.it/402x401"}
+        }
       }
-    }
+    ]
   },
 
   {
@@ -69,14 +96,26 @@ module.exports = [
       vendorId: 1,
       updateFrequency: "Annually"
     },
-    associations: {
-      category: "U.S. Energy Information Administration",
-      dataTags: "Orc",
-      dataPreviews: {
-        lookupColumn: "previewUrl",
-        values: "http://placehold.it/403x401"
+    associations: [
+      {
+        joinTable: "DataSetsCategories",
+        lookup: {
+          "Category": {name: "U.S. Energy Information Administration"}
+        }
+      },
+      {
+        joinTable: "DataSetsDataTags",
+        lookup: {
+          "DataTag": [{name: "Orc"}]
+        }
+      },
+      {
+        joinTable: "DataSetsDataPreviews",
+        lookup: {
+          "DataPreview": {previewUrl: "http://placehold.it/403x401"}
+        }
       }
-    }
+    ]
   },
 
   {
@@ -90,14 +129,26 @@ module.exports = [
       vendorId: 1,
       updateFrequency: "Daily"
     },
-    associations: {
-      category: "U.S. Energy Information Administration",
-      dataTags: "Human",
-      dataPreviews: {
-        lookupColumn: "previewUrl",
-        values: "http://placehold.it/405x401"
+    associations: [
+      {
+        joinTable: "DataSetsCategories",
+        lookup: {
+          "Category": {name: "U.S. Energy Information Administration"}
+        }
+      },
+      {
+        joinTable: "DataSetsDataTags",
+        lookup: {
+          "DataTag": [{name: "Human"}]
+        }
+      },
+      {
+        joinTable: "DataSetsDataPreviews",
+        lookup: {
+          "DataPreview": {previewUrl: "http://placehold.it/405x401"}
+        }
       }
-    }
+    ]
   },
   {
     model: 'DataSet',
@@ -107,10 +158,20 @@ module.exports = [
       format: "XML",
       url: "http://www.quandl.com/api/v1/datasets/STATSCAN/CRIME.xml?&trim_start=1962-12-31&trim_end=2011-12-31&sort_order=desc"
     },
-    associations: {
-      category: "Federal Government",
-      dataTags: "Human"
-    }
+    associations: [
+      {
+        joinTable: "DataSetsCategories",
+        lookup: {
+          "Category": {name: "Federal Government"}
+        }
+      },
+      {
+        joinTable: "DataSetsDataTags",
+        lookup: {
+          "DataTag": [{name: "Human"}]
+        }
+      }
+    ]
   },
   {
     model: 'DataSet',
@@ -120,10 +181,20 @@ module.exports = [
       format: "JSON",
       url: "http://www.quandl.com/api/v1/datasets/FRED/CANPOPL.json?&trim_start=1960-01-01&trim_end=2011-01-01&sort_order=desc"
     },
-    associations: {
-      category: "Federal Government",
-      dataTags: ["Zerg", "Protoss"]
-    }
+    associations: [
+      {
+        joinTable: "DataSetsCategories",
+        lookup: {
+          "Category": {name: "Federal Government"}
+        }
+      },
+      {
+        joinTable: "DataSetsDataTags",
+        lookup: {
+          "DataTag": [{name: "Zerg"}, {name: "Protoss"}]
+        }
+      }
+    ]
   },
   {
     model: 'DataSet',
@@ -133,10 +204,20 @@ module.exports = [
       format: "CSV",
       url: "https://app.enigma.io/table/us.gov.opm.salaries.2011/#/california"
     },
-    associations: {
-      category: "Federal Government",
-      dataTags: ["Romulan", "Orc"]
-    }
+    associations: [
+      {
+        joinTable: "DataSetsCategories",
+        lookup: {
+          "Category": {name: "Federal Government"}
+        }
+      },
+      {
+        joinTable: "DataSetsDataTags",
+        lookup: {
+          "DataTag": [{name: "Romulan"}, {name: "Orc"}]
+        }
+      }
+    ]
   },
   {
     model: 'DataSet',
@@ -146,10 +227,20 @@ module.exports = [
       format: "XLS",
       url: "http://www.eia.gov/oog/ftparea/wogirs/xls/psw18vwall.xls"
     },
-    associations: {
-      category: "United States",
-      dataTags: ["Orc", "Protoss"]
-    }
+    associations: [
+      {
+        joinTable: "DataSetsCategories",
+        lookup: {
+          "Category": {name: "United States"}
+        }
+      },
+      {
+        joinTable: "DataSetsDataTags",
+        lookup: {
+          "DataTag": [{name: "Romulan"}, {name: "Protoss"}]
+        }
+      }
+    ]
   },
   {
     model: 'DataSet',
@@ -159,9 +250,19 @@ module.exports = [
       format: "CSV",
       url: "https://app.enigma.io/table/us.gov.frs.stlouis.fred.rieacc"
     },
-    associations: {
-      category: "United States",
-      dataTags: ["Zerg", "Human"]
-    }
+    associations: [
+      {
+        joinTable: "DataSetsCategories",
+        lookup: {
+          "Category": {name: "United States"}
+        }
+      },
+      {
+        joinTable: "DataSetsDataTags",
+        lookup: {
+          "DataTag": [{name: "Orc"}, {name: "Human"}]
+        }
+      }
+    ]
   }
 ];
