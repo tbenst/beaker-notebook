@@ -34,6 +34,17 @@ module.exports = function(app) {
         .catch(next);
     },
 
+    notebookContents: function(req, res, next) {
+      notebook.load({userId: req.user.id,
+        projectId: req.project.id,
+        name: req.params.notebook_name
+      })
+        .then(function(data) {
+          res.json(data.data);
+        })
+        .catch(next);
+    },
+
     update: function(req, res, next) {
       notebook.update({userId: req.user.id,
         projectId: req.project.id,
