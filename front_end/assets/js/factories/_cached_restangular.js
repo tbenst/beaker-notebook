@@ -1,9 +1,9 @@
 !(function(app) {
 
-  app.factory('CachedRestangular', function(Restangular) {
+  app.factory('CachedRestangular', ['Restangular', function(Restangular) {
     return Restangular.withConfig(function(RestangularConfigurer) {
       RestangularConfigurer.setDefaultHttpFields({cache: true});
     });
-  });
+  }]);
 
 })(window.bunsen);
