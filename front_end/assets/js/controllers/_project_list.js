@@ -1,6 +1,8 @@
 ;(function(angular, app) {
-  app.controller('projectsList', ['$scope', 'ProjectsFactory', function($scope, ProjectsFactory) {
-    ProjectsFactory.getProjects($scope).then(function(d) {
+  app.controller('projectsList', ['$scope', 'Factories', function($scope, Factories) {
+    var F = Factories;
+
+    F.Projects.getProjects($scope).then(function(d) {
       $scope.projects.list = d;
     });
   }]);
