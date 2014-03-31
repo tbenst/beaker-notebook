@@ -1,7 +1,8 @@
 !(function(angular, app) {
-  app.controller('projectEdit', ['$scope', '$state', 'ProjectsFactory', function($scope, $state, ProjectsFactory) {
+  app.controller('projectEdit', ['$scope', '$state', 'Factories', function($scope, $state, Factories) {
+    var F = Factories;
 
-    ProjectsFactory.getProject($state.params.id).then(function(d) {
+    F.Projects.getProject($state.params.id).then(function(d) {
       $scope.project = d;
     });
 
@@ -12,7 +13,7 @@
      }
 
     $scope.deleteProject = function() {
-      ProjectsFactory.deleteProject($state.params.id).then(function() {
+      F.Projects.deleteProject($state.params.id).then(function() {
         $state.go('projects.items');
       });
     };

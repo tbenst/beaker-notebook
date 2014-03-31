@@ -1,7 +1,7 @@
 !(function(app) {
 
-  app.factory('CategoriesFactory', function(Restangular) {
+  app.factory('CategoriesFactory', ['Restangular', function(Restangular) {
     return Restangular.one('categories').getList();
-  });
+  }]);
 
 })(window.bunsen);

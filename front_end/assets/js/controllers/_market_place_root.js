@@ -1,6 +1,6 @@
 !(function(app) {
 
-  app.controller('marketPlaceRoot', ['$scope', 'VendorsFactory', function($scope, VendorsFactory) {
+  app.controller('marketPlaceRoot', ['$scope', function($scope) {
     $scope.marketPlace  = {};
 
     $scope.vendorName = function(item) {

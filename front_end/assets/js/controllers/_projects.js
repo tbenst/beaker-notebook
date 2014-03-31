@@ -1,7 +1,9 @@
 ;(function(angular, app) {
-  app.controller('projects', ['$scope', 'ProjectsFactory', function($scope, ProjectsFactory) {
+  app.controller('projects', ['$scope', 'Factories', function($scope, Factories) {
+    var F = Factories;
+
     $scope.createProject = function() {
-      ProjectsFactory.createProject($scope.projects.list);
+      F.Projects.createProject($scope.projects.list);
     };
   }]);
 })(angular, window.bunsen);

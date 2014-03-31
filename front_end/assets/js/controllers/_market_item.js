@@ -1,13 +1,15 @@
 !(function(angular, app) {
-  app.controller('marketItem', ['$scope', '$state', 'DataSetsFactory','VendorsFactory', function($scope, $state, DataSetsFactory, VendorsFactory) {
+  app.controller('marketItem', ['$scope', '$state', 'Factories', function($scope, $state, Factories) {
+    var F = Factories;
+
     $scope.item = {};
 
-    DataSetsFactory.getDataSet($state.params.id).then(function(d) {
+    F.DataSets.getDataSet($state.params.id).then(function(d) {
       $scope.item = d;
       $scope.subscribed = !!(_.findWhere(d.users, {id: window.userID}));
     });
 
-    VendorsFactory.then(function(v) {
+    F.Vendors.then(function(v) {
       $scope.marketPlace.vendors = v;
     });
 

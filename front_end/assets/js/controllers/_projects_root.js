@@ -1,11 +1,13 @@
 !(function(app) {
 
-  app.controller('projectsRoot', ['$scope', 'ProjectsFactory', function($scope, ProjectsFactory) {
+  app.controller('projectsRoot', ['$scope', 'Factories', function($scope, Factories) {
+    var F = Factories;
+
     $scope.projects = {};
 
     $scope.$watch('projects.search', function(v) {
       if (v !== void(0)) {
-        ProjectsFactory.getProjects($scope, v).then(function(d) {
+        F.Projects.getProjects($scope, v).then(function(d) {
           $scope.projects.list = d;
         });
       }

@@ -1,6 +1,8 @@
 !(function(angular, app) {
 
-  app.controller('marketPlace', ['$scope', 'VendorsFactory', 'DataSetsFactory', 'RelatedTagsFactory', 'TagNormalizeService', 'TagsFactory', 'FormatsFactory', function($scope, VendorsFactory, DataSetsFactory, RelatedTagsFactory, TagNormalizeService, TagsFactory, FormatsFactory) {
+  app.controller('marketPlace', ['$scope', 'Factories', 'TagNormalizeService', function($scope, Factories, TagNormalizeService) {
+    var F = Factories;
+
     $scope.isSelected = function(value, model){
       if (model === void(0)) {
         return false;
@@ -29,15 +31,15 @@
     }
 
     function getDataSets() {
-      DataSetsFactory.getDataSets($scope.marketPlace).then(function(d) {
+      F.DataSets.getDataSets($scope.marketPlace).then(function(d) {
         $scope.marketPlace.data = d;
       });
 
-      DataSetsFactory.getCount($scope.marketPlace).then(function(count) {
+      F.DataSets.getCount($scope.marketPlace).then(function(count) {
         $scope.marketPlace.totalItems = count;
       });
 
-      RelatedTagsFactory.getTags($scope.marketPlace).then(function(tags) {
+      F.RelatedTags.getTags($scope.marketPlace).then(function(tags) {
         $scope.marketPlace.relatedTags = tags;
       });
 
@@ -54,15 +56,15 @@
     $scope.marketPlace.itemsPerPage = 10;
     $scope.marketPlace.maxSize = 5;
 
-    TagsFactory.then(function(d) {
+    F.Tags.then(function(d) {
       $scope.tags = d;
     });
 
-    FormatsFactory.getFormats().then(function(d) {
+    F.Formats.getFormats().then(function(d) {
       $scope.formats = d;
     });
 
-    VendorsFactory.then(function(v) {
+    F.Vendors.then(function(v) {
       $scope.marketPlace.vendors = v;
     });
 

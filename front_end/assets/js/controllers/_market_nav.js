@@ -1,6 +1,8 @@
 !(function(angular, app) {
 
-  app.controller('marketNav', ['$scope', '$state', 'DataSetsFactory', 'RelatedTagsFactory', 'CategoriesFactory', function($scope, $state, DataSetsFactory, RelatedTagsFactory, CategoriesFactory) {
+  app.controller('marketNav', ['$scope', '$state', 'Factories', function($scope, $state, Factories) {
+    var F = Factories;
+
     $scope.treeOptions = {
       nodeChildren: "children",
       dirSelectable: true,
@@ -9,11 +11,11 @@
     function getDataSets() {
       $scope.marketPlace.currentPage = 1;
 
-      DataSetsFactory.getDataSets($scope.marketPlace).then(function(d) {
+      F.DataSets.getDataSets($scope.marketPlace).then(function(d) {
         $scope.marketPlace.data = d;
       });
 
-      RelatedTagsFactory.getTags($scope.marketPlace).then(function(tags) {
+      F.RelatedTags.getTags($scope.marketPlace).then(function(tags) {
         $scope.marketPlace.relatedTags = tags;
       });
     }
@@ -43,7 +45,7 @@
       return _.contains($scope.marketPlace.tagScope, tag.id.toString());
     };
 
-    CategoriesFactory.then(function(treeData) {
+    F.Categories.then(function(treeData) {
       $scope.treeData = treeData;
     });
   }]);
