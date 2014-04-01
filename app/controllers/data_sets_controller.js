@@ -19,14 +19,8 @@ module.exports = function(app) {
 
   return {
     idParam: function(req, res, next, id) {
-      DataSet.find({
-        where: {id: req.params.data_set_id},
-        include: [
-          {model: Category, as: 'categories'},
-          {model: DataPreview, as: 'DataPreviews'},
-          {model: DataTag, as: "DataTags"}
-        ]
-      })
+      new DataSet({id: req.params.data_set_id})
+        .fetch({withRelated: ['categories', 'dataPreviews', 'dataTags']})
         .then(function(dataSet) {
           if (!dataSet) throw new Error('DataSet not found');
           req.dataSet = dataSet;
@@ -70,9 +64,8 @@ module.exports = function(app) {
     },
 
     get: function(req, res, next) {
-      req.dataSet.getUsers().then(function(users) {
-        req.dataSet['dataValues'].users = users;
-        res.json(req.dataSet);
+      req.dataSet.load('users').then(function(d) {
+        res.json(d);
       }).catch(next);
     },
 
