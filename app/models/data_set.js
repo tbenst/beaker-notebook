@@ -3,175 +3,129 @@ var _         = require('lodash'),
     W         = require('when'),
     Pipeline  = require('when/pipeline');
 
-module.exports = function(sequelize, DataTypes) {
-  var DataSet = sequelize.define('DataSet', {
-    title: DataTypes.STRING,
-    vendor: DataTypes.STRING,
-    description: DataTypes.TEXT,
-    url: DataTypes.STRING,
-    format: DataTypes.STRING,
-    rows: DataTypes.BIGINT,
-    lastUpdated: DataTypes.DATE,
-    vendorId: DataTypes.INTEGER,
-    updateFrequency: DataTypes.STRING
-  }, {
+module.exports = function(Bookshelf, app) {
+  var models = app.Models;
+  var query = Bookshelf.knex;
+
+  var DataSet = Bookshelf.Model.extend({
     tableName: 'DataSets',
-    classMethods: {
-      associate: function(models) {
-        DataSet.models = models;
 
-        DataSet.hasOne(models.Vendor, {
-          foreignKey: 'vendorId'
-        });
+    vendor: function() {
+      return this.hasOne(model.Vendor, 'vendorId')
+    },
 
-        DataSet.hasMany(models.User, {
-          through: "DataSetsUsers",
-          foreignKey: 'dataSetId'
-        });
+    users: function() {
+      return this.belongsToMany(models.User, 'DataSetsUsers', 'dataSetId', 'userId');
+    },
 
-        DataSet.hasMany(models.DataTag, {
-          as: "DataTags",
-          through: "DataSetsDataTags",
-          foreignKey: 'dataSetId'
-        });
+    dataPreviews: function() {
+      return this.belongsToMany(models.DataPreview, 'DataSetsDataPreviews', 'dataSetId', 'dataPreviewId');
+    },
 
-        DataSet.hasMany(models.DataPreview, {
-          as: "DataPreviews",
-          through: "DataSetsDataPreviews",
-          foreignKey: 'dataSetId'
-        });
+    dataTags: function() {
+      return this.belongsToMany(models.DataTag, 'DataSetsDataTags', 'dataSetId', 'dataTagId');
+    },
 
-        DataSet.hasMany(models.Category, {
-          as: 'categories',
-          through: 'DataSetsCategories',
-          foreignKey: 'dataSetId'
-        });
-      },
+    categories: function() {
+      return this.belongsToMany(models.Category, 'DataSetsCategories', 'dataSetId', 'categoryId');
+    }
+  }, {
 
-      findAllSql: function() {
-        var query =
-          "SELECT \"DataSets\".*\n" +
-          "FROM \"DataSets\"";
+    findAllSql: function() {
+      return query('DataSets').select().toString();
+    },
 
-        return query;
-      },
+    findMatchingSql: function(filters) {
+      return this.getQueries(filters).then(function(queries) {
+        if (queries.length === 0) {
+          return DataSet.findAllSql();
+        }
 
-      findMatchingSql: function(filters) {
-        return this.getQueries(filters).then(function(queries) {
-          if (queries.length === 0) {
-            return DataSet.findAllSql();
-          }
+        return queries.join("\nINTERSECT\n");
+      });
+    },
 
-          return queries.join("\nINTERSECT\n");
-        });
-      },
+    findMatching: function(filters, options) {
+      return this.findMatchingSql(filters).then(function(sql) {
+        return query().select()
+          .from(query.raw('(' + sql + ') AS matching'))
+          .limit(options['limit'])
+          .offset(options['offset']);
+      })
+    },
 
-      findMatching: function(filters, options) {
-        return this.findMatchingSql(filters).then(function(query) {
-          var paginatedQuery =
-            "SELECT * FROM (\n" +
-              query +
-            ") AS matching\n" +
-            "LIMIT :limit OFFSET :offset";
+    findMatchingCount: function(filters) {
+      return this.findMatchingSql(filters).then(function(sql) {
+        return query()
+          .count('matching.id AS matchingCount')
+          .from(query.raw('(' + sql + ') AS matching'));
+      });
+    },
 
-          return sequelize.query(paginatedQuery, DataSet, {}, options);
-        })
-      },
+    findMatchingTags: function(filters) {
+      return this.findMatchingSql(filters).then(function(sql) {
+        return query()
+          .select('DataTags.*')
+          .count('DataTags.id AS tagCount')
+          .from(query.raw('(' + sql + ') AS matching'))
+          .join('DataSetsDataTags', 'matching.id', '=', 'DataSetsDataTags.dataSetId')
+          .join('DataTags', 'DataTags.id', '=', 'DataSetsDataTags.dataTagId')
+          .groupBy('DataTags.id')
+          .orderBy('tagCount', 'DESC')
+          .limit(10).debug();
+      });
+    },
 
-      findMatchingCount: function(filters) {
-        return this.findMatchingSql(filters).then(function(query) {
-          var countQuery =
-            "SELECT COUNT(matching.id) AS \"matchingCount\" FROM (\n" +
-              query +
-            ") AS matching";
+    // loops over the filter keys to see if anything was passed via query params
+    // if something was loop over the query builders and build N queries.
+    getQueries: function(filters) {
+      var filterKeys  = ["vendorIDs", "categoryID", "tagIDs", "formats"];
 
-          return sequelize.query(countQuery, null, {raw: true}, {limit: null, offset: null});
-        });
-      },
+      return W.all(_(filterKeys).map(function(key) {
+        if (filters[key]) {
+          return this[key+"QueryBuilder"](decodeURIComponent(filters[key]));
+        }
+      }, this).compact().value());
+    },
 
-      findMatchingTags: function(filters) {
-        return this.findMatchingSql(filters).then(function(query) {
-          var tagsQuery =
-            "SELECT \"DataTags\".*, COUNT(\"DataTags\".id) AS tagCount FROM (\n" +
-              query +
-            ") AS matching\n" +
-            "INNER JOIN \"DataSetsDataTags\" ON matching.id = \"DataSetsDataTags\".\"dataSetId\"\n" +
-            "INNER JOIN \"DataTags\" ON \"DataTags\".id = \"DataSetsDataTags\".\"dataTagId\"\n" +
-            "GROUP BY \"DataTags\".id\n" +
-            "ORDER BY tagCount DESC\n" +
-            "LIMIT 10";
+    formatsQueryBuilder: function(names) {
+      return query('DataSets').select('DataSets.*')
+        .whereIn('format', names.split(",")).toString();
+    },
 
-          return sequelize.query(tagsQuery, null, {raw: true}, {limit: null, offset: null});
-        });
-      },
+    tagIDsQueryBuilder: function(ids) {
+      var numIds = _(ids).map(function(i) {return +i}).compact().value();
+      return query('DataSets').select('DataSets.*')
+        .join('DataSetsDataTags', 'DataSets.id', '=', 'DataSetsDataTags.dataSetId')
+        .whereIn('dataTagId', numIds).toString();
+    },
 
-      // loops over the filter keys to see if anything was passed via query params
-      // if something was loop over the query builders and build N queries.
-      getQueries: function(filters) {
-        var filterKeys  = ["vendorIDs", "categoryID", "tagIDs", "formats"];
+    vendorIDsQueryBuilder: function(ids) {
+      var numIds = _(ids).map(function(i) {return +i}).compact().value();
+      return query('DataSets').select('DataSets.*')
+        .whereIn('vendorId', numIds).toString();
+    },
 
-        return W.all(_(filterKeys).map(function(key) {
-          if (filters[key]) {
-            return this[key+"QueryBuilder"](decodeURIComponent(filters[key]))
-          }
-        }, this).compact().value());
-      },
+    categoryIDQueryBuilder: function(id){
+      var Category = models.Category;
 
-      formatsQueryBuilder: function(names) {
-        names = names.split(",").map(function(v){
-          return '\''+v+'\'';
-        }).join(',');
-
-        var query =
-          "SELECT \"DataSets\".* FROM \"DataSets\" \n"+
-          "WHERE \"DataSets\".\"format\" in (%s)";
-
-        return util.format(query, names);
-      },
-
-      tagIDsQueryBuilder: function(ids) {
-        var query =
-          "SELECT \"DataSets\".*\n" +
-          "FROM \"DataSets\"\n" +
-          "JOIN \"DataSetsDataTags\" on \"DataSets\".\"id\"=\"DataSetsDataTags\".\"dataSetId\" \n"+
-          "WHERE \"dataTagId\" IN (%s)";
-
-        return util.format(query, ids);
-      },
-
-      vendorIDsQueryBuilder: function(ids) {
-        var query =
-          "SELECT \"DataSets\".*\n" +
-          "FROM \"DataSets\"\n" +
-          "WHERE (\"DataSets\".\"vendorId\" IN (%s))";
-
-        return util.format(query, ids);
-      },
-
-      categoryIDQueryBuilder: function(id){
-        var Category = this.models.Category;
-
-        return Category.find({
-          where: {id: id}
-        }).then(function(category) {
-          return Category.findAll({where: ["path <@ ?", category.path]}) // ltree expression to find all categories that belong to a sub-tree which starts in the current category (including it)
-            .then(function(categories) {
-              var ids = _.map(categories, function(category) {
-                return category.id;
-              }).join(",");
-
-              var query =
-                "SELECT \"DataSets\".*\n" +
-                "FROM \"DataSets\"\n" +
-                "INNER JOIN \"DataSetsCategories\" ON \"DataSets\".id = \"DataSetsCategories\".\"dataSetId\" AND\n" +
-                "\"DataSetsCategories\".\"categoryId\" IN (%s)\n";
-
-              return util.format(query, ids);
-            });
-        });
-      }
+      return new Category({id: id}).fetch()
+        .then(function(category) {
+          return Category.collection()
+            .query('whereRaw', "path <@ '" + category.get('path') + "'") // ltree expression to find all categories that belong to a sub-tree which starts in the current category (including it)
+            .fetch()
+            .then(function(fetched) {
+              var ids = _.map(fetched.models, function(c) {return c.id});
+              return query('DataSets').select('DataSets.*')
+                .join('DataSetsCategories', 'DataSets.id', '=', 'DataSetsCategories.dataSetId')
+                .whereIn('categoryId', ids).toString();
+          });
+      });
     }
   });
 
-  return DataSet;
+  return {
+    name: "DataSet",
+    model: DataSet
+  }
 };
