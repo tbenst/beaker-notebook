@@ -22,8 +22,8 @@ module.exports.init = function(app) {
       return (file.indexOf('.') !== 0) && (file !== 'index.js')
     })
     .forEach(function(file) {
-      var model = sequelize.import(path.join(__dirname, file));
-      app.Models[model.name] = model;
+      var model = require(path.join(__dirname, file))(DB, app)
+      app.Models[model.name] = model.model;
     });
 
   app.DB = DB;
