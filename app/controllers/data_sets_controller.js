@@ -53,7 +53,7 @@ module.exports = function(app) {
     },
 
     create: function(req, res, next) {
-      DataSet.create({title: req.params.title})
+      new DataSet({title: req.params.title}).save()
         .then(function(dataSet) {
           res.json(dataSet);
         })
@@ -67,7 +67,7 @@ module.exports = function(app) {
     },
 
     update: function(req, res, next) {
-      req.dataSet.updateAttributes(req.body, ['title', 'vendor', 'description', 'url'])
+      req.dataSet.save(_.pick(req.body, 'title', 'vendor', 'description', 'url'), {patch: true})
         .then(function(dataSet) {
           res.json(dataSet);
         })
