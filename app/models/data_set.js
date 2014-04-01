@@ -31,6 +31,13 @@ module.exports = function(Bookshelf, app) {
     }
   }, {
 
+    formats: function() {
+      return query('DataSets')
+        .distinct('format')
+        .select()
+        .orderBy('format', 'ASC')
+    },
+
     findAllSql: function() {
       return query('DataSets').select().toString();
     },

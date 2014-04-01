@@ -47,10 +47,7 @@ module.exports = function(app) {
     },
 
     formatIndex: function(req, res, next) {
-      DataSet.findAll({
-        attributes: [DataSet.sequelize.fn('DISTINCT', DataSet.sequelize.col('format'))],
-        order: 'format ASC'
-      }).then(function(formats) {
+      DataSet.formats().then(function(formats) {
         res.json(_.pluck(formats, "format"));
       }).catch(next);
     },
