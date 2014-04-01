@@ -2,31 +2,103 @@ module.exports =  [
   {
     model: 'DataTag',
     data: {
-      name: "Human"
+      name: "Finance"
     }
   },
   {
     model: 'DataTag',
     data: {
-      name: "Orc"
+      name: "Energy"
     }
   },
   {
     model: 'DataTag',
     data: {
-      name: "Zerg"
+      name: "United States of America"
     }
   },
   {
     model: 'DataTag',
     data: {
-      name: "Protoss"
+      name: "Canada"
     }
   },
   {
     model: 'DataTag',
     data: {
-      name: "Romulan"
+      name: "Retail"
+    }
+  },
+  {
+    model: 'DataTag',
+    data: {
+      name: "Crime"
+    }
+  },
+  {
+    model: 'DataTag',
+    data: {
+      name: "Federal Government"
+    }
+  },
+  {
+    model: 'DataTag',
+    data: {
+      name: "Global"
+    }
+  },
+  {
+    model: 'DataTag',
+    data: {
+      name: "Credit Card"
+    }
+  },
+  {
+    model: 'DataTag',
+    data: {
+      name: "SEC"
+    }
+  },
+  {
+    model: 'DataTag',
+    data: {
+      name: "E-commerce"
+    }
+  },
+  {
+    model: 'DataTag',
+    data: {
+      name: "World Bank"
+    }
+  },
+  {
+    model: 'DataTag',
+    data: {
+      name: "Rhode Island"
+    }
+  },
+  {
+    model: 'DataTag',
+    data: {
+      name: "OPM"
+    }
+  },
+  {
+    model: 'DataTag',
+    data: {
+      name: "Population"
+    }
+  },
+  {
+    model: 'DataTag',
+    data: {
+      name: "Gas"
+    }
+  },
+  {
+    model: 'DataTag',
+    data: {
+      name: "Electricity"
     }
   }
 ]
