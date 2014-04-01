@@ -1,17 +1,10 @@
-module.exports = function(sequelize, DataTypes) {
-  var Vendor = sequelize.define('Vendor', {
-    name: DataTypes.STRING
-  }, {
-    tableName: 'Vendors',
-    classMethods: {
-      associate: function(models) {
-        Vendor.hasMany(models.DataSet, {
-          as: 'DataSets',
-          foreignKey: 'vendorId'
-        });
-      }
-    }
+module.exports = function(Bookshelf, app) {
+  var Vendor = Bookshelf.Model.extend({
+    tableName: "Vendors"
   });
 
-  return Vendor;
-};
+  return {
+    name: "Vendor",
+    model: Vendor
+  };
+}

@@ -19,14 +19,8 @@ module.exports = function(app) {
 
   return {
     idParam: function(req, res, next, id) {
-      DataSet.find({
-        where: {id: req.params.data_set_id},
-        include: [
-          {model: Category, as: 'categories'},
-          {model: DataPreview, as: 'DataPreviews'},
-          {model: DataTag, as: "DataTags"}
-        ]
-      })
+      new DataSet({id: req.params.data_set_id})
+        .fetch({withRelated: ['categories', 'dataPreviews', 'dataTags']})
         .then(function(dataSet) {
           if (!dataSet) throw new Error('DataSet not found');
           req.dataSet = dataSet;
@@ -53,16 +47,13 @@ module.exports = function(app) {
     },
 
     formatIndex: function(req, res, next) {
-      DataSet.findAll({
-        attributes: [DataSet.sequelize.fn('DISTINCT', DataSet.sequelize.col('format'))],
-        order: 'format ASC'
-      }).then(function(formats) {
+      DataSet.formats().then(function(formats) {
         res.json(_.pluck(formats, "format"));
       }).catch(next);
     },
 
     create: function(req, res, next) {
-      DataSet.create({title: req.params.title})
+      new DataSet({title: req.params.title}).save()
         .then(function(dataSet) {
           res.json(dataSet);
         })
@@ -70,14 +61,13 @@ module.exports = function(app) {
     },
 
     get: function(req, res, next) {
-      req.dataSet.getUsers().then(function(users) {
-        req.dataSet['dataValues'].users = users;
-        res.json(req.dataSet);
+      req.dataSet.load('users').then(function(d) {
+        res.json(d);
       }).catch(next);
     },
 
     update: function(req, res, next) {
-      req.dataSet.updateAttributes(req.body, ['title', 'vendor', 'description', 'url'])
+      req.dataSet.save(_.pick(req.body, 'title', 'vendor', 'description', 'url'), {patch: true})
         .then(function(dataSet) {
           res.json(dataSet);
         })

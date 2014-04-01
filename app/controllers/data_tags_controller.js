@@ -3,9 +3,7 @@ module.exports = function(app) {
 
   return {
     index: function(req, res, next) {
-      DataTag.findAll({
-        order: "name ASC"
-      }).then(function(datatags) {
+      DataTag.findAll().then(function(datatags) {
         res.json(datatags);
       }).catch(next);
     }

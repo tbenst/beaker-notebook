@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "migrate": "./node_modules/sequelize/bin/sequelize -m",
+    "migrate": "./node_modules/knex/bin/knex migrate:latest -v --environment=development",
     "seed": "node seed.js",
     "reseed": "dropdb 'bunsenDevelopment'; createdb 'bunsenDevelopment'; npm run-script migrate; npm run-script seed;",
     "debug": "node-debug app.js"
@@ -23,15 +23,15 @@
   "dependencies": {
     "jade": "1.1.5",
     "express": "3.4.8",
-    "sequelize": "1.7.0",
     "pg": "2.11.1",
     "lodash": "2.4.1",
-    "sequelize-fixtures": "0.1.0",
     "nodegit": "0.1.0",
     "mkdirp": "0.3.5",
     "when": "2.8.0",
     "glob": "3.2.9",
-    "inflection": "~1.3.5"
+    "inflection": "~1.3.5",
+    "knex": "git://github.com/samccone/knex.git#abb9e9f",
+    "bookshelf": "0.6.8"
   },
   "devDependencies": {
     "node-inspector": "0.7.0"

@@ -1,42 +1,37 @@
-var util = require('util');
+var _ = require("lodash");
 
-module.exports = function(sequelize, DataTypes) {
-  var Project = sequelize.define('Project', {
-    name: DataTypes.STRING,
-    description: DataTypes.TEXT
-  }, {
-    classMethods: {
-      associate: function(models) {
-        Project.belongsTo(models.User, {foreignKey: 'ownerId'});
-      },
-
-      findMatching: function(filters) {
-        var queries = [Project.findByUserSql(filters.userId)];
-
-        if (filters.filterBy !== void(0) && filters.filterBy.length) {
-          queries.push(Project.findBySearchParam(filters.filterBy));
-        }
-
-        return sequelize.query(queries.join("\nINTERSECT\n"));
-      },
-
-      findBySearchParam: function(searchTerm) {
-        var query =
-          "SELECT \"Projects\".* FROM \"Projects\"\n"+
-          "WHERE \"name\" ILIKE '%%%s%%' \n"
-
-        return util.format(query, searchTerm);
-      },
-
-      findByUserSql: function(userId) {
-        var query =
-          "SELECT \"Projects\".* FROM \"Projects\"\n"+
-          "WHERE \"ownerId\" = %d \n";
-
-        return util.format(query, userId);
-      },
-    }
+module.exports = function(Bookshelf) {
+  var query   = Bookshelf.knex;
+  var Project = Bookshelf.Model.extend({
+    tableName: "Projects"
   });
 
-  return Project;
-};
+  Project = _.extend(Project, {
+    findMatching: function(filters) {
+      var queries = [Project.findByUserId(filters.userId).toString()];
+
+      if (filters.filterBy !== void(0) && filters.filterBy.length) {
+        queries.push(Project.findBySearchParam(filters.filterBy).toString());
+      }
+
+      return query.raw(queries.join("\nINTERSECT\n"));
+    },
+
+    findByUserId: function(userId) {
+      return query("Projects")
+      .where("ownerId", "=", userId)
+      .select();
+    },
+
+    findBySearchParam: function(searchTerm) {
+      return query("Projects")
+      .where("name", "ILIKE", "%"+searchTerm+"%")
+      .select();
+    },
+  });
+
+  return {
+    name: "Project",
+    model: Project
+  }
+}

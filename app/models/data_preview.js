@@ -1,18 +1,10 @@
-module.exports = function(sequelize, DataTypes) {
-  var DataPreview = sequelize.define('DataPreview', {
-    previewUrl: DataTypes.STRING,
-    smallPreviewUrl: DataTypes.STRING
-  }, {
-    tableName: 'DataPreviews',
-    classMethods: {
-      associate: function(models) {
-        DataPreview.hasMany(models.DataSet, {
-          through: "DataSetsDataPreviews",
-          foreignKey: "dataPreviewId"
-        });
-      }
-    }
+module.exports = function(Bookshelf, app) {
+  var DataPreview = Bookshelf.Model.extend({
+    tableName: "DataPreviews"
   });
 
-  return DataPreview;
-};
+  return {
+    name: "DataPreview",
+    model: DataPreview
+  };
+}

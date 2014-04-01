@@ -3,7 +3,7 @@ module.exports = function(app) {
 
   return {
     idParam: function(req, res, next) {
-      Vendor.find({where: {id: req.params.vendor_id}})
+      new Vendor({id: req.params.vendor_id}).fetch()
         .then(function(vendor) {
           if (!vendor) {
             throw new Error('vendor not found');
@@ -18,11 +18,13 @@ module.exports = function(app) {
     },
 
     index: function(req, res, next) {
-      Vendor.findAll({
-        order: "name ASC"
-      }).then(function(vendors) {
-        res.json(vendors);
-      }).catch(next);
+      app.DB.knex('Vendors')
+            .select()
+            .orderBy("name", "ASC")
+            .then(function(vendors){
+              res.json(vendors)
+            })
+            .catch(next);
     }
   }
 }

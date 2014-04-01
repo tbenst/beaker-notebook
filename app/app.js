@@ -64,11 +64,7 @@ function appConfig(app) {
 }
 
 function appStart() {
-  app.sequelize
-    .authenticate()
-    .then(function() {
-      http.createServer(app).listen(app.get('port'), function() {
-        console.log('Bunsen server listening on port ' + app.get('port'));
-      })
-    });
+  http.createServer(app).listen(app.get('port'), function() {
+    console.log('Bunsen server listening on port ' + app.get('port'));
+  })
 };
