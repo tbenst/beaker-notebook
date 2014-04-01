@@ -1,19 +1,25 @@
-module.exports = function(sequelize, DataTypes) {
-  var User = sequelize.define('User', {
-    name: DataTypes.STRING,
-    email: DataTypes.STRING
-  }, {
-    classMethods: {
-      associate: function(models) {
-        User.hasMany(models.Project, {foreignKey: 'ownerId'});
-        User.hasMany(models.DataSet, {
-          as: 'subscriptions',
-          through: 'DataSetsUsers',
-          foreignKey: 'userId'
-        });
-      }
+var _ = require("lodash");
+
+module.exports = function(Bookshelf, app) {
+  var query   = Bookshelf.knex;
+  var Models  = app.Models
+  var User    = Bookshelf.Model.extend({
+    tableName: "Users",
+
+    projects: function(id) {
+      return this.hasMany(Models.Project, 'ownerId')
     }
   });
 
-  return User;
+  User = _.extend(User, {
+    findOneWhere: function(attrs) {
+      return User.forge(attrs)
+      .fetch()
+    }
+  });
+
+  return {
+    name: "User",
+    model: User
+  };
 };

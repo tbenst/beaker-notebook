@@ -4,14 +4,16 @@ module.exports = function(app) {
 
   return {
     userIdParam: function(req, res, next) {
-      User.find({where: {id: req.params.user_id}})
-        .then(function(user) {
-          if (!user) {
-            throw new Error('User not found');
-          }
-          req.user = user;
-        })
-        .done(next, next);
+      User.findOneWhere({
+        id: req.params.user_id
+      })
+      .then(function(user) {
+        if (typeof user === void(0)) {
+          throw new Error('User not found');
+        }
+        req.user = user;
+      })
+      .done(next, next);
     },
 
     subscribe: function(req, res, next) {
