@@ -23,6 +23,12 @@ module.exports = [
         }
       },
       {
+        joinTable: "DataSetsDataPreviews",
+        lookup: {
+          "DataPreview": {previewUrl: "http://i.imgur.com/fONsbsm.png"}
+        }
+      },
+      {
         foreignKey: "vendorId",
         lookup: {
           "Vendor": [{name: "Consumer Financial Protection Bureau"}]
@@ -52,6 +58,12 @@ module.exports = [
         joinTable: "DataSetsDataTags",
         lookup: {
           "DataTag": [{name: "Electricity"}, {name: "United States of America"}]
+        }
+      },
+      {
+        joinTable: "DataSetsDataPreviews",
+        lookup: {
+          "DataPreview": {previewUrl: "http://i.imgur.com/le8XFL4.png"}
         }
       },
       {
@@ -88,7 +100,7 @@ module.exports = [
       {
         joinTable: "DataSetsDataPreviews",
         lookup: {
-          "DataPreview": {previewUrl: "http://placehold.it/402x401"}
+          "DataPreview": {previewUrl: "http://i.imgur.com/5vJCgLB.png"}
         }
       },
       {
@@ -121,12 +133,6 @@ module.exports = [
         joinTable: "DataSetsDataTags",
         lookup: {
           "DataTag": [{name: "Energy"}, {name: "Gas"}, {name: "United States of America"}]
-        }
-      },
-      {
-        joinTable: "DataSetsDataPreviews",
-        lookup: {
-          "DataPreview": {previewUrl: "http://placehold.it/403x401"}
         }
       },
       {
@@ -164,7 +170,7 @@ module.exports = [
       {
         joinTable: "DataSetsDataPreviews",
         lookup: {
-          "DataPreview": {previewUrl: "http://placehold.it/405x401"}
+          "DataPreview": {previewUrl: "http://i.imgur.com/le8XFL4.png"}
         }
       },
       {
@@ -198,6 +204,12 @@ module.exports = [
         }
       },
       {
+        joinTable: "DataSetsDataPreviews",
+        lookup: {
+          "DataPreview": [{previewUrl: "http://i.imgur.com/ysvXMls.png"},{previewUrl: "http://i.imgur.com/TdlcDJN.png"}]
+        }
+      },
+      {
         foreignKey: "vendorId",
         lookup: {
           "Vendor": [{name: "Statistics Canada"}]
@@ -228,6 +240,12 @@ module.exports = [
         }
       },
       {
+        joinTable: "DataSetsDataPreviews",
+        lookup: {
+          "DataPreview": [{previewUrl: "http://i.imgur.com/WjmLQ9E.png"},{previewUrl: "http://i.imgur.com/mviEQ84.png"}]
+        }
+      },
+      {
         foreignKey: "vendorId",
         lookup: {
           "Vendor": [{name: "Federal Reserve Economic Data"}]
@@ -255,6 +273,12 @@ module.exports = [
         joinTable: "DataSetsDataTags",
         lookup: {
           "DataTag": [{name: "OPM"}, {name: "Federal Government"}]
+        }
+      },
+      {
+        joinTable: "DataSetsDataPreviews",
+        lookup: {
+          "DataPreview": {previewUrl: "http://i.imgur.com/au8ord4.png"}
         }
       },
       {
@@ -315,6 +339,12 @@ module.exports = [
         joinTable: "DataSetsDataTags",
         lookup: {
           "DataTag": [{name: "Retail"}, {name: "Rhode Island"}]
+        }
+      },
+      {
+        joinTable: "DataSetsDataPreviews",
+        lookup: {
+          "DataPreview": [{previewUrl: "http://i.imgur.com/k09bJrs.png"},{previewUrl: "http://i.imgur.com/C38Q3wV.png"}]
         }
       },
       {
@@ -405,6 +435,12 @@ module.exports = [
         joinTable: "DataSetsDataTags",
         lookup: {
           "DataTag": [{name: "Finance"}, {name: "SEC"}]
+        }
+      },
+      {
+        joinTable: "DataSetsDataPreviews",
+        lookup: {
+          "DataPreview": {previewUrl: "http://i.imgur.com/ZQ4q7RA.png"}
         }
       },
       {
