@@ -10,13 +10,18 @@
 
     br
 
-    h2 Details
+    h2
+      b Details
     .format Format: {{item.format}}
     .released Released: {{item.createdAt | date: 'dd/MM/yyyy'}}
     .last-updated Updated: {{item.updatedAt | date: 'dd/MM/yyyy'}}
     .update-frequency Update Frequency {{item.updateFrequency}}
     .categories Categories: {{item.categories | names}}
     .start-date(ng-show="item.startDate !== null") Data Start Date: {{item.startDate | date: 'dd/MM/yyyy'}}
+    .tags
+      p Tags:
+      span(ng-repeat="tag in item.dataTags") {{tag.name}}{{$last ? '' : ', '}}
+
 
   span {{item.vendor}}
   hr
@@ -25,11 +30,3 @@
     li(ng-repeat="preview in item.dataPreviews")
       a(ng-href="{{preview.previewUrl}}", target="_blank")
         img(ng-src="{{preview.smallPreviewUrl}}")
-  hr
-  .label-pair
-    label
-      b data tags
-    br
-    dl
-      dt(ng-repeat="tag in item.dataTags") {{tag.name}}
-
