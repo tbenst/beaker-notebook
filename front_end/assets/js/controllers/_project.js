@@ -1,6 +1,7 @@
 !(function(angular, app) {
   app.controller('project', ['$scope', '$state', 'Factories', function($scope, $state, Factories) {
     var F = Factories;
+    $scope.editMode = false;
 
     F.Projects.getProject($state.params.id).then(function(d) {
       $scope.project = d;
@@ -16,6 +17,16 @@
     $scope.$watch('updatedAt + notebookUpdated', function() {
       $scope.lastUpdated = new Date(Math.max($scope.updatedAt, $scope.notebookUpdated));
     });
+
+    $scope.editProject = function() {
+      $scope.editMode = true;
+    };
+
+    $scope.updateProject = function() {
+      $scope.project.put().then(function() {
+        $scope.editMode = false;
+      });
+    }
 
   }]);
 })(angular, window.bunsen);

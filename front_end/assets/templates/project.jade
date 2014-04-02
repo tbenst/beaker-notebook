@@ -1,14 +1,20 @@
 .project-detail.col-half
-  h1.project-name
-    b {{project.name}}
-  br
+  .col-three-quarters
+    h1.project-name
+      b(ng-hide="editMode") {{project.name}}
+      input(name="name", ng-model="project.name", ng-show="editMode")
+
+  .col-quarter
+    a.btn.edit-project(ng-click="editProject()" ng-hide="editMode") edit
+    a.btn.update-project(ng-click="updateProject()" ng-show="editMode") save
+  .cl
 
   h2
     b Project Stats
   .last-updated Last updated: {{lastUpdated | date: 'short'}}
   .last-executed Last executed: {{project.lastExecuted || "N/A" | date: 'short'}}
   .commits Commits: {{numCommits}}
-  a.btn.edit-project(ui-sref="projects.projectEdit({id: project.id})") edit project
+
   .cl
   br
 
@@ -27,6 +33,7 @@
 .col-quarter
   h2
     b About this project
-  p.project-description {{project.description}}
+  p(ng-hide="editMode").project-description {{project.description}}
+  textarea(name="description", ng-model="project.description" ng-show="editMode")
 
 .cl
