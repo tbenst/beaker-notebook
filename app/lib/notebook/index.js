@@ -19,7 +19,7 @@ module.exports.create = function(options) {
     .then(git.init.bind(git))
     .then(git.addToIndex.bind(git, [notebook['file']]))
     .then(function(oid) {
-      git.commit(oid, []);
+      return git.commit(oid, []);
     });
 };
 
@@ -34,7 +34,7 @@ module.exports.update = function(options) {
     .then(function(oid) {
       return git.head()
         .then(function(parent) {
-          git.commit(oid, [parent]);
+          return git.commit(oid, [parent]);
         });
     });
 };

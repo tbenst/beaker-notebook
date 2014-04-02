@@ -64,6 +64,7 @@ _.extend(Git.prototype, {
     return nodefn.call(this.repo.createCommit.bind(this.repo), 'HEAD', author, committer, 'Saved Beaker notebook', oid, parent)
       .then(function(commitId) {
         console.log("New Commit:", commitId.sha());
+        return commitId;
       });
   },
 
