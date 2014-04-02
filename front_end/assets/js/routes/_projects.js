@@ -44,15 +44,5 @@
         }
       }
     });
-
-    $stateProvider.state('projects.projectEdit', {
-      url: '/projects/:id/edits',
-      views: {
-        "app@projects": {
-          controller: 'projectEdit',
-          template: templates.project_edit
-        }
-      }
-    });
   }]);
 })(angular, window.bunsen, templates);
