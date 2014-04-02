@@ -2,6 +2,7 @@ var Git = require('./git'),
     util = require('util'),
     path = require('path'),
     fs = require('fs'),
+    cnst = require('constants'),
     nodefn = require("when/node/function"),
     mkdirp = require("mkdirp"),
     getDirName = require("path").dirname,
@@ -9,13 +10,19 @@ var Git = require('./git'),
     when = require('when'),
     keys = require('when/keys');
 
+// File open mode for creating notebook files, will fail if the file already exists
+// More info on the const values: http://man7.org/linux/man-pages/man2/open.2.html
+var RDWR_EXCL = cnst.O_CREAT | cnst.O_TRUNC | cnst.O_RDWR | cnst.O_EXCL;
 
 // Create new notebook repo
 module.exports.create = function(options) {
   var notebook = notebookFile(options['userId'], options['projectId'], options['name']);
   var git = new Git(notebook['dir']);
 
-  return writeFile(notebook['path'], options['data'])
+  return writeFile(notebook['path'], RDWR_EXCL, options['data'])
+    .then(git.init.bind(git), function(e) {
+      throw new Error("A notebook with '" + options['name'] + "' name already exists within this project");
+    })
     .then(git.init.bind(git))
     .then(git.addToIndex.bind(git, [notebook['file']]))
     .then(function(oid) {
@@ -28,7 +35,7 @@ module.exports.update = function(options) {
   var notebook = notebookFile(options['userId'], options['projectId'], options['name']);
   var git = new Git(notebook['dir']);
 
-  return writeFile(notebook['path'], options['data'])
+  return writeFile(notebook['path'], 'w', options['data'])
     .then(git.open.bind(git))
     .then(git.addToIndex.bind(git, [notebook['file']]))
     .then(function(oid) {
@@ -77,10 +84,10 @@ function notebookFile(userId, projectId, name) {
   };
 }
 
-function writeFile(filePath, contents) {
+function writeFile(filePath, flag, contents) {
   var data = JSON.stringify(contents, null, 4);
   return nodefn.call(mkdirp, getDirName(filePath))
-     .then(nodefn.lift(fs.writeFile, filePath, data, {encoding: 'utf8'}));
+     .then(nodefn.lift(fs.writeFile, filePath, data, {flag: flag, encoding: 'utf8'}));
 }
 
 function readFile(filePath) {
