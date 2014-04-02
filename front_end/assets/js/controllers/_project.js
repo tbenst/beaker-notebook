@@ -28,5 +28,10 @@
       });
     }
 
+    $scope.deleteProject = function() {
+      F.Projects.deleteProject($state.params.id).then(function() {
+        $state.go('projects.items');
+      });
+    };
   }]);
 })(angular, window.bunsen);
