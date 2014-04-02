@@ -1,10 +1,16 @@
 .project-detail.col-half
-  h1.project-name {{project.name}}
-  p.project-description {{project.description}}
+  h1.project-name
+    b {{project.name}}
+  br
+
+  h2
+    b Project Stats
   .commits Commits: {{numCommits}}
   .last-updated Last updated: {{lastUpdated | date: 'short'}}
   .last-executed Last executed: {{project.lastExecuted || "N/A" | date: 'short'}}
   a.btn.edit-project(ui-sref="projects.projectEdit({id: project.id})") edit project
+  .cl
+  br
 
   h3 Notebooks
   ul
@@ -18,3 +24,9 @@
       .col-quarter Commits: {{notebook.numCommits}}
       .cl
 
+.col-quarter
+  h2
+    b About this project
+  p.project-description {{project.description}}
+
+.cl
