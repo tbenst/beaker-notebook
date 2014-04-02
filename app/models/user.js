@@ -5,6 +5,7 @@ module.exports = function(Bookshelf, app) {
   var Models  = app.Models
   var User    = Bookshelf.Model.extend({
     tableName: "Users",
+    hasTimestamp: true,
 
     projects: function(id) {
       return this.hasMany(Models.Project, 'ownerId')

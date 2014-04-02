@@ -9,6 +9,7 @@ module.exports = function(Bookshelf, app) {
 
   var DataSet = Bookshelf.Model.extend({
     tableName: 'DataSets',
+    hasTimestamp: true,
 
     vendor: function() {
       return this.hasOne(model.Vendor, 'vendorId')
