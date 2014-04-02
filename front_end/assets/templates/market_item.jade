@@ -1,7 +1,6 @@
 .col-half
-  .btn-group
-    .btn(ng-click="subscribed ? unsubscribe() : subscribe()") {{subscribed ? "unsubscribe" : "subscribe"}}
-  h1 {{item.title}}
+  h1
+    b {{item.title}}
   p {{item.description}}
   .label-pair
     label vendor
@@ -30,3 +29,8 @@
     li(ng-repeat="preview in item.dataPreviews")
       a(ng-href="{{preview.previewUrl}}", target="_blank")
         img(ng-src="{{preview.smallPreviewUrl}}")
+
+.col-quarter
+  .btn-group
+    .btn(ng-click="subscribed ? unsubscribe() : subscribe()") {{subscribed ? "unsubscribe" : "subscribe"}}
+
