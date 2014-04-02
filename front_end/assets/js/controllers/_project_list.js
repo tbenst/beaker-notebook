@@ -5,5 +5,9 @@
     F.Projects.getProjects($scope).then(function(d) {
       $scope.projects.list = d;
     });
+
+    $scope.createProject = function() {
+      F.Projects.createProject($scope.projects.list);
+    };
   }]);
 })(angular, window.bunsen);
