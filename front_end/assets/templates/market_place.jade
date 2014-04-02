@@ -1,31 +1,42 @@
-h1 bunsen market place
+h1 Bunsen marketplace
 
-.col-half
-  input(type="text", ng-model="filterBy", placeholder="Search for Data")
+.col-three-quarters
   h4 {{(marketPlace.data | filter:filterBy).length}} results
-  .label-pair.col-quarter
-    label
-      b vendors
-    br
-    select(multiple="multiple", ng-model="marketPlace.vendorScope")
-      option(ng-repeat="v in marketPlace.vendors", value="{{v.id}}", ng-selected="isSelected(v.id, marketPlace.vendorScope)") {{v.name}}
+  .col-half
+    .label-pair.col-three-quarters
+      label
+        b vendors
+      br
+      select(multiple="multiple", ng-model="marketPlace.vendorScope")
+        option(ng-repeat="v in marketPlace.vendors", value="{{v.id}}", ng-selected="isSelected(v.id, marketPlace.vendorScope)") {{v.name}}
 
-  .label-pair.col-quarter
-    label
-      b tags
-    br
-    select(multiple="multiple", ng-model="marketPlace.tagScope")
-      option(ng-repeat="v in marketPlace.relatedTags", value="{{v.id}}", ng-selected="isSelected(v.id, marketPlace.tagScope)") {{v.name}}
+    .label-pair.col-quarter
+      label
+        b format
+      br
+      select(multiple="multiple", ng-model="marketPlace.typeScope")
+        option(ng-repeat="v in formats", value="{{v}}", ng-selected="isSelected(v, marketPlace.typeScope)") {{v}}
 
-  .label-pair.col-quarter
-    label
-      b types
-    br
-    select(multiple="multiple", ng-model="marketPlace.typeScope")
-      option(ng-repeat="v in formats", value="{{v}}", ng-selected="isSelected(v, marketPlace.typeScope)") {{v}}
+
+  .col-half
+    .label-pair.col-half
+      label
+        b tags
+      br
+      select(multiple="multiple", ng-model="marketPlace.tagScope")
+        option(ng-repeat="v in marketPlace.relatedTags", value="{{v.id}}", ng-selected="isSelected(v.id, marketPlace.tagScope)") {{v.name}}
+
+    .label-pair.col-quarter
+      label
+        b search
+      br
+      input(type="text", ng-model="filterBy", placeholder="Search for Data")
+
 
   ul.cl.current-filters
     li.tag.filter(ng-repeat="filter in currentFilters", ng-click="removeFilter(filter.value, filter.model)") {{filter.name}} ✖
+  br
+  br
   ul
     li(ng-repeat="item in marketPlace.data | filter:filterBy ")
       p
@@ -33,10 +44,11 @@ h1 bunsen market place
           a(ui-sref="marketPlace.items.item({id: item.id})") {{item.title}}
           p.description {{item.description | limitTo:100}}...
           .vendor Publisher: {{vendorName(item)}}
-          .format Format: {{item.format}}
         .col-quarter
+          .format Format: {{item.format}}
           .last-updated Updated: {{item.updatedAt | date: 'dd/MM/yyyy'}}
         .cl
+      br
 
   br
   pagination(page="marketPlace.currentPage" max-size="marketPlace.maxSize" items-per-page="marketPlace.itemsPerPage" total-items="marketPlace.totalItems")
