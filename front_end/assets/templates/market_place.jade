@@ -33,10 +33,11 @@ h1 bunsen market place
           a(ui-sref="marketPlace.items.item({id: item.id})") {{item.title}}
           p.description {{item.description | limitTo:100}}...
           .vendor Publisher: {{vendorName(item)}}
-          .format Format: {{item.format}}
         .col-quarter
+          .format Format: {{item.format}}
           .last-updated Updated: {{item.updatedAt | date: 'dd/MM/yyyy'}}
         .cl
+      br
 
   br
   pagination(page="marketPlace.currentPage" max-size="marketPlace.maxSize" items-per-page="marketPlace.itemsPerPage" total-items="marketPlace.totalItems")
