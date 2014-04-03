@@ -22,9 +22,29 @@ module.exports = function() {
   });
 
   this.Given(/^I'm looking at a project$/, function() {
-    var projectData = {name: 'My Project', description: 'desc', ownerId: 1};
-    return this.seed('Project', projectData).then(function(projects) {
-      this.driver.get(this.route.forProject(projects[0]));
+    var _this       = this;
+    var projectData = {
+      model: "Project",
+      data: {
+        name: 'My Project',
+        description: 'desc'
+      },
+      associations: [
+        {
+          foreignKey: "ownerId",
+          lookup: {
+            User: {email: "u@r.edu"}
+          }
+        }
+      ]
+    };
+
+    return this.seed(projectData).then(function(Models) {
+      return Models.Project.forge(projectData.data)
+      .fetch()
+      .then(function(project) {
+        return _this.driver.get(_this.route.forProject(project));
+      });
     }.bind(this));
   });
 
