@@ -10,10 +10,5 @@ module.exports.init = function(app) {
   require('./vendor_routes.js')(app);
   require('./tag_routes.js')(app);
 
-  if (_.contains(['test', 'development'], app.get('env'))) {
-    console.log("Disabling security due to " + app.get('env') + " env; enabling seed route.");
-    require('./seeds_routes.js')(app);
-  }
-
   return app;
 };
