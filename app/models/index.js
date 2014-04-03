@@ -1,4 +1,6 @@
-module.exports.init = function(app) {
+module.exports.init = function(app, configPath) {
+  var configPath = configPath || '../config.js';
+
   app.Models = app.Models || {};
 
   var fs      = require('fs'),
@@ -8,9 +10,9 @@ module.exports.init = function(app) {
     config    = {};
 
   try {
-    config = require('../config.js');
+    config = require(configPath);
   } catch(e) {
-    throw new Error('Error reading config from config.js')
+    throw new Error('Error reading config from '+configPath)
   }
 
   config = config[app.get('env')] || config["development"];

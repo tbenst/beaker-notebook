@@ -1,7 +1,6 @@
 var _  = require('lodash');
 
 module.exports = function(app) {
-
   var DataSet = app.Models.DataSet,
       Category = app.Models.Category,
       DataPreview = app.Models.DataPreview,

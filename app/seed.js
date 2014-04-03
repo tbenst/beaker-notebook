@@ -1,35 +1,18 @@
 express       = require('express'),
 app           = express(),
-models        = require('./models'),
 _             = require('lodash'),
 when          = require('when'),
 sequence      = require('when/sequence'),
 util          = require('util'),
 inflection    = require('inflection'),
-notebook      = require('./lib/notebook'),
-notebookData  = require('./seed_files/notebooks.json');
+App           = undefined;
 
-var data = Array.prototype.concat(
-  require('./seed_files/users'),
-  require('./seed_files/projects'),
-  require('./seed_files/vendors'),
-  require('./seed_files/data_previews'),
-  require('./seed_files/data_tags'),
-  require('./seed_files/categories'),
-  require('./seed_files/data_sets')
-);
+module.exports = function(data, configPath) {
+  // load the app models
+  // with an optional config path
+  App         = App || (require('./models').init(app, configPath));
+  var models  = App.Models;
 
-models.init(app);
-
-loadFixtures(data, app.Models).then(function() {
-  return createNotebooks(app.Models);
-})
-.done(function() {
-  console.log("DB seeded.")
-  process.exit();
-});
-
-function loadFixtures(data, models) {
   // fixtures need to happen in order
   // so we have to use sequence here
   return sequence(_(data).flatten().map(function(d) {
@@ -46,6 +29,25 @@ function loadFixtures(data, models) {
                 return model.save();
               });
       }, d);
+  }).value()).then(function() {
+    // after we are done return the models array
+    // to allow people to do things after the seed is done
+    return models;
+  });
+}
+
+module.exports.dropAll = function(configPath) {
+  App         = App || (require('./models').init(app, configPath));
+  var models  = app.Models;
+
+  // we need to sequence the truncations
+  // to prevent too many open connections to the
+  // database at once, otherwise knex complains and
+  // bombs out.
+  return sequence(_(models).keys().map(function(modelName) {
+    return _.partial(function(name) {
+      return App.DB.knex(inflection.pluralize(name)).truncate();
+    }, modelName)
   }).value());
 }
 
@@ -101,7 +103,7 @@ function setRelationshipStore(joinTable, lookupModelKey, lookupModel, modelName,
   }
 }
 
-function createRelationRecord(modelName, modelName2, id, id2,  joinTable) {
+function createRelationRecord(modelName, modelName2, id, id2, joinTable) {
   var cm    = inflection.camelize;
   var attrs = {};
   attrs[cm(modelName, true)+"Id"]  = id;
@@ -118,18 +120,4 @@ function setJoinedRelationship(joinTable, attrs) {
   return (new JoinModel(attrs)).save()
 }
 
-function createNotebooks(models) {
-  return new models.User({email: 'dummy@example.com'}).fetch()
-    .then(function(user) {
-      return user.projects().fetch()
-        .then(function(projects) {
-          return when.map(notebookData, function(n) {
-            return notebook.create({userId: user.id,
-              projectId: projects.models[0].id,
-              name: n.name,
-              data: n.data
-            });
-          });
-        });
-    });
-}
+
