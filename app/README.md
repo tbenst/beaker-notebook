@@ -21,6 +21,14 @@ This task will drop the development DB, recreate it, run migrations, and then re
 
 * `npm run-script reseed`
 
+## Migrate per ENV
+
+It is quite simple to change your migration
+target via the NODE_ENV variable.
+
+* `NODE_ENV="test" npm run-script migrate`
+* `NODE_ENV="development" npm run-script migrate`
+
 ### Problems migrating / seeding ?
 The reality is, sometimes things go very wrong with your database. Here are some steps to recover from a place that you might find yourself in.
 
@@ -29,4 +37,3 @@ The reality is, sometimes things go very wrong with your database. Here are some
 * `npm run-script migrate`
 * `npm run-script seed`
 * take a deep breath
-

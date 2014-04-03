@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "migrate": "./node_modules/knex/bin/knex migrate:latest -v --environment=development",
-    "seed": "node seed.js",
+    "migrate": "node migrate.js",
+    "seed": "node app_seed.js",
     "reseed": "dropdb 'bunsenDevelopment'; createdb 'bunsenDevelopment'; rm -rf repos; npm run-script migrate; npm run-script seed;",
     "debug": "node-debug app.js"
   },
