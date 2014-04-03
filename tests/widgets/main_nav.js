@@ -3,7 +3,7 @@ module.exports = function() {
     root: '.main-nav',
 
     visitProjects: function() {
-      this.click('.projects');
+      return this.click('.projects');
     }
   });
 };
