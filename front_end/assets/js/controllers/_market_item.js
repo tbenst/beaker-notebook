@@ -1,5 +1,6 @@
 !(function(angular, app) {
-  app.controller('marketItem', ['$scope', '$state', 'Factories', function($scope, $state, Factories) {
+  app.controller('marketItem', ['$scope', '$state', 'Factories', 'Restangular', function($scope, $state, Factories, Restangular) {
+    var R = Restangular;
     var F = Factories;
 
     $scope.item = {};
