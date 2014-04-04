@@ -57,7 +57,7 @@ function setAssociations(model, modelName, associations, models) {
   }
 
   return when.map(associations, function(association) {
-    setAssociation.apply(this, args.concat(association))
+    return setAssociation.apply(this, args.concat(association))
   })
   .then(function() {
     return model;
@@ -76,8 +76,12 @@ function setAssociation(model, modelName, associations, models, assoc) {
     .forge(data)
     .fetch()
     .then(function(lookupModel) {
-      return setRelationshipStore(assoc['joinTable'], lookupModelKey,
-                                  lookupModel, modelName, model, assoc)
+      if (lookupModel == null) {
+        throw(new Error("Association Model "+ lookupModelKey +" Lookup not found with attributes " + JSON.stringify(data, null, 4)))
+      } else {
+        return setRelationshipStore(assoc['joinTable'], lookupModelKey,
+                                    lookupModel, modelName, model, assoc)
+      }
     });
   }));
 }
