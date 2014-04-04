@@ -7,24 +7,20 @@ h1 Bunsen marketplace
       label
         b vendors
       br
-      select(multiple="multiple", ng-model="marketPlace.vendorScope")
-        option(ng-repeat="v in marketPlace.vendors", value="{{v.id}}", ng-selected="isSelected(v.id, marketPlace.vendorScope)") {{v.name}}
+      select(multiple="multiple", ng-model="marketPlace.vendorScope" ng-options="vendor.id as vendor.name for vendor in marketPlace.vendors")
 
     .label-pair.col-quarter
       label
         b format
       br
-      select(multiple="multiple", ng-model="marketPlace.typeScope")
-        option(ng-repeat="v in formats", value="{{v}}", ng-selected="isSelected(v, marketPlace.typeScope)") {{v}}
-
+      select(multiple="multiple", ng-model="marketPlace.typeScope" ng-options="format for format in formats")
 
   .col-half
     .label-pair.col-half
       label
         b tags
       br
-      select(multiple="multiple", ng-model="marketPlace.tagScope")
-        option(ng-repeat="v in marketPlace.relatedTags", value="{{v.id}}", ng-selected="isSelected(v.id, marketPlace.tagScope)") {{v.name}}
+      select(multiple="multiple", ng-model="marketPlace.tagScope" ng-options="tag.id as tag.name for tag in marketPlace.relatedTags")
 
     .label-pair.col-quarter
       label

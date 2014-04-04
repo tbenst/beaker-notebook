@@ -3,14 +3,6 @@
   app.controller('marketPlace', ['$scope', 'Factories', 'TagNormalizeService', function($scope, Factories, TagNormalizeService) {
     var F = Factories;
 
-    $scope.isSelected = function(value, model){
-      if (model === void(0)) {
-        return false;
-      }
-
-      return ~model.indexOf(value+"");
-    }
-
     $scope.removeFilter = function(value, model) {
       _.remove($scope.$eval(model), function(v) {
         return v === value;
