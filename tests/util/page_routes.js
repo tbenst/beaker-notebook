@@ -5,6 +5,7 @@ module.exports = function() {
 
   this.route = {
     home: config.url,
+    market: config.url+"#/market_place",
 
     forProject: function(project) {
       return util.format('%s#/projects/%s', config.url, project.id);
