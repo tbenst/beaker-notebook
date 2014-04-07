@@ -4,6 +4,7 @@
     $stateProvider
       .state('signIn', {
         url: '/sign_in',
+        skipAuth: true,
         views: {
           root: {
             controller: 'authentication',

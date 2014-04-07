@@ -11,6 +11,6 @@ html(ng-app="bunsen")
     nav.main-nav
       a.nav-item.projects(ui-sref="projects.items") My Projects
       a.nav-item.market-place(ui-sref="marketPlace.items") Marketplace
-    .application
+    .application(ng-controller="application")
       #root(ui-view="root")
         != content
