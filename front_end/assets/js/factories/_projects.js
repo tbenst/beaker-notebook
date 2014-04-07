@@ -4,11 +4,11 @@
 
     return {
       deleteProject: function(id) {
-        return R.one('users', window.userID).one('projects', id).remove();
+        return R.one('projects', id).remove();
       },
 
       getProject: function(id) {
-        return R.one('users', window.userID).one('projects', id).get();
+        return R.one('projects', id).get();
       },
 
       getProjects: function(scope, filterBy) {
@@ -18,8 +18,7 @@
           query.filterBy = encodeURIComponent(filterBy);
         }
 
-        return R.one('users', window.userID)
-                .getList('projects', query)
+        return R.all('projects').getList(query)
       },
 
       createProject: function(projects) {
@@ -32,8 +31,7 @@
           return Math.max.apply(Math, numbers) + 1;
         }
 
-        return R.one('users', window.userID)
-                .all('projects').post({
+        return R.all('projects').post({
                   name: "Project " + lastProjectNum()
                 })
                 .then(function(p) {
