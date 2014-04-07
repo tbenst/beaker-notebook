@@ -15,6 +15,24 @@ module.exports = function(app) {
           }
         })
         .catch(next);
+    },
+
+    authorize: function(req, res, next) {
+      if (req.path === '/api/authenticate') {
+        next();
+      } else {
+        new User({id: req.get('Authorization')})
+          .fetch()
+          .then(function(user) {
+            if (user) {
+              req.user = user;
+            } else {
+              res.statusCode = 403;
+              throw new Error("Unauthorized");
+            }
+          })
+          .done(next, next);
+      }
     }
   }
 }

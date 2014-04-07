@@ -15,9 +15,9 @@ app.Controllers = require('./controllers');
 app.Routes = require('./routes');
 
 when(app)
-  .then(appConfig)
   .then(app.Models.init)
   .then(app.Controllers.init)
+  .then(appConfig)
   .then(app.Routes.init)
   .then(appStart)
   .catch(function(err) {
@@ -58,6 +58,7 @@ function appConfig(app) {
     app.use(express.errorHandler());
   }
 
+  app.use(app.Controllers.AuthController.authorize);
   app.use(app.router);
 
   return app;
