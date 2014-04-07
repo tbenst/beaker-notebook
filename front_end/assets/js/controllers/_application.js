@@ -3,6 +3,7 @@
 
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
       if (!$rootScope.currentUser && !toState.skipAuth) {
+        $rootScope.goTo = toState;
         $state.go("signIn");
         event.preventDefault();
       }
