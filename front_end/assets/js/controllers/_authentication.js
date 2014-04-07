@@ -7,6 +7,7 @@
         .then(function(d) {
           $rootScope.currentUser = d;
           $scope.message = 'You are signed in.'
+          $http.defaults.headers.common['Authorization'] = d.token;
         }, function() {
           $scope.message = 'Error: Invalid user or password';
         });
