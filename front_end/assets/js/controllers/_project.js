@@ -30,6 +30,13 @@
 
     $scope.deleteProject = function() {
       F.Projects.deleteProject($state.params.id).then(function() {
+        // We have to make sure to delete the
+        // project from the internal
+        // scope project list.
+        $scope.projects.list =  _.where($scope.projects.list, function(p) {
+          return p.id !== +$state.params.id;
+        });
+
         $state.go('projects.items');
       });
     };

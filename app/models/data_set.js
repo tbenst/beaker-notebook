@@ -101,7 +101,10 @@ module.exports = function(Bookshelf, app) {
     },
 
     tagIDsQueryBuilder: function(ids) {
-      var numIds = _(ids).map(function(i) {return +i}).compact().value();
+      // ids is a string of numbers seperated by commas
+      // to normalize the data we must split on commas and then
+      // convert the string numbers to ints
+      var numIds = _(ids.split(",")).map(function(i) {return +i}).value();
       return query('DataSets').select('DataSets.*')
         .join('DataSetsDataTags', 'DataSets.id', '=', 'DataSetsDataTags.dataSetId')
         .whereIn('dataTagId', numIds).toString();

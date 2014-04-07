@@ -1,7 +1,7 @@
 h1 Bunsen marketplace
 
 .col-three-quarters
-  h4 {{(marketPlace.data | filter:filterBy).length}} results
+  h4 {{resultCount}} results
   .col-half
     .label-pair.col-three-quarters
       label
@@ -42,11 +42,11 @@ h1 Bunsen marketplace
           .vendor Publisher: {{vendorName(item)}}
         .col-quarter
           .format Format: {{item.format}}
-          .last-updated Updated: {{item.updatedAt | date: 'dd/MM/yyyy'}}
+          .last-updated Updated: {{item.lastUpdated | date: 'dd/MM/yyyy'}}
         .cl
       br
 
   br
-  pagination(page="marketPlace.currentPage" max-size="marketPlace.maxSize" items-per-page="marketPlace.itemsPerPage" total-items="marketPlace.totalItems")
+  pagination(page="marketPlace.currentPage" max-size="marketPlace.maxSize" items-per-page="marketPlace.itemsPerPage" total-items="resultCount")
 
 .cl
