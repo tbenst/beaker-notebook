@@ -11,6 +11,19 @@
             template: templates.sign_in
           }
         }
+      })
+      .state('signOut', {
+        url: '/sign_out',
+        skipAuth: true,
+        onEnter: ['$rootScope', function($rootScope) {
+          $rootScope.signOut();
+        }],
+        views: {
+          root: {
+            controller: 'authentication',
+            template: templates.sign_out
+          }
+        }
       });
 
   }]);

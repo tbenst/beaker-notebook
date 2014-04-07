@@ -8,9 +8,13 @@ html(ng-app="bunsen")
     script(src="js/templates.js", type="text/javascript")
     script(src="js/main.js", type="text/javascript")
   body
-    nav.main-nav
-      a.nav-item.projects(ui-sref="projects.items") My Projects
-      a.nav-item.market-place(ui-sref="marketPlace.items") Marketplace
     .application(ng-controller="application")
+      nav.main-nav
+        .col-three-quarters
+          a.nav-item.projects(ui-sref="projects.items") My Projects
+          a.nav-item.market-place(ui-sref="marketPlace.items") Marketplace
+        .sign-out.col-three-quarter
+          a.btn(ui-sref="signOut", ng-show='currentUser') Sign out
+        .cl
       #root(ui-view="root")
         != content

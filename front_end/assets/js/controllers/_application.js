@@ -8,5 +8,9 @@
         event.preventDefault();
       }
     });
+
+    $rootScope.signOut = function() {
+      delete $rootScope.currentUser;
+    }
   }]);
 })(window.bunsen);
