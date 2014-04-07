@@ -1,5 +1,6 @@
 module.exports.init = function(app) {
   app.Controllers = {
+    AuthController: require('./auth_controller.js')(app),
     DataSetsController: require('./data_sets_controller.js')(app),
     CategoriesController: require('./categories_controller.js')(app),
     ProjectsController: require('./projects_controller.js')(app),
