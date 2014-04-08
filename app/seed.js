@@ -1,17 +1,15 @@
-express       = require('express'),
-app           = express(),
-_             = require('lodash'),
+var _         = require('lodash'),
 when          = require('when'),
 sequence      = require('when/sequence'),
 util          = require('util'),
 inflection    = require('inflection'),
-App           = undefined;
+app           = undefined;
 
 module.exports = function(data, configPath) {
   // load the app models
   // with an optional config path
-  App         = App || (require('./models').init(app, configPath));
-  var models  = App.Models;
+  app         = app || (require('./models').init({}, configPath));
+  var models  = app.Models;
 
   // fixtures need to happen in order
   // so we have to use sequence here
@@ -37,7 +35,7 @@ module.exports = function(data, configPath) {
 }
 
 module.exports.dropAll = function(configPath) {
-  App         = App || (require('./models').init(app, configPath));
+  app         = app || (require('./models').init({}, configPath));
   var models  = app.Models;
 
   // we need to sequence the truncations
@@ -46,7 +44,7 @@ module.exports.dropAll = function(configPath) {
   // bombs out.
   return sequence(_(models).map(function(model) {
     return _.partial(function(tableName) {
-      return App.DB.knex(inflection.pluralize(tableName)).truncate();
+      return app.DB.knex(inflection.pluralize(tableName)).truncate();
     }, model.prototype.tableName)
   }).value());
 }
