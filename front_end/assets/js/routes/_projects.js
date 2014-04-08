@@ -61,6 +61,15 @@
           template: templates.notebook_list
         }
       }
+    })
+    .state('projects.items.item.notebook.search', {
+      url: '/search',
+      views: {
+        "app@projects": {
+          controller: 'projectSearch',
+          template: templates.project_search
+        }
+      }
     });
   }]);
 })(angular, window.bunsen, templates);
