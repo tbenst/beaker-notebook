@@ -1,4 +1,6 @@
-var _ = require("lodash");
+var _ = require("lodash"),
+    W = require('when'),
+    notebook = require('../lib/notebook');
 
 module.exports = function(Bookshelf) {
   var query   = Bookshelf.knex;
@@ -8,26 +10,35 @@ module.exports = function(Bookshelf) {
 
   Project = _.extend(Project, {
     findMatching: function(filters) {
-      var queries = [Project.findByUserId(filters.userId).toString()];
+      var queries = [Project.findByUserId(filters.userId)];
 
       if (filters.filterBy !== void(0) && filters.filterBy.length) {
-        queries.push(Project.findBySearchParam(filters.filterBy).toString());
+        queries.push(Project.findBySearchParam(filters.userId, filters.filterBy));
       }
 
-      return query.raw(queries.join("\nINTERSECT\n"));
+      return W.all(queries)
+        .then(function(q) {
+          return query.raw(q.join("\nINTERSECT\n"));
+        });
     },
 
     findByUserId: function(userId) {
       return query("Projects")
-      .where("ownerId", "=", userId)
-      .select();
+        .where("ownerId", "=", userId)
+        .select().toString();
     },
 
-    findBySearchParam: function(searchTerm) {
-      return query("Projects")
-      .where("name", "ILIKE", "%"+searchTerm+"%")
-      .orWhere("description", "ILIKE", "%"+searchTerm+"%")
-      .select();
+    findBySearchParam: function(userId, searchTerm) {
+      return notebook.matchingProjectIds(userId, searchTerm)
+        .then(function(ids) {
+          var matchingQuery = query("Projects")
+            .where("name", "ILIKE", "%"+searchTerm+"%")
+            .orWhere("description", "ILIKE", "%"+searchTerm+"%");
+          if (ids.length) {
+            matchingQuery.orWhereIn('id', ids);
+          }
+          return matchingQuery.select().toString();
+        });
     },
   });
 
