@@ -78,8 +78,7 @@ module.exports = function(Bookshelf, app) {
           .join('DataSetsDataTags', 'matching.id', '=', 'DataSetsDataTags.dataSetId')
           .join('DataTags', 'DataTags.id', '=', 'DataSetsDataTags.dataTagId')
           .groupBy('DataTags.id')
-          .orderBy('tagCount', 'DESC')
-          .limit(10).debug();
+          .orderBy('tagCount', 'DESC');
       });
     },
 
