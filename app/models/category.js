@@ -15,7 +15,7 @@ module.exports = function(Bookshelf, app){
 
     findAllWithCounts: function() {
       return query('Categories')
-        .select('Categories.id', 'name', 'path')
+        .select('Categories.*')
         .count('DataSetsCategories.dataSetId AS dataCount')
         .join('DataSetsCategories', 'Categories.id', '=', 'DataSetsCategories.categoryId', 'LEFT OUTER')
         .groupBy('Categories.id', 'name', 'path')
@@ -38,13 +38,11 @@ module.exports = function(Bookshelf, app){
 
       function initNodes(categories) {
         _.each(categories, function(category) {
-          nodes[category.path] = {
+          nodes[category.path] = _.extend(category, {
             category: category.name,
-            id: category.id,
-            path: category.path,
             count: +category.dataCount,
             children: []
-          };
+          });
         });
       }
 
