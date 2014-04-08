@@ -7,4 +7,10 @@ As a researcher, I want to be able to use the market place.
   Scenario: See a market item
     When there is a market item
     And I view the market search
-    Then I should see the market item on the market list page
+    Then I should see "1" market item on the market list page
+
+  Scenario: Filtering market items by text
+    When there is a market item
+    And I view the market search
+    And I filter the market page by "this will not match"
+    Then I should see "0" market item on the market list page

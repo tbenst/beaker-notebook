@@ -40,8 +40,7 @@
       label
         b search
       br
-      input(type="text", ng-model="marketPlace.searchScope", placeholder="Search within results")
-
+      input.market-text-search(type="text", ng-model="marketPlace.searchScope", placeholder="Search within results")
 
   ul.cl.current-filters
     li.tag.filter(ng-repeat="filter in currentFilters", ng-click="removeFilter(filter.value, filter.model)") {{filter.name}} ✖

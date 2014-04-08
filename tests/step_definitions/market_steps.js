@@ -20,9 +20,14 @@ module.exports = function() {
     return this.driver.get(this.route.market);
   });
 
-  this.Then(/^I should see the market item on the market list page$/, function(callback) {
+  this.When(/^I filter the market page by "([^"]*)"$/, function(searchText) {
+    var marketFilter = new this.Widgets.MarketFilters;
+    return marketFilter.setSearchText(searchText);
+  });
+
+  this.Then(/^I should see "([^"]*)" market item on the market list page$/, function(count) {
     var marketList = new this.Widgets.MarketList()
 
-    return marketList.items().should.eventually.have.length(1);
+    return marketList.items().should.eventually.have.length(+count);
   });
 }
