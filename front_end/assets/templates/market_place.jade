@@ -33,7 +33,7 @@ h1 Bunsen marketplace
     li.tag.filter(ng-repeat="filter in currentFilters", ng-click="removeFilter(filter.value, filter.model)") {{filter.name}} ✖
   br
   br
-  ul
+  ul.market-list
     li(ng-repeat="item in marketPlace.data | filter:filterBy ")
       p
         .col-three-quarters

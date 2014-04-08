@@ -1,6 +1,6 @@
 module.exports = function() {
   return this.Widgets.ProjectDetail = this.Widget.extend({
-    root: '.project-detail',
+    root: '.projects-root',
 
     edit: function() {
       return this.click('.edit-project');
