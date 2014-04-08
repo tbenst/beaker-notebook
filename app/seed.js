@@ -44,10 +44,10 @@ module.exports.dropAll = function(configPath) {
   // to prevent too many open connections to the
   // database at once, otherwise knex complains and
   // bombs out.
-  return sequence(_(models).keys().map(function(modelName) {
-    return _.partial(function(name) {
-      return App.DB.knex(inflection.pluralize(name)).truncate();
-    }, modelName)
+  return sequence(_(models).map(function(model) {
+    return _.partial(function(tableName) {
+      return App.DB.knex(inflection.pluralize(tableName)).truncate();
+    }, model.prototype.tableName)
   }).value());
 }
 
