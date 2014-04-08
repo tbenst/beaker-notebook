@@ -117,5 +117,3 @@ function setJoinedRelationship(joinTable, attrs) {
 
   return (new JoinModel(attrs)).save()
 }
-
-
