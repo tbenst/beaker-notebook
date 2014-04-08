@@ -34,7 +34,7 @@
       label
         b tags
       br
-      select(multiple="multiple", ng-model="marketPlace.tagScope" ng-options="tag.id as tag.name for tag in marketPlace.relatedTags")
+      select.tags(multiple="multiple", ng-model="marketPlace.tagScope" ng-options="tag.id as tag.name for tag in marketPlace.relatedTags")
 
     .label-pair.col-quarter
       label
