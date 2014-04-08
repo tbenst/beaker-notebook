@@ -26,6 +26,7 @@ module.exports = function(Bookshelf) {
     findBySearchParam: function(searchTerm) {
       return query("Projects")
       .where("name", "ILIKE", "%"+searchTerm+"%")
+      .orWhere("description", "ILIKE", "%"+searchTerm+"%")
       .select();
     },
   });
