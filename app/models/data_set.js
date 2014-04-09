@@ -86,7 +86,7 @@ module.exports = function(Bookshelf, app) {
     // loops over the filter keys to see if anything was passed via query params
     // if something was loop over the query builders and build N queries.
     getQueries: function(filters) {
-      var filterKeys  = ["vendorIDs", "categoryID", "tagIDs", "formats", "searchTerm"];
+      var filterKeys  = ["vendorIDs", "categoryID", "tagIDs", "formats", "searchTerm", "searchScope"];
 
       return W.all(_(filterKeys).map(function(key) {
         if (filters[key]) {
@@ -116,6 +116,10 @@ module.exports = function(Bookshelf, app) {
     vendorIDsQueryBuilder: function(ids) {
       return query('DataSets').select('DataSets.*')
         .whereIn('vendorId', this.numIds(ids)).toString();
+    },
+
+    searchScopeQueryBuilder: function(term) {
+      return this.searchTermQueryBuilder(term);
     },
 
     searchTermQueryBuilder: function(term) {
