@@ -26,3 +26,11 @@ As a researcher, I want to be able to use the market place.
     And I view the market search
     Then I should see "10" market item on the market list page
     And I should see "22" total results
+
+  Scenario: Market place filter persistence
+    When there is a market item with the tags "cat,dog,human"
+    And I view the market search
+    And I filter by search by select the "cat" tags
+    And I view the first market item
+    And I return to the market results
+    Then I should see the "cat" tags selected

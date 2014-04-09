@@ -81,4 +81,24 @@ module.exports = function() {
       return assert.equal(+count, v, "Total market page search does not match. \n expected: "+count+"\n got: "+v);
     });
   });
+
+  this.When(/^I view the first market item$/, function(callback) {
+    var marketList = new this.Widgets.MarketList();
+
+    return marketList.select(0);
+  });
+
+  this.When(/^I return to the market results$/, function(callback) {
+    var marketItem = new this.Widgets.MarketItem();
+
+    return marketItem.goBackToSearch();
+  });
+
+  this.Then(/^I should see the "([^"]*)" tags selected$/, function(tags, callback) {
+    var marketTagFilter = new this.Widgets.MarketTagFilter;
+
+    return marketTagFilter.getSelectedTags().then(function(selectedTags) {
+      assert.equal(tags.split(",").length, selectedTags.length);
+    });
+  });
 }
