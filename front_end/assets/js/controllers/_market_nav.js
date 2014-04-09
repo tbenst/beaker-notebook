@@ -18,29 +18,33 @@
       F.RelatedTags.getTags($scope.marketPlace).then(function(tags) {
         $scope.marketPlace.relatedTags = tags;
       });
-    }
 
-    $scope.onTreeSelection = function(node) {
-      $state.go('marketPlace.items');
-      clearSearch();
-      $scope.marketPlace.currentCategory = node;
-      $scope.marketPlace.categoryID = node.id;
-
-      getDataSets();
-    }
-
-    function clearSearch() {
-      _.each(['categoryID', 'vendorScope', 'typeScope', 'tagScope'], function(s) {
-        delete $scope.marketPlace[s];
+      F.DataSets.getCount($scope.marketPlace).then(function(count) {
+        $scope.marketPlace.totalItems = count;
       });
     }
 
-    $scope.searchByTag = function(tag) {
-      $state.go('marketPlace.items');
-      clearSearch();
-      $scope.marketPlace.tagScope = [tag.id.toString()];
+    function clearSearch() {
+      var deleteList = ['categoryID', 'vendorScope', 'typeScope', 'tagScope', 'searchTerm', 'searchScope'];
+      _.each(deleteList, function(i) {
+        delete $scope.marketPlace[i];
+      });
+    }
 
+    function newSearch(preserve) {
+      clearSearch();
+      _.extend($scope.marketPlace, preserve);
+      $state.go('marketPlace.items');
       getDataSets();
+    }
+
+    $scope.onTreeSelection = function(node) {
+      newSearch({categoryID: node.id});
+      $scope.marketPlace.currentCategory = node;
+    }
+
+    $scope.searchByTag = function(tag) {
+      newSearch({tagScope: [tag.id.toString()]});
     };
 
     $scope.isTagSelected = function(tag) {
@@ -49,6 +53,12 @@
 
     F.Categories.then(function(treeData) {
       $scope.treeData = treeData;
+    });
+
+    $scope.$watch('marketPlace.searchTerm', function(v) {
+      if (v !== void(0) && v !== '') {
+        newSearch({searchTerm: $scope.marketPlace.searchTerm});
+      }
     });
   }]);
 

@@ -86,7 +86,7 @@ module.exports = function(Bookshelf, app) {
     // loops over the filter keys to see if anything was passed via query params
     // if something was loop over the query builders and build N queries.
     getQueries: function(filters) {
-      var filterKeys  = ["vendorIDs", "categoryID", "tagIDs", "formats"];
+      var filterKeys  = ["vendorIDs", "categoryID", "tagIDs", "formats", "searchTerm", "searchScope"];
 
       return W.all(_(filterKeys).map(function(key) {
         if (filters[key]) {
@@ -100,20 +100,36 @@ module.exports = function(Bookshelf, app) {
         .whereIn('format', names.split(",")).toString();
     },
 
-    tagIDsQueryBuilder: function(ids) {
+    numIds: function(s) {
       // ids is a string of numbers seperated by commas
       // to normalize the data we must split on commas and then
       // convert the string numbers to ints
-      var numIds = _(ids.split(",")).map(function(i) {return +i}).value();
+      return _(s.split(",")).map(function(i) {return +i}).value();
+    },
+
+    tagIDsQueryBuilder: function(ids) {
       return query('DataSets').select('DataSets.*')
         .join('DataSetsDataTags', 'DataSets.id', '=', 'DataSetsDataTags.dataSetId')
-        .whereIn('dataTagId', numIds).toString();
+        .whereIn('dataTagId', this.numIds(ids)).toString();
     },
 
     vendorIDsQueryBuilder: function(ids) {
-      var numIds = _(ids).map(function(i) {return +i}).compact().value();
       return query('DataSets').select('DataSets.*')
-        .whereIn('vendorId', numIds).toString();
+        .whereIn('vendorId', this.numIds(ids)).toString();
+    },
+
+    searchScopeQueryBuilder: function(term) {
+      return this.searchTermQueryBuilder(term);
+    },
+
+    searchTermQueryBuilder: function(term) {
+      return query('DataSets')
+        .select('DataSets.*')
+        .join('Vendors', 'Vendors.id', '=', 'DataSets.vendorId')
+        .where('title', 'ILIKE', '%' + term + '%')
+        .orWhere('description', 'ILIKE', '%' + term + '%')
+        .orWhere('Vendors.name', 'ILIKE', '%' + term + '%')
+        .toString();
     },
 
     categoryIDQueryBuilder: function(id){
