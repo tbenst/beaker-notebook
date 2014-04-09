@@ -1,4 +1,6 @@
 var _         = require("lodash");
+var bluebird  = require("bluebird");
+var assert    = require("assert");
 
 var marketItemBase = function() {
   return _.cloneDeep({
@@ -17,6 +19,15 @@ var marketItemBase = function() {
 module.exports = function() {
   this.When(/^there is a market item$/, function(callback) {
     return this.seed(marketItemBase());
+  });
+
+  this.When(/^there is "([^"]*)" market items$/, function(count, callback) {
+    var itemSaves = [];
+    for(var i = 0; i < +count; ++i) {
+      itemSaves.push(this.seed(marketItemBase()));
+    }
+
+    return bluebird.all(itemSaves);
   });
 
   this.When(/^there is a market item with the tags "([^"]*)"$/, function(tags, callback) {
@@ -61,5 +72,13 @@ module.exports = function() {
     var marketTagFilter = new this.Widgets.MarketTagFilter;
 
     return marketTagFilter.selectMatchingTags(tags.split(","));
+  });
+
+  this.Then(/^I should see "([^"]*)" total results$/, function(count) {
+    var marketSearchPage = new this.Widgets.MarketSearchPage();
+
+    return marketSearchPage.getTotalResults().then(function(v) {
+      return assert.equal(+count, v, "Total market page search does not match. \n expected: "+count+"\n got: "+v);
+    });
   });
 }

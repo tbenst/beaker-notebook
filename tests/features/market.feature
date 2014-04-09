@@ -21,3 +21,8 @@ As a researcher, I want to be able to use the market place.
     And I filter by search by select the "cat,dog,human" tags
     Then I should see "1" market item on the market list page
 
+  Scenario: Paginated market items
+    When there is "22" market items
+    And I view the market search
+    Then I should see "10" market item on the market list page
+    And I should see "22" total results
