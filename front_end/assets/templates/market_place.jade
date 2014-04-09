@@ -1,6 +1,20 @@
-h1 Bunsen marketplace
-
 .col-three-quarters
+  h1(ng-hide='marketPlace.currentCategory')
+    b Bunsen marketplace
+
+  .category.col-three-quarters(ng-show='marketPlace.currentCategory')
+    h2
+      b {{marketPlace.currentCategory.name}}
+    p {{marketPlace.currentCategory.description}}
+  .col-quarter(ng-hide="!marketPlace.currentCategory || marketPlace.currentCategory.name == 'All'")
+    p
+      | Owner: {{marketPlace.currentCategory.ownerName}}
+      br
+      | Email: &nbsp;
+      a(href="mailto:{{marketPlace.currentCategory.ownerEmail}}") {{marketPlace.currentCategory.ownerEmail}}
+  .cl
+
+
   h4 {{resultCount}} results
   .col-half
     .label-pair.col-three-quarters

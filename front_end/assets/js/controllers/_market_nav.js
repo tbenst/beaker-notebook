@@ -23,6 +23,7 @@
     $scope.onTreeSelection = function(node) {
       $state.go('marketPlace.items');
       clearSearch();
+      $scope.marketPlace.currentCategory = node;
       $scope.marketPlace.categoryID = node.id;
 
       getDataSets();
