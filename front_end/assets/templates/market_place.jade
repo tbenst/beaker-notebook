@@ -15,7 +15,7 @@
   .cl
 
 
-  h4 {{resultCount}} results
+  h4 {{marketPlace.totalItems}} results
   .col-half
     .label-pair.col-three-quarters
       label
@@ -40,7 +40,7 @@
       label
         b search
       br
-      input(type="text", ng-model="filterBy", placeholder="Search within results")
+      input(type="text", ng-model="marketPlace.searchScope", placeholder="Search within results")
 
 
   ul.cl.current-filters
@@ -48,7 +48,7 @@
   br
   br
   ul.market-list
-    li(ng-repeat="item in marketPlace.data | filter:filterBy ")
+    li(ng-repeat="item in marketPlace.data")
       p
         .col-three-quarters
           a(ui-sref="marketPlace.items.item({id: item.id})") {{item.title}}
@@ -61,6 +61,6 @@
       br
 
   br
-  pagination(page="marketPlace.currentPage" max-size="marketPlace.maxSize" items-per-page="marketPlace.itemsPerPage" total-items="resultCount")
+  pagination(page="marketPlace.currentPage" max-size="marketPlace.maxSize" items-per-page="marketPlace.itemsPerPage" total-items="marketPlace.totalItems")
 
 .cl

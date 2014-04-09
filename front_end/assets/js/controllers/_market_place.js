@@ -1,6 +1,6 @@
 !(function(angular, app) {
 
-  app.controller('marketPlace', ['$scope', 'Factories', 'TagNormalizeService', '$filter', function($scope, Factories, TagNormalizeService, $filter) {
+  app.controller('marketPlace', ['$scope', 'Factories', 'TagNormalizeService', function($scope, Factories, TagNormalizeService) {
     var F = Factories;
 
     $scope.removeFilter = function(value, model) {
@@ -29,7 +29,6 @@
 
       F.DataSets.getCount($scope.marketPlace).then(function(count) {
         $scope.marketPlace.totalItems = count;
-        $scope.resultCount = $scope.marketPlace.totalItems;
       });
 
       F.RelatedTags.getTags($scope.marketPlace).then(function(tags) {
@@ -42,17 +41,6 @@
     function resetDataSets() {
       $scope.marketPlace.currentPage = 1;
       getDataSets();
-    }
-
-    function updateResultCount() {
-      var d     = $scope.marketPlace.data;
-      var total = $scope.marketPlace.totalItems;
-
-      if ($scope.filterBy) {
-        $scope.resultCount = $filter('filter')(d, $scope.filterBy).length;
-      } else {
-        $scope.resultCount = total;
-      }
     }
 
     // init pagination
@@ -76,7 +64,7 @@
     $scope.$watch('marketPlace.typeScope', resetDataSets);
     $scope.$watch('marketPlace.vendorScope', resetDataSets);
     $scope.$watch('marketPlace.tagScope', resetDataSets);
-    $scope.$watch('filterBy', updateResultCount);
+    $scope.$watch('marketPlace.searchScope', resetDataSets);
   }]);
 
 })(angular, window.bunsen);

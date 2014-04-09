@@ -26,6 +26,10 @@
       query.searchTerm = encodeURIComponent(scope.searchTerm);
     }
 
+    if (scope.searchScope !== void(0) && scope.searchScope.length > 0) {
+      query.searchScope = encodeURIComponent(scope.searchScope);
+    }
+
     return query;
   }
 
