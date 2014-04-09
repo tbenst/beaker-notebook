@@ -100,20 +100,22 @@ module.exports = function(Bookshelf, app) {
         .whereIn('format', names.split(",")).toString();
     },
 
-    tagIDsQueryBuilder: function(ids) {
+    numIds: function(s) {
       // ids is a string of numbers seperated by commas
       // to normalize the data we must split on commas and then
       // convert the string numbers to ints
-      var numIds = _(ids.split(",")).map(function(i) {return +i}).value();
+      return _(s.split(",")).map(function(i) {return +i}).value();
+    },
+
+    tagIDsQueryBuilder: function(ids) {
       return query('DataSets').select('DataSets.*')
         .join('DataSetsDataTags', 'DataSets.id', '=', 'DataSetsDataTags.dataSetId')
-        .whereIn('dataTagId', numIds).toString();
+        .whereIn('dataTagId', this.numIds(ids)).toString();
     },
 
     vendorIDsQueryBuilder: function(ids) {
-      var numIds = _(ids).map(function(i) {return +i}).compact().value();
       return query('DataSets').select('DataSets.*')
-        .whereIn('vendorId', numIds).toString();
+        .whereIn('vendorId', this.numIds(ids)).toString();
     },
 
     searchTermQueryBuilder: function(term) {
