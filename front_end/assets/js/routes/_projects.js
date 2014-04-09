@@ -22,12 +22,30 @@
         }
       }
     })
+    .state('projects.items.search', {
+      url: '/search',
+      views: {
+        "app@projects": {
+          controller: 'projectSearch',
+          template: templates.project_search
+        }
+      }
+    })
     .state('projects.items.item', {
       url: '/:id',
       views: {
         "app@projects": {
           controller: 'project',
           template: templates.project
+        }
+      }
+    })
+    .state('projects.items.item.search', {
+      url: '/search',
+      views: {
+        "app@projects": {
+          controller: 'projectSearch',
+          template: templates.project_search
         }
       }
     })
@@ -41,6 +59,15 @@
         "nav@projects": {
           controller: 'project',
           template: templates.notebook_list
+        }
+      }
+    })
+    .state('projects.items.item.notebook.search', {
+      url: '/search',
+      views: {
+        "app@projects": {
+          controller: 'projectSearch',
+          template: templates.project_search
         }
       }
     });

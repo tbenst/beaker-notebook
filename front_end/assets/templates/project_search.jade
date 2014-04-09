@@ -1,0 +1,10 @@
+.col-half
+  h1
+    b Search Results
+  p {{projects.searchResults.length}} results
+  br
+  ul
+    li(ng-repeat="project in projects.searchResults")
+      a.project( ui-sref="projects.items.item({id: project.id})") {{project.name | limitTo:30}}
+      p.desc {{project.description}}
+      br

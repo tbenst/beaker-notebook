@@ -8,6 +8,7 @@ var Git = require('./git'),
     getDirName = require("path").dirname,
     glob = require("glob"),
     when = require('when'),
+    _ = require("lodash"),
     keys = require('when/keys');
 
 // File open mode for creating notebook files, will fail if the file already exists
@@ -73,6 +74,26 @@ module.exports.list = function(options) {
       });
     });
 };
+
+module.exports.matchingProjectIds = function(userId, searchTerm) {
+  var dir = notebookFile(userId, '**', '*.bkr').dir;
+
+  function contains(a, b) {
+    return a.toLowerCase().indexOf(b.toLowerCase()) != -1;
+  }
+
+  return nodefn.call(glob, dir)
+    .then(function(files) {
+      return _(files).map(function(file) {
+        // Extract project id and notebook name from the file path
+        var match = file.match(/^repos\/\d+\/(\d+)\/(.+)\/.+/)
+        if (match.length && contains(match[2], searchTerm)) {
+          // return matching project id
+          return +match[1];
+        }
+      }).uniq().compact().value();
+    });
+}
 
 function notebookFile(userId, projectId, name) {
   var file = name + ".bkr";
