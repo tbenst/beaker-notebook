@@ -1,11 +1,11 @@
 !(function(app) {
-  app.controller('authentication', ['$rootScope', '$scope', '$state', 'Restangular', '$http', function($rootScope, $scope, $state, Restangular, $http) {
+  app.controller('authentication', ['$rootScope', '$scope', '$state', 'Restangular', '$http', '$sessionStorage', function($rootScope, $scope, $state, Restangular, $http, $sessionStorage) {
     $scope.message = 'Welcome to Bunsen'
 
     $scope.submit = function() {
       Restangular.all('authenticate').post($scope.user)
         .then(function(d) {
-          $rootScope.currentUser = d;
+          $sessionStorage.currentUser = d;
           $scope.message = 'You are signed in.'
           $http.defaults.headers.common['Authorization'] = d.token;
           if ($rootScope.goTo) {

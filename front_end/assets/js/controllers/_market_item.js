@@ -1,5 +1,5 @@
 !(function(angular, app) {
-  app.controller('marketItem', ['$scope', '$state', 'Factories', 'Restangular', function($scope, $state, Factories, Restangular) {
+  app.controller('marketItem', ['$scope', '$state', 'Factories', 'Restangular', '$sessionStorage', function($scope, $state, Factories, Restangular, $sessionStorage) {
     var R = Restangular;
     var F = Factories;
 
@@ -7,7 +7,7 @@
 
     F.DataSets.getDataSet($state.params.id).then(function(d) {
       $scope.item = d;
-      $scope.subscribed = !!(_.findWhere(d.users, {id: $scope.currentUser.id}));
+      $scope.subscribed = !!(_.findWhere(d.users, {id: $sessionStorage.currentUser.id}));
     });
 
     F.Vendors.then(function(v) {
