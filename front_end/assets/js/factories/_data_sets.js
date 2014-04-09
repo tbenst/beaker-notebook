@@ -22,6 +22,10 @@
       query.formats = encodeURIComponent(scope.typeScope.join(','));
     }
 
+    if (scope.searchTerm !== void(0) && scope.searchTerm.length > 0) {
+      query.searchTerm = encodeURIComponent(scope.searchTerm);
+    }
+
     return query;
   }
 
