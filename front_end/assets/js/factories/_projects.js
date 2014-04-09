@@ -23,9 +23,18 @@
       },
 
       createProject: function(projects) {
+
+        function lastProjectNum() {
+          var numbers = _(projects).map(function(p) {
+            var match = p.name.match(/^Project (\d+)/)
+            if (match) {return +match[1]}
+          }).compact().push(0).value();
+          return Math.max.apply(Math, numbers) + 1;
+        }
+
         return R.one('users', window.userID)
                 .all('projects').post({
-                  name: "sample project " + Math.random()
+                  name: "Project " + lastProjectNum()
                 })
                 .then(function(p) {
                   projects.push(p);
