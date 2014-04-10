@@ -19,13 +19,19 @@ module.exports.init = function(app, configPath) {
 
   var DB = Bookshelf.initialize(config.database);
 
+  function hasTimestamps(model) {
+    return model.extend({
+      hasTimestamps: true
+    });
+  }
+
   fs.readdirSync(__dirname)
     .filter(function(file) {
       return (file.indexOf('.') !== 0) && (file !== 'index.js')
     })
     .forEach(function(file) {
       var model = require(path.join(__dirname, file))(DB, app)
-      app.Models[model.name] = model.model;
+      app.Models[model.name] = hasTimestamps(model.model);
     });
 
   app.DB = DB;

@@ -5,8 +5,7 @@ var _ = require("lodash"),
 module.exports = function(Bookshelf) {
   var query   = Bookshelf.knex;
   var Project = Bookshelf.Model.extend({
-    tableName: "Projects",
-    hasTimestamp: true
+    tableName: "Projects"
   });
 
   Project = _.extend(Project, {
