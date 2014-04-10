@@ -7,10 +7,10 @@
       b {{marketPlace.currentCategory.name}}
     p {{marketPlace.currentCategory.description}}
   .col-quarter(ng-hide="!marketPlace.currentCategory || marketPlace.currentCategory.name == 'All'")
-    p
-      | Owner: {{marketPlace.currentCategory.ownerName}}
-      br
-      | Email: &nbsp;
+    p Sets: {{marketPlace.currentCategory.count}}
+    p Updated: {{marketPlace.currentCategory.updated_at | date: 'short'}}
+    p Owner: {{marketPlace.currentCategory.ownerName}}
+    p Email: &nbsp;
       a(href="mailto:{{marketPlace.currentCategory.ownerEmail}}") {{marketPlace.currentCategory.ownerEmail}}
   .cl
 
