@@ -5,7 +5,7 @@
 
     F.Projects.getProject($state.params.id).then(function(d) {
       $scope.project = d;
-      $scope.updatedAt = new Date(d.updatedAt);
+      $scope.updatedAt = new Date(d.updated_at);
     });
 
     F.Notebooks.getNotebooks($state.params.id).then(function(notebooks) {
