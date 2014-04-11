@@ -15,33 +15,32 @@
   .cl
 
 
-  h4 {{marketPlace.totalItems}} results
+  h4.total-result-count {{marketPlace.totalItems}} results
   .col-half
     .label-pair.col-three-quarters
       label
         b vendors
       br
-      select(multiple="multiple", ng-model="marketPlace.vendorScope" ng-options="vendor.id as vendor.name for vendor in marketPlace.vendors")
+      select.vendors(multiple="multiple", ng-model="marketPlace.vendorScope" ng-options="vendor.id as vendor.name for vendor in marketPlace.vendors")
 
     .label-pair.col-quarter
       label
         b format
       br
-      select(multiple="multiple", ng-model="marketPlace.typeScope" ng-options="format for format in formats")
+      select.formats(multiple="multiple", ng-model="marketPlace.typeScope" ng-options="format for format in formats")
 
   .col-half
     .label-pair.col-half
       label
         b tags
       br
-      select(multiple="multiple", ng-model="marketPlace.tagScope" ng-options="tag.id as tag.name for tag in marketPlace.relatedTags")
+      select.tags(multiple="multiple", ng-model="marketPlace.tagScope" ng-options="tag.id as tag.name for tag in marketPlace.relatedTags")
 
     .label-pair.col-quarter
       label
         b search
       br
-      input(type="text", ng-model="marketPlace.searchScope", placeholder="Search within results")
-
+      input.market-text-search(type="text", ng-model="marketPlace.searchScope", placeholder="Search within results")
 
   ul.cl.current-filters
     li.tag.filter(ng-repeat="filter in currentFilters", ng-click="removeFilter(filter.value, filter.model)") {{filter.name}} ✖

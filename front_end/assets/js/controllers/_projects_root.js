@@ -13,7 +13,7 @@
         F.Projects.getProjects($scope, v).then(function(d) {
           $scope.projects.searchResults = d;
         });
-      } else if (!$state.is('projects.items')) {
+      } else if (!$state.is('projects.items') && !$state.is('projects.items.item')) {
         // Empty search term, go back to the parent state
         $state.go('^');
       }

@@ -108,6 +108,7 @@ module.exports = function(Bookshelf, app) {
 
     tagIDsQueryBuilder: function(ids) {
       return query('DataSets').select('DataSets.*')
+        .distinct()
         .join('DataSetsDataTags', 'DataSets.id', '=', 'DataSetsDataTags.dataSetId')
         .whereIn('dataTagId', this.numIds(ids)).toString();
     },

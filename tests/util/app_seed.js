@@ -4,7 +4,7 @@ var _           = require('lodash');
 var Seed        = require('../../app/seed');
 
 module.exports = function() {
-  this.Before(function() {
+  this.BeforeAll(function() {
     return Seed.dropAll();
   });
 

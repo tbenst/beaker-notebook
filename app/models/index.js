@@ -15,7 +15,7 @@ module.exports.init = function(app, configPath) {
     throw new Error('Error reading config from '+configPath)
   }
 
-  config = config[app.get('env')] || config["development"];
+  config = config[process.env["NODE_ENV"]] || config["development"];
 
   var DB = Bookshelf.initialize(config.database);
 
