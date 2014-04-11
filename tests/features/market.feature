@@ -35,6 +35,17 @@ As a researcher, I want to be able to use the market place.
     And I filter by search by selecting the "George data" vendors
     Then I should see "1" market item on the market list page
 
+  Scenario: Stacking market item filters
+    When there is a market item with the vendor "George data"
+    And there is a market item with the format "MAGIC"
+    And I view the market search
+    And I filter by search by selecting the "George data" vendors
+    Then I should see "1" market item on the market list page
+    And I filter by search by selecting the "MAGIC" formats
+    Then I should see "0" market item on the market list page
+    And I filter the market page by "Credit"
+    Then I should see "0" market item on the market list page
+
   Scenario: Paginated market items
     When there is "22" market items
     And I view the market search
