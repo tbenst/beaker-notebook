@@ -115,4 +115,33 @@ module.exports = function() {
       assert.equal(tags.split(",").length, selectedTags.length);
     });
   });
+
+  this.When(/^there is a market item with the vendor "([^"]*)"$/, function(vendors, callback) {
+    var vendorNames = [].concat(vendors.split(","));
+    var _this       = this;
+    var marketItem  = marketItemBase();
+
+    return this.seed(vendorNames.map(function(vendorName) {
+      return {
+        model: 'Vendor',
+        data: {
+          name: vendorName
+        }
+      }
+    }))
+    .then(function() {
+      marketItem.associations = [{
+        foreignKey: "vendorId",
+        lookup: {"Vendor": vendorNames.map(function(vendorName) { return {name: vendorName}; })}
+      }];
+
+      return _this.seed(marketItem);
+    });
+  });
+
+  this.When(/^I filter by search by selecting the "([^"]*)" vendors$/, function(vendors, callback) {
+    var marketVendorFilter = new this.Widgets.MarketVendorFilter;
+
+    return marketVendorFilter.selectMatching(vendors.split(","));
+  });
 }
