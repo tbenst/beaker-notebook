@@ -68,10 +68,24 @@ module.exports = function() {
     return marketList.items().should.eventually.have.length(+count);
   });
 
-  this.When(/^I filter by search by select the "([^"]*)" tags$/, function(tags) {
+  this.When(/^there is a market item with the format "([^"]*)"$/, function(format, callback) {
+    return this.seed(_.merge(marketItemBase(), {
+      data: {
+        format: format
+      }
+    }));
+  });
+
+  this.When(/^I filter by search by selecting the "([^"]*)" formats$/, function(formats, callback) {
+    var marketTagFilter = new this.Widgets.MarketFormatFilter;
+
+    return marketTagFilter.selectMatching(formats.split(","));
+  });
+
+  this.When(/^I filter by search by selecting the "([^"]*)" tags$/, function(tags) {
     var marketTagFilter = new this.Widgets.MarketTagFilter;
 
-    return marketTagFilter.selectMatchingTags(tags.split(","));
+    return marketTagFilter.selectMatching(tags.split(","));
   });
 
   this.Then(/^I should see "([^"]*)" total results$/, function(count) {

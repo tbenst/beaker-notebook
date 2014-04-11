@@ -27,7 +27,7 @@
       label
         b format
       br
-      select(multiple="multiple", ng-model="marketPlace.typeScope" ng-options="format for format in formats")
+      select.formats(multiple="multiple", ng-model="marketPlace.typeScope" ng-options="format for format in formats")
 
   .col-half
     .label-pair.col-half

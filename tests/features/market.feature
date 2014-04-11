@@ -16,9 +16,16 @@ As a researcher, I want to be able to use the market place.
     Then I should see "0" market item on the market list page
 
   Scenario: Filtering market items by tag
+    When there is a market item with the format "MAGIC"
+    And there is a market item with the format "CSV"
+    And I view the market search
+    And I filter by search by selecting the "MAGIC" formats
+    Then I should see "1" market item on the market list page
+
+  Scenario: Filtering market items by format
     When there is a market item with the tags "cat,dog,human"
     And I view the market search
-    And I filter by search by select the "cat,dog,human" tags
+    And I filter by search by selecting the "cat,dog,human" tags
     Then I should see "1" market item on the market list page
 
   Scenario: Paginated market items
@@ -30,7 +37,7 @@ As a researcher, I want to be able to use the market place.
   Scenario: Market place filter persistence
     When there is a market item with the tags "cat,dog,human"
     And I view the market search
-    And I filter by search by select the "cat" tags
+    And I filter by search by selecting the "cat" tags
     And I view the first market item
     And I return to the market results
     Then I should see the "cat" tags selected
