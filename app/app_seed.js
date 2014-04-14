@@ -1,4 +1,5 @@
 var Seed            = require('./seed.js');
+var when            = require('when');
 var notebook        = require('./lib/notebook');
 var notebookData    = require('./seed_files/notebooks.json');
 var data            = Array.prototype.concat(
