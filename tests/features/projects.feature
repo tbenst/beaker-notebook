@@ -25,3 +25,9 @@ As a researcher, I want to manage my projects.
     When I edit the project
     And I delete the project
     Then I should see that I have no projects in my list
+
+  Scenario: Project Dashboard Searching
+    Given I am viewing the project dashboard
+    When I search for project "ghost of tom jones"
+    Then I should see "0" project results.
+

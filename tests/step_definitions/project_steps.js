@@ -1,3 +1,5 @@
+var assert = require("assert");
+
 module.exports = function() {
 
   this.When(/^I create a project$/, function() {
@@ -79,4 +81,19 @@ module.exports = function() {
     return new this.Widgets.ProjectManager().items().should.eventually.have.length(0);
   });
 
+  this.Given(/^I am viewing the project dashboard$/, function() {
+    return this.driver.get(this.route.projectDashboard);
+  });
+
+  this.When(/^I search for project "([^"]*)"$/, function (searchText) {
+    var projectSearch = new this.Widgets.ProjectSearch;
+    return projectSearch.search(searchText);
+  });
+
+  this.Then(/^I should see "([^"]*)" project results\.$/, function (expectedCount) {
+    var projectSearch = new this.Widgets.ProjectSearch;
+    return projectSearch.getCount().then(function(count) {
+      assert.equal(expectedCount, count);
+    });
+  });
 }
