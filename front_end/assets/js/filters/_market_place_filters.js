@@ -10,4 +10,3 @@
     });
 
 })(angular, window.bunsen);
-
