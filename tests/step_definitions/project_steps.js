@@ -1,4 +1,20 @@
-var assert = require("assert");
+var assert      = require("assert");
+var _           = require("lodash");
+var projectBase = {
+  model: "Project",
+  data: {
+    name: 'My Project',
+    description: 'desc'
+  },
+  associations: [
+    {
+      foreignKey: "ownerId",
+      lookup: {
+        User: {email: "u@r.edu"}
+      }
+    }
+  ]
+};
 
 module.exports = function() {
 
@@ -33,21 +49,7 @@ module.exports = function() {
 
   this.Given(/^I'm looking at a project$/, function() {
     var _this       = this;
-    var projectData = {
-      model: "Project",
-      data: {
-        name: 'My Project',
-        description: 'desc'
-      },
-      associations: [
-        {
-          foreignKey: "ownerId",
-          lookup: {
-            User: {email: "u@r.edu"}
-          }
-        }
-      ]
-    };
+    var projectData = _.cloneDeep(projectBase);
 
     return this.seed(projectData).then(function(Models) {
       return Models.Project.forge(projectData.data)
@@ -95,5 +97,15 @@ module.exports = function() {
     return projectSearch.getCount().then(function(count) {
       assert.equal(expectedCount, count);
     });
+  });
+
+  this.Given(/^I have the following Projects:$/, function(table) {
+      var seed = _(table.hashes()).map(function(attrs) {
+        return _.merge(_.cloneDeep(projectBase), {
+          data: attrs
+        });
+      }).value();
+
+    return this.seed(seed);
   });
 }
