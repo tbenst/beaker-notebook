@@ -1,7 +1,7 @@
-input.search(ng-model="projects.search", placeholder="search")
+input.search.project-search(ng-model="projects.search", placeholder="search")
 h1
   b Projects
-ul
+ul.project-results
   li(ng-show="projects.list.length === 0") no projects yet.
   li(ng-repeat="project in projects.list")
     a.project(ui-sref-active="active", ui-sref="projects.items.item({id: project.id})") {{project.name | limitTo:30}}

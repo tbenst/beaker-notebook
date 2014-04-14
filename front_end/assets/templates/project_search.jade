@@ -1,7 +1,9 @@
-.col-half
+.col-half.project-search
   h1
     b Search Results
-  p {{projects.searchResults.length}} results
+  p
+    span.project-count {{projects.searchResults.length}}
+    span results
   br
   ul
     li(ng-repeat="project in projects.searchResults")

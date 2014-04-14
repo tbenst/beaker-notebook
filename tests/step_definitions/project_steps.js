@@ -1,3 +1,21 @@
+var assert      = require("assert");
+var _           = require("lodash");
+var projectBase = {
+  model: "Project",
+  data: {
+    name: 'My Project',
+    description: 'desc'
+  },
+  associations: [
+    {
+      foreignKey: "ownerId",
+      lookup: {
+        User: {email: "u@r.edu"}
+      }
+    }
+  ]
+};
+
 module.exports = function() {
 
   this.When(/^I create a project$/, function() {
@@ -31,21 +49,7 @@ module.exports = function() {
 
   this.Given(/^I'm looking at a project$/, function() {
     var _this       = this;
-    var projectData = {
-      model: "Project",
-      data: {
-        name: 'My Project',
-        description: 'desc'
-      },
-      associations: [
-        {
-          foreignKey: "ownerId",
-          lookup: {
-            User: {email: "u@r.edu"}
-          }
-        }
-      ]
-    };
+    var projectData = _.cloneDeep(projectBase);
 
     return this.seed(projectData).then(function(Models) {
       return Models.Project.forge(projectData.data)
@@ -79,4 +83,34 @@ module.exports = function() {
     return new this.Widgets.ProjectManager().items().should.eventually.have.length(0);
   });
 
+  this.Given(/^I am viewing the project dashboard$/, function() {
+    return this.driver.get(this.route.projectDashboard);
+  });
+
+  this.When(/^I search for project "([^"]*)"$/, function (searchText) {
+    var projectSearch = new this.Widgets.ProjectSearch;
+    return projectSearch.search(searchText);
+  });
+
+  this.Then(/^I should see "([^"]*)" project results\.$/, function (expectedCount) {
+    var projectSearch = new this.Widgets.ProjectSearch;
+    return projectSearch.getCount().then(function(count) {
+      assert.equal(expectedCount, count);
+    });
+  });
+
+  this.Given(/^I have the following Projects:$/, function(table) {
+      var seed = _(table.hashes()).map(function(attrs) {
+        return _.merge(_.cloneDeep(projectBase), {
+          data: attrs
+        });
+      }).value();
+
+    return this.seed(seed);
+  });
+
+  this.Given(/^I view the first search result$/, function(index) {
+    var projectSearch = new this.Widgets.ProjectSearchList;
+    return projectSearch.click(0);
+  });
 }
