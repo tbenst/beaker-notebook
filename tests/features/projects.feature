@@ -39,3 +39,14 @@ As a researcher, I want to manage my projects.
     And I search for project "ghost of tom jones"
     Then I should see "2" project results.
 
+  Scenario: Project Dashboard ReSearching
+    Given I have the following Projects:
+      | name               | description            |
+      | ghost of tom jones | watch out              |
+      | bobby jean         | ghost of tom jones     |
+      | rage               | againt the machine     |
+    And I search for project "ghost of tom jones"
+    And I view the first search result
+    And I search for project "rage"
+    Then I should see "1" project results.
+

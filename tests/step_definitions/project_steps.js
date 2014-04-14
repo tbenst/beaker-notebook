@@ -108,4 +108,9 @@ module.exports = function() {
 
     return this.seed(seed);
   });
+
+  this.Given(/^I view the first search result$/, function(index) {
+    var projectSearch = new this.Widgets.ProjectSearchList;
+    return projectSearch.click(0);
+  });
 }
