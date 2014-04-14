@@ -8,9 +8,17 @@ html(ng-app="bunsen")
     script(src="js/templates.js", type="text/javascript")
     script(src="js/main.js", type="text/javascript")
   body
-    nav.main-nav
-      a.nav-item.projects(ui-sref="projects.items") My Projects
-      a.nav-item.market-place(ui-sref="marketPlace.items") Marketplace
-    .application
+    .application(ng-controller="application")
+      nav.main-nav
+        .col-half
+          a.nav-item.projects(ui-sref="projects.items") My Projects
+          a.nav-item.market-place(ui-sref="marketPlace.items") Marketplace
+        .auth-controls.col-half
+          span(ng-show='$session.currentUser')
+            | Signed in as &nbsp;
+            span.signed-in
+              {{$session.currentUser.email}}
+          a.sign-out.btn(ui-sref="signOut", ng-show='$session.currentUser') Sign out
+        .cl
       #root(ui-view="root")
         != content

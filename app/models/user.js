@@ -32,6 +32,21 @@ module.exports = function(Bookshelf, app) {
     findOneWhere: function(attrs) {
       return User.forge(attrs)
       .fetch()
+    },
+
+    findOrCreate: function(attrs) {
+      var user = new User(attrs);
+      return user.fetch()
+        .then(function(u) {
+          if (u) {
+            return u;
+          } else {
+            return user.save()
+              .then(function(u) {
+                return u;
+              });
+          }
+        });
     }
   });
 

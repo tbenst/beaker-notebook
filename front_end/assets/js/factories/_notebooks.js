@@ -3,7 +3,7 @@
     var R = Restangular;
 
     function project(id) {
-      return R.one('users', window.userID).one('projects', id);
+      return R.one('projects', id);
     }
 
     return {

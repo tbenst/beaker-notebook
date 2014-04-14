@@ -5,6 +5,7 @@ module.exports = function() {
 
   this.route = {
     home: config.url,
+    signIn: config.url+"#/sign_in",
     market: config.url+"#/market_place",
 
     forProject: function(project) {

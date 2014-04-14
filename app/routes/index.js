@@ -2,6 +2,7 @@ var _ = require('lodash');
 
 module.exports.init = function(app) {
 
+  require('./auth_routes.js')(app);
   require('./data_sets_routes.js')(app);
   require('./categories_routes.js')(app);
   require('./projects_routes.js')(app);
