@@ -11,7 +11,8 @@ module.exports = function() {
     var _this     = this;
 
     return this.seed(userData).then(function() {
-      return _this.driver.get(_this.route.home);
+      _this.driver.get(_this.route.signIn);
+      return new _this.Widgets.SignInForm().submitWith(userData.data);
     });
   });
 
