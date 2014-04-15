@@ -51,7 +51,7 @@
       p
         .col-three-quarters
           a(ui-sref="marketPlace.items.item({id: item.id})") {{item.title}}
-          p.description {{item.description | limitTo:100}}...
+          p.description {{item.description | limitTo:100}} {{item.description.length > 100 ? "..." : ""}}
           .vendor Publisher: {{vendorName(item)}}
         .col-quarter
           .format Format: {{item.format}}
