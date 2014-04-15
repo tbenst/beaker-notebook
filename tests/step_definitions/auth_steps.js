@@ -58,11 +58,6 @@ module.exports = function() {
     });
   });
 
-  this.When(/^I go to my projects$/, function() {
-    var mainNav = new this.Widgets.MainNav();
-    return mainNav.visitProjects()
-  });
-
   this.Then(/^I should see the sign in form$/, function() {
     var signInForm = new this.Widgets.SignInForm()
     return signInForm.isPresent().should.eventually.equal(true);

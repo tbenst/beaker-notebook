@@ -4,6 +4,9 @@ module.exports = function() {
 
     visitProjects: function() {
       return this.click('.projects');
+    },
+    visitMarketPlace: function() {
+      return this.click('.market-place');
     }
   });
 };
