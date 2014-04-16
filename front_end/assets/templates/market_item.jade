@@ -30,6 +30,13 @@
     li(ng-repeat="preview in item.dataPreviews")
       a(ng-href="{{preview.previewUrl}}", target="_blank")
         img(ng-src="{{preview.smallPreviewUrl}}")
+  hr
+  p
+    b Related data sets
+  ul.related-items
+    li(ng-repeat="related in item.related")
+      a(ui-sref="marketPlace.items.item({id: related.id})") {{related.title}}
+
 
 .col-quarter
   .btn-group
