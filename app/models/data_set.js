@@ -10,6 +10,17 @@ module.exports = function(Bookshelf, app) {
   var DataSet = Bookshelf.Model.extend({
     tableName: 'DataSets',
 
+    initialize: function() {
+      this.on("saved destroyed", this.touchCategories);
+    },
+
+    touchCategories: function() {
+      return this.categories().fetch()
+        .then(function(categories) {
+          return W.map(categories.models, function(c) {return c.save()});
+        });
+    },
+
     vendor: function() {
       return this.hasOne(model.Vendor, 'vendorId')
     },
