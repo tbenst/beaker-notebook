@@ -28,6 +28,19 @@ module.exports = function(Bookshelf, app) {
 
     categories: function() {
       return this.belongsToMany(models.Category, 'DataSetsCategories', 'dataSetId', 'categoryId');
+    },
+
+    tags: function() {
+      return _.invoke(this.related('dataTags').models, "get", "name");
+    },
+
+    withRelated: function() {
+      var _this = this;
+      return DataSet.taggedWith(this.tags(), [this.id])
+        .then(function(related){
+          _this.attributes.related = related;
+          return _this;
+        });
     }
   }, {
 
@@ -147,6 +160,21 @@ module.exports = function(Bookshelf, app) {
                 .whereIn('categoryId', ids).toString();
           });
       });
+    },
+
+    taggedWith: function(tags, excludeIds) {
+      var q = query('DataSets')
+        .select('DataSets.*')
+        .distinct()
+        .join('DataSetsDataTags', 'DataSets.id', '=', 'DataSetsDataTags.dataSetId')
+        .join('DataTags', 'DataTags.id', '=', 'DataSetsDataTags.dataTagId')
+        .whereIn('DataTags.name', tags)
+        .groupBy('DataSets.id')
+        .having(query.raw('count(*) = ' + tags.length));
+      if (excludeIds && excludeIds.length > 0) {
+        q = q.whereNotIn('DataSets.id', excludeIds)
+      }
+      return q;
     }
   });
 
