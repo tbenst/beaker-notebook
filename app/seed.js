@@ -38,15 +38,20 @@ module.exports.dropAll = function(configPath) {
   app         = app || (require('./models').init({}, configPath));
   var models  = app.Models;
 
-  // we need to sequence the truncations
-  // to prevent too many open connections to the
-  // database at once, otherwise knex complains and
-  // bombs out.
-  return sequence(_(models).map(function(model) {
-    return _.partial(function(tableName) {
-      return app.DB.knex(inflection.pluralize(tableName)).truncate();
-    }, model.prototype.tableName)
-  }).value());
+  function findAllTables() {
+    return app.DB.knex('information_schema.tables')
+      .select('table_name')
+      .where('table_schema', '=', 'public')
+      .andWhere('table_name', '<>', 'knex_migrations');
+  }
+
+  return findAllTables()
+    .then(function(names) {
+      truncateAll = _.map(names, function(n) {
+        return "TRUNCATE \"" + n.table_name + "\""
+      }).join(";");
+      return app.DB.knex.raw(truncateAll)
+    });
 }
 
 function setAssociations(model, modelName, associations, models) {
