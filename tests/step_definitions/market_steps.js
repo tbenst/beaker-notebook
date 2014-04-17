@@ -30,7 +30,7 @@ module.exports = function() {
     return bluebird.all(itemSaves);
   });
 
-  this.When(/^there is a market item with the tags "([^"]*)"$/, function(tags, callback) {
+  function seedDataSet(title, tags) {
     var tagNames    = [].concat(tags.split(","));
     var _this       = this;
     var marketItem  = marketItemBase();
@@ -49,7 +49,22 @@ module.exports = function() {
         lookup: {"DataTag": tagNames.map(function(tagName) { return {name: tagName}; })}
       }];
 
-      return _this.seed(marketItem);
+      return _this.seed(_.merge(marketItem, {
+        data: {
+          title: title
+        }
+      }));
+    });
+  }
+
+  this.When(/^there is a market item with the tags "([^"]*)"$/, function(tags) {
+    return seedDataSet.call(this, "Credit Card Complaints", tags)
+  });
+
+  this.Given(/^I have the following market items:$/, function(table, callback) {
+    var _this = this;
+    return bluebird.map(table.hashes(), function(attrs) {
+      return seedDataSet.call(_this, attrs.title, attrs.tags)
     });
   });
 
@@ -143,5 +158,24 @@ module.exports = function() {
     var marketVendorFilter = new this.Widgets.MarketVendorFilter;
 
     return marketVendorFilter.selectMatching(vendors.split(","));
+  });
+
+  this.When(/^I view the "([^"]*)" market item$/, function(title) {
+    var marketList = new this.Widgets.MarketList();
+    return marketList.clickItem(title);
+  });
+
+  this.Then(/^I should see "([^"]*)" is related$/, function(title) {
+    var relatedItems = new this.Widgets.RelatedItems;
+    return relatedItems.itemTitle(0).should.eventually.equal(title);
+  });
+
+  this.When(/^I view the "([^"]*)" related item$/, function(title) {
+    var relatedItems = new this.Widgets.RelatedItems;
+    return relatedItems.clickItem(title);
+  });
+
+  this.Then(/^I should see no related items$/, function() {
+    return new this.Widgets.RelatedItems().items().should.eventually.have.length(0);
   });
 }
