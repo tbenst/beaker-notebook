@@ -1,0 +1,4 @@
+[submodule "beaker/beaker-standalone"]
+	path = beaker/beaker-standalone
+	url = git@github.com:twosigma/beaker-notebook.git
+	branch = bunsen
