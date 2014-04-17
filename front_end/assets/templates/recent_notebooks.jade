@@ -1,0 +1,5 @@
+h1
+  b Recent Notebooks
+ul.project-results
+  li(ng-repeat="recent in recentNotebooks")
+    a(ui-sref="projects.items.item.notebook({id: recent.projectId, name: recent.notebookName})") {{recent.notebookName}}

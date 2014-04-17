@@ -41,6 +41,13 @@
         notebook = {name: "New Notebook"};
         $scope.notebookLocation  = $sce.trustAsResourceUrl(newNotebookLocation(userId, projectId));
       }
+
+      F.RecentNotebooks.add({
+        notebookName: notebook.name,
+        projectId: $state.params.id
+      }).then(function(d) {
+        $scope.$parent.recentNotebooks = d.recentNotebooks;
+      })
       $scope.notebook = notebook;
     });
   }]);
