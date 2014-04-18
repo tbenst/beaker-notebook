@@ -2,7 +2,8 @@
   "scripts": {
     "bower": "./node_modules/bower/bin/bower install",
     "watch": "./node_modules/roots/bin/roots watch",
-    "compile": "./node_modules/roots/bin/roots compile --compress"
+    "compile": "./node_modules/roots/bin/roots compile --compress",
+    "dev-compile": "./node_modules/roots/bin/roots compile --no-compress"
   },
   "devDependencies": {
     "bower": "~1.2.8",
