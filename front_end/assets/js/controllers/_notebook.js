@@ -1,5 +1,5 @@
 !(function(angular, app) {
-  app.controller('notebook', ['$scope', '$state', '$sce','Factories', 'UrlGeneratorService', function($scope, $state, $sce, Factories, UrlGeneratorService) {
+  app.controller('notebook', ['$scope', '$state', '$sce','Factories', 'UrlGeneratorService', '$sessionStorage', function($scope, $state, $sce, Factories, UrlGeneratorService, $sessionStorage) {
     var F = Factories;
 
     $scope.projects.search = '';
@@ -32,8 +32,7 @@
     });
 
     F.Notebooks.getNotebook($state.params.id, $state.params.name).then(function(notebook) {
-
-      var userId = $scope.project.parentResource.id;
+      var userId    = $sessionStorage.currentUser.id
       var projectId = $scope.project.id;
 
       if (notebook.name) {
