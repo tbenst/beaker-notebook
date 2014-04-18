@@ -50,7 +50,20 @@
       }
     })
     .state('projects.items.item.notebook', {
-      url: '/notebooks/:name',
+        url: '/notebooks/:name',
+        views: {
+          "app@projects": {
+            controller: 'notebook',
+            template: templates.notebook
+          },
+          "nav@projects": {
+            controller: 'project',
+            template: templates.notebook_list
+          }
+        }
+      })
+    .state('projects.items.item.notebook.new', {
+      url: '/notebooks/new',
       views: {
         "app@projects": {
           controller: 'notebook',

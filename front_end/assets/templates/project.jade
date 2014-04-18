@@ -30,6 +30,8 @@
       .col-quarter Updated at: {{notebook.lastModified | date: 'short'}}
       .col-quarter Commits: {{notebook.numCommits}}
       .cl
+    li
+      a(ui-sref="projects.items.item.notebook.new({id: project.id})") New Notebook
 
 .col-quarter
   h2
