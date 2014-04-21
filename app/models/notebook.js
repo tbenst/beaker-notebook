@@ -28,7 +28,7 @@ module.exports = function(Bookshelf, app) {
       // from the save method
       this.attributes = _.merge(this.attributes, options);
 
-      var notebook = notebookFile(this.get('userId'), this.get('projectId'), this.get('name'));
+      var notebook = notebookFile(this.get('userId'), this.get('projectId'), this.get('name'), options.relativeRoot);
       var git = new Git(notebook['dir']);
       var self = this;
 
@@ -115,9 +115,11 @@ function contains(a, b) {
   return a.toLowerCase().indexOf(b.toLowerCase()) != -1;
 }
 
-function notebookFile(userId, projectId, name) {
+function notebookFile(userId, projectId, name, relativeRoot) {
+  relativeRoot = relativeRoot || "";
+
   var file = name + ".bkr";
-  var dir = path.join("repos", userId.toString(), projectId.toString(), name);
+  var dir = path.join(relativeRoot, "repos", userId.toString(), projectId.toString(), name);
   return {
     path: path.join(dir, file),
     dir: dir,
