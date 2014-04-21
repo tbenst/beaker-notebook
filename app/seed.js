@@ -51,6 +51,8 @@ module.exports.dropAll = function(configPath) {
         return "TRUNCATE \"" + n.table_name + "\""
       }).join(";");
       return app.DB.knex.raw(truncateAll)
+    }).then(function() {
+      return models;
     });
 }
 
