@@ -1,6 +1,6 @@
 var _ = require("lodash"),
     W = require('when'),
-    notebook = require('../lib/notebook');
+    notebook = require('./notebook');
 
 module.exports = function(Bookshelf) {
   var query   = Bookshelf.knex;
