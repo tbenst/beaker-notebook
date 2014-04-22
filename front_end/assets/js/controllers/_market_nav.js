@@ -56,7 +56,7 @@
     });
 
     $scope.$watch('marketPlace.searchTerm', function(v) {
-      if (v !== void(0) && v !== '') {
+      if (v !== void(0)) {
         newSearch({searchTerm: $scope.marketPlace.searchTerm});
       }
     });
