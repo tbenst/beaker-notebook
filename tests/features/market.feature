@@ -60,6 +60,24 @@ As a researcher, I want to be able to use the market place.
     And I return to the market results
     Then I should see the "cat" tags selected
 
+  Scenario: Market items text search
+    Given I have the following market items:
+      | title                  |
+      | Credit Card Complaints |
+      | Crime in Canada        |
+    When I view the market search
+    And I search marketplace by "canada"
+    Then I should see "1" market item on the market list page
+    And I should see the "Crime in Canada" market item on the market list page
+
+  Scenario: Market items text search for non-matching term
+    Given I have the following market items:
+      | title                  |
+      | Crime in Canada        |
+    When I view the market search
+    And I search marketplace by "crime in mexico"
+    Then I should see "0" market item on the market list page
+
   Scenario: Related market items
     Given I have the following market items:
       | title                       | tags                      |

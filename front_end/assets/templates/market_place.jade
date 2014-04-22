@@ -50,7 +50,7 @@
     li(ng-repeat="item in marketPlace.data")
       p
         .col-three-quarters
-          a(ui-sref="marketPlace.items.item({id: item.id})") {{item.title}}
+          a.title(ui-sref="marketPlace.items.item({id: item.id})") {{item.title}}
           p.description {{item.description | limitTo:100}} {{item.description.length > 100 ? "..." : ""}}
           .vendor Publisher: {{vendorName(item)}}
         .col-quarter

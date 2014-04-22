@@ -31,6 +31,7 @@ module.exports = function() {
   });
 
   function seedDataSet(title, tags) {
+    if (!tags) {tags = 'test'}
     var tagNames    = [].concat(tags.split(","));
     var _this       = this;
     var marketItem  = marketItemBase();
@@ -158,6 +159,16 @@ module.exports = function() {
     var marketVendorFilter = new this.Widgets.MarketVendorFilter;
 
     return marketVendorFilter.selectMatching(vendors.split(","));
+  });
+
+  this.When(/^I search marketplace by "([^"]*)"$/, function(term) {
+    var marketTextSearch = new this.Widgets.MarketTextSearch;
+    return marketTextSearch.setTerm(term);
+  });
+
+  this.Then(/^I should see the "([^"]*)" market item on the market list page$/, function(title) {
+    var marketList = new this.Widgets.MarketList()
+    return marketList.contains(title).should.eventually.be.true;
   });
 
   this.When(/^I view the "([^"]*)" market item$/, function(title) {
