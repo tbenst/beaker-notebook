@@ -69,9 +69,16 @@ As a researcher, I want to manage my projects.
       | hello rb | hello world in ruby       |
       | hello js | hello world in javascript |
     When I go to my projects
-    Then I should see the "hello rb" project detail page
     When I open the "hello js" project
     And I go to my projects
+    Then I should see the "hello js" project detail page
+
+  Scenario: Open first project by default
+    Given I have the following Projects:
+      | name     | description               |
+      | hello js | hello world in javascript |
+      | hello rb | hello world in ruby       |
+    When I go to my projects
     Then I should see the "hello js" project detail page
 
   Scenario: Open projects after deleting last visited
