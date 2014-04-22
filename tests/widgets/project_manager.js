@@ -16,6 +16,14 @@ module.exports = function() {
       return this.driver.executeScript(xpath).then(function(a) {
         return a.click();
       });
+    },
+
+    itemNames: function() {
+      return this.findAll(this.itemSelector).then(function(nodes) {
+        return $.map(nodes, function(n) {
+          return n.getInnerHtml();
+        });
+      });
     }
   });
 };
