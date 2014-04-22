@@ -28,7 +28,7 @@ As a researcher, I want to manage my projects.
 
   Scenario: Empty Project Dashboard Searching
     Given I search for project "ghost of tom jones"
-    Then I should see "0" project results.
+    Then I should see 0 project results.
 
   Scenario: Project list ordering
     Given I have the following Projects:
@@ -50,7 +50,7 @@ As a researcher, I want to manage my projects.
       | bobby jean         | ghost of tom jones     |
       | rage               | againt the machine     |
     And I search for project "ghost of tom jones"
-    Then I should see "2" project results.
+    Then I should see 2 project results.
 
   Scenario: Project Dashboard ReSearching
     Given I have the following Projects:
@@ -61,7 +61,7 @@ As a researcher, I want to manage my projects.
     And I search for project "ghost of tom jones"
     And I view the first search result
     And I search for project "rage"
-    Then I should see "1" project results.
+    Then I should see 1 project results.
 
   Scenario: Open last project
     Given I have the following Projects:

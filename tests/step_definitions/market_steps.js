@@ -21,7 +21,7 @@ module.exports = function() {
     return this.seed(marketItemBase());
   });
 
-  this.When(/^there is "([^"]*)" market items$/, function(count, callback) {
+  this.When(/^there is (\d+) market items$/, function(count, callback) {
     var itemSaves = [];
     for(var i = 0; i < +count; ++i) {
       itemSaves.push(this.seed(marketItemBase()));
@@ -78,7 +78,7 @@ module.exports = function() {
     return marketFilter.setSearchText(searchText);
   });
 
-  this.Then(/^I should see "([^"]*)" market item on the market list page$/, function(count) {
+  this.Then(/^I should see (\d+) market item on the market list page$/, function(count) {
     var marketList = new this.Widgets.MarketList()
 
     return marketList.items().should.eventually.have.length(+count);
@@ -104,7 +104,7 @@ module.exports = function() {
     return marketTagFilter.selectMatching(tags.split(","));
   });
 
-  this.Then(/^I should see "([^"]*)" total results$/, function(count) {
+  this.Then(/^I should see (\d+) total results$/, function(count) {
     var marketSearchPage = new this.Widgets.MarketSearchPage();
 
     return marketSearchPage.getTotalResults().then(function(v) {
