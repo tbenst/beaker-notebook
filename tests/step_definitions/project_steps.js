@@ -113,4 +113,23 @@ module.exports = function() {
     var projectSearch = new this.Widgets.ProjectSearchList;
     return projectSearch.click(0);
   });
+
+  this.When(/^I go to my projects$/, function() {
+    var _this = this;
+    // This step is meant to always refresh the projects view (which is a default view after signing in)
+    return new this.Widgets.MainNav().visitMarketPlace()
+      .then(function() {
+        new _this.Widgets.MainNav().visitProjects()
+      });
+  });
+
+  this.Then(/^I should see the "([^"]*)" project detail page$/, function(name) {
+    var projectDetail = new this.Widgets.ProjectDetail();
+    return projectDetail.name().should.eventually.equal(name);
+  });
+
+  this.When(/^I open the "([^"]*)" project$/, function(name) {
+    var projectManager = new this.Widgets.ProjectManager();
+    return projectManager.clickProject(name);
+  });
 }

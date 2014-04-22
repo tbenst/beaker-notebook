@@ -1,7 +1,11 @@
 !(function(angular, app) {
-  app.controller('project', ['$scope', '$state', 'Factories', function($scope, $state, Factories) {
+  app.controller('project', ['$scope', '$state', 'Factories', '$localStorage', function($scope, $state, Factories, $localStorage) {
     var F = Factories;
     $scope.editMode = false;
+
+    // Save last visited project
+    $localStorage.projects = $localStorage.projects || {};
+    $localStorage.projects.last = $state.params.id;
 
     F.Projects.getProject($state.params.id).then(function(d) {
       $scope.project = d;
@@ -36,7 +40,7 @@
         $scope.projects.list =  _.where($scope.projects.list, function(p) {
           return p.id !== +$state.params.id;
         });
-
+        delete $localStorage.projects.last
         $state.go('projects.items');
       });
     };
