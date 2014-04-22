@@ -69,7 +69,6 @@ As a researcher, I want to manage my projects.
       | hello rb | hello world in ruby       |
       | hello js | hello world in javascript |
     When I go to my projects
-    Then I should see the "hello rb" project detail page
     When I open the "hello js" project
     And I go to my projects
     Then I should see the "hello js" project detail page

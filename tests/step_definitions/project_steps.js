@@ -125,7 +125,8 @@ module.exports = function() {
     // This step is meant to always refresh the projects view (which is a default view after signing in)
     return new this.Widgets.MainNav().visitMarketPlace()
       .then(function() {
-        new _this.Widgets.MainNav().visitProjects()
+        var mainNav = new _this.Widgets.MainNav();
+        return mainNav.visitProjects()
       });
   });
 
