@@ -99,6 +99,12 @@ module.exports = function() {
     });
   });
 
+  this.Then(/^I should see the following project list:$/, function(table) {
+    var projectManager = new this.Widgets.ProjectManager();
+    var expected = _.map(table.rows(), function(r) {return r[0]});
+    return projectManager.itemNames().should.eventually.deep.equal(expected);
+  });
+
   this.Given(/^I have the following Projects:$/, function(table) {
       var seed = _(table.hashes()).map(function(attrs) {
         return _.merge(_.cloneDeep(projectBase), {

@@ -30,6 +30,19 @@ As a researcher, I want to manage my projects.
     Given I search for project "ghost of tom jones"
     Then I should see "0" project results.
 
+  Scenario: Project list ordering
+    Given I have the following Projects:
+      | name      | description   |
+      | project c | lorem ipsum c |
+      | project b | lorem ipsum b |
+      | project a | lorem ipsum a |
+    When I go to my projects
+    Then I should see the following project list:
+      | name      |
+      | project a |
+      | project b |
+      | project c |
+
   Scenario: Project Dashboard Searching
     Given I have the following Projects:
       | name               | description            |
