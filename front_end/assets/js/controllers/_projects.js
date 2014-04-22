@@ -3,7 +3,7 @@
     delete $scope.projects.search;
 
     function goToLast(list) {
-      if (!list) {return}
+      if (!(list && list[0])) {return}
 
       var id = list[0].id;
       if ($localStorage.projects && $localStorage.projects.last) {
