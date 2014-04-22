@@ -78,6 +78,16 @@ As a researcher, I want to be able to use the market place.
     And I search marketplace by "crime in mexico"
     Then I should see "0" market item on the market list page
 
+  Scenario: Clear market items text search
+    Given I have the following market items:
+      | title                  |
+      | Credit Card Complaints |
+      | Crime in Canada        |
+    When I view the market search
+    And I search marketplace by "canada"
+    And I search marketplace by ""
+    Then I should see "2" market item on the market list page
+
   Scenario: Related market items
     Given I have the following market items:
       | title                       | tags                      |
