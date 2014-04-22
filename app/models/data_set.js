@@ -149,7 +149,7 @@ module.exports = function(Bookshelf, app) {
     searchTermQueryBuilder: function(term) {
       return query('DataSets')
         .select('DataSets.*')
-        .join('Vendors', 'Vendors.id', '=', 'DataSets.vendorId')
+        .join('Vendors', 'Vendors.id', '=', 'DataSets.vendorId', 'left')
         .where('title', 'ILIKE', '%' + term + '%')
         .orWhere('description', 'ILIKE', '%' + term + '%')
         .orWhere('Vendors.name', 'ILIKE', '%' + term + '%')
