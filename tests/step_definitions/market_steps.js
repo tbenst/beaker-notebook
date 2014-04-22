@@ -78,7 +78,7 @@ module.exports = function() {
     return marketFilter.setSearchText(searchText);
   });
 
-  this.Then(/^I should see (\d+) market item on the market list page$/, function(count) {
+  this.Then(/^I should see (\d+) market items? on the market list page$/, function(count) {
     var marketList = new this.Widgets.MarketList()
 
     return marketList.items().should.eventually.have.length(+count);
