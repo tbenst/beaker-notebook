@@ -60,9 +60,12 @@ module.exports = function(app) {
     },
 
     get: function(req, res, next) {
-      req.dataSet.load('users').then(function(d) {
-        res.json(d);
-      }).catch(next);
+      req.dataSet.load('users')
+        .then(function(dataSet) {
+          return dataSet.withRelated();
+        })
+        .then(res.json.bind(res))
+        .catch(next);
     },
 
     update: function(req, res, next) {

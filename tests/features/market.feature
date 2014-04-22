@@ -59,3 +59,15 @@ As a researcher, I want to be able to use the market place.
     And I view the first market item
     And I return to the market results
     Then I should see the "cat" tags selected
+
+  Scenario: Related market items
+    Given I have the following market items:
+      | title                       | tags                      |
+      | Quarterly E-commerce Report | finance,e-commerce        |
+      | Amazon Annual Report        | amazon,e-commerce,finance |
+      | The World Bank Report 2013  | finance,world bank        |
+    And I view the market search
+    When I view the "Quarterly E-commerce Report" market item
+    Then I should see "Amazon Annual Report" is related
+    When I view the "Amazon Annual Report" related item
+    Then I should see no related items
