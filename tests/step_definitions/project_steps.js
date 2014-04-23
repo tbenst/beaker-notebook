@@ -92,7 +92,7 @@ module.exports = function() {
     return projectSearch.search(searchText);
   });
 
-  this.Then(/^I should see "([^"]*)" project results\.$/, function (expectedCount) {
+  this.Then(/^I should see (\d+) project results\.$/, function (expectedCount) {
     var projectSearch = new this.Widgets.ProjectSearch;
     return projectSearch.getCount().then(function(count) {
       assert.equal(expectedCount, count);
