@@ -19,6 +19,10 @@
         "nav@projects": {
           controller: 'projectsList',
           template: templates.project_list
+        },
+        "recent-notebooks@projects": {
+          controller: 'recentNotebooks',
+          template: templates.recent_notebooks
         }
       }
     })

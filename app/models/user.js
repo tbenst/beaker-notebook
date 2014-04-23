@@ -1,4 +1,5 @@
-var _ = require("lodash");
+var _                     = require("lodash");
+var MAX_RECENT_NOTEBOOKS  = 5;
 
 module.exports = function(Bookshelf, app) {
   var query   = Bookshelf.knex;
@@ -7,6 +8,21 @@ module.exports = function(Bookshelf, app) {
 
     projects: function(id) {
       return this.hasMany(app.Models.Project, 'ownerId')
+    },
+
+    addRecentNotebook: function(notebook) {
+      var recentNotebooks = _.uniq([notebook].concat(this.getRecentNotebooks())
+                            .slice(0, MAX_RECENT_NOTEBOOKS), function(n) {
+                              return n.projectId + "-" + n.notebookName;
+                            });
+
+      return this.save({
+        recentNotebooks: JSON.stringify(recentNotebooks)
+      }, {patch: true});
+    },
+
+    getRecentNotebooks: function() {
+      return JSON.parse(this.get("recentNotebooks"));
     },
 
     addSubscription: function(dataSet) {

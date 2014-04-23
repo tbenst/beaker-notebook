@@ -8,7 +8,8 @@
     'ProjectsFactory',
     'RelatedTagsFactory',
     'TagsFactory',
-    'VendorsFactory'
+    'VendorsFactory',
+    'RecentNotebooksFactory'
   ]
 
   // Build a function defining the master factory:

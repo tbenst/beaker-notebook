@@ -1,3 +1,5 @@
 .projects-root(ng-controller="projectsRoot")
-  .nav.col-quarter(ui-view="nav")
+  .col-quarter.project-sidebar
+    .nav(ui-view="nav")
+    .recent-notebooks(ui-view="recent-notebooks")
   #app(ui-view="app")

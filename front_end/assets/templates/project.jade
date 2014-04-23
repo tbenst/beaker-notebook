@@ -20,9 +20,9 @@
   br
 
   h3 Notebooks
-  ul
-    li(ng-show="notebooks.length === 0") no notebooks yet.
-    li(ng-repeat="notebook in notebooks")
+  ul.notebook-list
+    li(ng-if="notebooks.length === 0") no notebooks yet.
+    li.single-notebook(ng-repeat="notebook in notebooks")
       .col-quarter
         b {{notebook.name}}
       .col-quarter

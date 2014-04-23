@@ -14,7 +14,7 @@ Bunsen API Server
 ### Generating new migrations
 
 * After you have run npm install
-* `./node_modules/knex/bin/knex migrate:make migration_name --environment=development`
+* `./node_modules/.bin/knex migration_name --environment=development`
 
 ### Reseed database
 This task will drop the development DB, recreate it, run migrations, and then reseed the data.
