@@ -12,8 +12,11 @@ var data            = Array.prototype.concat(
 );
 
 Seed(data)
+.catch(function(e) {
+  console.log(e);
+  process.exit(1);
 })
 .done(function() {
   console.log("DB seeded.")
-  process.exit();
+  process.exit(0);
 });
