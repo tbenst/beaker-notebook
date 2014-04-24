@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/twosigma/bunsen",
   "dependencies": {
-    "dill": "git://github.com/mojotech/dill.js.git#mf/bunsen",
+    "dill": "0.1.0",
     "lodash": "2.4.1",
     "request": "2.33.0",
     "bluebird": "1.2.1"
