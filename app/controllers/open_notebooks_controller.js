@@ -1,9 +1,16 @@
+var _ = require('lodash');
+
 module.exports = function(App) {
   var OpenNotebook = App.Models.OpenNotebook;
 
+  function getOpenNotebooks(req, res) {
+    return req.user.openNotebooks().query()
+    .then(res.json.bind(res));
+  }
+
   return {
     index: function(req, res, next) {
-      req.user.openNotebooks().query().then(res.json.bind(res))
+      getOpenNotebooks.apply(this, arguments)
       .catch(next);
     },
 
@@ -12,9 +19,14 @@ module.exports = function(App) {
         userId: req.user.id,
         projectId: req.query.projectId,
         notebookName: req.query.notebookName
-      }).fetch().then(function(openNotebook) {
-        return openNotebook.destroy().then(res.json.bind(res));
-      }).catch(next);
+      })
+      .fetch().then(function(openNotebook) {
+        if (openNotebook !== null) {
+          return openNotebook.destroy();
+        }
+      })
+      .then(_.partial(getOpenNotebooks, req, res))
+      .catch(next);
     },
 
     add: function(req, res, next) {
@@ -26,9 +38,9 @@ module.exports = function(App) {
 
       notebook.fetch().then(function(n) {
         if (n !== null) {
-          return res.json(n);
+          return getOpenNotebooks(req, res);
         } else {
-          return notebook.save().then(res.json.bind(res));
+          return notebook.save().then(_.partial(getOpenNotebooks, req, res));
         }
       }).catch(next);
     }

@@ -5,6 +5,13 @@
     $scope.projects.search = '';
     $scope.projects.list = [];
 
+    $scope.closeNotebook = function(projectId, notebookName) {
+      F.Notebooks.close.apply(this, arguments).then(function(openNotebooks) {
+        $scope.$parent.openNotebooks = openNotebooks;
+        $state.go('^');
+      })
+    }
+
     var beakerUrl = function(subPath, params) {
       return "http://" + window.location.hostname + ":8801/beaker/#/" +
         subPath + "?" + UrlGeneratorService.toParams(params);
@@ -42,12 +49,17 @@
         $scope.notebookLocation  = $sce.trustAsResourceUrl(newNotebookLocation(userId, projectId));
       }
 
+      F.Notebooks.open(projectId, notebook.name).then(function(openNotebooks) {
+        $scope.$parent.openNotebooks = openNotebooks;
+      });
+
       F.RecentNotebooks.add({
         notebookName: notebook.name,
         projectId: $state.params.id
       }).then(function(d) {
         $scope.$parent.recentNotebooks = d.recentNotebooks;
       })
+
       $scope.notebook = notebook;
     });
   }]);

@@ -23,6 +23,10 @@
         "recent-notebooks@projects": {
           controller: 'recentNotebooks',
           template: templates.recent_notebooks
+        },
+        "open-notebooks@projects": {
+          controller: 'openNotebooks',
+          template: templates.open_notebooks
         }
       }
     })
