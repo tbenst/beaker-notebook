@@ -34,6 +34,7 @@
     "bookshelf": "0.6.8"
   },
   "devDependencies": {
-    "node-inspector": "0.7.0"
+    "node-inspector": "0.7.0",
+    "istanbul": "git://github.com/samccone/istanbul#a762e2e1ec8f0579de8520c9e27e0fc7fc2744b0"
   }
 }
