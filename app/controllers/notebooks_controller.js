@@ -2,9 +2,7 @@ module.exports = function(app) {
   return {
     index: function(req, res, next) {
       app.Models.Notebook.list({userId: req.user.id, projectId: req.project.id})
-        .then(function(notebooks) {
-          res.json(notebooks);
-        })
+        .then(res.json.bind(res))
         .catch(next);
     },
 
@@ -25,10 +23,8 @@ module.exports = function(app) {
         projectId: req.project.id,
         name: req.params.notebook_name
       })
-        .then(function(data) {
-          res.json(data);
-        })
-        .catch(next);
+      .then(res.json.bind(res))
+      .catch(next);
     },
 
     notebookContents: function(req, res, next) {
