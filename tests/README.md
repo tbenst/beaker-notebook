@@ -12,7 +12,7 @@ Bunsen Integration tests.
 
   Currently tests require you to open 3 shell instances. The following commands assume that the current directory of your shells are the tests directory.
 
-  * `$ cd ../app && NODE_ENV=test npm run-script migrate && NODE_ENV=test npm start`
+  * `$ cd ../app && NODE_ENV=test npm run-script migrate && npm run-script start-test`
   * `$ cd ../front_end && NODE_ENV=test npm run-script compile`
   * `$ npm run-script start`
 
