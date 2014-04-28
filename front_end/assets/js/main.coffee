@@ -4,3 +4,4 @@
 #= require_tree "filters"
 #= require_tree "factories"
 #= require_tree "services"
+#= require_tree "directives"

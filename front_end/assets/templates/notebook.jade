@@ -3,5 +3,4 @@
   button.right.close-notebook(ng-click="closeNotebook(project.id, notebook.name)") close notebook
   .cl
   h2 Notebook: {{notebook.name}}
-
-  iframe(ng-src="{{ notebookLocation }}"  width="700" height="1000")
+  beakernotebook(src="{{ notebookLocation }}", width="700", height="1000")

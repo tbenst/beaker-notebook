@@ -1,13 +1,16 @@
 !(function(angular, app) {
   app.controller('notebook', ['$scope', '$state', '$sce','Factories', 'UrlGeneratorService', '$sessionStorage', function($scope, $state, $sce, Factories, UrlGeneratorService, $sessionStorage) {
     var F = Factories;
-
+    var frame;
     $scope.projects.search = '';
     $scope.projects.list = [];
 
     $scope.closeNotebook = function(projectId, notebookName) {
       F.Notebooks.close.apply(this, arguments).then(function(openNotebooks) {
         $scope.$parent.openNotebooks = openNotebooks;
+        if (frame = document.querySelector("iframe[src='"+$scope.notebookLocation.toString()+"']")) {
+          document.body.removeChild(frame);
+        }
         $state.go('^');
       })
     }
