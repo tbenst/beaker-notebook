@@ -11,6 +11,7 @@ module.exports.init = function(app) {
   require('./vendor_routes.js')(app);
   require('./tag_routes.js')(app);
   require('./recent_notebook_routes.js')(app);
+  require('./open_notebooks_routes.js')(app);
 
   return app;
 };

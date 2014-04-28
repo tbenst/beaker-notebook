@@ -1,5 +1,7 @@
-.col-half
-  a(ui-sref="projects.items.item({id: project.id})") ← Back to project home
+.col-half.notebook
+  a.left(ui-sref="projects.items.item({id: project.id})") ← Back to project home
+  button.right.close-notebook(ng-click="closeNotebook(project.id, notebook.name)") close notebook
+  .cl
   h2 Notebook: {{notebook.name}}
 
   iframe(ng-src="{{ notebookLocation }}"  width="700" height="1000")

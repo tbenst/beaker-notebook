@@ -26,3 +26,24 @@ Feature: Use Notebooks
       | name              |
       | powderpuff girls  |
       | top secret        |
+
+  Scenario: Open Notebooks
+    When I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    Then I should see the following open notebooks:
+      | name              |
+      | top secret        |
+    And I go to my projects
+    And I open the "ghost of tom jones" project
+    And I view the notebook "powderpuff girls"
+    Then I should see the following open notebooks:
+      | name              |
+      | top secret        |
+      | powderpuff girls  |
+
+  Scenario: Closing Notebooks
+    When I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    And I close the notebook
+    Then I should see the following open notebooks:
+      | name              |

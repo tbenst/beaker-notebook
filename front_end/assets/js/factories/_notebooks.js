@@ -7,8 +7,26 @@
     }
 
     return {
+      open: function(projectId, notebookName) {
+        return R.all('open_notebooks').post({
+          projectId: projectId,
+          notebookName: notebookName
+        });
+      },
+
+      close: function(projectId, notebookName) {
+        return R.all('open_notebooks').remove({
+          projectId: projectId,
+          notebookName: notebookName
+        });
+      },
+
       getNotebook: function(projectId, name) {
         return project(projectId).one('notebooks', name).get();
+      },
+
+      getOpenNotebooks: function() {
+        return R.all('open_notebooks').getList();
       },
 
       getNotebooks: function(projectId) {
