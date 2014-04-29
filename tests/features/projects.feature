@@ -20,6 +20,16 @@ As a researcher, I want to manage my projects.
       | name            | description          |
       | Science Project | For the Science Fair |
 
+  Scenario: Project edits are reflected in the sidebar
+    Given I'm looking at a project
+    When I edit the project
+    And I update the project as follows:
+      | name          | description          |
+      | Led Zeppelin  | For the Science Fair |
+    Then I should see the following project list:
+      | name          |
+      | Led Zeppelin  |
+
   Scenario: Delete a project
     Given I'm looking at a project
     When I edit the project
