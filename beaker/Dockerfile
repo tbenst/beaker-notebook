@@ -6,7 +6,7 @@ ADD apt/sid.list /etc/apt/sources.list.d/
 ADD apt/preferences /etc/apt/
 RUN apt-get update
 
-RUN apt-get install -y -qq --no-install-recommends libc6=2.18-4 libc6-dev=2.18-4 libc-dev-bin=2.18-4 locales=2.18-4 build-essential ruby1.9.1 ruby-dev python libzmq3-dbg libzmq3-dev libzmq3 nginx ipython git nodejs npm julia r-base r-base-dev adduser
+RUN apt-get install -y -qq --no-install-recommends libc6=2.18-4 libc6-dev=2.18-4 libc-dev-bin=2.18-4 locales=2.18-4 build-essential ruby1.9.1 ruby-dev python libzmq3-dbg libzmq3-dev libzmq3 nginx ipython git nodejs npm julia r-base r-base-dev adduser libfuse-dev fuse-utils libcurl4-openssl-dev libxml2-dev mime-support automake libtool pkg-config libcurl4-openssl-dev wget
 
 RUN gem install iruby --no-ri --no-rdoc
 
@@ -28,6 +28,9 @@ RUN /root/install_oracle_jdk.sh
 
 ADD install_gradle.sh /root/
 RUN /root/install_gradle.sh
+
+ADD install_s3fs.sh /root/
+RUN /root/install_s3fs.sh
 
 RUN adduser beaker --disabled-password --gecos ""
 ADD beaker-standalone/core/ /home/beaker/core/
