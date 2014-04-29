@@ -28,6 +28,12 @@
 
     $scope.updateProject = function() {
       $scope.project.put().then(function() {
+
+        _.extend(
+          _.findWhere($scope.projects.list),
+          _.pick($scope.project, ['name', 'description'])
+        );
+
         $scope.editMode = false;
       });
     }
