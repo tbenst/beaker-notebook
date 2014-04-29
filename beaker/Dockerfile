@@ -44,4 +44,10 @@ EXPOSE 8801
 USER beaker
 WORKDIR /home/beaker
 ENV HOME /home/beaker
-ENTRYPOINT gradle -p /home/beaker/core/config/builds/dev/ run
+
+# Add multiple entrypoint scripts
+ADD run_beaker.sh /opt/entrypoints/
+
+# Run all entrypoints
+ADD run_entrypoints.sh /opt/
+ENTRYPOINT ["/opt/run_entrypoints.sh"]
