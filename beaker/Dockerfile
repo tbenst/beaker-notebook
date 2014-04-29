@@ -41,7 +41,6 @@ RUN chown -R beaker.beaker /home/beaker
 RUN su - beaker -c 'gradle -p /home/beaker/core/config/builds/dev/ build'
 
 EXPOSE 8801
-USER beaker
 WORKDIR /home/beaker
 ENV HOME /home/beaker
 
