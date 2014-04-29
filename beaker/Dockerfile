@@ -43,8 +43,10 @@ RUN su - beaker -c 'gradle -p /home/beaker/core/config/builds/dev/ build'
 EXPOSE 8801
 WORKDIR /home/beaker
 ENV HOME /home/beaker
+VOLUME ["/s3"]
 
 # Add multiple entrypoint scripts
+ADD mount_s3.sh /opt/entrypoints/
 ADD run_beaker.sh /opt/entrypoints/
 
 # Run all entrypoints
