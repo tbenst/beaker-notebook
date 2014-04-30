@@ -4,6 +4,7 @@ module.exports = function(app) {
 
   app.get('/api/projects/:project_id/notebooks', NotebooksController.index);
   app.post('/api/projects/:project_id/notebooks', NotebooksController.create);
+  app.post('/api/projects/:project_id/notebooks/import', NotebooksController.import);
   app.get('/api/projects/:project_id/notebooks/:notebook_name', NotebooksController.get);
   app.get('/api/projects/:project_id/notebooks/:notebook_name/contents', NotebooksController.notebookContents);
   app.put('/api/projects/:project_id/notebooks/:notebook_name', NotebooksController.update);
