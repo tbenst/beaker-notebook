@@ -8,16 +8,20 @@
     $localStorage.projects = $localStorage.projects || {};
     $localStorage.projects.last = $state.params.id;
 
+    function loadNotebooks() {
+      F.Notebooks.getNotebooks($state.params.id).then(function(notebooks) {
+        $scope.notebooks = notebooks.list;
+        $scope.numCommits = notebooks.numCommits;
+        $scope.notebookUpdated = notebooks.lastUpdated;
+      });
+    }
+
     F.Projects.getProject($state.params.id).then(function(d) {
       $scope.project = d;
       $scope.updatedAt = new Date(d.updated_at);
     });
 
-    F.Notebooks.getNotebooks($state.params.id).then(function(notebooks) {
-      $scope.notebooks = notebooks.list;
-      $scope.numCommits = notebooks.numCommits;
-      $scope.notebookUpdated = notebooks.lastUpdated;
-    });
+    loadNotebooks();
 
     $scope.$watch('updatedAt + notebookUpdated', function() {
       $scope.lastUpdated = new Date(Math.max($scope.updatedAt, $scope.notebookUpdated));
@@ -66,6 +70,7 @@
           file: file
         }).then(function() {
           $scope.importMode = false;
+          loadNotebooks();
         });
       })
     };
