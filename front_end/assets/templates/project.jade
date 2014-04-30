@@ -31,7 +31,7 @@
       .col-quarter Commits: {{notebook.numCommits}}
       .cl
     li
-      a(ui-sref="projects.items.item.notebook.new({id: project.id})") New Notebook
+      a.btn(ui-sref="projects.items.item.notebook.new({id: project.id})") New Notebook
     li(ng-hide="importMode")
       a.btn(ng-click="importNotebooks()") Import
     li(ng-show="importMode")
