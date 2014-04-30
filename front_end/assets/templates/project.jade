@@ -32,6 +32,10 @@
       .cl
     li
       a(ui-sref="projects.items.item.notebook.new({id: project.id})") New Notebook
+    li(ng-hide="importMode")
+      a.btn(ng-click="importNotebooks()") Import
+    li(ng-show="importMode")
+      input(type="file" ng-file-select="onFileSelect($files)" multiple)
 
 .col-quarter
   h2
