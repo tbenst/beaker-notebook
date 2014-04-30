@@ -1,12 +1,15 @@
 {
   "scripts": {
-    "bower": "./node_modules/bower/bin/bower install",
-    "watch": "./node_modules/roots/bin/roots watch",
-    "compile": "./node_modules/roots/bin/roots compile --compress",
-    "dev-compile": "./node_modules/roots/bin/roots compile --no-compress"
+    "bower": "bower install",
+    "watch": "roots watch",
+    "compile": "roots compile --compress",
+    "dev-compile": "roots compile --no-compress",
+    "test-server": "NODE_ENV=test npm run-script dev-compile && node test-server"
   },
   "devDependencies": {
     "bower": "~1.2.8",
-    "roots": "2.1.3"
+    "roots": "2.1.3",
+    "istanbul-middleware": "^0.1.1",
+    "express": "^4.1.1"
   }
 }

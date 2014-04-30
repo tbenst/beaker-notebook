@@ -21,6 +21,14 @@ module.exports = function() {
     })
   });
 
+  this.AfterAll(function() {
+    // post back to the front_end server to report coverage
+    return $.all[
+      this.driver.executeScript('$.ajax("/coverage/client", {data: JSON.stringify(window.__coverage__),contentType: "application/json",type: "POST",complete: function(){}});'),
+      this.driver.sleep(2000)
+    ];
+  });
+
   this.seed = function(models) {
     return Seed(Array.prototype.concat(models));
   };
