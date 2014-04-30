@@ -104,75 +104,68 @@ As a researcher, I want to be able to use the market place.
     Given I have the following market items:
       | title                       | description                              |
       | Quarterly E-commerce Report | All revenue from e-commerce each quarter |
-    When I view the data set details for "Quarterly E-commerce Report"
-    Then I should see the description "All revenue from e-commerce each quarter"
+    And I view the market search
+    When I view the "Quarterly E-commerce Report" market item
+    Then I should see the market description "All revenue from e-commerce each quarter"
 
   Scenario: Data set details vendor
     Given I have the following market items:
-      | title           | vendor            |
-      | Crime in Canada | Statistics Canada |
-    When I view the data set details for "Crime in Canada"
-    Then I should see the vendor "Statistics Canada"
+      | title           | vendors             |
+      | Delta Quadrant  | Starship Voyager    |
+    And I view the market search
+    And I view the "Delta Quadrant" market item
+    Then I should see the vendor "Starship Voyager"
 
   Scenario: Data set details format
     Given I have the following market items:
       | title                     | format |
       | US Electricity Statistics | CSV    |
-    When I view the data set details for "US Electricity Statistics"
+    And I view the market search
+    And I view the "US Electricity Statistics" market item
     Then I should see the format "CSV"
-
-  Scenario: Data set details updated
-    Given I have the following market items:
-      | title                   | description                       | updated    |
-      | US Petroleum Statistics | US petroleum import quantities    | 18/04/2014 |
-    And I change the description to "Yearly US US petroleum import quantities"
-    When I view the data set details for "US Petroleum Statistics"
-    Then I should see the updated TODAYS_DATE
 
   Scenario: Data set details frequency
     Given I have the following market items:
-      | title               | frequency |
-      | Crime Rates, Canada | Annually  |
-    When I view the data set details for "Crime Rates, Canada"
+      | title               | updateFrequency |
+      | Crime Rates, Canada | Annually        |
+    And I view the market search
+    And I view the "Crime Rates, Canada" market item
     Then I should see the frequency "Annually"
 
   Scenario: Data set details tags
     Given I have the following market items:
-      | title               | tags                 |
-      | Crime Rates, Canada | crime, stats, canada |
-    When I view the data set details for "Crime Rates, Canada"
-    Then I should see the tags "crime, stats, canada"
+      | title               | tags               |
+      | Crime Rates, Canada | crime,stats,canada |
+    And I view the market search
+    And I view the "Crime Rates, Canada" market item
+    Then I should see the tags "stats,crime,canada"
 
   Scenario: Market place related tags
     Given I have the following market items:
-      | title                      | tags                 |
-      | Crime Rates, Canada        | crime, stats, canada |
-      | Population in Canada       | census, canada       |
-      | The World Bank Report 2013 | finance,world bank   |
+      | title                      | tags               |
+      | Crime Rates, Canada        | crime,stats,canada |
+      | Population in Canada       | census,canada      |
+      | The World Bank Report 2013 | finance,world bank |
     When I view the market search
     And I filter the market page by "Canada"
-    Then I should see the related tags "crime, stats, canada, census"
+    Then I should see the related tags "canada,census,stats,crime"
 
   Scenario: Market item description in list
     Given I have the following market items:
-      | title               | description                               |
-      | Crime Rates, Canada | Yearly crimes reported per 100,000 people |
+      | title               | description                               | format |
+      | Crime Rates, Canada | Yearly crimes reported per 100,000 people | XML    |
     When I view the market search
     And I filter the market page by "crime"
-    Then I should see the description "Yearly crimes reported per 100,000 people"
-
-  Scenario: Market item format in list
-    Given I have the following market items:
-      | title               | format |
-      | Crime Rates, Canada | XML    |
-    When I view the market search
-    And I filter the market page by "crime"
-    Then I should see the format "XML"
+    Then I should see the following market results
+      | title                     | description                               | format | vendors |
+      | Crime Rates, Canada       | Yearly crimes reported per 100,000 people | XML    |         |
 
   Scenario: Market item vendor in list
     Given I have the following market items:
-      | title               | vendor            |
-      | Crime Rates, Canada | Statistics Canada |
+      | title                     | description                               | format | vendors            |
+      | Crime Rates, Canada       | Yearly crimes reported per 100,000 people | XML    | Statistics Canada  |
     When I view the market search
     And I filter the market page by "Canada"
-    Then I should see the vendor "Statistics Canada"
+    Then I should see the following market results
+      | title                     | description                               | format | vendors            |
+      | Crime Rates, Canada       | Yearly crimes reported per 100,000 people | XML    | Statistics Canada  |
