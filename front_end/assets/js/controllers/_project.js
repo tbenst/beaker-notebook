@@ -35,14 +35,15 @@
       $scope.importMode = true;
     };
 
+    function loadProjectList() {
+      F.Projects.getProjects($scope).then(function(d) {
+        $scope.projects.list = d;
+      });
+    }
+
     $scope.updateProject = function() {
       $scope.project.put().then(function() {
-
-        _.extend(
-          _.findWhere($scope.projects.list),
-          _.pick($scope.project, ['name', 'description'])
-        );
-
+        loadProjectList();
         $scope.editMode = false;
       });
     }
