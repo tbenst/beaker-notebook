@@ -8,6 +8,7 @@ Feature: Use Notebooks
       | name               | projectName        |
       | top secret         | ghost of tom jones |
       | powderpuff girls   | ghost of tom jones |
+    And I go to my projects
 
   Scenario: Notebooks Listing
     When I open the "ghost of tom jones" project
