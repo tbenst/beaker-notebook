@@ -48,7 +48,7 @@
     $scope.marketPlace.itemsPerPage = 10;
     $scope.marketPlace.maxSize = 5;
 
-    F.Tags.then(function(d) {
+    F.Tags.getTags().then(function(d) {
       $scope.tags = d;
     });
 
@@ -56,7 +56,7 @@
       $scope.formats = d;
     });
 
-    F.Vendors.then(function(v) {
+    F.Vendors.getVendors().then(function(v) {
       $scope.marketPlace.vendors = v;
     });
 
