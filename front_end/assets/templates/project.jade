@@ -30,10 +30,11 @@
       .col-quarter Updated at: {{notebook.lastModified | date: 'short'}}
       .col-quarter Commits: {{notebook.numCommits}}
       .cl
+  ul.import-notebooks
     li
       a.btn(ui-sref="projects.items.item.notebook.new({id: project.id})") New Notebook
     li(ng-hide="importMode")
-      a.btn(ng-click="importNotebooks()") Import
+      a.import.btn(ng-click="importNotebooks()") Import
     li(ng-show="importMode")
       input(type="file" ng-file-select="onFileSelect($files)" multiple)
 

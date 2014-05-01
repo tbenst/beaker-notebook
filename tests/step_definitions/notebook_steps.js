@@ -54,4 +54,11 @@ module.exports = function() {
   this.When(/^I close the notebook$/, function(callback) {
     return (new this.Widgets.Notebook()).close();
   });
+
+  this.When(/^I import the notebook by uploading the "([^"]*)" file$/, function(file) {
+    var importWidget = new this.Widgets.ImportNotebooks();
+    return importWidget.import().then(function() {
+      return importWidget.attachFile("hello_world.bkr")
+    })
+  });
 }

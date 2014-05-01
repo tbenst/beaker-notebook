@@ -48,3 +48,11 @@ Feature: Use Notebooks
     And I close the notebook
     Then I should see the following open notebooks:
       | name              |
+  Scenario: Importing notebooks
+    When I open the "ghost of tom jones" project
+    And I import the notebook by uploading the "hello_world.bkr" file
+    Then I should see the following notebooks
+      | name               |
+      | hello_world        |
+      | powderpuff girls   |
+      | top secret         |
