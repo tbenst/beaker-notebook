@@ -14,6 +14,7 @@
               frame.src = v;
               frame.setAttribute('width', attrs.width);
               frame.setAttribute('height', attrs.height);
+              frame.setAttribute('class', 'beaker');
               document.body.appendChild(frame);
             }
 

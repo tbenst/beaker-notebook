@@ -32,7 +32,7 @@
       .cl
   ul.import-notebooks
     li
-      a.btn(ui-sref="projects.items.item.notebook.new({id: project.id})") New Notebook
+      a.btn.new-notebook(ui-sref="projects.items.item.notebook.new({id: project.id})") New Notebook
     li(ng-hide="importMode")
       a.import.btn(ng-click="importNotebooks()") Import
     li(ng-show="importMode")
