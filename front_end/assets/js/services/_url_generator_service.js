@@ -2,8 +2,6 @@
   // This code is largely copied from jquery's "params" function.
   app.service('UrlGeneratorService', function() {
 
-    var r20 = /%20/g;
-
     function buildParams( prefix, obj, traditional, add ) {
       if ( _.isArray(obj) ) {
 	// Serialize array item.
@@ -49,7 +47,7 @@
 	  buildParams( prefix, a[prefix], true, add );
         }
         // Return the resulting serialization
-        return s.join("&").replace(r20, "+");
+        return s.join("&");
       }
     }
   });
