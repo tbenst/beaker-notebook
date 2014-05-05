@@ -119,4 +119,4 @@ As a researcher, I want to manage my projects.
     And I update the project as follows:
       | description                               |
       | Researching a new theory on stock prices  |
-    Then I should see last updated as todays date
+    Then I should see last updated as today's date
