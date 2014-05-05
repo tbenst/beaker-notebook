@@ -1,0 +1,23 @@
+dns_v4_first on
+
+acl blocked_websites dstdomain {{ squid_blocked_websites }}
+
+http_access deny blocked_websites
+http_access allow all
+
+http_port {{ squid_host }}:{{ squid_port }}
+
+http_port {{ squid_host }}:{{ squid_intercepted_http_port }} intercept
+https_port {{ squid_host }}:{{ squid_intercepted_https_port }} intercept ssl-bump generate-host-certificates=on key=/etc/squid3/private.pem cert=/etc/squid3/public.pem
+
+ssl_bump server-first all
+sslproxy_cert_error deny all
+sslcrtd_program /usr/lib/squid3/ssl_crtd -s /usr/local/squid3/var/lib/ssl_db -M 4MB
+sslcrtd_children 8 startup=1 idle=1
+
+coredump_dir /var/spool/squid3
+
+refresh_pattern ^ftp:           1440    20%     10080
+refresh_pattern ^gopher:        1440    0%      1440
+refresh_pattern -i (/cgi-bin/|\?) 0     0%      0
+refresh_pattern .               0       20%     4320
