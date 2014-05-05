@@ -18,6 +18,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     d.vm.provision :ansible do |a|
       a.playbook   = "ansible/dev.yml"
+      a.extra_vars = {
+        squid_blocked_websites: ".github.com",
+        docker_options: "--restart=false -H unix:///var/run/docker.sock -H tcp://0.0.0.0:4243",
+        docker_environment: "http_proxy=http://localhost:3128 https_proxy=http://localhost:3128"
+      }
     end
   end
 end
