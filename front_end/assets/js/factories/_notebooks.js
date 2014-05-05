@@ -40,9 +40,9 @@
           }, 0);
 
           return {
-            list: notebooks,
+            notebooks: notebooks,
             numCommits: numCommits,
-            lastUpdated: Math.max.apply(null, updates)
+            lastUpdatedAt: Math.max.apply(null, updates)
           };
         });
       }

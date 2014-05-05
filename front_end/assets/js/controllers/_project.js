@@ -9,10 +9,8 @@
     $localStorage.projects.last = $state.params.id;
 
     function loadNotebooks() {
-      F.Notebooks.getNotebooks($state.params.id).then(function(notebooks) {
-        $scope.notebooks = notebooks.list;
-        $scope.numCommits = notebooks.numCommits;
-        $scope.notebookUpdated = notebooks.lastUpdated;
+      F.Notebooks.getNotebooks($state.params.id).then(function(d) {
+        _.extend($scope, _.pick(d, ['notebooks', 'numCommits', 'lastUpdatedAt']));
       });
     }
 
@@ -23,8 +21,8 @@
 
     loadNotebooks();
 
-    $scope.$watch('updatedAt + notebookUpdated', function() {
-      $scope.lastUpdated = new Date(Math.max($scope.updatedAt, $scope.notebookUpdated));
+    $scope.$watch('updatedAt + lastUpdatedAt', function() {
+      $scope.lastUpdated = new Date(Math.max($scope.updatedAt, $scope.lastUpdatedAt));
     });
 
     $scope.editProject = function() {
