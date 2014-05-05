@@ -52,7 +52,10 @@ module.exports = function() {
   });
 
   this.When(/^I close the notebook$/, function(callback) {
-    return (new this.Widgets.Notebook()).close();
+    var _this = this;
+    return (new this.Widgets.Notebook()).close().then(function() {
+      return (new _this.Widgets.ProjectDetail).find();
+    });
   });
 
   this.When(/^I import the notebook by uploading the "([^"]*)" file$/, function(file) {
