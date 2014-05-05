@@ -47,14 +47,18 @@
   br
   br
   ul.market-list
-    li(ng-repeat="item in marketPlace.data")
+    li.market-list-item(ng-repeat="item in marketPlace.data")
       p
         .col-three-quarters
           a.title(ui-sref="marketPlace.items.item({id: item.id})") {{item.title}}
           p.description {{item.description | limitTo:100}} {{item.description.length > 100 ? "..." : ""}}
-          .vendor Publisher: {{vendorName(item)}}
+          .vendor
+            | Publisher:
+            span.vendors {{vendorName(item)}}
         .col-quarter
-          .format Format: {{item.format}}
+          .format
+            | Format:
+            span.formats {{item.format}}
           .last-updated Updated: {{item.lastUpdated | date: 'dd/MM/yyyy'}}
         .cl
       br

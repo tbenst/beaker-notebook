@@ -1,4 +1,5 @@
 var assert      = require("assert");
+var moment      = require("moment");
 var _           = require("lodash");
 var projectBase = {
   model: "Project",
@@ -138,5 +139,16 @@ module.exports = function() {
   this.When(/^I open the "([^"]*)" project$/, function(name) {
     var projectManager = new this.Widgets.ProjectManager();
     return projectManager.clickProject(name);
+  });
+
+  this.Then(/^I should see the description "([^"]*)"$/, function(description, callback) {
+    var projectDetail = new this.Widgets.ProjectDetail();
+    return projectDetail.description().should.eventually.equal(description);
+  });
+
+  this.Then(/^I should see last updated as todays date$/, function(callback) {
+    var projectDetail = new this.Widgets.ProjectDetail();
+
+    return projectDetail.updatedAt().should.eventually.contain(moment().format("M/DD/YY"));
   });
 }

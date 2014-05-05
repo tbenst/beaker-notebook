@@ -21,6 +21,36 @@ module.exports = function() {
     return this.seed(marketItemBase());
   });
 
+  this.Then(/^I should see the following market results$/, function(table) {
+    return new this.Widgets.MarketList().contents().should.eventually.eql(table.hashes());
+  });
+
+  this.Then(/^I should see the tags "([^"]*)"$/, function(tags) {
+    return $.map([].concat(tags.split(",")), _.bind(function(tag) {
+      return (new this.Widgets.MarketItem()).tags().should.eventually.contain(tag);
+    }, this));
+  });
+
+  this.Then(/^I should see the frequency "([^"]*)"$/, function(frequency) {
+    return (new this.Widgets.MarketItem()).frequency().should.eventually.contain(frequency);
+  });
+
+  this.Then(/^I should see the format "([^"]*)"$/, function(formats) {
+    return (new this.Widgets.MarketItem()).format().should.eventually.contain(formats);
+  });
+
+  this.Then(/^I should see the vendor "([^"]*)"$/, function(vendor) {
+    return (new this.Widgets.MarketItem()).vendors().should.eventually.contain(vendor);
+  });
+
+  this.Then(/^I should see the market description "([^"]*)"$/, function(description) {
+    return (new this.Widgets.MarketItem()).description().should.eventually.equal(description);
+  });
+
+  this.Then(/^I should see the related tags "([^"]*)"$/, function(tags) {
+    return (new this.Widgets.MarketRelatedTags()).is([].concat(tags.split(",")));
+  });
+
   this.When(/^there is (\d+) market items$/, function(count, callback) {
     var itemSaves = [];
     for(var i = 0; i < +count; ++i) {
@@ -30,43 +60,62 @@ module.exports = function() {
     return bluebird.all(itemSaves);
   });
 
-  function seedDataSet(title, tags) {
-    if (!tags) {tags = 'test'}
-    var tagNames    = [].concat(tags.split(","));
+  function seedDataSet(opts) {
+    var info = _.defaults(opts, {
+      title: marketItemBase().data.title,
+      tags: 'test',
+      description:  marketItemBase().data.description,
+      vendors: '',
+      updateFrequency: marketItemBase().data.updateFrequency
+    });
+
+    info.tags     = [].concat(info.tags.split(','));
+    info.vendors  = [].concat(info.vendors.split(','));
+
     var _this       = this;
     var marketItem  = marketItemBase();
 
-    return this.seed(tagNames.map(function(tagName) {
+    return this.seed(info.vendors.map(function(vendorName) {
       return {
-        model: 'DataTag',
+        model: 'Vendor',
         data: {
-          name: tagName
+          name: vendorName
         }
       }
-    }))
+    })).then(function() {
+      return _this.seed(info.tags.map(function(tagName) {
+        return {
+          model: 'DataTag',
+          data: {
+            name: tagName
+          }
+        }
+      }))
+    })
     .then(function() {
       marketItem.associations = [{
         joinTable: "DataSetsDataTags",
-        lookup: {"DataTag": tagNames.map(function(tagName) { return {name: tagName}; })}
+        lookup: {"DataTag": info.tags.map(function(tagName) { return {name: tagName}; })}
+      }, {
+        foreignKey: "vendorId",
+        lookup: {"Vendor": info.vendors.map(function(vendorName) { return {name: vendorName}; })}
       }];
 
+      delete info.tags;
+      delete info.vendors;
+
       return _this.seed(_.merge(marketItem, {
-        data: {
-          title: title
-        }
+        data: info
       }));
     });
   }
 
   this.When(/^there is a market item with the tags "([^"]*)"$/, function(tags) {
-    return seedDataSet.call(this, "Credit Card Complaints", tags)
+    return seedDataSet.call(this, {tags: tags});
   });
 
   this.Given(/^I have the following market items:$/, function(table, callback) {
-    var _this = this;
-    return bluebird.map(table.hashes(), function(attrs) {
-      return seedDataSet.call(_this, attrs.title, attrs.tags)
-    });
+    return bluebird.map(table.hashes(), _.bind(seedDataSet, this));
   });
 
   this.When(/^I view the market search$/, function(callback) {
@@ -132,27 +181,8 @@ module.exports = function() {
     });
   });
 
-  this.When(/^there is a market item with the vendor "([^"]*)"$/, function(vendors, callback) {
-    var vendorNames = [].concat(vendors.split(","));
-    var _this       = this;
-    var marketItem  = marketItemBase();
-
-    return this.seed(vendorNames.map(function(vendorName) {
-      return {
-        model: 'Vendor',
-        data: {
-          name: vendorName
-        }
-      }
-    }))
-    .then(function() {
-      marketItem.associations = [{
-        foreignKey: "vendorId",
-        lookup: {"Vendor": vendorNames.map(function(vendorName) { return {name: vendorName}; })}
-      }];
-
-      return _this.seed(marketItem);
-    });
+  this.When(/^there is a market item with the vendor "([^"]*)"$/, function(vendors) {
+    return seedDataSet.call(this, {vendors: vendors});
   });
 
   this.When(/^I filter by search by selecting the "([^"]*)" vendors$/, function(vendors, callback) {

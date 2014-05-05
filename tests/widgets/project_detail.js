@@ -12,6 +12,10 @@ module.exports = function() {
 
     description: function() {
       return this.read('.project-description');
+    },
+
+    updatedAt: function() {
+      return this.read('.last-updated')
     }
   });
 };

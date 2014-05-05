@@ -100,3 +100,23 @@ As a researcher, I want to manage my projects.
     And I open the "hello js" project
     When I delete the project
     Then I should see the "hello rb" project detail page
+
+  Scenario: Project Description
+    Given I have the following Projects:
+      | name     | description               |
+      | hello js | hello world in javascript |
+    And I go to my projects
+    And I open the "hello js" project
+    Then I should see the description "hello world in javascript"
+
+  Scenario: Project updated date
+    Given I have the following Projects:
+      | name              | description                          | updated_at                |
+      | Finance Research  | Researching a theory on stock prices | 2014-04-29 09:45:18.697   |
+    And I go to my projects
+    And I open the "Finance Research" project
+    And I edit the project
+    And I update the project as follows:
+      | description                               |
+      | Researching a new theory on stock prices  |
+    Then I should see last updated as todays date

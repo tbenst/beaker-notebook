@@ -99,3 +99,73 @@ As a researcher, I want to be able to use the market place.
     Then I should see "Amazon Annual Report" is related
     When I view the "Amazon Annual Report" related item
     Then I should see no related items
+
+  Scenario: Data set details description
+    Given I have the following market items:
+      | title                       | description                              |
+      | Quarterly E-commerce Report | All revenue from e-commerce each quarter |
+    And I view the market search
+    When I view the "Quarterly E-commerce Report" market item
+    Then I should see the market description "All revenue from e-commerce each quarter"
+
+  Scenario: Data set details vendor
+    Given I have the following market items:
+      | title           | vendors             |
+      | Delta Quadrant  | Starship Voyager    |
+    And I view the market search
+    And I view the "Delta Quadrant" market item
+    Then I should see the vendor "Starship Voyager"
+
+  Scenario: Data set details format
+    Given I have the following market items:
+      | title                     | format |
+      | US Electricity Statistics | CSV    |
+    And I view the market search
+    And I view the "US Electricity Statistics" market item
+    Then I should see the format "CSV"
+
+  Scenario: Data set details frequency
+    Given I have the following market items:
+      | title               | updateFrequency |
+      | Crime Rates, Canada | Annually        |
+    And I view the market search
+    And I view the "Crime Rates, Canada" market item
+    Then I should see the frequency "Annually"
+
+  Scenario: Data set details tags
+    Given I have the following market items:
+      | title               | tags               |
+      | Crime Rates, Canada | crime,stats,canada |
+    And I view the market search
+    And I view the "Crime Rates, Canada" market item
+    Then I should see the tags "stats,crime,canada"
+
+  Scenario: Market place related tags
+    Given I have the following market items:
+      | title                      | tags               |
+      | Crime Rates, Canada        | crime,stats,canada |
+      | Population in Canada       | census,canada      |
+      | The World Bank Report 2013 | finance,world bank |
+    When I view the market search
+    And I filter the market page by "Canada"
+    Then I should see the related tags "canada,census,stats,crime"
+
+  Scenario: Market item description in list
+    Given I have the following market items:
+      | title               | description                               | format |
+      | Crime Rates, Canada | Yearly crimes reported per 100,000 people | XML    |
+    When I view the market search
+    And I filter the market page by "crime"
+    Then I should see the following market results
+      | title                     | description                               | format | vendors |
+      | Crime Rates, Canada       | Yearly crimes reported per 100,000 people | XML    |         |
+
+  Scenario: Market item vendor in list
+    Given I have the following market items:
+      | title                     | description                               | format | vendors            |
+      | Crime Rates, Canada       | Yearly crimes reported per 100,000 people | XML    | Statistics Canada  |
+    When I view the market search
+    And I filter the market page by "Canada"
+    Then I should see the following market results
+      | title                     | description                               | format | vendors            |
+      | Crime Rates, Canada       | Yearly crimes reported per 100,000 people | XML    | Statistics Canada  |
