@@ -2,3 +2,8 @@
 
 - name: initial setup work
   hosts: all
+  vars:
+    docker_options: "--restart=false -H unix:///var/run/docker.sock -H tcp://0.0.0.0:4243"
+    docker_environment: "http_proxy=http://localhost:3128 https_proxy=http://localhost:3128"
+  roles:
+    - docker
