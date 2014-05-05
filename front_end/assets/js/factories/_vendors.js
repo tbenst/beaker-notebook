@@ -1,7 +1,11 @@
 !(function(app) {
 
-  app.factory('VendorsFactory', ['CachedRestangular', function(CachedRestangular) {
-    return CachedRestangular.one('vendors').getList();
+  app.factory('VendorsFactory', ['Restangular', function(Restangular) {
+    return {
+      getVendors: function() {
+        return Restangular.one('vendors').getList();
+      }
+    }
   }]);
 
 })(window.bunsen);

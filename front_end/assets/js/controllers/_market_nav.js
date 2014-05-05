@@ -51,7 +51,7 @@
       return _.contains($scope.marketPlace.tagScope, tag.id.toString());
     };
 
-    F.Categories.then(function(treeData) {
+    F.Categories.getCategories().then(function(treeData) {
       $scope.treeData = treeData;
     });
 

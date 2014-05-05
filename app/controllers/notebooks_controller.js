@@ -1,4 +1,7 @@
+var path = require('path');
+
 module.exports = function(app) {
+  var Notebook = app.Models.Notebook;
   return {
     index: function(req, res, next) {
       app.Models.Notebook.list({userId: req.user.id, projectId: req.project.id})
@@ -12,6 +15,18 @@ module.exports = function(app) {
         name: req.body.name,
         data: JSON.parse(req.body.data)
       })
+        .then(function() {
+          res.json(200);
+        })
+        .catch(next);
+    },
+
+    import: function(req, res, next) {
+      new Notebook({userId: req.user.id,
+        projectId: req.project.id,
+        name: path.basename(req.files.file.originalFilename, '.bkr'),
+        path: req.files.file.path
+      }).save()
         .then(function() {
           res.json(200);
         })

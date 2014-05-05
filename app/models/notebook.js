@@ -32,18 +32,35 @@ module.exports = function(Bookshelf, app) {
       var git = new Git(notebook['dir']);
       var self = this;
 
-      return writeFile(notebook['path'], RDWR_EXCL, this.get('data'))
-      .then(git.init.bind(git), _.bind(function(e) {
-        console.log("* A notebook with '" + this.get('name') + "' name already exists within this project");
-        return this.update(this.attributes);
-      }, this))
-      .then(git.init.bind(git))
-      .then(git.addToIndex.bind(git, [notebook['file']]))
-      .then(function(oid) {
-        return git.commit(oid, []);
-      }).then(function() {
-        return self;
-      });
+      return this.getData().then(function(data) {
+        if (!data) {
+          throw new Error('Invalid notebook format');
+        } else {
+          return writeFile(notebook['path'], RDWR_EXCL, data)
+            .then(git.init.bind(git), _.bind(function(e) {
+              console.log("* A notebook with '" + this.get('name') + "' name already exists within this project");
+              return this.update(this.attributes);
+            }, this))
+            .then(git.init.bind(git))
+            .then(git.addToIndex.bind(git, [notebook['file']]))
+            .then(function(oid) {
+              return git.commit(oid, []);
+            }).then(function() {
+              return self;
+            });
+        }
+      })
+    },
+
+    getData: function() {
+      var dataPromise;
+
+      if (this.get('path')) {
+        dataPromise = readFile(this.get('path'));
+      } else {
+        dataPromise = when(this.get('data'));
+      }
+      return dataPromise
     },
 
     // Update existing notebook repo

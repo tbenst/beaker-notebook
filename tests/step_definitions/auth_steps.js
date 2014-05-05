@@ -16,6 +16,10 @@ module.exports = function() {
       return _this.driver.get(_this.route.signIn).then(function() {
         return new _this.Widgets.SignInForm().submitWith(userData.data);
       });
+    })
+    .then(function() {
+      var authControls = new _this.Widgets.AuthControls();
+      return authControls.getCurrentUserEmail().should.eventually.exist;
     });
   });
 
