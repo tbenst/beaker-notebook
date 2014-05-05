@@ -1,0 +1,4 @@
+---
+
+- name: initial setup work
+  hosts: all
