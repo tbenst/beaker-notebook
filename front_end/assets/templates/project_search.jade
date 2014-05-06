@@ -7,6 +7,11 @@
   br
   ul
     li(ng-repeat="project in projects.searchResults")
-      a.project( ui-sref="projects.items.item({id: project.id})") {{project.name | limitTo:30}}
-      p.desc {{project.description}}
+      .col-three-quarters
+        a.project( ui-sref="projects.items.item({id: project.id})") {{project.name | limitTo:30}}
+        p.desc {{project.description}}
+      .col-quarter
+        .notebooks Notebooks: {{project.notebooks.length}}
+        .updated Updated: {{project.lastUpdatedAt | date: 'dd/MM/yyyy'}}
+      .cl
       br
