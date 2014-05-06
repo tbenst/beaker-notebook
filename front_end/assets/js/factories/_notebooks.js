@@ -29,24 +29,6 @@
         return R.all('open_notebooks').getList();
       },
 
-      getNotebooks: function(projectId) {
-        return project(projectId).getList('notebooks').then(function(notebooks) {
-          var updates = _.map(notebooks, function(notebook) {
-            return new Date(notebook.lastModified);
-          });
-
-          var numCommits = _.reduce(notebooks, function(sum, notebook) {
-            return sum + notebook.numCommits;
-          }, 0);
-
-          return {
-            notebooks: notebooks,
-            numCommits: numCommits,
-            lastUpdatedAt: Math.max.apply(null, updates)
-          };
-        });
-      },
-
       updateNotebook: function(projectId, attrs) {
         return project(projectId).all('notebooks').one(attrs.name).put(attrs);
       },
