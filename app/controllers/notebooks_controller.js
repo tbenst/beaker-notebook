@@ -68,9 +68,11 @@ module.exports = function(app) {
       })
       .fetch()
       .then(function(notebook) {
-        return notebook.save({
-          data: JSON.parse(req.query.data)
-        }, {patch: true})
+        var attrs = _.pick(req.body, 'data', 'projectId');
+        if (attrs.data) {
+          attrs.data = JSON.parse(attrs.data);
+        }
+        return notebook.save(attrs, {patch: true});
       })
       .then(function() {
         res.send(200);
