@@ -61,22 +61,6 @@ module.exports = function(Bookshelf, app) {
         dataPromise = when(this.get('data'));
       }
       return dataPromise
-    },
-
-    // Update existing notebook repo
-    update: function(options) {
-      var notebook = notebookFile(options['userId'], options['projectId'], options['name']);
-      var git = new Git(notebook['dir']);
-
-      return writeFile(notebook['path'], 'w', options['data'])
-      .then(git.open.bind(git))
-      .then(git.addToIndex.bind(git, [notebook['file']]))
-      .then(function(oid) {
-        return git.head()
-          .then(function(parent) {
-            return git.commit(oid, [parent]);
-          });
-      });
     }
   });
 
@@ -104,6 +88,23 @@ module.exports = function(Bookshelf, app) {
         data: data
       };
     });
+  };
+
+
+  // Update existing notebook repo
+  Notebook.update = function(options) {
+    var notebook = notebookFile(options['userId'], options['projectId'], options['name']);
+    var git = new Git(notebook['dir']);
+
+    return writeFile(notebook['path'], 'w', options['data'])
+      .then(git.open.bind(git))
+      .then(git.addToIndex.bind(git, [notebook['file']]))
+      .then(function(oid) {
+        return git.head()
+          .then(function(parent) {
+            return git.commit(oid, [parent]);
+          });
+      });
   };
 
   return {
