@@ -8,7 +8,7 @@ Feature: Use Notebooks
       | name               | projectName        |
       | top secret         | ghost of tom jones |
       | powderpuff girls   | ghost of tom jones |
-    And I go to my projects
+    And I view my projects
 
   Scenario: Notebooks Listing
     When I open the "ghost of tom jones" project
@@ -20,7 +20,7 @@ Feature: Use Notebooks
   Scenario: Recent Notebooks
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
-    And I go to my projects
+    And I view my projects
     And I open the "ghost of tom jones" project
     And I view the notebook "powderpuff girls"
     Then I should see the following recent notebooks:
@@ -34,7 +34,7 @@ Feature: Use Notebooks
     Then I should see the following open notebooks:
       | name              |
       | top secret        |
-    And I go to my projects
+    And I view my projects
     And I open the "ghost of tom jones" project
     And I view the notebook "powderpuff girls"
     Then I should see the following open notebooks:
@@ -72,7 +72,7 @@ Feature: Use Notebooks
   #     | top secret       |
 
   # Scenario: Saving changes to an existing notebook
-  #   When I go to my projects
+  #   When I view my projects
   #   And I open the "ghost of tom jones" project
   #   And I view the notebook "powderpuff girls"
   #   And I save my changes to the notebook

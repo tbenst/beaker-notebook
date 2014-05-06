@@ -121,6 +121,20 @@ module.exports = function() {
     return projectSearch.click(0);
   });
 
+  this.Given(/^I view my projects$/, function() {
+    var _this = this;
+    // This step is meant to always refresh the projects view (which is a default view after signing in)
+    return new this.Widgets.MainNav().visitMarketPlace()
+      .then(function() {
+        var mainNav = new _this.Widgets.MainNav();
+        return mainNav.visitProjects()
+      })
+      .then(function() {
+        var projectDetail = new _this.Widgets.ProjectDetail();
+        return projectDetail.name().should.eventually.exist;
+      });
+  });
+
   this.When(/^I go to my projects$/, function() {
     var _this = this;
     // This step is meant to always refresh the projects view (which is a default view after signing in)
