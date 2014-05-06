@@ -165,4 +165,8 @@ module.exports = function() {
 
     return projectDetail.updatedAt().should.eventually.contain(moment().format("M/D/YY"));
   });
+
+  this.Then(/^I should see the following project results$/, function(table) {
+    return new this.Widgets.ProjectSearchList().contents().should.eventually.eql(table.hashes());
+  });
 }

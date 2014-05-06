@@ -73,6 +73,20 @@ As a researcher, I want to manage my projects.
     And I search for project "rage"
     Then I should see 1 project results.
 
+  Scenario: Project Search Metadata
+    Given I have the following Projects:
+      | name             | description                          |
+      | Finance Research | Researching a theory on stock prices |
+    And I have the following notebooks:
+      | name              | projectName      |
+      | Data preparation  | Finance Research |
+      | Hadoop map-reduce | Finance Research |
+    When I view my projects
+    And I search for project "finance"
+    Then I should see the following project results
+      | name              | notebooks |
+      | Finance Research  | 2         |
+
   Scenario: Open last project
     Given I have the following Projects:
       | name     | description               |
