@@ -1,0 +1,7 @@
+---
+
+squid_host: 127.0.0.1
+squid_port: 3128
+squid_intercepted_http_port: 3129
+squid_intercepted_https_port: 3130
+squid_blocked_websites: ""

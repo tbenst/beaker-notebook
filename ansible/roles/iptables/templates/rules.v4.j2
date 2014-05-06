@@ -1,0 +1,16 @@
+*nat
+:PREROUTING ACCEPT [0:0]
+-A PREROUTING -i docker0 -p tcp -m tcp --dport 80 -j DNAT --to-destination {{ squid_host }}:{{ squid_intercepted_http_port }}
+-A PREROUTING -i docker0 -p tcp -m tcp --dport 443 -j DNAT --to-destination {{ squid_host }}:{{ squid_intercepted_https_port }}
+COMMIT
+
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A INPUT -m state --state INVALID -j DROP
+-A OUTPUT -m owner --uid-owner proxy --jump ACCEPT
+-A OUTPUT -p tcp --dport http --jump DROP
+-A OUTPUT -p tcp --dport https --jump DROP
+-A FORWARD -m state --state INVALID -j DROP
+COMMIT

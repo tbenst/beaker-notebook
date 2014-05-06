@@ -4,18 +4,25 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box     = "debian7.4"
-  config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.4_chef-provisionerless.box"
+  config.vm.box     = "mojo-debian"
+  config.vm.box_url = "http://mojo-boxes.s3.amazonaws.com/mojo-debian-vagrant-virtualbox-1399125106.box"
 
   config.vm.provider :vmware_fusion do |v, override|
-    override.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_debian-7.4_chef-provisionerless.box"
+    override.vm.box_url = "http://mojo-boxes.s3.amazonaws.com/mojo-debian-vagrant-vmware-1399125106.box"
   end
 
-  config.vm.network :forwarded_port, guest: 4243, host: 4243, auto_correct: true # docker
+  config.vm.define "dev", primary: true do |d|
+    d.vm.hostname = "dev.local.withmojo.com"
 
-  config.vm.provision :docker do |d|
-    d.pull_images "debian:wheezy"
+    d.vm.network :forwarded_port, guest: 4243, host: 4243, auto_correct: true # docker
+
+    d.vm.provision :ansible do |a|
+      a.playbook   = "ansible/dev.yml"
+      a.extra_vars = {
+        squid_blocked_websites: ".github.com",
+        docker_options: "--restart=false -H unix:///var/run/docker.sock -H tcp://0.0.0.0:4243",
+        docker_environment: "http_proxy=http://localhost:3128 https_proxy=http://localhost:3128"
+      }
+    end
   end
-
-  config.vm.provision :shell, path: "vagrant/provision.sh"
 end

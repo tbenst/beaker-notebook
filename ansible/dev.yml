@@ -1,0 +1,8 @@
+---
+
+- name: initial setup work
+  hosts: all
+  roles:
+    - docker
+    - squid
+    - iptables

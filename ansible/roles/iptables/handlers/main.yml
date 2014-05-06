@@ -1,0 +1,7 @@
+---
+
+- name: reload iptables-persistent
+  sudo: yes
+  service: name="iptables-persistent" state=reloaded
+  notify:
+    - restart docker

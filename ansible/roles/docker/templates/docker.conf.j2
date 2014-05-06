@@ -1,0 +1,7 @@
+[Unit]
+After=iptables-persistent.service
+
+[Service]
+Environment={{ docker_environment }}
+ExecStart=
+ExecStart=/usr/bin/docker --daemon {{ docker_options }}
