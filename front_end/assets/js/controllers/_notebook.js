@@ -46,24 +46,24 @@
       $scope.project = project;
     });
 
-    F.Notebooks.getNotebook($state.params.id, $state.params.name).then(function(notebook) {
+    var prjId = $state.params.id;
+    F.Notebooks.getNotebook(prjId, $state.params.name).then(function(notebook) {
       var userId    = $sessionStorage.currentUser.id
-      var projectId = $scope.project.id;
 
       if (notebook.name) {
-        $scope.notebookLocation = $sce.trustAsResourceUrl(notebookLocation(userId, projectId, notebook.name));
+        $scope.notebookLocation = $sce.trustAsResourceUrl(notebookLocation(userId, prjId, notebook.name));
       } else {
         notebook = {name: "New Notebook"};
-        $scope.notebookLocation  = $sce.trustAsResourceUrl(newNotebookLocation(userId, projectId));
+        $scope.notebookLocation  = $sce.trustAsResourceUrl(newNotebookLocation(userId, prjId));
       }
 
-      F.Notebooks.open(projectId, notebook.name).then(function(openNotebooks) {
+      F.Notebooks.open(prjId, notebook.name).then(function(openNotebooks) {
         $scope.$parent.openNotebooks = openNotebooks;
       });
 
       F.RecentNotebooks.add({
         notebookName: notebook.name,
-        projectId: $state.params.id
+        projectId: prjId
       }).then(function(d) {
         $scope.$parent.recentNotebooks = d.recentNotebooks;
       })
