@@ -16,6 +16,10 @@ module.exports = function() {
 
     updatedAt: function() {
       return this.read('.last-updated')
+    },
+
+    addNewNotebook: function() {
+      return this.click('.new-notebook');
     }
   });
 };
