@@ -1,5 +1,5 @@
 !(function(angular, app) {
-  app.controller('project', ['$scope', '$state', 'Factories', '$localStorage', '$upload', 'Restangular', '$sessionStorage', function($scope, $state, Factories, $localStorage, $upload, Restangular, $sessionStorage) {
+  app.controller('project', ['$scope', '$state', 'Factories', '$localStorage', '$upload', 'Restangular', '$sessionStorage', 'WindowMessageService', function($scope, $state, Factories, $localStorage, $upload, Restangular, $sessionStorage, WindowMessageService) {
     var F = Factories;
     $scope.editMode = false;
     $scope.importMode = false;
@@ -17,6 +17,8 @@
     F.Projects.getProject($state.params.id).then(function(d) {
       $scope.project = d;
       $scope.updatedAt = new Date(d.updated_at);
+      WindowMessageService.addNotebookCallback(d.id, loadNotebooks);
+      loadNotebooks();
     });
 
     loadNotebooks();

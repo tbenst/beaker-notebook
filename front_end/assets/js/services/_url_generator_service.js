@@ -2,12 +2,10 @@
   // This code is largely copied from jquery's "params" function.
   app.service('UrlGeneratorService', function() {
 
-    var r20 = /%20/g;
-
     function buildParams( prefix, obj, traditional, add ) {
       if ( _.isArray(obj) ) {
 	// Serialize array item.
-	jQuery.each( obj, function( i, v ) {
+	_.each( obj, function( i, v ) {
 	  if ( traditional || /\[\]$/.test( prefix ) ) {
 	    // Treat each array item as a scalar.
 	    add( prefix, v );
@@ -20,13 +18,13 @@
 	    // a server error. Possible fixes are to modify rack's
 	    // deserialization algorithm or to provide an option or flag
 	    // to force array serialization to be shallow.
-	    buildParams( prefix + "[" + ( typeof v === "object" || jQuery.isArray(v) ? i : "" ) + "]", v, traditional, add );
+	    buildParams( prefix + "[" + ( typeof v === "object" || _.isArray(v) ? i : "" ) + "]", v, traditional, add );
 	  }
 	});
 
       } else if ( !traditional && obj != null && typeof obj === "object" ) {
 	// Serialize object item.
-	jQuery.each( obj, function( k, v ) {
+	_.each( obj, function( k, v ) {
 	  buildParams( prefix + "[" + k + "]", v, traditional, add );
 	});
 
@@ -49,7 +47,7 @@
 	  buildParams( prefix, a[prefix], true, add );
         }
         // Return the resulting serialization
-        return s.join("&").replace(r20, "+");
+        return s.join("&");
       }
     }
   });

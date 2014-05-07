@@ -1,5 +1,5 @@
 ;(function(angular, app) {
-  app.factory('NotebooksFactory', ["Restangular", function(Restangular) {
+  app.factory('NotebooksFactory', ["Restangular", '$window', '$location', function(Restangular, $window, $location) {
     var R = Restangular;
 
     function project(id) {
@@ -45,6 +45,14 @@
             lastUpdatedAt: Math.max.apply(null, updates)
           };
         });
+      },
+
+      updateNotebook: function(projectId, attrs) {
+        return project(projectId).all('notebooks').one(attrs.name).put(attrs);
+      },
+
+      createNotebook: function(projectId, attrs) {
+        return project(projectId).all('notebooks').post(attrs);
       }
     };
   }]);

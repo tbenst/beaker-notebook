@@ -10,14 +10,13 @@ module.exports = function(app) {
     },
 
     create: function(req, res, next) {
-      app.Models.Notebook.save({userId: req.user.id,
+      app.Models.Notebook.forge({userId: req.user.id,
         projectId: req.project.id,
         name: req.body.name,
         data: JSON.parse(req.body.data)
+      }).save().then(function() {
+        res.json(200);
       })
-        .then(function() {
-          res.json(200);
-        })
         .catch(next);
     },
 
@@ -57,7 +56,7 @@ module.exports = function(app) {
       app.Models.Notebook.update({userId: req.user.id,
         projectId: req.project.id,
         name: req.params.notebook_name,
-        data: JSON.parse(req.body.data)
+        data: JSON.parse(req.query.data)
       })
         .then(function() {
           res.json(200);
