@@ -30,7 +30,7 @@
       },
 
       updateNotebook: function(projectId, attrs) {
-        return project(projectId).all('notebooks').one(attrs.name).put(attrs);
+        return project(projectId).all('notebooks').one(attrs.name).customPUT(attrs);
       },
 
       createNotebook: function(projectId, attrs) {
