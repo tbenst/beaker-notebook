@@ -1,0 +1,21 @@
+FROM mojo/debian:wheezy
+MAINTAINER mojotech <ops@mojotech.com>
+
+RUN apt-get update -qq && \
+    apt-get install -qq -y --no-install-recommends -t wheezy-backports nodejs nginx roots && \
+    apt-get clean
+
+RUN update-alternatives --install /usr/bin/node nodejs /usr/bin/nodejs 100
+
+ADD . /var/www
+WORKDIR /var/www
+
+RUN roots compile --no-compress
+
+RUN mv config/.htpasswd /etc/nginx/ && \
+    mv config/default /etc/nginx/sites-available/ && \
+    echo "daemon off;" >> /etc/nginx/nginx.conf
+
+EXPOSE 8080
+
+ENTRYPOINT ["/usr/sbin/nginx"]

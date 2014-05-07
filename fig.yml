@@ -1,0 +1,17 @@
+app:
+  build: app
+  command: "--migrate --seed"
+  links:
+    - "db:db"
+  ports:
+    - "3000:3000"
+  environment:
+    NODE_ENV: development
+web:
+  build: front_end
+  ports:
+    - "8080:8080"
+db:
+  build: postgres
+  ports:
+    - "5432:5432"

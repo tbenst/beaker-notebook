@@ -4,8 +4,8 @@ module.exports = {
       client: 'pg',
       debug : true,
       connection: {
-        host     : '127.0.0.1',
-        user     : 'root',
+        host     : process.env.DB_PORT_5432_TCP_ADDR || '127.0.0.1',
+        user     : process.env.DB_USER || 'postgres',
         password : null,
         database : "bunsenDevelopment",
       },
@@ -18,8 +18,8 @@ module.exports = {
       client: 'pg',
       debug : false,
       connection: {
-        host     : '127.0.0.1',
-        user     : 'root',
+        host     : process.env.DB_PORT_5432_TCP_ADDR || '127.0.0.1',
+        user     : process.env.DB_USER || 'postgres',
         password : null,
         database : "bunsenTest",
       },
@@ -32,8 +32,8 @@ module.exports = {
       client: 'pg',
       debug : true,
       connection: {
-        host     : '127.0.0.1',
-        user     : 'root',
+        host     : process.env.DB_PORT_5432_TCP_ADDR || '127.0.0.1',
+        user     : process.env.DB_USER || 'postgres',
         password : null,
         database : "bunsenProduction",
       },
