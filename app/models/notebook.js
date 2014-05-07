@@ -38,8 +38,8 @@ module.exports = function(Bookshelf, app) {
         } else {
           return writeFile(notebook['path'], RDWR_EXCL, data)
             .then(git.init.bind(git), _.bind(function(e) {
-              console.log("* A notebook with '" + this.get('name') + "' name already exists within this project");
-              return this.update(this.attributes);
+              console.log("* A notebook with '" + self.get('name') + "' name already exists within this project");
+              return Notebook.update(self.attributes);
             }, this))
             .then(git.init.bind(git))
             .then(git.addToIndex.bind(git, [notebook['file']]))
