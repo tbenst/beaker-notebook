@@ -1,5 +1,5 @@
 !(function(angular, app) {
-  app.controller('notebook', ['$scope', '$state', '$sce','Factories', 'UrlGeneratorService', 'Restangular', '$sessionStorage', '$location', function($scope, $state, $sce, Factories, UrlGeneratorService, Restangular, $sessionStorage, $location) {
+  app.controller('notebook', ['$scope', '$state', '$sce','Factories', 'UrlGeneratorService', 'Restangular', '$sessionStorage', '$location', 'Notebooks', function($scope, $state, $sce, Factories, UrlGeneratorService, Restangular, $sessionStorage, $location, Notebooks) {
     var F = Factories;
     var frame;
     var uiUrl = $location.absUrl().split("#")[0];
@@ -9,7 +9,7 @@
 
     $scope.closeNotebook = function(projectId, notebookName) {
       F.Notebooks.close.apply(this, arguments).then(function(openNotebooks) {
-        $scope.$parent.openNotebooks = openNotebooks;
+        Notebooks.setOpenNotebooks(openNotebooks);
         if (frame = document.querySelector("iframe[src='"+$scope.notebookLocation.toString()+"']")) {
           document.body.removeChild(frame);
         }
@@ -58,14 +58,14 @@
       }
 
       F.Notebooks.open(prjId, notebook.name).then(function(openNotebooks) {
-        $scope.$parent.openNotebooks = openNotebooks;
+        Notebooks.setOpenNotebooks(openNotebooks);
       });
 
       F.RecentNotebooks.add({
         notebookName: notebook.name,
         projectId: prjId
       }).then(function(d) {
-        $scope.$parent.recentNotebooks = d.recentNotebooks;
+        Notebooks.setRecentNotebooks(d.recentNotebooks);
       })
 
       $scope.notebook = notebook;
