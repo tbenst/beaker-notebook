@@ -1,54 +1,57 @@
-FROM debian:wheezy
+FROM mojo/debian:wheezy
 
-ADD apt/backports.list /etc/apt/sources.list.d/
+ADD apt/jessie.pref /etc/apt/preferences.d/
 ADD apt/jessie.list /etc/apt/sources.list.d/
-ADD apt/sid.list /etc/apt/sources.list.d/
-ADD apt/preferences /etc/apt/
-RUN apt-get update
 
-RUN apt-get install -y -qq --no-install-recommends libc6=2.18-4 libc6-dev=2.18-4 libc-dev-bin=2.18-4 locales=2.18-4 build-essential ruby1.9.1 ruby-dev python libzmq3-dbg libzmq3-dev libzmq3 nginx ipython git nodejs npm julia r-base r-base-dev adduser libfuse-dev fuse-utils libcurl4-openssl-dev libxml2-dev mime-support automake libtool pkg-config libcurl4-openssl-dev wget
+RUN echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
 
-RUN gem install iruby --no-ri --no-rdoc
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends -t wheezy-backports \
+      build-essential \
+      fuse \
+      fuse-utils \
+      git \
+      gradle \
+      locales \
+      mime-support \
+      nginx \
+      nodejs-legacy \
+      npm \
+      oracle-java7-installer \
+      oracle-java7-set-default \
+      oracle-jdk7-installer \
+      python \
+      python-dev \
+      python-pip \
+      s3fs-fuse && \
+    apt-get clean
+
+RUN pip install ipython jinja2 tornado && \
+    pip install pyzmq --install-option="--zmq=bundled"
 
 # TODO: when beaker starts get this error:
 # nginx-stderr>nginx: [alert] could not open error log file: open() "/var/log/nginx/error.log" failed (13: Permission denied)
-# Is there a more elegant way to allow access to nginx?
-RUN ln -s /usr/sbin/nginx /usr/bin/nginx
 
-RUN ln -s /usr/bin/nodejs /usr/bin/node
+RUN update-alternatives --install /usr/bin/nginx nginx /usr/sbin/nginx 1
 
-RUN julia -e "Pkg.add(\"IJulia\")"
-RUN julia -e "Pkg.add(\"Gadfly\")"
+ENV NODE_PATH /usr/local/lib/node_modules
+RUN npm config --global set cache /home/beaker/.npm && \
+    npm config --global set registry http://registry.npmjs.org/
 
-RUN R -e "install.packages('Rserve', repos='http://www.rforge.net/')"
-RUN R -e "install.packages('ggplot2', repos='http://cran.mirrors.hoobly.com')"
-
-ADD install_oracle_jdk.sh /root/
-RUN /root/install_oracle_jdk.sh
-
-ADD install_gradle.sh /root/
-RUN /root/install_gradle.sh
-
-ADD install_s3fs.sh /root/
-RUN /root/install_s3fs.sh
-
-RUN adduser beaker --disabled-password --gecos ""
+RUN useradd beaker --create-home
+ADD main.sh /home/beaker/
 ADD beaker-standalone/core/ /home/beaker/core/
 ADD beaker-standalone/plugin/ /home/beaker/plugin/
 ADD beaker-standalone/shared/ /home/beaker/shared/
-RUN chown -R beaker.beaker /home/beaker
+RUN chown -R beaker:beaker /home/beaker
 
-RUN su - beaker -c 'gradle -p /home/beaker/core/config/builds/dev/ build'
+VOLUME ["/var/s3"]
+RUN chmod 777 /var/s3
+
+USER beaker
+RUN gradle --project-dir /home/beaker/core/config/builds/dev/ build
 
 EXPOSE 8801
-WORKDIR /home/beaker
-ENV HOME /home/beaker
-VOLUME ["/s3"]
 
-# Add multiple entrypoint scripts
-ADD mount_s3.sh /opt/entrypoints/
-ADD run_beaker.sh /opt/entrypoints/
-
-# Run all entrypoints
-ADD run_entrypoints.sh /opt/
-ENTRYPOINT ["/opt/run_entrypoints.sh"]
+CMD []
+ENTRYPOINT ["/home/beaker/main.sh"]
