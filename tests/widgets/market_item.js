@@ -24,6 +24,14 @@ module.exports = function() {
 
     goBackToSearch: function() {
       return this.click(".return-to-market-search")
+    },
+
+    subscribe: function() {
+      return this.click(".subscribe")
+    },
+
+    filePath: function() {
+      return this.read('.file-path');
     }
   });
 };

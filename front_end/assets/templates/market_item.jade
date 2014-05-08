@@ -40,5 +40,9 @@
 
 .col-quarter
   .btn-group
-    .btn(ng-click="subscribed ? unsubscribe() : subscribe()") {{subscribed ? "unsubscribe" : "subscribe"}}
+    .btn.subscribe(ng-click="subscribed ? unsubscribe() : subscribe()") {{subscribed ? "unsubscribe" : "subscribe"}}
+  .path(ng-if="subscribed")
+    | File path:
+    span.file-path {{item.remoteFile | dataSetPath}}
+
 
