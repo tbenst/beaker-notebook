@@ -8,7 +8,7 @@ var marketItemBase = function() {
     data: {
       title: "Credit Card Complaints",
       description: "We don’t verify all the facts alleged in these complaints but we do take steps to confirm a commercial relationship between the consumer and company. Complaints are listed here after the company responds or after they have had the complaint for 15 calendar days, whichever comes first. We remove complaints if they don’t meet all of the publication criteria. Data is refreshed nightly.",
-      url: "https://data.consumerfinance.gov/api/views/x3w3-u78g/rows.csv?accessType=DOWNLOAD",
+      remoteFile: "Credit_card_complaints.csv",
       rows: 350,
       format: "XML",
       updateFrequency: "Weekly"
@@ -218,5 +218,13 @@ module.exports = function() {
 
   this.Then(/^I should see no related items$/, function() {
     return new this.Widgets.RelatedItems().items().should.eventually.have.length(0);
+  });
+
+  this.When(/^I subscribe to the market item$/, function() {
+    return new this.Widgets.MarketItem().subscribe();
+  });
+
+  this.Then(/^I should see the file path "([^"]*)"$/, function(path) {
+    return (new this.Widgets.MarketItem()).filePath().should.eventually.equal(path)
   });
 }

@@ -169,3 +169,12 @@ As a researcher, I want to be able to use the market place.
     Then I should see the following market results
       | title                     | description                               | format | vendors            |
       | Crime Rates, Canada       | Yearly crimes reported per 100,000 people | XML    | Statistics Canada  |
+
+  Scenario: Market item file path
+    Given I have the following market items:
+      | title               | remoteFile |
+      | Crime Rates, Canada | CRIME.xml  |
+    And I view the market search
+    When I view the "Crime Rates, Canada" market item
+    And I subscribe to the market item
+    Then I should see the file path "/s3/CRIME.xml"
