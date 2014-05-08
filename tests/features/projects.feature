@@ -73,12 +73,26 @@ As a researcher, I want to manage my projects.
     And I search for project "rage"
     Then I should see 1 project results.
 
+  Scenario: Project Search Metadata
+    Given I have the following Projects:
+      | name             | description                          |
+      | Finance Research | Researching a theory on stock prices |
+    And I have the following notebooks:
+      | name              | projectName      |
+      | Data preparation  | Finance Research |
+      | Hadoop map-reduce | Finance Research |
+    When I view my projects
+    And I search for project "finance"
+    Then I should see the following project results
+      | name              | notebooks |
+      | Finance Research  | 2         |
+
   Scenario: Open last project
     Given I have the following Projects:
       | name     | description               |
       | hello rb | hello world in ruby       |
       | hello js | hello world in javascript |
-    When I go to my projects
+    And I view my projects
     When I open the "hello js" project
     And I go to my projects
     Then I should see the "hello js" project detail page
@@ -96,7 +110,7 @@ As a researcher, I want to manage my projects.
       | name     | description               |
       | hello rb | hello world in ruby       |
       | hello js | hello world in javascript |
-    And I go to my projects
+    And I view my projects
     And I open the "hello js" project
     When I delete the project
     Then I should see the "hello rb" project detail page
@@ -105,7 +119,7 @@ As a researcher, I want to manage my projects.
     Given I have the following Projects:
       | name     | description               |
       | hello js | hello world in javascript |
-    And I go to my projects
+    And I view my projects
     And I open the "hello js" project
     Then I should see the description "hello world in javascript"
 
@@ -113,7 +127,7 @@ As a researcher, I want to manage my projects.
     Given I have the following Projects:
       | name              | description                          | updated_at                |
       | Finance Research  | Researching a theory on stock prices | 2014-04-29 09:45:18.697   |
-    And I go to my projects
+    And I view my projects
     And I open the "Finance Research" project
     And I edit the project
     And I update the project as follows:

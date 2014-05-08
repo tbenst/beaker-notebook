@@ -12,9 +12,9 @@
 
   h2
     b Project Stats
-  .last-updated Last updated: {{lastUpdated | date: 'short'}}
+  .last-updated Last updated: {{project.lastUpdatedAt | date: 'short'}}
   .last-executed Last executed: {{project.lastExecuted || "N/A" | date: 'short'}}
-  .commits Commits: {{numCommits}}
+  .commits Commits: {{project.numCommits}}
 
   .cl
   br
@@ -22,7 +22,7 @@
   h3 Notebooks
   ul.notebook-list
     li(ng-if="notebooks.length === 0") no notebooks yet.
-    li.single-notebook(ng-repeat="notebook in notebooks")
+    li.single-notebook(ng-repeat="notebook in project.notebooks")
       .col-quarter
         b {{notebook.name}}
       .col-quarter

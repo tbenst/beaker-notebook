@@ -7,7 +7,7 @@ br
 .notebooks
   h1 {{project.name | limitTo:22}}
   div Notebooks:
-  div(ng-show="notebooks.length === 0") no notebooks yet.
+  div(ng-show="project.notebooks.length === 0") no notebooks yet.
   ul.notebook-gutter-list
-    li.single-notebook(ng-repeat="notebook in notebooks")
+    li.single-notebook(ng-repeat="notebook in project.notebooks")
       a.notebook(ui-sref-active="active", ui-sref="projects.items.item.notebook({id: project.id, name: notebook.name})") {{notebook.name | limitTo:22}}

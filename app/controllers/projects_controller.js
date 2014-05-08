@@ -23,9 +23,7 @@ module.exports = function(app) {
         userId: req.user.id,
         filterBy: decodeURIComponent(req.query.filterBy || '')
       })
-      .then(function(projects) {
-        res.json(projects.rows);
-      })
+      .then(res.json.bind(res))
       .catch(next);
     },
 
@@ -44,7 +42,9 @@ module.exports = function(app) {
     },
 
     get: function(req, res, next) {
-      res.json(req.project);
+      req.project.withNotebooks()
+        .then(res.json.bind(res))
+        .catch(next);
     },
 
     update: function(req, res, next) {

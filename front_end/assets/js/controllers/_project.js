@@ -8,24 +8,14 @@
     $localStorage.projects = $localStorage.projects || {};
     $localStorage.projects.last = $state.params.id;
 
-    function loadNotebooks() {
-      F.Notebooks.getNotebooks($state.params.id).then(function(d) {
-        _.extend($scope, _.pick(d, ['notebooks', 'numCommits', 'lastUpdatedAt']));
+    function loadProject() {
+      F.Projects.getProject($state.params.id).then(function(d) {
+        $scope.project = d;
       });
     }
 
-    F.Projects.getProject($state.params.id).then(function(d) {
-      $scope.project = d;
-      $scope.updatedAt = new Date(d.updated_at);
-      WindowMessageService.addNotebookCallback(d.id, loadNotebooks);
-      loadNotebooks();
-    });
-
-    loadNotebooks();
-
-    $scope.$watch('updatedAt + lastUpdatedAt', function() {
-      $scope.lastUpdated = new Date(Math.max($scope.updatedAt, $scope.lastUpdatedAt));
-    });
+    loadProject();
+    WindowMessageService.addNotebookCallback($state.params.id, loadProject);
 
     $scope.editProject = function() {
       $scope.editMode = true;
@@ -71,7 +61,7 @@
           file: file
         }).then(function() {
           $scope.importMode = false;
-          loadNotebooks();
+          loadProject();
         });
       })
     };
