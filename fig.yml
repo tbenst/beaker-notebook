@@ -11,8 +11,11 @@ app:
     NODE_ENV: development
 web:
   build: front_end
+  command: "--watch"
   ports:
     - "8080:8080"
+  volumes:
+    - "/vagrant/front_end:/var/www"
 db:
   build: postgres
   ports:
