@@ -1,8 +1,8 @@
 FROM mojo/debian:wheezy
 MAINTAINER mojotech <ops@mojotech.com>
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends -t wheezy-backports \
+RUN apt-get update -qq && \
+    apt-get install -qq -y --no-install-recommends -t wheezy-backports \
       nodejs \
       node-pg \
       node-nodegit \
