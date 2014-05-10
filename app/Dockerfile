@@ -13,6 +13,7 @@ RUN apt-get update -qq && \
       node-mkdirp \
       node-nodegit \
       node-pg \
+      node-pm2 \
       node-when \
       nodejs-legacy && \
     apt-get clean
