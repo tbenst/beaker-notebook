@@ -3,7 +3,6 @@ MAINTAINER mojotech <ops@mojotech.com>
 
 RUN apt-get update -qq && \
     apt-get install -qq -y --no-install-recommends \
-      nodejs \
       node-pg \
       node-nodegit \
       node-jade \
@@ -14,10 +13,10 @@ RUN apt-get update -qq && \
       node-glob \
       node-inflection \
       node-knex \
-      node-bookshelf && \
+      node-bookshelf \
+      nodejs-legacy && \
     apt-get clean
 
-RUN update-alternatives --install /usr/bin/node nodejs /usr/bin/nodejs 100
 ADD . /var/app
 
 RUN cp /var/app/config.sample.js /var/app/config.js
