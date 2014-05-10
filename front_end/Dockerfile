@@ -16,4 +16,4 @@ RUN mv config/.htpasswd /etc/nginx/ && \
 
 EXPOSE 8080
 
-ENTRYPOINT ["/usr/sbin/nginx"]
+ENTRYPOINT ["/var/www/main.sh"]
