@@ -1,10 +1,12 @@
 app:
   build: app
-  command: "--migrate --seed"
+  command: "--migrate --seed --watch"
   links:
     - "db:db"
   ports:
     - "3000:3000"
+  volumes:
+    - "/vagrant/app:/var/app"
   environment:
     NODE_ENV: development
 web:
