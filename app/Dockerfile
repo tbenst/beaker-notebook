@@ -3,17 +3,17 @@ MAINTAINER mojotech <ops@mojotech.com>
 
 RUN apt-get update -qq && \
     apt-get install -qq -y --no-install-recommends \
-      node-pg \
-      node-nodegit \
-      node-jade \
+      node-bookshelf \
       node-express \
-      node-lodash \
-      node-mkdirp \
-      node-when \
       node-glob \
       node-inflection \
+      node-jade \
       node-knex \
-      node-bookshelf \
+      node-lodash \
+      node-mkdirp \
+      node-nodegit \
+      node-pg \
+      node-when \
       nodejs-legacy && \
     apt-get clean
 
