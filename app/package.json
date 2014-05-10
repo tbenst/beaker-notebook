@@ -9,7 +9,7 @@
     "start-test": "NODE_ENV=test istanbul cover app.js --SIGINT",
     "migrate": "node migrate.js",
     "seed": "node app_seed.js",
-    "reseed": "dropdb 'bunsenDevelopment'; createdb 'bunsenDevelopment'; rm -rf repos; npm run-script migrate; npm run-script seed;",
+    "reseed": "dropdb 'bunsenDevelopment'; createdb 'bunsenDevelopment'; rm -rf .repos; npm run-script migrate; npm run-script seed;",
     "debug": "node-debug app.js"
   },
   "repository": {

@@ -120,7 +120,7 @@ module.exports.matchingProjectIds = function(userId, searchTerm) {
   .then(function(files) {
     return _(files).map(function(file) {
       // Extract project id and notebook name from the file path
-      var match = file.match(/^repos\/\d+\/(\d+)\/(.+)\/.+/)
+      var match = file.match(/^\.repos\/\d+\/(\d+)\/(.+)\/.+/)
       if (match.length && contains(match[2], searchTerm)) {
         // return matching project id
         return +match[1];
@@ -137,7 +137,7 @@ function notebookFile(userId, projectId, name, relativeRoot) {
   relativeRoot = relativeRoot || "";
 
   var file = name + ".bkr";
-  var dir = path.join(relativeRoot, "repos", userId.toString(), projectId.toString(), name);
+  var dir = path.join(relativeRoot, ".repos", userId.toString(), projectId.toString(), name);
   return {
     path: path.join(dir, file),
     dir: dir,
