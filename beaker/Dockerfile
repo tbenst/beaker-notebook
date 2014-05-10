@@ -1,4 +1,5 @@
 FROM mojo/debian:wheezy
+MAINTAINER mojotech <ops@mojotech.com>
 
 ADD apt/jessie.pref /etc/apt/preferences.d/
 ADD apt/jessie.list /etc/apt/sources.list.d/
