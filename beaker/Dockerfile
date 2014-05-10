@@ -7,7 +7,7 @@ ADD apt/jessie.list /etc/apt/sources.list.d/
 RUN echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
 
 RUN apt-get update -qq && \
-    apt-get install -y --no-install-recommends -t wheezy-backports \
+    apt-get install -qq -y --no-install-recommends -t wheezy-backports \
       build-essential \
       fuse \
       fuse-utils \
