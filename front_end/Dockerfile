@@ -2,10 +2,8 @@ FROM mojo/debian:wheezy
 MAINTAINER mojotech <ops@mojotech.com>
 
 RUN apt-get update -qq && \
-    apt-get install -qq -y --no-install-recommends -t wheezy-backports nodejs nginx roots && \
+    apt-get install -qq -y --no-install-recommends -t wheezy-backports nodejs-legacy nginx roots && \
     apt-get clean
-
-RUN update-alternatives --install /usr/bin/node nodejs /usr/bin/nodejs 100
 
 ADD . /var/www
 WORKDIR /var/www
