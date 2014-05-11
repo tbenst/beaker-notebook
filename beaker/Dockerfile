@@ -41,9 +41,9 @@ RUN npm config --global set cache /home/beaker/.npm && \
 
 RUN useradd beaker --create-home
 ADD main.sh /home/beaker/
-ADD beaker-standalone/core/ /home/beaker/core/
-ADD beaker-standalone/plugin/ /home/beaker/plugin/
-ADD beaker-standalone/shared/ /home/beaker/shared/
+ADD beaker-notebook/core/ /home/beaker/core/
+ADD beaker-notebook/plugin/ /home/beaker/plugin/
+ADD beaker-notebook/shared/ /home/beaker/shared/
 RUN chown -R beaker:beaker /home/beaker
 
 VOLUME ["/var/s3"]
