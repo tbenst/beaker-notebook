@@ -1,0 +1,13 @@
+build
+beaker/*
+node_modules
+nginx/bin
+src/main/web/template/version.html
+src/main/dist/
+*~
+.gradle
+.idea
+src/main/main.iml
+nbproject/
+build.xml
+manifest.mf
