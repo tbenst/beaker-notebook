@@ -19,10 +19,12 @@ html(ng-app="bunsen")
       include _app_header
       nav.main-nav
         .contain
-          .col-half
-            a.nav-item.projects(ui-sref="projects.items") My Projects
-            a.nav-item.market-place(ui-sref="marketPlace.items") Marketplace
-          .auth-controls.col-half
+          ul.main-nav-list.list-inline
+            li
+              a.nav-item.nav-item-active.projects(ui-sref="projects.items") My Projects
+            li
+              a.nav-item.market-place(ui-sref="marketPlace.items") Marketplace
+          .auth-controls
             span(ng-show='$session.currentUser')
               | Signed in as &nbsp;
               span.signed-in
