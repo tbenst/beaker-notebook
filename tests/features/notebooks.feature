@@ -14,8 +14,8 @@ Feature: Use Notebooks
     When I open the "ghost of tom jones" project
     Then I should see the following notebooks
       | name               |
-      | powderpuff girls   |
       | top secret         |
+      | powderpuff girls   |
 
   Scenario: Recent Notebooks
     When I open the "ghost of tom jones" project
@@ -63,9 +63,9 @@ Feature: Use Notebooks
     And I import the notebook by uploading the "hello_world.bkr" file
     Then I should see the following notebooks
       | name               |
-      | hello_world        |
-      | powderpuff girls   |
       | top secret         |
+      | powderpuff girls   |
+      | hello_world        |
 
   # Will un-comment the below 2 scenarios when we have beaker
   # up and running again for Bunsen to interact with.

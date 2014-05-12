@@ -31,10 +31,13 @@ module.exports = function() {
       return Promise.all([ _this.Models.User.forge({email: attrs.userEmail}).fetch(),
         _this.Models.Project.forge({name: attrs.projectName}).fetch()
       ]).spread(function(user, project) {
-        return (new _this.Models.Notebook).save(_.extend(notebookBase(), attrs, {
-          userId: user.id,
-          projectId: project.id
-        }, {relativeRoot: "../app"}));
+        return _this.Models.Notebook.forge(
+          _.extend(notebookBase(), _.omit(attrs, ['projectName', 'userEmail']), {
+            userId: user.id,
+            projectId: project.id
+          })
+        )
+        .save({}, {relativeRoot: "../app"});
       });
     });
   });
