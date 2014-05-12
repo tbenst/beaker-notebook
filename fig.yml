@@ -1,17 +1,26 @@
 app:
   build: app
-  command: "--migrate --seed"
+  command: "--migrate --seed --watch"
   links:
     - "db:db"
   ports:
     - "3000:3000"
+  volumes:
+    - "/vagrant/app:/var/app"
   environment:
     NODE_ENV: development
 web:
   build: front_end
+  command: "--watch"
   ports:
     - "8080:8080"
+  volumes:
+    - "/vagrant/front_end:/var/www"
 db:
   build: postgres
   ports:
     - "5432:5432"
+beaker:
+  build: beaker
+  ports:
+    - "8801:8801"

@@ -9,7 +9,7 @@ var path        = require("path");
 module.exports = function() {
   var _this = this;
   this.BeforeAll(function() {
-    return exec("rm -rf " + path.resolve(__dirname, '../../', 'app/repos'))
+    return exec("rm -rf " + path.resolve(__dirname, '../../', 'app/.repos'))
     .then(function() {
       return Seed.dropAll();
     })

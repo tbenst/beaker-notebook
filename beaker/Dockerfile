@@ -1,4 +1,5 @@
 FROM mojo/debian:wheezy
+MAINTAINER mojotech <ops@mojotech.com>
 
 ADD apt/jessie.pref /etc/apt/preferences.d/
 ADD apt/jessie.list /etc/apt/sources.list.d/
@@ -6,7 +7,7 @@ ADD apt/jessie.list /etc/apt/sources.list.d/
 RUN echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
 
 RUN apt-get update -qq && \
-    apt-get install -y --no-install-recommends -t wheezy-backports \
+    apt-get install -qq -y --no-install-recommends -t wheezy-backports \
       build-essential \
       fuse \
       fuse-utils \
@@ -40,9 +41,9 @@ RUN npm config --global set cache /home/beaker/.npm && \
 
 RUN useradd beaker --create-home
 ADD main.sh /home/beaker/
-ADD beaker-standalone/core/ /home/beaker/core/
-ADD beaker-standalone/plugin/ /home/beaker/plugin/
-ADD beaker-standalone/shared/ /home/beaker/shared/
+ADD beaker-notebook/core/ /home/beaker/core/
+ADD beaker-notebook/plugin/ /home/beaker/plugin/
+ADD beaker-notebook/shared/ /home/beaker/shared/
 RUN chown -R beaker:beaker /home/beaker
 
 VOLUME ["/var/s3"]
