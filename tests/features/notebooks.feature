@@ -68,6 +68,38 @@ Feature: Use Notebooks
       | powderpuff girls   |
       | hello_world        |
 
+  Scenario: Moving a notebook between projects
+    Given I have the following Projects:
+      | name             | description                          |
+      | Finance Research | Researching a theory on stock prices |
+    And I view my projects
+    When I open the "ghost of tom jones" project
+    And I move the "top secret" notebook to the "Finance Research" project
+    Then I should see the following notebooks
+      | name               |
+      | powderpuff girls   |
+    When I open the "Finance Research" project
+    Then I should see the following notebooks
+      | name               |
+      | top secret         |
+
+  Scenario: Moving an already existing notebook
+    Given I have the following Projects:
+      | name             | description                          |
+      | Finance Research | Researching a theory on stock prices |
+    And I have the following notebooks:
+      | name               | projectName        |
+      | top secret         | Finance Research   |
+    And I view my projects
+    When I open the "ghost of tom jones" project
+    And I move the "top secret" notebook to the "Finance Research" project
+    Then I should see the following notebooks
+      | name               |
+      | powderpuff girls   |
+      | top secret         |
+    And I should see the error: "A notebook named 'top secret' already exists in project 'Finance Research'"
+
+
   # Will un-comment the below 2 scenarios when we have beaker
   # up and running again for Bunsen to interact with.
 
