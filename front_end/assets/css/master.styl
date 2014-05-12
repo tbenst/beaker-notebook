@@ -11,11 +11,14 @@ global-reset()
 @import "_project_sidebar"
 @import "pagination.css"
 
+@import "marketplace/_vendor_item"
+
 html
   font-family: helvetica
 
 *[class*=col-]
   float: left
+  box-sizing border-box
 
 .col-quarter
   width: 25%
