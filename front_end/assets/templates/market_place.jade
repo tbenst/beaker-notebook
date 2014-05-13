@@ -70,6 +70,7 @@
               span.vendor-item-list-value {{item.lastUpdated | date: 'dd/MM/yyyy'}}
         .cl
 
-  pagination(page="marketPlace.currentPage" max-size="marketPlace.maxSize" items-per-page="marketPlace.itemsPerPage" total-items="marketPlace.totalItems")
+  .pagination-contain
+    pagination(page="marketPlace.currentPage" max-size="marketPlace.maxSize" items-per-page="marketPlace.itemsPerPage" total-items="marketPlace.totalItems")
 
 .cl
