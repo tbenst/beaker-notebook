@@ -4,8 +4,7 @@
     var F = Factories;
 
     $scope.treeOptions = {
-      nodeChildren: "children",
-      dirSelectable: true,
+      nodeChildren: "children"
     }
 
     function getDataSets() {

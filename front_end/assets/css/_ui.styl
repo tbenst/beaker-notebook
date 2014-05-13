@@ -31,9 +31,48 @@
   border: solid 1px #111
   border-radius: 3px
   display: inline-block
-  font-size: 11px
+  font-size font-size-base - 2
   margin: 1px
   cursor: pointer
 
 a.active
   font-weight: bold
+
+.sidebar-box
+  box-sizing border-box
+  padding 20px
+  background-color action-strong-blue
+  margin-bottom 20px
+
+h3.sidebar-box-header
+  padding 12px 10px 6px 20px
+  background-color action-strong-green
+  text-transform uppercase
+  font-size font-size-medium - 2
+  color white
+
+.related-tag
+  display inline-block
+  padding 6px 12px 2px 6px
+  font-size font-size-base - 1
+  background: darken(action-strong-blue, 20%)
+  margin 4px
+  position relative
+  &:after
+    content ''
+    position absolute
+    background: darken(action-strong-blue, 20%) url('../images/tag-right-arrow.png') no-repeat center center;
+    background-size contain
+    width 12px
+    height 7px
+  a
+    color white
+    text-decoration none
+    &:hover
+      text-decoration underline
+
+.related-tags-show-all
+  text-decoration none
+  font-size font-size-base - 1
+  color white
+  margin-top 12px
