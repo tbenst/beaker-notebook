@@ -11,6 +11,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     override.vm.box_url = "http://mojo-boxes.s3.amazonaws.com/mojo-debian-vagrant-vmware-1400544616.box"
   end
 
+  config.vm.provider :virtualbox do |v|
+    v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
+  end
+
+
   config.vm.define "dev", primary: true do |d|
     d.vm.hostname = "dev.local.withmojo.com"
 
