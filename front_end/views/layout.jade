@@ -24,12 +24,6 @@ html(ng-app="bunsen")
               a.nav-item.nav-item-active.projects(ui-sref="projects.items") My Projects
             li
               a.nav-item.market-place(ui-sref="marketPlace.items") Marketplace
-          .auth-controls
-            span(ng-show='$session.currentUser')
-              | Signed in as &nbsp;
-              span.signed-in
-                {{$session.currentUser.email}}
-            a.sign-out.btn(ui-sref="signOut", ng-show='$session.currentUser') Sign out
           .cl
       .contain
         #root(ui-view="root")
