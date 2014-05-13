@@ -8,14 +8,14 @@
 
     return {
       open: function(projectId, notebookName) {
-        return R.all('open_notebooks').post({
+        return R.all('open_notebook').post({
           projectId: projectId,
           notebookName: notebookName
         });
       },
 
       close: function(projectId, notebookName) {
-        return R.all('open_notebooks').remove({
+        return R.all('open_notebook').remove({
           projectId: projectId,
           notebookName: notebookName
         });

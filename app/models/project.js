@@ -10,7 +10,7 @@ module.exports = function(Bookshelf, app) {
     return models.Notebook.list({userId: userId, projectId: projectId})
       .then(function(notebooks) {
         var updates = _.map(notebooks, function(notebook) {
-          return new Date(notebook.lastModified);
+          return new Date(notebook.updated_at);
         });
 
         var numCommits = _.reduce(notebooks, function(sum, notebook) {
@@ -72,16 +72,20 @@ module.exports = function(Bookshelf, app) {
     },
 
     findBySearchParam: function(userId, searchTerm) {
-      return notebook.matchingProjectIds(userId, searchTerm)
-        .then(function(ids) {
-          var matchingQuery = query("Projects")
-            .where("name", "ILIKE", "%"+searchTerm+"%")
-            .orWhere("description", "ILIKE", "%"+searchTerm+"%");
-          if (ids.length) {
-            matchingQuery.orWhereIn('id', ids);
-          }
-          return matchingQuery.select().toString();
-        });
+      return query('Notebooks')
+             .where('userId', userId)
+             .where('name','ILIKE', "%"+searchTerm+"%")
+             .select('id')
+             .then(function(ids) {
+                var matchingQuery = query("Projects")
+                  .where("name", "ILIKE", "%"+searchTerm+"%")
+                  .orWhere("description", "ILIKE", "%"+searchTerm+"%");
+                if (ids.length) {
+                  matchingQuery.orWhereIn('id', _.pluck(ids, 'id'));
+                }
+
+                return matchingQuery.select().toString();
+              });
     },
   });
 
