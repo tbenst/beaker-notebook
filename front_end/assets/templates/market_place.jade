@@ -1,18 +1,22 @@
 .col-three-quarters
-  h1(ng-hide='marketPlace.currentCategory')
 
-  .category.col-three-quarters(ng-show='marketPlace.currentCategory')
-    h2
-      b {{marketPlace.currentCategory.name}}
-    p {{marketPlace.currentCategory.description}}
-  .col-quarter(ng-hide="!marketPlace.currentCategory || marketPlace.currentCategory.name == 'All'")
-    p Sets: {{marketPlace.currentCategory.count}}
-    p Updated: {{marketPlace.currentCategory.updated_at | date: 'short'}}
-    p Owner: {{marketPlace.currentCategory.ownerName}}
-    p Email: &nbsp;
-      a(href="mailto:{{marketPlace.currentCategory.ownerEmail}}") {{marketPlace.currentCategory.ownerEmail}}
-  .cl
-
+  .category-hero(ng-show='marketPlace.currentCategory')
+    .category.col-three-quarters
+      h2
+        b {{marketPlace.currentCategory.name}}
+      p {{marketPlace.currentCategory.description}}
+    .col-quarter(ng-hide="!marketPlace.currentCategory || marketPlace.currentCategory.name == 'All'")
+      .category-attributes
+        .category-attributes-label Total Sets
+        .category-attributes-label-value {{marketPlace.currentCategory.count}}
+        .category-attributes-label Last Updated:
+        .category-attributes-label-value {{marketPlace.currentCategory.updated_at | date: 'short'}}
+        .category-attributes-label Owner:
+        .category-attributes-label-value {{marketPlace.currentCategory.ownerName}}
+        .category-attributes-label Contact:
+        .category-attributes-label-value
+          a(href="mailto:{{marketPlace.currentCategory.ownerEmail}}") {{marketPlace.currentCategory.ownerEmail}}
+    .cl
 
   h4.total-result-count {{marketPlace.totalItems}} results
   .col-half
