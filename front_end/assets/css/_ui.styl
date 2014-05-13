@@ -1,10 +1,25 @@
+@import '_variables'
+
 .btn
-  cursor: pointer
-  display: inline-block
-  padding: 7px 11px
-  border: solid 2px #111;
-  font-size: 14px;
-  font-weight: bold;
+  color white
+  cursor pointer
+  display inline-block
+  padding 12px 18px 10px 18px
+  border none
+  font-size font-size-base
+  font-family font-family-primary-bold
+  background-color action-strong-blue
+  text-transform capitalize
+  &:hover
+    background-color lighten(action-strong-blue, 5%)
+  &:active
+    background-color darken(action-strong-blue, 5%)
+  &.btn-primary
+    background-color action-blue
+    &:hover
+      background-color lighten(action-blue, 5%)
+    &:active
+      background-color darken(action-blue, 5%)
 
 .btn-group
   margin: 5px 0
