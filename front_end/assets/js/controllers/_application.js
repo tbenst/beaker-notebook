@@ -7,6 +7,7 @@
       $http.defaults.headers.common['Authorization'] = $sessionStorage.currentUser.token;
     }
 
+    $scope.$state = $state;
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
       if (!$sessionStorage.currentUser && !toState.skipAuth) {
         $rootScope.goTo = toState;
