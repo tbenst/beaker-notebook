@@ -15,6 +15,7 @@ module.exports = function(app) {
     create: function(req, res, next) {
       Notebook.forge({
         projectId: req.project.id,
+        userId: req.user.id,
         name: req.body.name,
         data: JSON.parse(req.body.data)
       }).save().then(function() {
