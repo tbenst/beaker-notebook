@@ -8,7 +8,7 @@
     .col-quarter(ng-hide="!marketPlace.currentCategory || marketPlace.currentCategory.name == 'All'")
       .category-attributes
         .category-attributes-label Total Sets
-        .category-attributes-label-value {{marketPlace.currentCategory.count}}
+        .category-attributes-label-value.total-sets {{marketPlace.currentCategory.count}}
         .category-attributes-label Last Updated:
         .category-attributes-label-value {{marketPlace.currentCategory.updated_at | date: 'short'}}
         .category-attributes-label Owner:
