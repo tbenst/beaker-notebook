@@ -78,6 +78,7 @@ function Notebook(Bookshelf, app) {
         console.log("* A notebook with '" + self.get('name') + "' name already exists within this project");
         return self.addCommit(data);
       })
+      .then(git.init.bind(git))
       .then(git.addToIndex.bind(git, [Path.basename(notebookPath)]))
       .then(function(oid) {
         return git.commit(oid, []);

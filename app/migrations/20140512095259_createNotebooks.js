@@ -1,4 +1,4 @@
-var Promise = require("bluebird");
+var Promise = require("when");
 
 module.exports = {
   up: function(knex) {
