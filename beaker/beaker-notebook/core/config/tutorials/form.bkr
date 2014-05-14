@@ -1,0 +1,76 @@
+{
+    "beaker": "2",
+    "evaluators": [
+        {
+            "name": "Html",
+            "plugin": "Html",
+            "shellID": null
+        },
+        {
+            "name": "Latex",
+            "plugin": "Latex",
+            "shellID": null
+        },
+        {
+            "name": "IPython",
+            "plugin": "IPython",
+            "shellID": "79723A1592B34F1A8E2ABA33E6132DE8",
+            "imports": "",
+            "supplementalClassPath": ""
+        },
+        {
+            "name": "JavaScript",
+            "plugin": "JavaScript",
+            "shellID": null,
+            "jsSetting2": "",
+            "jsSetting1": ""
+        }
+    ],
+    "cells": [
+        {
+            "id": "section001",
+            "type": "section",
+            "level": 1,
+            "title": "Basic form in Beaker",
+            "collapsed": false
+        },
+        {
+            "id": "markdownfXXQpg",
+            "type": "markdown",
+            "body": "This tutorial shows a basic example of creating a form with HTML and JavaScript, which causes some Python code to be run. Unlock the notebook with \"Notebook -> Lock\" to see the code.",
+            "mode": "preview"
+        },
+        {
+            "id": "code001",
+            "type": "code",
+            "evaluator": "Html",
+            "input": {
+                "body": "<script>\n  //This function is called when the HTML button is pressed\n  function process_form() {\n    \n    //get values from the form using jQuery\n    var values = $('#values').val();\n    \n    //create a simple line of Groovy code that creates variables based on the form values\n    var pythonCode = \"values = \" + values;\n    \n    //run the Groovy string we just created\n\tbkHelper.evaluateCode(\"IPython\", pythonCode);   \n    \n    //now run all Groovy cells from the notebook\n    bkHelper.evaluate(\"IPython\")\n  }\n</script>\n\n<!--\nA simple HTML form with two inputs and a button\n-->\nValues: <input type='text' id='values' value='1,2,3,3,4,5,6,5,4,3,4,3,5'>\n<br />\n\n<button onclick='process_form()'>Get histogram</button>"
+            },
+            "output": {
+                "selectedType": "BeakerDisplay",
+                "result": {
+                    "type": "BeakerDisplay",
+                    "innertype": "Html",
+                    "object": "<script>\n  //This function is called when the HTML button is pressed\n  function process_form() {\n    \n    //get values from the form using jQuery\n    var values = $('#values').val();\n    \n    //create a simple line of Groovy code that creates variables based on the form values\n    var pythonCode = \"values = \" + values;\n    \n    //run the Groovy string we just created\n\tbkHelper.evaluateCode(\"IPython\", pythonCode);   \n    \n    //now run all Groovy cells from the notebook\n    bkHelper.evaluate(\"IPython\")\n  }\n</script>\n\n<!--\nA simple HTML form with two inputs and a button\n-->\nValues: <input type='text' id='values' value='1,2,3,3,4,5,6,5,4,3,4,3,5'>\n<br />\n\n<button onclick='process_form()'>Get histogram</button>"
+                },
+                "elapsedTime": 5
+            },
+            "initialization": true
+        },
+        {
+            "id": "codesFCVGR",
+            "type": "code",
+            "evaluator": "IPython",
+            "input": {
+                "body": "hist(values)"
+            },
+            "output": {
+                "selectedType": "Hidden",
+                "outputArrived": true,
+                "elapsedTime": 292
+            }
+        }
+    ],
+    "locked": true
+}
