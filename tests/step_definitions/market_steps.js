@@ -40,7 +40,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the vendor "([^"]*)"$/, function(vendor) {
-    return (new this.Widgets.MarketItem()).vendors().should.eventually.contain(vendor);
+    return (new this.Widgets.MarketItem()).vendors().should.eventually.contain(vendor.toLowerCase());
   });
 
   this.Then(/^I should see the market description "([^"]*)"$/, function(description) {

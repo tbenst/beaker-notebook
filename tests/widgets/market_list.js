@@ -1,7 +1,7 @@
 module.exports = function() {
   return this.Widgets.MarketList = this.Widget.List.extend({
     root: '.market-list',
-    itemSelector: 'li',
+    itemSelector: '.market-list-item',
 
     contents: function() {
       return $.map(this.items(), function(n) {
@@ -10,10 +10,10 @@ module.exports = function() {
           return $.all(_.invoke(arr, 'getText'))
           .then(function(text) {
             return {
-              title: text[0],
-              description: text[1],
-              format: text[2],
-              vendors: text[3]
+              title: text[0].toLowerCase(),
+              description: text[1].toLowerCase(),
+              format: text[2].toLowerCase(),
+              vendors: text[3].toLowerCase()
             }
           });
         });

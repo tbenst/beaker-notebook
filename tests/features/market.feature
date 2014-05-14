@@ -158,17 +158,17 @@ As a researcher, I want to be able to use the market place.
     And I filter the market page by "crime"
     Then I should see the following market results
       | title                     | description                               | format | vendors |
-      | Crime Rates, Canada       | Yearly crimes reported per 100,000 people | XML    |         |
+      | crime rates, canada       | yearly crimes reported per 100,000 people | xml    |         |
 
   Scenario: Market item vendor in list
     Given I have the following market items:
       | title                     | description                               | format | vendors            |
-      | Crime Rates, Canada       | Yearly crimes reported per 100,000 people | XML    | Statistics Canada  |
+      | crime rates, canada       | yearly crimes reported per 100,000 people | xml    | statistics canada  |
     When I view the market search
     And I filter the market page by "Canada"
     Then I should see the following market results
       | title                     | description                               | format | vendors            |
-      | Crime Rates, Canada       | Yearly crimes reported per 100,000 people | XML    | Statistics Canada  |
+      | crime rates, canada       | yearly crimes reported per 100,000 people | xml    | statistics canada  |
 
   Scenario: Market item file path
     Given I have the following market items:
