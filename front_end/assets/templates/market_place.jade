@@ -18,37 +18,37 @@
           a(href="mailto:{{marketPlace.currentCategory.ownerEmail}}") {{marketPlace.currentCategory.ownerEmail}}
     .cl
 
-  h4.total-result-count {{marketPlace.totalItems}} results
-  .col-half
-    .label-pair.col-three-quarters
-      label
-        b vendors
-      br
-      select.vendors(multiple="multiple", ng-model="marketPlace.vendorScope" ng-options="vendor.id as vendor.name for vendor in marketPlace.vendors")
+  h2.total-result-count-header {{marketPlace.totalItems}} results
+  .filter-market-results
+    .filter-header.filter-col
+      .filter-segment-label filters
+    .filter-segment.filter-col
+      .filter-segment-label
+        | format
+        img(src="images/down-arrow-filter.png", width="6", height="4")
 
-    .label-pair.col-quarter
-      label
-        b format
-      br
-      select.formats(multiple="multiple", ng-model="marketPlace.typeScope" ng-options="format for format in formats")
+        multi-filter(ng-model="marketPlace.typeScope", iterator="format in formats", iterator-name="format")
 
-  .col-half
-    .label-pair.col-half
-      label
-        b tags
-      br
-      select.tags(multiple="multiple", ng-model="marketPlace.tagScope" ng-options="tag.id as tag.name for tag in marketPlace.relatedTags")
+    .filter-segment.filter-col.filter-vendors
+      .filter-segment-label
+        | vendor
+        img(src="images/down-arrow-filter.png", width="6", height="4")
 
-    .label-pair.col-quarter
-      label
-        b search
-      br
-      input.market-text-search(type="text", ng-model="marketPlace.searchScope", placeholder="Search within results")
+        multi-filter(ng-model="marketPlace.vendorScope", iterator="vendor in marketPlace.vendors", iterator-name="vendor", iterator-display-name="vendor.name")
 
-  ul.cl.current-filters
-    li.tag.filter(ng-repeat="filter in currentFilters", ng-click="removeFilter(filter.value, filter.model)") {{filter.name}} ✖
-  br
-  br
+    .filter-segment.filter-col
+      .filter-segment-label
+        | tags
+        img(src="images/down-arrow-filter.png", width="6", height="4")
+
+        multi-filter(ng-model="marketPlace.tagScope", iterator="tag in marketPlace.relatedTags", iterator-name="tag", iterator-display-name="tag.name")
+
+    .filter-segment.filter-search.filter-col
+      input.search-full.market-text-search(type="text", ng-model="marketPlace.searchScope", placeholder="Search within results")
+
+  ul.current-filters
+    li.tag.filter(ng-repeat="filter in currentFilters", ng-click="removeFilter(filter.value, filter.model)") {{filter.name}}
+
   ul.market-list
     li.market-list-item.base-row-item-green(ng-repeat="item in marketPlace.data")
       p
