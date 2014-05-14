@@ -86,8 +86,8 @@ module.exports = function(app) {
 
     openNotebook: function(req, res, next) {
       Notebook.forge({
-        userId: req.user.id,
-        projectId: req.body.projectId,
+        userId: +req.user.id,
+        projectId: +req.body.projectId,
         name: req.body.notebookName
       })
       .fetch()
