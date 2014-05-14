@@ -16,16 +16,15 @@ html(ng-app="bunsen")
 
   body
     .application(ng-controller="application")
+      include _app_header
       nav.main-nav
-        .col-half
-          a.nav-item.projects(ui-sref="projects.items") My Projects
-          a.nav-item.market-place(ui-sref="marketPlace.items") Marketplace
-        .auth-controls.col-half
-          span(ng-show='$session.currentUser')
-            | Signed in as &nbsp;
-            span.signed-in
-              {{$session.currentUser.email}}
-          a.sign-out.btn(ui-sref="signOut", ng-show='$session.currentUser') Sign out
-        .cl
-      #root(ui-view="root")
-        != content
+        .contain
+          ul.main-nav-list.list-inline
+            li
+              a.nav-item.nav-item-active.projects(ui-sref="projects.items") My Projects
+            li
+              a.nav-item.market-place(ui-sref="marketPlace.items") Marketplace
+          .cl
+      .contain
+        #root(ui-view="root")
+          != content

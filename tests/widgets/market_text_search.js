@@ -1,6 +1,6 @@
 module.exports = function() {
   return this.Widgets.MarketTextSearch = this.Widget.extend({
-    root: '.search',
+    root: '.market-text-search',
     setTerm: function(val) {
       return this.fill('', val);
     }

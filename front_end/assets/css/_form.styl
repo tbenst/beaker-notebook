@@ -1,0 +1,21 @@
+@import '_variables'
+
+input
+  box-sizing border-box
+  border 1px solid base-step5
+  font-size 12px
+  font-style italic
+  padding spacing-block-small
+  outline 0
+  color base-step3
+  background-color white
+  &:focus
+    border-color darken(base-step5, 10%)
+  &.search-full
+    width 100%
+    margin-bottom spacing-block
+    display inline-block
+    background: white url('../images/input-search.png') no-repeat 96% center;
+    background-size 17px 18px
+    padding-right 32px
+    font-size font-size-base - 2

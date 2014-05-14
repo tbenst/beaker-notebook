@@ -7,7 +7,9 @@ module.exports = function() {
     },
 
     vendors: function() {
-      return this.read('.vendor');
+      return this.read('.vendor').then(function(format){
+        return format.toLowerCase();
+      });
     },
 
     frequency: function() {
