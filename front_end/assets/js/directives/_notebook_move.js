@@ -8,7 +8,7 @@
       template: templates['directives/notebook_move'],
       scope: {
         projectId: '=',
-        notebookName: '=',
+        notebook: '=',
         projects: '=',
         onMove: '&',
         onError: '&'
@@ -30,8 +30,8 @@
         }
 
         scope.moveTo = function(options) {
-          F.Notebooks.updateNotebook(scope.projectId, {
-            name: scope.notebookName,
+          F.Notebooks.updateNotebook({
+            id: scope.notebook.id,
             projectId: options.projectId
           })
           .then(function() {
@@ -40,7 +40,7 @@
           }, function(e) {
             if (e.status == 409) {
               scope.onError({
-                notebook: scope.notebookName,
+                notebook: scope.notebook.name,
                 project: options.projectName
               });
             }

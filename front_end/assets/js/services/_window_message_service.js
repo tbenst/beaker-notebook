@@ -5,9 +5,10 @@
     var saveNotebookCallbacks = {};
 
     function saveNotebook(data) {
+      var createNotebook = _.partial(F.Notebooks.createNotebook, data.projectId);
       var saveFunction = data.operation == 'create' ?
-        F.Notebooks.createNotebook : F.Notebooks.updateNotebook;
-      saveFunction(data.projectId, data.notebook).
+        createNotebook : F.Notebooks.updateNotebook;
+      saveFunction(data.notebook).
         then(function() {
           var callbacks = saveNotebookCallbacks[data.projectId] || []
           _.each(callbacks, function(cb) { cb(); });

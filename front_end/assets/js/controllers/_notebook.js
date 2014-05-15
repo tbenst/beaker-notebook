@@ -8,7 +8,7 @@
     $scope.projects.search = '';
     $scope.projects.list = [];
 
-    $scope.closeNotebook = function(projectId, notebookName) {
+    $scope.closeNotebook = function(notebookId) {
       F.Notebooks.close.apply(this, arguments).then(function(openNotebooks) {
         Notebooks.setOpenNotebooks(openNotebooks);
         if (frame = document.querySelector("iframe[src='"+$scope.notebookLocation.toString()+"']")) {
@@ -24,15 +24,14 @@
           {bunsenUiUrl: uiUrl}));
     }
 
-    var notebookLocation = function(userId, projectId, notebookName) {
-      var bunsenUri = Restangular.one('projects', projectId).
-        one('notebooks', notebookName).one('contents').getRestangularUrl();
+    var notebookLocation = function(userId, projectId, notebookId) {
+      var bunsenUri = Restangular.one('notebooks', notebookId).one('contents').getRestangularUrl();
 
       return beakerUrl("open", {
         uri: bunsenUri,
         userId: userId,
         projectId: projectId,
-        notebookName: notebookName
+        notebookId: notebookId
       });
     };
 
@@ -40,18 +39,18 @@
       $scope.project = project;
     });
 
-    F.Notebooks.getNotebook(prjId, $state.params.name).then(function(notebook) {
+    F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
       var userId    = $sessionStorage.currentUser.id
 
-      $scope.notebookLocation = $sce.trustAsResourceUrl(notebookLocation(userId, prjId, notebook.name));
+      $scope.notebookLocation = $sce.trustAsResourceUrl(notebookLocation(userId, prjId, notebook.id));
 
-      F.Notebooks.open(prjId, notebook.name).then(function(openNotebooks) {
+      F.Notebooks.open(notebook.id).then(function(openNotebooks) {
         Notebooks.setOpenNotebooks(openNotebooks);
       });
 
       F.RecentNotebooks.add({
-        notebookName: notebook.name,
-        projectId: prjId
+        notebookId: notebook.id,
+        notebookName: notebook.name
       }).then(function(d) {
         Notebooks.setRecentNotebooks(d.recentNotebooks);
       });

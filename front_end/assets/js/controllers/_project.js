@@ -29,7 +29,7 @@
       })
       .then(function(notebook) {
         $state.go('projects.items.item.notebook', {
-          name: notebook.name
+          notebook_id: notebook.id
         });
       });
     };

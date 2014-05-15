@@ -58,7 +58,7 @@
       }
     })
     .state('projects.items.item.notebook', {
-        url: '/notebooks/:name',
+        url: '/notebooks/:notebook_id',
         views: {
           "app@projects": {
             controller: 'notebook',

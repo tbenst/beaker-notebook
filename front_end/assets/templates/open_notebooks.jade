@@ -2,4 +2,4 @@ h1
   b Open Notebooks
 ul.open-notebooks
   li.open-notebook(ng-repeat="open in openNotebooks")
-    a(ui-sref="projects.items.item.notebook({id: open.projectId, name: open.name})") {{open.name}}
+    a(ui-sref="projects.items.item.notebook({id: open.projectId, notebook_id: open.id})") {{open.name}}

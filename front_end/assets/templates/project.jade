@@ -27,8 +27,8 @@
       .col-quarter
         b {{notebook.name}}
       ul.col-quarter
-        li.btn.open(ui-sref="projects.items.item.notebook({id: project.id, name: notebook.name})") Open
-        li.btn(notebook-move project-id="project.id" notebook-name="notebook.name" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)") Move
+        li.btn.open(ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") Open
+        li.btn(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)") Move
       .col-half
         .updated Updated at: {{notebook.updated_at | date: 'short'}}
         .commits Commits: {{notebook.numCommits}}
