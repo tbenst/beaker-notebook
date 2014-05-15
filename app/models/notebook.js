@@ -42,12 +42,30 @@ function writeFile(filePath, flag, contents) {
          .then(nodefn.lift(fs.writeFile, filePath, data, {flag: flag, encoding: 'utf8'}));
 }
 
+function calculateNotebookName(names, baseName) {
+  var filter = new RegExp(baseName + " (\d+)")
+  names = names.concat({name: baseName+0});
+
+  return baseName +
+  (_(names).pluck("name")
+  .filter(filter.match)
+  .map(function(v) {
+    return +v.split(baseName)[1]
+  })
+  .max()
+  .value()+1);
+}
+
 function Notebook(Bookshelf, app) {
   var models  = app.Models;
   var query   = Bookshelf.knex;
 
   var Notebook = Bookshelf.Model.extend({
     tableName: "Notebooks",
+
+    initialize: function() {
+      this.on("saving", this.ensureName);
+    },
 
     getData: function(data) {
       return data ? when(data) : readFile(generateNotebookFilePath.call(this))
@@ -103,16 +121,29 @@ function Notebook(Bookshelf, app) {
       }, this));
     },
 
+    ensureName: function() {
+      if (!this.get("name")) {
+        return query('Notebooks')
+        .where("userId", this.get("userId"))
+        .column('name')
+        .then(_.partialRight(calculateNotebookName, "Notebook "))
+        .then(_.bind(function(name) {
+          return this.set('name', name);
+        }, this));
+      }
+
+      return when(true);
+    },
+
     save: function(attributes, options) {
-      var args        = arguments;
       var self        = this;
       var options     = options || {};
       var attributes  = attributes || {};
 
       // Remove data attribute from model instance since
       // we do not want to save it
-      attributes.data = attributes.data || _.cloneDeep(this.attributes.data);
-      delete this.attributes.data;
+      attributes.data = attributes.data || _.cloneDeep(self.attributes.data);
+      delete self.attributes.data;
 
       return Bookshelf.Model.prototype.save.call(
         self,

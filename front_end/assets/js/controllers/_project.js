@@ -17,6 +17,19 @@
     loadProject();
     WindowMessageService.addNotebookCallback($state.params.id, loadProject);
 
+    $scope.createNotebook = function() {
+      Restangular.one('projects', $scope.project.id)
+      .all('notebooks')
+      .post({
+        data: "{}"
+      })
+      .then(function(notebook) {
+        $state.go('projects.items.item.notebook', {
+          name: notebook.name
+        });
+      });
+    };
+
     $scope.editProject = function() {
       $scope.editMode = true;
     };

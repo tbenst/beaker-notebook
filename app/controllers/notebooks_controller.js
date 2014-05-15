@@ -18,9 +18,9 @@ module.exports = function(app) {
         userId: req.user.id,
         name: req.body.name,
         data: JSON.parse(req.body.data)
-      }).save().then(function() {
-        res.json(200);
       })
+      .save()
+      .then(_.bind(res.json, res))
       .catch(next);
     },
 
