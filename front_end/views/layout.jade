@@ -21,9 +21,9 @@ html(ng-app="bunsen")
         .contain
           ul.main-nav-list.list-inline
             li
-              a.nav-item.nav-item-active.projects(ui-sref="projects.items") My Projects
+              a.nav-item.projects(ng-class='$state.includes("projects.**") && "nav-item-active"', ui-sref="projects.items") My Projects
             li
-              a.nav-item.market-place(ui-sref="marketPlace.items") Marketplace
+              a.nav-item.market-place(ui-sref-active='nav-item-active', ui-sref="marketPlace.items") Marketplace
           .cl
       .contain
         #root(ui-view="root")
