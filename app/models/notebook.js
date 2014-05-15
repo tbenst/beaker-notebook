@@ -139,6 +139,14 @@ function Notebook(Bookshelf, app) {
       return when(true);
     },
 
+    withData: function() {
+      var _this = this;
+      return readFile(generateNotebookFilePath.call(this)).then(function(data) {
+        _.extend(_this.attributes, {data: data});
+        return _this;
+      });
+    },
+
     saveUnique: function(attributes, options) {
       return this.save(attributes, options)
         .catch(function(e) {

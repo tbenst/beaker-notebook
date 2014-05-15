@@ -10,6 +10,10 @@ module.exports = function(Bookshelf, app) {
       return this.hasMany(app.Models.Project, 'ownerId')
     },
 
+    notebooks: function(id) {
+      return this.hasMany(app.Models.Notebook, 'userId')
+    },
+
     openNotebooks: function() {
       return this.hasMany(app.Models.OpenNotebook, 'userId');
     },
@@ -17,7 +21,7 @@ module.exports = function(Bookshelf, app) {
     addRecentNotebook: function(notebook) {
       var recentNotebooks = _.uniq([notebook].concat(this.getRecentNotebooks())
                             .slice(0, MAX_RECENT_NOTEBOOKS), function(n) {
-                              return n.projectId + "-" + n.notebookName;
+                              return n.projectId + "-" + n.notebookId;
                             });
 
       return this.save({

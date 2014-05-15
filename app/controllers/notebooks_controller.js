@@ -8,6 +8,19 @@ var RecordNotUniqueError = require("../lib/record_not_unique_error");
 module.exports = function(app) {
   var Notebook = app.Models.Notebook;
   return {
+    notebookIdParam: function(req, res, next, id) {
+      req.user.notebooks()
+      .query()
+      .where('id', req.params.notebook_id)
+      .then(function(record) {
+        if (!record || !record[0]) {
+          throw new Error('Notebook not found');
+        }
+        req.notebook = Notebook.forge(record[0]);
+      })
+      .done(next, next);
+    },
+
     index: function(req, res, next) {
       Notebook.list({projectId: req.project.id})
       .then(res.json.bind(res))
@@ -44,31 +57,21 @@ module.exports = function(app) {
     },
 
     get: function(req, res, next) {
-      Notebook.load({
-        projectId: req.project.id,
-        name: req.params.notebook_name
-      })
-      .then(res.json.bind(res))
-      .catch(next);
+      req.notebook.withData()
+        .then(res.json.bind(res))
+        .catch(next);
     },
 
     notebookContents: function(req, res, next) {
-      Notebook.load({
-        projectId: req.project.id,
-        name: req.params.notebook_name
-      })
+      req.notebook.withData()
       .then(function(data) {
-        res.json(data.data);
+        res.json(data.attributes.data);
       })
       .catch(next);
     },
 
     update: function(req, res, next) {
-      Notebook.forge({
-        projectId: req.project.id,
-        name: req.params.notebook_name,
-      })
-      .fetch()
+      req.notebook.withData()
       .then(function(notebook) {
         var attrs = _.pick(req.body, 'data', 'projectId');
         if (attrs.data) {
@@ -96,8 +99,7 @@ module.exports = function(app) {
     openNotebook: function(req, res, next) {
       Notebook.forge({
         userId: +req.user.id,
-        projectId: +req.body.projectId,
-        name: req.body.notebookName
+        id: req.body.notebookId
       })
       .fetch()
       .then(function(notebook) {
@@ -114,8 +116,7 @@ module.exports = function(app) {
     closeNotebook: function(req, res, next) {
       app.Models.Notebook.forge({
         userId: req.user.id,
-        projectId: req.query.projectId,
-        name: req.query.notebookName
+        id: req.query.notebookId
       })
       .fetch()
       .then(function(notebook) {
