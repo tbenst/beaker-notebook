@@ -14,8 +14,8 @@ Feature: Use Notebooks
     When I open the "ghost of tom jones" project
     Then I should see the following notebooks
       | name               |
-      | top secret         |
       | powderpuff girls   |
+      | top secret         |
 
   Scenario: Recent Notebooks
     When I open the "ghost of tom jones" project
@@ -64,9 +64,9 @@ Feature: Use Notebooks
     And I import the notebook by uploading the "hello_world.bkr" file
     Then I should see the following notebooks
       | name               |
-      | top secret         |
-      | powderpuff girls   |
       | hello_world        |
+      | powderpuff girls   |
+      | top secret         |
 
   Scenario: Moving a notebook between projects
     Given I have the following Projects:

@@ -184,6 +184,7 @@ function Notebook(Bookshelf, app) {
     return query("Notebooks")
     .where("projectId", opts.projectId)
     .select()
+    .orderBy('name', 'ASC')
     .then(function(notebooks) {
       return when.map(notebooks, function(notebook) {
         return addCommitCount(Notebook.forge(notebook))
