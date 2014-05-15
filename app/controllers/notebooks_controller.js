@@ -3,6 +3,8 @@ var _         = require("lodash");
 var nodefn    = require("when/node/function")
 var readFile  = nodefn.lift(require("fs").readFile)
 
+var RecordNotUniqueError = require("../lib/record_not_unique_error");
+
 module.exports = function(app) {
   var Notebook = app.Models.Notebook;
   return {
@@ -72,12 +74,17 @@ module.exports = function(app) {
         if (attrs.data) {
           attrs.data = JSON.parse(attrs.data);
         }
-        return notebook.save(attrs, {patch: true});
+        return notebook.saveUnique(attrs, {patch: true});
       })
       .then(function() {
         res.send(200);
       })
-      .catch(next);
+      .catch(function(e) {
+        if (e instanceof RecordNotUniqueError) {
+          res.status(409);
+        }
+        return next(e);
+      })
     },
 
     openNotebooks: function(req, res, next) {
