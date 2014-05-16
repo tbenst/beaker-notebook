@@ -32,9 +32,15 @@ body
 
 .col-quarter
   width: 25%
+  &.col-expanded-lrg-display
+    @media screen and (min-width: 1400px)
+      width 18%
 
 .col-half
   width: 50%
+  &.col-expanded-lrg-display
+    @media screen and (min-width: 1400px)
+      width 64%
 
 .col-three-quarters
   width: 75%
