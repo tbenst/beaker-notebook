@@ -15,12 +15,24 @@ treecontrol
 
   li
     position relative
-    &.tree-leaf
-      i
-        background-color transparent
+
+  li.tree-expanded i,
+  li.tree-collapsed i
+    background-position center center
+    background-repeat no-repeat
+
+  li.tree-expanded i
+    background-image url('../images/menu-expanded.png')
+    background-size 8px 2px
+
+  li.tree-collapsed i
+    background-image url('../images/menu-collapsed.png')
+    background-size 8px 8px
+
+  li.tree-leaf i
+    background-image none
 
   li i
-    background-color red
     width 12px
     height 12px
     position absolute
@@ -39,6 +51,8 @@ treecontrol
 
   .tree-selected
     background-color action-blue
+    li.tree-expanded i
+      background-image url('../images/menu-expanded-selected.png')
     .tree-category-count
       color white
     &:hover
