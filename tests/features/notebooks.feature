@@ -56,7 +56,8 @@ Feature: Use Notebooks
     Then I should see the following open notebooks:
       | name |
     Then I should see the following recent notebooks:
-      | name |
+      | name        |
+      | Notebook 1  |
 
   Scenario: Importing notebooks
     When I open the "ghost of tom jones" project
