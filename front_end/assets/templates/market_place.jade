@@ -57,7 +57,7 @@
             a.title(ui-sref="marketPlace.items.item({id: item.id})") {{item.title}}
           p.description {{item.description | limitTo:100}} {{item.description.length > 100 ? "..." : ""}}
           .vendor
-            | Publisher:
+            | Vendor:
             span.vendors &nbsp;{{vendorName(item)}}
         .col-quarter.vendor-attributes
           .border-top-grey
