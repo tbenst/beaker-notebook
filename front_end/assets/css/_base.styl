@@ -1,8 +1,10 @@
 .contain
-  max-width screen-width
-  min-width screen-width - 64
+  width 1024px
   margin 0 auto
-  padding 0 spacing-block
+  padding 0 1%
+  transition width 500ms ease-in
+  @media screen and (min-width: 1500px)
+    width 90%
 
 .cl
   clear both

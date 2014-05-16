@@ -1,4 +1,4 @@
-.project-detail.col-half
+.project-detail.col-half.col-expanded-lrg-display
   .col-three-quarters
     h1.project-name
       b(ng-hide="editMode") {{project.name}}
@@ -38,7 +38,7 @@
     li(ng-show="importMode")
       input(type="file" ng-file-select="onFileSelect($files)" multiple)
 
-.col-quarter
+.col-quarter.col-expanded-lrg-display
   h2
     b About this project
   p(ng-hide="editMode").project-description {{project.description}}
