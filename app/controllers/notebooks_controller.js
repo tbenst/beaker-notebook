@@ -17,7 +17,7 @@ module.exports = function(app) {
         projectId: req.project.id,
         userId: req.user.id,
         name: req.body.name,
-        data: JSON.parse(req.body.data)
+        data: req.body.data || require("../fixtures/base_notebook")
       })
       .save()
       .then(_.bind(res.json, res))

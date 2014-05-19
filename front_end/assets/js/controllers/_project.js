@@ -20,9 +20,7 @@
     $scope.createNotebook = function() {
       Restangular.one('projects', $scope.project.id)
       .all('notebooks')
-      .post({
-        data: "{}"
-      })
+      .post()
       .then(function(notebook) {
         $state.go('projects.items.item.notebook', {
           name: notebook.name
