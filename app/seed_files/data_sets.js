@@ -7,7 +7,8 @@ module.exports = [
       remoteFile: "Credit_card_complaints.csv",
       rows: 350,
       format: "XML",
-      updateFrequency: "Weekly"
+      updateFrequency: "Weekly",
+      startDate: "2011-11-30T00:00:00.000Z"
     },
     associations: [
       {
@@ -188,7 +189,8 @@ module.exports = [
       title: "Crime Rates, Canada",
       format: "XML",
       remoteFile: "CRIME.xml",
-      updateFrequency: "Annually"
+      updateFrequency: "Annually",
+      startDate: "1962-12-31T00:00:00.000Z"
     },
     associations: [
       {
@@ -224,7 +226,8 @@ module.exports = [
       title: "Population in Canada",
       format: "JSON",
       remoteFile: "CANPOPL.json",
-      updateFrequency: "Annually"
+      updateFrequency: "Annually",
+      startDate: "1960-01-01T00:00:00.000Z"
     },
     associations: [
       {
