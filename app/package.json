@@ -10,7 +10,7 @@
     "migrate": "node migrate.js",
     "seed": "node app_seed.js",
     "reseed": "dropdb 'bunsenDevelopment'; createdb 'bunsenDevelopment'; rm -rf .repos; npm run-script migrate; npm run-script seed;",
-    "debug": "node-debug app.js"
+    "debug": "node-debug --web-port=3999 app.js"
   },
   "repository": {
     "type": "git",
