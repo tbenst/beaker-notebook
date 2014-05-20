@@ -8,14 +8,18 @@
     $localStorage.projects = $localStorage.projects || {};
     $localStorage.projects.last = $state.params.id;
 
-    function loadProject() {
+    $scope.loadProject = function() {
       F.Projects.getProject($state.params.id).then(function(d) {
         $scope.project = d;
       });
     }
 
-    loadProject();
-    WindowMessageService.addNotebookCallback($state.params.id, loadProject);
+    $scope.loadProject();
+    WindowMessageService.addNotebookCallback($state.params.id, $scope.loadProject);
+
+    $scope.alreadyExistsError = function(notebook, project) {
+      $scope.error = "A notebook named '" + notebook + "' already exists in project '" + project + "'";
+    }
 
     $scope.createNotebook = function() {
       Restangular.one('projects', $scope.project.id)
@@ -23,7 +27,7 @@
       .post()
       .then(function(notebook) {
         $state.go('projects.items.item.notebook', {
-          name: notebook.name
+          notebook_id: notebook.id
         });
       });
     };
@@ -72,7 +76,7 @@
           file: file
         }).then(function() {
           $scope.importMode = false;
-          loadProject();
+          $scope.loadProject();
         });
       })
     };

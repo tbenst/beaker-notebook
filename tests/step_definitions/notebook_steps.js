@@ -74,6 +74,20 @@ module.exports = function() {
     })
   });
 
+  this.When(/^I move the "([^"]*)" notebook to the "([^"]*)" project$/, function(n, p) {
+    var _this = this;
+    var notebookList = new this.Widgets.NotebookList();
+    return notebookList.move(n)
+      .then(function() {
+        return (new _this.Widgets.ProjectSelector).clickByName(p);
+      });
+  });
+
+  this.Then(/^I should see the error: "([^"]*)"$/, function(e) {
+    return (new this.Widgets.Error).getMessage().should.eventually.equal(e);
+
+  });
+
   this.When(/^I make a new notebook$/, function() {
     return (new this.Widgets.ProjectDetail()).addNewNotebook();
   });

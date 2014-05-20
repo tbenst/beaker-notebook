@@ -7,30 +7,28 @@
     }
 
     return {
-      open: function(projectId, notebookName) {
+      open: function(notebookId) {
         return R.all('open_notebook').post({
-          projectId: projectId,
-          notebookName: notebookName
+          notebookId: notebookId
         });
       },
 
-      close: function(projectId, notebookName) {
+      close: function(notebookId) {
         return R.all('open_notebook').remove({
-          projectId: projectId,
-          notebookName: notebookName
+          notebookId: notebookId
         });
       },
 
-      getNotebook: function(projectId, name) {
-        return project(projectId).one('notebooks', name).get();
+      getNotebook: function(notebookId) {
+        return R.one('notebooks', notebookId).get();
       },
 
       getOpenNotebooks: function() {
         return R.all('open_notebooks').getList();
       },
 
-      updateNotebook: function(projectId, attrs) {
-        return project(projectId).all('notebooks').one(attrs.name).put(attrs);
+      updateNotebook: function(attrs) {
+        return R.one('notebooks', attrs.id).customPUT(attrs);
       },
 
       createNotebook: function(projectId, attrs) {

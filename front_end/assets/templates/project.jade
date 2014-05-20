@@ -1,5 +1,6 @@
 .project-detail.col-half.col-expanded-lrg-display
   .col-three-quarters
+    h1.error(ng-if="error") {{error}}
     h1.project-name
       b(ng-hide="editMode") {{project.name}}
       input(name="name", ng-model="project.name", ng-show="editMode")
@@ -25,10 +26,12 @@
     li.single-notebook(ng-repeat="notebook in project.notebooks")
       .col-quarter
         b {{notebook.name}}
-      .col-quarter
-        a(ui-sref="projects.items.item.notebook({id: project.id, name: notebook.name})") Open
-      .col-quarter Updated at: {{notebook.updated_at | date: 'short'}}
-      .col-quarter Commits: {{notebook.numCommits}}
+      ul.col-quarter
+        li.btn.open(ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") Open
+        li.btn(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)") Move
+      .col-half
+        .updated Updated at: {{notebook.updated_at | date: 'short'}}
+        .commits Commits: {{notebook.numCommits}}
       .cl
   ul.import-notebooks
     li

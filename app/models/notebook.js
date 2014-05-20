@@ -6,7 +6,11 @@ var Git         = require("../lib/notebook/git"),
     mkdirp      = require("mkdirp"),
     when        = require('when'),
     _           = require("lodash"),
-    EXTENSION   = ".bkr";
+    EXTENSION   = ".bkr",
+
+    RecordNotUniqueError = require("../lib/record_not_unique_error");
+
+var UNIQUE_VIOLATION_ERROR = 23505; // Postgresql error codes: www.postgresql.org/docs/9.1/static/errcodes-appendix.html
 
 // File open mode for creating notebook files, will fail if the file already exists
 // More info on the const values: http://man7.org/linux/man-pages/man2/open.2.html
@@ -135,6 +139,24 @@ function Notebook(Bookshelf, app) {
       return when(true);
     },
 
+    withData: function() {
+      var _this = this;
+      return readFile(generateNotebookFilePath.call(this)).then(function(data) {
+        _.extend(_this.attributes, {data: data});
+        return _this;
+      });
+    },
+
+    saveUnique: function(attributes, options) {
+      return this.save(attributes, options)
+        .catch(function(e) {
+          if (e.clientError && e.clientError.cause.code == UNIQUE_VIOLATION_ERROR) {
+            throw new RecordNotUniqueError();
+          }
+          throw e;
+        });
+    },
+
     save: function(attributes, options) {
       var self        = this;
       var options     = options || {};
@@ -170,6 +192,7 @@ function Notebook(Bookshelf, app) {
     return query("Notebooks")
     .where("projectId", opts.projectId)
     .select()
+    .orderBy('name', 'ASC')
     .then(function(notebooks) {
       return when.map(notebooks, function(notebook) {
         return addCommitCount(Notebook.forge(notebook))
