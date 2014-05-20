@@ -2,7 +2,7 @@
 
 - name: install squid
   sudo: yes
-  apt: pkg=squid3 default_release="wheezy-backports" update_cache=true state=latest
+  apt: pkg=squid3 default_release="local" update_cache=true state=latest
 
 - name: copy public cert
   sudo: yes
