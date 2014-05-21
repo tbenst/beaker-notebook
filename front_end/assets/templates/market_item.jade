@@ -1,26 +1,31 @@
-.col-half
-  .btn.return-to-market-search(ui-sref="marketPlace.items") Back to results
-  h1
-    b {{item.title}}
-  p.market-description {{item.description}}
-  .label-pair
-    label vendor
-    br
-    .vendor(ng-show="marketPlace.vendors") Vendor: {{vendorName(item)}}
+.col-three-quarters
+  .btn.return-to-market-search(ui-sref="marketPlace.items") Back to List
+  .market-item-hero
+    h1 {{item.title}}
+    p.market-description {{item.description}}
 
-    br
+    .market-item-vendor-info
+      .col-three-quarters.col-outside
+        h3(ng-show="marketPlace.vendors") {{vendorName(item)}}
+          span.text-blue &nbsp; &raquo;
+      .col-quarter.col-outside
+        .right.btn.btn-primary.subscribe(ng-click="subscribed ? unsubscribe() : subscribe()") {{subscribed ? "unsubscribe" : "subscribe"}}
+        .path(ng-if="subscribed")
+          | File path:
+          span.file-path {{item.remoteFile | dataSetPath}}
+      .cl
 
-    h2
-      b Details
-    .format Format: {{item.format}}
-    .released Released: {{item.createdAt | date: 'dd/MM/yyyy'}}
-    .last-updated Updated: {{item.lastUpdated | date: 'dd/MM/yyyy'}}
-    .update-frequency Frequency: {{item.updateFrequency}}
-    .categories Categories: {{item.categories | names}}
-    .start-date(ng-show="item.startDate !== null") Data Start Date: {{item.startDate | date: 'dd/MM/yyyy'}}
-    .tags
-      p Tags:
-      span(ng-repeat="tag in item.dataTags") {{tag.name}}{{$last ? '' : ', '}}
+  h2
+    b Details
+  .format Format: {{item.format}}
+  .released Released: {{item.createdAt | date: 'dd/MM/yyyy'}}
+  .last-updated Updated: {{item.lastUpdated | date: 'dd/MM/yyyy'}}
+  .update-frequency Frequency: {{item.updateFrequency}}
+  .categories Categories: {{item.categories | names}}
+  .start-date(ng-show="item.startDate !== null") Data Start Date: {{item.startDate | date: 'dd/MM/yyyy'}}
+  .tags
+    p Tags:
+    span(ng-repeat="tag in item.dataTags") {{tag.name}}{{$last ? '' : ', '}}
 
 
   span {{item.vendor}}
@@ -36,13 +41,3 @@
   ul.related-items
     li(ng-repeat="related in item.related")
       a(ui-sref="marketPlace.items.item({id: related.id})") {{related.title}}
-
-
-.col-quarter
-  .btn-group
-    .btn.subscribe(ng-click="subscribed ? unsubscribe() : subscribe()") {{subscribed ? "unsubscribe" : "subscribe"}}
-  .path(ng-if="subscribed")
-    | File path:
-    span.file-path {{item.remoteFile | dataSetPath}}
-
-
