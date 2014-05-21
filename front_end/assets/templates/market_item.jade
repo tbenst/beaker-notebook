@@ -45,11 +45,13 @@
 
   .start-date(ng-show="item.startDate !== null") Data Start Date: {{item.startDate | date: 'dd/MM/yyyy'}}
 
-  p data previews
-  ul
-    li(ng-repeat="preview in item.dataPreviews")
-      a(ng-href="{{preview.previewUrl}}", target="_blank")
-        img(ng-src="{{preview.smallPreviewUrl}}")
+  .data-previews(ng-hide="!item.dataPreviews.length")
+    h1 Data Previews
+    .data-preview-contain
+      ul
+        li(ng-repeat="preview in item.dataPreviews")
+          a(ng-href="{{preview.previewUrl}}", target="_blank")
+            img(ng-src="{{preview.smallPreviewUrl}}")
 
   .similar-datasets(ng-hide="!item.related.length")
     h1 Similar Datasets
