@@ -6,7 +6,7 @@
 
     .market-item-vendor-info
       .col-three-quarters.col-outside
-        h3(ng-show="marketPlace.vendors") {{vendorName(item)}}
+        h3.vendor {{vendorName(item)}}
           span.text-blue &nbsp; &raquo;
       .col-quarter.col-outside
         .right.btn.btn-primary.subscribe(ng-click="subscribed ? unsubscribe() : subscribe()") {{subscribed ? "unsubscribe" : "subscribe"}}
@@ -32,7 +32,7 @@
 
     .property-row
       .property-label frequency
-      .property-value {{item.updateFrequency}}
+      .property-value.update-frequency {{item.updateFrequency}}
 
     .property-row
       .property-label categories
@@ -40,7 +40,7 @@
 
     .property-row
       .property-label tags
-      .property-value
+      .property-value.tags
         span(ng-repeat="tag in item.dataTags") {{tag.name}}{{$last ? '' : ', '}}
 
   .start-date(ng-show="item.startDate !== null") Data Start Date: {{item.startDate | date: 'dd/MM/yyyy'}}
