@@ -13,6 +13,8 @@ RUN apt-get update -qq && \
       fuse-utils \
       git \
       gradle \
+      libcurl3 \
+      libxml2 \
       locales \
       mime-support \
       nginx \

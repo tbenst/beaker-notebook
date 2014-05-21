@@ -49,6 +49,8 @@
     {
       "name": "beaker",
       "image": "beaker",
+      "priviliged": true,
+      "command": "--bucket=bunsen-development --mount=/var/s3 --role=read-s3",
       "ports": [
         "8801:8801"
       ]
