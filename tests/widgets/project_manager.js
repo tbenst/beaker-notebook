@@ -17,7 +17,7 @@ module.exports = function() {
     },
 
     clickProject: function(name) {
-      var xpath = "return document.evaluate(\"//a[contains(text(),'" + name + "')]\", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE).snapshotItem(0)";
+      var xpath = "return document.evaluate(\"//a[contains(text(),'" + name + "')]\", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotItem(0)";
       return this.driver.executeScript(xpath).then(function(a) {
         return a.click();
       });
