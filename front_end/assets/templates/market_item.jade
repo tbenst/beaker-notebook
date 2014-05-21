@@ -43,8 +43,6 @@
       .property-value.tags
         span(ng-repeat="tag in item.dataTags") {{tag.name}}{{$last ? '' : ', '}}
 
-  .start-date(ng-show="item.startDate !== null") Data Start Date: {{item.startDate | date: 'dd/MM/yyyy'}}
-
   .data-previews(ng-hide="!item.dataPreviews.length")
     h1 Data Previews
     .data-preview-contain
