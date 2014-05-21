@@ -9,13 +9,13 @@ ADD config /tmp/config
 
 RUN chown postgres:postgres /tmp/config/* && mv /tmp/config/* /etc/postgresql/9.1/main/
 
-USER postgres
-RUN /etc/init.d/postgresql start && \
-    createdb "bunsenProduction" && \
-    createdb "bunsenTesting" && \
-    createdb "bunsenDevelopment" && \
-    /etc/init.d/postgresql stop
+ADD main.sh /main.sh
+RUN chmod +x /main.sh
 
 EXPOSE 5432
 
-ENTRYPOINT ["/usr/lib/postgresql/9.1/bin/postgres", "-D", "/etc/postgresql/9.1/main"]
+VOLUME /var/lib/postgresql/9.1/main
+
+CMD []
+ENTRYPOINT ["/main.sh"]
+

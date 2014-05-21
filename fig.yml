@@ -1,6 +1,6 @@
 app:
   build: app
-  command: "--migrate --seed --watch"
+  command: "--migrate --watch"
   links:
     - "db:db"
   ports:
@@ -20,6 +20,9 @@ db:
   build: postgres
   ports:
     - "5432:5432"
+  volumes:
+    - "/var/bunsen_dbs:/var/lib/postgresql/9.1/main"
+  command: "--run"
 beaker:
   build: beaker
   ports:
