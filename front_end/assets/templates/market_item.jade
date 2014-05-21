@@ -38,22 +38,21 @@
       .property-label categories
       .property-value {{item.categories | names}}
 
+    .property-row
+      .property-label tags
+      .property-value
+        span(ng-repeat="tag in item.dataTags") {{tag.name}}{{$last ? '' : ', '}}
+
   .start-date(ng-show="item.startDate !== null") Data Start Date: {{item.startDate | date: 'dd/MM/yyyy'}}
-  .tags
-    p Tags:
-    span(ng-repeat="tag in item.dataTags") {{tag.name}}{{$last ? '' : ', '}}
 
-
-  span {{item.vendor}}
-  hr
   p data previews
   ul
     li(ng-repeat="preview in item.dataPreviews")
       a(ng-href="{{preview.previewUrl}}", target="_blank")
         img(ng-src="{{preview.smallPreviewUrl}}")
-  hr
-  p
-    b Related data sets
-  ul.related-items
-    li(ng-repeat="related in item.related")
-      a(ui-sref="marketPlace.items.item({id: related.id})") {{related.title}}
+
+  .similar-datasets(ng-hide="!item.related.length")
+    h1 Similar Datasets
+    ul.related-items
+      li.related-item.base-row-item-green(ng-repeat="related in item.related")
+        a(ui-sref="marketPlace.items.item({id: related.id})") {{related.title}}
