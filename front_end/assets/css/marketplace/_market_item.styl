@@ -17,3 +17,35 @@
   h3
     font-size font-size-base + 1
     margin-top spacing-block-small + 2
+
+.market-item-properties
+  margin-top spacing-block + 30
+
+.property-label,
+.property-value
+  display inline-block
+  vertical-align top
+  padding spacing-block-small + 4
+  border-bottom 1px solid black
+
+.property-label
+  border-color darken(action-strong-blue, 20%)
+  background-color action-strong-blue
+  width 25%
+  font-size font-size-base
+  text-transform uppercase
+  color white
+
+.property-value
+  width 75%
+  padding-left spacing-block + 10
+  border-color base-step5
+  border-right 1px solid base-step5
+  font-size font-size-base
+  background-color white
+
+.property-row-first
+  .property-label
+    border-top 1px solid transparent
+  .property-value
+    border-top 1px solid base-step5

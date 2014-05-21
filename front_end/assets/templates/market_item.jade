@@ -15,13 +15,29 @@
           span.file-path {{item.remoteFile | dataSetPath}}
       .cl
 
-  h2
-    b Details
-  .format Format: {{item.format}}
-  .released Released: {{item.createdAt | date: 'dd/MM/yyyy'}}
-  .last-updated Updated: {{item.lastUpdated | date: 'dd/MM/yyyy'}}
-  .update-frequency Frequency: {{item.updateFrequency}}
-  .categories Categories: {{item.categories | names}}
+  .market-item-properties
+    h1 Properties
+
+    .property-row.property-row-first
+      .property-label format
+      .property-value.property-top-border.format {{item.format}}
+
+    .property-row
+      .property-label released
+      .property-value {{item.lastUpdated | date: 'dd/MM/yyyy'}}
+
+    .property-row
+      .property-label updated
+      .property-value {{item.lastUpdated | date: 'dd/MM/yyyy'}}
+
+    .property-row
+      .property-label frequency
+      .property-value {{item.updateFrequency}}
+
+    .property-row
+      .property-label categories
+      .property-value {{item.categories | names}}
+
   .start-date(ng-show="item.startDate !== null") Data Start Date: {{item.startDate | date: 'dd/MM/yyyy'}}
   .tags
     p Tags:
