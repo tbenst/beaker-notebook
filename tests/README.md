@@ -4,8 +4,6 @@ Bunsen Integration tests.
 ## Setup
 
   * `$ npm install`
-  * `$ cp config.json.sample config.json`
-    * Modify the values therein to reflect your local installation. For example, you will need to enter a valid url by which "index.html" of the frontend can be accessed.
   * `$ createdb "bunsenTest"` or whatever you have specified within your `app/config.js`
 
 ## Running
