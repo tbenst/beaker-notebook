@@ -3,9 +3,16 @@ module.exports = function() {
     root: '.project-search',
     itemSelector: "li",
 
+    waitForItem: function() {
+      return this.find(this.itemSelector);
+    },
+
     click: function(index) {
-      return this.items().then(function(children) {
-        return children[index].click();
+      var _this = this;
+      return this.waitForItem().then(function() {
+        return _this.items().then(function(children) {
+          return children[index].click();
+        });
       });
     },
 
