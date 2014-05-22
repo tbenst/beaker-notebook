@@ -23,7 +23,10 @@ function openProject(name) {
 }
 
 function viewProjectDashboard() {
-  return this.driver.get(this.route.projectDashboard);
+  var mainNav = new this.Widgets.MainNav();
+  return mainNav.visitMarketPlace().then(function() {
+    return mainNav.visitProjects();
+  });
 }
 
 module.exports = function() {
