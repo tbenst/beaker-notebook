@@ -26,7 +26,7 @@ module.exports = [
       {
         joinTable: "DataSetsDataPreviews",
         lookup: {
-          "DataPreview": {previewUrl: "http://i.imgur.com/fONsbsm.png"}
+          "DataPreview": [{previewUrl: "http://i.imgur.com/fONsbsm.png"}, {smallPreviewUrl: "http://i.imgur.com/1oMGkXz.png"}]
         }
       },
       {
@@ -64,7 +64,7 @@ module.exports = [
       {
         joinTable: "DataSetsDataPreviews",
         lookup: {
-          "DataPreview": {previewUrl: "http://i.imgur.com/le8XFL4.png"}
+          "DataPreview": [{previewUrl: "http://i.imgur.com/le8XFL4.png"}, {smallPreviewUrl: "http://i.imgur.com/4wVmYff.png"}]
         }
       },
       {
@@ -101,7 +101,7 @@ module.exports = [
       {
         joinTable: "DataSetsDataPreviews",
         lookup: {
-          "DataPreview": {previewUrl: "http://i.imgur.com/5vJCgLB.png"}
+          "DataPreview": [{previewUrl: "http://i.imgur.com/5vJCgLB.png"}, {smallPreviewUrl: "http://i.imgur.com/UipENFZ.png"}]
         }
       },
       {
@@ -171,7 +171,7 @@ module.exports = [
       {
         joinTable: "DataSetsDataPreviews",
         lookup: {
-          "DataPreview": {previewUrl: "http://i.imgur.com/le8XFL4.png"}
+          "DataPreview": [{previewUrl: "http://i.imgur.com/le8XFL4.png"}, {smallPreviewUrl:"http://i.imgur.com/4wVmYff.png"}]
         }
       },
       {
@@ -208,7 +208,7 @@ module.exports = [
       {
         joinTable: "DataSetsDataPreviews",
         lookup: {
-          "DataPreview": [{previewUrl: "http://i.imgur.com/ysvXMls.png"},{previewUrl: "http://i.imgur.com/TdlcDJN.png"}]
+          "DataPreview": [{previewUrl: "http://i.imgur.com/ysvXMls.png"},{previewUrl: "http://i.imgur.com/TdlcDJN.png"},{smallPreviewUrl: "http://i.imgur.com/c07p3bB.png"},{smallPreviewUrl:"http://i.imgur.com/SfhgAe8.png"}]
         }
       },
       {
@@ -245,7 +245,7 @@ module.exports = [
       {
         joinTable: "DataSetsDataPreviews",
         lookup: {
-          "DataPreview": [{previewUrl: "http://i.imgur.com/WjmLQ9E.png"},{previewUrl: "http://i.imgur.com/mviEQ84.png"}]
+          "DataPreview": [{previewUrl: "http://i.imgur.com/WjmLQ9E.png"},{previewUrl: "http://i.imgur.com/mviEQ84.png"},{smallPreviewUrl:"http://i.imgur.com/kaGGFUG.png"},{smallPreviewUrl:"http://i.imgur.com/au3yRh8.png"}]
         }
       },
       {
@@ -281,7 +281,7 @@ module.exports = [
       {
         joinTable: "DataSetsDataPreviews",
         lookup: {
-          "DataPreview": {previewUrl: "http://i.imgur.com/au8ord4.png"}
+          "DataPreview": [{previewUrl: "http://i.imgur.com/au8ord4.png"},{smallPreviewUrl:"http://i.imgur.com/Xg0RIv4.png"}]
         }
       },
       {
@@ -347,7 +347,7 @@ module.exports = [
       {
         joinTable: "DataSetsDataPreviews",
         lookup: {
-          "DataPreview": [{previewUrl: "http://i.imgur.com/k09bJrs.png"},{previewUrl: "http://i.imgur.com/C38Q3wV.png"}]
+          "DataPreview": [{previewUrl: "http://i.imgur.com/k09bJrs.png"},{previewUrl: "http://i.imgur.com/C38Q3wV.png"},{smallPreviewUrl:"http://i.imgur.com/MDB2lsg.png"},{smallPreviewUrl:"http://i.imgur.com/tRQ1Ycl.png"}]
         }
       },
       {
@@ -443,7 +443,7 @@ module.exports = [
       {
         joinTable: "DataSetsDataPreviews",
         lookup: {
-          "DataPreview": {previewUrl: "http://i.imgur.com/ZQ4q7RA.png"}
+          "DataPreview": [{previewUrl: "http://i.imgur.com/ZQ4q7RA.png"},{smallPreviewUrl:"http://i.imgur.com/v2XKZsH.png"}]
         }
       },
       {
