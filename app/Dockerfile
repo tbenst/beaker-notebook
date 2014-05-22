@@ -20,8 +20,6 @@ RUN apt-get update -qq && \
 
 ADD . /var/app
 
-RUN cp /var/app/config.sample.js /var/app/config.js
-
 ENV NODE_ENV production
 ENV NODE_PATH /usr/local/lib/node_modules
 
