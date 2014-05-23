@@ -3,6 +3,7 @@
 - name: initial setup work
   hosts: all
   roles:
+    - common
     - docker
     - squid
     - iptables
