@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "start-test": "NODE_ENV=test istanbul cover app.js --SIGINT",
+    "start-test": "NODE_ENV=test istanbul cover app.js --handle-sigint",
     "migrate": "node migrate.js",
     "seed": "node app_seed.js",
     "reseed": "dropdb 'bunsenDevelopment'; createdb 'bunsenDevelopment'; rm -rf .repos; npm run-script migrate; npm run-script seed;",
@@ -36,6 +36,6 @@
   },
   "devDependencies": {
     "node-inspector": "0.7.0",
-    "istanbul": "git://github.com/samccone/istanbul#fecfe6f1d34b81ec90f990a404caab486f51d455"
+    "istanbul": "0.2.10"
   }
 }
