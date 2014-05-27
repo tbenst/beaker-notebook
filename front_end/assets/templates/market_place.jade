@@ -18,12 +18,15 @@
           a(href="mailto:{{marketPlace.currentCategory.ownerEmail}}") {{marketPlace.currentCategory.ownerEmail}}
     .cl
 
-  h2.total-result-count-header {{marketPlace.totalItems}} results
+  h2.total-result-count-header
+    span.total-result-count
+      {{marketPlace.totalItems}}
+    | &nbsp;results
   .filter-market-results
     .filter-header.filter-col
       .filter-segment-label filters
     .filter-segment.filter-col
-      .filter-segment-label
+      .filter-segment-label.filter-formats
         | format
         img(src="images/down-arrow-filter.png", width="6", height="4")
 
@@ -37,7 +40,7 @@
         multi-filter(ng-model="marketPlace.vendorScope", iterator="vendor in marketPlace.vendors", iterator-name="vendor", iterator-display-name="vendor.name")
 
     .filter-segment.filter-col
-      .filter-segment-label
+      .filter-segment-label.filter-tags
         | tags
         img(src="images/down-arrow-filter.png", width="6", height="4")
 
@@ -57,8 +60,7 @@
             a.title(ui-sref="marketPlace.items.item({id: item.id})") {{item.title}}
           p.description {{item.description | limitTo:100}} {{item.description.length > 100 ? "..." : ""}}
           .vendor
-            | Vendor:
-            | &nbsp;
+            | Vendor:&nbsp;
             span.vendors {{vendorName(item)}}
         .col-quarter.vendor-attributes
           ul.vendor-item-list-attributes

@@ -152,8 +152,8 @@ As a researcher, I want to be able to use the market place.
 
   Scenario: Market item description in list
     Given I have the following market items:
-      | title               | description                               | format |
-      | Crime Rates, Canada | Yearly crimes reported per 100,000 people | XML    |
+      | title                     | description                               | format | vendors |
+      | crime rates, canada       | yearly crimes reported per 100,000 people | xml    |         |
     When I view the market search
     And I filter the market page by "crime"
     Then I should see the following market results
