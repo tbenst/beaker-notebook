@@ -1,5 +1,5 @@
-h1
-  b Recent Notebooks
-ul.recent-notebooks
-  li.recent-notebook(ng-repeat="recent in recentNotebooks")
-    a(ui-sref="projects.items.item.notebook({id: recent.projectId, notebook_id: recent.notebookId})") {{recent.notebookName}}
+h3.sidebar-box-header Recent Notebooks
+.sidebar-box
+  ul.recent-notebooks
+    li.recent-notebook(ng-repeat="recent in recentNotebooks")
+      a(ui-sref="projects.items.item.notebook({id: recent.projectId, notebook_id: recent.notebookId})") {{recent.notebookName}}
