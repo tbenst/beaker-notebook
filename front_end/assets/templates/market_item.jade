@@ -1,48 +1,58 @@
-.col-half
-  .btn.return-to-market-search(ui-sref="marketPlace.items") Back to results
-  h1
-    b {{item.title}}
-  p.market-description {{item.description}}
-  .label-pair
-    label vendor
-    br
-    .vendor(ng-show="marketPlace.vendors") Vendor: {{vendorName(item)}}
+.col-three-quarters.market-item-push-down
+  .btn.btn-light.return-to-market-search(ui-sref="marketPlace.items") Back to List
+  .market-item-hero
+    h1 {{item.title}}
+    p.market-description {{item.description}}
 
-    br
+    .market-item-vendor-info
+      .col-three-quarters.col-outside
+        h3.vendor {{vendorName(item)}}
+          span.text-blue &nbsp; &raquo;
+      .col-quarter.col-outside
+        .right.btn.btn-primary.subscribe(ng-click="subscribed ? unsubscribe() : subscribe()") {{subscribed ? "unsubscribe" : "subscribe"}}
+        .path(ng-if="subscribed")
+          | File path:
+          span.file-path {{item.remoteFile | dataSetPath}}
+      .cl
 
-    h2
-      b Details
-    .format Format: {{item.format}}
-    .released Released: {{item.createdAt | date: 'dd/MM/yyyy'}}
-    .last-updated Updated: {{item.lastUpdated | date: 'dd/MM/yyyy'}}
-    .update-frequency Frequency: {{item.updateFrequency}}
-    .categories Categories: {{item.categories | names}}
-    .start-date(ng-show="item.startDate !== null") Data Start Date: {{item.startDate | date: 'dd/MM/yyyy'}}
-    .tags
-      p Tags:
-      span(ng-repeat="tag in item.dataTags") {{tag.name}}{{$last ? '' : ', '}}
+  .market-item-properties
+    h1 Properties
 
+    .property-row.property-row-first
+      .property-label format
+      .property-value.property-top-border.format {{item.format}}
 
-  span {{item.vendor}}
-  hr
-  p data previews
-  ul
-    li(ng-repeat="preview in item.dataPreviews")
-      a(ng-href="{{preview.previewUrl}}", target="_blank")
-        img(ng-src="{{preview.smallPreviewUrl}}")
-  hr
-  p
-    b Related data sets
-  ul.related-items
-    li(ng-repeat="related in item.related")
-      a(ui-sref="marketPlace.items.item({id: related.id})") {{related.title}}
+    .property-row
+      .property-label released
+      .property-value {{item.lastUpdated | date: 'dd/MM/yyyy'}}
 
+    .property-row
+      .property-label updated
+      .property-value {{item.lastUpdated | date: 'dd/MM/yyyy'}}
 
-.col-quarter
-  .btn-group
-    .btn.subscribe(ng-click="subscribed ? unsubscribe() : subscribe()") {{subscribed ? "unsubscribe" : "subscribe"}}
-  .path(ng-if="subscribed")
-    | File path:
-    span.file-path {{item.remoteFile | dataSetPath}}
+    .property-row
+      .property-label frequency
+      .property-value.update-frequency {{item.updateFrequency}}
 
+    .property-row
+      .property-label categories
+      .property-value {{item.categories | names}}
 
+    .property-row
+      .property-label tags
+      .property-value.tags
+        span(ng-repeat="tag in item.dataTags") {{tag.name}}{{$last ? '' : ', '}}
+
+  .data-previews(ng-hide="!item.dataPreviews.length")
+    h1 Data Previews
+    .data-preview-contain
+      ul
+        li(ng-repeat="preview in item.dataPreviews")
+          a(ng-href="{{preview.previewUrl}}", target="_blank")
+            img(ng-src="{{preview.smallPreviewUrl}}")
+
+  .similar-datasets(ng-hide="!item.related.length")
+    h1 Similar Datasets
+    ul.related-items
+      li.related-item.base-row-item-green(ng-repeat="related in item.related")
+        a(ui-sref="marketPlace.items.item({id: related.id})") {{related.title}}

@@ -50,7 +50,7 @@
   br
   br
   ul.market-list
-    li.market-list-item(ng-repeat="item in marketPlace.data")
+    li.market-list-item.base-row-item-green(ng-repeat="item in marketPlace.data")
       p
         .col-three-quarters
           h2
@@ -58,12 +58,13 @@
           p.description {{item.description | limitTo:100}} {{item.description.length > 100 ? "..." : ""}}
           .vendor
             | Vendor:
-            span.vendors &nbsp;{{vendorName(item)}}
+            | &nbsp;
+            span.vendors {{vendorName(item)}}
         .col-quarter.vendor-attributes
           ul.vendor-item-list-attributes
             li.format
               span.small-label Format:&nbsp
-              span.vendor-item-list-value {{item.format}}
+              span.vendor-item-list-value.formats {{item.format}}
             li.last-updated
               span.small-label Updated:&nbsp
               span.vendor-item-list-value {{item.lastUpdated | date: 'dd/MM/yyyy'}}

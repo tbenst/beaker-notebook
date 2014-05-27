@@ -7,19 +7,25 @@
   padding 12px 18px 10px 18px
   border none
   font-size font-size-base
-  font-family font-family-primary-bold
   background-color action-strong-blue
   text-transform capitalize
   &:hover
-    background-color lighten(action-strong-blue, 5%)
+    background-color lighten(action-strong-blue, color-adjust-amount)
   &:active
-    background-color darken(action-strong-blue, 5%)
+    background-color darken(action-strong-blue, color-adjust-amount)
   &.btn-primary
     background-color action-blue
     &:hover
-      background-color lighten(action-blue, 5%)
+      background-color lighten(action-blue, color-adjust-amount)
     &:active
-      background-color darken(action-blue, 5%)
+      background-color darken(action-blue, color-adjust-amount)
+  &.btn-light
+    background-color base-step5
+    color base-step3
+    &:hover
+      background-color lighten(base-step5, color-adjust-amount)
+    &:active
+      background-color darken(base-step5, color-adjust-amount)
 
 .btn-group
   margin: 5px 0
@@ -76,3 +82,10 @@ h3.sidebar-box-header
   font-size font-size-base - 1
   color white
   margin-top 12px
+
+.base-row-item-green
+  background-color white
+  padding spacing-block + 6
+  margin-bottom spacing-block-small + 6
+  border 1px solid base-step5
+  border-left 4px solid action-strong-green
