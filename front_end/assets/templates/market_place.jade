@@ -1,6 +1,5 @@
 .col-three-quarters
-
-  .category-hero(ng-show='marketPlace.currentCategory')
+  .category-hero(ng-if='marketPlace.currentCategory.description')
     .category.col-three-quarters
       h2
         b {{marketPlace.currentCategory.name}}

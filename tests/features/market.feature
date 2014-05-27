@@ -178,3 +178,20 @@ As a researcher, I want to be able to use the market place.
     When I view the "Crime Rates, Canada" market item
     And I subscribe to the market item
     Then I should see the file path "/s3/CRIME.xml"
+
+  Scenario: Category with a description
+    Given I have the following categories:
+      | name               | description                               | ownerName   | ownerEmail              | path     |
+      | Energy             | Work and heat are two categories.         | Quentin     | quentin@twosigma.com    | 0.2      |
+      | Government         | Description here woooo                    | Quentin H   | quentin11@twosigma.com  | 0.1      |
+    When I view the market search
+    And I click "Energy"
+    Then I should see a category description
+
+  Scenario: Category without a description
+    Given I have the following categories:
+      | name               | ownerName   | ownerEmail              | path     |
+      | Government         | Quentin     | quentin@twosigma.com    | 0.1      |
+    When I view the market search
+    And I click "Government"
+    Then I should not see a category description

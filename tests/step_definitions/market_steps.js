@@ -227,4 +227,30 @@ module.exports = function() {
   this.Then(/^I should see the file path "([^"]*)"$/, function(path) {
     return (new this.Widgets.MarketItem()).filePath().should.eventually.equal(path)
   });
+
+  this.Given(/^I have the following categories:$/, function(table) {
+    var seedData = _.map(table.hashes(), function(item) {
+      return {
+        model: 'Category',
+        data: item
+      }
+    });
+
+    return this.seed(seedData);
+  });
+
+  this.When(/^I click "([^"]*)"$/, function(category) {
+    var marketCategory = new this.Widgets.MarketCategory();
+    return marketCategory.clickCategory(category);
+  });
+
+  this.Then(/^I should see a category description$/, function() {
+    var marketCategoryHero = new this.Widgets.MarketCategoryHero();
+    return marketCategoryHero.isPresent().should.eventually.equal(true);
+  });
+
+  this.Then(/^I should not see a category description$/, function() {
+    var marketCategoryHero = new this.Widgets.MarketCategoryHero();
+    return marketCategoryHero.isPresent().should.eventually.equal(false);
+  });
 }
