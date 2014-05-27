@@ -28,11 +28,14 @@ module.exports = function(app) {
     },
 
     create: function(req, res, next) {
+      var notebookContents = req.body.data ?
+        JSON.parse(req.body.data) :
+        require("../fixtures/base_notebook");
       Notebook.forge({
         projectId: req.project.id,
         userId: req.user.id,
         name: req.body.name,
-        data: req.body.data || require("../fixtures/base_notebook")
+        data: notebookContents
       })
       .save()
       .then(_.bind(res.json, res))
