@@ -11,10 +11,12 @@ h3.sidebar-box-header explore datasets
     span.tree-category-count.right {{node.count}}
 
 h3.sidebar-box-header related sets
-.sidebar-box
-  dl.related-tags
+.sidebar-box.sidebar-related-tags
+  dl.related-tags(ng-class="expanded ? '' : 'related-tags-hidden'")
     dt.related-tag(ng-repeat="tag in marketPlace.relatedTags")
       a.tag-name(ng-click="searchByTag(tag)" href='') {{tag.name}}
       span(ng-show='isTagSelected(tag)') *
-  a.related-tags-show-all.right(href="#") Show all
+  a.related-tags-show-all.right(ng-click='expanded = !expanded')
+    span(ng-if="expanded") Collapse
+    span(ng-if="!expanded") Show all
   .cl
