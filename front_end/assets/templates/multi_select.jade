@@ -1,0 +1,4 @@
+ul.filter-dropdown.format
+  li.filter-dropdown-item(ng-repeat=iterator)
+    a(ng-click="selectItem(#{iteratorName}, '#{ngModel}')", ng-class="isItemSelected(#{iteratorName}, '#{ngModel}') ? 'selected' : ''")
+      {{ #{iteratorDisplayName} }}

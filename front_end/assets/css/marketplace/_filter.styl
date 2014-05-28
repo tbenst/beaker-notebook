@@ -1,0 +1,109 @@
+@import '_variables'
+
+.total-result-count-header
+  margin-top spacing-block-small + 3
+  margin-bottom spacing-block-small
+
+.filter-market-results
+  border 1px solid base-step5
+  background-color white
+
+.filter-col
+  display inline-block
+  width 16%
+  padding spacing-block-small + 3 spacing-block spacing-block-small
+  &:hover
+    background-color action-blue
+    cursor pointer
+    &.filter-header
+      background-color lighten(base-step5, 60%)
+      .filter-segment-label
+        color base-step4
+    .filter-segment-label
+      color white
+
+.filter-header
+  background-color lighten(base-step5, 60%)
+  border-right 1px solid base-step5
+  width 13%
+
+.filter-segment-label
+  font-size font-size-base - 1
+  text-transform uppercase
+  color base-step4
+  position relative
+  img
+    top -2px
+    position relative
+    left 4px
+  &:hover
+    .filter-dropdown
+      display inline-block
+
+.filter-search
+  padding 0
+  width 39%
+  border-left 1px solid base-step5
+
+.selected
+  background transparent url('../images/selected-check.png') no-repeat 94% 8px;
+  background-size 8px 10px
+  color action-blue
+  &:hover
+    color white
+    background red url('../images/small-remove-white.png') no-repeat 94% 9px;
+    background-size 10px 10px
+
+.market-text-search
+  border none
+  margin 0
+  height 34px
+  background-size 12px 13px
+
+.filter-vendors
+  .filter-dropdown
+    width 300px
+
+.hide
+  display none
+
+.filter-dropdown
+  max-height 280px
+  overflow auto
+  display none
+  position absolute
+  top 12px
+  left 0
+  z-index 1
+  background-color white
+  box-shadow 0 0 3px rgba(base-step3, .5)
+  min-width 120px
+  border-radius 4px
+  padding 5px 0
+
+.filter-dropdown-item
+  font-size font-size-base - 2
+  color base-step4
+  line-height font-size-base
+  a
+    padding 9px 10px 6px 10px
+    width 100%
+    display inline-block
+  &:hover
+    background-color action-blue
+    color white
+
+.current-filters
+  margin-top spacing-block-small
+
+.current-filters,
+.remove-all-filters
+  display inline-block
+
+.remove-all-filters
+  font-size font-size-base - 2
+  color action-blue
+  text-decoration underline
+  margin-left spacing-block-small
+  &:hover
+    cursor pointer

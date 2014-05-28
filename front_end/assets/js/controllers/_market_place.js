@@ -3,6 +3,37 @@
   app.controller('marketPlace', ['$scope', 'Factories', 'TagNormalizeService', function($scope, Factories, TagNormalizeService) {
     var F = Factories;
 
+    $scope.isItemSelected = function(item, modelScope) {
+      item = item.id || item;
+
+      if(!_.isArray(modelScope)) {
+        modelScope = $scope.$eval(modelScope);
+      }
+
+      if(modelScope) {
+        return modelScope.indexOf(item) != -1;
+      } else {
+        return false;
+      }
+    }
+
+    $scope.selectItem = function(item, itemStore) {
+      var itemStoreName  = itemStore;
+
+      itemStore   = $scope.$eval(itemStore) || [];
+      var itemKey = item.id ? item.id : item;
+
+      if(!$scope.isItemSelected(itemKey, itemStore)) {
+        itemStore.push(itemKey);
+      } else {
+        var removeIndex = itemStore.indexOf(itemKey);
+        if (removeIndex != -1) {
+          itemStore.splice(removeIndex, 1);
+        }
+      }
+      $scope.$eval(itemStoreName+"="+JSON.stringify(itemStore));
+    }
+
     $scope.removeFilter = function(value, model) {
       _.remove($scope.$eval(model), function(v) {
         return v === value;
@@ -61,9 +92,9 @@
     });
 
     $scope.$watch('marketPlace.currentPage', getDataSets);
-    $scope.$watch('marketPlace.typeScope', resetDataSets);
-    $scope.$watch('marketPlace.vendorScope', resetDataSets);
-    $scope.$watch('marketPlace.tagScope', resetDataSets);
+    $scope.$watchCollection('marketPlace.typeScope', resetDataSets);
+    $scope.$watchCollection('marketPlace.vendorScope', resetDataSets);
+    $scope.$watchCollection('marketPlace.tagScope', resetDataSets);
     $scope.$watch('marketPlace.searchScope', resetDataSets);
   }]);
 

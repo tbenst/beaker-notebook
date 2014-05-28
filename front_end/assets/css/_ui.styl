@@ -33,16 +33,19 @@
     margin-right: 5px
 
 .tag
-  padding: 4px 7px
-  border: solid 1px #111
-  border-radius: 3px
-  display: inline-block
+  color white
+  padding 6px 20px 4px 7px
+  background action-blue url('../images/small-remove-white.png') no-repeat right 8px center
+  background-size 8px 8px
+  display inline-block
   font-size font-size-base - 2
-  margin: 1px
-  cursor: pointer
+  margin 4px 4px 4px 0
+  &:hover
+    cursor pointer
+    background-color lighten(action-blue, 20%)
 
 a.active
-  font-weight: bold
+  font-weight bold
 
 .sidebar-box
   box-sizing border-box
@@ -71,7 +74,7 @@ h3.sidebar-box-header
   &:after
     content ''
     position absolute
-    background: darken(action-strong-blue, 20%) url('../images/tag-right-arrow.png') no-repeat center center;
+    background darken(action-strong-blue, 20%) url('../images/tag-right-arrow.png') no-repeat center center
     background-size contain
     width 12px
     height 7px
