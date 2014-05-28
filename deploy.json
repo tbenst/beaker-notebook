@@ -21,6 +21,7 @@
     {
       "name": "db",
       "image": "db",
+      "command": "--create --force --database=bunsenDevelopment --run",
       "ports": [
         "5432:5432"
       ]
@@ -28,7 +29,7 @@
     {
       "name": "app",
       "image": "app",
-      "command": "--migrate --seed --delay=10",
+      "command": "--migrate --seed --delay=30",
       "links": [
         "db:db"
       ],
@@ -49,7 +50,7 @@
     {
       "name": "beaker",
       "image": "beaker",
-      "priviliged": true,
+      "privileged": true,
       "command": "--bucket=bunsen-development --mount=/var/s3 --role=read-s3",
       "ports": [
         "8801:8801"
