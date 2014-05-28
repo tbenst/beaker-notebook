@@ -1,5 +1,7 @@
-h3.sidebar-box-header Recent Notebooks
-.sidebar-box
-  ul.recent-notebooks
-    li.recent-notebook(ng-repeat="recent in recentNotebooks")
+h3.sidebar-box-header.sidebar-box-header-blue
+  span.sidebar-box-header-count {{recentNotebooks.length}}
+  | Recent Notebooks
+.sidebar-box.padding-reset
+  ul.recent-notebooks.sidebar-box-list.with-dots
+    li.recent-notebook(ng-repeat="recent in recentNotebooks").with-dots
       a(ui-sref="projects.items.item.notebook({id: recent.projectId, notebook_id: recent.notebookId})") {{recent.notebookName}}

@@ -42,9 +42,11 @@
       input(type="file" ng-file-select="onFileSelect($files)" multiple)
 
 .col-quarter.col-expanded-lrg-display
-  h2
-    b About this project
-  p(ng-hide="editMode").project-description {{project.description}}
-  textarea(name="description", ng-model="project.description" ng-show="editMode")
+  input.search-full.project-search(ng-model="projects.search", placeholder="Search projects...")
+
+  h3.sidebar-box-header.sidebar-box-header-strong-blue About this project
+  .sidebar-box.sidebar-box-white
+    p(ng-hide="editMode").project-description {{project.description}}
+    textarea(name="description", ng-model="project.description" ng-show="editMode")
 
 .cl

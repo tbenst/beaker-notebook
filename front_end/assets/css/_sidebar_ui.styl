@@ -1,0 +1,91 @@
+.sidebar-box
+  padding spacing-block
+  background-color action-strong-blue
+  margin-bottom spacing-block
+  &.sidebar-box-white
+    border 1px solid base-step5
+    border-top none
+    background-color white
+
+h3.sidebar-box-header
+  padding 13px 10px 12px 14px
+  background-color action-strong-green
+  text-transform capitalize
+  font-size font-size-medium - 2
+  color white
+  &.sidebar-box-header-blue
+    background-color action-blue
+  &.sidebar-box-header-strong-blue
+    background-color action-strong-blue
+
+.sidebar-box-header-count
+  background-color white
+  padding 1px 5px 0px 5px
+  text-align center
+  color action-blue
+  margin-right spacing-block-small - 5
+
+.sidebar-box-list
+  li a
+    display inline-block
+    width 100%
+    color white
+    text-transform capitalize
+    padding 13px spacing-block spacing-block-small 14px
+    font-size font-size-base - 1
+    border-bottom 1px solid darken(action-strong-blue, 5%)
+    text-decoration none
+    position relative
+    &:hover
+      background-color action-blue
+      border-color action-blue
+      cursor pointer
+      .inline-close-notebook
+        display block
+      &:after
+        background-color white
+
+  &.with-dots a
+    padding-left spacing-block + 17
+    &:after
+      width 6px
+      height 6px
+      background-color action-blue
+      border-radius 50%
+      content ''
+      position absolute
+      top 14px
+      left 19px
+
+.inline-close-notebook
+  position absolute
+  top 14px
+  right 10px
+  z-index 11
+  display none
+
+.related-tag
+  display inline-block
+  padding 6px 12px 2px 6px
+  font-size font-size-base - 1
+  background: darken(action-strong-blue, 20%)
+  margin 0 8px 8px 0
+  position relative
+  &:after
+    content ''
+    position absolute
+    background: darken(action-strong-blue, 20%) url('../images/tag-right-arrow.png') no-repeat center center;
+    background-size contain
+    width 12px
+    height 7px
+  a
+    color white
+    text-decoration none
+    &:hover
+      text-decoration underline
+
+.related-tags-show-all
+  text-decoration none
+  font-size font-size-base - 1
+  color white
+  margin-top 12px
