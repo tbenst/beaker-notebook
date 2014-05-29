@@ -51,10 +51,8 @@ RUN chown -R beaker:beaker /home/beaker
 VOLUME ["/var/s3"]
 RUN chmod 777 /var/s3
 
-USER beaker
-RUN gradle --project-dir /home/beaker/core/config/builds/dev/ build
+RUN su -m beaker -c "gradle --project-dir /home/beaker/core/config/builds/dev/ build"
 
 EXPOSE 8801
-
 CMD []
 ENTRYPOINT ["/home/beaker/main.sh"]

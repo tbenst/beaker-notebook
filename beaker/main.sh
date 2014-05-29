@@ -46,5 +46,5 @@ fi
 if [[ $shell -eq 1 ]]; then
     exec /bin/bash
 else
-    exec gradle --project-dir /home/beaker/core/config/builds/dev/ run
+    exec su -m beaker -c "gradle --project-dir /home/beaker/core/config/builds/dev/ run"
 fi
