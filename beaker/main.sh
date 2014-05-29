@@ -12,9 +12,12 @@ case $i in
 
   Usage: beaker [options]
   Options:
-          -h  --help      Display this message
-              --mount     Mount S3 bucket
-              --shell     Start bash instead of launching beaker.
+          -h  --help        Display this message
+          --mount           Mount S3 bucket
+          --shell           Start bash instead of launching beaker.
+          --role=ROLE       Use IAM role for credentials
+          --mount=MOUNT     Mount S3 bucket at MOUNT
+          --bucket=BUCKET   Name of S3 bucket to mount
 
 EOF
     exit
@@ -36,7 +39,8 @@ if [[ ! -z $bucket ]] && [[ ! -z $mount ]]; then
     opts="-o iam_role=$role"
   fi
 
-  /usr/local/bin/s3fs $opts "$bucket" "$mount"
+  chown beaker:beaker $mount
+  su -m beaker -c "/usr/local/bin/s3fs $opts $bucket $mount"
 
   unset AWSACCESSKEID AWSSECRETACCESSKEY
 fi
