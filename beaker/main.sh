@@ -13,8 +13,8 @@ case $i in
   Usage: beaker [options]
   Options:
           -h  --help      Display this message
-          -m  --mount     Mount S3 bucket
-          --shell         Start bash instead of launching beaker.
+              --mount     Mount S3 bucket
+              --shell     Start bash instead of launching beaker.
 
 EOF
     exit
@@ -26,19 +26,17 @@ cd /home/beaker
 
 if [[ ! -z $bucket ]] && [[ ! -z $mount ]]; then
   # Make fuse device node if it doesn't exist. This line requires --priviliged.
-  [[ -f /dev/fuse ]] || mknod -m 666 /dev/fuse c 10 229
+  [[ -c /dev/fuse ]] || mknod -m 666 /dev/fuse c 10 229
 
   # Create mount point if it doesn't exist.
   [[ -f "$mount" ]] || mkdir -p "$mount"
 
   # Use an IAM role if provided, otherwise get credentials from the environment.
   if [[ ! -z $role ]]; then
-    s3fs="s3fs -o iam_role=$role"
-  else
-    s3fs="s3fs"
+    opts="-o iam_role=$role"
   fi
 
-  "$s3fs" "$bucket" "$mount"
+  /usr/local/bin/s3fs $opts "$bucket" "$mount"
 
   unset AWSACCESSKEID AWSSECRETACCESSKEY
 fi
