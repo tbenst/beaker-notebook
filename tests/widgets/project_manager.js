@@ -1,10 +1,15 @@
 module.exports = function() {
+  var World = this;
+
   return this.Widgets.ProjectManager = this.Widget.List.extend({
     root: '.projects-root',
     itemSelector: '.project',
+    createNewDropdown: '.nav .basic-drop-down',
 
     createNew: function() {
-      return this.click('.create-project');
+      return new World.Widgets.ShowDropdown().show(this.createNewDropdown).then(function() {
+        return this.click(".create-project");
+      }.bind(this));
     },
 
     waitForItem: function() {

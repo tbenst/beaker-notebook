@@ -1,9 +1,13 @@
 module.exports = function() {
+  var World = this;
   return this.Widgets.ProjectDetail = this.Widget.extend({
     root: '.projects-root',
+    projectMenu: '.project-menu',
 
     edit: function() {
-      return this.click('.edit-project');
+      return new World.Widgets.ShowDropdown().show(this.projectMenu).then(function() {
+        return this.click(".edit-project");
+      }.bind(this));
     },
 
     name: function() {
@@ -15,7 +19,7 @@ module.exports = function() {
     },
 
     updatedAt: function() {
-      return this.read('.last-updated')
+      return this.read('.last-updated');
     },
 
     addNewNotebook: function() {

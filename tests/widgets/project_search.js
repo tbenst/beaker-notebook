@@ -3,7 +3,7 @@ module.exports = function() {
     root: '.projects-root',
 
     search: function(text) {
-      return this.fill(".search", text);
+      return this.fill(".project-search", text);
     },
 
     getCount: function() {
