@@ -1,5 +1,4 @@
-var _ = require('lodash'),
-    util = require('util');
+var _ = require('lodash');
 
 module.exports = function(Bookshelf, app){
   var models = app.Models;

@@ -1,7 +1,6 @@
 var _         = require('lodash'),
 when          = require('when'),
 sequence      = require('when/sequence'),
-util          = require('util'),
 inflection    = require('inflection'),
 app           = undefined;
 
