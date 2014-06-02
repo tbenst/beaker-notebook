@@ -1,8 +1,17 @@
-h3.sidebar-box-header Projects
+input.search-full.project-search(ng-model="projects.search", placeholder="Search projects...")
+
+h3.sidebar-box-header
+  | Projects
+  ul.basic-drop-down.sidebar-drop-down-icon
+    li
+      a.toggle-drop-down(show-on-hover-parent)
+        img(src="images/menu-dots-white.png", width="3", height="13")
+      ul.drop-down-child
+        li
+          a.create-project(ng-click="createProject()") New project
+
 .sidebar-box.padding-reset
   ul.project-results.sidebar-box-list
     li(ng-show="projects.list.length === 0") no projects yet.
     li(ng-repeat="project in projects.list")
-      a.project(ui-sref-active="active", ui-sref="projects.items.item({id: project.id})") {{project.name | limitTo:30}}
-
-.btn.create-project(ng-click="createProject()") New project
+      a.sidebar-box-list-link.project(ui-sref-active="active", ui-sref="projects.items.item({id: project.id})") {{project.name | limitTo:30}}

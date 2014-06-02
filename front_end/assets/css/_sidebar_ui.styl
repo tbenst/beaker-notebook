@@ -46,38 +46,42 @@ h3.sidebar-box-header
   li
     position relative
 
-  li a
-    display inline-block
-    width 100%
-    color white
-    text-transform capitalize
-    padding 13px spacing-block spacing-block-small 14px
-    font-size font-size-base - 1
-    border-bottom 1px solid darken(action-strong-blue, 5%)
-    text-decoration none
-    &.active
-      background-color action-blue
-      font-weight normal
-    &:hover
-      background-color action-blue
-      border-color action-blue
-      cursor pointer
-      + span
-        display block
-      &:after
-        background-color white
-
-  &.with-dots a
-    padding-left spacing-block + 17
+.sidebar-box-list-link
+  width 100%
+  color white
+  text-transform capitalize
+  padding 13px spacing-block spacing-block-small 14px
+  font-size font-size-base - 1
+  border-bottom 1px solid darken(action-strong-blue, 5%)
+  text-decoration none
+  display inline-block
+  &.active
+    background-color action-blue
+    font-weight normal
+  &:hover
+    background-color action-blue
+    border-color action-blue
+    cursor pointer
+    .close-notebook
+      display block
     &:after
-      width 6px
-      height 6px
-      background-color action-blue
-      border-radius 50%
-      content ''
-      position absolute
-      top 14px
-      left 19px
+      background-color white
+
+.with-dots .sidebar-box-list-link
+  padding-left spacing-block + 17
+  position relative
+  &:hover
+    &:after
+      background-color white
+  &:after
+    width 6px
+    height 6px
+    background-color action-blue
+    border-radius 50%
+    content ''
+    position absolute
+    top 14px
+    left 19px
 
 .inline-close-notebook
   top 9px

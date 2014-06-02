@@ -1,6 +1,23 @@
 .projects-root(ng-controller="projectsRoot")
   .col-quarter.project-sidebar.col-outside.col-expanded-lrg-display
     .nav(ui-view="nav")
-    .recent-notebooks(ui-view="recent-notebooks")
-    .open-notebooks(ui-view="open-notebooks")
+
+    .open-notebooks(ng-controller="openNotebooks")
+      h3.sidebar-box-header.sidebar-box-header-blue
+        span.sidebar-box-header-count {{openNotebooks.length}}
+        | Open Notebooks
+      .sidebar-box.padding-reset
+        ul.open-notebooks.sidebar-box-list.with-dots
+          li.open-notebook(ng-repeat="open in openNotebooks")
+            a.sidebar-box-list-link(ng-click="openProject(open.id)") {{open.name}} {{open.id}}
+              span.inline-icon-sidebar.inline-close-notebook.close-notebook(ng-controller="notebook", ng-click="closeNotebook(open.id, $event)", stop-event="click")
+                img(src="images/close-white-small.png", width="10", height="10")
+          li.recently-used
+            a.sidebar-box-list-link(show-on-hover-parent) Recently Used
+              img.inline-icon-sidebar.inline-right-arrow(src="images/right-arrow-white.png", width="5", height="10")
+
+            ul.drop-down-child.drop-down-dark.sidebar-drop-down(ng-controller="recentNotebooks")
+              li.recent-notebook(ng-repeat="recent in recentNotebooks")
+                a(ui-sref="projects.items.item.notebook({id: recent.projectId, notebook_id: recent.notebookId})") {{recent.notebookName}}
+
   #app(ui-view="app")
