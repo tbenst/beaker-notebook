@@ -13,10 +13,27 @@ h3.sidebar-box-header
   text-transform capitalize
   font-size font-size-medium - 2
   color white
+  position relative
   &.sidebar-box-header-blue
     background-color action-blue
   &.sidebar-box-header-strong-blue
     background-color action-strong-blue
+
+.sidebar-drop-down-icon,
+.sidebar-box-header-icon
+  position absolute
+  top 4px
+  right 0
+  padding spacing-block-small spacing-block
+  &:hover
+    cursor pointer
+    img
+      opacity .8
+
+.sidebar-box-header-icon
+  padding 0
+  right 10px
+  top 11px
 
 .sidebar-box-header-count
   background-color white
@@ -26,6 +43,9 @@ h3.sidebar-box-header
   margin-right spacing-block-small - 5
 
 .sidebar-box-list
+  li
+    position relative
+
   li a
     display inline-block
     width 100%
@@ -35,12 +55,14 @@ h3.sidebar-box-header
     font-size font-size-base - 1
     border-bottom 1px solid darken(action-strong-blue, 5%)
     text-decoration none
-    position relative
+    &.active
+      background-color action-blue
+      font-weight normal
     &:hover
       background-color action-blue
       border-color action-blue
       cursor pointer
-      .inline-close-notebook
+      + span
         display block
       &:after
         background-color white
@@ -58,11 +80,18 @@ h3.sidebar-box-header
       left 19px
 
 .inline-close-notebook
-  position absolute
-  top 14px
-  right 10px
-  z-index 11
+  top 9px
+  right 7px
+  padding 3px
   display none
+  &:hover
+    cursor pointer
+    img
+      opacity .8
+
+.inline-right-arrow
+  top 14px
+  right 12px
 
 .related-tag
   display inline-block
