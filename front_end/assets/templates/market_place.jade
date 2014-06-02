@@ -9,11 +9,11 @@
       .category-attributes
         .category-attributes-label Total Sets
         .category-attributes-label-value.total-sets {{marketPlace.currentCategory.count}}
-        .category-attributes-label Last Updated:
+        .category-attributes-label Last Updated
         .category-attributes-label-value {{marketPlace.currentCategory.updated_at | date: 'short'}}
-        .category-attributes-label Owner:
+        .category-attributes-label Owner
         .category-attributes-label-value {{marketPlace.currentCategory.ownerName}}
-        .category-attributes-label Contact:
+        .category-attributes-label Contact
         .category-attributes-label-value
           a(href="mailto:{{marketPlace.currentCategory.ownerEmail}}") {{marketPlace.currentCategory.ownerEmail}}
     .cl
