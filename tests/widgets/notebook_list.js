@@ -20,8 +20,8 @@ module.exports = function() {
     },
 
     getNames: function() {
-      return $.map(this.items(), function(n) {
-        return n.find("b").getInnerHtml();
+      return $.map(this.findAll(this.itemSelector + " b"), function(n) {
+        return n.getInnerHtml();
       });
     },
 
