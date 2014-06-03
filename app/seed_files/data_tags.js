@@ -1,4 +1,4 @@
-module.exports =  [
+module.exports = [
   {
     model: 'DataTag',
     data: {
@@ -99,6 +99,84 @@ module.exports =  [
     model: 'DataTag',
     data: {
       name: "Electricity"
+    }
+  },
+  {
+    model: "DataTag",
+    data: {
+      name: "Expenditure on Education"
+    }
+  },
+  {
+    model: "DataTag",
+    data: {
+      name: "Education"
+    }
+  },
+  {
+    model: "DataTag",
+    data: {
+      name: "Mortality"
+    }
+  },
+  {
+    model: "DataTag",
+    data: {
+      name: "Main Health Indicators"
+    }
+  },
+  {
+    model: "DataTag",
+    data: {
+      name: "Health"
+    }
+  },
+  {
+    model: "DataTag",
+    data: {
+      name: "Life Expectancy"
+    }
+  },
+  {
+    model: "DataTag",
+    data: {
+      name: "Mortality Overview"
+    }
+  },
+  {
+    model: "DataTag",
+    data: {
+      name: "Prevalence of Disease"
+    }
+  },
+  {
+    model: "DataTag",
+    data: {
+      name: "Commodities"
+    }
+  },
+  {
+    model: "DataTag",
+    data: {
+      name: "Markets"
+    }
+  },
+  {
+    model: "DataTag",
+    data: {
+      name: "Agriculture"
+    }
+  },
+  {
+    model: "DataTag",
+    data: {
+      name: "By Category"
+    }
+  },
+  {
+    model: "DataTag",
+    data: {
+      name: "Futures"
     }
   }
 ]
