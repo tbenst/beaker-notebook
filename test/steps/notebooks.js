@@ -20,10 +20,6 @@ module.exports = function() {
   });
 
   this.Then(/^I should see a new notebook$/, function() {
-    return new this.Widgets.Notebook().getPluginManager();
-  });
-
-  this.Then(/^I should see notebook cells$/, function(callback) {
-    return new this.Widgets.Notebook().getCells();
+    return new this.Widgets.Notebook().getPluginManager()
   });
 }
