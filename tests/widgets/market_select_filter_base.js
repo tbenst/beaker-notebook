@@ -9,7 +9,12 @@ module.exports = function() {
 
     showDropdown: function() {
       var method = "$('"+this.root+" ul').show()";
-      return this.driver.executeScript(method);
+      return this.driver.executeScript(method).then(
+        this.waitForTag.bind(this));
+    },
+
+    waitForTag: function() {
+      return this.find('ul li');
     },
 
     selectMatching: function(tags) {
