@@ -10,12 +10,15 @@
           span.text-blue &nbsp; &raquo;
       .col-quarter.col-outside
         .right.btn.btn-primary.subscribe(ng-click="subscribed ? unsubscribe() : subscribe()") {{subscribed ? "unsubscribe" : "subscribe"}}
-        .path(ng-if="subscribed")
-          | File path:
-          span.file-path {{item.remoteFile | dataSetPath}}
       .cl
 
-  .section-padding
+  .subscribed-confirm(ng-if="subscribed")
+    p Thank you for subscribing. The data is accessible in the file&nbsp;
+      span.file-path {{item.remoteFile | dataSetPath}}
+      &nbsp;
+      | from within any Notebook.
+
+  .market-item-properties.section-padding
     h1 Properties
 
     .property-row.property-row-first
