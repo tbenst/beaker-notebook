@@ -39,10 +39,17 @@ module.exports = function() {
       })
     },
 
+    waitForItem: function() {
+      return this.find(this.itemSelector);
+    },
+
     clickItem: function(title) {
       var xpath = "return document.evaluate(\"//a[contains(text(),'" + title + "')]\", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotItem(0)";
-      return this.driver.executeScript(xpath).then(function(a) {
-        return a.click();
+      var _this = this;
+      return this.waitForItem().then(function() {
+        return _this.driver.executeScript(xpath).then(function(a) {
+          return a.click();
+        });
       });
     }
   });
