@@ -4,8 +4,9 @@
   "description": "Specifying big data for fun and profit by example",
   "main": "dill",
   "scripts": {
-    "start": "NODE_ENV=test DISPLAY=:99.0 dill features/ --driver=firefox --require util/ --require step_definitions/ --require widgets/ -f pretty",
-    "test": "NODE_ENV=test DISPLAY=:99.0 node-debug --web-port 8081 --debug-port 5859 dill features/ --driver=firefox --require util/ --require step_definitions/ --require widgets/ -f pretty"
+    "start": "NODE_ENV=test dill features/ --require util/ --require step_definitions/ --require widgets/ -f pretty",
+    "ci": "NODE_ENV=test DISPLAY=:99.0 dill features/ --driver=firefox --require util/ --require step_definitions/ --require widgets/ -f pretty",
+    "test": "NODE_ENV=test node-debug --web-port 8081 --debug-port 5859 dill features/ --require util/ --require step_definitions/ --require widgets/ -f pretty"
   },
   "repository": {
     "type": "git",
