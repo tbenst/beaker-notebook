@@ -57,7 +57,7 @@
         .col-three-quarters
           h2
             a.title(ui-sref="marketPlace.items.item({id: item.id})") {{item.title}}
-          p.description {{item.description | limitTo:100}} {{item.description.length > 100 ? "..." : ""}}
+          p.market-description {{item.description | limitTo:100}} {{item.description.length > 100 ? "..." : ""}}
           .vendor
             | Vendor:&nbsp;
             span.vendors {{vendorName(item)}}
