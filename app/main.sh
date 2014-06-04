@@ -16,6 +16,7 @@ case $i in
           -m  --migrate   Run migrations before starting app
           -s  --seed      Seed database with fake data starting app
           -w  --watch     Restart server if files change
+          --delay=(secs)  Delay start x seconds
 
 EOF
     exit
