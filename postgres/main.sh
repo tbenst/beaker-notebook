@@ -35,6 +35,7 @@ fi
 
 if [[ $database ]]; then
     /etc/init.d/postgresql start
+    echo "createdb $database"
     su postgres -c "createdb $database"
     /etc/init.d/postgresql stop
 fi
