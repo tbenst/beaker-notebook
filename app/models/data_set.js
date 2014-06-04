@@ -177,6 +177,7 @@ module.exports = function(Bookshelf, app) {
       var q = query('DataSets')
         .select('DataSets.*')
         .distinct()
+        .limit(5)
         .join('DataSetsDataTags', 'DataSets.id', '=', 'DataSetsDataTags.dataSetId')
         .join('DataTags', 'DataTags.id', '=', 'DataSetsDataTags.dataTagId')
         .whereIn('DataTags.name', tags)
