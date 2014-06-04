@@ -1,8 +1,8 @@
 module.exports = function() {
   var appHost = process.env.APP_PORT_3000_TCP_ADDR || 'localhost';
-  var appPort = process.env.APP_PORT_3000_TCP_PORT || '3000';
+  var appPort = process.env.APP_PORT_3000_TCP_PORT || '2999';
   var frontEndHost = process.env.WEB_PORT_8080_TCP_ADDR || 'localhost';
-  var frontEndPort = process.env.WEB_PORT_8080_TCP_PORT || '8080';
+  var frontEndPort = process.env.WEB_PORT_8080_TCP_PORT || '8079';
 
   this.config = {
     appServer: {

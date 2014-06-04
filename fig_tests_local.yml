@@ -1,0 +1,33 @@
+app:
+  build: app
+  command: "--migrate --delay=10"
+  links:
+    - "db:db"
+  ports:
+    - "3000:3000"
+  volumes:
+    - "/vagrant/app:/var/app"
+  environment:
+    NODE_ENV: test
+web:
+  build: front_end
+#  entrypoint: "/bin/sh"
+  command: "--test"
+#  links:
+#    - "app:app"
+#    - "beaker:beaker"
+  ports:
+    - "8080:8080"
+  volumes:
+    - "/vagrant/front_end:/var/www"
+db:
+  build: postgres
+  ports:
+    - "5432:5432"
+  volumes:
+    - "/var/bunsen_test_db:/var/lib/postgresql/9.1/main"
+  command: "-c -f --database=bunsenTest -r"
+# beaker:
+#   build: beaker
+#   ports:
+#     - "8801:8801"

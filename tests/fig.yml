@@ -1,0 +1,29 @@
+apptests:
+  build: ../app
+  command: "--migrate --delay=10"
+  links:
+    - "dbtests:db"
+  ports:
+    - "2999:3000"
+  volumes:
+    - "/vagrant/app:/var/app"
+  environment:
+    NODE_ENV: test
+webtests:
+  build: ../front_end
+  command: "--test --api_url='http://localhost:2999/api/' --beaker_url='http://localhost:8800/beaker/'"
+  ports:
+    - "8079:8080"
+  volumes:
+    - "/vagrant/front_end:/var/www"
+dbtests:
+  build: ../postgres
+  ports:
+    - "5431:5432"
+  volumes:
+    - "/var/bunsen_test_db:/var/lib/postgresql/9.1/main"
+  command: "-c -f --database=bunsenTest -r"
+beakertests:
+  build: ../beaker
+  ports:
+    - "8800:8801"
