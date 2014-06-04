@@ -10,7 +10,7 @@
     })
     .filter('dataSetPath', function() {
       return function(remotePath) {
-        return " /s3/" + remotePath;
+        return "/var/s3/" + remotePath;
       };
     });
 
