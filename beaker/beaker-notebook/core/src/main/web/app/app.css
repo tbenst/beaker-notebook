@@ -33,17 +33,106 @@ body {
     border-right: 1px solid #999999;
 }
 
-.cell-bracket-initialization {
-    border-right: 2px solid #00FF00;
+.bkcell.code-cell-area, .text-cell {
+    padding: 20px;
+    border: solid 1px #CCC;
 }
 
-.cell-bracket-selected {
-    border-right: 2px solid #009AA6;
-    box-shadow: 5px 0 10px -5px #009AA6;
+.bkcell bk-code-cell-input-menu .dropdown {
+    float:          left;
+    z-index:        99;
+    position:       relative;
+    padding-bottom: 20px;
 }
 
-.initcell {
-    border-right: 2px solid #009AA6;
+.code-cell-hidden {
+    padding-top: 20px;
+}
+
+.toggle-menu {
+    top:        20px;
+    right:      20px;
+    color:      transparent;
+    cursor:     pointer;
+    height:     24px;
+    padding:    0 20px;
+    position:   absolute;
+    background: url(/beaker/app/images/menu-dots-dark.png) no-repeat center;
+}
+
+.toggle-menu:hover {
+    background-color: #F5F5F5;
+}
+
+bk-section-cell, bk-text-cell {
+    padding: 20px;
+}
+
+.bkcell bk-code-cell-input-menu .dropdown .dropdown-menu {
+    margin-top: -20px;
+}
+
+bk-cell > .bkcell {
+    position:   relative;
+}
+
+bk-code-cell .code-cell-output {
+    margin:     20px -20px 0;
+    padding:    0 20px;
+    border-top: solid 1px #CCC;
+}
+
+ul.cell-output-labels {
+    list-style: none;
+    margin: 0;
+}
+
+bk-output-display pre {
+    border:     none;
+    margin:     0;
+    padding:    0;
+    background: transparent;
+}
+
+.cell-output-labels li {
+    display:    inline-block;
+    padding:    15px 15px 5px 0;
+    font-size:  13px;
+}
+
+.cell-output-labels .no-output {
+    color: #9E9E9E
+}
+
+.output_subarea {
+    background: transparent;
+    border: none;
+}
+
+.bkcell a.evaluate-script {
+    color:      #FFF;
+    display:    inline-block;
+    padding:    7px 26px;
+    font-size:  13px;
+    background: #949494;
+    margin-top: 20px;
+}
+
+.bkcell a.evaluate-script:hover {
+    text-decoration: none;
+}
+
+.bkcell .CodeMirror {
+    clear: both;
+}
+
+.CodeMirror-linenumber {
+    text-align: left;
+}
+
+.CodeMirror-gutters {
+    border:             none;
+    background-color:   transparent;
 }
 
 .bk-hr {
