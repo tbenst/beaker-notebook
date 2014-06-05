@@ -1,50 +1,83 @@
 .project-detail.col-half.col-expanded-lrg-display
-  .col-three-quarters
+  .col-three-quarters.col-outside-left
     h1.error(ng-if="error") {{error}}
     h1.project-name
-      b(ng-hide="editMode") {{project.name}}
+      span(ng-hide="editMode") {{project.name}}
       input(name="name", ng-model="project.name", ng-show="editMode")
 
-  .col-quarter
-    a.btn.edit-project(ng-click="editProject()" ng-hide="editMode") edit
-    a.btn.update-project(ng-click="updateProject()" ng-show="editMode") save
-    a.btn.delete-project(ng-click="deleteProject()") delete
+  .right.project-menu
+    a.toggle-drop-down(show-on-hover-parent)
+      img(src="images/menu-dots-dark.png", width="3", height="13")
+    ul.drop-down-child
+      li(ng-hide="editMode")
+        a.edit-project(ng-click="editProject()") Edit
+      li(ng-show="editMode")
+        a.update-project(ng-click="updateProject()") Save
+      li
+        a.delete-project(ng-click="deleteProject()") Delete
   .cl
 
-  h2
-    b Project Stats
-  .last-updated Last updated: {{project.lastUpdatedAt | date: 'short'}}
-  .last-executed Last executed: {{project.lastExecuted || "N/A" | date: 'short'}}
-  .commits Commits: {{project.numCommits}}
+  .project-overview.section-padding.section-padding-top
+    .col-half.project-first-col
+      h4 Properties
+      ul.property-list
+        li.property-list-item
+          span.text-small
+            span.project-property-label Last used
+            span.project-property-value {{project.lastExecuted || "N/A" | date: 'M/d, h:mma'}}
+        li.property-list-item
+          span.text-small
+            span.project-property-label Updated
+            span.project-property-value.last-updated {{project.lastUpdatedAt | date: 'M/d, h:mma'}}
+        li.property-list-item
+          span.text-small
+            span.project-property-label Commits
+            span.project-property-value {{project.numCommits}}
 
-  .cl
-  br
+    .col-half.col-last
+      h4 Recently Used Notebooks
+      ul.property-list
+        li.text-small
+          a Notebook
+        li.text-small
+          a Notebook
+        li.text-small
+          a Notebook
+    .cl
 
-  h3 Notebooks
-  ul.notebook-list
-    li(ng-if="notebooks.length === 0") no notebooks yet.
-    li.single-notebook(ng-repeat="notebook in project.notebooks")
-      .col-quarter
-        b {{notebook.name}}
-      ul.col-quarter
-        li.btn.open(ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") Open
-        li.btn(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)") Move
-      .col-half
-        .updated Updated at: {{notebook.updated_at | date: 'short'}}
-        .commits Commits: {{notebook.numCommits}}
-      .cl
-  ul.import-notebooks
-    li
-      a.btn.new-notebook(ng-click="createNotebook()") New Notebook
-    li(ng-hide="importMode")
-      a.import.btn(ng-click="importNotebooks()") Import
-    li(ng-show="importMode")
-      input(type="file" ng-file-select="onFileSelect($files)" multiple)
+  .section-padding
+    h2 Notebooks
+    ul.notebook-list
+      li(ng-if="notebooks.length === 0") no notebooks yet.
+      li.single-notebook.base-row-item-green(ng-repeat="notebook in project.notebooks")
+        .col-half
+          h2
+            a(ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") {{notebook.name}}
+
+        .right
+          span.text-small.notebook-last-used Last used on: 
+            span.text-green {{notebook.updated_at | date: 'M/dd, h:mma'}}
+          span.notebook-options
+            a.toggle-drop-down(show-on-hover-parent)
+              img(src="images/menu-dots-dark.png", width="3", height="13")
+            ul.drop-down-child
+              li
+                a(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)") Move
+        .cl
+
+    span.import-notebooks.btn-group
+        a.btn.btn-light.new-notebook(ng-click="createNotebook()") New Notebook
+      span(ng-hide="importMode")
+        a.import.btn-light.btn(ng-click="importNotebooks()") Import
+      span(ng-show="importMode")
+        input(type="file" ng-file-select="onFileSelect($files)" multiple)
 
 .col-quarter.col-expanded-lrg-display
-  h2
-    b About this project
-  p(ng-hide="editMode").project-description {{project.description}}
-  textarea(name="description", ng-model="project.description" ng-show="editMode")
-
-.cl
+  h3.sidebar-box-header.sidebar-box-header-strong-blue
+    | About this project
+    a.sidebar-box-header-icon(ng-click="editProject()")
+      img(src="images/edit.png")
+  .sidebar-box.sidebar-box-white
+    p.project-description-display(ng-hide="editMode") {{project.description}}
+    textarea.project-description(name="description", ng-model="project.description" ng-show="editMode")
+      | Project description...

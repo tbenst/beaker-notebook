@@ -1,0 +1,42 @@
+.basic-drop-down
+  z-index 10
+  position absolute
+  right 0
+
+.drop-down-child
+  z-index 10
+  display none
+  background-color white
+  box-shadow 0 2px 2px rgba(0,0,0,0.2)
+  position absolute
+  min-width 120px
+  right -100px
+  top 30px
+  li a
+    width 100%
+    padding 12px 14px 8px 14px
+    color base-step2
+    font-size font-size-base
+    display block
+    &:hover
+      background-color action-blue
+      color white
+      cursor pointer
+
+.project-menu .drop-down-child
+  top 18px
+  right -117px
+
+.recently-used
+  position relative
+  a:after
+    display none
+
+  .drop-down-child
+    top 2px
+    right -120px
+
+.notebook-options
+  .drop-down-child
+    top 20px
+    right -10px

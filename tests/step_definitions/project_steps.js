@@ -162,8 +162,7 @@ module.exports = function() {
 
   this.Then(/^I should see last updated as today's date$/, function(callback) {
     var projectDetail = new this.Widgets.ProjectDetail();
-
-    return projectDetail.updatedAt().should.eventually.contain(moment().format("M/D/YY"));
+    return projectDetail.updatedAt().should.eventually.contain(moment().add('days', 1).format("M/d, h:mma"));
   });
 
   this.Then(/^I should see the following project results$/, function(table) {
