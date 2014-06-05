@@ -99,26 +99,23 @@ Feature: Use Notebooks
       | top secret         |
     And I should see the error: "A notebook named 'top secret' already exists in project 'Finance Research'"
 
+  Scenario: Saving a new notebook as another name
+    When I open the "ghost of tom jones" project
+    And I make a new notebook
+    And I save the notebook as "Winter Grasp"
+    Then I should see the following notebooks in the gutter:
+      | name             |
+      | Notebook 1       |
+      | Winter Grasp     |
+      | powderpuff girls |
+      | top secret       |
 
-  # Will un-comment the below 2 scenarios when we have beaker
-  # up and running again for Bunsen to interact with.
-
-  # Scenario: Saving a new notebook
-  #   When I open the "ghost of tom jones" project
-  #   And I make a new notebook
-  #   And I save the notebook as "Winter Grasp"
-  #   Then I should see the following notebooks in the gutter:
-  #     | name             |
-  #     | Winter Grasp     |
-  #     | powderpuff girls |
-  #     | top secret       |
-
-  # Scenario: Saving changes to an existing notebook
-  #   When I view my projects
-  #   And I open the "ghost of tom jones" project
-  #   And I view the notebook "powderpuff girls"
-  #   And I save my changes to the notebook
-  #   Then I should see the following notebooks in the gutter:
-  #     | name             |
-  #     | powderpuff girls |
-  #     | top secret       |
+  Scenario: Saving changes to an existing notebook
+    When I view my projects
+    And I open the "ghost of tom jones" project
+    And I view the notebook "powderpuff girls"
+    And I save my changes to the notebook
+    Then I should see the following notebooks in the gutter:
+      | name             |
+      | powderpuff girls |
+      | top secret       |

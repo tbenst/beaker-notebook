@@ -1,3 +1,5 @@
+var Bluebird = require('bluebird');
+
 module.exports = function() {
   var widgets = this.Widgets;
 
@@ -5,7 +7,9 @@ module.exports = function() {
     root: 'iframe.beaker',
 
     enter: function() {
-      return this.driver.switchTo().frame(0);
+      return Bluebird.delay(1000).then(function() {
+        return this.driver.switchTo().frame(0);
+      }.bind(this));
     },
 
     leave: function() {
