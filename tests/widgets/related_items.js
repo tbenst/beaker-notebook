@@ -15,6 +15,12 @@ module.exports = function() {
       });
     },
 
+    getCount: function() {
+      return this.findAll(".related-item").then(function(v){
+        return v.length;
+      });
+    },
+
     clickItem: function(title) {
       return this.findAll(this.itemSelector).then(function(nodes) {
         return $.filter(nodes, function(n) {

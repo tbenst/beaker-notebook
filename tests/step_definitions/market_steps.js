@@ -220,6 +220,11 @@ module.exports = function() {
     return new this.Widgets.RelatedItems().items().should.eventually.have.length(0);
   });
 
+  this.Then(/^I should see "([^"]*)" related items$/, function(count) {
+    return new this.Widgets.RelatedItems().getCount()
+    .should.eventually.eql(+count);
+  });
+
   this.When(/^I subscribe to the market item$/, function() {
     return new this.Widgets.MarketItem().subscribe();
   });

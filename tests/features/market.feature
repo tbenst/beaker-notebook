@@ -108,6 +108,20 @@ As a researcher, I want to be able to use the market place.
     When I view the "Quarterly E-commerce Report" market item
     Then I should see the market description "All revenue from e-commerce each quarter"
 
+  Scenario: No more than 5 related market items
+    Given I have the following market items:
+      | title                       | tags                      |
+      | Quarterly E-commerce Report | finance,e-commerce        |
+      | Amazon Annual Report        | amazon,e-commerce,finance |
+      | The World Bank Report 2013  | finance,food              |
+      | Butter Futures              | finance,e-commerce        |
+      | Hog Futures                 | e-commerce,finance        |
+      | Wood Futures                | finance,e-commerce        |
+      | Yearly e-commerce Report    | finance,e-commerce        |
+    And I view the market search
+    When I view the "Quarterly E-commerce Report" market item
+    Then I should see "5" related items
+
   Scenario: Data set details vendor
     Given I have the following market items:
       | title           | vendors             |
