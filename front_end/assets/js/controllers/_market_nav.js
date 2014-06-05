@@ -50,6 +50,15 @@
       return _.contains($scope.marketPlace.tagScope, tag.id.toString());
     };
 
+    $scope.checkRelatedSetHeight = function() {
+      var relatedTags = $scope.marketPlace.relatedTags;
+      var relatedTagsToDisplay = 6;
+
+      if(relatedTags != undefined) {
+        return relatedTags.length >= relatedTagsToDisplay;
+      }
+    }
+
     F.Categories.getCategories().then(function(treeData) {
       $scope.treeData = treeData;
     });
