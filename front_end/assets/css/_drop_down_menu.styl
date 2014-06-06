@@ -38,5 +38,29 @@
 
 .notebook-options
   .drop-down-child
-    top 20px
+    top 40px
     right -10px
+
+.toggle-drop-down-on-white
+  display inline-block
+  padding 4px 16px
+  height 37px
+  position relative
+  top 1px
+  &:hover
+    background-color action-blue
+    .menu-icon-dots
+      background-image url(unquote('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAANCAQAAADGKxxEAAAAFElEQVQYV2P4DwYMaBQYwinylAAAtj9Bv2dIo9IAAAAASUVORK5CYII='))
+  img
+    top 7px
+    position relative
+
+  img,
+  .menu-icon-dots
+    position relative
+
+.menu-icon-dots
+  background-image url(unquote('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAANCAQAAADGKxxEAAAAFUlEQVQYV2OY+R8EGVApCIRRZCoBAMdFNv06EG21AAAAAElFTkSuQmCC'))
+  width 3px
+  height 13px
+  top 7px
