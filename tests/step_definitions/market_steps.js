@@ -26,7 +26,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the tags "([^"]*)"$/, function(tags) {
-    return $.map([].concat(tags.split(",")), _.bind(function(tag) {
+    return bluebird.map([].concat(tags.split(",")), _.bind(function(tag) {
       return (new this.Widgets.MarketItem()).tags().should.eventually.contain(tag);
     }, this));
   });
@@ -241,7 +241,7 @@ module.exports = function() {
       }
     });
 
-    return this.seed(seedData);
+    return this.seed.populate(seedData);
   });
 
   this.When(/^I click "([^"]*)"$/, function(category) {

@@ -3,10 +3,9 @@ module.exports = function() {
     root: '.tree-market-category ul li',
 
     clickCategory: function(category) {
-      var findCategory = "return $('"+this.root+":contains(\""+category+"\")')[0]";
-      return this.driver.executeScript(findCategory).then(function(elem) {
-        elem.click();
-      });
+      return this.find().then(function() {
+        return this.driver.executeScript("Sizzle('"+this.root+":contains(\""+category+"\") .tree-label')[0].click()");
+      }.bind(this));
     }
 
   });
