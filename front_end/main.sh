@@ -8,6 +8,7 @@ do
 case $i in
   -w|--watch) watch=1 ;;
   -t|--test) test=1 ;;
+  --shell) shell=1 ;;
   --api_url=*) api_url="${i#--api_url=}" ;;
   --beaker_url=*) beaker_url="${i#--beaker_url=}" ;;
   -h|--help)
@@ -20,6 +21,7 @@ case $i in
           -t  --test          Run test server
           --api_url=(url)     Set api URL
           --beaker_url=(url)  Set beaker URL
+          --shell             Open interactive shell
 
 EOF
     exit

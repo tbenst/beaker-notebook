@@ -7,6 +7,7 @@ case $i in
   -c|--create) create=1 ;;
   -f|--force) force=1 ;;
   -r|--run) run=1 ;;
+  --shell) shell=1 ;;
   -h|--help)
     cat <<EOF
 
@@ -17,6 +18,7 @@ case $i in
           -f  --force     Before creating cluster, delete any existing old one
           --database=(db) Create a database with name db.
           -r  --run       Run the postgres server in the foreground.
+          --shell         Instead, run an interactive shell
 EOF
     exit
     ;;
@@ -39,4 +41,6 @@ fi
 
 if [[ $run -eq 1 ]]; then
     exec su postgres -c "/usr/lib/postgresql/9.1/bin/postgres -D /etc/postgresql/9.1/main"
+elif [[ $shell -eq 1 ]]; then
+    exec /bin/bash
 fi

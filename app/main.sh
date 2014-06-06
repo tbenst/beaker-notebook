@@ -7,6 +7,7 @@ case $i in
   -s|--seed) seed=1 ;;
   -w|--watch) watch=1 ;;
   --delay=*) delay="${i#--delay=}" ;;
+  --shell) shell=1 ;;
   -h|--help)
     cat <<EOF
 
@@ -17,6 +18,7 @@ case $i in
           -s  --seed      Seed database with fake data starting app
           -w  --watch     Restart server if files change
           --delay=(secs)  Delay start x seconds
+          --shell         Start interactive shell
 
 EOF
     exit
@@ -35,6 +37,8 @@ cd /var/app
 
 if [[ $watch -eq 1 ]]; then
   color exec pm2 start app.js -o /dev/stdout -e /dev/stderr --watch --no-daemon --silent
+elif [[ $shell -eq 1 ]]; then
+  exec /bin/bash
 else
   exec node app.js
 fi
