@@ -21,7 +21,8 @@
     "lodash": "2.4.1",
     "request": "2.33.0",
     "bluebird": "1.2.1",
-    "moment": "^2.6.0"
+    "moment": "^2.6.0",
+    "selenium-webdriver": "2.41.0"
   },
   "devDependencies": {
     "node-inspector": "0.7.0"
