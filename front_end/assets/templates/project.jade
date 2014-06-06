@@ -1,9 +1,10 @@
 .project-detail.col-half.col-expanded-lrg-display
-  .col-three-quarters.col-outside-left
-    h1.error(ng-if="error") {{error}}
-    h1.project-name
-      span(ng-hide="editMode") {{project.name}}
-      input(name="name", ng-model="project.name", ng-show="editMode")
+  h1.error(ng-if="error") {{error}}
+  h1.project-name
+    span(ng-hide="editMode") {{project.name}}
+    input(name="name", ng-model="project.name", ng-show="editMode")
+  a.btn.btn-light.update-project-top-btn(ng-show="editMode", ng-click="updateProject()") Save
+
 
   .right.project-menu
     a.toggle-drop-down(show-on-hover-parent)
@@ -81,3 +82,6 @@
     p.project-description-display(ng-hide="editMode") {{project.description}}
     textarea.project-description(name="description", ng-model="project.description" ng-show="editMode")
       | Project description...
+    a.btn.btn-light.update-project.left(ng-show="editMode", ng-click="updateProject()") Save
+    .cl
+
