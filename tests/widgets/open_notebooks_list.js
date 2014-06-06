@@ -5,7 +5,7 @@ module.exports = function() {
 
     getNames: function() {
       return $.map(this.items(), function(n) {
-        return n.find("a").getInnerHtml();
+        return n.find("a").getText();
       });
     }
   });

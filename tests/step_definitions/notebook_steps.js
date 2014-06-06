@@ -50,7 +50,9 @@ module.exports = function() {
   this.Then(/^I should see the following open notebooks:$/, function(table, callback) {
     var expected = _.pluck(table.hashes(), 'name');
 
-    return (new this.Widgets.OpenNotebookList).getNames().should.eventually.deep.equal(expected);
+    return (new this.Widgets.OpenNotebookList).getNames().then(function(names) {
+      return assert.deepEqual(names, expected);
+    });
   });
 
   this.Then(/^I should see the following notebooks$/, function(table, callback) {
