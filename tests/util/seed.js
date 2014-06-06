@@ -1,6 +1,7 @@
 var _  = require('lodash');
 var config  = require('./_config');
 var Promise = require('bluebird');
+var util = require('util');
 var post    = Promise.promisify(require('request').post);
 var base    = config().appServer.url + 'seed';
 
@@ -10,7 +11,17 @@ module.exports = function() {
     populate: function(models) {
       var modelsArray = Array.prototype.concat(models);
       var promiseArray = _.map(modelsArray, function(model) {
-        return post(base + "/data", {form: model});
+        return post(base + "/data", {form: model}).
+          then(function(response) {
+            if (response[0].statusCode != 200) {
+              throw new Error(util.format(
+                "Seed populate error.\r\nhttpCode: %s\nresponse: %s",
+                response[0].statusCode, response[1]));
+            }
+            else {
+              return response;
+            }
+          });
       });
       return Promise.all(promiseArray);
     },
