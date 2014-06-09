@@ -12,7 +12,7 @@ module.exports = function() {
 
   this.Given(/^I'm signed in as a researcher$/, function() {
     var _this = this;
-    return this.seed(userData).then(function() {
+    return this.seed.populate(userData).then(function() {
       return _this.driver.get(_this.route.signIn).then(function() {
         return new _this.Widgets.SignInForm().submitWith(userData.data);
       });
@@ -25,7 +25,7 @@ module.exports = function() {
 
   this.Given(/^I signed up as "([^"]*)"$/, function(email) {
     var _this = this;
-    return this.seed(_.extend({data: {email: email}}, userData)).then(function() {
+    return this.seed.populate(_.extend({data: {email: email}}, userData)).then(function() {
       return _this.driver.get(_this.route.home);
     });
   });

@@ -16,7 +16,7 @@ module.exports = function(app) {
     },
 
     authorize: function(req, res, next) {
-      if (req.path === '/api/authenticate') {
+      if (req.path === '/api/authenticate' || req.path.indexOf("seed/") !== -1) {
         next();
       } else {
         new User({id: req.get('Authorization')})

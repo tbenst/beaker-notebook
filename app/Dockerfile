@@ -3,6 +3,7 @@ MAINTAINER mojotech <ops@mojotech.com>
 
 RUN apt-get update -qq && \
     apt-get install -qq -y --no-install-recommends \
+      node-bluebird \
       node-bookshelf \
       node-express \
       node-glob \
