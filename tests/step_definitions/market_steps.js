@@ -18,7 +18,7 @@ var marketItemBase = function() {
 
 module.exports = function() {
   this.When(/^there is a market item$/, function(callback) {
-    return this.seed(marketItemBase());
+    return this.seed.populate(marketItemBase());
   });
 
   this.Then(/^I should see the following market results$/, function(table) {
@@ -26,7 +26,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the tags "([^"]*)"$/, function(tags) {
-    return $.map([].concat(tags.split(",")), _.bind(function(tag) {
+    return bluebird.map([].concat(tags.split(",")), _.bind(function(tag) {
       return (new this.Widgets.MarketItem()).tags().should.eventually.contain(tag);
     }, this));
   });
@@ -54,7 +54,7 @@ module.exports = function() {
   this.When(/^there is (\d+) market items$/, function(count, callback) {
     var itemSaves = [];
     for(var i = 0; i < +count; ++i) {
-      itemSaves.push(this.seed(marketItemBase()));
+      itemSaves.push(this.seed.populate(marketItemBase()));
     }
 
     return bluebird.all(itemSaves);
@@ -75,7 +75,7 @@ module.exports = function() {
     var _this       = this;
     var marketItem  = marketItemBase();
 
-    return this.seed(info.vendors.map(function(vendorName) {
+    return this.seed.populate(info.vendors.map(function(vendorName) {
       return {
         model: 'Vendor',
         data: {
@@ -83,7 +83,7 @@ module.exports = function() {
         }
       }
     })).then(function() {
-      return _this.seed(info.tags.map(function(tagName) {
+      return _this.seed.populate(info.tags.map(function(tagName) {
         return {
           model: 'DataTag',
           data: {
@@ -104,7 +104,7 @@ module.exports = function() {
       delete info.tags;
       delete info.vendors;
 
-      return _this.seed(_.merge(marketItem, {
+      return _this.seed.populate(_.merge(marketItem, {
         data: info
       }));
     });
@@ -134,7 +134,7 @@ module.exports = function() {
   });
 
   this.When(/^there is a market item with the format "([^"]*)"$/, function(format, callback) {
-    return this.seed(_.merge(marketItemBase(), {
+    return this.seed.populate(_.merge(marketItemBase(), {
       data: {
         format: format
       }
@@ -241,7 +241,7 @@ module.exports = function() {
       }
     });
 
-    return this.seed(seedData);
+    return this.seed.populate(seedData);
   });
 
   this.When(/^I click "([^"]*)"$/, function(category) {

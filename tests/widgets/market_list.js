@@ -5,7 +5,7 @@ module.exports = function() {
 
     contents: function() {
       return $.map(this.items(), function(n) {
-        return $.all([n.find(".title"), n.find(".description"), n.find(".formats"), n.find('.vendors')])
+        return $.all([n.find(".title"), n.find(".market-description"), n.find(".formats"), n.find('.vendors')])
         .then(function(arr) {
           return $.all(_.invoke(arr, 'getText'))
           .then(function(text) {
@@ -39,10 +39,17 @@ module.exports = function() {
       })
     },
 
+    waitForItem: function() {
+      return this.find(this.itemSelector);
+    },
+
     clickItem: function(title) {
-      var xpath = "return document.evaluate(\"//a[contains(text(),'" + title + "')]\", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE).snapshotItem(0)";
-      return this.driver.executeScript(xpath).then(function(a) {
-        return a.click();
+      var xpath = "return document.evaluate(\"//a[contains(text(),'" + title + "')]\", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotItem(0)";
+      var _this = this;
+      return this.waitForItem().then(function() {
+        return _this.driver.executeScript(xpath).then(function(a) {
+          return a.click();
+        });
       });
     }
   });

@@ -19,8 +19,7 @@
     }
 
     var beakerUrl = function(subPath, params) {
-      return "http://" + $location.host() + ":" +
-        (window.BEAKER_PORT || 8801) + "/beaker/#/" +
+      return window.BUNSEN_SERVICES.beaker + "#/" +
         subPath + "?" + UrlGeneratorService.toParams(_.extend(params,
           {bunsenUiUrl: uiUrl}));
     }

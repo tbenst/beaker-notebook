@@ -17,6 +17,18 @@ var projectBase = {
   ]
 };
 
+function openProject(name) {
+  var projectManager = new this.Widgets.ProjectManager();
+  return projectManager.clickProject(name);
+}
+
+function viewProjectDashboard() {
+  var mainNav = new this.Widgets.MainNav();
+  return mainNav.visitMarketPlace().then(function() {
+    return mainNav.visitProjects();
+  });
+}
+
 module.exports = function() {
 
   this.When(/^I create a project$/, function() {
@@ -52,13 +64,12 @@ module.exports = function() {
     var _this       = this;
     var projectData = _.cloneDeep(projectBase);
 
-    return this.seed(projectData).then(function(Models) {
-      return Models.Project.forge(projectData.data)
-      .fetch()
-      .then(function(project) {
-        return _this.driver.get(_this.route.forProject(project));
-      });
-    }.bind(this));
+    return this.seed.populate(projectData)
+    .then(function() {
+      return viewProjectDashboard.call(_this).then(function() {
+        return openProject.call(_this, projectData.data.name);
+      })
+    });
   });
 
   this.When(/^I edit the project$/, function() {
@@ -84,9 +95,7 @@ module.exports = function() {
     return new this.Widgets.ProjectManager().items().should.eventually.have.length(0);
   });
 
-  this.Given(/^I am viewing the project dashboard$/, function() {
-    return this.driver.get(this.route.projectDashboard);
-  });
+  this.Given(/^I am viewing the project dashboard$/, viewProjectDashboard);
 
   this.When(/^I search for project "([^"]*)"$/, function (searchText) {
     var projectSearch = new this.Widgets.ProjectSearch;
@@ -107,13 +116,13 @@ module.exports = function() {
   });
 
   this.Given(/^I have the following Projects:$/, function(table) {
-      var seed = _(table.hashes()).map(function(attrs) {
+    var seed = _(table.hashes()).map(function(attrs) {
         return _.merge(_.cloneDeep(projectBase), {
           data: attrs
         });
       }).value();
 
-    return this.seed(seed);
+    return this.seed.populate(seed);
   });
 
   this.Given(/^I view the first search result$/, function(index) {
@@ -150,10 +159,7 @@ module.exports = function() {
     return projectDetail.name().should.eventually.equal(name);
   });
 
-  this.When(/^I open the "([^"]*)" project$/, function(name) {
-    var projectManager = new this.Widgets.ProjectManager();
-    return projectManager.clickProject(name);
-  });
+  this.When(/^I open the "([^"]*)" project$/, openProject);
 
   this.Then(/^I should see the description "([^"]*)"$/, function(description, callback) {
     var projectDetail = new this.Widgets.ProjectDetail();

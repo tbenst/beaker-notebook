@@ -1,9 +1,0 @@
-{
-  "appServer": {
-    "host": "localhost",
-    "port": "3000"
-  },
-  "frontend": {
-    "url": "file:///path/to/bunsen/front_end/public/index.html"
-  }
-}

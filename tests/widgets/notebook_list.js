@@ -2,8 +2,10 @@ module.exports = function() {
   return this.Widgets.NotebookList = this.Widget.List.extend({
     root: '.notebook-list',
     itemSelector: '.single-notebook',
+    nameSelector: 'h2 a',
 
     clickByName: function(name) {
+      var _this = this;
       return this.findAll(this.itemSelector).then(function(nodes) {
         return $.filter(nodes, function(n) {
           return n.getInnerHtml().then(function(t) {
@@ -11,7 +13,7 @@ module.exports = function() {
           });
         })
         .then(function(filtered) {
-          return filtered[0].findElement(Driver.By.css('.open'));
+          return filtered[0].findElement(Driver.By.css(_this.nameSelector));
         })
         .then(function(found) {
           return found.click();
@@ -20,8 +22,8 @@ module.exports = function() {
     },
 
     getNames: function() {
-      return $.map(this.items(), function(n) {
-        return n.find("b").getInnerHtml();
+      return $.map(this.findAll(this.itemSelector + " " + this.nameSelector), function(n) {
+        return n.getInnerHtml();
       });
     },
 
@@ -29,7 +31,11 @@ module.exports = function() {
       var _this = this;
       return this.getNames().then(function(names) {
         return _this.items().then(function(items) {
-          return items[names.indexOf(name)].find('.notebook-move a').click();
+          var item = items[names.indexOf(name)];
+          var method = "Sizzle('"+item.root+" .drop-down-child')[0].style.display = 'block';";
+          return _this.driver.executeScript(method).then(function() {
+            return item.find('.notebook-move a').click();
+          });
         });
       });
     }

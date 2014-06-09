@@ -11,7 +11,7 @@ app:
     NODE_ENV: development
 web:
   build: front_end
-  command: "--watch"
+  command: "--watch --api_url='http://localhost:3000/api/' --beaker_url='http://localhost:8801/beaker/'"
   ports:
     - "8080:8080"
   volumes:

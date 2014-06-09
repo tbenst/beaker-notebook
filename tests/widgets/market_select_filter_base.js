@@ -8,8 +8,14 @@ module.exports = function() {
     },
 
     showDropdown: function() {
-      var method = "$('"+this.root+" ul').show()";
-      return this.driver.executeScript(method);
+      // simulate hover
+      var method = "Sizzle('"+this.root+" ul')[0].style.display = 'block';";
+      return this.driver.executeScript(method).then(
+        this.waitForTag.bind(this));
+    },
+
+    waitForTag: function() {
+      return this.find('ul li');
     },
 
     selectMatching: function(tags) {
@@ -17,7 +23,7 @@ module.exports = function() {
 
       return this.showDropdown().then(function() {
         return $.map(tags, function(tag) {
-          var method = "return $('"+_this.root+" ul li:contains(\""+tag+"\") a')[0]";
+          var method = "return Sizzle('"+_this.root+" ul li:contains(\""+tag+"\") a')[0]";
 
           return _this.driver.executeScript(method).then(function(elm) {
             elm.click();

@@ -6,3 +6,4 @@
 #= require "../../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"
 #= require "../../bower_components/ngstorage/ngStorage.js"
 #= require "../../bower_components/ng-file-upload/angular-file-upload.js"
+#= require "../../bower_components/sizzle/dist/sizzle.js"

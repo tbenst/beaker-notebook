@@ -3,7 +3,7 @@ var Promise   = require("bluebird");
 var assert    = require("assert");
 
 var notebookBase = function() {
-  return require("../../app/seed_files/notebook_data_sample2");
+  return require("../fixtures/notebook_data_sample");
 }
 
 module.exports = function() {
@@ -28,16 +28,21 @@ module.exports = function() {
     return Promise.map(notebooks.hashes(), function(attrs) {
       attrs.userEmail = attrs.userEmail || "u@r.edu";
 
-      return Promise.all([ _this.Models.User.forge({email: attrs.userEmail}).fetch(),
-        _this.Models.Project.forge({name: attrs.projectName}).fetch()
+      return Promise.all([
+        _this.seed.fetch("User", {email: attrs.userEmail}),
+        _this.seed.fetch("Project", {name: attrs.projectName})
       ]).spread(function(user, project) {
-        return _this.Models.Notebook.forge(
-          _.extend(notebookBase(), _.omit(attrs, ['projectName', 'userEmail']), {
-            userId: user.id,
-            projectId: project.id
-          })
-        )
-        .save({}, {relativeRoot: "../app"});
+        return _this.seed.populate({
+          model: "Notebook",
+          data: _.extend(
+            notebookBase(),
+            _.omit(attrs, ['userEmail', 'projectName']),
+            {
+              userId: JSON.parse(user[1]).id,
+              projectId: JSON.parse(project[1]).id
+            }
+          )
+        });
       });
     });
   });
@@ -45,7 +50,9 @@ module.exports = function() {
   this.Then(/^I should see the following open notebooks:$/, function(table, callback) {
     var expected = _.pluck(table.hashes(), 'name');
 
-    return (new this.Widgets.OpenNotebookList).getNames().should.eventually.deep.equal(expected);
+    return (new this.Widgets.OpenNotebookList).getNames().then(function(names) {
+      return assert.deepEqual(names, expected);
+    });
   });
 
   this.Then(/^I should see the following notebooks$/, function(table, callback) {

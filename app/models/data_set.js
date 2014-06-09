@@ -1,5 +1,4 @@
 var _         = require('lodash'),
-    util      = require('util'),
     W         = require('when'),
     Pipeline  = require('when/pipeline');
 
