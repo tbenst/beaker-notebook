@@ -56,7 +56,7 @@
             a(ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") {{notebook.name}}
 
         .right
-          span.text-small.notebook-last-used Last used on: 
+          span.text-small.notebook-last-used Last used on:
             span.text-green {{notebook.updated_at | date: 'M/dd, h:mma'}}
           span.notebook-options
             a.toggle-drop-down-on-white.toggle-drop-down(show-on-hover-parent)

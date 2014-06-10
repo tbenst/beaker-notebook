@@ -93,7 +93,6 @@ module.exports = function() {
 
   this.Then(/^I should see the error: "([^"]*)"$/, function(e) {
     return (new this.Widgets.Error).getMessage().should.eventually.equal(e);
-
   });
 
   this.When(/^I make a new notebook$/, function() {
