@@ -63,6 +63,8 @@
               .menu-icon-dots
             ul.drop-down-child
               li
+                a.rename(rename-notebook-toggle ng-click="showRenameModal()") Rename
+              li
                 a(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)") Move
         .cl
 
