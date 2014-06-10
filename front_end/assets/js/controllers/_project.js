@@ -7,14 +7,14 @@
       F.Projects.getProject($state.params.id).then(function(d) {
         $scope.project = d;
       });
-    }
+    };
 
     $scope.loadProject();
     WindowMessageService.addNotebookCallback($state.params.id, $scope.loadProject);
 
     $scope.alreadyExistsError = function(notebook, project) {
       $scope.error = "A notebook named '" + notebook + "' already exists in project '" + project + "'";
-    }
+    };
 
     $scope.createNotebook = function() {
       Restangular.one('projects', $scope.project.id)

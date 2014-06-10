@@ -16,13 +16,13 @@
         }
         $state.go('^');
       });
-    }
+    };
 
     var beakerUrl = function(subPath, params) {
       return window.BUNSEN_SERVICES.beaker + "#/" +
         subPath + "?" + UrlGeneratorService.toParams(_.extend(params,
           {bunsenUiUrl: uiUrl}));
-    }
+    };
 
     var notebookLocation = function(userId, projectId, notebookId) {
       var bunsenUri = Restangular.one('notebooks', notebookId).one('contents').getRestangularUrl();
