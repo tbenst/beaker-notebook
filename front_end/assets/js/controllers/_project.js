@@ -36,8 +36,16 @@
       $scope.editMode = true;
     };
 
+    var importButton = document.querySelector('.import');
+    var importNotebookUpload = document.querySelector('.import-notebook');
+
+    function openFileUpload() {
+      importNotebookUpload.click();
+    }
+
     $scope.importNotebooks = function() {
       $scope.importMode = true;
+      importButton.addEventListener('click', openFileUpload(), true);
     };
 
     function loadProjectList() {
