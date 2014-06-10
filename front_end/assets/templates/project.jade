@@ -68,8 +68,9 @@
 
     span.import-notebooks.btn-group
       a.btn.btn-light.new-notebook(ng-click="createNotebook()") New Notebook
-      a.import.btn-light.btn(ng-click="importNotebooks()") Import
-    input.visibility-hidden.import-notebook(type="file" ng-file-select="onFileSelect($files)" multiple)
+      span(hidden-upload="true")
+        a.import.btn-light.btn Import
+        input.visibility-hidden.import-notebook(type="file" ng-file-select="onFileSelect($files)" multiple)
 
 .col-quarter.col-expanded-lrg-display
   h3.sidebar-box-header.sidebar-box-header-strong-blue

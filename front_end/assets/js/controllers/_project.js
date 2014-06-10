@@ -2,7 +2,6 @@
   app.controller('project', ['$scope', '$state', 'Factories', '$localStorage', '$upload', 'Restangular', '$sessionStorage', 'WindowMessageService', function($scope, $state, Factories, $localStorage, $upload, Restangular, $sessionStorage, WindowMessageService) {
     var F = Factories;
     $scope.editMode = false;
-    $scope.importMode = false;
 
     // Save last visited project
     $localStorage.projects = $localStorage.projects || {};
@@ -34,18 +33,6 @@
 
     $scope.editProject = function() {
       $scope.editMode = true;
-    };
-
-    var importButton = document.querySelector('.import');
-    var importNotebookUpload = document.querySelector('.import-notebook');
-
-    function openFileUpload() {
-      importNotebookUpload.click();
-    }
-
-    $scope.importNotebooks = function() {
-      $scope.importMode = true;
-      importButton.addEventListener('click', openFileUpload(), true);
     };
 
     function loadProjectList() {
@@ -83,7 +70,6 @@
           headers: {'Authorization': $sessionStorage.currentUser.token},
           file: file
         }).then(function() {
-          $scope.importMode = false;
           $scope.loadProject();
         });
       })

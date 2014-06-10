@@ -77,8 +77,8 @@ module.exports = function() {
 
   this.When(/^I import the notebook by uploading the "([^"]*)" file$/, function(file) {
     var importWidget = new this.Widgets.ImportNotebooks();
-    return importWidget.import().then(function() {
-      return importWidget.attachFile("hello_world.bkr")
+    return importWidget.startImport().then(function() {
+      return importWidget.attachFile(file);
     })
   });
 
