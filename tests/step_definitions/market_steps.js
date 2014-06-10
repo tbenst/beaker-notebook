@@ -48,7 +48,9 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the related tags "([^"]*)"$/, function(tags) {
-    return (new this.Widgets.MarketRelatedTags()).is([].concat(tags.split(",")));
+    return bluebird.delay(100).then(function() {
+      return (new this.Widgets.MarketRelatedTags()).is([].concat(tags.split(",")));
+    }.bind(this));
   });
 
   this.When(/^there is (\d+) market items$/, function(count, callback) {
