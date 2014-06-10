@@ -1,13 +1,14 @@
 .project-detail.col-half.col-expanded-lrg-display
-  .col-three-quarters.col-outside-left
-    h1.error(ng-if="error") {{error}}
-    h1.project-name
-      span(ng-hide="editMode") {{project.name}}
-      input(name="name", ng-model="project.name", ng-show="editMode")
+  h1.error(ng-if="error") {{error}}
+  h1.project-name
+    span(ng-hide="editMode") {{project.name}}
+    input(name="name", ng-model="project.name", ng-show="editMode")
+  a.btn.btn-light.update-project-top-btn(ng-show="editMode", ng-click="updateProject()") Save
+
 
   .right.project-menu
-    a.toggle-drop-down(show-on-hover-parent)
-      img(src="images/menu-dots-dark.png", width="3", height="13")
+    a.toggle-drop-down.toggle-drop-down-on-white(show-on-hover-parent)
+      .menu-icon-dots
     ul.drop-down-child
       li(ng-hide="editMode")
         a.edit-project(ng-click="editProject()") Edit
@@ -17,7 +18,7 @@
         a.delete-project(ng-click="deleteProject()") Delete
   .cl
 
-  .project-overview.section-padding.section-padding-top
+  .section-padding.section-padding-top.project-overview
     .col-half.project-first-col
       h4 Properties
       ul.property-list
@@ -58,8 +59,8 @@
           span.text-small.notebook-last-used Last used on: 
             span.text-green {{notebook.updated_at | date: 'M/dd, h:mma'}}
           span.notebook-options
-            a.toggle-drop-down(show-on-hover-parent)
-              img(src="images/menu-dots-dark.png", width="3", height="13")
+            a.toggle-drop-down-on-white.toggle-drop-down(show-on-hover-parent)
+              .menu-icon-dots
             ul.drop-down-child
               li
                 a(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)") Move
@@ -81,3 +82,6 @@
     p.project-description-display(ng-hide="editMode") {{project.description}}
     textarea.project-description(name="description", ng-model="project.description" ng-show="editMode")
       | Project description...
+    a.btn.btn-light.update-project.left(ng-show="editMode", ng-click="updateProject()") Save
+    .cl
+

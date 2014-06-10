@@ -3,11 +3,9 @@ ul.projects(ng-show="projects.list.length")
   li(ng-repeat="project in projects.list")
     a.project(ui-sref-active="active", ui-sref="projects.items.item({id: project.id})") {{project.name | limitTo:22}}
 
-br
-.notebooks
-  h1 {{project.name | limitTo:22}}
-  div Notebooks:
-  div(ng-show="project.notebooks.length === 0") no notebooks yet.
-  ul.notebook-gutter-list
+h3.sidebar-box-header.sidebar-box-header-green {{project.name | limitTo:22}}
+.sidebar-box.padding-reset
+  h4(ng-show="project.notebooks.length === 0") no notebooks yet.
+  ul.notebook-gutter-list.sidebar-box-list
     li.single-notebook(ng-repeat="notebook in project.notebooks")
-      a.notebook(ui-sref-active="active", ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") {{notebook.name | limitTo:22}}
+      a.sidebar-box-list-link.notebook(ui-sref-active="active", ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") {{notebook.name | limitTo:22}}
