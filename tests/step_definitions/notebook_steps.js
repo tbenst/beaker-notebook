@@ -49,10 +49,11 @@ module.exports = function() {
 
   this.Then(/^I should see the following open notebooks:$/, function(table, callback) {
     var expected = _.pluck(table.hashes(), 'name');
-
-    return (new this.Widgets.OpenNotebookList).getNames().then(function(names) {
-      return assert.deepEqual(names, expected);
-    });
+    return Promise.delay(1000).then(function() {
+      return (new this.Widgets.OpenNotebookList).getNames().then(function(names) {
+        return assert.deepEqual(names, expected);
+      });
+    }.bind(this));
   });
 
   this.Then(/^I should see the following notebooks$/, function(table, callback) {
