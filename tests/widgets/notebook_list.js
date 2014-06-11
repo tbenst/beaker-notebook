@@ -27,12 +27,11 @@ module.exports = function() {
     },
 
     move: function(name) {
-      var _this = this;
       return this.findNotebook(name).then(function(item) {
-        var method = "Sizzle('"+item.root+" .drop-down-child')[0].style.display = 'block';";
-        return _this.driver.executeScript(method).then(function() {
-          return item.find('.notebook-move a').click();
-        });
+        return new World.Widgets.ShowDropdown().show(item.root)
+               .then(function() {
+                 return item.find('.notebook-move a').click();
+               });
       });
     }
   });
