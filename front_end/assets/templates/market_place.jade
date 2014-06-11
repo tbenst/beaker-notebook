@@ -46,7 +46,7 @@
         multi-filter(ng-model="marketPlace.tagScope", iterator="tag in marketPlace.relatedTags", iterator-name="tag", iterator-display-name="tag.name")
 
     .filter-segment.filter-search.filter-col
-      input.search-full.market-text-search(type="text", ng-model="marketPlace.searchScope", placeholder="Search within results")
+      input.search.full.market-text-search(type="text", ng-model="marketPlace.searchScope", placeholder="Search within results")
 
   ul.current-filters
     li.tag.filter(ng-repeat="filter in currentFilters", ng-click="removeFilter(filter.value, filter.model)") {{filter.name}}
