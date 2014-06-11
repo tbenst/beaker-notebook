@@ -1,6 +1,6 @@
 app:
   build: app
-  command: "--migrate --watch --delay=5"
+  command: "--migrate --delay=5"
   links:
     - "db:db"
   ports:
