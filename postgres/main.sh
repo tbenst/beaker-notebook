@@ -43,5 +43,6 @@ fi
 if [[ $run -eq 1 ]]; then
     exec su postgres -c "/usr/lib/postgresql/9.1/bin/postgres -D /etc/postgresql/9.1/main"
 elif [[ $shell -eq 1 ]]; then
+    su postgres -c "/usr/lib/postgresql/9.1/bin/postgres -D /etc/postgresql/9.1/main &"
     exec /bin/bash
 fi
