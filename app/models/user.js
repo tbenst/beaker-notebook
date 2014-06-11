@@ -14,10 +14,6 @@ module.exports = function(Bookshelf, app) {
       return this.hasMany(app.Models.Notebook, 'userId')
     },
 
-    openNotebooks: function() {
-      return this.hasMany(app.Models.OpenNotebook, 'userId');
-    },
-
     addRecentNotebook: function(notebook) {
       var recentNotebooks = _.uniq([notebook].concat(this.getRecentNotebooks())
                             .slice(0, MAX_RECENT_NOTEBOOKS), function(n) {
