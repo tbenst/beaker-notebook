@@ -97,13 +97,13 @@ As a researcher, I want to manage my projects.
     And I go to my projects
     Then I should see the "hello js" project detail page
 
-  Scenario: Open first project by default
+  Scenario: Open last created project by default
     Given I have the following Projects:
       | name     | description               |
       | hello js | hello world in javascript |
       | hello rb | hello world in ruby       |
     When I go to my projects
-    Then I should see the "hello js" project detail page
+    Then I should see the "hello rb" project detail page
 
   Scenario: Open projects after deleting last visited
     Given I have the following Projects:

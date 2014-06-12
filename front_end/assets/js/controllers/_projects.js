@@ -1,15 +1,11 @@
 ;(function(angular, app) {
-  app.controller('projects', ['$scope', 'Factories', '$localStorage', '$state', function($scope, Factories, $localStorage, $state) {
+  app.controller('projects', ['$scope', 'Factories', '$state', function($scope, Factories, $state) {
     delete $scope.projects.search;
 
     function goToLast(list) {
       if (!(list && list[0])) {return}
-
-      var id = list[0].id;
-      if ($localStorage.projects && $localStorage.projects.last) {
-        id = $localStorage.projects.last;
-      }
-      $state.go('projects.items.item', {id: id});
+      var lastProject = _.last(_.sortBy(list, 'openedAt'));
+      $state.go('projects.items.item', {id: lastProject.id});
     }
 
     $scope.$watch('projects.list', goToLast);
