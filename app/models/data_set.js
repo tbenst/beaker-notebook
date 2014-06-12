@@ -173,6 +173,11 @@ module.exports = function(Bookshelf, app) {
     },
 
     taggedWith: function(tags, excludeIds) {
+      if (!tags || tags.length == 0) {
+        // return no results. workaround for a shortcoming in KNEX.
+        // "where in ()" is invalid SQL.
+        return query('DataSets').whereNull('id');
+      }
       var q = query('DataSets')
         .select('DataSets.*')
         .distinct()
