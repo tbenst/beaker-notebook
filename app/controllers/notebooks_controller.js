@@ -99,6 +99,12 @@ module.exports = function(app) {
       .catch(next);
     },
 
+    recentNotebooks: function(req, res, next) {
+      Notebook.getRecent({userId: req.user.id})
+      .then(res.json.bind(res))
+      .catch(next);
+    },
+
     openNotebook: function(req, res, next) {
       Notebook.forge({
         userId: +req.user.id,
@@ -107,7 +113,8 @@ module.exports = function(app) {
       .fetch()
       .then(function(notebook) {
         return notebook.save({
-          "open": true
+          "open": true,
+          "openedAt": new Date()
         }, {patch: true}).then(function() {
           Notebook.getOpen({userId: req.user.id})
           .then(res.json.bind(res));

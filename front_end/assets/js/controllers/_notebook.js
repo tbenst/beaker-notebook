@@ -46,13 +46,9 @@
 
       F.Notebooks.open(notebook.id).then(function(openNotebooks) {
         Notebooks.setOpenNotebooks(openNotebooks);
-      });
-
-      F.RecentNotebooks.add({
-        notebookId: notebook.id,
-        notebookName: notebook.name
-      }).then(function(d) {
-        Notebooks.setRecentNotebooks(d.recentNotebooks);
+        F.Notebooks.getRecentNotebooks().then(function(recent) {
+          Notebooks.setRecentNotebooks(recent);
+        });
       });
 
       $scope.notebook = notebook;

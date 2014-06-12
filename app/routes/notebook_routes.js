@@ -11,6 +11,7 @@ module.exports = function(app) {
   app.put('/api/notebooks/:notebook_id', NotebooksController.update);
 
   app.get("/api/open_notebooks", NotebooksController.openNotebooks);
+  app.get("/api/recent_notebooks", NotebooksController.recentNotebooks);
   app.post("/api/open_notebook", NotebooksController.openNotebook);
   app.del("/api/open_notebook", NotebooksController.closeNotebook);
 };

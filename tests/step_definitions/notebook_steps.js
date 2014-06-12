@@ -108,4 +108,8 @@ module.exports = function() {
     return (new this.Widgets.BeakerFrame()).saveChanges();
   });
 
+  this.When(/^I open the recent notebook "([^"]*)"$/, function(name) {
+    return (new this.Widgets.RecentNotebooks()).clickItem(name);
+  });
+
 }

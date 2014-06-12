@@ -27,6 +27,10 @@
         return R.all('open_notebooks').getList();
       },
 
+      getRecentNotebooks: function() {
+        return R.all('recent_notebooks').getList();
+      },
+
       updateNotebook: function(attrs) {
         return R.one('notebooks', attrs.id).customPUT(attrs);
       },

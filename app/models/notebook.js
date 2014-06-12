@@ -7,6 +7,7 @@ var Git         = require("../lib/notebook/git"),
     when        = require('when'),
     _           = require("lodash"),
     EXTENSION   = ".bkr",
+    MAX_RECENT_NOTEBOOKS = 5,
 
     RecordNotUniqueError = require("../lib/record_not_unique_error");
 
@@ -185,6 +186,15 @@ function Notebook(Bookshelf, app) {
     return query("Notebooks")
     .where("userId", opts.userId)
     .where("open", true)
+    .select();
+  },
+
+  Notebook.getRecent = function(opts) {
+    return query("Notebooks")
+    .where("userId", opts.userId)
+    .whereNotNull('openedAt')
+    .orderBy('openedAt', 'desc')
+    .limit(MAX_RECENT_NOTEBOOKS)
     .select();
   },
 

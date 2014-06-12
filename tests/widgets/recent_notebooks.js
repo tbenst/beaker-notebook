@@ -14,6 +14,16 @@ module.exports = function() {
       return this.find(this.itemSelector);
     },
 
+    clickItem: function(name) {
+      return this.filter(function(n) {
+        return n.read('a').then(function(t) {
+          return t.search(name) != -1;
+        });
+      }).then(function(filtered) {
+        return filtered[0].click();
+      });
+    },
+
     getNames: function() {
       return this.showList().then(function() {
         return $.map(this.items(), function(n) {

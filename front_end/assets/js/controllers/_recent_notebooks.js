@@ -1,6 +1,6 @@
 ;(function(angular, app) {
   app.controller('recentNotebooks', ['$scope', 'Factories', 'Notebooks', function($scope, Factories, Notebooks) {
-    Factories.RecentNotebooks.get().then(function(d) {
+    Factories.Notebooks.getRecentNotebooks().then(function(d) {
       $scope.recentNotebooks = Notebooks.setRecentNotebooks(d);
 
       $scope.$on('recentNotebookChange', function() {
