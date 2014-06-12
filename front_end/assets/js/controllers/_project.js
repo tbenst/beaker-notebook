@@ -1,11 +1,7 @@
 !(function(angular, app) {
-  app.controller('project', ['$scope', '$state', 'Factories', '$localStorage', '$upload', 'Restangular', '$sessionStorage', 'WindowMessageService', function($scope, $state, Factories, $localStorage, $upload, Restangular, $sessionStorage, WindowMessageService) {
+  app.controller('project', ['$scope', '$state', 'Factories', '$upload', 'Restangular', '$sessionStorage', 'WindowMessageService', function($scope, $state, Factories, $upload, Restangular, $sessionStorage, WindowMessageService) {
     var F = Factories;
     $scope.editMode = false;
-
-    // Save last visited project
-    $localStorage.projects = $localStorage.projects || {};
-    $localStorage.projects.last = $state.params.id;
 
     $scope.loadProject = function() {
       F.Projects.getProject($state.params.id).then(function(d) {
@@ -56,7 +52,6 @@
         $scope.projects.list =  _.where($scope.projects.list, function(p) {
           return p.id !== +$state.params.id;
         });
-        delete $localStorage.projects.last
         $state.go('projects.items');
       });
     };

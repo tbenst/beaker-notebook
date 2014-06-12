@@ -27,6 +27,11 @@ Feature: Use Notebooks
       | name              |
       | powderpuff girls  |
       | top secret        |
+    When I open the recent notebook "top secret"
+    Then I should see the following notebooks in the gutter:
+      | name             |
+      | powderpuff girls |
+      | top secret       |
 
   Scenario: Open Notebooks
     When I open the "ghost of tom jones" project

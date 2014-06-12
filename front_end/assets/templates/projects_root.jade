@@ -18,6 +18,6 @@
 
             ul.drop-down-child.drop-down-dark.sidebar-drop-down(ng-controller="recentNotebooks")
               li.recent-notebook(ng-repeat="recent in recentNotebooks")
-                a(ui-sref="projects.items.item.notebook({id: recent.projectId, notebook_id: recent.notebookId})") {{recent.notebookName}}
+                a(ui-sref="projects.items.item.notebook({id: recent.projectId, notebook_id: recent.id})") {{recent.name}}
 
   #app(ui-view="app")

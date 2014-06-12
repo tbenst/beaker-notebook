@@ -42,9 +42,14 @@ module.exports = function(app) {
     },
 
     get: function(req, res, next) {
-      req.project.withNotebooks()
-        .then(res.json.bind(res))
-        .catch(next);
+      req.project.save(
+        {openedAt: new Date()},
+        {patch: true})
+      .then(function(project) {
+        return project.withNotebooks();
+      })
+      .then(res.json.bind(res))
+      .catch(next);
     },
 
     update: function(req, res, next) {

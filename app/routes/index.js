@@ -10,7 +10,6 @@ module.exports.init = function(app) {
   require('./notebook_routes.js')(app);
   require('./vendor_routes.js')(app);
   require('./tag_routes.js')(app);
-  require('./recent_notebook_routes.js')(app);
 
   if (app.get('env') === "test") {
     require('./seed_routes.js')(app);
