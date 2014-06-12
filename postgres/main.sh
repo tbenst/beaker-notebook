@@ -8,6 +8,7 @@ case $i in
   -f|--force) force=1 ;;
   -r|--run) run=1 ;;
   --shell) shell=1 ;;
+  --psql) psql=1 ;;
   -h|--help)
     cat <<EOF
 
@@ -19,6 +20,7 @@ case $i in
           --database=(db) Create a database with name db.
           -r  --run       Run the postgres server in the foreground.
           --shell         Instead, run an interactive shell
+          --psql          Instead, open psql prompt
 EOF
     exit
     ;;
@@ -45,4 +47,8 @@ if [[ $run -eq 1 ]]; then
 elif [[ $shell -eq 1 ]]; then
     su postgres -c "/usr/lib/postgresql/9.1/bin/postgres -D /etc/postgresql/9.1/main &"
     exec /bin/bash
+elif [[ $psql -eq 1 ]]; then
+    su postgres -c "/usr/lib/postgresql/9.1/bin/postgres -D /etc/postgresql/9.1/main &"
+    sleep 5
+    exec su postgres -c "psql bunsenDevelopment"
 fi
