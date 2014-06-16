@@ -10,7 +10,10 @@
     };
 
     $scope.loadProject();
-    WindowMessageService.addNotebookCallback($state.params.id, $scope.loadProject);
+
+    WindowMessageService.addNotebookCallback($state.params.id, function(notebook) {
+      $state.go('projects.items.item.notebook', { notebook_id: notebook.id });
+    });
 
     $scope.alreadyExistsError = function(notebook, project) {
       $scope.error = "A notebook named '" + notebook + "' already exists in project '" + project + "'";

@@ -9,9 +9,9 @@
       var saveFunction = data.operation == 'create' ?
         createNotebook : F.Notebooks.updateNotebook;
       saveFunction(data.notebook).
-        then(function() {
+        then(function(notebook) {
           var callbacks = saveNotebookCallbacks[data.projectId] || []
-          _.each(callbacks, function(cb) { cb(); });
+          _.each(callbacks, function(cb) { cb(notebook); });
         }, function(response) {
           $window.alert("Error attempting to " + data.operation + " notebook.");
         });

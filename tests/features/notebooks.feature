@@ -143,6 +143,7 @@ Feature: Use Notebooks
       | Winter Grasp     |
       | powderpuff girls |
       | top secret       |
+    And I should be in the "Winter Grasp" notebook
 
   Scenario: Saving changes to an existing notebook
     When I view my projects
