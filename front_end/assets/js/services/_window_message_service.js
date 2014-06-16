@@ -1,8 +1,6 @@
 ;(function(app) {
-  app.service('WindowMessageService', ['$window', '$location', 'Factories', function($window, $location, Factories) {
-
+  app.service('WindowMessageService', ['$window', '$location', '$rootScope', 'Factories', function($window, $location, $rootScope, Factories) {
     var F = Factories;
-    var saveNotebookCallbacks = {};
 
     function saveNotebook(data) {
       var createNotebook = _.partial(F.Notebooks.createNotebook, data.projectId);
@@ -10,8 +8,7 @@
         createNotebook : F.Notebooks.updateNotebook;
       saveFunction(data.notebook).
         then(function(notebook) {
-          var callbacks = saveNotebookCallbacks[data.projectId] || []
-          _.each(callbacks, function(cb) { cb(notebook); });
+          $rootScope.$broadcast('window-message-notebook-'+data.operation, notebook);
         }, function(response) {
           $window.alert("Error attempting to " + data.operation + " notebook.");
         });
@@ -27,11 +24,7 @@
 
     $window.addEventListener('message', receiveWindowMessage, false);
 
-    return {
-      addNotebookCallback: function(projectId, cb) {
-        saveNotebookCallbacks[projectId] = saveNotebookCallbacks[projectId] || [];
-        saveNotebookCallbacks[projectId].push(cb);
-      }
-    };
+    // no public API
+    return {};
   }]);
 })(window.bunsen);
