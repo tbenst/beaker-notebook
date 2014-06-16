@@ -76,12 +76,23 @@ Feature: Use Notebooks
     When I open the rename modal for "powerpuff girls"
     Then I shouldn't see an error in the modal
 
-  Scenario: Closing Notebooks
+  Scenario: Closing the current notebook
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
     And I close the notebook
     Then I should see the following open notebooks:
       | name              |
+
+  Scenario: Closing a notebook from the open notebooks list
+    When I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    And I view my projects
+    And I open the "ghost of tom jones" project
+    And I view the notebook "powderpuff girls"
+    And I close the open notebook "top secret"
+    Then I should see the following open notebooks:
+      | name             |
+      | powderpuff girls |
 
   Scenario: Creating a Notebook
     When I open the "ghost of tom jones" project

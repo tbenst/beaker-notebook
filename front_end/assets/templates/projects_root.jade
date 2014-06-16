@@ -10,7 +10,7 @@
         ul.open-notebooks.sidebar-box-list.with-dots
           li.open-notebook(ng-repeat="open in openNotebooks")
             a.sidebar-box-list-link(ng-click="openProject(open.id)") {{open.name}}
-              span.inline-icon-sidebar.inline-close-notebook.close-notebook(ng-click="closeNotebook(open.id, $event)", stop-event="click")
+              span.inline-icon-sidebar.inline-close-notebook.close-notebook(stop-event="click", "close-notebook"="{{ open.id }}")
                 img(src="images/close-white-small.png", width="10", height="10")
           li.recently-used
             a.sidebar-box-list-link(show-on-hover-parent) Recently Used
