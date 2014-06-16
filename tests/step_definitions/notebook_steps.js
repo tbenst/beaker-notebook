@@ -68,6 +68,10 @@ module.exports = function() {
     }.bind(this));
   });
 
+  this.When(/^I close the open notebook "([^"]*)"$/, function(name) {
+    return (new this.Widgets.OpenNotebookList()).closeNotebook(name);
+  });
+
   this.Then(/^I should see the following notebooks$/, function(table, callback) {
     var expected = _.pluck(table.hashes(), 'name');
 

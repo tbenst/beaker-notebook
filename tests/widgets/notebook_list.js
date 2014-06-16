@@ -7,7 +7,7 @@ module.exports = function() {
 
     clickByName: function(name) {
       var _this = this;
-      this.findNotebook(name).then(function(item) {
+      return this.findNotebook(name).then(function(item) {
         return item.find(_this.nameSelector).click();
       });
     },

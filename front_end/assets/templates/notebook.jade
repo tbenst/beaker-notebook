@@ -1,9 +1,9 @@
 .col-half.notebook
   a.btn.btn-light.left(ui-sref="projects.items.item({id: project.id})") Back to project home
-  button.btn.btn-light.right.close-notebook(ng-click="closeNotebook()") Close
+  button.btn.btn-light.right.close-notebook(close-notebook="{{ notebook.id }}", ui-sref="projects.items.item({id: project.id})") close notebook
   button.btn.btn-light.right.rename(rename-notebook-toggle ng-click="showRenameModal()") Rename
   .cl
   br br
   h2 Notebook:&nbsp;
     span.name {{notebook.name}}
-  beakernotebook(src="{{ notebookLocation }}", width="700", height="1000")
+  beakernotebook(notebook-id="{{ notebook.id }}", src="{{ notebookLocation }}", width="700", height="1000")
