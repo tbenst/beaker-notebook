@@ -41,6 +41,15 @@
                   evaluatorSettings.name = evaluator.pluginName + "_" + bkUtils.generateId(6);
                 }
               }
+
+              if (!evaluatorSettings.view) {
+                evaluatorSettings.view = {};
+              }
+              if (!evaluatorSettings.view.cm) {
+                evaluatorSettings.view.cm = {};
+              }
+              evaluatorSettings.view.cm.mode = evaluator.cmMode;
+
               evaluators[evaluatorSettings.name] = evaluator;
               return evaluator;
             })
