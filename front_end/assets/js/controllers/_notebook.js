@@ -8,21 +8,21 @@
     $scope.projects.search = '';
     $scope.projects.list = [];
 
-    $scope.closeNotebook = function(notebookId) {
-      F.Notebooks.close.apply(this, arguments).then(function(openNotebooks) {
+    $scope.closeNotebook = function() {
+      F.Notebooks.close.call(this, $scope.notebook.id).then(function(openNotebooks) {
         Notebooks.setOpenNotebooks(openNotebooks);
         if (frame = document.querySelector("iframe[src='"+$scope.notebookLocation.toString()+"']")) {
           document.body.removeChild(frame);
         }
         $state.go('^');
       });
-    }
+    };
 
     var beakerUrl = function(subPath, params) {
       return window.BUNSEN_SERVICES.beaker + "#/" +
         subPath + "?" + UrlGeneratorService.toParams(_.extend(params,
           {bunsenUiUrl: uiUrl}));
-    }
+    };
 
     var notebookLocation = function(userId, projectId, notebookId) {
       var bunsenUri = Restangular.one('notebooks', notebookId).one('contents').getRestangularUrl();

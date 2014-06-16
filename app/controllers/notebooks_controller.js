@@ -76,18 +76,18 @@ module.exports = function(app) {
     update: function(req, res, next) {
       req.notebook.withData()
       .then(function(notebook) {
-        var attrs = _.pick(req.body, 'data', 'projectId');
+        var attrs = _.pick(req.body, 'name', 'data', 'projectId');
         if (attrs.data) {
           attrs.data = JSON.parse(attrs.data);
         }
         return notebook.saveUnique(attrs, {patch: true});
       })
-      .then(function() {
-        res.send(200);
+      .then(function(notebook) {
+        res.json(_.omit(notebook, 'data'));
       })
       .catch(function(e) {
         if (e instanceof RecordNotUniqueError) {
-          res.status(409);
+          return res.status(409).json({ error: 'That name is taken by another notebook in this project.' });
         }
         return next(e);
       })

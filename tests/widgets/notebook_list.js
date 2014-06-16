@@ -1,4 +1,5 @@
 module.exports = function() {
+  var World = this;
   return this.Widgets.NotebookList = this.Widget.List.extend({
     root: '.notebook-list',
     itemSelector: '.single-notebook',
@@ -6,18 +7,38 @@ module.exports = function() {
 
     clickByName: function(name) {
       var _this = this;
-      return this.findAll(this.itemSelector).then(function(nodes) {
-        return $.filter(nodes, function(n) {
-          return n.getInnerHtml().then(function(t) {
-            return t.search(name) != -1;
-          });
-        })
-        .then(function(filtered) {
-          return filtered[0].findElement(Driver.By.css(_this.nameSelector));
-        })
-        .then(function(found) {
-          return found.click();
+      this.findNotebook(name).then(function(item) {
+        return item.find(_this.nameSelector).click();
+      });
+    },
+
+    findNotebook: function(name) {
+      var _this = this;
+      return this.getNames().then(function(names) {
+        return _this.items().then(function(items) {
+          return items[names.indexOf(name)];
         });
+      });
+    },
+
+    openRenameModal: function(name) {
+      return this.findNotebook(name).then(function(item) {
+        return new World.Widgets.ShowDropdown().show(item.root).then(function() {
+          return item.find('.rename').click();
+        });
+      });
+    },
+
+    openModalAndRename: function(name, newName) {
+      return this.openRenameModal(name).then(function() {
+        return this.rename(newName);
+      }.bind(this));
+    },
+
+    rename: function(newName) {
+      var renameModal = new World.Widgets.Modal;
+      return renameModal.fill("input.name", newName).then(function() {
+        return renameModal.click('.save');
       });
     },
 
@@ -28,15 +49,11 @@ module.exports = function() {
     },
 
     move: function(name) {
-      var _this = this;
-      return this.getNames().then(function(names) {
-        return _this.items().then(function(items) {
-          var item = items[names.indexOf(name)];
-          var method = "Sizzle('"+item.root+" .drop-down-child')[0].style.display = 'block';";
-          return _this.driver.executeScript(method).then(function() {
-            return item.find('.notebook-move a').click();
-          });
-        });
+      return this.findNotebook(name).then(function(item) {
+        return new World.Widgets.ShowDropdown().show(item.root)
+               .then(function() {
+                 return item.find('.notebook-move a').click();
+               });
       });
     }
   });

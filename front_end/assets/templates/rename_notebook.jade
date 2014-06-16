@@ -1,0 +1,6 @@
+h4 Please enter a new name for this notebook
+p.error(ng-show="error") {{error}}
+form(ng-submit="renameSave()")
+  input.full.name(type="text" ng-model="notebookNewName")
+  input.save.btn.btn-primary(type="submit", value="Save")
+  button.cancel.btn.btn-light(type="button" ng-click="renameCancel()") Cancel

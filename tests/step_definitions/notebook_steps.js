@@ -47,6 +47,18 @@ module.exports = function() {
     });
   });
 
+  this.Given(/^I open the rename modal for "([^"]*)"$/, function(notebook) {
+    return new this.Widgets.NotebookList().openRenameModal(notebook);
+  });
+
+  this.When(/^I click the modal close button$/, function() {
+    return new this.Widgets.Modal().close();
+  });
+
+  this.Then(/^the modal should be closed$/, function() {
+    return new this.Widgets.Modal().isDisplayed().should.eventually.be.false;
+  });
+
   this.Then(/^I should see the following open notebooks:$/, function(table, callback) {
     var expected = _.pluck(table.hashes(), 'name');
     return Promise.delay(1000).then(function() {
@@ -91,9 +103,25 @@ module.exports = function() {
       });
   });
 
+  this.When(/^I rename the "([^"]*)" notebook to "([^"]*)"$/, function(notebook, newName) {
+    var notebookList = new this.Widgets.NotebookList();
+    return notebookList.openModalAndRename(notebook, newName);
+  });
+
+  this.When(/^I rename the notebook to "([^"]*)"$/, function(newName) {
+    return new this.Widgets.Notebook().openModalAndRename(newName);
+  });
+
+  this.When(/^I rename the notebook "([^"]*)" instead$/, function(newName) {
+    return new this.Widgets.NotebookList().rename(newName);
+  });
+
+  this.Then(/^I shouldn't see an error in the modal$/, function(callback) {
+    return new this.Widgets.Modal().errorMessage().should.eventually.equal('');
+  });
+
   this.Then(/^I should see the error: "([^"]*)"$/, function(e) {
     return (new this.Widgets.Error).getMessage().should.eventually.equal(e);
-
   });
 
   this.When(/^I make a new notebook$/, function() {
@@ -102,6 +130,14 @@ module.exports = function() {
 
   this.When(/^I save the notebook as "([^"]*)"$/, function(name) {
     return (new this.Widgets.BeakerFrame()).saveAs(name);
+  });
+
+  this.Then(/^I should be in the "([^"]*)" notebook$/, function(name) {
+    return new this.Widgets.Notebook().name().should.eventually.equal(name);
+  });
+
+  this.Then(/^I should see an error in the modal saying "([^"]*)"$/, function(error) {
+    return new this.Widgets.Modal().errorMessage().should.eventually.equal(error);
   });
 
   this.When(/^I save my changes to the notebook$/, function() {

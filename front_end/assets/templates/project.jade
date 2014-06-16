@@ -56,12 +56,14 @@
             a(ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") {{notebook.name}}
 
         .right
-          span.text-small.notebook-last-used Last used on: 
+          span.text-small.notebook-last-used Last used on:
             span.text-green {{notebook.updated_at | date: 'M/dd, h:mma'}}
           span.notebook-options
             a.toggle-drop-down-on-white.toggle-drop-down(show-on-hover-parent)
               .menu-icon-dots
             ul.drop-down-child
+              li
+                a.rename(rename-notebook-toggle ng-click="showRenameModal()") Rename
               li
                 a(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)") Move
         .cl

@@ -47,6 +47,35 @@ Feature: Use Notebooks
       | top secret        |
       | powderpuff girls  |
 
+  Scenario: Renaming Notebook from Listing
+    When I open the "ghost of tom jones" project
+    And I rename the "powderpuff girls" notebook to "powerpuff girls"
+    Then I should see the following notebooks
+      | name            |
+      | powerpuff girls |
+      | top secret      |
+
+  Scenario: Close Rename Modal
+    Given I open the "ghost of tom jones" project
+    And I open the rename modal for "top secret"
+    When I click the modal close button
+    Then the modal should be closed
+
+  Scenario: Renaming Notebook from Detail View
+    Given I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    When I rename the notebook to "top secrete"
+    Then I should be in the "top secrete" notebook
+
+  Scenario: Renaming Notebook to Duplicate
+    When I open the "ghost of tom jones" project
+    And I rename the "powderpuff girls" notebook to "top secret"
+    Then I should see an error in the modal saying "That name is taken by another notebook in this project."
+    When I rename the notebook "powerpuff girls" instead
+    Then the modal should be closed
+    When I open the rename modal for "powerpuff girls"
+    Then I shouldn't see an error in the modal
+
   Scenario: Closing Notebooks
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"

@@ -98,7 +98,6 @@ function Notebook(Bookshelf, app) {
 
       return writeFile(notebookPath, RDWR_EXCL, data)
       .then(git.init.bind(git), function(e) {
-        console.log("* A notebook with '" + self.get('name') + "' name already exists within this project");
         return self.addCommit(data);
       })
       .then(git.init.bind(git))

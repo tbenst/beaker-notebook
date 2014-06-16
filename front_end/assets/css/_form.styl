@@ -9,11 +9,12 @@ input
   background-color white
   &:focus
     border-color darken(base-step5, 10%)
+  &.full
+    width 100%
+    margin-bottom spacing-block
+    display inline-block
 
-.search-full
-  width 100%
-  margin-bottom spacing-block
-  display inline-block
-  background: white url('../images/input-search.png') no-repeat 96% center;
+.search
+  background white url('../images/input-search.png') no-repeat 96% center
   background-size 17px 18px
   padding-right 32px
