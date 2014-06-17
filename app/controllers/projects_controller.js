@@ -7,13 +7,14 @@ module.exports = function(app) {
   return {
     projectIdParam: function(req, res, next, id) {
       req.user.projects()
-      .query()
-      .where("id", "=", req.params.project_id)
-      .then(function(projects) {
-        if (!projects || !projects[0]) {
+      .query({where: {id: parseInt(req.params.project_id, 10)}})
+      .fetchOne().then(function(project) {
+        if (!project) {
           throw new Error('Project not found');
         }
-        req.project = Project.forge(projects[0]);
+        else {
+          req.project = project;
+        }
       })
       .done(next, next);
     },
