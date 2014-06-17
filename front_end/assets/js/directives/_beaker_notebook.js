@@ -19,7 +19,7 @@
               frame.setAttribute('width', attrs.width);
               frame.setAttribute('height', attrs.height);
               frame.setAttribute('class', 'beaker');
-              document.body.appendChild(frame);
+              document.getElementById('root').appendChild(frame);
             }
 
             element.on('$destroy', function() {

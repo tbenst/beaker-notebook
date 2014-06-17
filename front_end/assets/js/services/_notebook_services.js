@@ -41,7 +41,7 @@
         Factories.Notebooks.close(notebookId).then(function(openNotebooks) {
           setOpenNotebooks.bind(this)(openNotebooks);
           if (frame = document.querySelector("#beaker-frame-"+notebookId)) {
-            document.body.removeChild(frame);
+            frame.parentNode.removeChild(frame);
           }
         }.bind(this));
       },
