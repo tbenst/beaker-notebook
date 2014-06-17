@@ -1,5 +1,5 @@
 ;(function(app) {
-  app.service('Notebooks', function($rootScope, Factories) {
+  app.service('Notebooks', function($rootScope, $state, Factories) {
     function setOpenNotebooks(open) {
       this.openNotebooks = open;
       $rootScope.$broadcast("openNotebookChange");
@@ -42,6 +42,9 @@
           setOpenNotebooks.bind(this)(openNotebooks);
           if (frame = document.querySelector("#beaker-frame-"+notebookId)) {
             frame.parentNode.removeChild(frame);
+          }
+          if ($state.is("projects.items.item.notebook") && $state.params.notebook_id == notebookId) {
+            $state.go('projects.items.item', {id: $state.params.id});
           }
         }.bind(this));
       },
