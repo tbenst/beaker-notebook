@@ -1,6 +1,8 @@
 var _ = require("lodash"),
-    W = require('when'),
-    notebook = require('./notebook');
+    bluebird = require('bluebird'),
+    notebook = require('./notebook'),
+    RecordNotUniqueError = require("../lib/record_not_unique_error");
+
 
 module.exports = function(Bookshelf, app) {
   var models = app.Models;
@@ -32,6 +34,31 @@ module.exports = function(Bookshelf, app) {
   var Project = Bookshelf.Model.extend({
     tableName: "Projects",
 
+    initialize: function() {
+      this.on("saving", this.validateName);
+    },
+
+    validateName: function() {
+      if (!this.hasChanged('name')) {
+        return bluebird.resolve(true);
+      }
+
+      if (!this.get("name")) {
+        throw new Error('No name specified for project.');
+      }
+
+      return query('Projects')
+        .where("ownerId", this.get("ownerId"))
+        .where("name", '=', this.get("name"))
+        .where("id", "!=", this.get("id"))
+        .then(function(dupe) {
+          if (dupe.length > 0) {
+            throw new RecordNotUniqueError(
+              'You already have a project named "' + this.get("name") + '"');
+          }
+        }.bind(this));
+    },
+
     withNotebooks: function() {
       var _this = this;
       return notebooks(this.get('ownerId'), this.id)
@@ -50,12 +77,12 @@ module.exports = function(Bookshelf, app) {
         queries.push(Project.findBySearchParam(filters.userId, filters.filterBy));
       }
 
-      return W.all(queries)
+      return bluebird.all(queries)
         .then(function(q) {
           return query.raw(q.join("\nINTERSECT\n"));
         })
         .then(function(result) {
-          return W.map(result.rows, function(row) {
+          return bluebird.map(result.rows, function(row) {
             return notebooks(row.ownerId, row.id)
               .then(function(n) {
                 row.lastUpdatedAt = maxDate(new Date(row.updated_at), n.lastUpdated);
