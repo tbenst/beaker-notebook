@@ -39,7 +39,7 @@ module.exports = {
             "type": "code",
             "evaluator": "IPython",
             "input": {
-                "body": "#Python - will turn light blue when plugin loads successfully"
+                "body": "#Python"
             },
             "output": {
                 "selectedType": "Hidden"
@@ -50,7 +50,7 @@ module.exports = {
             "type": "code",
             "evaluator": "JavaScript",
             "input": {
-                "body": "//JavaScript - will turn pink when plugin loads successfully"
+                "body": "//JavaScript"
             },
             "output": {
                 "selectedType": "Hidden"
