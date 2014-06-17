@@ -11,7 +11,7 @@
         };
 
         $scope.renameSave = function() {
-          F.Notebooks.updateNotebook({ id: $scope.notebook.id, name: $scope.notebookNewName }).then(function(notebook) {
+          F.Notebooks.update({ id: $scope.notebook.id, name: $scope.notebookNewName }).then(function(notebook) {
             $scope.notebook.name = notebook.name;
             $scope.$emit('closeModal');
             delete $scope.error;
