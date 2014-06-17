@@ -4,23 +4,27 @@
       this.openNotebooks = open;
       $rootScope.$broadcast("openNotebookChange");
       return this.openNotebooks;
-    };
+    }
+
+    function setRecentNotebooks(recent) {
+      this.recentNotebooks = recent;
+      $rootScope.$broadcast("recentNotebookChange");
+      return this.recentNotebooks;
+    }
 
     return {
       setOpenNotebooks: setOpenNotebooks,
+
+      setRecentNotebooks: setRecentNotebooks,
 
       getOpenNotebooks: function() {
         return this.openNotebooks;
       },
 
-      setRecentNotebooks: function(recent) {
-        this.recentNotebooks = recent;
-        $rootScope.$broadcast("recentNotebookChange");
+      getRecentNotebooks: function() {
         return this.recentNotebooks;
       },
 
-      getRecentNotebooks: function() {
-        return this.recentNotebooks;
       },
 
       closeNotebook: function(notebookId) {
