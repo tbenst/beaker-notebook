@@ -31,7 +31,7 @@
         return R.all('recent_notebooks').getList();
       },
 
-      updateNotebook: function(attrs) {
+      update: function(attrs) {
         return R.one('notebooks', attrs.id).customPUT(attrs);
       },
 

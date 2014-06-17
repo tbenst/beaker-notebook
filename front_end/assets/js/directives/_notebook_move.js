@@ -30,7 +30,7 @@
         }
 
         scope.moveTo = function(options) {
-          F.Notebooks.updateNotebook({
+          F.Notebooks.update({
             id: scope.notebook.id,
             projectId: options.projectId
           })

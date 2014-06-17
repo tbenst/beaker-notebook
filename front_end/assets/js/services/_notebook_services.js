@@ -4,23 +4,37 @@
       this.openNotebooks = open;
       $rootScope.$broadcast("openNotebookChange");
       return this.openNotebooks;
-    };
+    }
+
+    function setRecentNotebooks(recent) {
+      this.recentNotebooks = recent;
+      $rootScope.$broadcast("recentNotebookChange");
+      return this.recentNotebooks;
+    }
 
     return {
       setOpenNotebooks: setOpenNotebooks,
+
+      setRecentNotebooks: setRecentNotebooks,
 
       getOpenNotebooks: function() {
         return this.openNotebooks;
       },
 
-      setRecentNotebooks: function(recent) {
-        this.recentNotebooks = recent;
-        $rootScope.$broadcast("recentNotebookChange");
+      getRecentNotebooks: function() {
         return this.recentNotebooks;
       },
 
-      getRecentNotebooks: function() {
-        return this.recentNotebooks;
+      update: function(attrs) {
+        return Factories.Notebooks.update(attrs).then(function(notebook) {
+          this.setOpenNotebooks(_.map(this.getOpenNotebooks(), function(oldNotebook) {
+            return (oldNotebook.id == notebook.id) ? notebook : oldNotebook;
+          }));
+          this.setRecentNotebooks(_.map(this.getRecentNotebooks(), function(oldNotebook) {
+            return (oldNotebook.id == notebook.id) ? notebook : oldNotebook;
+          }));
+          return notebook;
+        }.bind(this));
       },
 
       closeNotebook: function(notebookId) {
