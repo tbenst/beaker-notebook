@@ -9,36 +9,25 @@
       "path": "front_end"
     },
     {
-      "name": "db",
-      "path": "postgres"
-    },
-    {
       "name": "beaker",
       "path": "beaker"
     }
   ],
   "run": [
     {
-      "name": "db",
-      "image": "db",
-      "command": "--create --force --database=bunsenDevelopment --run",
-      "ports": [
-        "5432:5432"
-      ]
-    },
-    {
       "name": "app",
       "image": "app",
-      "command": "--migrate --seed --delay=30",
-      "links": [
-        "db:db"
-      ],
+      "command": "--migrate --delay=5",
       "ports": [
         "3000:3000"
       ],
       "environment": {
-        "NODE_ENV": "development"
-      }
+        "NODE_ENV": "development",
+        "DB_PORT_5432_TCP_ADDR": "10.0.1.8"
+      },
+      "volumes": [
+        "/var/bunsen/repos:/var/app/.repos"
+      ]
     },
     {
       "name": "web",
@@ -55,6 +44,9 @@
       "command": "--bucket=bunsen-development --mount=/var/s3 --role=read-s3",
       "ports": [
         "8801:8801"
+      ],
+      "volumes": [
+        "/mnt/lustre/scratch:/mnt/scratch"
       ]
     }
   ]
