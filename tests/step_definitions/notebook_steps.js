@@ -72,7 +72,7 @@ module.exports = function() {
     return (new this.Widgets.OpenNotebookList()).closeNotebook(name);
   });
 
-  this.Then(/^I should see the following notebooks$/, function(table, callback) {
+  this.Then(/^I should see the following notebooks:$/, function(table, callback) {
     var expected = _.pluck(table.hashes(), 'name');
 
     return (new this.Widgets.NotebookList).getNames().should.eventually.deep.equal(expected);
