@@ -38,7 +38,7 @@
       },
 
       closeNotebook: function(notebookId) {
-        Factories.Notebooks.close(notebookId).then(function(openNotebooks) {
+        return Factories.Notebooks.close(notebookId).then(function(openNotebooks) {
           setOpenNotebooks.bind(this)(openNotebooks);
           if (frame = document.querySelector("#beaker-frame-"+notebookId)) {
             frame.parentNode.removeChild(frame);
