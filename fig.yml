@@ -22,6 +22,7 @@ db:
     - "5432:5432"
   volumes:
     - "/var/bunsen_dbs:/var/lib/postgresql/9.1/main"
+    - "/vagrant/postgres:/var/postgres"
   command: "--run"
 beaker:
   build: beaker
