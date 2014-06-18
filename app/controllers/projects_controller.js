@@ -1,4 +1,5 @@
 var _ = require("lodash")
+var RecordNotUniqueError = require("../lib/record_not_unique_error");
 
 module.exports = function(app) {
   var Project = app.Models.Project,
@@ -60,7 +61,14 @@ module.exports = function(app) {
       .then(function(project) {
         res.json(project);
       })
-      .catch(next);
+      .catch(function(e) {
+        if (e instanceof RecordNotUniqueError) {
+          return res.status(409).json({ error: e.message });
+        }
+        else {
+          return next(e);
+        }
+      })
     },
 
     destroy: function(req, res, next) {

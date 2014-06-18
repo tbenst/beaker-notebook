@@ -14,6 +14,10 @@ module.exports = function() {
       return this.read('.project-name');
     },
 
+    error: function() {
+      return this.read('.error');
+    },
+
     description: function() {
       return this.read('.project-description');
     },

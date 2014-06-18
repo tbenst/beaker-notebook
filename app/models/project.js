@@ -48,8 +48,8 @@ module.exports = function(Bookshelf, app) {
       }
 
       return query('Projects')
-        .where("ownerId", this.get("ownerId"))
-        .where("name", '=', this.get("name"))
+        .where({ownerId: this.get("ownerId"),
+                name: this.get("name")})
         .where("id", "!=", this.get("id"))
         .then(function(dupe) {
           if (dupe.length > 0) {

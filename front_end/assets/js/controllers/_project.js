@@ -44,6 +44,9 @@
       $scope.project.put().then(function() {
         loadProjectList();
         $scope.editMode = false;
+        $scope.error = null;
+      }, function(response) {
+        $scope.error = response.data.error;
       });
     }
 
