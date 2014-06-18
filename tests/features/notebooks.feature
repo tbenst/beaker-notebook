@@ -55,6 +55,26 @@ Feature: Use Notebooks
       | powerpuff girls |
       | top secret      |
 
+  Scenario: Deleting a Notebook
+    Given I open the "ghost of tom jones" project
+    And the "top secret" notebook is open
+    When I delete the "top secret" notebook
+    Then I should see the following notebooks:
+      | name             |
+      | powderpuff girls |
+    And I should see 0 recent notebooks
+    And I should see 0 open notebooks
+
+  Scenario: Canceling Deleting a Notebook
+    Given I open the "ghost of tom jones" project
+    And I go to delete the "top secret" notebook
+    When I cancel the dialog
+    Then the modal should be closed
+    And I should see the following notebooks:
+      | name             |
+      | powderpuff girls |
+      | top secret       |
+
   Scenario: Close Rename Modal
     Given I open the "ghost of tom jones" project
     And I open the rename modal for "top secret"

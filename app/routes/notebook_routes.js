@@ -9,6 +9,7 @@ module.exports = function(app) {
   app.get('/api/notebooks/:notebook_id', NotebooksController.get);
   app.get('/api/notebooks/:notebook_id/contents', NotebooksController.notebookContents);
   app.put('/api/notebooks/:notebook_id', NotebooksController.update);
+  app.del('/api/notebooks/:notebook_id', NotebooksController.destroy);
 
   app.get("/api/open_notebooks", NotebooksController.openNotebooks);
   app.get("/api/recent_notebooks", NotebooksController.recentNotebooks);

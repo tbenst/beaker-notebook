@@ -11,6 +11,10 @@ module.exports = function() {
       return this.read('.name');
     },
 
+    goBackToProject: function() {
+      return this.click('.back-to-project');
+    },
+
     openRenameModal: function() {
       return this.find('.rename').click();
     },

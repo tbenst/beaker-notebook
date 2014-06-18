@@ -45,6 +45,14 @@
           }
         }.bind(this));
       },
+
+      destroy: function(notebookId) {
+        return Factories.Notebooks.destroy(notebookId).then(function() {
+          return this.setRecentNotebooks(_.reject(this.getRecentNotebooks(), function(notebook) {
+            return notebook.id == notebookId;
+          }));
+        }.bind(this));
+      }
     }
   });
 })(window.bunsen);

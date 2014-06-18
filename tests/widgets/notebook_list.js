@@ -35,6 +35,14 @@ module.exports = function() {
       }.bind(this));
     },
 
+    destroy: function(name) {
+      return this.findNotebook(name).then(function(item) {
+        return new World.Widgets.ShowDropdown().show(item.root).then(function() {
+          return item.find('.destroy').click();
+        });
+      });
+    },
+
     rename: function(newName) {
       var renameModal = new World.Widgets.Modal;
       return renameModal.fill("input.name", newName).then(function() {
