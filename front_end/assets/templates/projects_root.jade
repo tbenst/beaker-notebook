@@ -12,11 +12,10 @@
             a.sidebar-box-list-link(ng-click="openProject(open.id)") {{open.name}}
               span.inline-icon-sidebar.inline-close-notebook.close-notebook(stop-event="click", "close-notebook"="{{ open.id }}")
                 img(src="images/close-white-small.png", width="10", height="10")
-          li.recently-used
-            a.sidebar-box-list-link(show-on-hover-parent) Recently Used
+          li.recently-used.dropdown-toggle
+            a.sidebar-box-list-link Recently Used
               img.inline-icon-sidebar.inline-right-arrow(src="images/right-arrow-white.png", width="5", height="10")
-
-            ul.drop-down-child.drop-down-dark.sidebar-drop-down(ng-controller="recentNotebooks")
+            ul.dropdown.dropright(ng-controller="recentNotebooks")
               li.recent-notebook(ng-repeat="recent in recentNotebooks")
                 a(ui-sref="projects.items.item.notebook({id: recent.projectId, notebook_id: recent.id})") {{recent.name}}
 

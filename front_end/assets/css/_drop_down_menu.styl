@@ -1,16 +1,33 @@
-.basic-drop-down
-  z-index 10
-  position absolute
-  right 0
+.dropdown-toggle
+  position relative
+  cursor pointer
+  &:hover
+    .dropdown
+      display block
 
-.drop-down-child
+.options
+  background-image url(unquote('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAANCAQAAADGKxxEAAAAFUlEQVQYV2OY+R8EGVApCIRRZCoBAMdFNv06EG21AAAAAElFTkSuQmCC'))
+  background-repeat no-repeat
+  background-position center
+  display inline-block
+  height 30px
+  width 30px
+  &:hover
+    background-color action-blue
+    background-image url(unquote('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAANCAQAAADGKxxEAAAAFElEQVQYV2P4DwYMaBQYwinylAAAtj9Bv2dIo9IAAAAASUVORK5CYII='))
+  &.light
+    background-image url(unquote('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAANCAQAAADGKxxEAAAAFElEQVQYV2P4DwYMaBQYwinylAAAtj9Bv2dIo9IAAAAASUVORK5CYII='))
+    &:hover
+      background-color transparent
+
+.dropdown
   z-index 10
   display none
   background-color white
   box-shadow 0 2px 2px rgba(0,0,0,0.2)
   position absolute
   min-width 120px
-  right -100px
+  left 0
   top 30px
   li a
     width 100%
@@ -22,45 +39,6 @@
       background-color action-blue
       color white
       cursor pointer
-
-.project-menu .drop-down-child
-  top 18px
-  right -117px
-
-.recently-used
-  position relative
-  a:after
-    display none
-
-  .drop-down-child
-    top 2px
-    right -120px
-
-.notebook-options
-  .drop-down-child
-    top 40px
-    right -10px
-
-.toggle-drop-down-on-white
-  display inline-block
-  padding 4px 16px
-  height 37px
-  position relative
-  top 1px
-  &:hover
-    background-color action-blue
-    .menu-icon-dots
-      background-image url(unquote('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAANCAQAAADGKxxEAAAAFElEQVQYV2P4DwYMaBQYwinylAAAtj9Bv2dIo9IAAAAASUVORK5CYII='))
-  img
-    top 7px
-    position relative
-
-  img,
-  .menu-icon-dots
-    position relative
-
-.menu-icon-dots
-  background-image url(unquote('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAANCAQAAADGKxxEAAAAFUlEQVQYV2OY+R8EGVApCIRRZCoBAMdFNv06EG21AAAAAElFTkSuQmCC'))
-  width 3px
-  height 13px
-  top 7px
+  &.dropright
+    top 0
+    left 100%

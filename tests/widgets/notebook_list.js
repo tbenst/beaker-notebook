@@ -23,7 +23,7 @@ module.exports = function() {
 
     openRenameModal: function(name) {
       return this.findNotebook(name).then(function(item) {
-        return new World.Widgets.ShowDropdown().show(item.root).then(function() {
+        return new World.Widgets.Dropdown().show(item.root).then(function() {
           return item.find('.rename').click();
         });
       });
@@ -37,7 +37,7 @@ module.exports = function() {
 
     destroy: function(name) {
       return this.findNotebook(name).then(function(item) {
-        return new World.Widgets.ShowDropdown().show(item.root).then(function() {
+        return new World.Widgets.Dropdown().show(item.root).then(function() {
           return item.find('.destroy').click();
         });
       });
@@ -46,7 +46,11 @@ module.exports = function() {
     rename: function(newName) {
       var renameModal = new World.Widgets.Modal;
       return renameModal.fill("input.name", newName).then(function() {
-        return renameModal.click('.save');
+        // for some reason this now requires a double click in test
+        // but not in actual env... :(
+        return renameModal.click('.save').then(function() {
+          renameModal.click('.save');
+        });
       });
     },
 
@@ -58,7 +62,7 @@ module.exports = function() {
 
     move: function(name) {
       return this.findNotebook(name).then(function(item) {
-        return new World.Widgets.ShowDropdown().show(item.root)
+        return new World.Widgets.Dropdown().show(item.root)
                .then(function() {
                  return item.find('.notebook-move a').click();
                });

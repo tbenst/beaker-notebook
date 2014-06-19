@@ -7,15 +7,15 @@
 
 
   .right.project-menu
-    a.toggle-drop-down.toggle-drop-down-on-white(show-on-hover-parent)
-      .menu-icon-dots
-    ul.drop-down-child
-      li(ng-hide="editMode")
-        a.edit-project(ng-click="editProject()") Edit
-      li(ng-show="editMode")
-        a.update-project(ng-click="updateProject()") Save
-      li
-        a.delete-project(ng-click="deleteProject()") Delete
+    span.options.dropdown-toggle
+      .dropdown-wrapper
+        ul.dropdown
+          li(ng-hide="editMode")
+            a.edit-project(ng-click="editProject()") Edit
+          li(ng-show="editMode")
+            a.update-project(ng-click="updateProject()") Save
+          li
+            a.delete-project(ng-click="deleteProject()") Delete
   .cl
 
   .section-padding.section-padding-top.project-overview
@@ -59,15 +59,14 @@
           span.text-small.notebook-last-used Last used on:
             span.text-green {{notebook.updated_at | date: 'M/dd, h:mma'}}
           span.notebook-options
-            a.toggle-drop-down-on-white.toggle-drop-down(show-on-hover-parent)
-              .menu-icon-dots
-            ul.drop-down-child
-              li
-                a.rename(rename-notebook-toggle ng-click="showRenameModal()") Rename
-              li
-                a(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)") Move
-              li
-                a.destroy(confirm="Are you sure you want to delete {{ notebook.name }}?" on-confirm="deleteNotebook(notebook)") Delete
+            span.options.dropdown-toggle
+              ul.dropdown
+                li
+                  a.rename(rename-notebook-toggle ng-click="showRenameModal()") Rename
+                li
+                  a(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)") Move
+                li
+                  a.destroy(confirm="Are you sure you want to delete {{ notebook.name }}?" on-confirm="deleteNotebook(notebook)") Delete
         .cl
 
     span.import-notebooks.btn-group

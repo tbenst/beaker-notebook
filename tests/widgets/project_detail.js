@@ -5,7 +5,7 @@ module.exports = function() {
     projectMenu: '.project-menu',
 
     edit: function() {
-      return new World.Widgets.ShowDropdown().show(this.projectMenu).then(function() {
+      return new World.Widgets.Dropdown().show(this.projectMenu).then(function() {
         return this.click(".edit-project");
       }.bind(this));
     },

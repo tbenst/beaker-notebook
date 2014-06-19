@@ -2,13 +2,10 @@ input.search.full.project-search(ng-model="projects.search", placeholder="Search
 
 h3.sidebar-box-header
   | Projects
-  ul.basic-drop-down.sidebar-drop-down-icon
-    li
-      a.toggle-drop-down(show-on-hover-parent)
-        img(src="images/menu-dots-white.png", width="3", height="13")
-      ul.drop-down-child
-        li
-          a.create-project(ng-click="createProject()") New project
+  span.options.dropdown-toggle.light.right
+    ul.dropdown
+      li
+        a.create-project(ng-click="createProject()") New project
 
 .sidebar-box.padding-reset
   ul.project-results.sidebar-box-list

@@ -4,10 +4,10 @@ module.exports = function() {
   return this.Widgets.ProjectManager = this.Widget.List.extend({
     root: '.projects-root',
     itemSelector: '.project',
-    createNewDropdown: '.nav .basic-drop-down',
+    projectsSidebarHeader: '.project-sidebar .sidebar-box-header',
 
     createNew: function() {
-      return new World.Widgets.ShowDropdown().show(this.createNewDropdown).then(function() {
+      return new World.Widgets.Dropdown().show(this.projectsSidebarHeader).then(function() {
         return this.click(".create-project");
       }.bind(this));
     },
