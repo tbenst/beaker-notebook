@@ -28,10 +28,10 @@ Feature: Use Notebooks
       | powderpuff girls  |
       | top secret        |
     When I open the recent notebook "top secret"
-    Then I should see the following notebooks in the gutter:
+    Then I should see the following recent notebooks:
       | name             |
-      | powderpuff girls |
       | top secret       |
+      | powderpuff girls |
 
   Scenario: Open Notebooks
     When I open the "ghost of tom jones" project
@@ -148,20 +148,19 @@ Feature: Use Notebooks
     When I open the "ghost of tom jones" project
     And I make a new notebook
     And I save the notebook as "Winter Grasp"
-    Then I should see the following notebooks in the gutter:
+    Then I should be in the "Winter Grasp" notebook
+    When I open the "ghost of tom jones" project
+    Then I should see the following notebooks
       | name             |
       | Notebook 1       |
       | Winter Grasp     |
       | powderpuff girls |
       | top secret       |
-    And I should be in the "Winter Grasp" notebook
 
   Scenario: Saving changes to an existing notebook
     When I view my projects
     And I open the "ghost of tom jones" project
     And I view the notebook "powderpuff girls"
     And I save my changes to the notebook
-    Then I should see the following notebooks in the gutter:
-      | name             |
-      | powderpuff girls |
-      | top secret       |
+    Then I should be in the "powderpuff girls" notebook
+
