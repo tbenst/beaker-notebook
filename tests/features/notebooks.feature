@@ -113,6 +113,8 @@ Feature: Use Notebooks
     Then I should see the following open notebooks:
       | name             |
       | powderpuff girls |
+    When I close the open notebook "powderpuff girls"
+    Then I should see the "ghost of tom jones" project detail page
 
   Scenario: Creating a Notebook
     When I open the "ghost of tom jones" project
