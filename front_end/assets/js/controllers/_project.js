@@ -11,7 +11,7 @@
 
     $scope.loadProject();
 
-    WindowMessageService.addNotebookCallback($state.params.id, function(notebook) {
+    $scope.$on('window-message-notebook-create', function(event, notebook) {
       $state.go('projects.items.item.notebook', { notebook_id: notebook.id });
     });
 
