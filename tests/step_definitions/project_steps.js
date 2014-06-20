@@ -174,4 +174,10 @@ module.exports = function() {
   this.Then(/^I should see the following project results$/, function(table) {
     return new this.Widgets.ProjectSearchList().contents().should.eventually.eql(table.hashes());
   });
+
+  this.Then(/^I should be warned that the project is a duplicate name$/, function(callback) {
+    var projectDetail = new this.Widgets.ProjectDetail();
+    return projectDetail.error().should.eventually.contain("already have a project named");
+  });
+
 }

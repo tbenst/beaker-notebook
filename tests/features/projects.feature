@@ -20,6 +20,27 @@ As a researcher, I want to manage my projects.
       | name            | description          |
       | Science Project | For the Science Fair |
 
+  Scenario: Prevent duplicate project names
+    When I create a project
+    And I create a project
+    And I open the project
+    And I edit the project
+    And I update the project as follows:
+      | name      |
+      | Project 2 |
+    Then I should be warned that the project is a duplicate name
+    And I should see the following project list:
+      | name      |
+      | Project 1 |
+      | Project 2  |
+    When I update the project as follows:
+      | name      |
+      | Safe name |
+    Then I should see the following project list:
+      | name      |
+      | Project 2 |
+      | Safe name |
+
   Scenario: Project edits are reflected in the sidebar
     Given I'm looking at a project
     When I edit the project

@@ -1,4 +1,5 @@
 var _ = require("lodash")
+var RecordNotUniqueError = require("../lib/record_not_unique_error");
 
 module.exports = function(app) {
   var Project = app.Models.Project,
@@ -7,13 +8,14 @@ module.exports = function(app) {
   return {
     projectIdParam: function(req, res, next, id) {
       req.user.projects()
-      .query()
-      .where("id", "=", req.params.project_id)
-      .then(function(projects) {
-        if (!projects || !projects[0]) {
+      .query({where: {id: parseInt(req.params.project_id, 10)}})
+      .fetchOne().then(function(project) {
+        if (!project) {
           throw new Error('Project not found');
         }
-        req.project = Project.forge(projects[0]);
+        else {
+          req.project = project;
+        }
       })
       .done(next, next);
     },
@@ -59,7 +61,14 @@ module.exports = function(app) {
       .then(function(project) {
         res.json(project);
       })
-      .catch(next);
+      .catch(function(e) {
+        if (e instanceof RecordNotUniqueError) {
+          return res.status(409).json({ error: e.message });
+        }
+        else {
+          return next(e);
+        }
+      })
     },
 
     destroy: function(req, res, next) {
