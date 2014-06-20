@@ -52,7 +52,8 @@ module.exports = function() {
     return new this.Widgets.NotebookList().clickByName(name).then(function() {
       return new this.Widgets.Notebook().goBackToProject();
     }.bind(this)).then(function() {
-      return new this.Widgets.NotebookList().findNotebook(name).should.eventually.be.ok;
+      return Promise.delay(1000).then(function() {
+        return new this.Widgets.NotebookList().findNotebook(name).should.eventually.be.ok;}.bind(this));
     }.bind(this));
   });
 
