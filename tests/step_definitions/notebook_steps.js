@@ -47,6 +47,23 @@ module.exports = function() {
     });
   });
 
+  this.Then(/^the "([^"]*)" notebook is open$/, function(name) {
+    // used from the notebook list page
+    return new this.Widgets.NotebookList().clickByName(name).then(function() {
+      return new this.Widgets.Notebook().goBackToProject();
+    }.bind(this)).then(function() {
+      return new this.Widgets.NotebookList().findNotebook(name).should.eventually.be.ok;
+    }.bind(this));
+  });
+
+  this.Then(/^I should see (\d+) open notebooks$/, function(count) {
+    return new this.Widgets.OpenNotebookList().items().should.eventually.have.length(count);
+  });
+
+  this.Then(/^I should see (\d+) recent notebooks$/, function(count) {
+    return new this.Widgets.RecentNotebooks().items().should.eventually.have.length(count);
+  });
+
   this.Given(/^I open the rename modal for "([^"]*)"$/, function(notebook) {
     return new this.Widgets.NotebookList().openRenameModal(notebook);
   });
@@ -72,7 +89,21 @@ module.exports = function() {
     return (new this.Widgets.OpenNotebookList()).closeNotebook(name);
   });
 
-  this.Then(/^I should see the following notebooks$/, function(table, callback) {
+  this.When(/^I delete the "([^"]*)" notebook$/, function(name) {
+    return new this.Widgets.NotebookList().destroy(name).then(function() {
+      return new this.Widgets.Modal().click('.accept');
+    }.bind(this));
+  });
+
+  this.Given(/^I go to delete the "([^"]*)" notebook$/, function(name) {
+    return new this.Widgets.NotebookList().destroy(name);
+  });
+
+  this.When(/^I cancel the dialog$/, function(callback) {
+    return new this.Widgets.Modal().cancel();
+  });
+
+  this.Then(/^I should see the following notebooks:$/, function(table, callback) {
     var expected = _.pluck(table.hashes(), 'name');
 
     return (new this.Widgets.NotebookList).getNames().should.eventually.deep.equal(expected);

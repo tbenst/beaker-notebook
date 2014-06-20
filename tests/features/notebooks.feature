@@ -12,7 +12,7 @@ Feature: Use Notebooks
 
   Scenario: Notebooks Listing
     When I open the "ghost of tom jones" project
-    Then I should see the following notebooks
+    Then I should see the following notebooks:
       | name               |
       | powderpuff girls   |
       | top secret         |
@@ -50,10 +50,30 @@ Feature: Use Notebooks
   Scenario: Renaming Notebook from Listing
     When I open the "ghost of tom jones" project
     And I rename the "powderpuff girls" notebook to "powerpuff girls"
-    Then I should see the following notebooks
+    Then I should see the following notebooks:
       | name            |
       | powerpuff girls |
       | top secret      |
+
+  Scenario: Deleting a Notebook
+    Given I open the "ghost of tom jones" project
+    And the "top secret" notebook is open
+    When I delete the "top secret" notebook
+    Then I should see the following notebooks:
+      | name             |
+      | powderpuff girls |
+    And I should see 0 recent notebooks
+    And I should see 0 open notebooks
+
+  Scenario: Canceling Deleting a Notebook
+    Given I open the "ghost of tom jones" project
+    And I go to delete the "top secret" notebook
+    When I cancel the dialog
+    Then the modal should be closed
+    And I should see the following notebooks:
+      | name             |
+      | powderpuff girls |
+      | top secret       |
 
   Scenario: Close Rename Modal
     Given I open the "ghost of tom jones" project
@@ -107,7 +127,7 @@ Feature: Use Notebooks
   Scenario: Importing notebooks
     When I open the "ghost of tom jones" project
     And I import the notebook by uploading the "hello_world.bkr" file
-    Then I should see the following notebooks
+    Then I should see the following notebooks:
       | name               |
       | hello_world        |
       | powderpuff girls   |
@@ -120,11 +140,11 @@ Feature: Use Notebooks
     And I view my projects
     When I open the "ghost of tom jones" project
     And I move the "top secret" notebook to the "Finance Research" project
-    Then I should see the following notebooks
+    Then I should see the following notebooks:
       | name               |
       | powderpuff girls   |
     When I open the "Finance Research" project
-    Then I should see the following notebooks
+    Then I should see the following notebooks:
       | name               |
       | top secret         |
 
@@ -138,7 +158,7 @@ Feature: Use Notebooks
     And I view my projects
     When I open the "ghost of tom jones" project
     And I move the "top secret" notebook to the "Finance Research" project
-    Then I should see the following notebooks
+    Then I should see the following notebooks:
       | name               |
       | powderpuff girls   |
       | top secret         |

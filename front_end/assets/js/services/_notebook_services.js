@@ -38,13 +38,21 @@
       },
 
       closeNotebook: function(notebookId) {
-        Factories.Notebooks.close(notebookId).then(function(openNotebooks) {
+        return Factories.Notebooks.close(notebookId).then(function(openNotebooks) {
           setOpenNotebooks.bind(this)(openNotebooks);
           if (frame = document.querySelector("#beaker-frame-"+notebookId)) {
             frame.parentNode.removeChild(frame);
           }
         }.bind(this));
       },
+
+      destroy: function(notebookId) {
+        return Factories.Notebooks.destroy(notebookId).then(function() {
+          return this.setRecentNotebooks(_.reject(this.getRecentNotebooks(), function(notebook) {
+            return notebook.id == notebookId;
+          }));
+        }.bind(this));
+      }
     }
   });
 })(window.bunsen);

@@ -93,6 +93,12 @@ module.exports = function(app) {
       })
     },
 
+    destroy: function(req, res, next) {
+      req.notebook.destroy()
+      .then(res.json.bind(res))
+      .catch(next);
+    },
+
     openNotebooks: function(req, res, next) {
       Notebook.getOpen({userId: req.user.id})
       .then(res.json.bind(res))

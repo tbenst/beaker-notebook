@@ -8,6 +8,10 @@ module.exports = function() {
       });
     },
 
+    cancel: function() {
+      return this.click('.cancel');
+    },
+
     close: function() {
       return this.find('.ng-modal-close').click();
     },

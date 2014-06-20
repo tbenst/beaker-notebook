@@ -1,5 +1,5 @@
 !(function(angular, app) {
-  app.controller('project', ['$scope', '$state', 'Factories', '$upload', 'Restangular', '$sessionStorage', 'WindowMessageService', function($scope, $state, Factories, $upload, Restangular, $sessionStorage, WindowMessageService) {
+  app.controller('project', ['$scope', '$state', '$q', 'Factories', 'Notebooks', '$upload', 'Restangular', '$sessionStorage', 'WindowMessageService', function($scope, $state, $q, Factories, Notebooks, $upload, Restangular, $sessionStorage, WindowMessageService) {
     var F = Factories;
     $scope.editMode = false;
 
@@ -29,6 +29,21 @@
         });
       });
     };
+
+    $scope.deleteNotebook = function(notebook) {
+      (notebook.open ? Notebooks.closeNotebook(notebook.id) : resolvedPromise())
+      .then(function() { return Notebooks.destroy(notebook.id); })
+      .then(function() { _.pull($scope.project.notebooks, notebook); })
+      .catch(function(response) {
+        alert(response.data);
+      });
+    };
+
+    function resolvedPromise() {
+      deferred = $q.defer();
+      deferred.resolve(true);
+      return deferred.promise;
+    }
 
     $scope.editProject = function() {
       $scope.editMode = true;
