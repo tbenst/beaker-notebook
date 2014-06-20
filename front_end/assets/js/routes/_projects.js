@@ -65,8 +65,8 @@
             template: templates.notebook
           },
           "nav@projects": {
-            controller: 'project',
-            template: templates.notebook_list
+            controller: 'projectsList',
+            template: templates.project_list
           }
         }
       })

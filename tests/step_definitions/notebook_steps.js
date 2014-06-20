@@ -109,12 +109,6 @@ module.exports = function() {
     return (new this.Widgets.NotebookList).getNames().should.eventually.deep.equal(expected);
   });
 
-  this.Then(/^I should see the following notebooks in the gutter:$/, function(table, callback) {
-    var expected = _.pluck(table.hashes(), 'name');
-
-    return (new this.Widgets.NotebookGutterList).getNames().should.eventually.deep.equal(expected);
-  });
-
   this.When(/^I close the notebook$/, function(callback) {
     var _this = this;
     return (new this.Widgets.Notebook()).close().then(function() {
