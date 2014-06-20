@@ -114,7 +114,8 @@
         $scope.updateUI = function(evaluator) {
           if ($scope.cm && evaluator) {
             $scope.cm.setOption("mode", evaluator.cmMode);
-            $scope.cellmodel.evaluatorReader = true;
+            var bg = evaluator.background ? evaluator.background : "white";
+            $($scope.cm.getWrapperElement()).css("background", bg);
           }
         };
         $scope.$watch("getEvaluator()", function(newValue, oldValue) {
@@ -378,6 +379,19 @@
           menu.css("left", clicked ? event.clientX - 150 : "");
           menu.find('.dropdown-toggle').first().dropdown('toggle');
         };
+        inputMenuDiv.click(function(event) {
+          if (bkUtils.getEventOffsetX(inputMenuDiv, event) >= inputMenuDiv.width()) {
+            scope.popupMenu(event);
+            event.stopPropagation();
+          }
+        });
+        inputMenuDiv.mousemove(function(event) {
+          if (bkUtils.getEventOffsetX(inputMenuDiv, event) >= inputMenuDiv.width()) {
+            inputMenuDiv.css('cursor', 'pointer');
+          } else {
+            inputMenuDiv.css('cursor', 'default');
+          }
+        });
 
         if (scope.isInitializationCell()) {
           element.closest(".bkcell").addClass("initcell");
