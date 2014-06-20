@@ -69,7 +69,8 @@
       $scope.currentFilters = getSelectedFilters();
     }
 
-    function resetDataSets() {
+    function resetDataSets(observedChange) {
+      if (observedChange === undefined) return;
       $scope.marketPlace.currentPage = 1;
       getDataSets();
     }
