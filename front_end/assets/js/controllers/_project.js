@@ -1,5 +1,5 @@
 !(function(angular, app) {
-  app.controller('project', ['$scope', '$state', '$q', 'Factories', 'Notebooks', '$upload', 'Restangular', '$sessionStorage', 'WindowMessageService', function($scope, $state, $q, Factories, Notebooks, $upload, Restangular, $sessionStorage, WindowMessageService) {
+  app.controller('project', ['$scope', '$rootScope', '$state', '$q', 'Factories', 'Notebooks', '$upload', 'Restangular', '$sessionStorage', 'WindowMessageService', function($scope, $rootScope, $state, $q, Factories, Notebooks, $upload, Restangular, $sessionStorage, WindowMessageService) {
     var F = Factories;
     $scope.editMode = false;
 
@@ -11,7 +11,7 @@
 
     $scope.loadProject();
 
-    $scope.$on('window-message-notebook-create', function(event, notebook) {
+    $rootScope.$on('window-message-notebook-create', function(event, notebook) {
       $state.go('projects.items.item.notebook', { notebook_id: notebook.id });
     });
 
