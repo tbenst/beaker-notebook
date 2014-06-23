@@ -127,10 +127,7 @@ module.exports = function() {
   this.When(/^I move the "([^"]*)" notebook to the "([^"]*)" project$/, function(n, p) {
     var _this = this;
     var notebookList = new this.Widgets.NotebookList();
-    return notebookList.move(n)
-      .then(function() {
-        return (new _this.Widgets.ProjectSelector).clickByName(p);
-      });
+    return notebookList.move(n, p);
   });
 
   this.When(/^I rename the "([^"]*)" notebook to "([^"]*)"$/, function(notebook, newName) {

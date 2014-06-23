@@ -2,7 +2,7 @@
   position relative
   cursor pointer
   &:hover
-    .dropdown
+    > .dropdown
       display block
 
 .options
@@ -29,17 +29,18 @@
   min-width 120px
   left 0
   top 30px
-  li a
-    text-decoration none
-    width 100%
-    padding 12px 14px 8px 14px
-    color base-step2
-    font-size font-size-base
-    display block
-    &:hover
-      background-color action-blue
-      color white
-      cursor pointer
+  li
+    a, span
+      text-decoration none
+      width 100%
+      padding 12px 14px 8px 14px
+      color base-step2
+      font-size font-size-base
+      display block
+      &:hover
+        background-color action-blue
+        color white
+        cursor pointer
   &.dropright
     top 0
     left 100%
