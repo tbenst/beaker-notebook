@@ -44,8 +44,8 @@ Feature: Use Notebooks
     And I view the notebook "powderpuff girls"
     Then I should see the following open notebooks:
       | name              |
-      | top secret        |
       | powderpuff girls  |
+      | top secret        |
 
   Scenario: Renaming Notebook from Listing
     When I open the "ghost of tom jones" project
@@ -109,7 +109,11 @@ Feature: Use Notebooks
     And I view my projects
     And I open the "ghost of tom jones" project
     And I view the notebook "powderpuff girls"
-    And I close the open notebook "top secret"
+    Then I should see the following open notebooks:
+      | name             |
+      | powderpuff girls |
+      | top secret       |
+    When I close the open notebook "top secret"
     Then I should see the following open notebooks:
       | name             |
       | powderpuff girls |
