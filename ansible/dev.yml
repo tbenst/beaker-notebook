@@ -5,5 +5,3 @@
   roles:
     - common
     - docker
-    - squid
-    - iptables
