@@ -1,5 +1,0 @@
----
-
-- name: reload squid
-  sudo: yes
-  service: name=squid3 state=reloaded
