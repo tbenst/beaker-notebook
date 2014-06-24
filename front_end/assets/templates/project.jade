@@ -21,19 +21,16 @@
   .section-padding.section-padding-top.project-overview
     .col-half.project-first-col
       h4 Properties
-      ul.property-list
+      ul.property-list.small
         li.property-list-item
-          span.text-small
-            span.project-property-label Last used
-            span.project-property-value {{project.lastExecuted || "N/A" | date: 'M/d, h:mma'}}
+          span.property-label Last used
+          span.property-value {{project.lastExecuted || "N/A" | date: 'M/d, h:mma'}}
         li.property-list-item
-          span.text-small
-            span.project-property-label Updated
-            span.project-property-value.last-updated {{project.lastUpdatedAt | date: 'M/d, h:mma'}}
+          span.property-label Updated
+          span.property-value.last-updated {{project.lastUpdatedAt | date: 'M/d, h:mma'}}
         li.property-list-item
-          span.text-small
-            span.project-property-label Commits
-            span.project-property-value {{project.numCommits}}
+          span.property-label Commits
+          span.property-value {{project.numCommits}}
 
     .col-half.col-last
       h4 Recently Used Notebooks
