@@ -54,7 +54,7 @@ h3.sidebar-box-header
   li
     position relative
 
-.sidebar-box-list-link
+.sidebar-box-list-item
   width 100%
   color white
   padding 13px spacing-block spacing-block-small 14px
@@ -62,6 +62,9 @@ h3.sidebar-box-header
   border-bottom 1px solid darken(action-strong-blue, 5%)
   text-decoration none
   display inline-block
+
+.sidebar-box-list-link
+  @extend .sidebar-box-list-item
   &.active
     background-color action-blue
     font-weight normal
