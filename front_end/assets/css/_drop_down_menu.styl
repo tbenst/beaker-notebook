@@ -1,8 +1,17 @@
 .dropdown-toggle
   position relative
   cursor pointer
+  > .dropdown, > .dropdown-wrapper
+    display none
+    position absolute
+    left 0
+    top 30px
+    z-index 10
+    &.dropright
+      top 0
+      left 100%
   &:hover
-    .dropdown
+    > .dropdown, > .dropdown-wrapper
       display block
 
 .options
@@ -21,25 +30,21 @@
       background-color transparent
 
 .dropdown
-  z-index 10
-  display none
   background-color white
-  box-shadow 0 2px 2px rgba(0,0,0,0.2)
-  position absolute
+  box-shadow 1px 1px 6px 1px rgba(17,17,17,0.15)
   min-width 120px
-  left 0
-  top 30px
-  li a
-    text-decoration none
-    width 100%
-    padding 12px 14px 8px 14px
-    color base-step2
-    font-size font-size-base
-    display block
-    &:hover
-      background-color action-blue
-      color white
-      cursor pointer
-  &.dropright
-    top 0
-    left 100%
+  li
+    a, span
+      text-decoration none
+      width 100%
+      padding 12px 14px 8px 14px
+      color base-step2
+      font-size font-size-base
+      display block
+      &:hover
+        background-color action-blue
+        color white
+        cursor pointer
+
+.dropdown .dropdown-wrapper // submenu
+  padding-left 4px

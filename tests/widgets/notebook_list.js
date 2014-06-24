@@ -4,6 +4,8 @@ module.exports = function() {
     root: '.notebook-list',
     itemSelector: '.single-notebook',
     nameSelector: 'h2 a',
+    otherProjectsDropdownSelector: '.project-selector',
+    projectSelectorNames: '.project-selector li a',
 
     clickByName: function(name) {
       var _this = this;
@@ -19,6 +21,14 @@ module.exports = function() {
           return items[names.indexOf(name)];
         });
       });
+    },
+
+    findProjectInDropdown: function(item, name) {
+      return this.getProjectNames(item).then(function(names) {
+        return item.findAll(this.projectSelectorNames).then(function(items) {
+          return items[names.indexOf(name)];
+        }.bind(this));
+      }.bind(this));
     },
 
     openRenameModal: function(name) {
@@ -49,8 +59,14 @@ module.exports = function() {
         // for some reason this now requires a double click in test
         // but not in actual env... :(
         return renameModal.click('.save').then(function() {
-          renameModal.click('.save');
+          return renameModal.click('.save');
         });
+      });
+    },
+
+    getProjectNames: function(item) {
+      return $.map(item.findAll(this.projectSelectorNames), function(n) {
+        return n.getInnerHtml();
       });
     },
 
@@ -60,13 +76,16 @@ module.exports = function() {
       });
     },
 
-    move: function(name) {
-      return this.findNotebook(name).then(function(item) {
+    move: function(notebook, project) {
+      return this.findNotebook(notebook).then(function(item) {
         return new World.Widgets.Dropdown().show(item.root)
-               .then(function() {
-                 return item.find('.notebook-move a').click();
-               });
-      });
+          .then(function() { return new World.Widgets.Dropdown().show(item.root + ' .move'); })
+          .then(function() {
+            return this.findProjectInDropdown(item, project).then(function(element) {
+              return element.click();
+            });
+          }.bind(this));
+      }.bind(this));
     }
   });
 };

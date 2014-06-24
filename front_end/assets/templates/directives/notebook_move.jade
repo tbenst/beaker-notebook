@@ -1,5 +1,5 @@
-li.notebook-move
-  a(ng-click="toggleMenu()") Move
-  ul.project-selector(ng-if="open")
+| Move
+.dropdown-wrapper.dropright
+  ul.dropdown.project-selector
     li(ng-repeat="project in otherProjects")
       a.project(ng-click="moveTo({projectId: project.id, projectName: project.name})") {{project.name}}

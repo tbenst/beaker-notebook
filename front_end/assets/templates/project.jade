@@ -64,7 +64,7 @@
                 li
                   a.rename(rename-notebook-toggle ng-click="showRenameModal()") Rename
                 li
-                  a(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)") Move
+                  span.move.dropdown-toggle(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)")
                 li
                   a.destroy(confirm="Are you sure you want to delete {{ notebook.name }}?" on-confirm="deleteNotebook(notebook)") Delete
         .cl
