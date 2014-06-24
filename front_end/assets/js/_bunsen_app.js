@@ -13,7 +13,8 @@
      'filterMarketPlace',
      'sticky',
      'hiddenUpload',
-     'truncate'
+     'truncate',
+     'angularSpinner'
     ], ['RestangularProvider', function(RestangularProvider) {
       RestangularProvider.setBaseUrl(window.BUNSEN_SERVICES.api);
     }]);

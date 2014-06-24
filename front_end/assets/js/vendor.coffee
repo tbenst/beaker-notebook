@@ -9,3 +9,5 @@
 #= require "../../bower_components/ng-file-upload/angular-file-upload.js"
 #= require "../../bower_components/sizzle/dist/sizzle.js"
 #= require "../../bower_components/angular-sticky/sticky.js"
+#= require "../../bower_components/spin.js/spin.js"
+#= require "../../bower_components/angular-spinner/angular-spinner.js"
