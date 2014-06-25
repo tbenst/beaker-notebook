@@ -12,8 +12,11 @@ module.exports = function() {
   this.Then(/^I should see the following datasets:$/, function(table) {
     var subscriptions = new this.Widgets.SubscriptionList();
     var expectedTitles = _.pluck(table.hashes(), 'title');
+    var expectedDescriptions = _.pluck(table.hashes(), 'description');
 
-    return subscriptions.titles().should.eventually.deep.equal(expectedTitles);
+    return subscriptions.titles().should.eventually.deep.equal(expectedTitles).then(function() {
+      subscriptions.descriptions().should.eventually.deep.equal(expectedDescriptions);
+    });
   });
 
   this.When(/^I view the "([^"]*)" dataset$/, function(title) {

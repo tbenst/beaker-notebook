@@ -28,6 +28,10 @@ module.exports = function() {
       return this._readAll(this.linkSelector);
     },
 
+    descriptions: function() {
+      return this._readAll('.description');
+    },
+
     clickOn: function(title) {
       return this.findDataset(title)
       .then(function(dataset) {
