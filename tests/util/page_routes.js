@@ -7,6 +7,7 @@ module.exports = function() {
     home: config.url,
     signIn: config.url+"#/sign_in",
     market: config.url+"#/market_place",
+    subscriptions: config.url+"#/subscriptions",
     projectDashboard: config.url + "#/projects",
     forProject: function(project) {
       return util.format('%s#/projects/%s', config.url, project.id);

@@ -2,6 +2,10 @@ module.exports = function() {
   return this.Widgets.MarketItem = this.Widget.extend({
     root: '.marketplace',
 
+    title: function() {
+      return this.read('h1');
+    },
+
     description: function() {
       return this.read('.market-description');
     },
