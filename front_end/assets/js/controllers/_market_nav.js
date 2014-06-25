@@ -7,22 +7,6 @@
       nodeChildren: "children"
     }
 
-    function getDataSets() {
-      $scope.marketPlace.currentPage = 1;
-
-      F.DataSets.getDataSets($scope.marketPlace).then(function(d) {
-        $scope.marketPlace.data = d;
-      });
-
-      F.RelatedTags.getTags($scope.marketPlace).then(function(tags) {
-        $scope.marketPlace.relatedTags = tags;
-      });
-
-      F.DataSets.getCount($scope.marketPlace).then(function(count) {
-        $scope.marketPlace.totalItems = count;
-      });
-    }
-
     function clearSearch() {
       var deleteList = ['categoryID', 'vendorScope', 'typeScope', 'tagScope', 'searchTerm', 'searchScope'];
       _.each(deleteList, function(i) {
@@ -34,12 +18,10 @@
       clearSearch();
       _.extend($scope.marketPlace, preserve);
       $state.go('marketPlace.items');
-      getDataSets();
     }
 
     $scope.onTreeSelection = function(node) {
       newSearch({categoryID: node.id});
-      $scope.marketPlace.currentCategory = node;
     }
 
     $scope.searchByTag = function(tag) {
