@@ -133,9 +133,11 @@ module.exports = function(Bookshelf, app) {
 
     searchTermQueryBuilder: function(q, term) {
       return q.join('Vendors', 'Vendors.id', '=', 'DataSets.vendorId', 'left')
-        .where('title', 'ILIKE', '%' + term + '%')
-        .orWhere('DataSets.description', 'ILIKE', '%' + term + '%')
-        .orWhere('Vendors.name', 'ILIKE', '%' + term + '%');
+        .where(function() {
+            this.where('title', 'ILIKE', '%' + term + '%')
+            .orWhere('DataSets.description', 'ILIKE', '%' + term + '%')
+            .orWhere('Vendors.name', 'ILIKE', '%' + term + '%');
+        });
     },
 
     categoryIDQueryBuilder: function(q, id){
