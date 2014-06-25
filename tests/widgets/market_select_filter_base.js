@@ -4,7 +4,9 @@ var bluebird  = require("bluebird");
 module.exports = function() {
   return this.Widgets.MarketSelectFilterBase = this.Widget.extend({
     getSelectedTags: function() {
-      return this.findAll(".selected");
+      return $.map(this.findAll(".selected"), function(tag) {
+        return tag.getInnerHtml();
+      });
     },
 
     showDropdown: function() {

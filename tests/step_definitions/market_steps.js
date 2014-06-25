@@ -176,10 +176,10 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the "([^"]*)" tags selected$/, function(tags, callback) {
+    var expected = tags.split(",")
     var marketTagFilter = new this.Widgets.MarketTagFilter;
-
-    return marketTagFilter.getSelectedTags().then(function(selectedTags) {
-      assert.equal(tags.split(",").length, selectedTags.length);
+    return marketTagFilter.getSelectedTags().then(function(observedTags) {
+      return assert.deepEqual(observedTags, expected);
     });
   });
 

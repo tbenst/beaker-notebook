@@ -1,6 +1,6 @@
 !(function(angular, app) {
 
-  app.controller('marketPlace', ['$scope', 'Factories', 'TagNormalizeService', function($scope, Factories, TagNormalizeService) {
+  app.controller('marketPlace', ['$q', '$scope', 'Factories', 'TagNormalizeService', function($q, $scope, Factories, TagNormalizeService) {
     var F = Factories;
 
     $scope.isItemSelected = function(item, modelScope) {
@@ -53,20 +53,22 @@
       );
     }
 
-    function getDataSets() {
-      F.DataSets.getDataSets($scope.marketPlace).then(function(d) {
-        $scope.marketPlace.data = d;
-      });
+    function getDataSets(newValue, oldValue) {
+      $q.all(
+        F.DataSets.getDataSets($scope.marketPlace).then(function(d) {
+          $scope.marketPlace.data = d;
+        }),
 
-      F.DataSets.getCount($scope.marketPlace).then(function(count) {
-        $scope.marketPlace.totalItems = count;
-      });
+        F.DataSets.getCount($scope.marketPlace).then(function(count) {
+          $scope.marketPlace.totalItems = count;
+        }),
 
-      F.RelatedTags.getTags($scope.marketPlace).then(function(tags) {
-        $scope.marketPlace.relatedTags = tags;
+        F.RelatedTags.getTags($scope.marketPlace).then(function(tags) {
+          $scope.marketPlace.relatedTags = tags;
+        })
+      ).then(function() {
+        $scope.currentFilters = getSelectedFilters();
       });
-
-      $scope.currentFilters = getSelectedFilters();
     }
 
     function resetDataSets(observedChange) {
