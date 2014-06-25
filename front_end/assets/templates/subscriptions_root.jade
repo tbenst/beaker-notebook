@@ -17,4 +17,8 @@
           h2
             a.title(ui-sref="marketPlace.items.item({id: subscription.dataSet.id})") {{subscription.dataSet.title}}
           p.description {{subscription.dataSet.description | words : 30 }}
+          .property-list.small
+            .property-list-item.location
+              .property-label Location
+              .property-value {{subscription.dataSet.remoteFile | dataSetPath}}
         .cl

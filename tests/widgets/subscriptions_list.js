@@ -32,6 +32,10 @@ module.exports = function() {
       return this._readAll('.description');
     },
 
+    locations: function() {
+      return this._readAll('.location .property-value');
+    },
+
     clickOn: function(title) {
       return this.findDataset(title)
       .then(function(dataset) {
