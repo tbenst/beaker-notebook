@@ -9,7 +9,7 @@
           var frameId = 'beaker-frame-'+attrs.notebookId;
           var frameSelector = '#'+frameId;
 
-          if (v.length) {
+          if (v && v.length) {
             if (cached = document.querySelector(frameSelector)) {
               cached.style.display="block";
             } else {
