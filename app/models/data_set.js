@@ -1,5 +1,5 @@
 var _         = require('lodash'),
-    W         = require('when'),
+    Bluebird  = require('bluebird'),
     Pipeline  = require('when/pipeline');
 
 module.exports = function(Bookshelf, app) {
@@ -16,7 +16,7 @@ module.exports = function(Bookshelf, app) {
     touchCategories: function() {
       return this.categories().fetch()
         .then(function(categories) {
-          return W.map(categories.models, function(c) {return c.save()});
+          return Bluebird.map(categories.models, function(c) {return c.save()});
         });
     },
 
@@ -61,22 +61,8 @@ module.exports = function(Bookshelf, app) {
         .orderBy('format', 'ASC')
     },
 
-    findAllSql: function() {
-      return query('DataSets').select().toString();
-    },
-
-    findMatchingSql: function(filters) {
-      return this.getQueries(filters).then(function(queries) {
-        if (queries.length === 0) {
-          return DataSet.findAllSql();
-        }
-
-        return queries.join("\nINTERSECT\n");
-      });
-    },
-
     findMatching: function(filters, options) {
-      return this.findMatchingSql(filters).then(function(sql) {
+      return this.getQuerySql(filters).then(function(sql) {
         return query().select()
           .from(query.raw('(' + sql + ') AS matching'))
           .limit(options['limit'])
@@ -85,7 +71,7 @@ module.exports = function(Bookshelf, app) {
     },
 
     findMatchingCount: function(filters) {
-      return this.findMatchingSql(filters).then(function(sql) {
+      return this.getQuerySql(filters).then(function(sql) {
         return query()
           .count('matching.id AS matchingCount')
           .from(query.raw('(' + sql + ') AS matching'));
@@ -93,7 +79,7 @@ module.exports = function(Bookshelf, app) {
     },
 
     findMatchingTags: function(filters) {
-      return this.findMatchingSql(filters).then(function(sql) {
+      return this.getQuerySql(filters).then(function(sql) {
         return query()
           .select('DataTags.*')
           .count('DataTags.id AS tagCount')
@@ -106,20 +92,22 @@ module.exports = function(Bookshelf, app) {
     },
 
     // loops over the filter keys to see if anything was passed via query params
-    // if something was loop over the query builders and build N queries.
-    getQueries: function(filters) {
+    // if something was loop over the query builders and construct combined sql
+    getQuerySql: function(filters) {
       var filterKeys  = ["vendorIDs", "categoryID", "tagIDs", "formats", "searchTerm", "searchScope"];
 
-      return W.all(_(filterKeys).map(function(key) {
+      var q = query('DataSets').select('DataSets.*');
+      return Bluebird.each(filterKeys, function(key) {
         if (filters[key]) {
-          return this[key+"QueryBuilder"](decodeURIComponent(filters[key]));
+          q = this[key+"QueryBuilder"](q, decodeURIComponent(filters[key]));
         }
-      }, this).compact().value());
+      }.bind(this)).then(function() {
+        return q.toString();
+      });;
     },
 
-    formatsQueryBuilder: function(names) {
-      return query('DataSets').select('DataSets.*')
-        .whereIn('format', names.split(",")).toString();
+    formatsQueryBuilder: function(q, names) {
+      return q.whereIn('format', names.split(","));
     },
 
     numIds: function(s) {
@@ -129,54 +117,38 @@ module.exports = function(Bookshelf, app) {
       return _(s.split(",")).map(function(i) {return +i}).value();
     },
 
-    tagIDsQueryBuilder: function(ids) {
-      return query('DataSets').select('DataSets.*')
-        .distinct()
+    tagIDsQueryBuilder: function(q, ids) {
+      return q.distinct()
         .join('DataSetsDataTags', 'DataSets.id', '=', 'DataSetsDataTags.dataSetId')
-        .whereIn('dataTagId', this.numIds(ids)).toString();
+        .whereIn('dataTagId', this.numIds(ids));
     },
 
-    vendorIDsQueryBuilder: function(ids) {
-      return query('DataSets').select('DataSets.*')
-        .whereIn('vendorId', this.numIds(ids)).toString();
+    vendorIDsQueryBuilder: function(q, ids) {
+      return q.whereIn('vendorId', this.numIds(ids));
     },
 
-    searchScopeQueryBuilder: function(term) {
-      return this.searchTermQueryBuilder(term);
+    searchScopeQueryBuilder: function(q, term) {
+      return this.searchTermQueryBuilder(q, term);
     },
 
-    searchTermQueryBuilder: function(term) {
-      return query('DataSets')
-        .select('DataSets.*')
-        .join('Vendors', 'Vendors.id', '=', 'DataSets.vendorId', 'left')
+    searchTermQueryBuilder: function(q, term) {
+      return q.join('Vendors', 'Vendors.id', '=', 'DataSets.vendorId', 'left')
         .where('title', 'ILIKE', '%' + term + '%')
         .orWhere('description', 'ILIKE', '%' + term + '%')
-        .orWhere('Vendors.name', 'ILIKE', '%' + term + '%')
-        .toString();
+        .orWhere('Vendors.name', 'ILIKE', '%' + term + '%');
     },
 
-    categoryIDQueryBuilder: function(id){
-      var Category = models.Category;
-
-      return new Category({id: id}).fetch()
-        .then(function(category) {
-          return Category.collection()
-            .query('whereRaw', "path <@ '" + category.get('path') + "'") // ltree expression to find all categories that belong to a sub-tree which starts in the current category (including it)
-            .fetch()
-            .then(function(fetched) {
-              var ids = _.map(fetched.models, function(c) {return c.id});
-              return query('DataSets').select('DataSets.*')
-                .join('DataSetsCategories', 'DataSets.id', '=', 'DataSetsCategories.dataSetId')
-                .whereIn('categoryId', ids).toString();
-          });
-      });
+    categoryIDQueryBuilder: function(q, id){
+      return q.join('DataSetsCategories', 'DataSets.id', '=', 'DataSetsCategories.dataSetId').
+        join('Categories', 'Categories.id', '=', 'DataSetsCategories.categoryId').
+        whereRaw('path <@ (select path from "Categories" where id = ?)', [id]);
     },
 
     taggedWith: function(tags, excludeIds) {
       if (!tags || tags.length == 0) {
         // return no results. workaround for a shortcoming in KNEX.
         // "where in ()" is invalid SQL.
-        return query('DataSets').whereNull('id');
+        return q('DataSets').whereNull('id');
       }
       var q = query('DataSets')
         .select('DataSets.*')
