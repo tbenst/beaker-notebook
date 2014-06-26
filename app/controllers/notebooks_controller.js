@@ -56,7 +56,14 @@ module.exports = function(app) {
       .then(function() {
         res.json(200);
       })
-      .catch(next);
+      .catch(function(e) {
+        if (e instanceof SyntaxError) {
+          return res.status(422).json({
+            error: 'Invalid notebook contents: ' + e.message
+          });
+        }
+        return next(e);
+      });
     },
 
     get: function(req, res, next) {

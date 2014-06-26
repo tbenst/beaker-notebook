@@ -139,6 +139,11 @@ Feature: Use Notebooks
       | powderpuff girls   |
       | top secret         |
 
+  Scenario: Importing an invalid notebook should show an error message
+   When I open the "ghost of tom jones" project
+   And I import the notebook by uploading the "doge.jpg" file
+   Then I should see a notebook import error message
+
   Scenario: Moving a notebook between projects
     Given I have the following Projects:
       | name             | description                          |
