@@ -1,13 +1,21 @@
 !(function(angular, app) {
-  app.controller('marketItem', ['$scope', '$rootScope', '$state', 'Factories', 'Restangular', '$sessionStorage', function($scope, $rootScope, $state, Factories, Restangular, $sessionStorage) {
+  app.controller('marketItem', ['$scope', '$rootScope', '$state', 'Factories', 'Restangular', '$sessionStorage', 'DataFormatService', function($scope, $rootScope,$state, Factories, Restangular, $sessionStorage, DataFormatService) {
     var R = Restangular;
     var F = Factories;
+    var DFS = DataFormatService;
 
     $scope.item = {};
 
     F.DataSets.getDataSet($state.params.id).then(function(d) {
       $scope.item = d;
       $scope.subscribed = !!(_.findWhere(d.users, {id: $sessionStorage.currentUser.id}));
+      if ($scope.item.csvPreview) {
+        $scope.item.tabView = 'table';
+        $scope.tableDataPreview = DFS.buildTable($scope.item);
+      }
+      else if ($scope.item.dataPreviews !== undefined ) {
+        $scope.item.tabView = 'thumbnail';
+      }
     });
 
     F.Vendors.getVendors({}).then(function(v) {

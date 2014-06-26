@@ -54,4 +54,39 @@
 .data-preview-contain
   border 1px solid base-step5
   padding spacing-block-small
+  overflow auto
 
+ul.tabs
+  border 1px solid base-step5
+  overflow hidden
+  height 40px
+
+  li.tab
+    cursor pointer
+    display inline-block
+    padding 10px
+    border-right 1px solid base-step5
+    height 100%
+    min-width 80px
+
+  li.active
+    border-top 2px solid blue
+
+.preview-table
+  margin 0 auto
+  border-collapse collapse
+
+.preview-table,
+.table-header,
+.table-data
+  border 1px solid base-step4
+
+.table-header
+  text-transform capitalize
+  text-align center
+  padding 10px
+  min-width 80px
+  background-color base-step5
+
+.table-data
+  padding 10px

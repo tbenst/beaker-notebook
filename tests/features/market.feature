@@ -287,3 +287,38 @@ As a researcher, I want to be able to use the market place.
     When I view the market search
     And I click "Government"
     Then I should not see a category description
+
+  Scenario: Market item without a csv preview or thumbnail
+    When I have a market item with no csv preview and no thumbnail
+    And I view the market search
+    And I view the "Sans Previews" market item
+    Then I should not see any previews
+
+  Scenario: Market item with only a csv preview
+    When I have a market item with only a csv preview
+    And I view the market search
+    And I view the "CSV Preview" market item
+    Then I should see 1 tab
+    And I should see an active tab of "Tables"
+
+  Scenario: Market item with only a thumbnail
+    When I have a market item with only a thumbnail
+    And I view the market search
+    And I view the "Thumbnail Preview" market item
+    Then I should see 1 tab
+    And I should see an active tab of "Thumbnails"
+
+  Scenario: Market item with a csv preview and a thumbnail
+    When I have a market item with a csv preview and a thumbnail
+    And I view the market search
+    And I view the "Thumbnail and CSV" market item
+    Then I should see 2 tabs
+
+  Scenario: Switching between tabs
+    When I have a market item with a csv preview and a thumbnail
+    And I view the market search
+    And I view the "Thumbnail and CSV" market item
+    And I click the "Tables" tab
+    Then I should see an active tab of "Tables"
+    When I click the "Thumbnails" tab
+    Then I should see an active tab of "Thumbnails"
