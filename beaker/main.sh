@@ -12,9 +12,12 @@ case $i in
 
   Usage: beaker [options]
   Options:
-          -h  --help      Display this message
-          -m  --mount     Mount S3 bucket
-          --shell         Start bash instead of launching beaker.
+          -h  --help        Display this message
+          --mount           Mount S3 bucket
+          --shell           Start bash instead of launching beaker.
+          --role=ROLE       Use IAM role for credentials
+          --mount=MOUNT     Mount S3 bucket at MOUNT
+          --bucket=BUCKET   Name of S3 bucket to mount
 
 EOF
     exit
@@ -26,19 +29,18 @@ cd /home/beaker
 
 if [[ ! -z $bucket ]] && [[ ! -z $mount ]]; then
   # Make fuse device node if it doesn't exist. This line requires --priviliged.
-  [[ -f /dev/fuse ]] || mknod -m 666 /dev/fuse c 10 229
+  [[ -c /dev/fuse ]] || mknod -m 666 /dev/fuse c 10 229
 
   # Create mount point if it doesn't exist.
   [[ -f "$mount" ]] || mkdir -p "$mount"
 
   # Use an IAM role if provided, otherwise get credentials from the environment.
   if [[ ! -z $role ]]; then
-    s3fs="s3fs -o iam_role=$role"
-  else
-    s3fs="s3fs"
+    opts="-o iam_role=$role"
   fi
 
-  "$s3fs" "$bucket" "$mount"
+  chown beaker:beaker $mount
+  su -m beaker -c "/usr/local/bin/s3fs $opts $bucket $mount"
 
   unset AWSACCESSKEID AWSSECRETACCESSKEY
 fi
@@ -46,5 +48,5 @@ fi
 if [[ $shell -eq 1 ]]; then
     exec /bin/bash
 else
-    exec gradle --project-dir /home/beaker/core/config/builds/dev/ run
+    exec su -m beaker -c "gradle --project-dir /home/beaker/core/config/builds/dev/ run"
 fi
