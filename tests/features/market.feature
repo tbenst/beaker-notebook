@@ -60,6 +60,18 @@ As a researcher, I want to be able to use the market place.
     And I return to the market results
     Then I should see the "cat" tags selected
 
+  Scenario: Tags and Category on main market nav are mutually exclusive
+    Given I have the following categories:
+      | name       | path |
+      | Government |  0.1 |
+    And there is a market item with the tags "cat,dog,human"
+    And I view the market search
+    And I filter by search by selecting the "cat" tags
+    Then I should see the "cat" tags selected
+    And I should see that no category is selected
+    When I click "Government"
+    Then I should see that no tags are selected
+
   Scenario: Market items text search
     Given I have the following market items:
       | title                  |

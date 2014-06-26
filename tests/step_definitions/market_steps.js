@@ -183,6 +183,11 @@ module.exports = function() {
     });
   });
 
+  this.Then(/^I should see that no tags are selected$/, function() {
+    var marketTagFilter = new this.Widgets.MarketTagFilter;
+    return marketTagFilter.getSelectedTags().should.eventually.be.empty;
+  });
+
   this.When(/^there is a market item with the vendor "([^"]*)"$/, function(vendors) {
     return seedDataSet.call(this, {vendors: vendors});
   });
@@ -249,6 +254,11 @@ module.exports = function() {
   this.When(/^I click "([^"]*)"$/, function(category) {
     var marketCategory = new this.Widgets.MarketCategory();
     return marketCategory.clickCategory(category);
+  });
+
+  this.Then(/^I should see that no category is selected$/, function() {
+    var marketCategory = new this.Widgets.MarketCategory();
+    return marketCategory.selectedCategoryCount().should.eventually.equal(0);
   });
 
   this.Then(/^I should see a category description$/, function() {

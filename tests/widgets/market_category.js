@@ -6,6 +6,12 @@ module.exports = function() {
       return this.find().then(function() {
         return this.driver.executeScript("Sizzle('"+this.root+":contains(\""+category+"\") .tree-label')[0].click()");
       }.bind(this));
+    },
+
+    selectedCategoryCount: function() {
+      return this.findAll('.tree-selected').then(function(elements) {
+        return elements.length;
+      });
     }
 
   });
