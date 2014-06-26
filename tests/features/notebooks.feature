@@ -190,3 +190,13 @@ Feature: Use Notebooks
     And I save my changes to the notebook
     Then I should be in the "powderpuff girls" notebook
 
+  Scenario: Deleting associated notebooks when deleting a project
+    When I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    And I view my projects
+    And I open the "ghost of tom jones" project
+    When I edit the project
+    And I delete the project
+    And I should see 0 recent notebooks
+    And I should see 0 open notebooks
+
