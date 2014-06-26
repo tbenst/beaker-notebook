@@ -13,7 +13,7 @@ module.exports = function() {
 
     attachFile: function(file) {
       return this.find(this.fileUploadSelector).sendKeys(
-        path.resolve('../app/seed_files', file));
+        path.resolve('fixtures/', file));
     }
   });
 };
