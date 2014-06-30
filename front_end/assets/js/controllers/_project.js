@@ -68,12 +68,17 @@
 
     $scope.deleteProject = function() {
       F.Projects.deleteProject($state.params.id).then(function() {
-        // We have to make sure to delete the
-        // project from the internal
-        // scope project list.
+        // We have to make sure to delete the project and all its notebooks
+        // from the internal scope lists.
         $scope.projects.list =  _.where($scope.projects.list, function(p) {
           return p.id !== +$state.params.id;
         });
+        Notebooks.setRecentNotebooks(_.where(Notebooks.getRecentNotebooks(), function(n) {
+          return n.projectId !== +$state.params.id;
+        }));
+        Notebooks.setOpenNotebooks(_.where(Notebooks.getOpenNotebooks(), function(n) {
+          return n.projectId !== +$state.params.id;
+        }));
         $state.go('projects.items');
       });
     };

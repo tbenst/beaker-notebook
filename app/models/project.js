@@ -36,6 +36,7 @@ module.exports = function(Bookshelf, app) {
 
     initialize: function() {
       this.on("saving", this.validateName);
+      this.on("destroying", this.destroyNotebooks);
     },
 
     validateName: function() {
@@ -67,6 +68,20 @@ module.exports = function(Bookshelf, app) {
           return _.extend(_this.attributes, n);
         });
     },
+
+    notebooks: function() {
+      return this.hasMany(models.Notebook, 'projectId');
+    },
+
+    destroyNotebooks: function() {
+      return this.notebooks().fetch()
+        .then(function(books) {
+          return bluebird.map(books.models, function(book) {
+            return book.destroy();
+          });
+        });
+    }
+
   });
 
   Project = _.extend(Project, {
