@@ -21,3 +21,13 @@ Feature: Subscriptions
     When I view My Datasets
     And I view the "Crime Rates, Canada" dataset
     Then I should see the "Crime Rates, Canada" dataset in the marketplace
+
+  Scenario: Seeing subscription date
+    Given I have the following market items:
+      | title            | remoteFile |
+      | Employment Rates | MONEYS.csv |
+    When I view the market search
+    And I view the "Employment Rates" market item
+    And I subscribe to the market item
+    And I view My Datasets
+    Then I should see the current date for subscription date for "Employment Rates" market item

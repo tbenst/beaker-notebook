@@ -29,4 +29,12 @@ module.exports = function() {
   this.Then(/^I should see the "([^"]*)" dataset in the marketplace$/, function(title) {
     return new this.Widgets.MarketItem().title().should.eventually.equal(title);
   });
+
+  this.Then(/^I should see the current date for subscription date for "([^"]*)" market item$/, function(title) {
+    var d = new Date();
+    var currentDate = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
+    return new this.Widgets.SubscriptionList().findDataset(title).then(function(dataset) {
+      return dataset.purchaseDate().should.eventually.equal(currentDate);
+    });
+  });
 };
