@@ -1,4 +1,4 @@
-.col-three-quarters.market-item-push-down
+.col-three-quarters.market-item-push-down(ng-if="item.title")
   .btn.btn-light.return-to-market-search(ui-sref="marketPlace.items") Back to List
   .market-item-hero
     h1 {{item.title}}
