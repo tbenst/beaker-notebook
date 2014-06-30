@@ -71,6 +71,7 @@
       span(hidden-upload="true")
         a.import.btn-light.btn Import
         input.visibility-hidden.import-notebook(type="file" ng-file-select="onFileSelect($files)" multiple)
+        div.error(ng-if="importError") {{ importError }}
 
 .col-quarter.col-expanded-lrg-display
   h3.sidebar-box-header.sidebar-box-header-strong-blue

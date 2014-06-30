@@ -2,6 +2,7 @@
   app.controller('project', ['$scope', '$rootScope', '$state', '$q', 'Factories', 'Notebooks', '$upload', 'Restangular', '$sessionStorage', 'WindowMessageService', function($scope, $rootScope, $state, $q, Factories, Notebooks, $upload, Restangular, $sessionStorage, WindowMessageService) {
     var F = Factories;
     $scope.editMode = false;
+    $scope.importError = null;
 
     $scope.loadProject = function() {
       F.Projects.getProject($state.params.id).then(function(d) {
@@ -85,8 +86,11 @@
           method: 'POST',
           headers: {'Authorization': $sessionStorage.currentUser.token},
           file: file
-        }).then(function() {
+        }).success(function() {
+          $scope.importError = null;
           $scope.loadProject();
+        }).error(function(e) {
+          $scope.importError = e.error;
         });
       })
     };
