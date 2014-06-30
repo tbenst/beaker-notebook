@@ -24,6 +24,11 @@ module.exports = {
             "shellID": null,
             "jsSetting2": "",
             "jsSetting1": ""
+        },
+        {
+            "name": "Node",
+            "plugin": "Node",
+            "shellID": "e6d90182-9272-4b1b-8a70-1fd4b1e0a36a"
         }
     ],
     "cells": [
@@ -46,11 +51,22 @@ module.exports = {
             }
         },
         {
+            "id": "codeZhXco4",
+            "type": "code",
+            "evaluator": "Node",
+            "input": {
+                "body": "// Node.js"
+            },
+            "output": {
+                "selectedType": "Hidden"
+            }
+        },
+        {
             "id": "code301W1U",
             "type": "code",
             "evaluator": "JavaScript",
             "input": {
-                "body": "//JavaScript"
+                "body": "// Client-side JavaScript"
             },
             "output": {
                 "selectedType": "Hidden"
