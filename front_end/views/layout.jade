@@ -18,6 +18,8 @@ html(ng-app="bunsen")
             li
               a.nav-item.projects(ng-class='$state.includes("projects.**") && "nav-item-active"', ui-sref="projects.items") My Projects
             li
+              a.nav-item.subscriptions(ui-sref-active='nav-item-active', ui-sref="subscriptions.items") My Datasets
+            li
               a.nav-item.market-place(ui-sref-active='nav-item-active', ui-sref="marketPlace.items") Marketplace
           .cl
       .contain

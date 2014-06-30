@@ -13,6 +13,10 @@ module.exports = function(Bookshelf, app) {
       return this.hasMany(app.Models.Notebook, 'userId')
     },
 
+    subscriptions: function() {
+      return this.hasMany(app.Models.Subscription, 'userId');
+    },
+
     addSubscription: function(dataSet) {
       return app.Models.Subscription.forge({
         dataSetId: dataSet.id,

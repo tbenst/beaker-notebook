@@ -68,11 +68,14 @@ module.exports = function() {
       tags: 'test',
       description:  marketItemBase().data.description,
       vendors: '',
+      subscribers: '',
       updateFrequency: marketItemBase().data.updateFrequency
     });
 
     info.tags     = [].concat(info.tags.split(','));
     info.vendors  = [].concat(info.vendors.split(','));
+    info.subscribers = [].concat(info.subscribers.split(','));
+    _.pull(info.subscribers, '');
 
     var _this       = this;
     var marketItem  = marketItemBase();
@@ -103,8 +106,16 @@ module.exports = function() {
         lookup: {"Vendor": info.vendors.map(function(vendorName) { return {name: vendorName}; })}
       }];
 
+      if (info.subscribers.length) {
+        marketItem.associations.push({
+          joinTable: "DataSetsUsers",
+          lookup: {"User": info.subscribers.map(function(userEmail) { return {email: userEmail}; })}
+        });
+      }
+
       delete info.tags;
       delete info.vendors;
+      delete info.subscribers;
 
       return _this.seed.populate(_.merge(marketItem, {
         data: info
@@ -118,6 +129,12 @@ module.exports = function() {
 
   this.Given(/^I have the following market items:$/, function(table, callback) {
     return bluebird.map(table.hashes(), _.bind(seedDataSet, this));
+  });
+
+  this.Given(/^I'm subscribed to the following market items:$/, function(table, callback) {
+    return bluebird.map(table.hashes(), function(row) {
+      return seedDataSet.bind(this, _.merge(row, { subscribers: 'u@r.edu' }))();
+    }.bind(this));
   });
 
   this.When(/^I view the market search$/, function(callback) {
