@@ -126,7 +126,7 @@ module.exports = function() {
 
   this.When(/^I should see a notebook import error message$/, function() {
     var importWidget = new this.Widgets.ImportNotebooks();
-    return importWidget.errorMessage().should.eventually.include('Invalid');
+    return importWidget.errorMessage().should.eventually.include('valid');
   });
 
   this.When(/^I move the "([^"]*)" notebook to the "([^"]*)" project$/, function(n, p) {
