@@ -1,7 +1,16 @@
 module.exports = function() {
-  return this.Widgets.SubscriptionList = this.Widget.List.extend({
+  this.Widgets.Subscription = this.Widget.List.extend({
+    root: '.subscription-list-item',
+
+    purchaseDate: function() {
+      return this.read('.purchase-date .property-value');
+    }
+  });
+
+  this.Widgets.SubscriptionList = this.Widget.List.extend({
     root: '.subscription-list',
     itemSelector: '.subscription-list-item',
+    itemClass: this.Widgets.Subscription,
     linkSelector: 'h2 a',
 
     findDataset: function(title) {
