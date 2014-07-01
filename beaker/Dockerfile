@@ -24,7 +24,11 @@ RUN apt-get update -qq && \
       oracle-java7-set-default \
       oracle-jdk7-installer \
       python \
+      python-scipy \
       python-dev \
+      python-matplotlib \
+      python-numpy \
+      python-pandas \
       python-pip \
       s3fs-fuse && \
     apt-get clean
