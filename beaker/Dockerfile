@@ -28,7 +28,6 @@ RUN apt-get update -qq && \
       python-dev \
       python-matplotlib \
       python-numpy \
-      python-pandas \
       python-pip \
       s3fs-fuse && \
     apt-get clean
