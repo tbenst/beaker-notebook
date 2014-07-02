@@ -24,6 +24,7 @@ RUN apt-get update -qq && \
       oracle-java7-set-default \
       oracle-jdk7-installer \
       python \
+      python-pandas \
       python-scipy \
       python-dev \
       python-matplotlib \
