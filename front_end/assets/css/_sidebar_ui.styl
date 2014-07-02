@@ -1,3 +1,5 @@
+close-icon-width = 10px
+
 .sidebar-box
   padding spacing-block
   background-color action-strong-blue
@@ -57,11 +59,14 @@ h3.sidebar-box-header
 .sidebar-box-list-item
   width 100%
   color white
-  padding 13px spacing-block spacing-block-small 14px
+  padding 13px spacing-block+close-icon-width spacing-block-small 14px
   font-size font-size-base
   border-bottom 1px solid darken(action-strong-blue, 5%)
   text-decoration none
-  display inline-block
+  display block
+  overflow hidden
+  white-space nowrap
+  text-overflow ellipsis
 
 .sidebar-box-list-link
   @extend .sidebar-box-list-item
