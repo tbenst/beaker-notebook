@@ -29,6 +29,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     d.vm.network :forwarded_port, guest: 8801, host: 8801, auto_correct: true # beaker
     d.vm.network :forwarded_port, guest: 8800, host: 8800, auto_correct: true # test beaker
     d.vm.network :forwarded_port, guest: 3001, host: 3001, auto_correct: true # provisioner
+    d.vm.network :forwarded_port, guest: 3002, host: 3002, auto_correct: true # test provisioner
 
     d.vm.provision :ansible do |a|
       a.playbook   = "ansible/dev.yml"

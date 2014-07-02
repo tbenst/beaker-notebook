@@ -3,6 +3,7 @@ apptests:
   command: "--migrate --delay=15"
   links:
     - "dbtests:db"
+    - "provisionertests:provisioner"
   ports:
     - "2999:3000"
   volumes:
@@ -27,3 +28,11 @@ beakertests:
   build: ../beaker
   ports:
     - "8800:8801"
+provisionertests:
+  build: ../provisioner
+  ports:
+    - "3002:3001"
+  volumes:
+    - "/var/run/docker.sock:/var/run/docker.sock"
+  environment:
+    NODE_ENV: test
