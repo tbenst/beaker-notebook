@@ -10,5 +10,5 @@ h3.sidebar-box-header
 .sidebar-box.padding-reset
   ul.project-results.sidebar-box-list
     li(ng-if="projects.list.length === 0") no projects yet.
-    li(ng-repeat="project in projects.list")
+    li(ng-repeat="project in projects.list | orderBy:'name'")
       a.sidebar-box-list-link.project(ui-sref-active="active", ui-sref="projects.items.item({id: project.id})") {{project.name}}
