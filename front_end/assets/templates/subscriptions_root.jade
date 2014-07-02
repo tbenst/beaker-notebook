@@ -1,18 +1,21 @@
 .subscriptions-root(ng-controller="subscriptionsRoot")
   .col-quarter.subscriptions-sidebar.col-outside.col-expanded-lrg-display
     .nav
+      input.search.full.subscription-search(ng-model="search", placeholder="Search subscriptions...")
+
       h3.sidebar-box-header My Datasets
       .sidebar-box.padding-reset
         ul.sidebar-box-list
           li
             span.sidebar-box-list-item All subscribed sets
               span.right {{subscriptions.length}}
+
       a.btn.btn-block.btn-light(ui-sref="marketPlace.items") Find more datasets &raquo;
 
   .col-three-quarters
     h1 My Datasets
     ul.subscription-list
-      li.subscription-list-item.base-row-item-green(ng-repeat="subscription in subscriptions")
+      li.subscription-list-item.base-row-item-green(ng-repeat="subscription in subscriptions | filter:search")
         .col-three-quarters
           h2
             a.title(ui-sref="marketPlace.items.item({id: subscription.dataSet.id})") {{subscription.dataSet.title}}

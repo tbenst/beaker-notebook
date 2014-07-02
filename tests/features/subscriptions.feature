@@ -31,3 +31,10 @@ Feature: Subscriptions
     And I subscribe to the market item
     And I view My Datasets
     Then I should see the current date for subscription date for "Employment Rates" market item
+
+  Scenario: Searching datasets
+    When I view My Datasets
+    And I search my subscriptions for "Crime Rates"
+    Then I should see the following datasets:
+      | title               | remoteFile | description  |
+      | Crime Rates, Canada | CRIME.xml  | pretty bad   |

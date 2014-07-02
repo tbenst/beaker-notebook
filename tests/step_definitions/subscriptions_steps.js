@@ -5,6 +5,10 @@ module.exports = function() {
     return this.driver.get(this.route.subscriptions);
   });
 
+  this.When(/^I search my subscriptions for "([^"]*)"$/, function(query) {
+    return new this.Widgets.SubscriptionSidebar().search(query);
+  });
+
   this.Then(/^I should see the "([^"]*)" dataset$/, function(title) {
     return new this.Widgets.SubscriptionList().hasDataset(title).should.eventually.be.true;
   });

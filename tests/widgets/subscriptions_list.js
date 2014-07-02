@@ -58,4 +58,12 @@ module.exports = function() {
       });
     }
   });
+
+  this.Widgets.SubscriptionSidebar = this.Widget.extend({
+    root: '.subscriptions-sidebar',
+
+    search: function(query) {
+      return this.fill('.search', query);
+    },
+  });
 };
