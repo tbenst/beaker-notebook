@@ -109,6 +109,11 @@ module.exports = function() {
     });
   });
 
+  this.Then(/^I should see the following project list in the sidebar:$/, function(table) {
+    var expected = _.pluck(table.hashes(), 'name');
+    return new this.Widgets.SidebarProjectList().itemNames().should.eventually.eql(expected);
+  });
+
   this.Then(/^I should see the following project list:$/, function(table) {
     var projectManager = new this.Widgets.ProjectManager();
     var expected = _.map(table.rows(), function(r) {return r[0]});
