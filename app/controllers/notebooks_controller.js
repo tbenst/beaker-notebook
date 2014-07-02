@@ -59,7 +59,7 @@ module.exports = function(app) {
       .catch(function(e) {
         if (e instanceof SyntaxError) {
           return res.status(422).json({
-            error: 'Invalid notebook contents: ' + e.message
+            error: 'Could not import notebook "' + req.files.file.originalFilename + '". Beaker notebooks must contain valid JSON.'
           });
         }
         return next(e);
