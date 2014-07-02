@@ -18,6 +18,7 @@ RUN apt-get update -qq && \
       node-pg \
       node-pm2 \
       node-when \
+      node-restler \
       nodejs-legacy && \
     apt-get clean
 
