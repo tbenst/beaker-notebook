@@ -1,6 +1,8 @@
 module.exports = function(Bookshelf, app) {
   var DataPreview = Bookshelf.Model.extend({
-    tableName: "DataPreviews"
+    tableName: "DataPreviews",
+
+    idAttrs: ["previewUrl"]
   });
 
   return {

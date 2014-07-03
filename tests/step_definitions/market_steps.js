@@ -56,9 +56,9 @@ module.exports = function() {
   this.When(/^there is (\d+) market items$/, function(count, callback) {
     var itemSaves = [];
     for(var i = 0; i < +count; ++i) {
-      itemSaves.push(this.seed.populate(marketItemBase()));
+      itemSaves.push(this.seed.populate(_.merge(marketItemBase(),{
+        data: { title: marketItemBase().data.title + i }})));
     }
-
     return bluebird.all(itemSaves);
   });
 
@@ -169,9 +169,10 @@ module.exports = function() {
     return marketList.items().should.eventually.have.length(+count);
   });
 
-  this.When(/^there is a market item with the format "([^"]*)"$/, function(format, callback) {
+  this.When(/^there is a market item with the title "([^"]*)" and the format "([^"]*)"$/, function(title, format, callback) {
     return this.seed.populate(_.merge(marketItemBase(), {
       data: {
+        title: title,
         format: format
       }
     }));
@@ -322,16 +323,6 @@ module.exports = function() {
 
   this.Then(/^I should see an active tab of "([^"]*)"$/, function(tabName) {
     return (new this.Widgets.MarketItem()).activeTab().should.eventually.equal(tabName)
-  });
-
-  this.When(/^I have a market item with only a csv preview$/, function() {
-    return this.seed.populate(_.merge(marketItemBase(), {
-      data: {
-        title: "CSV Preview",
-        numColumns: 5,
-        csvPreview: 'one,two,three,four,five\n1,2,3,4,5'
-      }
-    }));
   });
 
   this.When(/^I have a market item with only a thumbnail$/, function() {

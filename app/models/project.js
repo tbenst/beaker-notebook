@@ -34,6 +34,8 @@ module.exports = function(Bookshelf, app) {
   var Project = Bookshelf.Model.extend({
     tableName: "Projects",
 
+    idAttrs: ["name"],
+
     initialize: function() {
       this.on("saving", this.validateName);
       this.on("destroying", this.destroyNotebooks);

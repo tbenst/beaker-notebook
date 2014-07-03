@@ -16,8 +16,8 @@ As a researcher, I want to be able to use the market place.
     Then I should see 0 market items on the market list page
 
   Scenario: Filtering market items by format
-    When there is a market item with the format "MAGIC"
-    And there is a market item with the format "CSV"
+    When there is a market item with the title "Item 1" and the format "MAGIC"
+    And there is a market item with the title "Item 2" and the format "CSV"
     And I view the market search
     And I filter by search by selecting the "MAGIC" formats
     Then I should see 1 market item on the market list page
@@ -293,13 +293,6 @@ As a researcher, I want to be able to use the market place.
     And I view the market search
     And I view the "Sans Previews" market item
     Then I should not see any previews
-
-  Scenario: Market item with only a csv preview
-    When I have a market item with only a csv preview
-    And I view the market search
-    And I view the "CSV Preview" market item
-    Then I should see 1 tab
-    And I should see an active tab of "Tables"
 
   Scenario: Market item with only a thumbnail
     When I have a market item with only a thumbnail

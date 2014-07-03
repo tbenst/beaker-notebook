@@ -7,6 +7,7 @@ case $i in
   -s|--seed) seed=1 ;;
   -w|--watch) watch=1 ;;
   --new-migration=*) new_migration="${i#--new-migration=}" ;;
+  --seed-with-file=*) seed_with_file="${i#--seed-with-file=}" ;;
   --delay=*) delay="${i#--delay=}" ;;
   --shell) shell=1 ;;
   -h|--help)
@@ -14,13 +15,14 @@ case $i in
 
   Usage: app [options]
   Options:
-          -h  --help             Display this message
-          --new-migration=(name) Create a new migration
-          -m  --migrate          Run migrations before starting app
-          -s  --seed             Seed database with fake data starting app
-          -w  --watch            Restart server if files change
-          --delay=(secs)         Delay start x seconds
-          --shell                Start interactive shell
+          -h  --help              Display this message
+          --new-migration=(name)  Create a new migration
+          -m  --migrate           Run migrations before starting app
+          -s  --seed              Seed database with fake data starting app
+          --seed-with-file=(file) Seed database with data from specified file starting app
+          -w  --watch             Restart server if files change
+          --delay=(secs)          Delay start x seconds
+          --shell                 Start interactive shell
 
 EOF
     exit
@@ -35,6 +37,7 @@ cd /var/app
 
 [[ -z $delay ]] || sleep $delay
 [[ -z $new_migration ]] || knex migrate:make $new_migration -v --environment=${NODE_ENV-development}
+[[ -z $seed_with_file ]] || node app_seed.js -f $seed_with_file
 [[ $migrate -eq 1 ]] && knex migrate:latest -v --environment=${NODE_ENV-development}
 [[ $seed -eq 1 ]] && node app_seed.js
 

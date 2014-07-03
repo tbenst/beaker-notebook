@@ -68,6 +68,8 @@ function Notebook(Bookshelf, app) {
   var Notebook = Bookshelf.Model.extend({
     tableName: "Notebooks",
 
+    idAttrs: ["name", "projectId"],
+
     initialize: function() {
       this.on("saving", this.ensureName);
     },

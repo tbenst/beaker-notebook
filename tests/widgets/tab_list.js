@@ -3,8 +3,7 @@ module.exports = function() {
     root: '.tabs',
 
     clickTab: function(tab) {
-      var xpath = "return document.evaluate(\"//li[contains(text(),'" + tab + "')]\", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotItem(0)";
-      return this.driver.executeScript(xpath).then(function(li) {
+      return this.driver.findElement(Driver.By.xpath('//*[normalize-space(text())=normalize-space("' + tab + '")]')).then(function(li) {
         return li.click();
       });
     }
