@@ -67,8 +67,11 @@ As a researcher, I want to manage my projects.
       | project c | lorem ipsum c |
       | project b | lorem ipsum b |
       | project a | lorem ipsum a |
-    When I go to my projects
-    Then I should see the following project list:
+    When I view my projects
+    And I open the "project b" project
+    And I make a new notebook
+    And I close the notebook
+    Then I should see the following project list in the sidebar:
       | name      |
       | project a |
       | project b |

@@ -1,4 +1,4 @@
-.col-three-quarters
+.main-content
   .category-hero(ng-if='marketPlace.currentCategory.description')
     .category.col-three-quarters
       h2
@@ -68,7 +68,7 @@
               span.vendor-item-list-value.formats {{item.format}}
             li.last-updated
               span.small-label Updated:&nbsp
-              span.vendor-item-list-value {{item.lastUpdated | date: 'dd/MM/yyyy'}}
+              span.vendor-item-list-value {{item.lastUpdated | date: 'shortDate'}}
         .cl
 
   .pagination-contain

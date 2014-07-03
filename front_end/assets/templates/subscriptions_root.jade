@@ -1,5 +1,5 @@
 .subscriptions-root(ng-controller="subscriptionsRoot")
-  .col-quarter.subscriptions-sidebar.col-outside.col-expanded-lrg-display
+  .sidebar-left.subscriptions-sidebar
     .nav
       input.search.full.subscription-search(ng-model="search", placeholder="Search subscriptions...")
 
@@ -12,7 +12,7 @@
 
       a.btn.btn-block.btn-light(ui-sref="marketPlace.items") Find more datasets &raquo;
 
-  .col-three-quarters
+  .main-content
     h1 My Datasets
     ul.subscription-list
       li.subscription-list-item.base-row-item-green(ng-repeat="subscription in subscriptions | filter:search")

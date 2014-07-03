@@ -1,10 +1,21 @@
-.project-detail.col-half.col-expanded-lrg-display
+.sidebar-right
+  h3.sidebar-box-header.sidebar-box-header-strong-blue
+    | About this project
+    a.sidebar-box-header-icon(ng-click="editProject()")
+      img(src="images/edit.png", width="14", height="14")
+  .sidebar-box.sidebar-box-white
+    p.project-description-display(ng-hide="editMode") {{project.description}}
+    textarea.project-description(name="description", ng-model="project.description" ng-show="editMode")
+      | Project description...
+    a.btn.btn-light.update-project.left(ng-show="editMode", ng-click="updateProject()") Save
+    .cl
+
+.main-content.project-detail
   h1.error(ng-if="error") {{error}}
   h1.project-name
     span(ng-hide="editMode") {{project.name}}
     input(name="name", ng-model="project.name", ng-show="editMode")
   a.btn.btn-light.update-project-top-btn(ng-show="editMode", ng-click="updateProject()") Save
-
 
   .right.project-menu
     span.options.dropdown-toggle
@@ -24,10 +35,10 @@
       ul.property-list.small
         li.property-list-item
           span.property-label Last used
-          span.property-value {{project.lastExecuted || "N/A" | date: 'M/d, h:mma'}}
+          span.property-value {{project.lastExecuted || "N/A" | date: 'short'}}
         li.property-list-item
           span.property-label Updated
-          span.property-value.last-updated {{project.lastUpdatedAt | date: 'M/d, h:mma'}}
+          span.property-value.last-updated {{project.lastUpdatedAt | date: 'short'}}
         li.property-list-item
           span.property-label Commits
           span.property-value {{project.numCommits}}
@@ -54,7 +65,7 @@
 
         .right
           span.text-small.notebook-last-used Last used on:
-            span.text-green {{notebook.updated_at | date: 'M/dd, h:mma'}}
+            span.text-green {{notebook.updated_at | date: 'short'}}
           span.notebook-options
             span.options.dropdown-toggle
               ul.dropdown
@@ -72,16 +83,4 @@
         a.import.btn-light.btn Import
         input.visibility-hidden.import-notebook(type="file" ng-file-select="onFileSelect($files)" multiple)
         div.error(ng-if="importError") {{ importError }}
-
-.col-quarter.col-expanded-lrg-display
-  h3.sidebar-box-header.sidebar-box-header-strong-blue
-    | About this project
-    a.sidebar-box-header-icon(ng-click="editProject()")
-      img(src="images/edit.png", width="14", height="14")
-  .sidebar-box.sidebar-box-white
-    p.project-description-display(ng-hide="editMode") {{project.description}}
-    textarea.project-description(name="description", ng-model="project.description" ng-show="editMode")
-      | Project description...
-    a.btn.btn-light.update-project.left(ng-show="editMode", ng-click="updateProject()") Save
-    .cl
 

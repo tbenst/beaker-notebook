@@ -1,4 +1,5 @@
-page-width = 1200px
+page-width-small = 1150px
+page-width-medium = 1260px
 
 action-blue = #25a7f3
 action-soft-green = #b0e906
@@ -27,4 +28,15 @@ spacing-block-small = 10px
 
 screen-width = 1024px
 
-gutter-width = 2%
+breakpoint-medium = 1375px
+medium = "screen and (min-width: " + breakpoint-medium + ")"
+
+sidebar-width = 240px
+left-gutter-small-width = 40px
+right-gutter-small-width = 30px
+
+left-gutter-medium-width = 80px
+right-gutter-medium-width = 60px
+
+main-content-small-width = page-width-small - sidebar-width - left-gutter-small-width
+main-content-medium-width = page-width-medium - sidebar-width - left-gutter-medium-width

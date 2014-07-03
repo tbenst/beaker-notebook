@@ -1,4 +1,4 @@
-.col-three-quarters.market-item-push-down(ng-if="item.title")
+.main-content.market-item-push-down(ng-if="item.title")
   .btn.btn-light.return-to-market-search(ui-sref="marketPlace.items") Back to List
   .market-item-hero
     h1 {{item.title}}
@@ -27,11 +27,11 @@
 
     .property-row
       .property-label released
-      .property-value {{item.lastUpdated | date: 'dd/MM/yyyy'}}
+      .property-value {{item.lastUpdated | date: 'shortDate'}}
 
     .property-row
       .property-label updated
-      .property-value {{item.lastUpdated | date: 'dd/MM/yyyy'}}
+      .property-value {{item.lastUpdated | date: 'shortDate'}}
 
     .property-row
       .property-label frequency

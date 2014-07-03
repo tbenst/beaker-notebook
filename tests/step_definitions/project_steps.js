@@ -109,6 +109,11 @@ module.exports = function() {
     });
   });
 
+  this.Then(/^I should see the following project list in the sidebar:$/, function(table) {
+    var expected = _.pluck(table.hashes(), 'name');
+    return new this.Widgets.SidebarProjectList().itemNames().should.eventually.eql(expected);
+  });
+
   this.Then(/^I should see the following project list:$/, function(table) {
     var projectManager = new this.Widgets.ProjectManager();
     var expected = _.map(table.rows(), function(r) {return r[0]});
@@ -168,7 +173,7 @@ module.exports = function() {
 
   this.Then(/^I should see last updated as today's date$/, function(callback) {
     var projectDetail = new this.Widgets.ProjectDetail();
-    return projectDetail.updatedAt().should.eventually.contain(moment().format("M/D, h:mma"));
+    return projectDetail.updatedAt().should.eventually.contain(moment().format("M/D/YY h:mm A"));
   });
 
   this.Then(/^I should see the following project results$/, function(table) {
