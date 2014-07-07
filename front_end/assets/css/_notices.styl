@@ -1,0 +1,37 @@
+.notice
+  position relative
+  margin spacing-block + 5px 0
+  font-size font-size-base
+  background white
+  background-repeat no-repeat
+  background-position spacing-block center
+  border 2px solid action-blue
+  box-shadow 0px 1px 2px 0px alpha(#000, 0.26)
+  padding spacing-block
+  padding-bottom spacing-block - 5px
+  notice:first-child &
+    margin-top 0
+  .error &
+    padding-left spacing-block * 2.75
+    color action-red
+    border-color action-red
+    background-image url(unquote('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDE2IDE2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnNrZXRjaD0iaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoL25zIj4KICAgIDwhLS0gR2VuZXJhdG9yOiBTa2V0Y2ggMy4wLjMgKDc4OTEpIC0gaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoIC0tPgogICAgPHRpdGxlPlNoYXBlIDk8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBza2V0Y2g6dHlwZT0iTVNQYWdlIj4KICAgICAgICA8ZyBpZD0iRXhhbXBsZXMiIHNrZXRjaDp0eXBlPSJNU0FydGJvYXJkR3JvdXAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC00MDcuMDAwMDAwLCAtNDA4LjAwMDAwMCkiIGZpbGw9IiNBRjA2MUEiPgogICAgICAgICAgICA8ZyBpZD0iR3JvdXAiIHNrZXRjaDp0eXBlPSJNU0xheWVyR3JvdXAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM4Mi4wMDAwMDAsIDM5MC4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0zMy45NTEyMzQ2LDE4LjY5NzUgQzMzLjY4OTIzNDYsMTguMjMyNSAzMy4zNDQ3MzQ2LDE4IDMyLjk5OTczNDYsMTggQzMyLjY1NDczNDYsMTggMzIuMzEwMjM0NiwxOC4yMzI1IDMyLjA0ODIzNDYsMTguNjk3NSBMMjUuMjE5NzM0NiwzMi4zMDkgQzI0LjY5NTczNDYsMzMuMjM5NSAyNS4xNDE3MzQ2LDM0LjAwMDUgMjYuMjA4NzM0NiwzNC4wMDA1IEwzOS43OTE3MzQ2LDM0LjAwMDUgQzQwLjg1NzczNDYsMzQuMDAwNSA0MS4zMDMyMzQ2LDMzLjI0IDQwLjc3OTczNDYsMzIuMzA5IEwzMy45NTEyMzQ2LDE4LjY5NzUgWiBNMzIuOTk5MjM0NiwzMi4wMDA1IEMzMi40NDY3MzQ2LDMyLjAwMDUgMzEuOTk5MjM0NiwzMS41NTMgMzEuOTk5MjM0NiwzMS4wMDA1IEMzMS45OTkyMzQ2LDMwLjQ0OCAzMi40NDY3MzQ2LDMwLjAwMDUgMzIuOTk5MjM0NiwzMC4wMDA1IEMzMy41NTE3MzQ2LDMwLjAwMDUgMzMuOTk5MjM0NiwzMC40NDggMzMuOTk5MjM0NiwzMS4wMDA1IEMzMy45OTkyMzQ2LDMxLjU1MyAzMy41NTE3MzQ2LDMyLjAwMDUgMzIuOTk5MjM0NiwzMi4wMDA1IEwzMi45OTkyMzQ2LDMyLjAwMDUgWiBNMzMuNjg2NzM0NiwyOS4wMDA1IEwzMi4zMTE3MzQ2LDI5LjAwMDUgTDMxLjk5OTIzNDYsMjUuMDAwNSBDMzEuOTk5MjM0NiwyNC40NDggMzIuNDQ2NzM0NiwyNC4wMDA1IDMyLjk5OTIzNDYsMjQuMDAwNSBDMzMuNTUxNzM0NiwyNC4wMDA1IDMzLjk5OTIzNDYsMjQuNDQ4IDMzLjk5OTIzNDYsMjUuMDAwNSBMMzMuNjg2NzM0NiwyOS4wMDA1IEwzMy42ODY3MzQ2LDI5LjAwMDUgWiIgaWQ9IlNoYXBlLTkiIHNrZXRjaDp0eXBlPSJNU1NoYXBlR3JvdXAiPjwvcGF0aD4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+'))
+
+  close-size = 40px
+
+  .close
+    position absolute
+    cursor pointer
+    top 50%
+    right spacing-block - (close-size/2) + 5px
+    margin-top -(close-size/2)
+    width close-size
+    height close-size
+    &:after
+      content '\00d7'
+      position absolute
+      font-size 1.5em
+      font-weight bold
+      top 50%
+      left 50%
+      margin -0.35em 0 0 -0.2em

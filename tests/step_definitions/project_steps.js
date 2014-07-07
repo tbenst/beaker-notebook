@@ -185,4 +185,11 @@ module.exports = function() {
     return projectDetail.error().should.eventually.contain("already have a project named");
   });
 
+  this.When(/^I dismiss the duplicate project name error message$/, function() {
+    return new this.Widgets.ProjectDetail().dismissError();
+  });
+
+  this.Then(/^I should not see the project duplicate warning$/, function() {
+    return new this.Widgets.ProjectDetail().error().should.eventually.contain("");
+  });
 }

@@ -18,6 +18,10 @@ module.exports = function() {
       return this.read('.error');
     },
 
+    dismissError: function() {
+      return this.click('.error .close');
+    },
+
     description: function() {
       return this.read('.project-description');
     },
