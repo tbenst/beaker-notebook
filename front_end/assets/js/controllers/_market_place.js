@@ -78,17 +78,26 @@
     }
 
     // init pagination
-    $scope.marketPlace.currentPage = 1;
     $scope.marketPlace.itemsPerPage = 10;
     $scope.marketPlace.maxSize = 5;
 
-    F.Formats.getFormats().then(function(d) {
-      $scope.marketPlace.formats = d;
-    });
+    // bootstrap data if first visiting
+    if (!$scope.marketPlace.currentPage) {
+      $scope.marketPlace.currentPage = 1;
+    }
 
-    F.Vendors.getVendors().then(function(v) {
-      $scope.marketPlace.vendors = v;
-    });
+    if (!$scope.marketPlace.formats) {
+      F.Formats.getFormats().then(function(d) {
+        $scope.marketPlace.formats = d;
+      });
+    }
+
+    if (!$scope.marketPlace.vendors) {
+      F.Vendors.getVendors().then(function(v) {
+        $scope.marketPlace.vendors = v;
+      });
+    }
+
 
     $scope.$watch('marketPlace.currentPage', getDataSets);
     $scope.$watchCollection('marketPlace.typeScope', resetDataSets);
