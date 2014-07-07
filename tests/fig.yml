@@ -27,7 +27,7 @@ dbtests:
 beakertests:
   build: ../beaker
   ports:
-    - "8800:8801"
+    - "8801"
 provisionertests:
   build: ../provisioner
   ports:
