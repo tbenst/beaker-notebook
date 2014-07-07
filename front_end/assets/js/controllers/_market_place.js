@@ -83,7 +83,7 @@
     $scope.marketPlace.maxSize = 5;
 
     F.Formats.getFormats().then(function(d) {
-      $scope.formats = d;
+      $scope.marketPlace.formats = d;
     });
 
     F.Vendors.getVendors().then(function(v) {

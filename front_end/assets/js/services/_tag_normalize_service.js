@@ -22,7 +22,7 @@
       normalizeTags: function(tags, modelName, $scope) {
         return _.map(tags, function(tagID) {
           return {
-            "name": _.findWhere($scope.tags, {id: +tagID}).name,
+            "name": _.findWhere($scope.marketPlace.relatedTags, {id: +tagID}).name,
             "value": tagID,
             "model": modelName
           }
