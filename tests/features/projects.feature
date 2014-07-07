@@ -57,6 +57,13 @@ As a researcher, I want to manage my projects.
     And I delete the project
     Then I should see that I have no projects in my list
 
+  Scenario: Cancel Deleting a project
+    Given I'm looking at a project
+    When I edit the project
+    And I go to delete the project
+    And I cancel deleting the project
+    Then I should still be on the project page
+
   Scenario: Empty Project Dashboard Searching
     Given I search for project "ghost of tom jones"
     Then I should see 0 project results.
