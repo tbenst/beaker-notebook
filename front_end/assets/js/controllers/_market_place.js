@@ -78,6 +78,7 @@
 
       F.DataSets.getDataSets($scope.marketPlace).then(function(d) {
         $scope.marketPlace.data = d;
+        window.scrollTo(0,0);
       });
     }
 
