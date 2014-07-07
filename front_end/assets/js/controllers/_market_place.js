@@ -82,10 +82,6 @@
     $scope.marketPlace.itemsPerPage = 10;
     $scope.marketPlace.maxSize = 5;
 
-    F.Tags.getTags().then(function(d) {
-      $scope.tags = d;
-    });
-
     F.Formats.getFormats().then(function(d) {
       $scope.formats = d;
     });
