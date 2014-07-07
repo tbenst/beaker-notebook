@@ -53,7 +53,9 @@
       );
     }
 
-    function getDataSets(newValue, oldValue) {
+    function checkDataSets(newValue, oldValue) { if (newValue !== oldValue) getDataSets(); }
+
+    function getDataSets() {
       $q.all(
         F.DataSets.getDataSets($scope.marketPlace).then(function(d) {
           $scope.marketPlace.data = d;
@@ -98,13 +100,16 @@
       });
     }
 
+    if (!$scope.marketPlace.data) {
+      getDataSets();
+    }
 
-    $scope.$watch('marketPlace.currentPage', getDataSets);
+    $scope.$watch('marketPlace.currentPage', checkDataSets);
     $scope.$watchCollection('marketPlace.typeScope', resetDataSets);
     $scope.$watchCollection('marketPlace.vendorScope', resetDataSets);
     $scope.$watchCollection('marketPlace.tagScope', resetDataSets);
     $scope.$watch('marketPlace.searchScope', resetDataSets);
-    $scope.$watch('marketPlace.currentCategory', getDataSets);
+    $scope.$watch('marketPlace.currentCategory', checkDataSets);
   }]);
 
 })(angular, window.bunsen);
