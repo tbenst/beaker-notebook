@@ -13,7 +13,7 @@ module.exports = function() {
     return new this.Widgets.SubscriptionList().hasDataset(title).should.eventually.be.true;
   });
 
-  this.Then(/^I should see the following datasets:$/, function(table) {
+  this.Then(/^I should see the following subscriptions:$/, function(table) {
     var subscriptions = new this.Widgets.SubscriptionList();
     var expectedTitles = _.pluck(table.hashes(), 'title');
     var expectedDescriptions = _.pluck(table.hashes(), 'description');

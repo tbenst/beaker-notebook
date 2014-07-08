@@ -12,7 +12,7 @@ Feature: Subscriptions
 
   Scenario: Seeing subscribed datasets
     When I view My Datasets
-    Then I should see the following datasets:
+    Then I should see the following subscriptions:
       | title               | remoteFile | description  |
       | Crime Rates, Canada | CRIME.xml  | pretty bad   |
       | Population, Canada  | POP.xml    | somewhat low |
@@ -35,6 +35,6 @@ Feature: Subscriptions
   Scenario: Searching datasets
     When I view My Datasets
     And I search my subscriptions for "Crime Rates"
-    Then I should see the following datasets:
+    Then I should see the following subscriptions:
       | title               | remoteFile | description  |
       | Crime Rates, Canada | CRIME.xml  | pretty bad   |
