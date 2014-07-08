@@ -120,7 +120,9 @@ module.exports = function(Bookshelf, app) {
     tagIDsQueryBuilder: function(q, ids) {
       return q.distinct()
         .join('DataSetsDataTags', 'DataSets.id', '=', 'DataSetsDataTags.dataSetId')
-        .whereIn('dataTagId', this.numIds(ids));
+        .whereIn('dataTagId', this.numIds(ids))
+        .groupBy('DataSets.id')
+        .having(query.raw('count(*) = ' + this.numIds(ids).length));
     },
 
     vendorIDsQueryBuilder: function(q, ids) {
