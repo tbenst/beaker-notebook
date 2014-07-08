@@ -52,6 +52,12 @@ module.exports = function(app) {
       }).catch(next);
     },
 
+    vendorIndex: function(req, res, next) {
+      DataSet.findMatchingVendors(req.query)
+      .then(res.json.bind(res))
+      .catch(next);
+    },
+
     create: function(req, res, next) {
       new DataSet({title: req.params.title}).save()
         .then(function(dataSet) {

@@ -10,7 +10,7 @@
       $scope.subscribed = !!(_.findWhere(d.users, {id: $sessionStorage.currentUser.id}));
     });
 
-    F.Vendors.getVendors().then(function(v) {
+    F.Vendors.getVendors({}).then(function(v) {
       $scope.marketPlace.vendors = v;
     });
 

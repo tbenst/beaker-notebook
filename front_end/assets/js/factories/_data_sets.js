@@ -68,4 +68,12 @@
     };
   }]);
 
+  app.factory('VendorsFactory', ['Restangular', function(Restangular) {
+    return {
+      getVendors: function(scope) {
+        return Restangular.one('data_sets').getList('vendors', buildQuery(scope));
+      }
+    };
+  }]);
+
 })(window.bunsen);
