@@ -91,11 +91,27 @@ module.exports = function() {
     return new this.Widgets.ProjectForm().delete();
   });
 
+  this.When(/^I go to delete the project$/, function() {
+    return new this.Widgets.ProjectForm().goToDelete();
+  });
+
   this.When(/^I should see that I have no projects in my list$/, function(table) {
     return new this.Widgets.ProjectManager().items().should.eventually.have.length(0);
   });
 
   this.Given(/^I am viewing the project dashboard$/, viewProjectDashboard);
+
+  this.When(/^I cancel deleting the project$/, function(callback) {
+    return new this.Widgets.Modal().cancel();
+  });
+
+  this.Then(/^I should still be on the project page$/, function() {
+    return new this.Widgets.ProjectDetail().isPresent().should.eventually.be.true;
+  });
+
+  this.Then(/^I should see that I have (\d+) project(s)? in my list$/, function(count) {
+    return new this.Widgets.ProjectManager().items().should.eventually.have.length(count);
+  });
 
   this.When(/^I search for project "([^"]*)"$/, function (searchText) {
     var projectSearch = new this.Widgets.ProjectSearch;

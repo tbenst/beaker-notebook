@@ -5,11 +5,18 @@ module.exports = function() {
     fields: ['name', 'description'],
     projectMenu: '.project-menu',
 
-    delete: function() {
+    goToDelete: function() {
       return new World.Widgets.Dropdown().show(this.projectMenu).then(function() {
         return this.click(".delete-project");
       }.bind(this));
     },
+
+    delete: function() {
+      return this.goToDelete().then(function() {
+        return new World.Widgets.Modal().accept();
+      });
+    },
+
     submitSelector: function() {
       return '.update-project'
     }

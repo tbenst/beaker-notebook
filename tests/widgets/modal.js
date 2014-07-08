@@ -8,6 +8,10 @@ module.exports = function() {
       });
     },
 
+    accept: function() {
+      return this.click('.accept');
+    },
+
     cancel: function() {
       return this.click('.cancel');
     },
