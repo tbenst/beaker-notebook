@@ -28,6 +28,14 @@ As a researcher, I want to be able to use the market place.
     And I filter by search by selecting the "cat,dog,human" tags
     Then I should see 1 market item on the market list page
 
+  Scenario: Filtering market items by multiple tags
+    When there is a market item with the tags "cat,dog,human"
+    And there is a market item with the tags "cat"
+    And there is a market item with the tags "dog"
+    And I view the market search
+    And I filter by search by selecting the "cat,dog" tags
+    Then I should see 1 market item on the market list page
+
   Scenario: Filtering market items by vendor
     When there is a market item with the vendor "George data"
     And there is a market item with the vendor "Doge industries"
