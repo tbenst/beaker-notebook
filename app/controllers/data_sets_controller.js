@@ -46,7 +46,8 @@ module.exports = function(app) {
     },
 
     formatIndex: function(req, res, next) {
-      DataSet.formats().then(function(formats) {
+      DataSet.findMatchingFormats(req.query)
+      .then(function(formats) {
         res.json(_.pluck(formats, "format"));
       }).catch(next);
     },

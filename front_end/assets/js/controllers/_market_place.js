@@ -67,6 +67,10 @@
 
         F.RelatedTags.getTags($scope.marketPlace).then(function(tags) {
           $scope.marketPlace.relatedTags = tags;
+        }),
+
+        F.Formats.getFormats($scope.marketPlace).then(function(d) {
+          $scope.marketPlace.formats = d;
         })
       ).then(function() {
         $scope.currentFilters = getSelectedFilters();
@@ -97,11 +101,6 @@
       $scope.marketPlace.currentPage = 1;
     }
 
-    if (!$scope.marketPlace.formats) {
-      F.Formats.getFormats().then(function(d) {
-        $scope.marketPlace.formats = d;
-      });
-    }
 
     if (!$scope.marketPlace.vendors) {
       F.Vendors.getVendors().then(function(v) {

@@ -91,6 +91,16 @@ module.exports = function(Bookshelf, app) {
       });
     },
 
+    findMatchingFormats: function(filters) {
+      return this.getQuerySql(filters).then(function(sql) {
+        return query()
+          .select('format')
+          .distinct()
+          .from(query.raw('(' + sql + ') AS matching'))
+          .orderBy('format', 'ASC');
+      });
+    },
+
     // loops over the filter keys to see if anything was passed via query params
     // if something was loop over the query builders and construct combined sql
     getQuerySql: function(filters) {

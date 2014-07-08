@@ -62,8 +62,8 @@
 
   app.factory('FormatsFactory', ['Restangular', function(Restangular) {
     return {
-      getFormats: function() {
-        return Restangular.one('data_sets').getList('formats');
+      getFormats: function(scope) {
+        return Restangular.one('data_sets').getList('formats', buildQuery(scope));
       }
     };
   }]);
