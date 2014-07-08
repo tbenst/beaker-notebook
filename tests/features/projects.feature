@@ -41,6 +41,22 @@ As a researcher, I want to manage my projects.
       | Project 2 |
       | Safe name |
 
+  Scenario: Dismiss/rewarn duplicate project name error
+    When I create a project
+    And I create a project
+    And I open the project
+    And I edit the project
+    And I update the project as follows:
+      | name      |
+      | Project 2 |
+    Then I should be warned that the project is a duplicate name
+    When I dismiss the duplicate project name error message
+    Then I should not see the project duplicate warning
+    When I update the project as follows:
+      | name      |
+      | Project 2 |
+    Then I should be warned that the project is a duplicate name
+
   Scenario: Project edits are reflected in the sidebar
     Given I'm looking at a project
     When I edit the project

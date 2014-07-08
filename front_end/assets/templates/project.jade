@@ -11,7 +11,7 @@
     .cl
 
 .main-content.project-detail
-  h1.error(ng-if="error") {{error}}
+  notice.error(message="error")
   h1.project-name
     span(ng-hide="editMode") {{project.name}}
     input(name="name", ng-model="project.name", ng-show="editMode")
@@ -82,5 +82,5 @@
       span(hidden-upload="true")
         a.import.btn-light.btn Import
         input.visibility-hidden.import-notebook(type="file" ng-file-select="onFileSelect($files)" multiple)
-        div.error(ng-if="importError") {{ importError }}
+        notice.error(message="importError")
 
