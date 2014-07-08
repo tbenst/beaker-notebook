@@ -29,7 +29,7 @@
         | format
         img(src="images/down-arrow-filter.png", width="6", height="4")
 
-        multi-filter(ng-model="marketPlace.typeScope", iterator="format in formats", iterator-name="format")
+        multi-filter(ng-model="marketPlace.typeScope", iterator="format in marketPlace.formats", iterator-name="format")
 
     .filter-segment.filter-col.filter-vendors
       .filter-segment-label

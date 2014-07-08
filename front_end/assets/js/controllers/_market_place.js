@@ -53,7 +53,9 @@
       );
     }
 
-    function getDataSets(newValue, oldValue) {
+    function checkDataSets(newValue, oldValue) { if (newValue !== oldValue) getDataSets(); }
+
+    function getDataSets() {
       $q.all(
         F.DataSets.getDataSets($scope.marketPlace).then(function(d) {
           $scope.marketPlace.data = d;
@@ -71,6 +73,15 @@
       });
     }
 
+    function changePage(newValue, oldValue) {
+      if (newValue === oldValue) return;
+
+      F.DataSets.getDataSets($scope.marketPlace).then(function(d) {
+        $scope.marketPlace.data = d;
+        window.scrollTo(0,0);
+      });
+    }
+
     function resetDataSets(observedChange) {
       if (observedChange === undefined) return;
       $scope.marketPlace.currentPage = 1;
@@ -78,28 +89,36 @@
     }
 
     // init pagination
-    $scope.marketPlace.currentPage = 1;
     $scope.marketPlace.itemsPerPage = 10;
     $scope.marketPlace.maxSize = 5;
 
-    F.Tags.getTags().then(function(d) {
-      $scope.tags = d;
-    });
+    // bootstrap data if first visiting
+    if (!$scope.marketPlace.currentPage) {
+      $scope.marketPlace.currentPage = 1;
+    }
 
-    F.Formats.getFormats().then(function(d) {
-      $scope.formats = d;
-    });
+    if (!$scope.marketPlace.formats) {
+      F.Formats.getFormats().then(function(d) {
+        $scope.marketPlace.formats = d;
+      });
+    }
 
-    F.Vendors.getVendors().then(function(v) {
-      $scope.marketPlace.vendors = v;
-    });
+    if (!$scope.marketPlace.vendors) {
+      F.Vendors.getVendors().then(function(v) {
+        $scope.marketPlace.vendors = v;
+      });
+    }
 
-    $scope.$watch('marketPlace.currentPage', getDataSets);
+    if (!$scope.marketPlace.data) {
+      getDataSets();
+    }
+
+    $scope.$watch('marketPlace.currentPage', changePage);
     $scope.$watchCollection('marketPlace.typeScope', resetDataSets);
     $scope.$watchCollection('marketPlace.vendorScope', resetDataSets);
     $scope.$watchCollection('marketPlace.tagScope', resetDataSets);
     $scope.$watch('marketPlace.searchScope', resetDataSets);
-    $scope.$watch('marketPlace.currentCategory', getDataSets);
+    $scope.$watch('marketPlace.currentCategory', checkDataSets);
   }]);
 
 })(angular, window.bunsen);
