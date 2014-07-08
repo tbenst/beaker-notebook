@@ -117,6 +117,7 @@
     $scope.$watchCollection('marketPlace.typeScope', resetDataSets);
     $scope.$watchCollection('marketPlace.vendorScope', resetDataSets);
     $scope.$watchCollection('marketPlace.tagScope', resetDataSets);
+    $scope.$watch('marketPlace.searchTerm', resetDataSets);
     $scope.$watch('marketPlace.searchScope', resetDataSets);
     $scope.$watch('marketPlace.currentCategory', checkDataSets);
   }]);

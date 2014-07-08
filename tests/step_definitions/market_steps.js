@@ -215,6 +215,10 @@ module.exports = function() {
     return marketVendorFilter.selectMatching(vendors.split(","));
   });
 
+  this.When(/^I search the top-level marketplace for "([^"]*)"$/, function(term) {
+    return new this.Widgets.MarketSidebar().search(term);
+  });
+
   this.When(/^I search the marketplace in the filters for "([^"]*)"$/, function(term) {
     var marketTextSearch = new this.Widgets.MarketTextSearch;
     return marketTextSearch.setTerm(term);
