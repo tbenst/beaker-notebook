@@ -80,13 +80,13 @@ As a researcher, I want to be able to use the market place.
     When I click "Government"
     Then I should see that no tags are selected
 
-  Scenario: Market items text search
+  Scenario: Market items filter text search
     Given I have the following market items:
       | title                  |
       | Credit Card Complaints |
       | Crime in Canada        |
     When I view the market search
-    And I search marketplace by "canada"
+    And I search the marketplace in the filters for "canada"
     Then I should see 1 market item on the market list page
     And I should see the "Crime in Canada" market item on the market list page
 
@@ -95,7 +95,7 @@ As a researcher, I want to be able to use the market place.
       | title                  |
       | Crime in Canada        |
     When I view the market search
-    And I search marketplace by "crime in mexico"
+    And I search the marketplace in the filters for "crime in mexico"
     Then I should see 0 market items on the market list page
 
   Scenario: Clear market items text search
@@ -104,8 +104,8 @@ As a researcher, I want to be able to use the market place.
       | Credit Card Complaints |
       | Crime in Canada        |
     When I view the market search
-    And I search marketplace by "canada"
-    And I search marketplace by ""
+    And I search the marketplace in the filters for "canada"
+    And I search the marketplace in the filters for ""
     Then I should see 2 market items on the market list page
 
   Scenario: Related market items

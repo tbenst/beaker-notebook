@@ -215,7 +215,7 @@ module.exports = function() {
     return marketVendorFilter.selectMatching(vendors.split(","));
   });
 
-  this.When(/^I search marketplace by "([^"]*)"$/, function(term) {
+  this.When(/^I search the marketplace in the filters for "([^"]*)"$/, function(term) {
     var marketTextSearch = new this.Widgets.MarketTextSearch;
     return marketTextSearch.setTerm(term);
   });
