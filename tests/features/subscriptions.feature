@@ -38,3 +38,24 @@ Feature: Subscriptions
     Then I should see the following datasets:
       | title               | remoteFile | description  |
       | Crime Rates, Canada | CRIME.xml  | pretty bad   |
+
+  Scenario: Sorting datasets by subscription date
+    Given I have the following market items:
+      | title            | remoteFile | description |
+      | Employment Rates | MONEYS.csv | some        |
+    When I view the market search
+    And I view the "Employment Rates" market item
+    And I subscribe to the market item
+    And I view My Datasets
+    And I sort by subscription date
+    Then I should see the following datasets:
+      | title               | remoteFile | description  |
+      | Employment Rates    | MONEYS.csv | some         |
+      | Crime Rates, Canada | CRIME.xml  | pretty bad   |
+      | Population, Canada  | POP.xml    | somewhat low |
+    When I unsort by subscription date
+    Then I should see the following datasets:
+      | title               | remoteFile | description  |
+      | Crime Rates, Canada | CRIME.xml  | pretty bad   |
+      | Employment Rates    | MONEYS.csv | some         |
+      | Population, Canada  | POP.xml    | somewhat low |
