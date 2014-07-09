@@ -65,8 +65,8 @@
             a(ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") {{notebook.name}}
 
         .right
-          span.text-small.notebook-last-used Last used on:
-            span.text-green {{notebook.updated_at | date: 'short'}}
+          span.text-small.notebook-last-used  Last used on
+            span.text-green.date {{notebook.updated_at | date: 'short'}}
           span.notebook-options
             span.options.dropdown-toggle
               ul.dropdown
