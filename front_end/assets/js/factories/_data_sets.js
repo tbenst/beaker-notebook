@@ -62,8 +62,16 @@
 
   app.factory('FormatsFactory', ['Restangular', function(Restangular) {
     return {
-      getFormats: function() {
-        return Restangular.one('data_sets').getList('formats');
+      getFormats: function(scope) {
+        return Restangular.one('data_sets').getList('formats', buildQuery(scope));
+      }
+    };
+  }]);
+
+  app.factory('VendorsFactory', ['Restangular', function(Restangular) {
+    return {
+      getVendors: function(scope) {
+        return Restangular.one('data_sets').getList('vendors', buildQuery(scope));
       }
     };
   }]);

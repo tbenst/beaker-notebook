@@ -91,6 +91,27 @@ module.exports = function(Bookshelf, app) {
       });
     },
 
+    findMatchingFormats: function(filters) {
+      return this.getQuerySql(filters).then(function(sql) {
+        return query()
+          .select('format')
+          .distinct()
+          .from(query.raw('(' + sql + ') AS matching'))
+          .orderBy('format', 'ASC');
+      });
+    },
+
+    findMatchingVendors: function(filters) {
+      return this.getQuerySql(filters).then(function(sql) {
+        return query()
+          .select('Vendors.*')
+          .distinct('Vendors.name')
+          .from(query.raw('(' + sql + ') AS matching'))
+          .join('Vendors', 'matching.vendorId', '=', 'Vendors.id')
+          .orderBy('Vendors.name', 'ASC');
+      });
+    },
+
     // loops over the filter keys to see if anything was passed via query params
     // if something was loop over the query builders and construct combined sql
     getQuerySql: function(filters) {

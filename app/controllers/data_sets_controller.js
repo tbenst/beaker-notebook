@@ -46,9 +46,16 @@ module.exports = function(app) {
     },
 
     formatIndex: function(req, res, next) {
-      DataSet.formats().then(function(formats) {
+      DataSet.findMatchingFormats(req.query)
+      .then(function(formats) {
         res.json(_.pluck(formats, "format"));
       }).catch(next);
+    },
+
+    vendorIndex: function(req, res, next) {
+      DataSet.findMatchingVendors(req.query)
+      .then(res.json.bind(res))
+      .catch(next);
     },
 
     create: function(req, res, next) {

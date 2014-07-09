@@ -9,7 +9,6 @@ module.exports.init = function(app) {
   require('./subscription_routes.js')(app);
   require('./users_routes.js')(app);
   require('./notebook_routes.js')(app);
-  require('./vendor_routes.js')(app);
   require('./tag_routes.js')(app);
 
   if (app.get('env') === "test") {

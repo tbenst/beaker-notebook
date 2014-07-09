@@ -44,15 +44,37 @@ As a researcher, I want to be able to use the market place.
     Then I should see 1 market item on the market list page
 
   Scenario: Stacking market item filters
-    When there is a market item with the vendor "George data"
-    And there is a market item with the format "MAGIC"
+    Given I have the following market items:
+      | title           | vendors       | format  |
+      | Lorem ipsum     | George data   | xml     |
+      | Dolor sit amet  | George data   | MAGIC   |
     And I view the market search
     And I filter by search by selecting the "George data" vendors
-    Then I should see 1 market item on the market list page
+    Then I should see 2 market item on the market list page
     And I filter by search by selecting the "MAGIC" formats
-    Then I should see 0 market items on the market list page
+    Then I should see 1 market items on the market list page
     And I filter the market page by "Credit"
     Then I should see 0 market items on the market list page
+
+  Scenario: Dynamic format filter
+    Given I have the following market items:
+      | title           | vendors       | format  |
+      | Lorem ipsum     | Cicero        | xml     |
+      | Dolor sit amet  | Tullius       | json    |
+    And I view the market search
+    Then I should see "json,xml" formats
+    When I filter by search by selecting the "Cicero" vendors
+    Then I should see "xml" format
+
+  Scenario: Dynamic vendor filter
+    Given I have the following market items:
+      | title           | vendors       | format  |
+      | Lorem ipsum     | Cicero        | xml     |
+      | Dolor sit amet  | Tullius       | json    |
+    And I view the market search
+    Then I should see "Cicero,Tullius" vendors
+    When I filter by search by selecting the "xml" formats
+    Then I should see "Cicero" vendor
 
   Scenario: Paginated market items
     When there is 22 market items

@@ -32,6 +32,12 @@ module.exports = function() {
           })
         });
       })
-    }
+    },
+
+    getItemNames: function() {
+      return $.map(this.findAll('li a'), function(n) {
+        return n.getInnerHtml();
+      });
+    },
   });
 }
