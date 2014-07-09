@@ -9,6 +9,10 @@ module.exports = function() {
     return new this.Widgets.SubscriptionSidebar().search(query);
   });
 
+  this.When(/^I (un)?sort by subscription date$/, function() {
+    return new this.Widgets.SubscriptionSidebar().toggleSortBySubscriptionDate();
+  });
+
   this.Then(/^I should see the "([^"]*)" dataset$/, function(title) {
     return new this.Widgets.SubscriptionList().hasDataset(title).should.eventually.be.true;
   });

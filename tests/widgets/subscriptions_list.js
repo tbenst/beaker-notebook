@@ -65,5 +65,9 @@ module.exports = function() {
     search: function(query) {
       return this.fill('.search', query);
     },
+
+    toggleSortBySubscriptionDate: function() {
+      return this.click('.sort-by.subscription-date');
+    }
   });
 };
