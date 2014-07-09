@@ -59,7 +59,7 @@
     ul.notebook-list
       li(ng-if="notebooks.length === 0") no notebooks yet.
       li.single-notebook.base-row-item-green.base-row-item-skinny(ng-repeat="notebook in project.notebooks")
-        .col-half
+        .col-half.padding-reset
           h2
             a(ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") {{notebook.name}}
 
