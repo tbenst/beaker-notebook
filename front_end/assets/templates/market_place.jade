@@ -24,26 +24,27 @@
   .filter-market-results
     .filter-header.filter-col
       .filter-segment-label filters
-    .filter-segment.filter-col.filter-segment-format
-      .filter-segment-label.filter-formats
+
+    .filter-segment.filter-col.filter-formats
+      .filter-segment-label
         | format
         img(src="images/down-arrow-filter.png", width="6", height="4")
 
-        multi-filter(ng-model="marketPlace.typeScope", iterator="format in marketPlace.formats", iterator-name="format")
+      multi-filter(ng-model="marketPlace.typeScope", iterator="format in marketPlace.formats", iterator-name="format")
 
     .filter-segment.filter-col.filter-vendors
       .filter-segment-label
         | vendor
         img(src="images/down-arrow-filter.png", width="6", height="4")
 
-        multi-filter(ng-model="marketPlace.vendorScope", iterator="vendor in marketPlace.vendors", iterator-name="vendor", iterator-display-name="vendor.name")
+      multi-filter(ng-model="marketPlace.vendorScope", iterator="vendor in marketPlace.vendors", iterator-name="vendor", iterator-display-name="vendor.name")
 
-    .filter-segment.filter-col
-      .filter-segment-label.filter-tags
+    .filter-segment.filter-col.filter-tags
+      .filter-segment-label
         | tags
         img(src="images/down-arrow-filter.png", width="6", height="4")
 
-        multi-filter(ng-model="marketPlace.tagScope", iterator="tag in marketPlace.relatedTags", iterator-name="tag", iterator-display-name="tag.name")
+      multi-filter(ng-model="marketPlace.tagScope", iterator="tag in marketPlace.relatedTags", iterator-name="tag", iterator-display-name="tag.name")
 
     .filter-segment.filter-search.filter-col
       input.search.full.market-text-search(type="text", ng-model="marketPlace.searchScope", placeholder="Search within results", ng-model-options="{ debounce: {'default': 500, 'blur': 0} }")
