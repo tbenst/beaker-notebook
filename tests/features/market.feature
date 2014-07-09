@@ -66,6 +66,16 @@ As a researcher, I want to be able to use the market place.
     When I filter by search by selecting the "Cicero" vendors
     Then I should see "xml" format
 
+  Scenario: Dynamic vendor filter
+    Given I have the following market items:
+      | title           | vendors       | format  |
+      | Lorem ipsum     | Cicero        | xml     |
+      | Dolor sit amet  | Tullius       | json    |
+    And I view the market search
+    Then I should see "Cicero,Tullius" vendors
+    When I filter by search by selecting the "xml" formats
+    Then I should see "Cicero" vendor
+
   Scenario: Paginated market items
     When there is 22 market items
     And I view the market search

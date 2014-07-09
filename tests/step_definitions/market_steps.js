@@ -293,4 +293,10 @@ module.exports = function() {
     var expected = formats.split(",");
     return filter.getItemNames().should.eventually.deep.equal(expected);
   });
+
+  this.Then(/^I should see "([^"]*)" vendor(s)?$/, function(vendors) {
+    var filter = new this.Widgets.MarketVendorFilter;
+    var expected = vendors.split(",");
+    return filter.getItemNames().should.eventually.deep.equal(expected);
+  });
 }
