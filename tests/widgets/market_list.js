@@ -1,5 +1,5 @@
 module.exports = function() {
-  return this.Widgets.MarketList = this.Widget.List.extend({
+  this.Widgets.MarketList = this.Widget.List.extend({
     root: '.market-list',
     itemSelector: '.market-list-item',
 
@@ -51,6 +51,14 @@ module.exports = function() {
           return a.click();
         });
       });
+    }
+  });
+
+  this.Widgets.MarketSidebar = this.Widget.extend({
+    root: '.marketplace .sidebar-left',
+
+    search: function(text) {
+      return this.fill('.search', text);
     }
   });
 };
