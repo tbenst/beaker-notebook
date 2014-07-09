@@ -4,7 +4,7 @@ module.exports = function() {
   return this.Widgets.ProjectManager = this.Widget.List.extend({
     root: '.projects-root',
     itemSelector: '.project',
-    projectsSidebarHeader: '.project-sidebar .sidebar-box-header',
+    projectsSidebarHeader: '.project-sidebar .sidebar-box h3',
 
     createNew: function() {
       return new World.Widgets.Dropdown().show(this.projectsSidebarHeader).then(function() {

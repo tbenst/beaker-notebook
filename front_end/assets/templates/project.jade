@@ -1,14 +1,15 @@
 .sidebar-right
-  h3.sidebar-box-header.sidebar-box-header-strong-blue
-    | About this project
-    a.sidebar-box-header-icon(ng-click="editProject()")
-      img(src="images/edit.png", width="14", height="14")
-  .sidebar-box.sidebar-box-white
-    p.project-description-display(ng-hide="editMode") {{project.description}}
-    textarea.project-description(name="description", ng-model="project.description" ng-show="editMode")
-      | Project description...
-    a.btn.btn-light.update-project.left(ng-show="editMode", ng-click="updateProject()") Save
-    .cl
+  .sidebar-box.light
+    h3
+      | About this project
+      a.sidebar-box-header-icon(ng-click="editProject()")
+        img(src="images/edit.png", width="14", height="14")
+    .content
+      p.project-description-display(ng-hide="editMode") {{project.description}}
+      textarea.project-description(name="description", ng-model="project.description" ng-show="editMode")
+        | Project description...
+      a.btn.btn-light.update-project.left(ng-show="editMode", ng-click="updateProject()") Save
+      .cl
 
 .main-content.project-detail
   notice.error(message="error")

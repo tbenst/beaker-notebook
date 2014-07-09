@@ -1,13 +1,12 @@
 input.search.full.project-search(ng-model="projects.search", placeholder="Search projects...")
 
-h3.sidebar-box-header
-  | Projects
-  span.options.dropdown-toggle.light.right
-    ul.dropdown
-      li
-        a.create-project(ng-click="createProject()") New project
-
-.sidebar-box.padding-reset
+.sidebar-box.list
+  h3
+    | Projects
+    span.options.dropdown-toggle.light.right
+      ul.dropdown
+        li
+          a.create-project(ng-click="createProject()") New project
   ul.project-results.sidebar-box-list
     li(ng-if="projects.list.length === 0") no projects yet.
     li(ng-repeat="project in projects.list | orderBy:'name'")

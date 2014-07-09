@@ -1,29 +1,38 @@
 close-icon-width = 10px
 
 .sidebar-box
-  padding spacing-block
   background-color action-strong-blue
   margin-bottom spacing-block
-  &.sidebar-box-white
-    border 1px solid base-step5
-    border-top none
+  &.light
     background-color white
+    .content
+      border 1px solid base-step5
+      border-top none
 
   .count
     float right
     color lighten(action-strong-blue, 40%)
 
-h3.sidebar-box-header
-  padding 13px 10px 12px 14px
+  .content
+    padding spacing-block
+
+.sidebar-box.list
+  padding 0
+
+.sidebar-box h3
+  padding 11px 10px 10px spacing-block
   background-color action-strong-green
   text-transform capitalize
-  font-size font-size-medium - 2
+  font-size font-size-base + 2px
   color white
   position relative
-  &.sidebar-box-header-blue
-    background-color action-blue
-  &.sidebar-box-header-strong-blue
+  .light&
     background-color action-strong-blue
+  .list&
+    padding-left list-spacing-block
+  .open-notebooks &
+    padding-left 7px
+    background-color action-blue
 
   .options
     top -7px
@@ -59,7 +68,7 @@ h3.sidebar-box-header
 .sidebar-box-list-item
   width 100%
   color white
-  padding 13px spacing-block+close-icon-width spacing-block-small 14px
+  padding 13px spacing-block+close-icon-width spacing-block-small list-spacing-block
   border-bottom 1px solid darken(action-strong-blue, 5%)
   text-decoration none
   display block
@@ -82,7 +91,6 @@ h3.sidebar-box-header
       background-color white
 
 .with-dots .sidebar-box-list-link
-  padding-left spacing-block + 17
   position relative
   &:hover
     &:before
@@ -94,8 +102,8 @@ h3.sidebar-box-header
     border-radius 50%
     content ''
     position absolute
-    top 14px
-    left 19px
+    top 15px
+    left (list-spacing-block/2) - 2px
 
 .inline-close-notebook
   top 9px
