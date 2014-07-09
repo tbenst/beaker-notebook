@@ -1,5 +1,5 @@
 !(function(angular, app) {
-  app.controller('marketItem', ['$scope', '$state', 'Factories', 'Restangular', '$sessionStorage', function($scope, $state, Factories, Restangular, $sessionStorage) {
+  app.controller('marketItem', ['$scope', '$rootScope', '$state', 'Factories', 'Restangular', '$sessionStorage', function($scope, $rootScope, $state, Factories, Restangular, $sessionStorage) {
     var R = Restangular;
     var F = Factories;
 
@@ -13,6 +13,12 @@
     F.Vendors.getVendors({}).then(function(v) {
       $scope.marketPlace.vendors = v;
     });
+
+    if (_.contains($rootScope.referrer.fromState.name, 'subscriptions')) {
+      $scope.referrerList = 'subscriptions.items';
+    } else {
+      $scope.referrerList = 'marketPlace.items';
+    }
 
     $scope.unsubscribe = function() {
        R.one('subscriptions', $state.params.id).remove().then(function(d) {

@@ -87,7 +87,7 @@ As a researcher, I want to be able to use the market place.
     And I view the market search
     And I filter by search by selecting the "cat" tags
     And I view the first market item
-    And I return to the market results
+    And I return to the list from the market item
     Then I should see the "cat" tags selected
 
   Scenario: Tags and Category on main market nav are mutually exclusive

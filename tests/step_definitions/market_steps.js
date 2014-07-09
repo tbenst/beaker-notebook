@@ -186,7 +186,7 @@ module.exports = function() {
     return marketList.select(0);
   });
 
-  this.When(/^I return to the market results$/, function(callback) {
+  this.When(/^I return to the list from the market item$/, function(callback) {
     var marketItem = new this.Widgets.MarketItem();
 
     return marketItem.goBackToSearch();

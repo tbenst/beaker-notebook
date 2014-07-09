@@ -9,6 +9,11 @@
 
     $scope.$state = $state;
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
+      $rootScope.referrer = {
+        fromState: fromState,
+        fromParams: fromParams
+      }
+
       if (!$sessionStorage.currentUser && !toState.skipAuth) {
         $rootScope.goTo = toState;
         $state.go("signIn");

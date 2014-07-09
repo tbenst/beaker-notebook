@@ -12,7 +12,7 @@ Feature: Subscriptions
 
   Scenario: Seeing subscribed datasets
     When I view My Datasets
-    Then I should see the following datasets:
+    Then I should see the following subscriptions:
       | title               | remoteFile | description  |
       | Crime Rates, Canada | CRIME.xml  | pretty bad   |
       | Population, Canada  | POP.xml    | somewhat low |
@@ -21,6 +21,15 @@ Feature: Subscriptions
     When I view My Datasets
     And I view the "Crime Rates, Canada" dataset
     Then I should see the "Crime Rates, Canada" dataset in the marketplace
+
+  Scenario: Returning to subscription list from detail view
+    When I view My Datasets
+    And I view the "Crime Rates, Canada" dataset
+    And I return to the list from the market item
+    Then I should see the following subscriptions:
+      | title               | remoteFile | description  |
+      | Crime Rates, Canada | CRIME.xml  | pretty bad   |
+      | Population, Canada  | POP.xml    | somewhat low |
 
   Scenario: Seeing subscription date
     Given I have the following market items:
@@ -35,7 +44,7 @@ Feature: Subscriptions
   Scenario: Searching datasets
     When I view My Datasets
     And I search my subscriptions for "Crime Rates"
-    Then I should see the following datasets:
+    Then I should see the following subscriptions:
       | title               | remoteFile | description  |
       | Crime Rates, Canada | CRIME.xml  | pretty bad   |
 
