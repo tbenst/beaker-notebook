@@ -130,16 +130,19 @@ module.exports = function(Bookshelf, app) {
     },
 
     searchScopeQueryBuilder: function(q, term) {
-      return this.searchTermQueryBuilder(q, term);
+      return this.searchTermQueryBuilder(q, term, 'scope');
     },
 
-    searchTermQueryBuilder: function(q, term) {
+    searchTermQueryBuilder: function(q, term, joinName) {
       // note: this subquery is necessary rather than a regular join (even if the two are logically
       // equivalent) because postgres query planner will not use full text indices for queries
       // across multiple tables.
+
+      joinName = joinName || 'term';
+
       return q.join(query.raw('(select "Vendors".* from "Vendors" where "Vendors".name ilike \'%' +
                               term.replace(/'/g, "''") +  // don't allow param to close quote
-                              '%\') as v'),  'v.id', '=', 'DataSets.vendorId', 'left')
+                              '%\') as ' + joinName), joinName + '.id', '=', 'DataSets.vendorId', 'left')
         .where(function() {
             this.where('title', 'ILIKE', '%' + term + '%')
             .orWhere('DataSets.description', 'ILIKE', '%' + term + '%')
