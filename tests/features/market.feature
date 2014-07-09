@@ -56,6 +56,16 @@ As a researcher, I want to be able to use the market place.
     And I filter the market page by "Credit"
     Then I should see 0 market items on the market list page
 
+  Scenario: Dynamic format filter
+    Given I have the following market items:
+      | title           | vendors       | format  |
+      | Lorem ipsum     | Cicero        | xml     |
+      | Dolor sit amet  | Tullius       | json    |
+    And I view the market search
+    Then I should see "json,xml" formats
+    When I filter by search by selecting the "Cicero" vendors
+    Then I should see "xml" format
+
   Scenario: Paginated market items
     When there is 22 market items
     And I view the market search

@@ -287,4 +287,10 @@ module.exports = function() {
     var marketCategoryHero = new this.Widgets.MarketCategoryHero();
     return marketCategoryHero.isPresent().should.eventually.equal(false);
   });
+
+  this.Then(/^I should see "([^"]*)" format(s)?$/, function(formats) {
+    var filter = new this.Widgets.MarketFormatFilter;
+    var expected = formats.split(",");
+    return filter.getItemNames().should.eventually.deep.equal(expected);
+  });
 }
