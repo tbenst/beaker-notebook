@@ -3,10 +3,10 @@
     .nav(ui-view="nav")
 
     .open-notebooks(ng-controller="openNotebooks")
-      h3.sidebar-box-header.sidebar-box-header-blue
-        span.sidebar-box-header-count {{openNotebooks.length}}
-        | Open Notebooks
-      .sidebar-box.padding-reset
+      .sidebar-box.list
+        h3
+          span.sidebar-box-header-count {{openNotebooks.length}}
+          | Open Notebooks
         ul.open-notebooks.sidebar-box-list.with-dots
           li.open-notebook(ng-repeat="open in openNotebooks | orderBy:'name'")
             a.sidebar-box-list-link(ng-click="openProject(open.id)") {{open.name}}

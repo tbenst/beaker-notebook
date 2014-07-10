@@ -4,7 +4,7 @@
   color white
   cursor pointer
   display inline-block
-  padding 12px 18px 10px 18px
+  padding 8px 10px 6px
   border none
   font-size font-size-base
   background-color action-strong-blue
@@ -25,6 +25,7 @@
     &:active
       background-color darken(action-blue, color-adjust-amount)
   &.btn-light
+    border 1px solid darken(base-step5, color-adjust-amount)
     background-color base-step5
     color base-step3
     &:hover
@@ -54,8 +55,8 @@ a.active
 
 .base-row-item-green
   background-color white
-  padding spacing-block + 6
-  margin-bottom spacing-block-small + 6
+  padding list-item-padding list-item-padding - 2px list-item-padding - 3px
+  margin-bottom spacing-block
   border 1px solid base-step5
   border-left 4px solid action-strong-green
 

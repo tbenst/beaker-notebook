@@ -9,12 +9,11 @@
   background-color white
 
 .filter-col
+  position relative
   display inline-block
-  width 16%
   padding spacing-block-small + 3 spacing-block spacing-block-small
   &:hover
     background-color action-blue
-    cursor pointer
     .filter-dropdown
       display inline-block
     &.filter-header
@@ -23,15 +22,16 @@
         color base-step4
     .filter-segment-label
       color white
-  &.filter-segment-format
-    padding-left spacing-block + 10
+
+.filter-segment
+  margin 0 10px
+  cursor pointer
 
 .filter-header
   background-color lighten(base-step5, 60%)
   border-right 1px solid base-step5
-  width 11%
-  position relative
   padding-right spacing-block
+  margin-right 18px
   &:after,
   &:before
     content ''
@@ -59,10 +59,18 @@
     left 4px
 .filter-search
   padding 0
-  width 39%
-  border-left 1px solid base-step5
+  width 23%
+  float right
   input
     margin-bottom 0
+  &:before
+    content ''
+    width 2px
+    height 18px
+    background-color lighten(base-step5, 50%)
+    position absolute
+    top 50%
+    margin-top -9px
 
 .selected
   background transparent url('../images/selected-check.png') no-repeat 94% 8px;
@@ -91,7 +99,7 @@
   overflow auto
   display none
   position absolute
-  top 12px
+  top 100%
   left 0
   z-index 1
   background-color white

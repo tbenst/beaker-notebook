@@ -1,14 +1,15 @@
 .sidebar-right
-  h3.sidebar-box-header.sidebar-box-header-strong-blue
-    | About this project
-    a.sidebar-box-header-icon(ng-click="editProject()")
-      img(src="images/edit.png", width="14", height="14")
-  .sidebar-box.sidebar-box-white
-    p.project-description-display(ng-hide="editMode") {{project.description}}
-    textarea.project-description(name="description", ng-model="project.description" ng-show="editMode")
-      | Project description...
-    a.btn.btn-light.update-project.left(ng-show="editMode", ng-click="updateProject()") Save
-    .cl
+  .sidebar-box.light
+    h3
+      | About this project
+      a.sidebar-box-header-icon(ng-click="editProject()")
+        img(src="images/edit.png", width="14", height="14")
+    .content
+      p.project-description-display(ng-hide="editMode") {{project.description}}
+      textarea.project-description(name="description", ng-model="project.description" ng-show="editMode")
+        | Project description...
+      a.btn.btn-light.update-project.left(ng-show="editMode", ng-click="updateProject()") Save
+      .cl
 
 .main-content.project-detail
   notice.error(message="error")
@@ -59,13 +60,13 @@
     ul.notebook-list
       li(ng-if="notebooks.length === 0") no notebooks yet.
       li.single-notebook.base-row-item-green.base-row-item-skinny(ng-repeat="notebook in project.notebooks")
-        .col-half
+        .col-half.padding-reset
           h2
             a(ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") {{notebook.name}}
 
         .right
-          span.text-small.notebook-last-used Last used on:
-            span.text-green {{notebook.updated_at | date: 'short'}}
+          span.text-small.notebook-last-used  Last used on
+            span.text-green.date {{notebook.updated_at | date: 'short'}}
           span.notebook-options
             span.options.dropdown-toggle
               ul.dropdown

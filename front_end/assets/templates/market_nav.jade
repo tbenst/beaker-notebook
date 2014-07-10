@@ -1,7 +1,7 @@
 input.search.full(ng-model="marketPlace.searchTerm", placeholder="Search datasets and tools")
 
-h3.sidebar-box-header explore datasets
 .sidebar-box.sidebar-tree
+  h3 explore datasets
   treecontrol.tree-market-category.tree-classic(
     tree-model="treeData",
     options="treeOptions",
@@ -11,14 +11,15 @@ h3.sidebar-box-header explore datasets
     item: {{node.category}}
     span.count {{node.count}}
 
-h3.sidebar-box-header related sets
-.sidebar-box.sidebar-related-tags
-  dl.related-tags(ng-class="expanded ? '' : 'related-tags-hidden'")
-    dt.related-tag(ng-repeat="tag in marketPlace.relatedTags")
-      a.tag-name(ng-click="searchByTag(tag)") {{tag.name}}
-      span(ng-show='isTagSelected(tag)') *
-  .related-tags-visibility
-    a.related-tags-show-all.right(ng-click="$parent.expanded = !$parent.expanded", ng-if="checkRelatedSetHeight()")
-      span(ng-if="expanded") Collapse
-      span(ng-if="!expanded") Show all
-    .cl
+.sidebar-box.sidebar-related-tags(ng-if="marketPlace.relatedTags")
+  h3 related sets
+  .content
+    dl.related-tags(ng-class="expanded ? '' : 'related-tags-hidden'")
+      dt.related-tag(ng-repeat="tag in marketPlace.relatedTags")
+        a.tag-name(ng-click="searchByTag(tag)") {{tag.name}}
+        span(ng-show='isTagSelected(tag)') *
+    .related-tags-visibility
+      a.related-tags-show-all.right(ng-click="$parent.expanded = !$parent.expanded", ng-if="checkRelatedSetHeight()")
+        span(ng-if="expanded") Collapse
+        span(ng-if="!expanded") Show all
+      .cl

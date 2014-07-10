@@ -1,9 +1,11 @@
 @import "_variables"
 
+header-height = 46px
+
 .app-header
   background-color action-strong-blue
-  height 46px
-  line-height 52px
+  height header-height
+  line-height header-height
 
 .header-logo
   margin-top spacing-block-small
@@ -14,11 +16,12 @@
     padding 0 6px
     &:first-child
       margin-right 6px
+  img
+    vertical-align middle
 
 .auth-controls
   font-size font-size-base - 2
   color white
-  top -4px
   position relative
   a
     color white
