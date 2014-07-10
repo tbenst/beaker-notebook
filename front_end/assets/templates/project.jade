@@ -30,8 +30,8 @@
             a.delete-project(confirm="Are you sure you want to delete \"{{project.name}}\" AND all of the associated notebooks?" on-confirm="deleteProject()") Delete
   .cl
 
-  section.section-padding-top.project-overview
-    .col-half.project-first-col
+  section.section-padding-top.overview
+    .col-half
       h4 Properties
       ul.property-list.small
         li
@@ -44,7 +44,7 @@
           .label Commits
           .value {{project.numCommits}}
 
-    .col-half.col-last
+    .col-half
       h4 Recently Used Notebooks
       ul.link-list
         li
@@ -53,7 +53,6 @@
           a Notebook
         li
           a Notebook
-    .cl
 
   section
     h2 Notebooks
