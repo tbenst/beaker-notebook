@@ -3,11 +3,10 @@
     return {
       restrict: 'A',
       scope: {
+        confirm: '@',
         onConfirm: '&'
       },
       link: function(scope, element, attrs) {
-        scope.message = attrs.confirm;
-
         scope.accept = function() {
           scope.onConfirm.apply();
           $rootScope.$broadcast('closeModal');
