@@ -21,30 +21,31 @@
   section.market-item-properties
     h1 Properties
 
-    .property-row.property-row-first
-      .property-label format
-      .property-value.property-top-border.format {{item.format}}
+    ul.property-list
+      li
+        .label format
+        .value.top-border.format {{item.format}}
 
-    .property-row
-      .property-label released
-      .property-value {{item.lastUpdated | date: 'shortDate'}}
+      li
+        .label released
+        .value {{item.lastUpdated | date: 'shortDate'}}
 
-    .property-row
-      .property-label updated
-      .property-value {{item.lastUpdated | date: 'shortDate'}}
+      li
+        .label updated
+        .value {{item.lastUpdated | date: 'shortDate'}}
 
-    .property-row
-      .property-label frequency
-      .property-value.update-frequency {{item.updateFrequency}}
+      li
+        .label frequency
+        .value.update-frequency {{item.updateFrequency}}
 
-    .property-row
-      .property-label categories
-      .property-value {{item.categories | names}}
+      li
+        .label categories
+        .value {{item.categories | names}}
 
-    .property-row
-      .property-label tags
-      .property-value.tags
-        span(ng-repeat="tag in item.dataTags") {{tag.name}}{{$last ? '' : ', '}}
+      li
+        .label tags
+        .value.tags
+          span(ng-repeat="tag in item.dataTags") {{tag.name}}{{$last ? '' : ', '}}
 
   .data-previews(ng-hide="!item.dataPreviews.length")
     h1 Data Previews

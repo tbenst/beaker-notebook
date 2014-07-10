@@ -3,7 +3,7 @@ module.exports = function() {
     root: '.subscription-list-item',
 
     purchaseDate: function() {
-      return this.read('.purchase-date .property-value');
+      return this.read('.purchase-date .value');
     }
   });
 
@@ -42,7 +42,7 @@ module.exports = function() {
     },
 
     locations: function() {
-      return this._readAll('.location .property-value');
+      return this._readAll('.location .value');
     },
 
     clickOn: function(title) {

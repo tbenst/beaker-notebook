@@ -34,24 +34,24 @@
     .col-half.project-first-col
       h4 Properties
       ul.property-list.small
-        li.property-list-item
-          span.property-label Last used
-          span.property-value {{project.lastExecuted || "N/A" | date: 'short'}}
-        li.property-list-item
-          span.property-label Updated
-          span.property-value.last-updated {{project.lastUpdatedAt | date: 'short'}}
-        li.property-list-item
-          span.property-label Commits
-          span.property-value {{project.numCommits}}
+        li
+          .label Last used
+          .value {{project.lastExecuted || "N/A" | date: 'short'}}
+        li
+          .label Updated
+          .value.last-updated {{project.lastUpdatedAt | date: 'short'}}
+        li
+          .label Commits
+          .value {{project.numCommits}}
 
     .col-half.col-last
       h4 Recently Used Notebooks
-      ul.property-list
-        li.text-small
+      ul.link-list
+        li
           a Notebook
-        li.text-small
+        li
           a Notebook
-        li.text-small
+        li
           a Notebook
     .cl
 
