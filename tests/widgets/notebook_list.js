@@ -2,7 +2,7 @@ module.exports = function() {
   var World = this;
   return this.Widgets.NotebookList = this.Widget.List.extend({
     root: '.notebook-list',
-    itemSelector: '.single-notebook',
+    itemSelector: '> li',
     nameSelector: 'h2 a',
     otherProjectsDropdownSelector: '.project-selector',
     projectSelectorNames: '.project-selector li a',

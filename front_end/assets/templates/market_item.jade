@@ -57,6 +57,6 @@
 
   .similar-datasets(ng-hide="!item.related.length")
     h1 Similar Datasets
-    ul.related-items
-      li.related-item.base-row-item-green(ng-repeat="related in item.related")
+    ul.related-items.bunsen-list
+      li(ng-repeat="related in item.related")
         a(ui-sref="marketPlace.items.item({id: related.id})") {{related.title}}

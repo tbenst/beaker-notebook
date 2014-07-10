@@ -1,11 +1,11 @@
 module.exports = function() {
   this.Widgets.MarketList = this.Widget.List.extend({
     root: '.market-list',
-    itemSelector: '.market-list-item',
+    itemSelector: '> li',
 
     contents: function() {
       return $.map(this.items(), function(n) {
-        return $.all([n.find(".title"), n.find(".market-description"), n.find(".formats"), n.find('.vendors')])
+        return $.all([n.find(".title"), n.find(".description"), n.find(".format"), n.find('.vendors')])
         .then(function(arr) {
           return $.all(_.invoke(arr, 'getText'))
           .then(function(text) {

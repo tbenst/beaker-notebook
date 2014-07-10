@@ -1,23 +1,23 @@
-.main-content.project-search
+.main-content
   h1 Search Results
   p
     span.project-count {{projects.searchResults.length}}
     &nbsp;
     span results
-  ul
-    li.search-result-row-item.base-row-item-green.base-row-item-skinny(ng-repeat="project in projects.searchResults")
+  ul.bunsen-list.project-search-results
+    li.skinny(ng-repeat="project in projects.searchResults")
       .col-three-quarters
-        h2.project.name
-          a(ui-sref="projects.items.item({id: project.id})") {{project.name | limitTo:30}}
-        p.desc {{project.description}}
+        h2
+          a.title(ui-sref="projects.items.item({id: project.id})") {{project.name | limitTo:30}}
+        p.description {{project.description}}
 
-      .right.col-quarter
-        ul.vendor-item-list-attributes
+      .col-quarter
+        ul.attributes
           li
-            span.small-label Notebooks:&nbsp
-            span.vendor-item-list-value.count {{project.notebooks.length}}
+            span.label Notebooks:&nbsp
+            span.value.count {{project.notebooks.length}}
 
           li
-            span.small-label Updated:&nbsp
-            span.vendor-item-list-value {{project.lastUpdatedAt | date: 'shortDate'}}
+            span.label Updated:&nbsp
+            span.value {{project.lastUpdatedAt | date: 'shortDate'}}
       .cl
