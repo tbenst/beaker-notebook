@@ -70,4 +70,24 @@ module.exports = function() {
       return this.click('.sort-by.subscription-date');
     }
   });
+
+  this.Widgets.SubscriptionOverview = this.Widget.extend({
+    root: '.overview',
+
+    numberOfDataSets: function() {
+      return this.read('.sets .value');
+    },
+
+    totalCost: function() {
+      return this.read('.cost .value');
+    },
+
+    recentlyUsedTitles: function() {
+      return this.findAll('.recently-used li').then(function(recentlyUsed) {
+        return $.map(recentlyUsed, function(subscription) {
+          return subscription.getText();
+        });
+      });
+    }
+  });
 };
