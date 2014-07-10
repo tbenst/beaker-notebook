@@ -26,7 +26,7 @@
           li(ng-show="editMode")
             a.update-project(ng-click="updateProject()") Save
           li
-            a.delete-project(confirm="Are you sure you want to delete {{ project.name }} AND all of the associated notebooks?" on-confirm="deleteProject()") Delete
+            a.delete-project(confirm="Are you sure you want to delete \"{{project.name}}\" AND all of the associated notebooks?" on-confirm="deleteProject()") Delete
   .cl
 
   .section-padding.section-padding-top.project-overview
