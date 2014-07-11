@@ -6,7 +6,6 @@
     var prjId = $state.params.id;
 
     $scope.projects.search = '';
-    $scope.projects.list = [];
 
     var beakerUrl = function(subPath, params) {
       return window.BUNSEN_SERVICES.beaker + "#/" +
@@ -33,15 +32,9 @@
       var userId    = $sessionStorage.currentUser.id
 
       $scope.notebookLocation = $sce.trustAsResourceUrl(notebookLocation(userId, prjId, notebook.id));
-
-      F.Notebooks.open(notebook.id).then(function(openNotebooks) {
-        Notebooks.setOpenNotebooks(openNotebooks);
-        F.Notebooks.getRecentNotebooks().then(function(recent) {
-          Notebooks.setRecentNotebooks(recent);
-        });
-      });
-
       $scope.notebook = notebook;
+
+      Notebooks.update({id: notebook.id, open: true});
     });
   }]);
 } (angular, window.bunsen));

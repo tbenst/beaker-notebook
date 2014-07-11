@@ -5,9 +5,9 @@ Feature: Use Notebooks
       | name               | description  |
       | ghost of tom jones | watch out    |
     And I have the following notebooks:
-      | name               | projectName        |
-      | top secret         | ghost of tom jones |
-      | powderpuff girls   | ghost of tom jones |
+      | name               | projectName        | openedAt                |
+      | top secret         | ghost of tom jones | 1990-01-01 00:00:00.000 |
+      | powderpuff girls   | ghost of tom jones | 1991-01-01 00:00:00.000 |
     And I view my projects
 
   Scenario: Notebooks Listing
@@ -62,7 +62,7 @@ Feature: Use Notebooks
     Then I should see the following notebooks:
       | name             |
       | powderpuff girls |
-    And I should see 0 recent notebooks
+    And I should see 1 recent notebooks
     And I should see 0 open notebooks
 
   Scenario: Canceling Deleting a Notebook
@@ -127,8 +127,10 @@ Feature: Use Notebooks
     Then I should see the following open notebooks:
       | name |
     Then I should see the following recent notebooks:
-      | name        |
-      | Notebook 1  |
+      | name             |
+      | Notebook 1       |
+      | powderpuff girls |
+      | top secret       |
 
   Scenario: Importing notebooks
     When I open the "ghost of tom jones" project
