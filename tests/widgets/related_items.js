@@ -16,7 +16,7 @@ module.exports = function() {
     },
 
     getCount: function() {
-      return this.findAll(".related-item").then(function(v){
+      return this.findAll("li").then(function(v){
         return v.length;
       });
     },

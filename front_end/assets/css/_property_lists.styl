@@ -1,43 +1,52 @@
-.property-label,
-.property-value
-  display inline-block
+.property-list
+  .label, .value
+    display inline-block
+
+  &.small
+    @extend .text-small
+    li
+      margin-bottom 7px
+
+    .label
+      min-width 100px
+
+    .value
+      color action-strong-green
 
 .market-item-properties
-  .property-label,
-  .property-value
+  .label, .value
     vertical-align top
     padding spacing-block-small + 4
     border-bottom 1px solid black
 
-  .property-label
+  .label
     border-color darken(action-strong-blue, 20%)
     background-color action-strong-blue
     width 25%
     text-transform uppercase
     color white
 
-  .property-value
+  .value
     width 75%
     padding-left spacing-block + 10
     border-color base-step5
     border-right 1px solid base-step5
     background-color white
 
-  .property-row-first
-    .property-label
+  li:first-child
+    .label
       border-top 1px solid transparent
-    .property-value
+    .value
       border-top 1px solid base-step5
 
-.property-list.small
-  @extend .text-small
-
-  .property-list-item
-    margin-bottom spacing-block-small - 3
-
-  .property-label
-    min-width 100px
-
-  .property-value
-    color action-strong-green
+.link-list a
+  overflow hidden
+  white-space nowrap
+  text-overflow ellipsis
+  max-width 100%
+  display inline-block
+  vertical-align top
+  &:after
+    content "\00bb"
+    margin-left 0.3em
 

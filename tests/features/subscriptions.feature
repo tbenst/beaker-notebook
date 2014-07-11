@@ -10,6 +10,15 @@ Feature: Subscriptions
       | Crime Rates, Canada | CRIME.xml  | pretty bad   |
       | Population, Canada  | POP.xml    | somewhat low |
 
+  Scenario: Seeing overview
+    When I view My Datasets
+    Then I should see that I have 2 datasets in the overview
+    And I should see a total cost of $0 in the overview
+    And I should see the following subscriptions in the overview:
+      | title               | remoteFile | description  |
+      | Crime Rates, Canada | CRIME.xml  | pretty bad   |
+      | Population, Canada  | POP.xml    | somewhat low |
+
   Scenario: Seeing subscribed datasets
     When I view My Datasets
     Then I should see the following subscriptions:

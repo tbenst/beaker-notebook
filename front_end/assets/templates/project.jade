@@ -30,36 +30,35 @@
             a.delete-project(confirm="Are you sure you want to delete \"{{project.name}}\" AND all of the associated notebooks?" on-confirm="deleteProject()") Delete
   .cl
 
-  .section-padding.section-padding-top.project-overview
-    .col-half.project-first-col
+  section.section-padding-top.overview
+    .col-half
       h4 Properties
       ul.property-list.small
-        li.property-list-item
-          span.property-label Last used
-          span.property-value {{project.lastExecuted || "N/A" | date: 'short'}}
-        li.property-list-item
-          span.property-label Updated
-          span.property-value.last-updated {{project.lastUpdatedAt | date: 'short'}}
-        li.property-list-item
-          span.property-label Commits
-          span.property-value {{project.numCommits}}
+        li
+          .label Last used
+          .value {{project.lastExecuted || "N/A" | date: 'short'}}
+        li
+          .label Updated
+          .value.last-updated {{project.lastUpdatedAt | date: 'short'}}
+        li
+          .label Commits
+          .value {{project.numCommits}}
 
-    .col-half.col-last
+    .col-half
       h4 Recently Used Notebooks
-      ul.property-list
-        li.text-small
+      ul.link-list
+        li
           a Notebook
-        li.text-small
+        li
           a Notebook
-        li.text-small
+        li
           a Notebook
-    .cl
 
-  .section-padding
+  section
     h2 Notebooks
-    ul.notebook-list
+    ul.notebook-list.bunsen-list
       li(ng-if="notebooks.length === 0") no notebooks yet.
-      li.single-notebook.base-row-item-green.base-row-item-skinny(ng-repeat="notebook in project.notebooks")
+      li.skinny(ng-repeat="notebook in project.notebooks")
         .col-half.padding-reset
           h2
             a(ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") {{notebook.name}}

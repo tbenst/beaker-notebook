@@ -3,13 +3,13 @@ module.exports = function() {
     root: '.subscription-list-item',
 
     purchaseDate: function() {
-      return this.read('.purchase-date .property-value');
+      return this.read('.purchase-date .value');
     }
   });
 
   this.Widgets.SubscriptionList = this.Widget.List.extend({
     root: '.subscription-list',
-    itemSelector: '.subscription-list-item',
+    itemSelector: '> li',
     itemClass: this.Widgets.Subscription,
     linkSelector: 'h2 a',
 
@@ -42,7 +42,7 @@ module.exports = function() {
     },
 
     locations: function() {
-      return this._readAll('.location .property-value');
+      return this._readAll('.location .value');
     },
 
     clickOn: function(title) {
@@ -68,6 +68,26 @@ module.exports = function() {
 
     toggleSortBySubscriptionDate: function() {
       return this.click('.sort-by.subscription-date');
+    }
+  });
+
+  this.Widgets.SubscriptionOverview = this.Widget.extend({
+    root: '.overview',
+
+    numberOfDataSets: function() {
+      return this.read('.sets .value');
+    },
+
+    totalCost: function() {
+      return this.read('.cost .value');
+    },
+
+    recentlyUsedTitles: function() {
+      return this.findAll('.recently-used li').then(function(recentlyUsed) {
+        return $.map(recentlyUsed, function(subscription) {
+          return subscription.getText();
+        });
+      });
     }
   });
 };

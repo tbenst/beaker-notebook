@@ -1,7 +1,7 @@
 module.exports = function() {
   return this.Widgets.ProjectSearchList = this.Widget.List.extend({
-    root: '.project-search',
-    itemSelector: ".search-result-row-item",
+    root: '.project-search-results',
+    itemSelector: "> li",
 
     waitForItem: function() {
       return this.find(this.itemSelector);
@@ -18,7 +18,7 @@ module.exports = function() {
 
     contents: function() {
       return $.map(this.items(), function(n) {
-        return $.all([n.find(".name a"), n.find(".vendor-item-list-attributes .count")])
+        return $.all([n.find(".title"), n.find(".attributes .count")])
         .then(function(arr) {
           return $.all(_.invoke(arr, 'getText'))
           .then(function(text) {

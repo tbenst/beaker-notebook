@@ -34,6 +34,20 @@ module.exports = function() {
     return new this.Widgets.SubscriptionList().clickOn(title);
   });
 
+  this.Then(/^I should see that I have (\d+) datasets in the overview$/, function(count) {
+    return new this.Widgets.SubscriptionOverview().numberOfDataSets().should.eventually.eql(count);
+  });
+
+  this.Then(/^I should see a total cost of \$(\d+) in the overview$/, function(cost) {
+    return new this.Widgets.SubscriptionOverview().totalCost().should.eventually.eql('$'+cost);
+  });
+
+  this.Then(/^I should see the following subscriptions in the overview:$/, function(table) {
+    var expectedTitles = _.pluck(table.hashes(), 'title');
+
+    return new this.Widgets.SubscriptionOverview().recentlyUsedTitles().should.eventually.eql(expectedTitles);
+  });
+
   this.Then(/^I should see the "([^"]*)" dataset in the marketplace$/, function(title) {
     return new this.Widgets.MarketItem().title().should.eventually.equal(title);
   });
