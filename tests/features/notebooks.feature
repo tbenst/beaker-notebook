@@ -152,6 +152,10 @@ Feature: Use Notebooks
       | Finance Research | Researching a theory on stock prices |
     And I view my projects
     When I open the "ghost of tom jones" project
+    Then I should see the following notebooks:
+      | name               |
+      | powderpuff girls   |
+      | top secret         |
     And I move the "top secret" notebook to the "Finance Research" project
     Then I should see the following notebooks:
       | name               |
@@ -170,7 +174,11 @@ Feature: Use Notebooks
       | top secret         | Finance Research   |
     And I view my projects
     When I open the "ghost of tom jones" project
-    And I move the "top secret" notebook to the "Finance Research" project
+    Then I should see the following notebooks:
+      | name               |
+      | powderpuff girls   |
+      | top secret         |
+    When I move the "top secret" notebook to the "Finance Research" project
     Then I should see the following notebooks:
       | name               |
       | powderpuff girls   |
