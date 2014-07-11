@@ -106,6 +106,7 @@ As a researcher, I want to manage my projects.
       | ghost of tom jones | watch out              |
       | bobby jean         | ghost of tom jones     |
       | rage               | againt the machine     |
+    And I view my projects
     And I search for project "ghost of tom jones"
     Then I should see 2 project results.
 
@@ -115,6 +116,7 @@ As a researcher, I want to manage my projects.
       | ghost of tom jones | watch out              |
       | bobby jean         | ghost of tom jones     |
       | rage               | againt the machine     |
+    And I view my projects
     And I search for project "ghost of tom jones"
     And I view the first search result
     And I search for project "rage"
