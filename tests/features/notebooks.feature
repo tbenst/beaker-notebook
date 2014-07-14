@@ -184,9 +184,9 @@ Feature: Use Notebooks
     Then I should see the following notebooks:
       | name             |
       | Notebook 1       |
-      | Winter Grasp     |
       | powderpuff girls |
       | top secret       |
+      | Winter Grasp     |
 
   Scenario: Saving changes to an existing notebook
     When I view my projects

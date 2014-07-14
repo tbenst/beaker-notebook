@@ -58,7 +58,7 @@
     h2 Notebooks
     ul.notebook-list.bunsen-list
       li(ng-if="project.notebooks.length === 0") no notebooks yet.
-      li.skinny(ng-repeat="notebook in project.notebooks")
+      li.skinny(ng-repeat="notebook in project.notebooks | orderBy:'name'")
         .col-half.padding-reset
           h2
             a(ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") {{notebook.name}}
