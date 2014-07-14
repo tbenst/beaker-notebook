@@ -11,6 +11,10 @@ module.exports = function(Bookshelf, app){
 
     dataSets: function() {
       return this.belongsToMany(models.DataSet, 'data_sets_categories', 'categoryId', 'dataSetId')
+    },
+
+    notebooks: function() {
+      return this.hasMany(models.Notebook, 'category_id');
     }
   }, {
 

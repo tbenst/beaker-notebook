@@ -78,6 +78,10 @@ function Notebook(Bookshelf, app) {
       return this.hasOne(app.Models.Publication, 'notebook_id');
     },
 
+    category: function() {
+      return this.belongsTo(app.Models.Category, 'notebook_id');
+    },
+
     getData: function(data) {
       return data ? when(data) : readFile(generateNotebookFilePath.call(this))
     },
