@@ -6,8 +6,9 @@
       controller: ['$scope', '$element', function($scope, $element) {
         $scope.modalShown = false;
 
-        $scope.$on('openModal', function(e, content) {
+        $scope.$on('openModal', function(e, content, options) {
           $element.find('section').empty().append(content);
+          $scope.width = options.width;
           $scope.modalShown = true;
         });
 

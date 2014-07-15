@@ -1,6 +1,6 @@
 .ng-modal
   .ng-modal-overlay(ng-click="modalShown = false")
-  .ng-modal-dialog
+  .ng-modal-dialog(style="width: {{width}}")
     .ng-modal-close(ng-click="modalShown = false") &times;
     .ng-modal-dialog-content
       section
