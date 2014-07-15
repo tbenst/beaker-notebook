@@ -57,7 +57,7 @@
   section
     h2 Notebooks
     ul.notebook-list.bunsen-list
-      li(ng-if="notebooks.length === 0") no notebooks yet.
+      li(ng-if="project.notebooks.length === 0") no notebooks yet.
       li.skinny(ng-repeat="notebook in project.notebooks")
         .col-half.padding-reset
           h2
