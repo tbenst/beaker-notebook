@@ -27,6 +27,13 @@ module.exports = function() {
         });
       });
     },
+
+    openPublishModal: function() {
+      return this.find('.publish').click();
+    },
+
+    viewPublished: function() {
+      return this.click('.view-published');
+    }
   });
 };
-

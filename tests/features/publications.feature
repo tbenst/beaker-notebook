@@ -1,0 +1,25 @@
+Feature: Publications
+  As a User
+  I want to be able to publish notebooks
+  So that I can share my data with others
+
+  Background:
+    Given I'm signed in as a researcher
+    And I have the following Projects:
+      | name               | description  |
+      | ghost of tom jones | watch out    |
+    And I have the following notebooks:
+      | name               | projectName        |
+      | top secret         | ghost of tom jones |
+
+  Scenario: Publishing a Notebook
+    Given I view my projects
+    And I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    When I go to publish the notebook
+    And I give it the description "not so secret anymore"
+    And I publish the notebook
+    And I view the published version
+    Then I should see a published version of the following notebook:
+      | name       | description           |
+      | top secret | not so secret anymore |
