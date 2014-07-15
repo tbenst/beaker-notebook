@@ -3,22 +3,33 @@
   app.controller('projectsRoot', ['$scope', 'Factories', '$state', function($scope, Factories, $state) {
     var F = Factories;
 
-    $scope.projects = {};
-    $scope.notebooks = {};
+    function setProjects() {
+      if ($scope.projects.list) return;
+
+      F.Projects.getProjects().then(function(projects) {
+        $scope.projects.list = projects;
+      });
+    }
+
+    function setNotebooks() {
+      if ($scope.notebooks.list) return;
+
+      F.Notebooks.getNotebooks().then(function(notebooks) {
+        $scope.notebooks.list = notebooks;
+      });
+    }
+
+    $scope.projects = $scope.projects || {};
+    $scope.notebooks = $scope.notebooks || {};
+
+    setProjects();
+    setNotebooks();
 
     $scope.openProject = function(notebookId) {
       $state.go('projects.items.item.notebook', {
         notebook_id: notebookId
       });
     }
-
-    F.Projects.getProjects().then(function(projects) {
-      $scope.projects.list = projects;
-    });
-
-    F.Notebooks.getNotebooks().then(function(notebooks) {
-      $scope.notebooks.list = notebooks;
-    });
 
     $scope.$watch('projects.search', function(v) {
       if (v !== void(0) && v !== '') {
