@@ -1,7 +1,5 @@
 ;(function(app) {
-  app.directive('notebookMove', ['Factories', function(Factories) {
-    var F = Factories;
-
+  app.directive('notebookMove', ['Notebooks', function(Notebooks) {
     return {
       restrict: 'A',
       template: templates['directives/notebook_move'],
@@ -23,7 +21,7 @@
         scope.$watch('projects', filterProjects);
 
         scope.moveTo = function(options) {
-          F.Notebooks.update({
+          Notebooks.update({
             id: scope.notebook.id,
             projectId: options.projectId
           })
