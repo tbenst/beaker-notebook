@@ -57,7 +57,7 @@
     }
 
     $scope.updateProject = function() {
-      $scope.project.put().then(function() {
+      $scope.project.customPUT($scope.newAttributes).then(function() {
         loadProjectList();
         $scope.editMode = false;
         $scope.error = null;
@@ -96,5 +96,11 @@
         });
       })
     };
+
+    $scope.$watch('project', function() {
+      var editableAttributes = ['name', 'description'];
+
+      $scope.newAttributes = _.pick($scope.project, editableAttributes);
+    });
   }]);
 })(angular, window.bunsen);

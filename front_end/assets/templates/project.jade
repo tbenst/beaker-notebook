@@ -6,7 +6,7 @@
         img(src="images/edit.png", width="14", height="14")
     .content
       p.project-description-display(ng-hide="editMode") {{project.description}}
-      textarea.project-description(name="description", ng-model="project.description" ng-show="editMode")
+      textarea.project-description(name="description", ng-model="newAttributes.description" ng-show="editMode")
         | Project description...
       a.btn.btn-light.update-project.left(ng-show="editMode", ng-click="updateProject()") Save
       .cl
@@ -15,7 +15,7 @@
   notice.error(message="error")
   h1.project-name
     span(ng-hide="editMode") {{project.name}}
-    input(name="name", ng-model="project.name", ng-show="editMode")
+    input(name="name", ng-model="newAttributes.name", ng-show="editMode")
   a.btn.btn-light.update-project-top-btn(ng-show="editMode", ng-click="updateProject()") Save
 
   .right.project-menu
