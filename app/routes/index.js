@@ -7,6 +7,7 @@ module.exports.init = function(app) {
   require('./categories_routes.js')(app);
   require('./projects_routes.js')(app);
   require('./subscription_routes.js')(app);
+  require('./publications_routes.js')(app);
   require('./users_routes.js')(app);
   require('./notebook_routes.js')(app);
   require('./tag_routes.js')(app);

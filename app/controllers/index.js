@@ -6,6 +6,7 @@ module.exports.init = function(app) {
     ProjectsController: require('./projects_controller.js')(app),
     NotebooksController: require('./notebooks_controller.js')(app),
     SubscriptionsController: require('./subscriptions_controller.js')(app),
+    PublicationsController: require('./publications_controller.js')(app),
     UsersController: require('./users_controller.js')(app),
     DataTagsController: require('./data_tags_controller.js')(app),
   };
