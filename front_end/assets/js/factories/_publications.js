@@ -3,6 +3,10 @@
     var R = Restangular;
 
     return {
+      getPublications: function() {
+        return R.all('publications').getList();
+      },
+
       getPublication: function(publicationId) {
         return R.one('publications', publicationId).get();
       },

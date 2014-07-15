@@ -11,7 +11,13 @@
         }
       })
       .state('publications.items', {
-        url: '/publications'
+        url: '/publications',
+        views: {
+          "app@publications": {
+            controller: 'publicationsList',
+            template: templates.publications_list
+          }
+        }
       })
       .state('publications.items.item', {
         url: '/:id',
