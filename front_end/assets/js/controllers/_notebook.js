@@ -24,10 +24,6 @@
       });
     };
 
-    F.Projects.getProject($state.params.id).then(function(project) {
-      $scope.project = project;
-    });
-
     F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
       var userId    = $sessionStorage.currentUser.id
 
@@ -35,6 +31,10 @@
       $scope.notebook = notebook;
 
       Notebooks.update({id: notebook.id, open: true});
+    });
+
+    $scope.$watchCollection('projects.list', function() {
+      $scope.project = _.find($scope.projects.list, {id: parseInt($state.params.id)});
     });
   }]);
 } (angular, window.bunsen));

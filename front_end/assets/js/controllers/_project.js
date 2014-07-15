@@ -10,8 +10,6 @@
       });
     };
 
-    $scope.loadProject();
-
     $rootScope.$on('window-message-notebook-create', function(event, notebook) {
       $state.go('projects.items.item.notebook', { notebook_id: notebook.id });
     });
@@ -101,6 +99,16 @@
       var editableAttributes = ['name', 'description'];
 
       $scope.newAttributes = _.pick($scope.project, editableAttributes);
+    });
+
+    $scope.$watchCollection('projects.list', function() {
+      $scope.project = _.find($scope.projects.list, {id: parseInt($state.params.id)});
+    });
+
+    $scope.$watchCollection('notebooks.list', function() {
+      $scope.project = $scope.project || {};
+
+      $scope.project.notebooks = _.where($scope.notebooks.list, {projectId: parseInt($state.params.id)});
     });
   }]);
 })(angular, window.bunsen);
