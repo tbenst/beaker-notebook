@@ -1,8 +1,15 @@
 module.exports = function(app) {
-  var Publication = app.Models.Publication;
+  var Publication = app.Models.Publication,
       Notebook = app.Models.Notebook;
 
   return {
+    index: function(req, res, next) {
+      Publication.forge()
+      .fetchAll({ withRelated: 'notebook' })
+      .then(res.json.bind(res))
+      .catch(next);
+    },
+
     get: function(req, res, next) {
       Publication.forge({ id: req.params.id })
       .fetch({ withRelated: 'notebook' })
