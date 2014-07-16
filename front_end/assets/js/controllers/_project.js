@@ -10,8 +10,6 @@
       });
     };
 
-    $scope.loadProject();
-
     $rootScope.$on('window-message-notebook-create', function(event, notebook) {
       $state.go('projects.items.item.notebook', { notebook_id: notebook.id });
     });
@@ -57,7 +55,7 @@
     }
 
     $scope.updateProject = function() {
-      $scope.project.put().then(function() {
+      $scope.project.customPUT($scope.newAttributes).then(function() {
         loadProjectList();
         $scope.editMode = false;
         $scope.error = null;
@@ -73,12 +71,9 @@
         $scope.projects.list =  _.where($scope.projects.list, function(p) {
           return p.id !== +$state.params.id;
         });
-        Notebooks.setRecentNotebooks(_.where(Notebooks.getRecentNotebooks(), function(n) {
+        $scope.notebooks.list = _.where($scope.notebooks.list, function(n) {
           return n.projectId !== +$state.params.id;
-        }));
-        Notebooks.setOpenNotebooks(_.where(Notebooks.getOpenNotebooks(), function(n) {
-          return n.projectId !== +$state.params.id;
-        }));
+        });
         $state.go('projects.items');
       });
     };
@@ -99,5 +94,21 @@
         });
       })
     };
+
+    $scope.$watch('project', function() {
+      var editableAttributes = ['name', 'description'];
+
+      $scope.newAttributes = _.pick($scope.project, editableAttributes);
+    });
+
+    $scope.$watchCollection('projects.list', function() {
+      $scope.project = _.find($scope.projects.list, {id: parseInt($state.params.id)});
+    });
+
+    $scope.$watchCollection('notebooks.list', function() {
+      $scope.project = $scope.project || {};
+
+      $scope.project.notebooks = _.where($scope.notebooks.list, {projectId: parseInt($state.params.id)});
+    });
   }]);
 })(angular, window.bunsen);

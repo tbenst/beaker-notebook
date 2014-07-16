@@ -181,22 +181,6 @@ function Notebook(Bookshelf, app) {
     }
   });
 
-  Notebook.getOpen = function(opts) {
-    return query("Notebooks")
-    .where("userId", opts.userId)
-    .where("open", true)
-    .select();
-  },
-
-  Notebook.getRecent = function(opts) {
-    return query("Notebooks")
-    .where("userId", opts.userId)
-    .whereNotNull('openedAt')
-    .orderBy('openedAt', 'desc')
-    .limit(MAX_RECENT_NOTEBOOKS)
-    .select();
-  },
-
   Notebook.list = function(opts) {
     return query("Notebooks")
     .where("projectId", opts.projectId)

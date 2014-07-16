@@ -7,28 +7,12 @@
     }
 
     return {
-      open: function(notebookId) {
-        return R.all('open_notebook').post({
-          notebookId: notebookId
-        });
-      },
-
-      close: function(notebookId) {
-        return R.all('open_notebook').remove({
-          notebookId: notebookId
-        });
-      },
-
       getNotebook: function(notebookId) {
         return R.one('notebooks', notebookId).get();
       },
 
-      getOpenNotebooks: function() {
-        return R.all('open_notebooks').getList();
-      },
-
-      getRecentNotebooks: function() {
-        return R.all('recent_notebooks').getList();
+      getNotebooks: function() {
+        return R.all('notebooks').getList();
       },
 
       update: function(attrs) {

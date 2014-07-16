@@ -21,8 +21,15 @@ module.exports = function(app) {
       .done(next, next);
     },
 
-    index: function(req, res, next) {
+    byProject: function(req, res, next) {
       Notebook.list({projectId: req.project.id})
+      .then(res.json.bind(res))
+      .catch(next);
+    },
+
+    index: function(req, res, next) {
+      req.user.notebooks()
+      .fetch()
       .then(res.json.bind(res))
       .catch(next);
     },
@@ -83,10 +90,10 @@ module.exports = function(app) {
     update: function(req, res, next) {
       req.notebook.withData()
       .then(function(notebook) {
-        var attrs = _.pick(req.body, 'name', 'data', 'projectId');
-        if (attrs.data) {
-          attrs.data = JSON.parse(attrs.data);
-        }
+        var attrs = _.pick(req.body, 'open', 'name', 'data', 'projectId');
+        if (attrs.data) attrs.data = JSON.parse(attrs.data);
+        if (attrs.open) attrs.openedAt = new Date();
+
         return notebook.saveUnique(attrs, {patch: true});
       })
       .then(function(notebook) {
@@ -102,54 +109,6 @@ module.exports = function(app) {
 
     destroy: function(req, res, next) {
       req.notebook.destroy()
-      .then(res.json.bind(res))
-      .catch(next);
-    },
-
-    openNotebooks: function(req, res, next) {
-      Notebook.getOpen({userId: req.user.id})
-      .then(res.json.bind(res))
-      .catch(next);
-    },
-
-    recentNotebooks: function(req, res, next) {
-      Notebook.getRecent({userId: req.user.id})
-      .then(res.json.bind(res))
-      .catch(next);
-    },
-
-    openNotebook: function(req, res, next) {
-      Notebook.forge({
-        userId: +req.user.id,
-        id: req.body.notebookId
-      })
-      .fetch()
-      .then(function(notebook) {
-        return notebook.save({
-          "open": true,
-          "openedAt": new Date()
-        }, {patch: true}).then(function() {
-          Notebook.getOpen({userId: req.user.id})
-          .then(res.json.bind(res));
-        });
-      })
-      .catch(next);
-    },
-
-    closeNotebook: function(req, res, next) {
-      app.Models.Notebook.forge({
-        userId: req.user.id,
-        id: req.query.notebookId
-      })
-      .fetch()
-      .then(function(notebook) {
-        return notebook.save({
-          "open": false
-        }, {patch: true})
-      })
-      .then(function() {
-        return Notebook.getOpen({userId: req.user.id})
-      })
       .then(res.json.bind(res))
       .catch(next);
     }

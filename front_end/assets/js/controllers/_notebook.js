@@ -6,7 +6,6 @@
     var prjId = $state.params.id;
 
     $scope.projects.search = '';
-    $scope.projects.list = [];
 
     var beakerUrl = function(subPath, params) {
       return window.BUNSEN_SERVICES.beaker + "#/" +
@@ -25,23 +24,17 @@
       });
     };
 
-    F.Projects.getProject($state.params.id).then(function(project) {
-      $scope.project = project;
-    });
-
     F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
       var userId    = $sessionStorage.currentUser.id
 
       $scope.notebookLocation = $sce.trustAsResourceUrl(notebookLocation(userId, prjId, notebook.id));
-
-      F.Notebooks.open(notebook.id).then(function(openNotebooks) {
-        Notebooks.setOpenNotebooks(openNotebooks);
-        F.Notebooks.getRecentNotebooks().then(function(recent) {
-          Notebooks.setRecentNotebooks(recent);
-        });
-      });
-
       $scope.notebook = notebook;
+
+      Notebooks.update({id: notebook.id, open: true});
+    });
+
+    $scope.$watchCollection('projects.list', function() {
+      $scope.project = _.find($scope.projects.list, {id: parseInt($state.params.id)});
     });
   }]);
 } (angular, window.bunsen));
