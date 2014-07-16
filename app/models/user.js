@@ -7,6 +7,15 @@ module.exports = function(Bookshelf, app) {
 
     idAttrs: ["email"],
 
+    initialize: function () {
+      this.on("created", this.createDefaultProject);
+    },
+
+    createDefaultProject: function() {
+      return app.Models.Project.forge({ownerId: this.id, name: 'Sandbox', description: 'Sandbox'})
+      .save()
+    },
+
     projects: function(id) {
       return this.hasMany(app.Models.Project, 'ownerId')
     },
