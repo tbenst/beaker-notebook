@@ -47,7 +47,7 @@
     .col-half
       h4 Recently Used Notebooks
       ul.link-list.recently-used
-        li(ng-repeat="notebook in project.notebooks | orderBy:'openedAt':true")
+        li(ng-repeat="notebook in project.notebooks | orderBy:'openedAt':true | limitTo:4")
           a(ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") {{notebook.name}}
 
   section
