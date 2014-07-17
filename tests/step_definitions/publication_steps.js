@@ -26,4 +26,20 @@ module.exports = function() {
       return publication.description().should.eventually.eql(attrs.description);
     })
   });
+
+  this.Then(/^I should see that the notebook is not published$/, function() {
+    return new this.Widgets.Notebook().publishStatus().should.eventually.eql('This notebook is currently private');
+  });
+
+  this.Then(/^I should see that the notebook is published$/, function() {
+    return new this.Widgets.Notebook().publishStatus().should.eventually.eql('This notebook is published');
+  });
+
+  this.Then(/^the notebook publish date should be now$/, function() {
+    return new this.Widgets.Notebook().publishTime().then(function(publishTime) {
+      var publishTime = moment(publishTime, "M/D/YY h:mm A");
+      var now = moment();
+      return now.diff(publishTime, 'minutes').should.be.at.most(1);
+    });
+  });
 }

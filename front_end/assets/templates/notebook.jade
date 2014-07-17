@@ -3,6 +3,11 @@
     .publishing.sidebar-box.light
       h3 Publishing
       .content
+        .publish-status.text-small(ng-class="published ? 'public' : 'private'") This notebook is {{ published ? 'published' : 'currently private' }}
+        ul.publication-details.property-list.small(ng-if="published")
+          li
+            .label Published
+            .value.publish-time {{notebook.publication.created_at | date:'short'}}
         a.view-published(ng-if="published" ui-sref="publications.items.item({id: notebook.publication.id})") View published version &raquo;
         a.publish(ng-if="!published" ng-click="openPublishModal()") Publish this notebook &raquo;
 

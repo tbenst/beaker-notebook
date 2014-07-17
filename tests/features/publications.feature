@@ -16,10 +16,13 @@ Feature: Publications
     Given I view my projects
     And I open the "ghost of tom jones" project
     And I view the notebook "top secret"
+    Then I should see that the notebook is not published
     When I go to publish the notebook
     And I give it the description "not so secret anymore"
     And I publish the notebook
-    And I view the published version
+    Then I should see that the notebook is published
+    And the notebook publish date should be now
+    When I view the published version
     Then I should see a published version of the following notebook:
       | name       | description           |
       | top secret | not so secret anymore |

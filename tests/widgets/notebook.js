@@ -32,8 +32,16 @@ module.exports = function() {
       return this.find('.publish').click();
     },
 
+    publishStatus: function() {
+      return this.read('.publish-status');
+    },
+
     viewPublished: function() {
       return this.click('.view-published');
+    },
+
+    publishTime: function() {
+      return this.read('.publish-time');
     }
   });
 };
