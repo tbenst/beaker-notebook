@@ -32,7 +32,7 @@ As a researcher, I want to manage my projects.
     And I should see the following project list:
       | name      |
       | Project 1 |
-      | Project 2  |
+      | Project 2 |
       | Sandbox   |
     When I update the project as follows:
       | name      |
