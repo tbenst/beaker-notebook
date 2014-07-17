@@ -7,6 +7,8 @@ module.exports = function(Bookshelf, app){
   var Category = Bookshelf.Model.extend({
     tableName: "Categories",
 
+    idAttrs: ["name", "path"],
+
     dataSets: function() {
       return this.belongsToMany(models.DataSet, 'DataSetsCategories', 'categoryId', 'dataSetId')
     }

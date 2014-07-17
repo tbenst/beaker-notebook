@@ -1,0 +1,19 @@
+.data-previews(ng-if="hasPreviews()")
+  ul.tabs
+    li.tab(ng-if="item.csvPreview" ng-click="item.tabView='table'" ng-class="{active: isActive('table')}") Tables
+    li.tab(ng-if="item.dataPreviews.length" ng-click="item.tabView='thumbnail'" ng-class="{active: isActive('thumbnail')}" ) Thumbnails
+
+  div(ng-if="item.tabView=='table'" )
+    .data-preview-contain
+      table.preview-table
+        tr
+          th.table-header(ng-repeat="name in table.headers") {{name}}
+        tr(ng-repeat="rows in table.body")
+          td.table-data(ng-repeat="data in rows track by $index") {{data}}
+
+  div(ng-if="item.tabView=='thumbnail'")
+    .data-preview-contain
+      ul
+        li(ng-repeat="preview in item.dataPreviews")
+          a(ng-href="{{preview.previewUrl}}", target="_blank")
+            img(ng-src="{{preview.smallPreviewUrl}}")

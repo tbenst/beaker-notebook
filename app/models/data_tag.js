@@ -3,7 +3,9 @@ var _     = require('lodash');
 module.exports = function(Bookshelf, app) {
   var query   = Bookshelf.knex;
   var DataTag = Bookshelf.Model.extend({
-    tableName: 'DataTags'
+    tableName: 'DataTags',
+
+    idAttrs: ["name"]
   });
 
   DataTag = _.extend(DataTag, {

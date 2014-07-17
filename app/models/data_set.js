@@ -9,6 +9,8 @@ module.exports = function(Bookshelf, app) {
   var DataSet = Bookshelf.Model.extend({
     tableName: 'DataSets',
 
+    idAttrs: ["title"],
+
     initialize: function() {
       this.on("saved destroyed", this.touchCategories);
     },

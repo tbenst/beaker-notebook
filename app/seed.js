@@ -17,14 +17,27 @@ module.exports = function(data, configPath) {
       // first save the model so we have an ID
       // then loop over the associations
       // then save the model once more
-      return models[d.model].forge(d.data)
+      return models[d.model].forge(_.pick(d.data, models[d.model].prototype.idAttrs))
+        .fetch()
+        .then(function (m) {
+          return {fields: d, model: m};
+        })
+        .then (function (obj) {
+          if (obj.model === null){
+            return models[obj.fields.model].forge(obj.fields.data)
               .save()
               .then(function(model) {
-                return setAssociations(model, d.model, d.associations, models);
+                return setAssociations(model, obj.fields.model, obj.fields.associations, models);
               })
               .then(function(model) {
                 return model.save();
               });
+          }
+          else {
+            if ( isEqual( _.omit(obj.model.attributes, ['id', 'created_at', 'updated_at']), obj.fields.data) ) return;
+            return obj.model.set(obj.fields.data).save();
+          }
+        })
       }, d);
   }).value()).then(function() {
     // after we are done return the models array
@@ -122,4 +135,13 @@ function setJoinedRelationship(joinTable, attrs) {
   });
 
   return (new JoinModel(attrs)).save()
+}
+
+//Similar to _.isEqual but also accounts for the case when a model has a null value
+function isEqual (model, seedData) {
+  var truthyArr = _.map(Object.keys(model), function (attr) {
+    if (model[attr] === null) return true;
+    if (model[attr] === seedData[attr]) return true;
+  })
+  return _.every(truthyArr);
 }

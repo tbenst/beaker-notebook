@@ -38,6 +38,12 @@ module.exports = function() {
 
     filePath: function() {
       return this.read('.file-path');
+    },
+
+    activeTab: function() {
+      return this.find('.tab.active').then(function (elm) {
+        return elm.getText();
+      });
     }
   });
 };

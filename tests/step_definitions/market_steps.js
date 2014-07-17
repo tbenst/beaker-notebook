@@ -56,9 +56,9 @@ module.exports = function() {
   this.When(/^there is (\d+) market items$/, function(count, callback) {
     var itemSaves = [];
     for(var i = 0; i < +count; ++i) {
-      itemSaves.push(this.seed.populate(marketItemBase()));
+      itemSaves.push(this.seed.populate(_.merge(marketItemBase(),{
+        data: { title: marketItemBase().data.title + i }})));
     }
-
     return bluebird.all(itemSaves);
   });
 
@@ -69,12 +69,14 @@ module.exports = function() {
       description:  marketItemBase().data.description,
       vendors: '',
       subscribers: '',
-      updateFrequency: marketItemBase().data.updateFrequency
+      updateFrequency: marketItemBase().data.updateFrequency,
+      dataPreviews: ''
     });
 
     info.tags     = [].concat(info.tags.split(','));
     info.vendors  = [].concat(info.vendors.split(','));
     info.subscribers = [].concat(info.subscribers.split(','));
+    info.dataPreviews = [].concat(info.dataPreviews.split(','));
     _.pull(info.subscribers, '');
 
     var _this       = this;
@@ -87,12 +89,23 @@ module.exports = function() {
           name: vendorName
         }
       }
-    })).then(function() {
+    }))
+    .then(function() {
       return _this.seed.populate(info.tags.map(function(tagName) {
         return {
           model: 'DataTag',
           data: {
             name: tagName
+          }
+        }
+      }))
+    })
+    .then(function() {
+      return _this.seed.populate(info.dataPreviews.map(function(preview) {
+        return {
+          model: 'DataPreview',
+          data: {
+            smallPreviewUrl: preview
           }
         }
       }))
@@ -104,6 +117,9 @@ module.exports = function() {
       }, {
         foreignKey: "vendorId",
         lookup: {"Vendor": info.vendors.map(function(vendorName) { return {name: vendorName}; })}
+      }, {
+        joinTable: "DataSetsDataPreviews",
+        lookup: {"DataPreview": info.dataPreviews.map(function(preview){ return {smallPreviewUrl: preview} ;})}
       }];
 
       if (info.subscribers.length) {
@@ -116,6 +132,7 @@ module.exports = function() {
       delete info.tags;
       delete info.vendors;
       delete info.subscribers;
+      delete info.dataPreviews;
 
       return _this.seed.populate(_.merge(marketItem, {
         data: info
@@ -152,9 +169,10 @@ module.exports = function() {
     return marketList.items().should.eventually.have.length(+count);
   });
 
-  this.When(/^there is a market item with the format "([^"]*)"$/, function(format, callback) {
+  this.When(/^there is a market item with the title "([^"]*)" and the format "([^"]*)"$/, function(title, format, callback) {
     return this.seed.populate(_.merge(marketItemBase(), {
       data: {
+        title: title,
         format: format
       }
     }));
@@ -268,7 +286,6 @@ module.exports = function() {
         data: item
       }
     });
-
     return this.seed.populate(seedData);
   });
 
@@ -302,5 +319,42 @@ module.exports = function() {
     var filter = new this.Widgets.MarketVendorFilter;
     var expected = vendors.split(",");
     return filter.getItemNames().should.eventually.deep.equal(expected);
+  });
+
+  this.Then(/^I should see an active tab of "([^"]*)"$/, function(tabName) {
+    return (new this.Widgets.MarketItem()).activeTab().should.eventually.equal(tabName)
+  });
+
+  this.When(/^I have a market item with only a thumbnail$/, function() {
+    return seedDataSet.call(this, {title: "Thumbnail Preview", dataPreviews: "http://placehold.it/100x101"});
+  });
+
+  this.When(/^I have a market item with a csv preview and a thumbnail$/, function() {
+    return seedDataSet.call(this, {title: "Thumbnail and CSV", dataPreviews: "http://placehold.it/100x101", numColumns: 5, csvPreview: "one,two,three\n1,2,3"});
+  });
+
+  this.Then(/^I should see (\d+) tab(s*)$/, function(tabCount) {
+    var tabList = new this.Widgets.TabList()
+    return  tabList.items().should.eventually.have.length(tabCount);
+  });
+
+  this.When(/^I click the "([^"]*)" tab$/, function(tab) {
+    var tabList = new this.Widgets.TabList()
+    return tabList.clickTab(tab);
+  });
+
+  this.When(/^I have a market item with no csv preview and no thumbnail$/, function() {
+    return this.seed.populate(_.merge(marketItemBase(), {
+      data: {
+        title: "Sans Previews"
+      }
+    }));
+  });
+
+  this.Then(/^I should not see any previews$/, function() {
+    var dataPreview = new this.Widget({
+      root: '.data-previews'
+    });
+    return dataPreview.isPresent().should.eventually.equal(false);
   });
 }
