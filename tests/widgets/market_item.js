@@ -7,7 +7,7 @@ module.exports = function() {
     },
 
     description: function() {
-      return this.read('.market-description');
+      return this.read('.description');
     },
 
     vendors: function() {

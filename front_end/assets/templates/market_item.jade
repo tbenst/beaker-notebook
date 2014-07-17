@@ -1,10 +1,10 @@
 .main-content.market-item(ng-if="item.title")
   .btn.btn-light.return-to-market-search(ui-sref="{{referrerList}}") Back to List
-  .market-item-hero
+  .item-hero
     h1 {{item.title}}
-    p.market-description {{item.description}}
+    p.description {{item.description}}
 
-    .market-item-vendor-info
+    .details
       .col-three-quarters.col-outside
         h3.vendor {{vendorName(item)}}
           span.text-blue &nbsp; &raquo;
@@ -18,7 +18,7 @@
       &nbsp;
       | from within any Notebook.
 
-  section.market-item-properties
+  section.properties
     h1 Properties
 
     ul.property-list

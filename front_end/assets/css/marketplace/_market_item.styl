@@ -1,17 +1,21 @@
 @import '_variables'
 
+item-hero-padding = 32px
 
-.market-item-hero
+.item-hero
   background-color white
   margin-top spacing-block
   border 1px solid base-step5
-  padding spacing-block
+  padding item-hero-padding
+  padding-bottom spacing-block
   border-top 4px solid action-strong-green
 
   h1
-    margin-bottom spacing-block
+    font-size 21px
+    line-height 26px
+    margin 0 0 spacing-block 0
 
-.market-item-vendor-info
+.details
   padding-top spacing-block
   border-top 1px solid base-step5
 
@@ -19,14 +23,15 @@
     font-size font-size-base + 1
     margin-top spacing-block-small + 2
 
-.market-item-properties
-  margin-top spacing-block + 30
+.market-item
+  .properties
+    margin-top spacing-block + 30
 
 .subscribed-confirm
   vertical-align middle
   border 1px solid base-step5
   border-top none
-  padding spacing-block
+  padding spacing-block item-hero-padding
   width 100%
   background-color lighten(base-step5, 50%)
   p
