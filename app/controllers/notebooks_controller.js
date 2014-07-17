@@ -75,8 +75,11 @@ module.exports = function(app) {
 
     get: function(req, res, next) {
       req.notebook.withData()
+      .then(function(notebook) {
+        notebook.load('publication')
         .then(res.json.bind(res))
         .catch(next);
+      });
     },
 
     notebookContents: function(req, res, next) {
