@@ -3,6 +3,13 @@ module.exports = function(app) {
       Notebook = app.Models.Notebook;
 
   return {
+    get: function(req, res, next) {
+      Publication.forge({ id: req.params.id })
+      .fetch({ withRelated: 'notebook' })
+      .then(res.json.bind(res))
+      .catch(next);
+    },
+
     create: function(req, res, next) {
       Notebook.forge({ id: req.body.id, userId: req.user.id })
       .fetch({ require: true })
