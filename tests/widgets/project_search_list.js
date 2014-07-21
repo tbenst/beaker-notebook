@@ -1,6 +1,6 @@
 module.exports = function() {
   return this.Widgets.ProjectSearchList = this.Widget.List.extend({
-    root: '.project-search-results',
+    root: '.search-results',
     itemSelector: "> li",
 
     waitForItem: function() {
@@ -25,6 +25,20 @@ module.exports = function() {
             return {
               name: text[0],
               notebooks: text[1]
+            }
+          });
+        });
+      });
+    },
+
+    notebookContents: function() {
+      return $.map(this.items(), function(n) {
+        return $.all([n.find(".title")])
+        .then(function(arr) {
+          return $.all(_.invoke(arr, 'getText'))
+          .then(function(text) {
+            return {
+              name: text[0]
             }
           });
         });

@@ -21,6 +21,7 @@
 
     $scope.projects = $scope.projects || {};
     $scope.notebooks = $scope.notebooks || {};
+    $scope.searchable = $scope.searchable || {}
 
     setProjects();
     setNotebooks();
@@ -31,7 +32,7 @@
       });
     }
 
-    $scope.$watch('projects.search', function(v) {
+    $scope.$watch('searchable.search', function(v) {
       if (v !== void(0) && v !== '') {
         if (!$state.includes('**.search')) {
           $state.go($state.current.name + '.search');
