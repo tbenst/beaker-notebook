@@ -32,7 +32,8 @@ As a researcher, I want to manage my projects.
     And I should see the following project list:
       | name      |
       | Project 1 |
-      | Project 2  |
+      | Project 2 |
+      | Sandbox   |
     When I update the project as follows:
       | name      |
       | Safe name |
@@ -40,6 +41,7 @@ As a researcher, I want to manage my projects.
       | name      |
       | Project 2 |
       | Safe name |
+      | Sandbox   |
 
   Scenario: Dismiss/rewarn duplicate project name error
     When I create a project
@@ -66,12 +68,13 @@ As a researcher, I want to manage my projects.
     Then I should see the following project list:
       | name          |
       | Led Zeppelin  |
+      | Sandbox       |
 
   Scenario: Delete a project
     Given I'm looking at a project
     When I edit the project
     And I delete the project
-    Then I should see that I have no projects in my list
+    Then I should see that I have one project in my list
 
   Scenario: Cancel Deleting a project
     Given I'm looking at a project
@@ -99,6 +102,7 @@ As a researcher, I want to manage my projects.
       | project a |
       | project b |
       | project c |
+      | Sandbox   |
 
   Scenario: Project Dashboard Searching
     Given I have the following Projects:

@@ -42,7 +42,7 @@ module.exports = function() {
   this.Then(/^I should see a new project in my list$/, function() {
     var projects = new this.Widgets.ProjectManager();
     projects.waitForItem();
-    projects.items().should.eventually.have.length(1);
+    projects.items().should.eventually.have.length(2);
   });
 
   this.When(/^I open the project$/, function() {
@@ -95,8 +95,8 @@ module.exports = function() {
     return new this.Widgets.ProjectForm().goToDelete();
   });
 
-  this.When(/^I should see that I have no projects in my list$/, function(table) {
-    return new this.Widgets.ProjectManager().items().should.eventually.have.length(0);
+  this.When(/^I should see that I have one project in my list$/, function(table) {
+    return new this.Widgets.ProjectManager().items().should.eventually.have.length(1);
   });
 
   this.Given(/^I am viewing the project dashboard$/, viewProjectDashboard);
