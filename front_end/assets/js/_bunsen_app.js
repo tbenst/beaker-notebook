@@ -11,6 +11,7 @@
      'angularFileUpload',
      'stopEvent',
      'filterMarketPlace',
+     'sticky',
      'hiddenUpload'
     ], ['RestangularProvider', function(RestangularProvider) {
       RestangularProvider.setBaseUrl(window.BUNSEN_SERVICES.api);
