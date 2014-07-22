@@ -1,4 +1,4 @@
-input.search.full(ng-model="marketPlace.searchTerm", placeholder="Search datasets and tools")
+input.search.full(ng-model="marketPlace.searchTerm", ng-model-options="{ debounce: {'default': 500, 'blur': 0} }", placeholder="Search datasets and tools")
 
 .sidebar-box.sidebar-tree
   h3 explore datasets
