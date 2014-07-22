@@ -1,5 +1,5 @@
 !(function(angular, app) {
-  app.controller('project', ['$scope', '$rootScope', '$state', '$q', 'Factories', 'Notebooks', '$upload', 'Restangular', '$sessionStorage', 'WindowMessageService', function($scope, $rootScope, $state, $q, Factories, Notebooks, $upload, Restangular, $sessionStorage, WindowMessageService) {
+  app.controller('project', ['$scope', '$rootScope', '$state', '$q', 'Factories', 'Notebooks', '$upload', 'Restangular', '$sessionStorage', function($scope, $rootScope, $state, $q, Factories, Notebooks, $upload, Restangular, $sessionStorage) {
     var F = Factories;
     $scope.editMode = false;
     $scope.importError = null;
