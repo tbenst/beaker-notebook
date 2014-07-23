@@ -32,7 +32,7 @@ module.exports = function(Bookshelf, app) {
   }
 
   var Project = Bookshelf.Model.extend({
-    tableName: "Projects",
+    tableName: "projects",
 
     idAttrs: ["name"],
 
@@ -50,7 +50,7 @@ module.exports = function(Bookshelf, app) {
         throw new Error('No name specified for project.');
       }
 
-      return query('Projects')
+      return query('projects')
         .where({ownerId: this.get("ownerId"),
                 name: this.get("name")})
         .where("id", "!=", this.get("id"))
@@ -110,18 +110,18 @@ module.exports = function(Bookshelf, app) {
     },
 
     findByUserId: function(userId) {
-      return query("Projects")
+      return query("projects")
         .where("ownerId", "=", userId)
         .select().toString();
     },
 
     findBySearchParam: function(userId, searchTerm) {
-      return query('Notebooks')
+      return query('notebooks')
              .where('userId', userId)
              .where('name','ILIKE', "%"+searchTerm+"%")
              .select('id')
              .then(function(ids) {
-                var matchingQuery = query("Projects")
+                var matchingQuery = query("projects")
                   .where("name", "ILIKE", "%"+searchTerm+"%")
                   .orWhere("description", "ILIKE", "%"+searchTerm+"%");
                 if (ids.length) {

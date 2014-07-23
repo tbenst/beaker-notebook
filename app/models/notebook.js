@@ -66,7 +66,7 @@ function Notebook(Bookshelf, app) {
   var query   = Bookshelf.knex;
 
   var Notebook = Bookshelf.Model.extend({
-    tableName: "Notebooks",
+    tableName: "notebooks",
 
     idAttrs: ["name", "projectId"],
 
@@ -129,7 +129,7 @@ function Notebook(Bookshelf, app) {
 
     ensureName: function() {
       if (!this.get("name")) {
-        return query('Notebooks')
+        return query('notebooks')
         .where("userId", this.get("userId"))
         .column('name')
         .then(_.partialRight(calculateNotebookName, "Notebook "))
@@ -184,7 +184,7 @@ function Notebook(Bookshelf, app) {
   });
 
   Notebook.list = function(opts) {
-    return query("Notebooks")
+    return query("notebooks")
     .where("projectId", opts.projectId)
     .select()
     .orderBy('name', 'ASC')

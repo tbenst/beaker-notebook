@@ -3,7 +3,7 @@ var _                     = require("lodash");
 module.exports = function(Bookshelf, app) {
   var query   = Bookshelf.knex;
   var User    = Bookshelf.Model.extend({
-    tableName: "Users",
+    tableName: "users",
 
     idAttrs: ["email"],
 

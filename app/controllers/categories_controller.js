@@ -14,7 +14,7 @@ module.exports = function(app) {
     },
 
     index: function(req, res, next) {
-      app.DB.knex('Categories').max('updated_at').then(function(result) {
+      app.DB.knex('categories').max('updated_at').then(function(result) {
         var key = (result[0].max || 'empty').toString();
         if (cachedTree.data && cachedTree.key == key) {
           return cachedTree.data;
