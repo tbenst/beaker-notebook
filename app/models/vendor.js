@@ -1,6 +1,6 @@
 module.exports = function(Bookshelf, app) {
   var Vendor = Bookshelf.Model.extend({
-    tableName: "Vendors",
+    tableName: "vendors",
 
     idAttrs: ["name"]
   });

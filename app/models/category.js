@@ -5,21 +5,21 @@ module.exports = function(Bookshelf, app){
   var query = Bookshelf.knex;
 
   var Category = Bookshelf.Model.extend({
-    tableName: "Categories",
+    tableName: "categories",
 
     idAttrs: ["name", "path"],
 
     dataSets: function() {
-      return this.belongsToMany(models.DataSet, 'DataSetsCategories', 'categoryId', 'dataSetId')
+      return this.belongsToMany(models.DataSet, 'data_sets_categories', 'categoryId', 'dataSetId')
     }
   }, {
 
     findAllWithCounts: function() {
-      return query('Categories')
-        .select('Categories.*')
-        .count('DataSetsCategories.dataSetId AS dataCount')
-        .join('DataSetsCategories', 'Categories.id', '=', 'DataSetsCategories.categoryId', 'LEFT OUTER')
-        .groupBy('Categories.id', 'name', 'path')
+      return query('categories')
+        .select('categories.*')
+        .count('data_sets_categories.dataSetId AS dataCount')
+        .join('data_sets_categories', 'categories.id', '=', 'data_sets_categories.categoryId', 'LEFT OUTER')
+        .groupBy('categories.id', 'name', 'path')
         .orderBy('path')
     },
 

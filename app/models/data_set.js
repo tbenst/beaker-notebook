@@ -7,7 +7,7 @@ module.exports = function(Bookshelf, app) {
   var query = Bookshelf.knex;
 
   var DataSet = Bookshelf.Model.extend({
-    tableName: 'DataSets',
+    tableName: 'data_sets',
 
     idAttrs: ["title"],
 
@@ -27,19 +27,19 @@ module.exports = function(Bookshelf, app) {
     },
 
     users: function() {
-      return this.belongsToMany(models.User, 'DataSetsUsers', 'dataSetId', 'userId');
+      return this.belongsToMany(models.User, 'data_sets_users', 'dataSetId', 'userId');
     },
 
     dataPreviews: function() {
-      return this.belongsToMany(models.DataPreview, 'DataSetsDataPreviews', 'dataSetId', 'dataPreviewId');
+      return this.belongsToMany(models.DataPreview, 'data_sets_data_previews', 'dataSetId', 'dataPreviewId');
     },
 
     dataTags: function() {
-      return this.belongsToMany(models.DataTag, 'DataSetsDataTags', 'dataSetId', 'dataTagId');
+      return this.belongsToMany(models.DataTag, 'data_sets_data_tags', 'dataSetId', 'dataTagId');
     },
 
     categories: function() {
-      return this.belongsToMany(models.Category, 'DataSetsCategories', 'dataSetId', 'categoryId');
+      return this.belongsToMany(models.Category, 'data_sets_categories', 'dataSetId', 'categoryId');
     },
 
     tags: function() {
@@ -57,7 +57,7 @@ module.exports = function(Bookshelf, app) {
   }, {
 
     formats: function() {
-      return query('DataSets')
+      return query('data_sets')
         .distinct('format')
         .select()
         .orderBy('format', 'ASC')
@@ -83,12 +83,12 @@ module.exports = function(Bookshelf, app) {
     findMatchingTags: function(filters) {
       return this.getQuerySql(filters).then(function(sql) {
         return query()
-          .select('DataTags.*')
-          .count('DataTags.id AS tagCount')
+          .select('data_tags.*')
+          .count('data_tags.id AS tagCount')
           .from(query.raw('(' + sql + ') AS matching'))
-          .join('DataSetsDataTags', 'matching.id', '=', 'DataSetsDataTags.dataSetId')
-          .join('DataTags', 'DataTags.id', '=', 'DataSetsDataTags.dataTagId')
-          .groupBy('DataTags.id')
+          .join('data_sets_data_tags', 'matching.id', '=', 'data_sets_data_tags.dataSetId')
+          .join('data_tags', 'data_tags.id', '=', 'data_sets_data_tags.dataTagId')
+          .groupBy('data_tags.id')
           .orderBy('tagCount', 'DESC');
       });
     },
@@ -106,11 +106,11 @@ module.exports = function(Bookshelf, app) {
     findMatchingVendors: function(filters) {
       return this.getQuerySql(filters).then(function(sql) {
         return query()
-          .select('Vendors.*')
-          .distinct('Vendors.name')
+          .select('vendors.*')
+          .distinct('vendors.name')
           .from(query.raw('(' + sql + ') AS matching'))
-          .join('Vendors', 'matching.vendorId', '=', 'Vendors.id')
-          .orderBy('Vendors.name', 'ASC');
+          .join('vendors', 'matching.vendorId', '=', 'vendors.id')
+          .orderBy('vendors.name', 'ASC');
       });
     },
 
@@ -119,7 +119,7 @@ module.exports = function(Bookshelf, app) {
     getQuerySql: function(filters) {
       var filterKeys  = ["vendorIDs", "categoryID", "tagIDs", "formats", "searchTerm", "searchScope"];
 
-      var q = query('DataSets').select('DataSets.*');
+      var q = query('data_sets').select('data_sets.*');
       return Bluebird.each(filterKeys, function(key) {
         if (filters[key]) {
           q = this[key+"QueryBuilder"](q, decodeURIComponent(filters[key]));
@@ -142,9 +142,9 @@ module.exports = function(Bookshelf, app) {
 
     tagIDsQueryBuilder: function(q, ids) {
       return q.distinct()
-        .join('DataSetsDataTags', 'DataSets.id', '=', 'DataSetsDataTags.dataSetId')
+        .join('data_sets_data_tags', 'data_sets.id', '=', 'data_sets_data_tags.dataSetId')
         .whereIn('dataTagId', this.numIds(ids))
-        .groupBy('DataSets.id')
+        .groupBy('data_sets.id')
         .having(query.raw('count(*) = ' + this.numIds(ids).length));
     },
 
@@ -163,38 +163,38 @@ module.exports = function(Bookshelf, app) {
 
       joinName = joinName || 'term';
 
-      return q.join(query.raw('(select "Vendors".* from "Vendors" where "Vendors".name ilike \'%' +
+      return q.join(query.raw('(select "vendors".* from "vendors" where "vendors".name ilike \'%' +
                               term.replace(/'/g, "''") +  // don't allow param to close quote
-                              '%\') as ' + joinName), joinName + '.id', '=', 'DataSets.vendorId', 'left')
+                              '%\') as ' + joinName), joinName + '.id', '=', 'data_sets.vendorId', 'left')
         .where(function() {
             this.where('title', 'ILIKE', '%' + term + '%')
-            .orWhere('DataSets.description', 'ILIKE', '%' + term + '%')
+            .orWhere('data_sets.description', 'ILIKE', '%' + term + '%')
         });
     },
 
     categoryIDQueryBuilder: function(q, id){
-      return q.join('DataSetsCategories', 'DataSets.id', '=', 'DataSetsCategories.dataSetId').
-        join('Categories', 'Categories.id', '=', 'DataSetsCategories.categoryId').
-        whereRaw('path <@ (select path from "Categories" where id = ?)', [id]);
+      return q.join('data_sets_categories', 'data_sets.id', '=', 'data_sets_categories.dataSetId').
+        join('categories', 'categories.id', '=', 'data_sets_categories.categoryId').
+        whereRaw('path <@ (select path from "categories" where id = ?)', [id]);
     },
 
     taggedWith: function(tags, excludeIds) {
       if (!tags || tags.length == 0) {
         // return no results. workaround for a shortcoming in KNEX.
         // "where in ()" is invalid SQL.
-        return q('DataSets').whereNull('id');
+        return q('data_sets').whereNull('id');
       }
-      var q = query('DataSets')
-        .select('DataSets.*')
+      var q = query('data_sets')
+        .select('data_sets.*')
         .distinct()
         .limit(5)
-        .join('DataSetsDataTags', 'DataSets.id', '=', 'DataSetsDataTags.dataSetId')
-        .join('DataTags', 'DataTags.id', '=', 'DataSetsDataTags.dataTagId')
-        .whereIn('DataTags.name', tags)
-        .groupBy('DataSets.id')
+        .join('data_sets_data_tags', 'data_sets.id', '=', 'data_sets_data_tags.dataSetId')
+        .join('data_tags', 'data_tags.id', '=', 'data_sets_data_tags.dataTagId')
+        .whereIn('data_tags.name', tags)
+        .groupBy('data_sets.id')
         .having(query.raw('count(*) = ' + tags.length));
       if (excludeIds && excludeIds.length > 0) {
-        q = q.whereNotIn('DataSets.id', excludeIds)
+        q = q.whereNotIn('data_sets.id', excludeIds)
       }
       return q;
     }

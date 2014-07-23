@@ -112,19 +112,19 @@ module.exports = function() {
     })
     .then(function() {
       marketItem.associations = [{
-        joinTable: "DataSetsDataTags",
+        joinTable: "data_sets_data_tags",
         lookup: {"DataTag": info.tags.map(function(tagName) { return {name: tagName}; })}
       }, {
         foreignKey: "vendorId",
         lookup: {"Vendor": info.vendors.map(function(vendorName) { return {name: vendorName}; })}
       }, {
-        joinTable: "DataSetsDataPreviews",
+        joinTable: "data_sets_data_previews",
         lookup: {"DataPreview": info.dataPreviews.map(function(preview){ return {smallPreviewUrl: preview} ;})}
       }];
 
       if (info.subscribers.length) {
         marketItem.associations.push({
-          joinTable: "DataSetsUsers",
+          joinTable: "data_sets_users",
           lookup: {"User": info.subscribers.map(function(userEmail) { return {email: userEmail}; })}
         });
       }
