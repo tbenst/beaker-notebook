@@ -401,4 +401,8 @@ module.exports = function() {
     var marketCategoryHero = new this.Widgets.MarketCategoryHero();
     return marketCategoryHero.description().should.eventually.equal(desc);
   });
+
+  this.Then(/^I should see the start date "([^"]*)"$/, function(date) {
+    return (new this.Widgets.MarketItem()).startDate().should.eventually.equal(date)
+  });
 }

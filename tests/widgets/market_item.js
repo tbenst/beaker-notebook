@@ -48,6 +48,10 @@ module.exports = function() {
       return this.find('.tab.active').then(function (elm) {
         return elm.getText();
       });
+    },
+
+    startDate: function () {
+      return this.read('.start-date');
     }
   });
 };

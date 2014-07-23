@@ -42,6 +42,10 @@
         .label categories
         .value.categories {{item.categories | names}}
 
+      li(ng-if="item.startDate")
+        .label start date
+        .value.start-date {{item.startDate | date: 'shortDate'}}
+
       li(ng-if="item.dataTags")
         .label tags
         .value.tags
