@@ -39,7 +39,7 @@ module.exports = function(data, configPath) {
           }
         })
       }, d);
-  }).value()).then(function() {
+  }).value()).then(function(models) {
     // after we are done return the models array
     // to allow people to do things after the seed is done
     return models;

@@ -19,7 +19,11 @@ module.exports = function() {
                 response[0].statusCode, response[1]));
             }
             else {
-              return response;
+              var models = JSON.parse(response[0].body);
+              models = _.flatten(models);
+              if (models.length == 1) models = models[0];
+
+              return models;
             }
           });
       });
