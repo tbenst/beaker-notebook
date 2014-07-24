@@ -1,44 +1,18 @@
-module.exports = {
-  "development": {
-    database: {
-      client: 'pg',
-      debug : true,
-      connection: {
-        host     : process.env.DB_PORT_5432_TCP_ADDR || '127.0.0.1',
-        user     : process.env.DB_USER || 'postgres',
-        password : null,
-        database : "bunsenDevelopment",
-      },
-      directory: './migrations',
-      tableName: 'migrations'
-    }
+var config = {};
+var env = process.env.NODE_ENV;
+var capitalEnv = env.charAt(0).toUpperCase() + env.slice(1);
+
+config[env] = {
+  client: 'pg',
+  debug : env != 'test',
+  connection: {
+    host     : process.env.DB_PORT_5432_TCP_ADDR || '127.0.0.1',
+    user     : process.env.DB_USER || 'postgres',
+    password : null,
+    database : "bunsen" + capitalEnv,
   },
-  "test": {
-    database: {
-      client: 'pg',
-      debug : false,
-      connection: {
-        host     : process.env.DB_PORT_5432_TCP_ADDR || '127.0.0.1',
-        user     : process.env.DB_USER || 'postgres',
-        password : null,
-        database : "bunsenTest",
-      },
-      directory: './migrations',
-      tableName: 'migrations'
-    }
-  },
-  "production": {
-    database: {
-      client: 'pg',
-      debug : true,
-      connection: {
-        host     : process.env.DB_PORT_5432_TCP_ADDR || '127.0.0.1',
-        user     : process.env.DB_USER || 'postgres',
-        password : null,
-        database : "bunsenProduction",
-      },
-      directory: './migrations',
-      tableName: 'migrations'
-    }
-  }
-}
+  directory: './migrations',
+  tableName: 'migrations'
+};
+
+module.exports = config;
