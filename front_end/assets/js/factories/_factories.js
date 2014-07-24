@@ -4,6 +4,7 @@
     'CategoriesFactory',
     'DataSetsFactory',
     'SubscriptionsFactory',
+    'PublicationsFactory',
     'FormatsFactory',
     'NotebooksFactory',
     'ProjectsFactory',

@@ -19,6 +19,10 @@
         return R.one('notebooks', attrs.id).customPUT(attrs);
       },
 
+      publish: function(attrs) {
+        return R.all('publications').post(attrs);
+      },
+
       destroy: function(id) {
         return R.one('notebooks', id).remove();
       },

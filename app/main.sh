@@ -36,9 +36,9 @@ color()(set -o pipefail;"$@" 2>&1>&3|sed $'s,.*,\e[31m&\e[m,'>&2)3>&1
 cd /var/app
 
 [[ -z $delay ]] || sleep $delay
-[[ -z $new_migration ]] || knex migrate:make $new_migration -v --environment=${NODE_ENV-development}
+[[ -z $new_migration ]] || knex migrate:make $new_migration --knexfile=config.js
 [[ -z $seed_with_file ]] || node app_seed.js -f $seed_with_file
-[[ $migrate -eq 1 ]] && knex migrate:latest -v --environment=${NODE_ENV-development}
+[[ $migrate -eq 1 ]] && knex migrate:latest --knexfile=config.js
 [[ $seed -eq 1 ]] && node app_seed.js
 
 if [[ $watch -eq 1 ]]; then

@@ -1,3 +1,5 @@
+knex = require('knex');
+
 module.exports.init = function(app, configPath) {
   var configPath = configPath || '../config.js';
 
@@ -15,9 +17,9 @@ module.exports.init = function(app, configPath) {
     throw new Error('Error reading config from '+configPath)
   }
 
-  config = config[process.env["NODE_ENV"]] || config["development"];
+  config = knex(config[process.env["NODE_ENV"]] || config["development"]);
 
-  var DB = Bookshelf.initialize(config.database);
+  var DB = Bookshelf.initialize(config);
 
   function hasTimestamps(model) {
     return model.extend({

@@ -74,6 +74,14 @@ function Notebook(Bookshelf, app) {
       this.on("saving", this.ensureName);
     },
 
+    publication: function() {
+      return this.hasOne(app.Models.Publication, 'notebook_id');
+    },
+
+    category: function() {
+      return this.belongsTo(app.Models.Category, 'notebook_id');
+    },
+
     getData: function(data) {
       return data ? when(data) : readFile(generateNotebookFilePath.call(this))
     },
