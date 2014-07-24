@@ -34,8 +34,8 @@
       url: '/search',
       views: {
         "app@projects": {
-          controller: 'projectSearch',
-          template: templates.project_search
+          controller: function() {},
+          template: templates.search
         }
       }
     })
@@ -52,8 +52,8 @@
       url: '/search',
       views: {
         "app@projects": {
-          controller: 'projectSearch',
-          template: templates.project_search
+          controller: function () {},
+          template: templates.search
         }
       }
     })
@@ -74,8 +74,8 @@
       url: '/search',
       views: {
         "app@projects": {
-          controller: 'projectSearch',
-          template: templates.project_search
+          controller: function () {},
+          template: templates.search
         }
       }
     });

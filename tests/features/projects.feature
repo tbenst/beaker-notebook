@@ -137,8 +137,8 @@ As a researcher, I want to manage my projects.
     When I view my projects
     And I search for project "finance"
     Then I should see the following project results
-      | name              | notebooks |
-      | Finance Research  | 2         |
+      | name                       | notebooks |
+      | Project: Finance Research  | 2         |
 
   Scenario: Open last project
     Given I have the following Projects:

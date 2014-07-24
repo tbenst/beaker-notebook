@@ -180,4 +180,13 @@ module.exports = function() {
     return (new this.Widgets.RecentNotebooks()).clickItem(name);
   });
 
+  this.When(/^I search for notebook "([^"]*)"$/, function (searchText) {
+    var notebookSearch = new this.Widgets.ProjectSearch;
+    return notebookSearch.search(searchText);
+  });
+
+  this.Then(/^I should see the following search results$/, function(table) {
+    return new this.Widgets.ProjectSearchList().notebookContents().should.eventually.eql(table.hashes());
+  });
+
 }

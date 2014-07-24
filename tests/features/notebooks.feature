@@ -215,3 +215,18 @@ Feature: Use Notebooks
     And I should see 0 recent notebooks
     And I should see 0 open notebooks
 
+  Scenario: Combined Notebook and Project Search
+    Given I have the following Projects:
+      | name             | description                          |
+      | Finance Research | Researching a theory on stock prices |
+    And I have the following notebooks:
+      | name              | projectName      |
+      | Data preparation  | Finance Research |
+      | Hadoop map-reduce | Finance Research |
+    When I view my projects
+    And I search for notebook "Data preparation"
+    Then I should see the following search results
+      | name                        |
+      | Notebook: Data preparation  |
+      | Project: Finance Research   |
+
