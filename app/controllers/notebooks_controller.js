@@ -9,14 +9,11 @@ module.exports = function(app) {
   var Notebook = app.Models.Notebook;
   return {
     notebookIdParam: function(req, res, next, id) {
-      req.user.notebooks()
-      .query()
-      .where('id', req.params.notebook_id)
+      Notebook.forge({id: req.params.notebook_id, user_id: req.user.id})
+      .fetch()
       .then(function(record) {
-        if (!record || !record[0]) {
-          throw new Error('Notebook not found');
-        }
-        req.notebook = Notebook.forge(record[0]);
+        if (!record) throw new Error('Notebook not found');
+        req.notebook = record
       })
       .done(next, next);
     },

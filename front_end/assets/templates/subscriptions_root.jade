@@ -10,7 +10,7 @@
             span.sidebar-box-list-item All subscribed sets
               span.right {{subscriptions.length}}
           li
-            a.sidebar-box-list-link.sort-by.subscription-date(ng-class="sort == 'created_at' && 'active'" ng-click="toggleSort('created_at', true)") By Subscription Date
+            a.sidebar-box-list-link.sort-by.subscription-date(ng-class="sort == 'createdAt' && 'active'" ng-click="toggleSort('createdAt', true)") By Subscription Date
 
       a.btn.btn-block.btn-light(ui-sref="marketPlace.items") Find more datasets &raquo;
 
@@ -29,7 +29,7 @@
       .col-half
         h4 Recently used datasets
         ul.link-list.recently-used
-          li(ng-repeat="subscription in subscriptions | orderBy:created_at:true | limitTo:4")
+          li(ng-repeat="subscription in subscriptions | orderBy:createdAt:true | limitTo:4")
             a(ui-sref="marketPlace.items.item({id: subscription.dataSet.id})") {{subscription.dataSet.title}}
 
     ul.subscription-list.bunsen-list
@@ -41,7 +41,7 @@
           ul.property-list.small
             li.purchase-date
               .label Purchase date
-              .value {{subscription.created_at | date : 'M/d/yyyy' }}
+              .value {{subscription.createdAt | date : 'M/d/yyyy' }}
             li.location
               .label Location
               .value {{subscription.dataSet.remoteFile | dataSetPath}}

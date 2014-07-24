@@ -51,7 +51,7 @@ module.exports = function(Bookshelf, app) {
       }
 
       return query('projects')
-        .where({ownerId: this.get("ownerId"),
+        .where({owner_id: this.get("ownerId"),
                 name: this.get("name")})
         .where("id", "!=", this.get("id"))
         .then(function(dupe) {
@@ -72,7 +72,7 @@ module.exports = function(Bookshelf, app) {
     },
 
     notebooks: function() {
-      return this.hasMany(models.Notebook, 'projectId');
+      return this.hasMany(models.Notebook);
     },
 
     destroyNotebooks: function() {
@@ -111,13 +111,13 @@ module.exports = function(Bookshelf, app) {
 
     findByUserId: function(userId) {
       return query("projects")
-        .where("ownerId", "=", userId)
+        .where("owner_id", "=", userId)
         .select().toString();
     },
 
     findBySearchParam: function(userId, searchTerm) {
       return query('notebooks')
-             .where('userId', userId)
+             .where('user_id', userId)
              .where('name','ILIKE', "%"+searchTerm+"%")
              .select('id')
              .then(function(ids) {
