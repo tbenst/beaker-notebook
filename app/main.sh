@@ -34,6 +34,9 @@ done
 color()(set -o pipefail;"$@" 2>&1>&3|sed $'s,.*,\e[31m&\e[m,'>&2)3>&1
 
 cd /var/app
+mkdir -p /var/app/node_modules && ln -sf /usr/local/lib/node_modules/knex /var/app/node_modules/knex
+# knex assumes we're going to run the executable from local node_modules instead of globally,
+# so we have to point to the global knex file for migrations
 
 [[ -z $delay ]] || sleep $delay
 [[ -z $new_migration ]] || knex migrate:make $new_migration --knexfile=config.js

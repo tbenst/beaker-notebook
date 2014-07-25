@@ -7,8 +7,8 @@
         $scope.modalShown = false;
 
         $scope.$on('openModal', function(e, content, options) {
+          $scope.width = options && options.width;
           $element.find('section').empty().append(content);
-          $scope.width = options.width;
           $scope.modalShown = true;
         });
 
