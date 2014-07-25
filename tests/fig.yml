@@ -1,6 +1,6 @@
 apptests:
   build: ../app
-  command: "--migrate --delay=10"
+  command: "--migrate --delay=15"
   links:
     - "dbtests:db"
   ports:
