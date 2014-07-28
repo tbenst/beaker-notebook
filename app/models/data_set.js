@@ -182,7 +182,7 @@ module.exports = function(Bookshelf, app) {
       if (!tags || tags.length == 0) {
         // return no results. workaround for a shortcoming in KNEX.
         // "where in ()" is invalid SQL.
-        return q('data_sets').whereNull('id');
+        return query('data_sets').whereNull('id');
       }
       var q = query('data_sets')
         .select('data_sets.*')
