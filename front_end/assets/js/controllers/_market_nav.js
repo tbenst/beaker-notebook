@@ -7,30 +7,12 @@
       nodeChildren: "children"
     }
 
-    function clearSearch() {
-      var deleteList = ['categoryID', 'vendorScope', 'typeScope', 'tagScope', 'searchTerm', 'searchScope'];
-      _.each(deleteList, function(i) {
-        delete $scope.marketPlace[i];
-      });
-
-      // angular-tree-view doesn't appear to expose a way to clear selection.
-      _.each(Sizzle('.sidebar-tree .tree-selected'), function(el) {
-        el.classList.remove('tree-selected');
-      });
-    }
-
-    function newSearch(preserve) {
-      clearSearch();
-      _.extend($scope.marketPlace, preserve);
-      $state.go('marketPlace.items');
-    }
-
     $scope.onTreeSelection = function(node) {
-      newSearch({categoryID: node.id});
+      $scope.newSearch({categoryID: node.id});
     }
 
     $scope.searchByTag = function(tag) {
-      newSearch({tagScope: [tag.id.toString()]});
+      $scope.newSearch({tagScope: [tag.id.toString()]});
     };
 
     $scope.isTagSelected = function(tag) {
@@ -52,7 +34,7 @@
 
     $scope.$watch('marketPlace.searchTerm', function(v) {
       if (v !== void(0)) {
-        newSearch({searchTerm: $scope.marketPlace.searchTerm});
+        $scope.newSearch({searchTerm: $scope.marketPlace.searchTerm});
       }
     });
   }]);
