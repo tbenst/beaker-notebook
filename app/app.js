@@ -8,6 +8,7 @@ var when = require('when');
 var http = require('http');
 var path = require('path');
 var _ = require('lodash');
+var skipMiddleware = require("./lib/skip_middleware");
 var app = express();
 
 app.Models = require('./models');
@@ -17,6 +18,7 @@ app.Routes = require('./routes');
 when(app)
   .then(app.Models.init)
   .then(app.Controllers.init)
+  .then(skipMiddleware.init)
   .then(appConfig)
   .then(app.Routes.init)
   .then(appStart)
@@ -25,6 +27,8 @@ when(app)
   });
 
 function appConfig(app) {
+  var AuthController = app.Controllers.AuthController;
+
   // all environments
   app.set('port', process.env.PORT || 3000);
   app.set('views', path.join(__dirname, 'views'));
@@ -59,7 +63,12 @@ function appConfig(app) {
     app.use(express.errorHandler());
   }
 
-  app.use(app.Controllers.AuthController.authorize);
+  app.useMiddleware(AuthController, 'authorize', {except: [
+    '/api/authenticate',
+    '/api/sign_up',
+    '/seed'
+  ]});
+
   app.use(app.router);
 
   return app;

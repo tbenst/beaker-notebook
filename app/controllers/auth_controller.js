@@ -17,7 +17,7 @@ module.exports = function(app) {
     },
 
     authorize: function(req, res, next) {
-      if (req.path === '/api/authenticate' || req.path === '/api/sign_up' || req.path.indexOf("seed/") !== -1) {
+      if (app.shouldSkip(req.path, 'authorize')) {
         next();
       } else {
         User.checkToken(req.get("Authorization"))
