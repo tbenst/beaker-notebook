@@ -60,7 +60,7 @@
         p.description {{item.description | limitTo:100}} {{item.description.length > 100 ? "..." : ""}}
         .vendor
           | Vendor:&nbsp;
-          span.vendors {{vendorName(item)}}
+          a.vendors(ng-click="searchByVendor(item.vendorId)")  {{vendorName(item)}}
       .col-quarter
         ul.attributes
           li

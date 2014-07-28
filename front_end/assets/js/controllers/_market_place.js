@@ -96,6 +96,10 @@
       getDataSets();
     }
 
+    $scope.searchByVendor = function(id) {
+      $scope.newSearch({vendorScope: [id.toString()]});
+    };
+
     // init pagination
     $scope.marketPlace.itemsPerPage = 10;
     $scope.marketPlace.maxSize = 5;
