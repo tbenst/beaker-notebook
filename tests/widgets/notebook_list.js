@@ -2,10 +2,10 @@ module.exports = function() {
   var World = this;
   return this.Widgets.NotebookList = this.Widget.List.extend({
     root: '.notebook-list',
-    itemSelector: '> li',
+    itemSelector: '.bunsen-list-item',
     nameSelector: 'h2 a',
     otherProjectsDropdownSelector: '.project-selector',
-    projectSelectorNames: '.project-selector li a',
+    projectSelectorNames: 'a.project',
 
     clickByName: function(name) {
       var _this = this;
@@ -31,9 +31,19 @@ module.exports = function() {
       }.bind(this));
     },
 
+    showDropdown: function(item) {
+      return item.find('.dropdown-toggle')
+      .then(function(el) {
+        return new World.Widgets.Dropdown().show(el);
+      });
+    },
+
     openRenameModal: function(name) {
-      return this.findNotebook(name).then(function(item) {
-        return new World.Widgets.Dropdown().show(item.root).then(function() {
+      var _this = this;
+      return this.findNotebook(name)
+      .then(function(item) {
+        return _this.showDropdown(item)
+        .then(function() {
           return item.find('.rename').click();
         });
       });
@@ -46,10 +56,14 @@ module.exports = function() {
     },
 
     destroy: function(name) {
-      return this.findNotebook(name).then(function(item) {
-        return new World.Widgets.Dropdown().show(item.root).then(function() {
-          return item.find('.destroy').click();
-        });
+      var _this = this, item;
+      return this.findNotebook(name)
+      .then(function(_item) {
+        item = _item;
+        return _this.showDropdown(item);
+      })
+      .then(function() {
+        return item.find('.destroy').click();
       });
     },
 
@@ -77,16 +91,22 @@ module.exports = function() {
     },
 
     move: function(notebook, project) {
+      var _this = this;
+
       return this.findNotebook(notebook).then(function(item) {
-        return new World.Widgets.Dropdown().show(item.root)
-          .then(function() { return new World.Widgets.Dropdown().show(item.root + ' .move'); })
-          .then(function() {
-            return this.findProjectInDropdown(item, project).then(function(element) {
-              return element.click();
-            });
-          }.bind(this));
-      }.bind(this));
+        return _this.showDropdown(item)
+        .then(function(){
+          return item.find('.move').then(function(el) {
+            return _this.driver.executeScript("arguments[0].classList.add('expanded')", el)
+          });
+        })
+        .then(function() {
+          return item.findByText(project).then(function(el) {
+            return el.click();
+          })
+        });
+      })
     }
   });
-};
+}
 

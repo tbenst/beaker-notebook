@@ -53,7 +53,7 @@
     li.tag.filter(ng-repeat="filter in currentFilters", ng-click="removeFilter(filter.value, filter.model)") {{filter.name}}
 
   ul.market-list.bunsen-list
-    li(ng-repeat="item in marketPlace.data")
+    li.bunsen-list-item(ng-repeat="item in marketPlace.data")
       .col-three-quarters
         h2
           a.title(ui-sref="marketPlace.items.item({id: item.id})") {{item.title}}

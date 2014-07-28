@@ -2,12 +2,12 @@
   "name": "bunsen-features",
   "version": "0.0.0",
   "description": "Specifying big data for fun and profit by example",
-  "main": "dill",
+  "main": "pioneer",
   "scripts": {
-    "start": "NODE_ENV=test dill features/ --require util/ --require step_definitions/ --require widgets/ -f pretty",
-    "failures": "NODE_ENV=test dill --tags @failed features/ --require util/ --require step_definitions/ --require widgets/ -f pretty",
-    "ci": "NODE_ENV=test DISPLAY=:99.0 dill features/ --driver=firefox --require util/ --require step_definitions/ --require widgets/ -f pretty",
-    "test": "NODE_ENV=test node-debug --web-port 8081 --debug-port 5859 dill --tags @failed features/ --require util/ --require step_definitions/ --require widgets/ -f pretty"
+    "start": "NODE_ENV=test pioneer features/ --require util/ --require step_definitions/ --require widgets/ -f pretty",
+    "failures": "NODE_ENV=test pioneer --tags @failed features/ --require util/ --require step_definitions/ --require widgets/ -f pretty",
+    "ci": "NODE_ENV=test DISPLAY=:99.0 pioneer features/ --driver=firefox --require util/ --require step_definitions/ --require widgets/ -f pretty",
+    "test": "NODE_ENV=test node-debug --web-port 8081 --debug-port 5859 pioneer --tags @failed features/ --require util/ --require step_definitions/ --require widgets/ -f pretty"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/twosigma/bunsen",
   "dependencies": {
-    "dill": "0.4.0",
+    "pioneer": "0.6.3",
     "lodash": "2.4.1",
     "request": "^2.33.0",
     "bluebird": "1.2.1",

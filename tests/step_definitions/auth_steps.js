@@ -14,7 +14,7 @@ module.exports = function() {
     var _this = this;
     return this.seed.populate(userData).then(function() {
       return _this.driver.get(_this.route.signIn).then(function() {
-        return new _this.Widgets.SignInForm().submitWith(userData.data);
+        return new _this.Widgets.SignInForm().submitWith(_.pick(userData.data, 'email'));
       });
     })
     .then(function() {

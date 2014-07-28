@@ -1,8 +1,8 @@
 module.exports = function() {
   this.Widgets.MarketList = this.Widget.List.extend({
     root: '.market-list',
-    itemSelector: '> li',
     vendorSelector: 'a.vendors',
+    itemSelector: '.bunsen-list-item',
 
     contents: function() {
       return $.map(this.items(), function(n) {

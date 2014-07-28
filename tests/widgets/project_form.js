@@ -3,12 +3,18 @@ module.exports = function() {
   return this.Widgets.ProjectForm = this.Widget.Form.extend({
     root: '.projects-root',
     fields: ['name', 'description'],
-    projectMenu: '.project-menu',
+    projectMenu: '.project-menu .dropdown-toggle',
 
     goToDelete: function() {
-      return new World.Widgets.Dropdown().show(this.projectMenu).then(function() {
-        return this.click(".delete-project");
-      }.bind(this));
+      var _this = this;
+
+      return this.find(this.projectMenu)
+      .then(function(el) {
+        return new World.Widgets.Dropdown().show(el)
+        .then(function() {
+          return _this.click(".delete-project");
+        });
+      });
     },
 
     delete: function() {

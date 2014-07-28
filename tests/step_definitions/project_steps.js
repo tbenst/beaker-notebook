@@ -41,16 +41,18 @@ module.exports = function() {
 
   this.Then(/^I should see a new project in my list$/, function() {
     var projects = new this.Widgets.ProjectManager();
-    projects.waitForItem();
-    projects.items().should.eventually.have.length(2);
+
+    return projects.waitForItem()
+    .then(function() {
+      return projects.items().should.eventually.have.length(2);
+    })
   });
 
   this.When(/^I open the project$/, function() {
     var projectManager = new this.Widgets.ProjectManager();
 
-    return projectManager.items()
-    .then(function(items) {
-      return items[0].click();
+    return projectManager.at(0).then(function(item) {
+      item.click();
     });
   });
 
@@ -148,7 +150,9 @@ module.exports = function() {
 
   this.Given(/^I view the first search result$/, function(index) {
     var projectSearch = new this.Widgets.ProjectSearchList;
-    return projectSearch.click(0);
+    return projectSearch.at(0).then(function(item) {
+      item.click();
+    })
   });
 
   this.Given(/^I view my projects$/, function() {
