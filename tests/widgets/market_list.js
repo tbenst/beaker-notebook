@@ -1,7 +1,6 @@
 module.exports = function() {
   this.Widgets.MarketList = this.Widget.List.extend({
     root: '.market-list',
-    vendorSelector: 'a.vendors',
     itemSelector: '.bunsen-list-item',
 
     contents: function() {
@@ -51,30 +50,6 @@ module.exports = function() {
         return _this.driver.executeScript(xpath).then(function(a) {
           return a.click();
         });
-      });
-    },
-
-    findDataset: function(title) {
-      return this.filter(function(item) {
-        return item.find().then(function(elm) {
-          return elm.getText().then(function(text) {
-            return text.match(title);
-          });
-        });
-      })
-      .then(function(filtered) {
-        return filtered[0];
-      });
-    },
-
-    clickOnVendor: function(title) {
-      var _this = this;
-      return this.waitForItem()
-      .then(function() {
-        return _this.findDataset(title)
-      })
-      .then(function(dataset) {
-        return dataset.click(_this.vendorSelector);
       });
     }
   });

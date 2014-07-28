@@ -358,7 +358,7 @@ module.exports = function() {
     return dataPreview.isPresent().should.eventually.equal(false);
   });
 
-  this.When(/^I click the "([^"]*)" data set's vendor$/, function(title) {
-    return new this.Widgets.MarketList().clickOnVendor(title);
+  this.When(/^I search marketplace by the data set's vendor$/, function(title) {
+    return new this.Widgets.MarketItem().clickVendor();
   });
 }

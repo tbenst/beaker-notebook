@@ -16,6 +16,10 @@ module.exports = function() {
       });
     },
 
+    clickVendor: function() {
+      return this.click(".vendor")
+    },
+
     frequency: function() {
       return this.read('.update-frequency');
     },
