@@ -119,7 +119,10 @@ module.exports = function(Bookshelf, app) {
     getQuerySql: function(filters) {
       var filterKeys  = ["vendorIDs", "categoryID", "tagIDs", "formats", "searchTerm", "searchScope"];
 
-      var q = query('data_sets').select('data_sets.*');
+      var q = query('data_sets')
+        .select('data_sets.*')
+        .orderBy('data_sets.title', 'ASC');
+
       return Bluebird.each(filterKeys, function(key) {
         if (filters[key]) {
           q = this[key+"QueryBuilder"](q, decodeURIComponent(filters[key]));
