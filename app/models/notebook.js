@@ -107,15 +107,17 @@ function Notebook(Bookshelf, app) {
       var self          = this;
 
       return writeFile(notebookPath, RDWR_EXCL, data)
-      .then(git.init.bind(git), function(e) {
+      .then(function() {
+        return git.init()
+        .then(git.init.bind(git))
+        .then(git.addToIndex.bind(git, [Path.basename(notebookPath)]))
+        .then(function(oid) {
+          return git.commit(oid, []);
+        }).then(function() {
+          return self;
+        });
+      }, function(e) {
         return self.addCommit(data);
-      })
-      .then(git.init.bind(git))
-      .then(git.addToIndex.bind(git, [Path.basename(notebookPath)]))
-      .then(function(oid) {
-        return git.commit(oid, []);
-      }).then(function() {
-        return self;
       });
     },
 
