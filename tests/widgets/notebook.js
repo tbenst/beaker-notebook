@@ -29,7 +29,7 @@ module.exports = function() {
     },
 
     openPublishModal: function() {
-      return this.find('.publish').click();
+      return this.find('.sidebar-box .content .publish').click();
     },
 
     publishStatus: function() {
@@ -42,6 +42,19 @@ module.exports = function() {
 
     publishTime: function() {
       return this.read('.publish-time');
+    },
+
+    removePublication: function() {
+      return this.find('.publishing .dropdown-toggle')
+      .then(function(el) {
+        return new World.Widgets.Dropdown().show(el);
+      })
+      .then(function() {
+        return this.click('.destroy-publication');
+      }.bind(this))
+      .then(function() {
+        return new World.Widgets.Modal().accept();
+      });
     }
   });
 };

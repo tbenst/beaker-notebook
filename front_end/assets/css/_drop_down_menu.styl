@@ -10,6 +10,9 @@
     &.dropright
       top 0
       left 100%
+    &.drop-bottom-left
+      left auto
+      right 0
   &:hover, &.expanded
     > .dropdown, > .dropdown-wrapper
       display block
@@ -45,6 +48,12 @@
         background-color action-blue
         color white
         cursor pointer
+      &.disabled
+        color base-step4
+        cursor default
+        &:hover
+          color base-step4
+          background-color transparent
 
 .dropright-arrow:after
   content "\203A"
