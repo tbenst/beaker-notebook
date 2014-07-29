@@ -23,6 +23,8 @@
     $scope.newSearch = function(preserve) {
       clearSearch();
       _.extend($scope.marketPlace, preserve);
+      $scope.marketPlace.currentPage = 1;
+      delete $scope.marketPlace.data;
       $state.go('marketPlace.items');
     }
   }]);
