@@ -43,6 +43,18 @@ As a researcher, I want to be able to use the market place.
     And I filter by search by selecting the "George data" vendors
     Then I should see 1 market item on the market list page
 
+  Scenario: Filtering market items by data set vendor
+    Given I have the following market items:
+      | title           | description | vendors | format |
+      | Lorem ipsum     | n/a         | Cicero  | txt    |
+      | Dolor sit amet  | n/a         | Tullius | txt    |
+    And I view the market search
+    When I click the "Lorem ipsum" data set's vendor
+    Then I should see "Cicero" vendor
+    And I should see the following market results
+      | title       | description | format | vendors |
+      | lorem ipsum | n/a         | txt    | cicero  |
+
   Scenario: Stacking market item filters
     Given I have the following market items:
       | title           | vendors       | format  |
