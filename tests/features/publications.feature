@@ -26,3 +26,18 @@ Feature: Publications
     Then I should see a published version of the following notebook:
       | name       | description           |
       | top secret | not so secret anymore |
+
+  Scenario: Publications List
+    Given there are 5 publications
+    And I view my projects
+    When I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    And I go to publish the notebook
+    And I publish the notebook
+    Then I should see that the notebook is published
+    When I view the publications page
+    Then I should see 6 publication results on the page
+    And I should see the following publication first in the list:
+      | name       |
+      | top secret |
+

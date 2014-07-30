@@ -6,8 +6,8 @@ var _           = require("lodash");
 
 module.exports = function(app) {
   app.post("/seed/data", function(req, res, next) {
-    Seed([req.body]).then(function() {
-      res.send(200);
+    Seed([req.body]).then(function(data) {
+      res.json(data);
     })
     .catch(next);
   });
