@@ -12,7 +12,15 @@ module.exports = function() {
       return this.findAll('.tree-selected').then(function(elements) {
         return elements.length;
       });
-    }
+    },
 
+    categoryCount: function(category) {
+      return this.find().then(function() {
+        return this.driver.executeScript("return Sizzle('"+this.root+":contains(\""+category+"\") .count')[0]")
+        .then(function(el) {
+          return el.getText();
+        })
+      }.bind(this));
+    }
   });
 };

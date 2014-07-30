@@ -68,6 +68,7 @@ module.exports = function() {
       tags: 'test',
       description:  marketItemBase().data.description,
       vendors: '',
+      categories: '',
       subscribers: '',
       updateFrequency: marketItemBase().data.updateFrequency,
       dataPreviews: ''
@@ -75,6 +76,7 @@ module.exports = function() {
 
     info.tags     = [].concat(info.tags.split(','));
     info.vendors  = [].concat(info.vendors.split(','));
+    info.categories  = [].concat(info.categories.split(','));
     info.subscribers = [].concat(info.subscribers.split(','));
     info.dataPreviews = [].concat(info.dataPreviews.split(','));
     _.pull(info.subscribers, '');
@@ -128,11 +130,20 @@ module.exports = function() {
           lookup: {"User": info.subscribers.map(function(userEmail) { return {email: userEmail}; })}
         });
       }
+      if (info.categories.length) {
+        marketItem.associations.push({
+          joinTable: "data_sets_categories",
+          lookup: {"Category": info.categories.map(function(category) {
+            return {name: category};
+          })}
+        });
+      }
 
       delete info.tags;
       delete info.vendors;
       delete info.subscribers;
       delete info.dataPreviews;
+      delete info.categories;
 
       return _this.seed.populate(_.merge(marketItem, {
         data: info
@@ -360,5 +371,34 @@ module.exports = function() {
 
   this.When(/^I click the "([^"]*)" data set's vendor$/, function(title) {
     return new this.Widgets.MarketList().clickOnVendor(title);
+  });
+
+  this.When(/^I browse marketplace by category "([^"]*)"$/, function(category) {
+    var marketCategory = new this.Widgets.MarketCategory();
+    return marketCategory.clickCategory(category);
+  });
+
+  this.When(/^I filter marketplace by vendor "([^"]*)"$/, function(vendor) {
+    var marketVendorFilter = new this.Widgets.MarketVendorFilter;
+    return marketVendorFilter.selectMatching(vendor.split(","));
+  });
+
+  this.Then(/^I should see (\d+) items in the "([^"]*)" category count$/, function(count, category) {
+    var marketCategory = new this.Widgets.MarketCategory();
+    return marketCategory.categoryCount(category).should.eventually.equal(count);
+  });
+
+  this.Then(/^I should see the category "([^"]*)"$/, function(category) {
+    return (new this.Widgets.MarketItem()).categories().should.eventually.equal(category);
+  });
+
+  this.Then(/^I should see the category owner "([^"]*)"$/, function(name) {
+    var marketCategoryHero = new this.Widgets.MarketCategoryHero();
+    return marketCategoryHero.owner().should.eventually.equal(name);
+  });
+
+  this.Then(/^I should see the category description "([^"]*)"$/, function(desc) {
+    var marketCategoryHero = new this.Widgets.MarketCategoryHero();
+    return marketCategoryHero.description().should.eventually.equal(desc);
   });
 }

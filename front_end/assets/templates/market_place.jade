@@ -3,7 +3,7 @@
     .category.col-three-quarters
       h2
         b {{marketPlace.currentCategory.name}}
-      p {{marketPlace.currentCategory.description}}
+      p.description {{marketPlace.currentCategory.description}}
     .col-quarter(ng-hide="!marketPlace.currentCategory || marketPlace.currentCategory.name == 'All'")
       .category-attributes
         .category-attributes-label Total Sets
@@ -11,7 +11,7 @@
         .category-attributes-label Last Updated
         .category-attributes-label-value {{marketPlace.currentCategory.updated_at | date: 'shortDate'}}
         .category-attributes-label Owner
-        .category-attributes-label-value {{marketPlace.currentCategory.ownerName}}
+        .category-attributes-label-value.owner {{marketPlace.currentCategory.ownerName}}
         .category-attributes-label Contact
         .category-attributes-label-value
           a(href="mailto:{{marketPlace.currentCategory.ownerEmail}}") {{marketPlace.currentCategory.ownerEmail}}
