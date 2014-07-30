@@ -230,3 +230,10 @@ Feature: Use Notebooks
       | Notebook: Data preparation  |
       | Project: Finance Research   |
 
+  Scenario: Notebooks commit stats
+    When I open the "ghost of tom jones" project
+    And I view the notebook "powderpuff girls"
+    And I save my changes to the notebook
+    And I view my projects
+    And I open the "ghost of tom jones" project
+    Then I should see the project has 5 commits

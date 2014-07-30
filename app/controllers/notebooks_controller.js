@@ -91,14 +91,11 @@ module.exports = function(app) {
     },
 
     update: function(req, res, next) {
-      req.notebook.withData()
-      .then(function(notebook) {
-        var attrs = _.pick(req.body, 'open', 'name', 'data', 'projectId');
-        if (attrs.data) attrs.data = JSON.parse(attrs.data);
-        if (attrs.open) attrs.openedAt = new Date();
+      var attrs = _.pick(req.body, 'open', 'name', 'data', 'projectId');
+      if (attrs.data) attrs.data = JSON.parse(attrs.data);
+      if (attrs.open) attrs.openedAt = new Date();
 
-        return notebook.saveUnique(attrs, {patch: true});
-      })
+      return req.notebook.saveUnique(attrs, {patch: true})
       .then(function(notebook) {
         res.json(_.omit(notebook, 'data'));
       })
@@ -107,7 +104,7 @@ module.exports = function(app) {
           return res.status(409).json({ error: 'That name is taken by another notebook in this project.' });
         }
         return next(e);
-      })
+      });
     },
 
     destroy: function(req, res, next) {
