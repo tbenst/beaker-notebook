@@ -30,6 +30,10 @@ module.exports = function() {
       return this.read('.last-updated');
     },
 
+    numCommits: function() {
+      return this.read('.num-commits');
+    },
+
     addNewNotebook: function() {
       return this.click('.new-notebook');
     }

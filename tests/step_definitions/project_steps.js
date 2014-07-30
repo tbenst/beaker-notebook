@@ -187,6 +187,11 @@ module.exports = function() {
     return projectDetail.description().should.eventually.equal(description);
   });
 
+  this.Then(/^I should see the project has (\d+) commits$/, function(num, callback) {
+    var projectDetail = new this.Widgets.ProjectDetail();
+    return projectDetail.numCommits().should.eventually.equal(num);
+  });
+
   this.Then(/^I should see last updated as today's date$/, function(callback) {
     var projectDetail = new this.Widgets.ProjectDetail();
     return projectDetail.updatedAt().should.eventually.contain(moment().format("M/D/YY h:mm A"));
