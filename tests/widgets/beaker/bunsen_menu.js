@@ -5,14 +5,14 @@ module.exports = function() {
     root: '.dropdown.open > .dropdown-menu',
 
     clickSave: function() {
-      return this.items().then(function(items) {
-        return items[0].click();
+      return this.at(0).then(function(item) {
+        return item.click();
       });
     },
 
     clickSaveAs: function() {
-      return this.items().then(function(items) {
-        return items[1].click();
+      return this.at(1).then(function(item) {
+        return item.click();
       });
     }
   });

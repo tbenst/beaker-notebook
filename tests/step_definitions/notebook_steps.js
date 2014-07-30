@@ -186,7 +186,9 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the following search results$/, function(table) {
-    return new this.Widgets.ProjectSearchList().notebookContents().should.eventually.eql(table.hashes());
+    return (new this.Widgets.ProjectSearchList())
+    .notebookContents()
+    .should.eventually.eql(_.pluck(table.hashes(), 'name'));
   });
 
 }

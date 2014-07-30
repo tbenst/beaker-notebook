@@ -4,16 +4,21 @@ module.exports = function() {
   return this.Widgets.ProjectManager = this.Widget.List.extend({
     root: '.projects-root',
     itemSelector: '.project',
-    projectsSidebarHeader: '.project-sidebar .sidebar-box h3',
+    projectsSidebarHeader: '.project-sidebar .sidebar-box h3 .dropdown-toggle',
 
     createNew: function() {
-      return new World.Widgets.Dropdown().show(this.projectsSidebarHeader).then(function() {
-        return this.click(".create-project");
-      }.bind(this));
+      var _this = this;
+
+      return this.find(this.projectsSidebarHeader).then(function(el) {
+        return new World.Widgets.Dropdown().show(el)
+        .then(function() {
+          return _this.click(".create-project");
+        });
+      });
     },
 
     waitForItem: function() {
-      return this.find(this.itemSelector);
+      return this.items();
     },
 
     clickProject: function(name) {

@@ -1,4 +1,6 @@
 module.exports = function() {
+  var World = this;
+
   return this.Widgets.OpenNotebookList = this.Widget.List.extend({
     root: '.open-notebooks',
     itemSelector: '.open-notebook',
@@ -16,9 +18,12 @@ module.exports = function() {
         });
       })
       .then(function(filtered) {
-        var item = filtered[0];
-        var method = "Sizzle('"+item.root+" .close-notebook')[0].style.display = 'block';";
-        return this.driver.executeScript(method).then(function() {
+        var item = filtered[0]
+
+        return item.find('.close-notebook').then(function(el) {
+          return World.driver.executeScript('arguments[0].classList.add("active");', el);
+        })
+        .then(function() {
           return item.find('.close-notebook').click();
         });
       }.bind(this));

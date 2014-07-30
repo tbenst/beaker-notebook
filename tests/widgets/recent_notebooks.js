@@ -15,12 +15,8 @@ module.exports = function() {
     },
 
     clickItem: function(name) {
-      return this.filter(function(n) {
-        return n.read('a').then(function(t) {
-          return t.search(name) != -1;
-        });
-      }).then(function(filtered) {
-        return filtered[0].click();
+      return this.findByText(name).then(function(el){
+        return el.click();
       });
     },
 

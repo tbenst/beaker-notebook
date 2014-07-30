@@ -9,7 +9,7 @@ module.exports = function() {
 
   this.Widgets.SubscriptionList = this.Widget.List.extend({
     root: '.subscription-list',
-    itemSelector: '> li',
+    itemSelector: '.bunsen-list-item',
     itemClass: this.Widgets.Subscription,
     linkSelector: 'h2 a',
 

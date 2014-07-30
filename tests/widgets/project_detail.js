@@ -2,12 +2,18 @@ module.exports = function() {
   var World = this;
   return this.Widgets.ProjectDetail = this.Widget.extend({
     root: '.projects-root',
-    projectMenu: '.project-menu',
+    projectMenu: '.project-menu .dropdown-toggle',
 
     edit: function() {
-      return new World.Widgets.Dropdown().show(this.projectMenu).then(function() {
-        return this.click(".edit-project");
-      }.bind(this));
+      var _this = this;
+
+      return this.find(this.projectMenu)
+      .then(function(el) {
+        return new World.Widgets.Dropdown().show(el)
+        .then(function() {
+          return _this.click(".edit-project");
+        })
+      });
     },
 
     name: function() {
