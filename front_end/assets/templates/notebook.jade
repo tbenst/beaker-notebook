@@ -26,4 +26,7 @@
     br br
     h2 Notebook:&nbsp;
       span.name {{notebook.name}}
+    .loading(ng-if="loading")
+      .spinner(us-spinner="{lines: 12, radius:20, width:6, length: 10, corners: 0, speed: 0.6, trail: 40, color: '#3f5264'}")
+
     beakernotebook(notebook-id="{{ notebook.id }}", src="{{ notebookLocation }}", width="600", height="1000")

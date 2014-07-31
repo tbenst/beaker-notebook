@@ -66,6 +66,7 @@
 
       Beaker.whenReady().then(function(url) {
         $scope.notebookLocation = $sce.trustAsResourceUrl(notebookLocation(url, userId, prjId, notebook.id));
+        $scope.loading = false;
       });
     });
 
