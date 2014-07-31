@@ -23,23 +23,23 @@ module.exports = function(Bookshelf, app) {
     },
 
     vendor: function() {
-      return this.hasOne(model.Vendor, 'vendorId')
+      return this.hasOne(model.Vendor)
     },
 
     users: function() {
-      return this.belongsToMany(models.User, 'data_sets_users', 'dataSetId', 'userId');
+      return this.belongsToMany(models.User, 'data_sets_users', 'data_set_id', 'user_id');
     },
 
     dataPreviews: function() {
-      return this.belongsToMany(models.DataPreview, 'data_sets_data_previews', 'dataSetId', 'dataPreviewId');
+      return this.belongsToMany(models.DataPreview, 'data_sets_data_previews', 'data_set_id', 'data_preview_id');
     },
 
     dataTags: function() {
-      return this.belongsToMany(models.DataTag, 'data_sets_data_tags', 'dataSetId', 'dataTagId');
+      return this.belongsToMany(models.DataTag, 'data_sets_data_tags', 'data_set_id', 'data_tag_id');
     },
 
     categories: function() {
-      return this.belongsToMany(models.Category, 'data_sets_categories', 'dataSetId', 'categoryId');
+      return this.belongsToMany(models.Category, 'data_sets_categories', 'data_set_id', 'category_id');
     },
 
     tags: function() {
@@ -69,6 +69,10 @@ module.exports = function(Bookshelf, app) {
           .from(query.raw('(' + sql + ') AS matching'))
           .limit(options['limit'])
           .offset(options['offset']);
+      }).then(function(models) {
+        return models.map(function(attr) {
+          return new DataSet(attr, {parse: true});
+        })
       })
     },
 
@@ -86,8 +90,8 @@ module.exports = function(Bookshelf, app) {
           .select('data_tags.*')
           .count('data_tags.id AS tagCount')
           .from(query.raw('(' + sql + ') AS matching'))
-          .join('data_sets_data_tags', 'matching.id', '=', 'data_sets_data_tags.dataSetId')
-          .join('data_tags', 'data_tags.id', '=', 'data_sets_data_tags.dataTagId')
+          .join('data_sets_data_tags', 'matching.id', '=', 'data_sets_data_tags.data_set_id')
+          .join('data_tags', 'data_tags.id', '=', 'data_sets_data_tags.data_tag_id')
           .groupBy('data_tags.id')
           .orderBy('tagCount', 'DESC');
       });
@@ -109,7 +113,7 @@ module.exports = function(Bookshelf, app) {
           .select('vendors.*')
           .distinct('vendors.name')
           .from(query.raw('(' + sql + ') AS matching'))
-          .join('vendors', 'matching.vendorId', '=', 'vendors.id')
+          .join('vendors', 'matching.vendor_id', '=', 'vendors.id')
           .orderBy('vendors.name', 'ASC');
       });
     },
@@ -145,14 +149,14 @@ module.exports = function(Bookshelf, app) {
 
     tagIDsQueryBuilder: function(q, ids) {
       return q.distinct()
-        .join('data_sets_data_tags', 'data_sets.id', '=', 'data_sets_data_tags.dataSetId')
-        .whereIn('dataTagId', this.numIds(ids))
+        .join('data_sets_data_tags', 'data_sets.id', '=', 'data_sets_data_tags.data_set_id')
+        .whereIn('data_tag_id', this.numIds(ids))
         .groupBy('data_sets.id')
         .having(query.raw('count(*) = ' + this.numIds(ids).length));
     },
 
     vendorIDsQueryBuilder: function(q, ids) {
-      return q.whereIn('vendorId', this.numIds(ids));
+      return q.whereIn('vendor_id', this.numIds(ids));
     },
 
     searchScopeQueryBuilder: function(q, term) {
@@ -168,7 +172,7 @@ module.exports = function(Bookshelf, app) {
 
       return q.join(query.raw('(select "vendors".* from "vendors" where "vendors".name ilike \'%' +
                               term.replace(/'/g, "''") +  // don't allow param to close quote
-                              '%\') as ' + joinName), joinName + '.id', '=', 'data_sets.vendorId', 'left')
+                              '%\') as ' + joinName), joinName + '.id', '=', 'data_sets.vendor_id', 'left')
         .where(function() {
             this.where('title', 'ILIKE', '%' + term + '%')
             .orWhere('data_sets.description', 'ILIKE', '%' + term + '%')
@@ -176,8 +180,8 @@ module.exports = function(Bookshelf, app) {
     },
 
     categoryIDQueryBuilder: function(q, id){
-      return q.join('data_sets_categories', 'data_sets.id', '=', 'data_sets_categories.dataSetId').
-        join('categories', 'categories.id', '=', 'data_sets_categories.categoryId').
+      return q.join('data_sets_categories', 'data_sets.id', '=', 'data_sets_categories.data_set_id').
+        join('categories', 'categories.id', '=', 'data_sets_categories.category_id').
         whereRaw('path <@ (select path from "categories" where id = ?)', [id]);
     },
 
@@ -191,8 +195,8 @@ module.exports = function(Bookshelf, app) {
         .select('data_sets.*')
         .distinct()
         .limit(5)
-        .join('data_sets_data_tags', 'data_sets.id', '=', 'data_sets_data_tags.dataSetId')
-        .join('data_tags', 'data_tags.id', '=', 'data_sets_data_tags.dataTagId')
+        .join('data_sets_data_tags', 'data_sets.id', '=', 'data_sets_data_tags.data_set_id')
+        .join('data_tags', 'data_tags.id', '=', 'data_sets_data_tags.data_tag_id')
         .whereIn('data_tags.name', tags)
         .groupBy('data_sets.id')
         .having(query.raw('count(*) = ' + tags.length));

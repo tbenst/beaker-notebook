@@ -10,19 +10,19 @@ module.exports = function(Bookshelf, app){
     idAttrs: ["name", "path"],
 
     dataSets: function() {
-      return this.belongsToMany(models.DataSet, 'data_sets_categories', 'categoryId', 'dataSetId')
+      return this.belongsToMany(models.DataSet, 'data_sets_categories', 'category_id', 'data_set_id')
     },
 
     notebooks: function() {
-      return this.hasMany(models.Notebook, 'category_id');
+      return this.hasMany(models.Notebook);
     }
   }, {
 
     findAllWithCounts: function() {
       return query('categories')
         .select('categories.*')
-        .count('data_sets_categories.dataSetId AS dataCount')
-        .join('data_sets_categories', 'categories.id', '=', 'data_sets_categories.categoryId', 'LEFT OUTER')
+        .count('data_sets_categories.data_set_id AS dataCount')
+        .join('data_sets_categories', 'categories.id', '=', 'data_sets_categories.category_id', 'LEFT OUTER')
         .groupBy('categories.id', 'name', 'path')
         .orderBy('path')
     },

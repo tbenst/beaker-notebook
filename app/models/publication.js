@@ -3,7 +3,7 @@ module.exports = function(Bookshelf, app) {
     tableName: "publications",
 
     notebook: function() {
-      return this.belongsTo(app.Models.Notebook, 'notebook_id');
+      return this.belongsTo(app.Models.Notebook);
     }
   });
 

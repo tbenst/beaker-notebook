@@ -2,7 +2,7 @@
   h1 Publications
 
   ul.publication-list.bunsen-list
-    li.bunsen-list-item(ng-repeat="publication in publications.list | orderBy:'created_at':true")
+    li.bunsen-list-item(ng-repeat="publication in publications.list | orderBy:'createdAt':true")
       h2
         a.title(ui-sref="publications.items.item({id: publication.id})") {{publication.notebook.name}}
       p.description {{publication.notebook.description | words : 30 }}

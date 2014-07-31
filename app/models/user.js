@@ -17,15 +17,15 @@ module.exports = function(Bookshelf, app) {
     },
 
     projects: function(id) {
-      return this.hasMany(app.Models.Project, 'ownerId')
+      return this.hasMany(app.Models.Project, 'owner_id')
     },
 
     notebooks: function(id) {
-      return this.hasMany(app.Models.Notebook, 'userId')
+      return this.hasMany(app.Models.Notebook)
     },
 
     subscriptions: function() {
-      return this.hasMany(app.Models.Subscription, 'userId');
+      return this.hasMany(app.Models.Subscription);
     },
 
     addSubscription: function(dataSet) {

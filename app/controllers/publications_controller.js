@@ -26,7 +26,7 @@ module.exports = function(app) {
       .then(function(notebook) {
         return notebook.getData().then(function(data) {
           return Publication.forge({
-            notebook_id: req.body.id,
+            notebookId: req.body.id,
             contents: data,
           })
           .save();

@@ -79,7 +79,7 @@ function Notebook(Bookshelf, app) {
     },
 
     category: function() {
-      return this.belongsTo(app.Models.Category, 'notebook_id');
+      return this.belongsTo(app.Models.Category);
     },
 
     getData: function(data) {
@@ -140,7 +140,7 @@ function Notebook(Bookshelf, app) {
     ensureName: function() {
       if (!this.get("name")) {
         return query('notebooks')
-        .where("userId", this.get("userId"))
+        .where("user_id", this.get("userId"))
         .column('name')
         .then(_.partialRight(calculateNotebookName, "Notebook "))
         .then(_.bind(function(name) {
@@ -194,15 +194,17 @@ function Notebook(Bookshelf, app) {
   });
 
   Notebook.list = function(opts) {
-    return query("notebooks")
-    .where("projectId", opts.projectId)
-    .select()
-    .orderBy('name', 'ASC')
-    .then(function(notebooks) {
-      return when.map(notebooks, function(notebook) {
-        return addCommitCount(Notebook.forge(notebook))
+    return Notebook
+      .query(function (q) {
+        q.where("project_id", opts.projectId)
+        q.orderBy('name', 'ASC')
+      })
+      .fetchAll()
+      .then(function(notebooks) {
+        return when.map(notebooks.models, function(notebook) {
+          return addCommitCount(Notebook.forge(notebook.attributes))
+        });
       });
-    });
   };
 
   Notebook.load = function(opts) {

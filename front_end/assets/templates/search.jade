@@ -13,7 +13,7 @@
         ul.attributes
           li
             span.label Updated:&nbsp
-            span.value {{notebook.updated_at | date: 'shortDate'}}
+            span.value {{notebook.updatedAt | date: 'shortDate'}}
       .cl
 
     li.bunsen-list-item.skinny(ng-repeat="project in projectResults = (projects.list | filter:searchable.search)")

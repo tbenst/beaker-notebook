@@ -8,7 +8,7 @@ module.exports.init = function(app, configPath) {
   var fs      = require('fs'),
     path      = require('path'),
     Bookshelf = require('bookshelf'),
-    _         = require('lodash'),
+    _         = require('lodash-contrib'),
     config    = {};
 
   try {
@@ -20,6 +20,29 @@ module.exports.init = function(app, configPath) {
   config = knex(config[process.env["NODE_ENV"]] || config["development"]);
 
   var DB = Bookshelf.initialize(config);
+  //When creating relationships bookshelf adds pivot keys
+  //The pivot keys return incorrectly after being formatted and parsed so we should just ignore them
+  var re = new RegExp("^(pivot)", "i");
+  DB.Model = DB.Model.extend({
+    format: function(attrs) {
+      return _.reduce(attrs, function(memo, val, key) {
+        if (!re.test(key)) {
+          memo[_.snakeCase(key)] = val;
+        }
+        return memo;
+      }, {});
+    },
+
+    parse: function(attrs) {
+      return _.reduce(attrs, function(memo, val, key) {
+        if (!re.test(key)) {
+          memo[_.camelCase(key)] = val;
+        }
+        return memo;
+      }, {});
+    }
+
+  });
 
   function hasTimestamps(model) {
     return model.extend({
