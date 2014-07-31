@@ -13,7 +13,7 @@ module.exports = function(app) {
   });
 
   app.post("/seed/drop-repos", function(req, res, next) {
-    exec("rm -rf " + path.resolve(__dirname, '/repos'))
+    exec("rm -rf " + path.resolve(__dirname, '/.repos'))
     .then(function() {
       res.send(200);
     })
