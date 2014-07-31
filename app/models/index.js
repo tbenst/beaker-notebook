@@ -12,14 +12,13 @@ module.exports.init = function(app, configPath) {
     config    = {};
 
   try {
-    config = require(configPath);
+    config = require(configPath)[process.env["NODE_ENV"] || "development"];
   } catch(e) {
     throw new Error('Error reading config from '+configPath)
   }
 
-  config = knex(config[process.env["NODE_ENV"]] || config["development"]);
+  var DB = Bookshelf.initialize(knex(config));
 
-  var DB = Bookshelf.initialize(config);
   //When creating relationships bookshelf adds pivot keys
   //The pivot keys return incorrectly after being formatted and parsed so we should just ignore them
   var re = new RegExp("^(pivot)", "i");
@@ -43,6 +42,7 @@ module.exports.init = function(app, configPath) {
     }
 
   });
+
 
   function hasTimestamps(model) {
     return model.extend({

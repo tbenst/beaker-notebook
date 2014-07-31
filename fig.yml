@@ -3,6 +3,7 @@ app:
   command: "--migrate --delay=5"
   links:
     - "db:db"
+    - "provisioner:provisioner"
   ports:
     - "3000:3000"
   volumes:
