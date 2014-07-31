@@ -28,6 +28,10 @@ module.exports = function() {
       return this.read('.format');
     },
 
+    categories: function() {
+      return this.read('.categories');
+    },
+
     goBackToSearch: function() {
       return this.click(".return-to-market-search")
     },
