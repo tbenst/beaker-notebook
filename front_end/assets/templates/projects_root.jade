@@ -1,8 +1,8 @@
 .projects-root(ng-controller="projectsRoot")
-  div(sticky).sidebar-left.project-sidebar
+  .sidebar-left.project-sidebar
     .nav(ui-view="nav")
 
-    .open-notebooks
+    div(sticky).open-notebooks
       .sidebar-box.list
         h3
           span.sidebar-box-header-count {{(notebooks.list | filter:{open: true}).length}}
