@@ -41,6 +41,17 @@ module.exports = function(app) {
         return res.send(404);
       })
       .catch(next);
+    },
+
+    destroy: function(req, res, next) {
+      req.user.publications()
+      .query({where: {'publications.id': req.params.id}})
+      .fetchOne()
+      .then(function(publication) {
+        return publication.destroy()
+        .then(res.json.bind(res));
+      })
+      .catch(next);
     }
   }
 };

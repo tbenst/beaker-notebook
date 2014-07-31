@@ -30,6 +30,12 @@
       $scope.$emit('closeModal');
     };
 
+    $scope.destroyPublication = function() {
+      F.Publications.destroy($scope.notebook.publication).then(function(notebook) {
+        $scope.notebook = notebook;
+      });
+    };
+
     $scope.openPublishModal = function() {
       $scope.$emit('openModal', $compile(templates.publish_notebook_modal())($scope), { width: '400px' });
     };

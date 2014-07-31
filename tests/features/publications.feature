@@ -41,3 +41,10 @@ Feature: Publications
       | name       |
       | top secret |
 
+  Scenario: Deleting a Publication
+    Given the notebook "top secret" is published
+    And I view my projects
+    When I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    And I delete the publication
+    Then I should see that the notebook is not published

@@ -1,7 +1,14 @@
 .notebook
   .sidebar-right
     .publishing.sidebar-box.light
-      h3 Publishing
+      h3
+        | Publishing
+        span.options.dropdown-toggle.light.right
+          ul.dropdown.drop-bottom-left
+            li
+              a.publish(ng-class="published && 'disabled'" ng-click="published || openPublishModal()") Publish notebook
+            li(ng-if="published")
+              a.destroy-publication(confirm="Are you sure you want to delete the publication for this notebook?" on-confirm="destroyPublication()") Remove published
       .content
         .publish-status.text-small(ng-class="published ? 'public' : 'private'") This notebook is {{ published ? 'published' : 'currently private' }}
         ul.publication-details.property-list.small(ng-if="published")

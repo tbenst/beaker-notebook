@@ -63,6 +63,16 @@ module.exports = function() {
     }.bind(this));
   });
 
+  this.Given(/^the notebook "([^"]*)" is published$/, function(notebookName) {
+    return this.seed.populate({
+      model: 'Publication',
+      associations: [{
+        foreignKey: 'notebook_id',
+        lookup: {"Notebook": {name: notebookName}}
+      }]
+    });
+  });
+
   this.When(/^I view the publications page$/, function() {
     return this.driver.get(this.route.publications);
   });
@@ -81,6 +91,10 @@ module.exports = function() {
 
   this.When(/^I view the published version$/, function() {
     return new this.Widgets.Notebook().viewPublished();
+  });
+
+  this.When(/^I delete the publication$/, function() {
+    return new this.Widgets.Notebook().removePublication();
   });
 
   this.Then(/^I should see a published version of the following notebook:$/, function(table) {

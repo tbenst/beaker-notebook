@@ -28,6 +28,10 @@ module.exports = function(Bookshelf, app) {
       return this.hasMany(app.Models.Subscription);
     },
 
+    publications: function() {
+      return this.hasMany(app.Models.Publication, 'userId').through(app.Models.Notebook, 'notebook_id');
+    },
+
     addSubscription: function(dataSet) {
       return app.Models.Subscription.forge({
         dataSetId: dataSet.id,
