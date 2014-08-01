@@ -1,17 +1,18 @@
 var util = require('util');
+var config = require('./_config');
 
 module.exports = function() {
-  var config = this.config.frontend;
+  var base = config.bunsenUrl;
 
   this.route = {
-    home: config.url,
-    signIn: config.url+"#/sign_in",
-    market: config.url+"#/market_place",
-    subscriptions: config.url+"#/subscriptions",
-    publications: config.url+"#/publications",
-    projectDashboard: config.url + "#/projects",
+    home: base,
+    signIn: base+"#/sign_in",
+    market: base+"#/market_place",
+    subscriptions: base+"#/subscriptions",
+    publications: base+"#/publications",
+    projectDashboard: base + "#/projects",
     forProject: function(project) {
-      return util.format('%s#/projects/%s', config.url, project.id);
+      return util.format('%s#/projects/%s', base, project.id);
     }
   };
 };

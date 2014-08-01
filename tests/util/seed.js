@@ -3,7 +3,7 @@ var config  = require('./_config');
 var Promise = require('bluebird');
 var util = require('util');
 var post    = Promise.promisify(require('request').post);
-var base    = config().appServer.url + 'seed';
+var base    = config.bunsenUrl + 'api/seed';
 
 module.exports = function() {
 
