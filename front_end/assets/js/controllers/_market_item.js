@@ -28,6 +28,10 @@
       $scope.referrerList = 'marketPlace.items';
     }
 
+    $scope.searchByVendor = function(id) {
+      $scope.newSearch({vendorScope: [id.toString()]});
+    };
+
     $scope.unsubscribe = function() {
        R.one('subscriptions', $state.params.id).remove().then(function(d) {
         $scope.subscribed = false;
