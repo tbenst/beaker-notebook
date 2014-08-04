@@ -79,6 +79,14 @@ module.exports = function() {
     });
   });
 
+  this.Given(/^there is a publication named "([^"]*)"$/, function(name) {
+    return seedPublications.bind(this)(1, name);
+  });
+
+  this.Given(/^I view the first publication$/, function() {
+    return new this.Widgets.PublicationList().clickAt(0);
+  });
+
   this.When(/^I view the publications page$/, function() {
     return this.driver.get(this.route.publications);
   });
@@ -101,6 +109,22 @@ module.exports = function() {
 
   this.When(/^I delete the publication$/, function() {
     return new this.Widgets.Notebook().removePublication();
+  });
+
+  this.When(/^I go to open the publication in Bunsen$/, function() {
+    return new this.Widgets.Publication().goToOpenInBunsen();
+  });
+
+  this.When(/^I select the destination project "([^"]*)"$/, function(project) {
+    return new this.Widgets.copyNotebookModal().selectProject(project);
+  });
+
+  this.When(/^I name the copied notebook "([^"]*)"$/, function(name) {
+    return new this.Widgets.copyNotebookModal().nameNotebook(name);
+  });
+
+  this.When(/^I copy the publication$/, function() {
+    return new this.Widgets.Modal().submit();
   });
 
   this.Then(/^I should see a published version of the following notebook:$/, function(table) {

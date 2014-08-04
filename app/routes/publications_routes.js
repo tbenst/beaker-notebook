@@ -5,4 +5,5 @@ module.exports = function(app) {
   app.get('/api/publications/:id', PublicationsController.get);
   app.del('/api/publications/:id', PublicationsController.destroy);
   app.post('/api/publications', PublicationsController.create);
+  app.post('/api/publications/:id/copy', PublicationsController.copy);
 };

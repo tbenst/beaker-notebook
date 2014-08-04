@@ -1,3 +1,5 @@
+var RecordNotUniqueError = require("../lib/record_not_unique_error");
+
 module.exports = function(app) {
   var Publication = app.Models.Publication,
       Notebook = app.Models.Notebook;
@@ -52,6 +54,35 @@ module.exports = function(app) {
         .then(res.json.bind(res));
       })
       .catch(next);
+    },
+
+    copy: function(req, res, next) {
+      req.user.projects()
+      .query({where: {id: req.body.projectId}})
+      .fetchOne({ require: true })
+      .then(function(project) {
+        return Publication.forge({ id: req.params.id })
+        .fetch({ require: true })
+        .then(function(publication) {
+          return Notebook.forge({
+            projectId: project.id,
+            userId: req.user.id,
+            name: req.body.name,
+            data: JSON.parse(publication.get('contents'))
+          })
+          .save()
+          .then(res.json.bind(res));
+        })
+      })
+      .catch(app.Models.Project.NotFoundError, function() {
+        return res.send(404);
+      })
+      .catch(function(e) {
+        if (e instanceof RecordNotUniqueError) {
+          return res.status(409).json({ error: 'That name is already taken by another notebook in that project' });
+        }
+        return next(e);
+      })
     }
   }
 };
