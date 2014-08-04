@@ -6,9 +6,11 @@
         img(src="images/edit.png", width="14", height="14")
     .content
       p.project-description-display(ng-hide="editMode") {{project.description}}
-      textarea.project-description(name="description", ng-model="newAttributes.description" ng-show="editMode")
+      textarea.project-description(name="description", maxlength= "1500" ng-model="newAttributes.description" ng-show="editMode")
         | Project description...
-      a.btn.btn-light.update-project.left(ng-show="editMode", ng-click="updateProject()") Save
+      .char-count-container
+        a.btn.btn-light.update-project.left(ng-show="editMode", ng-click="updateProject()") Save
+        h4.char-count(ng-show="editMode") ({{ 1500 - newAttributes.description.length}} characters remaining)
       .cl
 
 .main-content.project-detail

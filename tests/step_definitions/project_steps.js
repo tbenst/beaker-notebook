@@ -223,4 +223,22 @@ module.exports = function() {
 
     return new this.Widgets.Overview().recentlyUsedTitles().should.eventually.eql(expectedTitles);
   });
+
+  this.Then(/^I should see "([^"]*)" in the character count$/, function(characters) {
+    var projectSidebar = new this.Widgets.ProjectSidebarRight();
+    return projectSidebar.charCount().should.eventually.equal(characters)
+  });
+
+  this.When(/^I add more than (\d+) characters to the description$/, function(limit) {
+    return new this.Widgets.ProjectSidebarRight().enterOverflowText(limit)
+  });
+
+  this.Then(/^I should see the input truncated to (\d+) characters$/, function(limit) {
+    return new this.Widgets.ProjectSidebarRight().getText().should.eventually.have.length(limit)
+  });
+
+  this.When(/^I update the project$/, function() {
+    return new this.Widgets.ProjectSidebarRight().updateProject()
+  });
+
 }

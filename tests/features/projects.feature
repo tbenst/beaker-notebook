@@ -175,6 +175,16 @@ As a researcher, I want to manage my projects.
     And I view my projects
     And I open the "hello js" project
     Then I should see the description "hello world in javascript"
+    When I edit the project
+    Then I should see "(1475 characters remaining)" in the character count
+    When I update the project as follows:
+      | description |
+      |             |
+    And I edit the project
+    Then I should see "(1500 characters remaining)" in the character count
+    When I add more than 1500 characters to the description
+    And I update the project
+    Then I should see the input truncated to 1500 characters
 
   Scenario: Project updated date
     Given I have the following Projects:
