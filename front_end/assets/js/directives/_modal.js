@@ -3,19 +3,19 @@
     return {
       restrict: 'E',
       template: templates.modal,
-      controller: ['$scope', '$element', function($scope, $element) {
-        $scope.modalShown = false;
+      link: function(scope, element) {
+        scope.modalShown = false;
 
-        $scope.$on('openModal', function(e, content, options) {
-          $scope.width = options && options.width;
-          $element.find('section').empty().append(content);
-          $scope.modalShown = true;
+        scope.$on('openModal', function(e, content, options) {
+          scope.width = options && options.width;
+          angular.element(element).find('section').empty().append(content);
+          scope.modalShown = true;
         });
 
-        $scope.$on('closeModal', function(e) {
-          $scope.modalShown = false;
+        scope.$on('closeModal', function(e) {
+          scope.modalShown = false;
         });
-      }]
+      }
     }
   });
 })(angular, window.bunsen);
