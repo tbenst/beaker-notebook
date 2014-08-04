@@ -16,6 +16,10 @@ module.exports = function() {
       return this.click('.cancel');
     },
 
+    submit: function() {
+      return this.click('.submit');
+    },
+
     close: function() {
       return this.find('.ng-modal-close').click();
     },
