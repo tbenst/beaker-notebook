@@ -25,8 +25,9 @@
       else if ($scope.item.dataPreviews !== undefined ) {
         $scope.item.tabView = 'thumbnail';
       }
-
-      $scope.item.startDate = millisToUTCDate($scope.item.startDate)
+      if ($scope.item.startDate !== null) {
+        $scope.item.startDate = millisToUTCDate($scope.item.startDate)
+      }
     });
 
     F.Vendors.getVendors({}).then(function(v) {
