@@ -55,25 +55,29 @@
 
     function checkDataSets(newValue, oldValue) { if (newValue !== oldValue) getDataSets(); }
 
+    var previousRequestsAborter;
+
     function getDataSets() {
+      if (previousRequestsAborter) {previousRequestsAborter.resolve()}
+      previousRequestsAborter = $q.defer();
       $q.all(
-        F.DataSets.getDataSets($scope.marketPlace).then(function(d) {
+        F.DataSets.getDataSets($scope.marketPlace, previousRequestsAborter).then(function(d) {
           $scope.marketPlace.data = d;
         }),
 
-        F.DataSets.getCount($scope.marketPlace).then(function(count) {
+        F.DataSets.getCount($scope.marketPlace, previousRequestsAborter).then(function(count) {
           $scope.marketPlace.totalItems = count;
         }),
 
-        F.RelatedTags.getTags($scope.marketPlace).then(function(tags) {
+        F.RelatedTags.getTags($scope.marketPlace, previousRequestsAborter).then(function(tags) {
           $scope.marketPlace.relatedTags = tags;
         }),
 
-        F.Formats.getFormats($scope.marketPlace).then(function(d) {
+        F.Formats.getFormats($scope.marketPlace, previousRequestsAborter).then(function(d) {
           $scope.marketPlace.formats = d;
         }),
 
-        F.Vendors.getVendors($scope.marketPlace).then(function(v) {
+        F.Vendors.getVendors($scope.marketPlace, previousRequestsAborter).then(function(v) {
           $scope.marketPlace.vendors = v;
         })
       ).then(function() {
