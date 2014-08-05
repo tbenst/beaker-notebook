@@ -57,7 +57,7 @@ As a researcher, I want to be able to browse the market place.
 
   Scenario: Category meta-data owner
 	Given I have the following categories:
-	  | name   | path | ownerName | description                    |
+	  | name   | path | owner_name | description                    |
 	  | Energy | 3    | Paul      | Federal energy policy datasets |
   When I view the market search
 	And I browse marketplace by category "Energy"

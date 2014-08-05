@@ -11,7 +11,7 @@
         .category-attributes-label Last Updated
         .category-attributes-label-value {{marketPlace.currentCategory.updatedAt | date: 'shortDate'}}
         .category-attributes-label Owner
-        .category-attributes-label-value.owner {{marketPlace.currentCategory.ownerName}}
+        .category-attributes-label-value.owner {{marketPlace.currentCategory.owner_name}}
         .category-attributes-label Contact
         .category-attributes-label-value
           a(href="mailto:{{marketPlace.currentCategory.ownerEmail}}") {{marketPlace.currentCategory.ownerEmail}}
