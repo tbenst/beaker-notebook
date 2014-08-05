@@ -11,6 +11,7 @@ RUN apt-get update -qq && \
       node-jade \
       node-knex \
       node-lodash \
+      node-lodash-contrib \
       node-minimist \
       node-mkdirp \
       node-nodegit \
