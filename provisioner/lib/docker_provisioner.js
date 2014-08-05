@@ -51,6 +51,23 @@ _.extend(DockerProvisioner.prototype, {
     var c = this.docker.getContainer(id);
     return inspectContainer(c);
   },
+
+  restart: function(id) {
+    var c = this.docker.getContainer(id);
+    console.log("container", c);
+    return c.inspectAsync().then(function(data) {
+      if (data.State.Running == true) {
+        throw new Error("Container " + id + " is already running.");
+      }
+      if (data.Config.Image != BEAKER_IMAGE) {
+        throw new Error("Container " + id + " is not a beaker container, it's " + data.Config.Image);
+      }
+      return c.startAsync().then(function() {
+        return inspectContainer(c);
+      });
+    });
+  }
+
 });
 
 function inspectContainer(container) {
