@@ -12,7 +12,7 @@ apptests:
     NODE_ENV: test
 webtests:
   build: ../front_end
-  command: "--test --api_url='http://localhost:2999/api/'"
+  command: "--test"
   ports:
     - "8079:8080"
   volumes:

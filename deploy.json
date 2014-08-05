@@ -32,7 +32,6 @@
     {
       "name": "web",
       "image": "web",
-      "command": "--api_url='http://bunsen.withmojo.com/api/' --beaker_url='http://bunsen.withmojo.com:8801/beaker/'",
       "ports": [
         "8080:8080"
       ]
