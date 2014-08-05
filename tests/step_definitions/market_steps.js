@@ -80,6 +80,7 @@ module.exports = function() {
     info.subscribers = [].concat(info.subscribers.split(','));
     info.dataPreviews = [].concat(info.dataPreviews.split(','));
     _.pull(info.subscribers, '');
+    _.pull(info.categories, '');
 
     var _this       = this;
     var marketItem  = marketItemBase();
