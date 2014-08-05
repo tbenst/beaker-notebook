@@ -332,7 +332,6 @@ As a researcher, I want to be able to use the market place.
     When I have a market item with a csv preview and a thumbnail
     And I view the market search
     And I view the "Thumbnail and CSV" market item
-    And I click the "Tables" tab
     Then I should see an active tab of "Tables"
     When I click the "Thumbnails" tab
     Then I should see an active tab of "Thumbnails"

@@ -3,9 +3,7 @@ module.exports = function() {
     root: 'modal',
 
     isDisplayed: function() {
-      return this.find().then(function(el) {
-        return el.isDisplayed();
-      });
+      return this.isVisible();
     },
 
     accept: function() {
