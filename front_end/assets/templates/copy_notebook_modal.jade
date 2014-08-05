@@ -1,0 +1,9 @@
+div(ng-controller="copyNotebook")
+  h1 Copy Notebook
+  .error {{ error }}
+  label.full Copy to project:
+  select.full(ng-model="copyToProject" ng-options="project.name for project in projects")
+  label.full Name:
+  input.full.name(ng-model="newNotebookName")
+  button.copy.submit.btn.btn-primary(ng-click="copyNotebook()") Copy
+  button.btn.btn-light(ng-click="cancel()") Cancel

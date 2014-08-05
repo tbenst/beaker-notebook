@@ -20,47 +20,53 @@ var randomProject = function(user) {
   }
 };
 
-var randomNotebook = function(user, project, i) {
+var randomNotebook = function(user, project, name, i) {
+  var notebookName = name || "Notebook";
   return {
     model: "Notebook",
     data: _.extend(_.omit(notebookBase, ['userEmail', 'projectName']), {
-      name: "Notebook " + i,
+      name: i == 0 ? notebookName : notebookName + ' ' + i,
       userId: user.id,
       projectId: project.id
     })
   }
 };
 
-module.exports = function() {
-  this.Given(/^there are (\d+) publications$/, function(count) {
-    return this.seed.populate(randomUser).then(function(user) {
-      return this.seed.populate(randomProject(user)).then(function(project) {
-        var notebooks = [];
+var seedPublications = function(count, name) {
+  return this.seed.populate(randomUser).then(function(user) {
+    return this.seed.populate(randomProject(user)).then(function(project) {
+      var notebooks = [];
 
-        for(var i = 0; i < +count; ++i) {
-          notebooks.push(randomNotebook(user, project, i));
-        }
+      for(var i = 0; i < +count; ++i) {
+        notebooks.push(randomNotebook(user, project, name, i));
+      }
 
-        return this.seed.populate(notebooks)
-          .then(function(notebooks) {
-            var publicationPromises = [];
+      return this.seed.populate(notebooks)
+        .then(function(notebooks) {
+          var publicationPromises = [];
 
-            _.each(notebooks, function(notebook) {
-              publicationPromise = this.seed.populate({
-                model: "Publication",
-                data: {
-                  notebook_id: notebook.id,
-                  contents: notebookBase.data
-                }
-              });
+          _.each(notebooks, function(notebook) {
+            publicationPromise = this.seed.populate({
+              model: "Publication",
+              data: {
+                notebook_id: notebook.id,
+                contents: notebookBase.data
+              }
+            });
 
-              publicationPromises.push(publicationPromise);
-            }.bind(this));
-
-            return publicationPromises;
+            publicationPromises.push(publicationPromise);
           }.bind(this));
-      }.bind(this));
+
+          return publicationPromises;
+        }.bind(this));
     }.bind(this));
+  }.bind(this));
+};
+
+module.exports = function() {
+
+  this.Given(/^there are (\d+) publications$/, function(count) {
+    return seedPublications.bind(this)(count);
   });
 
   this.Given(/^the notebook "([^"]*)" is published$/, function(notebookName) {
@@ -71,6 +77,14 @@ module.exports = function() {
         lookup: {"Notebook": {name: notebookName}}
       }]
     });
+  });
+
+  this.Given(/^there is a publication named "([^"]*)"$/, function(name) {
+    return seedPublications.bind(this)(1, name);
+  });
+
+  this.Given(/^I view the first publication$/, function() {
+    return new this.Widgets.PublicationList().clickAt(0);
   });
 
   this.When(/^I view the publications page$/, function() {
@@ -95,6 +109,22 @@ module.exports = function() {
 
   this.When(/^I delete the publication$/, function() {
     return new this.Widgets.Notebook().removePublication();
+  });
+
+  this.When(/^I go to open the publication in Bunsen$/, function() {
+    return new this.Widgets.Publication().goToOpenInBunsen();
+  });
+
+  this.When(/^I select the destination project "([^"]*)"$/, function(project) {
+    return new this.Widgets.copyNotebookModal().selectProject(project);
+  });
+
+  this.When(/^I name the copied notebook "([^"]*)"$/, function(name) {
+    return new this.Widgets.copyNotebookModal().nameNotebook(name);
+  });
+
+  this.When(/^I copy the publication$/, function() {
+    return new this.Widgets.Modal().submit();
   });
 
   this.Then(/^I should see a published version of the following notebook:$/, function(table) {

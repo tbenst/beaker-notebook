@@ -11,6 +11,10 @@
         return R.one('publications', publicationId).get();
       },
 
+      copy: function(id, options) {
+        return R.one('publications', id).post('copy', options);
+      },
+
       destroy: function(publication) {
         var notebookId = publication.notebookId;
 
