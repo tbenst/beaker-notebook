@@ -29,7 +29,7 @@ module.exports = function(Bookshelf, app) {
     },
 
     publications: function() {
-      return this.hasMany(app.Models.Publication, 'userId').through(app.Models.Notebook, 'notebook_id');
+      return this.hasMany(app.Models.Publication, 'user_id').through(app.Models.Notebook, 'notebook_id');
     },
 
     addSubscription: function(dataSet) {
