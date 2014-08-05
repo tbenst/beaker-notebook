@@ -34,11 +34,11 @@ var randomNotebook = function(user, project, name, i) {
 
 var seedPublications = function(count, name) {
   return this.seed.populate(randomUser).then(function(user) {
-    return this.seed.populate(randomProject(user)).then(function(project) {
+    return this.seed.populate(randomProject(user[0])).then(function(project) {
       var notebooks = [];
 
       for(var i = 0; i < +count; ++i) {
-        notebooks.push(randomNotebook(user, project, name, i));
+        notebooks.push(randomNotebook(user[0], project[0], name, i));
       }
 
       return this.seed.populate(notebooks)
