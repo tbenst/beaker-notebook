@@ -73,7 +73,11 @@ module.exports = function() {
         // for some reason this now requires a double click in test
         // but not in actual env... :(
         return renameModal.click('.save').then(function() {
-          return renameModal.click('.save');
+          return renameModal.isVisible().then(function(visible) {
+            if (visible) {
+              return renameModal.click('.save');
+            }
+          })
         });
       });
     },
