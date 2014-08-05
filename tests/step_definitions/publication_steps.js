@@ -162,4 +162,9 @@ module.exports = function() {
       return publication.name().should.eventually.eql(_.pluck(table.hashes(), 'name')[0]);
     });
   });
+
+  this.When(/^I search for publication "([^"]*)"$/, function (searchText) {
+    var publicationSearch = new this.Widgets.PublicationSearch;
+    return publicationSearch.search(searchText);
+  });
 }

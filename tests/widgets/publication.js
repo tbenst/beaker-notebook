@@ -54,4 +54,12 @@ module.exports = function() {
       });
     }
   });
+
+  this.Widgets.PublicationSearch = this.Widget.extend({
+    root: '.publication-search',
+
+    search: function(text) {
+      return this.fill(text);
+    }
+  });
 };
