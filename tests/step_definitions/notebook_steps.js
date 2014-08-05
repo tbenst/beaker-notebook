@@ -175,7 +175,11 @@ module.exports = function() {
   });
 
   this.When(/^I save the notebook as "([^"]*)"$/, function(name) {
-    return (new this.Widgets.BeakerFrame()).saveAs(name);
+    var _this = this;
+    notebook = new this.Widgets.Notebook();
+    return notebook.waitForBeaker().then(function() {
+      return (new _this.Widgets.BeakerFrame()).saveAs(name);
+    });
   });
 
   this.Then(/^I should be in the "([^"]*)" notebook$/, function(name) {
@@ -187,7 +191,11 @@ module.exports = function() {
   });
 
   this.When(/^I save my changes to the notebook$/, function() {
-    return (new this.Widgets.BeakerFrame()).saveChanges();
+    var _this = this;
+    notebook = new this.Widgets.Notebook();
+    return notebook.waitForBeaker().then(function() {
+      return (new _this.Widgets.BeakerFrame()).saveChanges();
+    });
   });
 
   this.When(/^I open the recent notebook "([^"]*)"$/, function(name) {

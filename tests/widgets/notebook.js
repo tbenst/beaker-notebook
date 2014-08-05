@@ -66,6 +66,17 @@ module.exports = function() {
       .then(function() {
         return new World.Widgets.Modal().accept();
       });
+    },
+
+    waitForBeaker: function() {
+      // this doesn't use Widget's find(), because iframe is appened outside of the Bunsen DOM tree
+      var css = Driver.By.css('iframe.beaker');
+      var _this = this;
+      var isPresent = function() {
+        return _this.driver.isElementPresent(css);
+      };
+      this.driver.wait(isPresent, 15000, "" + css + " not found");
+      return this.driver.findElement(css);
     }
   });
 };
