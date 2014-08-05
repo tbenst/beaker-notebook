@@ -17,7 +17,8 @@ config[env] = {
   provisioner: {
     host : process.env.PROVISIONER_PORT_3001_TCP_ADDR || '127.0.0.1',
     port : process.env.PROVISIONER_PORT_3001_TCP_PORT || '3001'
-  }
+  },
+  beakerHost: "localhost"
 };
 
 module.exports = config;

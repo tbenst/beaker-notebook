@@ -11,6 +11,7 @@ module.exports.init = function(app) {
   require('./users_routes.js')(app);
   require('./notebook_routes.js')(app);
   require('./tag_routes.js')(app);
+  require('./beaker_instances_routes.js')(app);
 
   if (app.get('env') === "test") {
     require('./seed_routes.js')(app);
