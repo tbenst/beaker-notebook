@@ -2,7 +2,7 @@
   app.controller('copyNotebook', ['$scope', '$state', 'Factories', function($scope, $state, Factories) {
     var F = Factories;
 
-    $scope.newNotebookName = $scope.publication.notebook.name;
+    $scope.newNotebookName = $scope.publication.name;
 
     $scope.cancel = function() {
       $scope.$emit('closeModal');
