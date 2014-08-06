@@ -60,6 +60,7 @@ module.exports.init = function(app, configPath) {
     });
 
   app.DB = DB;
+  app.config = config;
 
   return app;
 };
