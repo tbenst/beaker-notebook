@@ -22,6 +22,8 @@ module.exports = function() {
     },
 
     clickItem: function(title) {
+      var _this = this;
+
       return this.findAll(this.itemSelector).then(function(nodes) {
         return $.filter(nodes, function(n) {
           return n.getInnerHtml().then(function(t) {
@@ -29,7 +31,10 @@ module.exports = function() {
           });
         })
         .then(function(filtered) {
-          return filtered[0].click();
+          return _this.driver.executeScript("arguments[0].scrollIntoView(true);", filtered[0])
+          .then(function() {
+            return filtered[0].click();
+          })
         });
       });
     }
