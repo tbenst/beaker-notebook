@@ -25,11 +25,9 @@ module.exports = function() {
 
       return this.showDropdown().then(function() {
         return $.map(tags, function(tag) {
-          var method = "return Sizzle('"+_this.root+" ul li:contains(\""+tag+"\") a')[0]";
+          var method = "return Sizzle('"+_this.root+" ul li:contains(\""+tag+"\") a')[0].click()";
 
-          return _this.driver.executeScript(method).then(function(elm) {
-            elm.click();
-          })
+          return _this.driver.executeScript(method);
         });
       })
     },
