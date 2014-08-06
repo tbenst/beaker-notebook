@@ -49,7 +49,11 @@ module.exports = function() {
 
   this.Then(/^the "([^"]*)" notebook is open$/, function(name) {
     // used from the notebook list page
-    return new this.Widgets.NotebookList().clickByName(name).then(function() {
+    return new this.Widgets.NotebookList().clickByName(name)
+    .then(function() {
+      return Promise.delay(3000);
+    })
+    .then(function() {
       return new this.Widgets.Notebook().goBackToProject();
     }.bind(this)).then(function() {
       return Promise.delay(1000).then(function() {
@@ -112,8 +116,15 @@ module.exports = function() {
 
   this.When(/^I close the notebook$/, function(callback) {
     var _this = this;
-    return (new this.Widgets.Notebook()).close().then(function() {
-      return (new _this.Widgets.ProjectDetail).find();
+    // I had to wrap the initial delay promise with $.when(),
+    // it would throws "TypeError: circular promise resolution chain" otherwise.
+    // Not sure why.
+    return $.when(Promise.delay(3000))
+    .then(function() {
+      return new _this.Widgets.Notebook().close();
+    })
+    .then(function() {
+      return new _this.Widgets.ProjectDetail().find();
     });
   });
 
@@ -141,7 +152,10 @@ module.exports = function() {
   });
 
   this.When(/^I rename the notebook to "([^"]*)"$/, function(newName) {
-    return new this.Widgets.Notebook().openModalAndRename(newName);
+    var _this = this;
+    return Promise.delay(3000).then(function() {
+      return new _this.Widgets.Notebook().openModalAndRename(newName);
+    })
   });
 
   this.When(/^I rename the notebook "([^"]*)" instead$/, function(newName) {

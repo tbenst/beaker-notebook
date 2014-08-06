@@ -3,8 +3,19 @@ module.exports = function() {
   return this.Widgets.Notebook = this.Widget.extend({
     root: '.notebook',
 
+    scrollAndClick: function(css) {
+      var _this = this;
+      return this.find(css)
+      .then(function(el) {
+        return _this.driver.executeScript("arguments[0].scrollIntoView(true);", el)
+        .then(function() {
+          return el.click();
+        })
+      })
+    },
+
     close: function() {
-      return this.find('.close-notebook').click();
+      return this.scrollAndClick('.close-notebook');
     },
 
     name: function() {
@@ -12,7 +23,7 @@ module.exports = function() {
     },
 
     goBackToProject: function() {
-      return this.click('.back-to-project');
+      return this.scrollAndClick('.back-to-project');
     },
 
     openRenameModal: function() {

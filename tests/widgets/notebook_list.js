@@ -44,7 +44,13 @@ module.exports = function() {
       .then(function(item) {
         return _this.showDropdown(item)
         .then(function() {
-          return item.find('.rename').click();
+          return item.find('.rename')
+          .then(function(el) {
+            return _this.driver.executeScript("arguments[0].scrollIntoView(true);", el)
+            .then(function() {
+              return el.click();
+            })
+          })
         });
       });
     },
