@@ -36,3 +36,4 @@ provisionertests:
     - "/var/run/docker.sock:/var/run/docker.sock"
   environment:
     NODE_ENV: test
+  command: "tests_beakertests"
