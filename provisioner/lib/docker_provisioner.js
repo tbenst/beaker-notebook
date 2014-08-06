@@ -1,6 +1,7 @@
 var _  = require('lodash');
 var Promise = require('bluebird');
 var Docker = require('dockerode');
+var NoSuchInstance = require("../lib/no_such_instance");
 
 var BEAKER_PORT = '8801/tcp';
 var BEAKER_IMAGE = process.env.BEAKER_IMAGE;
@@ -77,6 +78,13 @@ function inspectContainer(container) {
       id: data.Id,
       port: data.HostConfig.PortBindings[BEAKER_PORT][0]['HostPort'],
       running: data.State.Running
+    }
+  }).catch(function(e) {
+    if (e.cause && e.cause.statusCode && e.cause.statusCode == 404) {
+      throw new NoSuchInstance(e.message);
+    }
+    else {
+      throw e;
     }
   });
 }
