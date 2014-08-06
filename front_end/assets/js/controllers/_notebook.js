@@ -76,17 +76,6 @@
       });
     }
 
-    $scope.publish = function() {
-      F.Notebooks.publish($scope.notebook).then(function(notebook) {
-        $scope.notebook.current = notebook;
-        $scope.$emit('closeModal');
-      });
-    };
-
-    $scope.cancelPublish = function() {
-      $scope.$emit('closeModal');
-    };
-
     $scope.destroyPublication = function() {
       F.Publications.destroy($scope.notebook.current.publication).then(function(notebook) {
         $scope.notebook.current = notebook;
