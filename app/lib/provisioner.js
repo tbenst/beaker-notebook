@@ -19,7 +19,10 @@ Provisioner = restler.service(function(options) {
         return null;
       }
       return data;
-    })
+    }).catch(function(e) {
+      console.log("Failed to inspect beaker instance "+id, e);
+      return null;
+    });
   },
 
   restart: function(id) {
