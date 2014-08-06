@@ -66,3 +66,17 @@ Feature: Publications
       | name         |
       | top secret   |
       | top secret 2 |
+
+  Scenario: Searching publications
+    Given there are 2 publications
+    And the notebook "top secret" is published
+    When I view the publications page
+    And I search for publication "lorem ipsum"
+    Then I should see 0 publication results on the page
+    When I view the publications page
+    And I search for publication "top secret"
+    Then I should see 1 publication results on the page
+    And I should see the following publication first in the list:
+      | name       |
+      | top secret |
+

@@ -16,7 +16,11 @@
           "app@publications": {
             controller: 'publicationsList',
             template: templates.publications_list
-          }
+          },
+          "search@publications": {
+            controller: function() {},
+            template: templates.publication_search
+          },
         }
       })
       .state('publications.items.item', {

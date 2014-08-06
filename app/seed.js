@@ -14,11 +14,20 @@ module.exports = function(data, configPath) {
   // so we have to use sequence here
   return sequence(_(data).flatten().map(function(d) {
     return _.partial(function(d) {
+      function fetchModel() {
+        var attrs = _.pick(d.data, models[d.model].prototype.idAttrs)
+        if (!_.isEmpty(attrs)) {
+          return models[d.model].forge(_.pick(d.data, models[d.model].prototype.idAttrs))
+          .fetch();
+        } else {
+          return when(null);
+        }
+      }
+
       // first save the model so we have an ID
       // then loop over the associations
       // then save the model once more
-      return models[d.model].forge(_.pick(d.data, models[d.model].prototype.idAttrs))
-        .fetch()
+      return fetchModel()
         .then(function (m) {
           return {fields: d, model: m};
         })
