@@ -24,11 +24,11 @@ esac
 done
 
 if [[ $create -eq 1 ]]; then
-    chown postgres:postgres /var/lib/postgresql/9.1/main
+    chown postgres:postgres /var/lib/postgresql/9.3/main
     if [[ $force -eq 1 ]]; then
-      rm -rf /var/lib/postgresql/9.1/main/*
+      rm -rf /var/lib/postgresql/9.3/main/*
     fi
-    su postgres -c "/usr/lib/postgresql/9.1/bin/initdb /var/lib/postgresql/9.1/main"
+    su postgres -c "/usr/lib/postgresql/9.3/bin/initdb /var/lib/postgresql/9.3/main"
 fi
 
 if [[ $database ]]; then
@@ -39,5 +39,5 @@ if [[ $database ]]; then
 fi
 
 if [[ $run -eq 1 ]]; then
-    exec su postgres -c "/usr/lib/postgresql/9.1/bin/postgres -D /etc/postgresql/9.1/main"
+    exec su postgres -c "/usr/lib/postgresql/9.3/bin/postgres -D /etc/postgresql/9.3/main"
 fi
