@@ -6,8 +6,8 @@ apptests:
     - "provisionertests:provisioner"
   ports:
     - "2999:3000"
-  volumes:
-    - "/vagrant/app:/var/app"
+  # volumes:
+  #   - "/vagrant/app:/var/app"
   environment:
     NODE_ENV: test
 webtests:
@@ -15,8 +15,8 @@ webtests:
   command: "--test"
   ports:
     - "8079:8080"
-  volumes:
-    - "/vagrant/front_end:/var/www"
+  # volumes:
+  #  - "/vagrant/front_end:/var/www"
 dbtests:
   build: ../postgres
   ports:
@@ -34,6 +34,7 @@ provisionertests:
     - "3002:3001"
   volumes:
     - "/var/run/docker.sock:/var/run/docker.sock"
+#    - "/vagrant/provisioner:/opt/provisioner"
   environment:
     NODE_ENV: test
   command: "tests_beakertests"
@@ -48,4 +49,5 @@ gatewaytests:
   volumes:
     - "/dev/log:/dev/log"
     - "/var/run/docker.sock:/var/run/docker.sock"
+#    - "/vagrant/gateway/:/opt/gateway"
 
