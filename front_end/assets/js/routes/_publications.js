@@ -17,9 +17,9 @@
             controller: 'publicationsList',
             template: templates.publications_list
           },
-          "search@publications": {
+          "nav@publications": {
             controller: function() {},
-            template: templates.publication_search
+            template: templates.publications_nav
           },
         }
       })
