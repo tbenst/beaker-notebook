@@ -33,21 +33,19 @@
     return query;
   }
 
-  app.factory('DataSetsFactory', ['Restangular', function(Restangular) {
+  app.factory('DataSetsFactory', ['TimeoutRestangular', function(TimeoutRestangular) {
     return {
       getDataSet: function(id) {
-        return Restangular.one('data_sets', id).get();
+        return TimeoutRestangular().one('data_sets', id).get();
       },
 
       getDataSets: function(scope, abort) {
-        return Restangular.one('data_sets')
-        .withHttpConfig({timeout: abort.promise})
+        return TimeoutRestangular(abort).one('data_sets')
         .getList("", buildQuery(scope));
       },
 
       getCount: function(scope, abort) {
-        return Restangular.one('data_sets').one("count")
-        .withHttpConfig({timeout: abort.promise})
+        return TimeoutRestangular(abort).one('data_sets').one("count")
         .get(buildQuery(scope))
         .then(function(d) {
           return +d[0].matchingCount;
@@ -56,31 +54,28 @@
     };
   }]);
 
-  app.factory('RelatedTagsFactory', ['Restangular', function(Restangular) {
+  app.factory('RelatedTagsFactory', ['TimeoutRestangular', function(TimeoutRestangular) {
     return {
       getTags: function(scope, abort) {
-        return Restangular.one('data_sets')
-        .withHttpConfig({timeout: abort.promise})
+        return TimeoutRestangular(abort).one('data_sets')
         .getList("tags", buildQuery(scope));
       }
     };
   }]);
 
-  app.factory('FormatsFactory', ['Restangular', function(Restangular) {
+  app.factory('FormatsFactory', ['TimeoutRestangular', function(TimeoutRestangular) {
     return {
       getFormats: function(scope, abort) {
-        return Restangular.one('data_sets')
-        .withHttpConfig({timeout: abort.promise})
+        return TimeoutRestangular(abort).one('data_sets')
         .getList('formats', buildQuery(scope));
       }
     };
   }]);
 
-  app.factory('VendorsFactory', ['Restangular', function(Restangular) {
+  app.factory('VendorsFactory', ['TimeoutRestangular', function(TimeoutRestangular) {
     return {
       getVendors: function(scope, abort) {
-        return Restangular.one('data_sets')
-        .withHttpConfig({timeout: abort.promise})
+        return TimeoutRestangular(abort).one('data_sets')
         .getList('vendors', buildQuery(scope));
       }
     };
