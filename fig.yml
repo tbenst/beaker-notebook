@@ -37,3 +37,14 @@ provisioner:
     - "/var/run/docker.sock:/var/run/docker.sock"
     - "/vagrant/provisioner:/opt/provisioner"
   command: "bunsen_beaker"
+gateway:
+  build: gateway
+  ports:
+    - "7777:80"
+  links:
+    - "app:app"
+    - "web:web"
+  volumes:
+    - "/dev/log:/dev/log"
+    - "/var/run/docker.sock:/var/run/docker.sock"
+  command: "bunsen_beaker localhost:7777"

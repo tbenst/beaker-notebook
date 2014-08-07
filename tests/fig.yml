@@ -37,3 +37,15 @@ provisionertests:
   environment:
     NODE_ENV: test
   command: "tests_beakertests"
+gatewaytests:
+  build: ../gateway
+  ports:
+    - "7778:80"
+  command: "tests_beakertests localhost:7778"
+  links:
+    - "apptests:app"
+    - "webtests:web"
+  volumes:
+    - "/dev/log:/dev/log"
+    - "/var/run/docker.sock:/var/run/docker.sock"
+
