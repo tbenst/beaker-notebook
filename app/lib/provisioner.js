@@ -15,7 +15,17 @@ Provisioner = restler.service(function(options) {
 
   inspect: function(id) {
     return this.getAsync('beaker/instances/' + id).spread(function(data, res) {
+      if (res.statusCode == 404) {
+        return null;
+      }
       return data;
+    })
+  },
+
+  restart: function(id) {
+    return this.putAsync('beaker/instances/' + id, {data: {start: true}})
+    .spread(function(responseData, res) {
+      return responseData;
     })
   }
 });
