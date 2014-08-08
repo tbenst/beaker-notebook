@@ -1,22 +1,73 @@
 !(function(angular, app) {
-  app.controller('notebook', ['$scope', '$state', '$sce', 'Factories', 'BeakerUrlGeneratorService', 'Restangular', '$compile', '$sessionStorage', '$location', 'Notebooks', 'WindowMessageService', function($scope, $state, $sce, Factories, BeakerUrlGeneratorService, Restangular, $compile, $sessionStorage, $location, Notebooks, WindowMessageService) {
+  app.controller('notebook', [
+    '$scope',
+    '$state',
+    '$sce',
+    'Factories',
+    'UrlGeneratorService',
+    'Restangular',
+    '$compile',
+    '$sessionStorage',
+    '$location',
+    'Notebooks',
+    'WindowMessageService',
+    'Beaker', function(
+      $scope,
+      $state,
+      $sce,
+      Factories,
+      UrlGeneratorService,
+      Restangular,
+      $compile,
+      $sessionStorage,
+      $location,
+      Notebooks,
+      WindowMessageService,
+      Beaker) {
+
     var F = Factories;
+    var frame;
+    var uiUrl = $location.absUrl().split("#")[0];
+    var prjId = $state.params.id;
 
     $scope.projects.search = '';
 
+    $scope.loading = true;
+
+    var beakerUrl = function(url, subPath, params) {
+      return url + "#/" +
+        subPath + "?" + UrlGeneratorService.toParams(_.extend(params,
+          {bunsenUiUrl: uiUrl}));
+    };
+
+    var notebookLocation = function(url, userId, projectId, notebookId) {
+      var notebookPath = Restangular.one('notebooks', notebookId).one('contents').getRestangularUrl();
+      var notebookUrl = $location.protocol() + "://" + $location.host();
+      if ($location.port() && $location.port() != 80) {
+        notebookUrl += ':' + $location.port();
+      }
+      notebookUrl += notebookPath;
+
+      return beakerUrl(url, "open", {
+        uri: notebookUrl,
+        userId: userId,
+        projectId: projectId,
+        notebookId: notebookId
+      });
+    };
+
+
     F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
       var userId = $sessionStorage.currentUser.id
-      var notebookLocation = BeakerUrlGeneratorService.fromParams({
-        uri: Restangular.one('notebooks', notebook.id).one('contents').getRestangularUrl(),
-        userId: userId,
-        projectId: notebook.projectId,
-        notebookId: notebook.id
-      });
 
-      $scope.notebookLocation = $sce.trustAsResourceUrl(notebookLocation);
       $scope.notebook = notebook;
 
       Notebooks.update({id: notebook.id, open: true});
+
+      Beaker.whenReady().then(function(url) {
+        $scope.notebookLocation = $sce.trustAsResourceUrl(notebookLocation(url, userId, prjId, notebook.id));
+        $scope.loading = false;
+      });
     });
 
     $scope.publish = function() {
@@ -49,5 +100,6 @@
 
       $scope.published = !_.isEmpty($scope.notebook.publication);
     });
+
   }]);
 } (angular, window.bunsen));

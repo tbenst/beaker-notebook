@@ -9,6 +9,10 @@
       "path": "front_end"
     },
     {
+      "name": "provisioner",
+      "path": "provisioner"
+    },
+    {
       "name": "beaker",
       "path": "beaker"
     }
@@ -18,6 +22,9 @@
       "name": "app",
       "image": "app",
       "command": "--migrate --delay=5",
+      "links": [
+        "provisioner:provisioner"
+      ],
       "ports": [
         "3000:3000"
       ],
@@ -32,21 +39,19 @@
     {
       "name": "web",
       "image": "web",
-      "command": "--api_url='http://bunsen.withmojo.com/api/' --beaker_url='http://bunsen.withmojo.com:8801/beaker/'",
       "ports": [
         "8080:8080"
       ]
     },
     {
-      "name": "beaker",
-      "image": "beaker",
-      "privileged": true,
-      "command": "--bucket=bunsen-development --mount=/var/s3 --role=read-s3",
+      "name": "provisioner",
+      "image": "provisioner",
+      "command": "docker.withmojo.com/beaker",
       "ports": [
-        "8801:8801"
+        "3001:3001"
       ],
       "volumes": [
-        "/mnt/lustre/scratch:/mnt/scratch"
+        "/var/run/docker.sock:/var/run/docker.sock"
       ]
     }
   ]

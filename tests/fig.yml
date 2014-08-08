@@ -3,19 +3,20 @@ apptests:
   command: "--migrate --delay=15"
   links:
     - "dbtests:db"
+    - "provisionertests:provisioner"
   ports:
     - "2999:3000"
-  volumes:
-    - "/vagrant/app:/var/app"
+  # volumes:
+  #   - "/vagrant/app:/var/app"
   environment:
     NODE_ENV: test
 webtests:
   build: ../front_end
-  command: "--test --api_url='http://localhost:2999/api/' --beaker_url='http://localhost:8800/beaker/'"
+  command: "--test"
   ports:
     - "8079:8080"
-  volumes:
-    - "/vagrant/front_end:/var/www"
+  # volumes:
+  #  - "/vagrant/front_end:/var/www"
 dbtests:
   build: ../postgres
   ports:
@@ -26,4 +27,27 @@ dbtests:
 beakertests:
   build: ../beaker
   ports:
-    - "8800:8801"
+    - "8801"
+provisionertests:
+  build: ../provisioner
+  ports:
+    - "3002:3001"
+  volumes:
+    - "/var/run/docker.sock:/var/run/docker.sock"
+#    - "/vagrant/provisioner:/opt/provisioner"
+  environment:
+    NODE_ENV: test
+  command: "tests_beakertests"
+gatewaytests:
+  build: ../gateway
+  ports:
+    - "7778:80"
+  command: "tests_beakertests localhost:7778"
+  links:
+    - "apptests:app"
+    - "webtests:web"
+  volumes:
+    - "/dev/log:/dev/log"
+    - "/var/run/docker.sock:/var/run/docker.sock"
+#    - "/vagrant/gateway/:/opt/gateway"
+

@@ -3,6 +3,7 @@ app:
   command: "--migrate --delay=5"
   links:
     - "db:db"
+    - "provisioner:provisioner"
   ports:
     - "3000:3000"
   volumes:
@@ -11,7 +12,7 @@ app:
     NODE_ENV: development
 web:
   build: front_end
-  command: "--watch --api_url='http://localhost:3000/api/' --beaker_url='http://localhost:8801/beaker/'"
+  command: "--watch"
   ports:
     - "8080:8080"
   volumes:
@@ -28,3 +29,22 @@ beaker:
   build: beaker
   ports:
     - "8801:8801"
+provisioner:
+  build: provisioner
+  ports:
+    - "3001:3001"
+  volumes:
+    - "/var/run/docker.sock:/var/run/docker.sock"
+    - "/vagrant/provisioner:/opt/provisioner"
+  command: "bunsen_beaker"
+gateway:
+  build: gateway
+  ports:
+    - "7777:80"
+  links:
+    - "app:app"
+    - "web:web"
+  volumes:
+    - "/dev/log:/dev/log"
+    - "/var/run/docker.sock:/var/run/docker.sock"
+  command: "bunsen_beaker localhost:7777"

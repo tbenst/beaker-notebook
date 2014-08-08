@@ -14,6 +14,6 @@ Building
 
 ## Developing
 
-  * `$ fig run-script test` will run the tests tagged with `@failed` under node-debug (which will allow you to use Chrome web inspector to interactively explore the running javascript code).
+  * `$ npm run-script test` will run the tests tagged with `@failed` under node-debug (which will allow you to use Chrome web inspector to interactively explore the running javascript code).
 
   * To run just one scenario at a time, tag it with `@failed` and then run `npm run-script failures`

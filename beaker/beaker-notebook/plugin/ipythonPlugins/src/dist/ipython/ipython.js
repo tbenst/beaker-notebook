@@ -268,7 +268,7 @@ define(function(require, exports, module) {
         (ipyVersion1 ? ("location %(base_url)s/kernels/ {" +
                         "  proxy_pass http://127.0.0.1:%(port)s/kernels;" +
                         "}" +
-                        "location ~ %(base_url)s/kernels/[0-9a-f-]+/  {") : 
+                        "location ~ %(base_url)s/kernels/[0-9a-f-]+/  {") :
          ("location %(base_url)s/api/kernels/ {" +
           "  proxy_pass http://127.0.0.1:%(port)s/api/kernels;" +
           "}" +

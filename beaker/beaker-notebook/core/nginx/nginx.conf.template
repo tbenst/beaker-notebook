@@ -44,9 +44,10 @@ http {
          uwsgi_temp_path "%(client_temp_dir)s";
          scgi_temp_path "%(client_temp_dir)s";
 
-
 # kerberos
         listen       %(port_clear)s;
+
+        rewrite ^/beaker/[a-z0-9]+/(.*)$ /$1 last;
 
         # redirect server error pages to the static page /50x.html
         error_page   500 502 503 504  /50x.html;

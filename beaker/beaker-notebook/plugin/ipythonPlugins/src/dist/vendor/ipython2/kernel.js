@@ -127,7 +127,7 @@ var IPython = (function (IPython) {
         this.kernel_id = json.id;
         // trailing 's' in https will become wss for secure web sockets
         this.ws_host = location.protocol.replace('http', 'ws') + "//" + location.host;
-        this.kernel_url = utils.url_path_join(this.kernel_service_url, this.kernel_id);
+        this.kernel_url = utils.url_path_join(location.pathname, this.kernel_service_url, this.kernel_id);
         this.start_channels();
     };
 

@@ -32,6 +32,10 @@ module.exports = function(Bookshelf, app) {
       return this.hasMany(app.Models.Publication, 'user_id').through(app.Models.Notebook, 'notebook_id');
     },
 
+    beakerClaim: function() {
+      return this.hasOne(app.Models.BeakerClaim, 'user_id')
+    },
+
     addSubscription: function(dataSet) {
       return app.Models.Subscription.forge({
         dataSetId: dataSet.id,
