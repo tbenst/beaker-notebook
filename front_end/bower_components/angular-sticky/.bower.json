@@ -26,11 +26,10 @@
   ],
   "_release": "3442c03559",
   "_resolution": {
-    "type": "branch",
-    "branch": "master",
+    "type": "commit",
     "commit": "3442c03559ccc494f618166399725c1c56c9e032"
   },
   "_source": "git://github.com/d-oliveros/angular-sticky.git",
-  "_target": "master",
+  "_target": "3442c03559ccc494f618166399725c1c56c9e032",
   "_originalSource": "git://github.com/d-oliveros/angular-sticky"
 }

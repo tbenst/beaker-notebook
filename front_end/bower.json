@@ -1,16 +1,16 @@
 {
   "name": "bunsen front end",
   "dependencies": {
-    "lodash": "~2.4.1",
-    "angular": "~1.3.0",
+    "lodash": "2.4.1",
+    "angular": "1.3.0-build.2857+sha.1f6a5a1",
     "restangular": "~1.3.1",
-    "angular-tree-control": "git://github.com/grin/angular-tree-control#master",
+    "angular-tree-control": "git://github.com/grin/angular-tree-control#a1cb88d93b6a5512d37748796f9fd1faa24463d5",
     "angular-ui-router": "0.2.10",
-    "angular-bootstrap": "~0.10.0",
-    "angular-truncate": "git://github.com/sparkalow/angular-truncate#master",
-    "ngstorage": "~0.3.0",
-    "ng-file-upload": "~1.3.2",
-    "angular-sticky": "git://github.com/d-oliveros/angular-sticky#master",
+    "angular-bootstrap": "0.10.0",
+    "angular-truncate": "git://github.com/sparkalow/angular-truncate#fdf60fda265042d12e9414b5354b2cc52f1419de",
+    "ngstorage": "0.3.0",
+    "ng-file-upload": "1.3.2",
+    "angular-sticky": "git://github.com/d-oliveros/angular-sticky#3442c03559ccc494f618166399725c1c56c9e032",
     "angular-spinner": "0.5.0",
     "sizzle": "1.10.19"
   }

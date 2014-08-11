@@ -7,11 +7,10 @@
   "homepage": "https://github.com/sparkalow/angular-truncate",
   "_release": "fdf60fda26",
   "_resolution": {
-    "type": "branch",
-    "branch": "master",
+    "type": "commit",
     "commit": "fdf60fda265042d12e9414b5354b2cc52f1419de"
   },
   "_source": "git://github.com/sparkalow/angular-truncate.git",
-  "_target": "master",
+  "_target": "fdf60fda265042d12e9414b5354b2cc52f1419de",
   "_originalSource": "git://github.com/sparkalow/angular-truncate"
 }
