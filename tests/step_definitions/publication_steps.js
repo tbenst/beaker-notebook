@@ -10,11 +10,11 @@ var randomUser = {
   }
 };
 
-var randomProject = function(user) {
+var randomProject = function(user, name) {
   return {
     model: "Project",
     data: {
-      name: 'gorillas',
+      name: name || 'gorillas',
       ownerId: user.id
     }
   }
@@ -32,9 +32,13 @@ var randomNotebook = function(user, project, name, i) {
   }
 };
 
-var seedPublications = function(count, name) {
+var seedPublications = function(count, options) {
+  var name = options && options.name,
+      category = options && options.category,
+      projectName = options && options.projectName;
+
   return this.seed.populate(randomUser).then(function(user) {
-    return this.seed.populate(randomProject(user[0])).then(function(project) {
+    return this.seed.populate(randomProject(user[0], projectName)).then(function(project) {
       var notebooks = [];
 
       for(var i = 0; i < +count; ++i) {
@@ -48,14 +52,23 @@ var seedPublications = function(count, name) {
           _.each(notebooks, function(notebook, i) {
             var publicationName = name || "Notebook";
 
-            publicationPromise = this.seed.populate({
+            var publication = {
               model: "Publication",
               data: {
                 notebook_id: notebook.id,
                 name: i== 0 ? publicationName : publicationName + ' ' + i,
                 contents: notebookBase.data
               }
-            });
+            };
+
+            if (category) {
+              publication.associations = [{
+                foreignKey: 'category_id',
+                lookup: {'PublicationCategory': {name: category}}
+              }]
+            }
+
+            var publicationPromise = this.seed.populate(publication);
 
             publicationPromises.push(publicationPromise);
           }.bind(this));
@@ -68,8 +81,8 @@ var seedPublications = function(count, name) {
 
 module.exports = function() {
 
-  this.Given(/^there are (\d+) publications$/, function(count) {
-    return seedPublications.bind(this)(count);
+  this.Given(/^there are (\d+) publications(?: for the project "([^"]*)")?$/, function(count, projectName) {
+    return seedPublications.bind(this)(count, { projectName: projectName });
   });
 
   this.Given(/^the notebook "([^"]*)" is published$/, function(notebookName) {
@@ -86,7 +99,7 @@ module.exports = function() {
   });
 
   this.Given(/^there is a publication named "([^"]*)"$/, function(name) {
-    return seedPublications.bind(this)(1, name);
+    return seedPublications.bind(this)(1, { name: name });
   });
 
   this.Given(/^I view the first publication$/, function() {
