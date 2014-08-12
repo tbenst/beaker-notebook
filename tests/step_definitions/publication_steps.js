@@ -45,11 +45,14 @@ var seedPublications = function(count, name) {
         .then(function(notebooks) {
           var publicationPromises = [];
 
-          _.each(notebooks, function(notebook) {
+          _.each(notebooks, function(notebook, i) {
+            var publicationName = name || "Notebook";
+
             publicationPromise = this.seed.populate({
               model: "Publication",
               data: {
                 notebook_id: notebook.id,
+                name: i== 0 ? publicationName : publicationName + ' ' + i,
                 contents: notebookBase.data
               }
             });
@@ -72,6 +75,9 @@ module.exports = function() {
   this.Given(/^the notebook "([^"]*)" is published$/, function(notebookName) {
     return this.seed.populate({
       model: 'Publication',
+      data: {
+        name: notebookName
+      },
       associations: [{
         foreignKey: 'notebook_id',
         lookup: {"Notebook": {name: notebookName}}

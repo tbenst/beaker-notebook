@@ -7,14 +7,14 @@ module.exports = function(app) {
   return {
     index: function(req, res, next) {
       Publication.forge()
-      .fetchAll({ withRelated: 'notebook' })
+      .fetchAll()
       .then(res.json.bind(res))
       .catch(next);
     },
 
     get: function(req, res, next) {
       Publication.forge({ id: req.params.id })
-      .fetch({ withRelated: 'notebook' })
+      .fetch()
       .then(res.json.bind(res))
       .catch(next);
     },
@@ -23,13 +23,12 @@ module.exports = function(app) {
       Notebook.forge({ id: req.body.id, userId: req.user.id })
       .fetch({ require: true })
       .then(function(notebook) {
-        return notebook.save({ description: req.body.description }, { patch: true });
-      })
-      .then(function(notebook) {
         return notebook.getData().then(function(data) {
           return Publication.forge({
             notebookId: req.body.id,
+            name: notebook.get('name'),
             contents: data,
+            description: req.body.description
           })
           .save();
         });
