@@ -26,12 +26,6 @@
     setProjects();
     setNotebooks();
 
-    $scope.openProject = function(notebookId) {
-      $state.go('projects.items.item.notebook', {
-        notebook_id: notebookId
-      });
-    }
-
     $scope.$watch('searchable.search', function(v) {
       if (v !== void(0) && v !== '') {
         if (!$state.includes('**.search')) {
