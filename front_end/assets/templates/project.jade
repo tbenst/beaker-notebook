@@ -68,7 +68,7 @@
             span.options.dropdown-toggle
               ul.dropdown
                 li
-                  a.rename(rename-notebook-toggle ng-click="showRenameModal()") Rename
+                  a.rename(rename-notebook-toggle notebook="notebook") Rename
                 li(ng-if="projects.list.length > 1")
                   span.move.dropdown-toggle.dropright-arrow(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)")
                 li
