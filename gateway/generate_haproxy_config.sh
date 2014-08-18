@@ -84,10 +84,12 @@ defaults
   option  http-server-close
   retries 3
   maxconn 2000
-  timeout connect 5000
-  timeout client 24h
-  timeout server  50000
-
+  timeout connect 5s
+  timeout client 30s
+  timeout client-fin 30s
+  timeout server 30s
+  timeout tunnel  24h
+  
 EOF
 }
 

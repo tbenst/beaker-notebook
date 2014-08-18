@@ -14,9 +14,6 @@ while read -r cid; do
   "match": "$BUNSEN_MATCH/beaker/${cid}",
   "targets": [
     "${ip}:8801"
-  ],
-  "options": [
-    "timeout server 24h"
   ]
 }
 EOF
