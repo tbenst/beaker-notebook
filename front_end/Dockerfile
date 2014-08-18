@@ -10,8 +10,7 @@ WORKDIR /var/www
 
 RUN roots compile --no-compress
 
-RUN mv config/.htpasswd /etc/nginx/ && \
-    mv config/default /etc/nginx/sites-available/ && \
+RUN mv config/default /etc/nginx/sites-available/ && \
     echo "daemon off;" >> /etc/nginx/nginx.conf
 
 EXPOSE 8080
