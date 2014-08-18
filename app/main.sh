@@ -9,7 +9,6 @@ case $i in
   --new-migration=*) new_migration="${i#--new-migration=}" ;;
   --seed-with-file=*) seed_with_file="${i#--seed-with-file=}" ;;
   --delay=*) delay="${i#--delay=}" ;;
-  --shell) shell=1 ;;
   -h|--help)
     cat <<EOF
 
@@ -22,7 +21,6 @@ case $i in
           --seed-with-file=(file) Seed database with data from specified file starting app
           -w  --watch             Restart server if files change
           --delay=(secs)          Delay start x seconds
-          --shell                 Start interactive shell
 
 EOF
     exit
@@ -46,8 +44,6 @@ mkdir -p /var/app/node_modules && ln -sf /usr/local/lib/node_modules/knex /var/a
 
 if [[ $watch -eq 1 ]]; then
   color exec pm2 start app.js -o /dev/stdout -e /dev/stderr --watch --no-daemon --silent
-elif [[ $shell -eq 1 ]]; then
-  exec /bin/bash
 else
   exec node app.js
 fi

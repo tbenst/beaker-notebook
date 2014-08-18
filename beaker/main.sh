@@ -6,7 +6,6 @@ case $i in
   --role=*) role="${i#--role=}" ;;
   --mount=*) mount="${i#--mount=}" ;;
   --bucket=*) bucket="${i#--bucket=}" ;;
-  --shell) shell=1 ;;
   -h|--help)
     cat <<EOF
 
@@ -14,7 +13,6 @@ case $i in
   Options:
           -h  --help        Display this message
           --mount           Mount S3 bucket
-          --shell           Start bash instead of launching beaker.
           --role=ROLE       Use IAM role for credentials
           --mount=MOUNT     Mount S3 bucket at MOUNT
           --bucket=BUCKET   Name of S3 bucket to mount
@@ -45,8 +43,4 @@ if [[ ! -z $bucket ]] && [[ ! -z $mount ]]; then
   unset AWSACCESSKEID AWSSECRETACCESSKEY
 fi
 
-if [[ $shell -eq 1 ]]; then
-    exec /bin/bash
-else
-    exec su -m beaker -c "gradle --project-dir /home/beaker/core/config/builds/dev/ run"
-fi
+exec su -m beaker -c "gradle --project-dir /home/beaker/core/config/builds/dev/ run"
