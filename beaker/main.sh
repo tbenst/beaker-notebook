@@ -40,7 +40,7 @@ if [[ ! -z $bucket ]] && [[ ! -z $mount ]]; then
   chown beaker:beaker $mount
   su -m beaker -c "/usr/local/bin/s3fs $opts $bucket $mount"
 
-  unset AWSACCESSKEID AWSSECRETACCESSKEY
+  unset AWSACCESSKEYID AWSSECRETACCESSKEY
 fi
 
 exec su -m beaker -c "gradle --project-dir /home/beaker/core/config/builds/dev/ run"
