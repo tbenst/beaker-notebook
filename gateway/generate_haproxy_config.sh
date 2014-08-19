@@ -140,12 +140,13 @@ write_backends() {
     echo "backend b_${name}"
     echo "  balance roundrobin"
 
-    for target in "${targets[@]}"; do
+    while read -r target; do
       echo "  server s $target"
-    done
-    for option in "${options[@]}"; do
+    done <<<"$targets"
+
+    while read -r option; do
       echo "  $option"
-    done
+    done <<<"$options"
   done
 }
 
