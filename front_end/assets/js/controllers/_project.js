@@ -103,6 +103,7 @@
 
     $scope.$watchCollection('projects.list', function() {
       $scope.project = _.find($scope.projects.list, {id: parseInt($state.params.id)});
+      if ($scope.project) { $scope.project.customPUT({ openedAt: new Date() }) }
     });
 
     $scope.$watchCollection('notebooks.list', function() {

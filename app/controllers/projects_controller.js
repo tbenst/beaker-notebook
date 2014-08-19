@@ -56,7 +56,7 @@ module.exports = function(app) {
 
     update: function(req, res, next) {
       req.project.save(_.pick(req.body,
-        'name', 'description'
+        'name', 'description', 'openedAt'
       ), {patch: true})
       .then(function(project) {
         res.json(project);

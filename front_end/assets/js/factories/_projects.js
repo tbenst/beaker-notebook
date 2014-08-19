@@ -37,7 +37,11 @@
                 .then(function(p) {
                   projects.push(p);
                 });
-      }
+      },
+
+      update: function(attrs) {
+        return R.one('projects', attrs.id).customPUT(attrs);
+      },
 
     }
   }]);
