@@ -97,7 +97,7 @@ defaults
   timeout client-fin 30s
   timeout server 30s
   timeout tunnel  24h
-  
+
 EOF
 }
 
