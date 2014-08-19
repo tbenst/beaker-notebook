@@ -30,16 +30,16 @@ EOF
   exit 1
 fi
 
-_json_atom() { echo "$1" | jq -c -r ".$2 // empty"; }
-_json_array() {
+_parse_json_atom() { echo "$1" | jq -c -r ".$2 // empty"; }
+_parse_json_array() {
   while read -r a && [[ -n $a ]]; do
     echo "$a"
   done <<< "$(echo "$1" | jq -c -r ".$2 // empty | .[]")"
 }
 
-get_name() { _json_atom "$1" "name"; }
-get_match() { _json_atom "$1" "match"; }
-get_method() { _json_atom "$1" "method"; }
+get_name() { _parse_json_atom "$1" "name"; }
+get_match() { _parse_json_atom "$1" "match"; }
+get_method() { _parse_json_atom "$1" "method"; }
 get_host() {
   local match=$(get_match "$1")
   local host_with_port=${match%%/*}
@@ -49,8 +49,8 @@ get_path() {
   local match=$(get_match "$1")
   echo /${match#*/}
 }
-get_targets() { _json_array "$1" "targets"; }
-get_options() { _json_array "$1" "options"; }
+get_targets() { _parse_json_array "$1" "targets"; }
+get_options() { _parse_json_array "$1" "options"; }
 
 write_header() {
   cat <<EOF
