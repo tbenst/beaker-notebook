@@ -4,8 +4,7 @@ server {
   listen 8080 default_server;
 
   root /var/www/public;
-  index index.html index.htm;
-  server_name localhost;
+  index index.html;
 
   location / {
     try_files $uri $uri/ /index.html;
