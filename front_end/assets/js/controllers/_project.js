@@ -74,7 +74,9 @@
         $scope.notebooks.list = _.where($scope.notebooks.list, function(n) {
           return n.projectId !== +$state.params.id;
         });
-        $state.go('projects.items');
+
+        var lastProject = _.last(_.sortBy($scope.projects.list, 'created_at'));
+        if (lastProject) $state.go('projects.items.item', {id: lastProject.id})
       });
     };
 
@@ -103,7 +105,7 @@
 
     $scope.$watchCollection('projects.list', function() {
       $scope.project = _.find($scope.projects.list, {id: parseInt($state.params.id)});
-      if ($scope.project) { $scope.project.customPUT({ openedAt: new Date() }) }
+      if ($scope.project) { $scope.project.customPUT({ open: true})}
     });
 
     $scope.$watchCollection('notebooks.list', function() {
