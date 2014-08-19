@@ -1,5 +1,5 @@
 #!/bin/bash
-set -o errexit -o nounset -o pipefail
+set -o nounset -o pipefail
 
 while :; do
   sleep 10
