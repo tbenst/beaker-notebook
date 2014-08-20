@@ -7,13 +7,15 @@ beakers=()
 
 while read -r cid; do
   if [[ `docker inspect --format="{{.Config.Image}}" $cid` == $BEAKER_IMAGE ]]; then
-    ip=`docker inspect --format="{{.NetworkSettings.IPAddress}}" $cid`
+    ip=${BEAKER_HOST-`docker inspect --format="{{.NetworkSettings.IPAddress}}" $cid`}
+    port=${BEAKER_PORT-`docker inspect --format='{{range $p, $conf := .NetworkSettings.Ports}}{{(index $conf 0).HostPort}}{{end}}' $cid`}
+
     stanza=$(cat <<EOF
 {
   "name": "beaker_${cid}",
   "match": "$BUNSEN_MATCH/beaker/${cid}",
   "targets": [
-    "${ip}:8801"
+    "$ip:$port"
   ]
 }
 EOF
