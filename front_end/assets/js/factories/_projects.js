@@ -7,10 +7,6 @@
         return R.one('projects', id).remove();
       },
 
-      getProject: function(id) {
-        return R.one('projects', id).get();
-      },
-
       getProjects: function(scope, filterBy) {
         var query = {};
 
@@ -37,7 +33,11 @@
                 .then(function(p) {
                   projects.push(p);
                 });
-      }
+      },
+
+      update: function(attrs) {
+        return R.one('projects', attrs.id).customPUT(attrs);
+      },
 
     }
   }]);

@@ -43,21 +43,11 @@ module.exports = function(app) {
       .catch(next);
     },
 
-    get: function(req, res, next) {
-      req.project.save(
-        {openedAt: new Date()},
-        {patch: true})
-      .then(function(project) {
-        return project.withNotebooks();
-      })
-      .then(res.json.bind(res))
-      .catch(next);
-    },
-
     update: function(req, res, next) {
-      req.project.save(_.pick(req.body,
-        'name', 'description'
-      ), {patch: true})
+      var attrs = _.pick(req.body, 'name', 'description')
+      if (req.body.open) {attrs.openedAt = new Date(); }
+
+      return req.project.save(attrs, {patch: true})
       .then(function(project) {
         res.json(project);
       })

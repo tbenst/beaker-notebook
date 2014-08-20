@@ -4,12 +4,6 @@
     $scope.editMode = false;
     $scope.importError = null;
 
-    $scope.loadProject = function() {
-      F.Projects.getProject($state.params.id).then(function(d) {
-        $scope.project = d;
-      });
-    };
-
     $rootScope.$on('window-message-notebook-create', function(event, notebook) {
       $state.go('projects.items.item.notebook', { notebook_id: notebook.id });
     });
@@ -74,7 +68,9 @@
         $scope.notebooks.list = _.where($scope.notebooks.list, function(n) {
           return n.projectId !== +$state.params.id;
         });
-        $state.go('projects.items');
+
+        var lastProject = _.last(_.sortBy($scope.projects.list, 'created_at'));
+        if (lastProject) $state.go('projects.items.item', {id: lastProject.id})
       });
     };
 
@@ -103,6 +99,7 @@
 
     $scope.$watchCollection('projects.list', function() {
       $scope.project = _.find($scope.projects.list, {id: parseInt($state.params.id)});
+      if ($scope.project) { $scope.project.customPUT({ open: true})}
     });
 
     $scope.$watchCollection('notebooks.list', function() {
