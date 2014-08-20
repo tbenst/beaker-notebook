@@ -22,4 +22,4 @@ EOF
   fi
 done <<<"$(docker ps -q)"
 
-echo [$(join , "${beakers[@]}")] | jq "."
+echo [$(join , "${beakers[@]+${beakers[@]}}")] | jq "."
