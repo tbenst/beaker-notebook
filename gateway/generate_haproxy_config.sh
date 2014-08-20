@@ -47,7 +47,9 @@ get_host() {
 }
 get_path() {
   local match=$(get_match "$1")
-  echo /${match#*/}
+  if [[ $1 = */* ]]; then
+    echo /${match#*/}
+  fi
 }
 get_targets() { _parse_json_array "$1" "targets"; }
 get_options() { _parse_json_array "$1" "options"; }
