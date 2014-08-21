@@ -166,6 +166,19 @@ As a researcher, I want to be able to use the market place.
     Then I should see 1 market item on the market list page
     And I should see the "Crime in America" market item on the market list page
 
+  Scenario: Market items tag filter stacking on top-level search
+    Given I have the following market items:
+      | title                             | tags |
+      | Credit Card Complaints in America | US   |
+      | Crime in Canada                   | CA   |
+      | Crime in America                  | US   |
+    When I view the market search
+    And I search the top-level marketplace for "crime"
+    Then I should see 2 market item on the market list page
+    When I filter by search by selecting the "US" tags
+    Then I should see 1 market item on the market list page
+    And I should see the "Crime in America" market item on the market list page
+
   Scenario: Related market items
     Given I have the following market items:
       | title                       | tags                      |
