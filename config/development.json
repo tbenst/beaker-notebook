@@ -1,0 +1,55 @@
+{
+  "app": {
+    "command": "--migrate --delay=5",
+    "links": [
+      "db",
+      "provisioner"
+    ],
+    "ports": "3000:3000",
+    "volumes": [
+      "/vagrant/app:/var/app"
+    ],
+    "environment": [
+      "NODE_ENV=development"
+    ]
+  },
+  "web": {
+    "command": "--watch",
+    "ports": "8080:8080",
+    "build": "front_end",
+    "volumes": [
+      "/vagrant/front_end:/var/www"
+    ]
+  },
+  "db": {
+    "ports": "5432:5432",
+    "build": "postgres",
+    "volumes": [
+      "/var/bunsen_dbs:/var/lib/postgresql/9.1/main",
+      "/vagrant/postgres:/var/postgres"
+    ]
+  },
+  "beaker": {
+    "ports": "8801:8801"
+  },
+  "provisioner": {
+    "ports": "3001:3001",
+    "volumes": [
+      "/var/run/docker.sock:/var/run/docker.sock",
+      "/vagrant/provisioner:/opt/provisioner"
+    ],
+    "command": "beaker"
+  },
+  "gateway": {
+    "ports": "7777:80",
+    "links": [
+      "app",
+      "web"
+    ],
+    "volumes": [
+      "/dev/log:/dev/log",
+      "/var/run/docker.sock:/var/run/docker.sock"
+    ],
+    "command": "beaker localhost:7777"
+  }
+}
