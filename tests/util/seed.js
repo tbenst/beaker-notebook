@@ -26,7 +26,13 @@ module.exports = function() {
               return result;
             }
           });
-      }, []);
+      }, [])
+      .then(function(result) {
+        return post(base + "/refresh-index")
+        .then(function() {
+          return result;
+        });
+      });
     },
 
     dropRepos: function() {
