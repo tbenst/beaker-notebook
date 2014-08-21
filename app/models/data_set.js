@@ -23,7 +23,7 @@ module.exports = function(Bookshelf, app) {
     },
 
     vendor: function() {
-      return this.hasOne(model.Vendor)
+      return this.belongsTo(models.Vendor)
     },
 
     users: function() {
