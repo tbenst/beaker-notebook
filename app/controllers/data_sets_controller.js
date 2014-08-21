@@ -8,11 +8,11 @@ module.exports = function(app) {
 
   function getOptions(req) {
     return _.defaults({
-        offset: req.query.offset,
-        limit: req.query.limit
+        from: req.query.offset,
+        size: req.query.limit
       },{
-        offset: 0,
-        limit: 10
+        from: 0,
+        size: 10
       });
   };
 
@@ -31,31 +31,6 @@ module.exports = function(app) {
       DataSet.findMatching(req.query, getOptions(req)).then(function(dataSets) {
         res.json(dataSets);
       }).catch(next);
-    },
-
-    tagIndex: function(req, res, next) {
-      DataSet.findMatchingTags(req.query).then(function(tags) {
-        res.json(tags);
-      }).catch(next);
-    },
-
-    count: function(req, res, next) {
-      DataSet.findMatchingCount(req.query).then(function(tags) {
-        res.json(tags);
-      }).catch(next);
-    },
-
-    formatIndex: function(req, res, next) {
-      DataSet.findMatchingFormats(req.query)
-      .then(function(formats) {
-        res.json(_.pluck(formats, "format"));
-      }).catch(next);
-    },
-
-    vendorIndex: function(req, res, next) {
-      DataSet.findMatchingVendors(req.query)
-      .then(res.json.bind(res))
-      .catch(next);
     },
 
     create: function(req, res, next) {
