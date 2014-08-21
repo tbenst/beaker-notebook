@@ -19,6 +19,7 @@ RUN apt-get update -qq && \
       node-pm2 \
       node-when \
       node-restler \
+      node-elasticsearch \
       nodejs-legacy && \
     apt-get clean
 
