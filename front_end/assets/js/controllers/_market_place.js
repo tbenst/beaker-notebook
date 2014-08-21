@@ -60,27 +60,11 @@
     function getDataSets() {
       if (previousRequestsAborter) {previousRequestsAborter.resolve()}
       previousRequestsAborter = $q.defer();
-      $q.all(
-        F.DataSets.getDataSets($scope.marketPlace, previousRequestsAborter).then(function(d) {
-          $scope.marketPlace.data = d;
-        }),
 
-        F.DataSets.getCount($scope.marketPlace, previousRequestsAborter).then(function(count) {
-          $scope.marketPlace.totalItems = count;
-        }),
-
-        F.RelatedTags.getTags($scope.marketPlace, previousRequestsAborter).then(function(tags) {
-          $scope.marketPlace.relatedTags = tags;
-        }),
-
-        F.Formats.getFormats($scope.marketPlace, previousRequestsAborter).then(function(d) {
-          $scope.marketPlace.formats = d;
-        }),
-
-        F.Vendors.getVendors($scope.marketPlace, previousRequestsAborter).then(function(v) {
-          $scope.marketPlace.vendors = v;
-        })
-      ).then(function() {
+      F.DataSets.getDataSets($scope.marketPlace, previousRequestsAborter).then(function(d) {
+        _.extend($scope.marketPlace, d);
+      })
+      .then(function() {
         $scope.currentFilters = getSelectedFilters();
       });
     }
@@ -89,7 +73,7 @@
       if (newValue === oldValue) return;
 
       F.DataSets.getDataSets($scope.marketPlace).then(function(d) {
-        $scope.marketPlace.data = d;
+        _.extend($scope.marketPlace, d);
         window.scrollTo(0,0);
       });
     }

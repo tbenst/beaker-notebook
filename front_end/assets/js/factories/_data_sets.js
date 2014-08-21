@@ -41,44 +41,8 @@
 
       getDataSets: function(scope, abort) {
         return TimeoutRestangular(abort).one('data_sets')
-        .getList("", buildQuery(scope));
-      },
-
-      getCount: function(scope, abort) {
-        return TimeoutRestangular(abort).one('data_sets').one("count")
-        .get(buildQuery(scope))
-        .then(function(d) {
-          return +d[0].matchingCount;
-        });
+        .get(buildQuery(scope));
       }
     };
   }]);
-
-  app.factory('RelatedTagsFactory', ['TimeoutRestangular', function(TimeoutRestangular) {
-    return {
-      getTags: function(scope, abort) {
-        return TimeoutRestangular(abort).one('data_sets')
-        .getList("tags", buildQuery(scope));
-      }
-    };
-  }]);
-
-  app.factory('FormatsFactory', ['TimeoutRestangular', function(TimeoutRestangular) {
-    return {
-      getFormats: function(scope, abort) {
-        return TimeoutRestangular(abort).one('data_sets')
-        .getList('formats', buildQuery(scope));
-      }
-    };
-  }]);
-
-  app.factory('VendorsFactory', ['TimeoutRestangular', function(TimeoutRestangular) {
-    return {
-      getVendors: function(scope, abort) {
-        return TimeoutRestangular(abort).one('data_sets')
-        .getList('vendors', buildQuery(scope));
-      }
-    };
-  }]);
-
 })(window.bunsen);

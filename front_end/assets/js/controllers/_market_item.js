@@ -30,10 +30,6 @@
       }
     });
 
-    F.Vendors.getVendors({}).then(function(v) {
-      $scope.marketPlace.vendors = v;
-    });
-
     if (_.contains($rootScope.referrer.fromState.name, 'subscriptions')) {
       $scope.referrerList = 'subscriptions.items';
     } else {

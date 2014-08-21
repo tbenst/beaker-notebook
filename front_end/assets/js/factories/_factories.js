@@ -5,12 +5,8 @@
     'DataSetsFactory',
     'SubscriptionsFactory',
     'PublicationsFactory',
-    'FormatsFactory',
     'NotebooksFactory',
     'ProjectsFactory',
-    'RelatedTagsFactory',
-    'TagsFactory',
-    'VendorsFactory'
   ]
 
   // Build a function defining the master factory:
