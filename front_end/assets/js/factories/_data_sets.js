@@ -10,8 +10,8 @@
       query.vendorIDs = encodeURIComponent(scope.vendorScope.join(","));
     }
 
-    if (scope.categoryID !== void(0)) {
-      query.categoryID = encodeURIComponent(scope.categoryID);
+    if (scope.categoryPath !== void(0)) {
+      query.categoryPath = encodeURIComponent(scope.categoryPath);
     }
 
     if (scope.tagScope !== void(0) && scope.tagScope.length > 0) {
