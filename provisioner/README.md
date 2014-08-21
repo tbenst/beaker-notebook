@@ -5,4 +5,3 @@ Beaker provisioning service
 
 * `npm install`
 * `npm start`
-* ...or `fig up provisioner` from the parent dir
