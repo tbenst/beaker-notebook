@@ -19,7 +19,7 @@ module.exports = function(app) {
   return {
     idParam: function(req, res, next, id) {
       new DataSet({id: req.params.data_set_id})
-        .fetch({withRelated: ['categories', 'dataPreviews', 'dataTags']})
+        .fetch({withRelated: ['categories', 'dataPreviews', 'dataTags', 'vendor']})
         .then(function(dataSet) {
           if (!dataSet) throw new Error('DataSet not found');
           req.dataSet = dataSet;
