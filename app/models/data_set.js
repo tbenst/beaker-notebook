@@ -24,7 +24,13 @@ module.exports = function(Bookshelf, app) {
     idAttrs: ["title"],
 
     initialize: function() {
+      var _this = this;
       this.on("saved destroyed", this.touchCategories);
+      this.on("saved", function() {
+        if (process.env["BULK_INDEX"] != 'true') {
+          _this.index()
+        }
+      });
     },
 
     touchCategories: function() {
@@ -65,6 +71,18 @@ module.exports = function(Bookshelf, app) {
           _this.attributes.related = related;
           return _this;
         });
+    },
+
+    index: function() {
+      return this.load(['categories', 'dataPreviews', 'dataTags', 'vendor'])
+      .then(function(model) {
+        return client.index({
+          index: 'bunsen',
+          type: 'datasets',
+          id: model.id,
+          body: model.toJSON()
+        })
+      })
     }
   }, {
 
