@@ -2,8 +2,8 @@ Feature: Use Notebooks
   Background:
     Given I'm signed in as a researcher
     And I have the following Projects:
-      | name               | description  |
-      | ghost of tom jones | watch out    |
+      | name               | description  | openedAt                |
+      | ghost of tom jones | watch out    | 2000-01-01 00:00:00.000 |
     And I have the following notebooks:
       | name               | projectName        | openedAt                |
       | top secret         | ghost of tom jones | 1990-01-01 00:00:00.000 |

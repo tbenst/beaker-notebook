@@ -7,6 +7,9 @@ module.exports = function() {
     },
     visitMarketPlace: function() {
       return this.click('.market-place');
-    }
+    },
+    activeTab: function() {
+      return this.read('.nav-item-active')
+    },
   });
 };
