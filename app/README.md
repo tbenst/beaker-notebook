@@ -13,7 +13,7 @@ Bunsen API Server
 
 ### Generating new migrations
 
-* In `config/development.json`, change the `app.command` to include the option `--new_migration=migration_name`, remove the container (`docker rm app`), and recreate it (`./run.sh app`)
+* `docker run app --new_migration=migration_name`
 
 ### Reseed database
 This task will drop the development DB, recreate it, run migrations, and then reseed the data.
