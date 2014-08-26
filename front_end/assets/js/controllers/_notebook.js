@@ -56,19 +56,24 @@
       });
     };
 
+    if ($scope.cachedNotebookLocations[$state.params.notebook_id]) {
+      $scope.notebookLocation = $scope.cachedNotebookLocations[$state.params.notebook_id];
+      $scope.loading = false;
+    } else {
+      F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
+        var userId = $sessionStorage.currentUser.id
 
-    F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
-      var userId = $sessionStorage.currentUser.id
+        $scope.notebook = notebook;
 
-      $scope.notebook = notebook;
+        Notebooks.update({id: notebook.id, open: true});
 
-      Notebooks.update({id: notebook.id, open: true});
-
-      Beaker.whenReady().then(function(url) {
-        $scope.notebookLocation = $sce.trustAsResourceUrl(notebookLocation(url, userId, prjId, notebook.id));
-        $scope.loading = false;
+        Beaker.whenReady().then(function(url) {
+          $scope.notebookLocation = $sce.trustAsResourceUrl(notebookLocation(url, userId, prjId, notebook.id));
+          $scope.cachedNotebookLocations[notebook.id] = $scope.notebookLocation;
+          $scope.loading = false;
+        });
       });
-    });
+    }
 
     $scope.publish = function() {
       F.Notebooks.publish($scope.notebook).then(function(notebook) {
