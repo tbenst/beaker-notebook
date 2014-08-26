@@ -19,6 +19,12 @@
       });
     }
 
+    $scope.openProject = function(notebookId) {
+      $state.go('projects.items.item.notebook', {
+        notebook_id: notebookId
+      });
+    }
+
     $scope.projects = $scope.projects || {};
     $scope.notebooks = $scope.notebooks || {};
     $scope.searchable = $scope.searchable || {}
