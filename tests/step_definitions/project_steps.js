@@ -164,8 +164,9 @@ module.exports = function() {
         return mainNav.visitProjects()
       })
       .then(function() {
-        var projectDetail = new _this.Widgets.ProjectDetail();
-        return projectDetail.name().should.eventually.exist;
+        return new _this.Widgets.MainNav()
+        .activeTab()
+        .should.eventually.equal("My Projects")
       });
   });
 
