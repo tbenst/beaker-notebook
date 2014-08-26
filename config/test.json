@@ -50,6 +50,9 @@
     ]
   },
   "elasticsearch": {
-    "ports": "9201:9200"
+    "ports": "9201:9200",
+    "volumes": [
+      "/var/elasticsearch/data"
+    ]
   }
 }

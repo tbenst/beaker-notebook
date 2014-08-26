@@ -55,6 +55,9 @@
     "command": "beaker localhost:7777"
   },
   "elasticsearch": {
-    "ports": "9200:9200"
+    "ports": "9200:9200",
+    "volumes": [
+      "/var/elasticsearch/data:/var/elasticsearch/data"
+    ]
   }
 }
