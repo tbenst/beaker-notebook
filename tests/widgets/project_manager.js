@@ -22,10 +22,8 @@ module.exports = function() {
     },
 
     clickProject: function(name) {
-      var xpath = "return document.evaluate(\"//a[contains(text(),'" + name + "')]\", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotItem(0)";
-      return this.driver.executeScript(xpath).then(function(a) {
-        return a.click();
-      });
+      var method = "return Sizzle('" + this.root + " a:contains(\"" + name + "\")')[0].click()";
+      return this.driver.executeScript(method);
     },
 
     itemNames: function() {

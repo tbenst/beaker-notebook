@@ -19,7 +19,10 @@ var projectBase = {
 
 function openProject(name) {
   var projectManager = new this.Widgets.ProjectManager();
-  return projectManager.clickProject(name);
+  return projectManager.waitForItem()
+  .then(function() {
+    return projectManager.clickProject(name);
+  });
 }
 
 function viewProjectDashboard() {
