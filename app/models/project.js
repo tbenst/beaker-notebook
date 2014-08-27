@@ -112,6 +112,7 @@ module.exports = function(Bookshelf, app) {
     findByUserId: function(userId) {
       return query("projects")
         .where("owner_id", "=", userId)
+        .orderBy("created_at", "ASC")
         .select().toString();
     },
 
