@@ -4,6 +4,12 @@
     $scope.editMode = false;
     $scope.importError = null;
 
+    $scope.loadProject = function() {
+      F.Projects.getProject($state.params.id).then(function(d) {
+        $scope.project = d;
+      });
+    };
+
     $rootScope.$on('window-message-notebook-create', function(event, notebook) {
       $state.go('projects.items.item.notebook', { notebook_id: notebook.id });
     });

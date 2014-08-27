@@ -7,6 +7,10 @@
         return R.one('projects', id).remove();
       },
 
+      getProject: function(id) {
+        return R.one('projects', id).get();
+      },
+
       getProjects: function(scope, filterBy) {
         var query = {};
 
