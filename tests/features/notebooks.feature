@@ -104,15 +104,9 @@ Feature: Use Notebooks
       | name              |
 
   Scenario: Closing a notebook from the open notebooks list
-    When I open the "ghost of tom jones" project
-    And I view the notebook "top secret"
-    And I view my projects
-    And I open the "ghost of tom jones" project
-    And I view the notebook "powderpuff girls"
-    Then I should see the following open notebooks:
-      | name             |
-      | powderpuff girls |
-      | top secret       |
+    Given I open the "ghost of tom jones" project
+    And the "top secret" notebook is open
+    And the "powderpuff girls" notebook is open
     When I close the open notebook "top secret"
     Then I should see the following open notebooks:
       | name             |
