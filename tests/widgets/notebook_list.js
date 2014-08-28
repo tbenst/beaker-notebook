@@ -8,10 +8,9 @@ module.exports = function() {
     projectSelectorNames: 'a.project',
 
     clickByName: function(name) {
-      var _this = this;
-      return this.findNotebook(name).then(function(item) {
-        return item.find(_this.nameSelector).click();
-      });
+      var selector = this.itemSelector + " " + this.nameSelector;
+      var method = "return Sizzle('" + selector + ":contains(\"" + name + "\")')[0].click()";
+      return this.driver.executeScript(method);
     },
 
     findNotebook: function(name) {
