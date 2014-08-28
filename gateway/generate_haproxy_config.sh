@@ -30,16 +30,16 @@ EOF
   exit 1
 fi
 
-_json_atom() { echo "$1" | jq -c -r ".$2 // empty"; }
-_json_array() {
+_parse_json_atom() { echo "$1" | jq -c -r ".$2 // empty"; }
+_parse_json_array() {
   while read -r a && [[ -n $a ]]; do
     echo "$a"
   done <<< "$(echo "$1" | jq -c -r ".$2 // empty | .[]")"
 }
 
-get_name() { _json_atom "$1" "name"; }
-get_match() { _json_atom "$1" "match"; }
-get_method() { _json_atom "$1" "method"; }
+get_name() { _parse_json_atom "$1" "name"; }
+get_match() { _parse_json_atom "$1" "match"; }
+get_method() { _parse_json_atom "$1" "method"; }
 get_host() {
   local match=$(get_match "$1")
   local host_with_port=${match%%/*}
@@ -47,15 +47,25 @@ get_host() {
 }
 get_path() {
   local match=$(get_match "$1")
-  echo /${match#*/}
+  if [[ $1 = */* ]]; then
+    echo /${match#*/}
+  fi
 }
-get_targets() { _json_array "$1" "targets"; }
-get_options() { _json_array "$1" "options"; }
+get_targets() { _parse_json_array "$1" "targets"; }
+get_options() { _parse_json_array "$1" "options"; }
 
 write_header() {
   cat <<EOF
 # -*- mode: haproxy -*-
 # vi: set ft=haproxy :
+
+EOF
+}
+
+write_userlist() {
+  cat <<EOF
+userlist trivial_users
+  user u insecure-password p
 
 EOF
 }
@@ -84,9 +94,11 @@ defaults
   option  http-server-close
   retries 3
   maxconn 2000
-  timeout connect 5000
-  timeout client 24h
-  timeout server  50000
+  timeout connect 5s
+  timeout client 30s
+  timeout client-fin 30s
+  timeout server 30s
+  timeout tunnel  24h
 
 EOF
 }
@@ -130,12 +142,13 @@ write_backends() {
     echo "backend b_${name}"
     echo "  balance roundrobin"
 
-    for target in "${targets[@]}"; do
+    while read -r target; do
       echo "  server s $target"
-    done
-    for option in "${options[@]}"; do
+    done <<<"$targets"
+
+    while read -r option; do
       echo "  $option"
-    done
+    done <<<"$options"
   done
 }
 
@@ -148,6 +161,7 @@ read_services() {
 
 read_services
 write_header
+write_userlist
 write_global
 write_defaults
 write_frontend

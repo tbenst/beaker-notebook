@@ -3,6 +3,7 @@ set -o errexit -o pipefail
 
 export BEAKER_IMAGE=$1
 export BUNSEN_MATCH=$2
+export BEAKER_PORT=8801
 
 for i in "${@:3}"
 do

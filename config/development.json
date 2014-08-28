@@ -48,7 +48,8 @@
     ],
     "volumes": [
       "/dev/log:/dev/log",
-      "/var/run/docker.sock:/var/run/docker.sock"
+      "/var/run/docker.sock:/var/run/docker.sock",
+      "/vagrant/gateway:/opt/gateway"
     ],
     "command": "beaker localhost:7777"
   }
