@@ -15,6 +15,10 @@ cat <<EOF
     "match": "$BUNSEN_MATCH/",
     "targets": [
       "${WEB_PORT_8080_TCP_ADDR}:8080"
+    ],
+    "options": [
+      "acl auth_ok_trivial_users http_auth(trivial_users)",
+      "http-request auth realm Bunsen if !auth_ok_trivial_users"
     ]
   }
 ]

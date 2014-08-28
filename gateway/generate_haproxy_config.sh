@@ -60,6 +60,14 @@ write_header() {
 EOF
 }
 
+write_userlist() {
+  cat <<EOF
+userlist trivial_users
+  user u insecure-password p
+
+EOF
+}
+
 write_global() {
   cat <<EOF
 global
@@ -150,6 +158,7 @@ read_services() {
 
 read_services
 write_header
+write_userlist
 write_global
 write_defaults
 write_frontend
