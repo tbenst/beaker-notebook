@@ -161,9 +161,10 @@ module.exports = function() {
   });
 
   this.Given(/^I'm subscribed to the following market items:$/, function(table, callback) {
-    return bluebird.map(table.hashes(), function(row) {
-      return seedDataSet.bind(this, _.merge(row, { subscribers: 'u@r.edu' }))();
-    }.bind(this));
+    var _this = this;
+    return bluebird.reduce(table.hashes(), function(__, row) {
+      return seedDataSet.call(_this, _.merge(row, { subscribers: 'u@r.edu' }));
+    }, null);
   });
 
   this.When(/^I view the market search$/, function(callback) {

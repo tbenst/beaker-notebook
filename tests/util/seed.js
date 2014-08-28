@@ -10,7 +10,7 @@ module.exports = function() {
   this.seed = {
     populate: function(models) {
       var modelsArray = Array.prototype.concat(models);
-      var promiseArray = _.map(modelsArray, function(model) {
+      return Promise.reduce(modelsArray, function(result, model) {
         return post(base + "/data", {form: model}).
           then(function(response) {
             if (response[0].statusCode != 200) {
@@ -22,12 +22,11 @@ module.exports = function() {
               var models = JSON.parse(response[0].body);
               models = _.flatten(models);
               if (models.length == 1) models = models[0];
-
-              return models;
+              result.push(models)
+              return result;
             }
           });
-      });
-      return Promise.all(promiseArray);
+      }, []);
     },
 
     dropRepos: function() {
