@@ -151,6 +151,9 @@ As a researcher, I want to manage my projects.
     Then I should see the "hello js" project detail page
 
   Scenario: Open last created project by default
+    Given I view my projects
+    And I open the "Sandbox" project
+    And I delete the project
     Given I have the following Projects:
       | name     | description               |
       | hello js | hello world in javascript |

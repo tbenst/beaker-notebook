@@ -2,19 +2,20 @@
   app.controller('projects', ['$scope', 'Factories', '$state', function($scope, Factories, $state) {
     delete $scope.projects.search;
 
+    function stateGo(item) {
+      if(item.route == "notebooks") {
+        $state.go('projects.items.item.notebook', { id: item.projectId, notebook_id: item.id})
+      }else {
+        $state.go('projects.items.item', { id: item.id})
+      }
+    }
+
     function goToLast(list) {
       if (!(list && list[0])) {return}
-      var lastProject = _.last(_.sortBy(list, 'openedAt'));
-      var lastNotebook = _.last(_.sortBy($scope.notebooks.list, 'openedAt'));
-      if (lastProject == null && lastNotebook == null ) {
-        lastProject = _.last(_.sortBy(list, 'createdAt'));
-        $state.go('projects.items.item', {id: lastProject.id} )
-      }
-      else if (lastNotebook == null || lastProject.openedAt > lastNotebook.openedAt) {
-        $state.go('projects.items.item', { id: lastProject.id})
-      } else {
-        $state.go('projects.items.item.notebook', { id: lastNotebook.projectId, notebook_id: lastNotebook.id })
-      }
+      var omniList = _.filter(list.concat($scope.notebooks.list || []), 'openedAt'),
+          mostRecentItem = _.last(_.sortBy(omniList, 'openedAt'));
+
+      stateGo(mostRecentItem || _.last(_.sortBy(list, 'createdAt')))
     }
 
     $scope.$watch('projects.list', goToLast);
