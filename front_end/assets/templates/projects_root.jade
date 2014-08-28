@@ -2,7 +2,7 @@
   .sidebar-left.project-sidebar
     .nav(ui-view="nav")
 
-    div(sticky).open-notebooks
+    div(sticky offset='20').open-notebooks
       .sidebar-box.list
         h3
           span.sidebar-box-header-count {{(notebooks.list | filter:{open: true}).length}}

@@ -24,12 +24,12 @@
     "test",
     "tests"
   ],
-  "_release": "3442c03559",
+  "_release": "a21f65ad36",
   "_resolution": {
     "type": "commit",
-    "commit": "3442c03559ccc494f618166399725c1c56c9e032"
+    "commit": "a21f65ad369bc174d12b3c4afd920834a20319e1"
   },
-  "_source": "git://github.com/d-oliveros/angular-sticky.git",
-  "_target": "3442c03559ccc494f618166399725c1c56c9e032",
-  "_originalSource": "git://github.com/d-oliveros/angular-sticky"
+  "_source": "git://github.com/Los83/angular-sticky.git",
+  "_target": "a21f65ad369bc174d12b3c4afd920834a20319e1",
+  "_originalSource": "git://github.com/Los83/angular-sticky"
 }
