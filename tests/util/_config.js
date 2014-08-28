@@ -1,1 +1,1 @@
-module.exports = { bunsenUrl: 'http://localhost:7778/' }
+module.exports = { bunsenUrl: 'http://u:p@localhost:7778/' }
