@@ -1,0 +1,51 @@
+{
+  "app": {
+    "command": "--migrate --delay=15",
+    "links": [
+      "db",
+      "provisioner"
+    ],
+    "ports": "2999:3000",
+    "environment": [
+      "NODE_ENV=test"
+    ]
+  },
+  "web": {
+    "command": "--test",
+    "ports": "8079:8080",
+    "build": "front_end"
+  },
+  "db": {
+    "ports": "5431:5432",
+    "build": "postgres",
+    "volumes": [
+      "/var/bunsen_test_db:/var/lib/postgresql/9.1/main"
+    ],
+    "command": "-c -f --database=bunsenTest"
+  },
+  "beaker": {
+    "ports": "8801"
+  },
+  "provisioner": {
+    "ports": "3002:3001",
+    "volumes": [
+      "/var/run/docker.sock:/var/run/docker.sock"
+    ],
+    "environment": [
+      "NODE_ENV=test"
+    ],
+    "command": "beaker"
+  },
+  "gateway": {
+    "ports": "7778:80",
+    "command": "beaker localhost:7778",
+    "links": [
+      "app",
+      "web"
+    ],
+    "volumes": [
+      "/dev/log:/dev/log",
+      "/var/run/docker.sock:/var/run/docker.sock"
+    ]
+  }
+}

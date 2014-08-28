@@ -13,7 +13,7 @@ Bunsen API Server
 
 ### Generating new migrations
 
-* `fig run app --new_migration=migration_name`
+* `docker run app --new_migration=migration_name`
 
 ### Reseed database
 This task will drop the development DB, recreate it, run migrations, and then reseed the data.
