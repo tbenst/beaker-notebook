@@ -13,6 +13,10 @@ else
 fi
 
 for image in "${images[@]}"; do
+  echo ""
+  echo building $image
+  echo ""
+
   build_directory="$(cat $config_file | jq -r ".$image.build")"
 
   if [[ $build_directory == 'null' ]]; then
