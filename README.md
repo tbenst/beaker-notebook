@@ -27,7 +27,7 @@ Bunsen's different components (db, app [api server], web, beaker, provisioner, &
       would normally in the server
     * One may occasionally get `Cannot start container: Port has already been allocated`.
       [This bug](https://github.com/docker/docker/issues/6476) is known, and in the meantime, just restart docker.
-      (`vagrant ssh`, then once ssh'ed, `sudo system restart docker`)
+      (`vagrant ssh`, then once ssh'ed, `sudo systemctl restart docker`)
 
 ## To run the application locally
   * Ensure that your vagrant is running and provisioned.
