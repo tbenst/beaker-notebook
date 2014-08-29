@@ -34,6 +34,8 @@ Bunsen's different components (db, app [api server], web, beaker, provisioner, &
     * `$ vagrant up`
   * Build your docker images.
     * `$ ./build.sh` (or specify image, ex: `$ ./build.sh beaker`)
+  * Initialize the persistent development database.
+    * `docker run  --volume="/var/bunsen_dbs/:/var/lib/postgresql/9.1/main" db -c -f --database=bunsenDevelopment`
   * Run your docker containers.
     * `$ ./run.sh` (or specify image, ex: `$ ./run.sh app`) (run `bash -x run.sh` to show full docker commands)
   * Browse to http://localhost:7777/
