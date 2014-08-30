@@ -19,6 +19,17 @@
   ],
   "run": [
     {
+      "name": "provisioner",
+      "image": "provisioner",
+      "command": "docker.withmojo.com/beaker",
+      "ports": [
+        "3001:3001"
+      ],
+      "volumes": [
+        "/var/run/docker.sock:/var/run/docker.sock"
+      ]
+    },
+    {
       "name": "app",
       "image": "app",
       "command": "--migrate --delay=5",
@@ -41,17 +52,6 @@
       "image": "web",
       "ports": [
         "8080:8080"
-      ]
-    },
-    {
-      "name": "provisioner",
-      "image": "provisioner",
-      "command": "docker.withmojo.com/beaker",
-      "ports": [
-        "3001:3001"
-      ],
-      "volumes": [
-        "/var/run/docker.sock:/var/run/docker.sock"
       ]
     }
   ]
