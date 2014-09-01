@@ -42,4 +42,12 @@ module.exports = function(app) {
     })
     .catch(next);
   });
+
+  app.post("/api/seed/refresh-index", function(req, res, next) {
+    indexer.refresh()
+    .then(function() {
+      res.send(200);
+    })
+    .catch(next);
+  });
 }

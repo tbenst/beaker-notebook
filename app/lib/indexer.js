@@ -24,6 +24,10 @@ module.exports = {
       .then(indexAll);
   },
 
+  refresh: function() {
+    return client.indices.refresh({index: '*'});
+  },
+
   clear: function() {
     return clearIndex()
     .then(defineMapping);
