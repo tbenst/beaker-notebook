@@ -29,7 +29,7 @@
     $scope.projects = $scope.projects || {};
     $scope.notebooks = $scope.notebooks || {};
     $scope.searchable = $scope.searchable || {}
-    $scope.cachedNotebookLocations = $scope.cachedNotebookLocations || {};
+    $scope.cachedNotebooks = $scope.cachedNotebooks || {};
 
     setProjects();
     setNotebooks();

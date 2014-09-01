@@ -56,8 +56,9 @@
       });
     };
 
-    if ($scope.cachedNotebookLocations[$state.params.notebook_id]) {
-      $scope.notebookLocation = $scope.cachedNotebookLocations[$state.params.notebook_id];
+    if ($scope.cachedNotebooks[$state.params.notebook_id]) {
+      Notebooks.update({id: $state.params.notebook_id, open: true});
+      $scope.notebook = $scope.cachedNotebooks[$state.params.notebook_id];
       $scope.loading = false;
     } else {
       F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
@@ -68,8 +69,8 @@
         Notebooks.update({id: notebook.id, open: true});
 
         Beaker.whenReady().then(function(url) {
-          $scope.notebookLocation = $sce.trustAsResourceUrl(notebookLocation(url, userId, prjId, notebook.id));
-          $scope.cachedNotebookLocations[notebook.id] = $scope.notebookLocation;
+          $scope.notebook.location = $sce.trustAsResourceUrl(notebookLocation(url, userId, prjId, notebook.id));
+          $scope.cachedNotebooks[notebook.id] = $scope.notebook;
           $scope.loading = false;
         });
       });
