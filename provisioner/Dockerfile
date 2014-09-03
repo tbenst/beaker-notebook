@@ -7,6 +7,7 @@ RUN apt-get update -qq && \
       node-lodash \
       node-bluebird \
       node-dockerode \
+      node-uuid \
       nodejs-legacy && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

@@ -1,10 +1,12 @@
 var _  = require('lodash');
 var Promise = require('bluebird');
 var Docker = require('dockerode');
+var Uuid = require('node-uuid');
 var NoSuchInstance = require("../lib/no_such_instance");
 
 var BEAKER_PORT = '8801/tcp';
-var BEAKER_IMAGE = process.env.BEAKER_IMAGE;
+// in inspect API, docker prepends a / to names to denote Docker Daemon itself
+var BEAKER_CONTAINER_PATTERN = '/' + process.env.BEAKER_CONTAINER_PATTERN;
 
 Promise.promisifyAll(require('dockerode/lib/docker').prototype);
 Promise.promisifyAll(require('dockerode/lib/container').prototype);
@@ -23,7 +25,8 @@ _.extend(DockerProvisioner.prototype, {
       var exposedPorts = {};
       exposedPorts[BEAKER_PORT] = {};
       return this.docker.createContainerAsync({
-        'Image': BEAKER_IMAGE,
+        'name': (BEAKER_CONTAINER_PATTERN + Uuid.v4()),
+        'Image': 'beaker',
         'ExposedPorts': exposedPorts
       })
       .then(function(container) {
@@ -41,7 +44,9 @@ _.extend(DockerProvisioner.prototype, {
       // but we share the instance started by fig between all users
       return this.docker.listContainersAsync()
       .then(function(list) {
-        var container = _.findWhere(list, {Image: BEAKER_IMAGE+':latest'})
+        var container = _.find(list, function(c) {
+          return _.include(c.Names, BEAKER_CONTAINER_PATTERN);
+        });
         return container.Id;
       })
       .then(_this.inspect.bind(_this));
@@ -60,8 +65,8 @@ _.extend(DockerProvisioner.prototype, {
       if (data.State.Running == true) {
         throw new Error("Container " + id + " is already running.");
       }
-      if (data.Config.Image != BEAKER_IMAGE) {
-        throw new Error("Container " + id + " is not a beaker container, it's " + data.Config.Image);
+      if (data.Name.indexOf(BEAKER_CONTAINER_PATTERN) != 0) {
+        throw new Error("Container " + id + " is not a beaker container, it's " + data.Name);
       }
       return c.startAsync().then(function() {
         return inspectContainer(c);

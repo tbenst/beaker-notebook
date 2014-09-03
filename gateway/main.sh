@@ -1,7 +1,7 @@
 #!/bin/bash -e
 set -o errexit -o pipefail
 
-export BEAKER_IMAGE=$1
+export BEAKER_CONTAINER_PATTERN=$1
 export BUNSEN_MATCH=$2
 export BEAKER_PORT=8801
 
@@ -12,7 +12,7 @@ case $i in
   -h|--help)
     cat <<EOF
 
-  Usage: gateway (beaker_image) (ui_host):(ui_port) [options]
+  Usage: gateway [test.]beaker (ui_host):(ui_port) [options]
   Options:
           -h  --help                  Display this message
 

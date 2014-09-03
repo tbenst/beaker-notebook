@@ -24,6 +24,7 @@
     "command": "-c -f --database=bunsenTest"
   },
   "beaker": {
+
     "ports": "8801"
   },
   "provisioner": {
@@ -34,11 +35,11 @@
     "environment": [
       "NODE_ENV=test"
     ],
-    "command": "beaker"
+    "command": "test.beaker"
   },
   "gateway": {
     "ports": "7778:80",
-    "command": "beaker localhost:7778",
+    "command": "test.beaker localhost:7778",
     "links": [
       "app",
       "web"

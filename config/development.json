@@ -38,7 +38,7 @@
       "/var/run/docker.sock:/var/run/docker.sock",
       "/vagrant/provisioner:/opt/provisioner"
     ],
-    "command": "beaker"
+    "command": "beaker."
   },
   "gateway": {
     "ports": "7777:80",
