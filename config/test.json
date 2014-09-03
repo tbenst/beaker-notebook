@@ -1,26 +1,33 @@
 {
   "app": {
-    "command": "--migrate --delay=15",
+    "command": "--migrate --watch --delay=15",
     "links": [
       "db",
       "provisioner",
       "elasticsearch"
     ],
     "ports": "2999:3000",
+    "volumes": [
+      "/vagrant/app:/var/app"
+    ],
     "environment": [
       "NODE_ENV=test"
     ]
   },
   "web": {
-    "command": "--test",
+    "command": "--test --watch",
     "ports": "8079:8080",
-    "build": "front_end"
+    "build": "front_end",
+    "volumes": [
+      "/vagrant/front_end:/var/www"
+    ]
   },
   "db": {
     "ports": "5431:5432",
     "build": "postgres",
     "volumes": [
-      "/var/bunsen_test_db:/var/lib/postgresql/9.1/main"
+      "/var/bunsen_test_db:/var/lib/postgresql/9.1/main",
+      "/vagrant/postgres:/var/postgres"
     ],
     "command": "-c -f --database=bunsenTest"
   },
@@ -31,7 +38,8 @@
   "provisioner": {
     "ports": "3002:3001",
     "volumes": [
-      "/var/run/docker.sock:/var/run/docker.sock"
+      "/var/run/docker.sock:/var/run/docker.sock",
+      "/vagrant/provisioner:/opt/provisioner"
     ],
     "environment": [
       "NODE_ENV=test"
@@ -47,7 +55,8 @@
     ],
     "volumes": [
       "/dev/log:/dev/log",
-      "/var/run/docker.sock:/var/run/docker.sock"
+      "/var/run/docker.sock:/var/run/docker.sock",
+      "/vagrant/gateway:/opt/gateway"
     ]
   },
   "elasticsearch": {
