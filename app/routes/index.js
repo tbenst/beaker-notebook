@@ -5,6 +5,7 @@ module.exports.init = function(app) {
   require('./auth_routes.js')(app);
   require('./data_sets_routes.js')(app);
   require('./categories_routes.js')(app);
+  require('./publication_categories_routes.js')(app);
   require('./projects_routes.js')(app);
   require('./subscription_routes.js')(app);
   require('./publications_routes.js')(app);

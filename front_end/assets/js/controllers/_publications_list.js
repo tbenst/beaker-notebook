@@ -1,11 +1,13 @@
 ;(function(app) {
   app.controller('publicationsList', [
     '$scope',
+    '$stateParams',
     'Factories',
-    function($scope, Factories) {
+    function($scope, $stateParams, Factories) {
       var F = Factories;
 
-      F.Publications.getPublications().then(function(publications) {
+      F.Publications.getPublications($stateParams).then(function(publications) {
+        $scope.publications.currentCategory = $stateParams.category_id;
         $scope.publications.list = publications;
       });
     }

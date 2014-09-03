@@ -63,4 +63,14 @@ module.exports = function() {
       return this.fill(text);
     }
   });
+
+  this.Widgets.PublicationCategoriesList = this.Widget.List.extend({
+    root: '.publication-categories',
+
+    clickCategory: function(category) {
+      return this.findByText(category).then(function(categoryLink) {
+        return categoryLink.click();
+      });
+    }
+  });
 };

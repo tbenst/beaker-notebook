@@ -14,6 +14,7 @@ else {
     require('./seed_files/data_previews'),
     require('./seed_files/data_tags'),
     require('./seed_files/categories'),
+    require('./seed_files/publication_categories'),
     require('./seed_files/data_sets'),
     require('./seed_files/notebooks')
   );

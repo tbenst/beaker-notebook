@@ -3,8 +3,8 @@
     var R = Restangular;
 
     return {
-      getPublications: function() {
-        return R.all('publications').getList();
+      getPublications: function(params) {
+        return R.all('publications').getList(params);
       },
 
       getPublication: function(publicationId) {

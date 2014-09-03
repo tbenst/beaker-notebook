@@ -85,6 +85,10 @@ module.exports = function() {
     return seedPublications.bind(this)(count, { projectName: projectName });
   });
 
+  this.Given(/^there are (\d+) publications in the "([^"]*)" category$/, function(count, categoryName) {
+    return seedPublications.bind(this)(count, { category: categoryName });
+  });
+
   this.Given(/^the notebook "([^"]*)" is published$/, function(notebookName) {
     return this.seed.populate({
       model: 'Publication',
@@ -96,6 +100,16 @@ module.exports = function() {
         lookup: {"Notebook": {name: notebookName}}
       }]
     });
+  });
+
+  this.Given(/^I have the following publication categories:$/, function(table) {
+    var seedData = _.map(table.hashes(), function(category) {
+      return {
+        model: 'PublicationCategory',
+        data: category
+      }
+    });
+    return this.seed.populate(seedData);
   });
 
   this.Given(/^there is a publication named "([^"]*)"$/, function(name) {
@@ -110,12 +124,20 @@ module.exports = function() {
     return this.driver.get(this.route.publications);
   });
 
+  this.When(/^I click the "([^"]*)" category$/, function(category) {
+    return new this.Widgets.PublicationCategoriesList().clickCategory(category);
+  });
+
   this.When(/^I go to publish the notebook$/, function() {
     return new this.Widgets.Notebook().openPublishModal();
   });
 
   this.When(/^I give it the description "([^"]*)"$/, function(description) {
     return new this.Widgets.PublishModal().addDescription(description)
+  });
+
+  this.When(/^I give it the category "([^"]*)"$/, function(category) {
+    return new this.Widgets.PublishModal().selectCategory(category);
   });
 
   this.When(/^I publish the notebook$/, function() {

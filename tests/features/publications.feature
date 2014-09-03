@@ -80,3 +80,35 @@ Feature: Publications
       | name       |
       | top secret |
 
+  Scenario: Publication categories
+    Given I have the following publication categories:
+      | name       |
+      | Energy     |
+    Given there are 2 publications for the project "random"
+    And there are 3 publications in the "Energy" category
+    When I view the publications page
+    Then I should see 5 publication results on the page
+    When I click the "Energy" category
+    Then I should see 3 publication results on the page
+    When I click the "All" category
+    Then I should see 5 publication results on the page
+
+  Scenario: Categorizing publications
+    Given I have the following publication categories:
+      | name       |
+      | Energy     |
+      | Finance    |
+    Given I view my projects
+    And I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    When I go to publish the notebook
+    And I give it the category "Finance"
+    And I publish the notebook
+    Then I should see that the notebook is published
+    When I view the publications page
+    And I click the "Finance" category
+    Then I should see the following publication first in the list:
+      | name       |
+      | top secret |
+    When I click the "Energy" category
+    Then I should see 0 publication results on the page
