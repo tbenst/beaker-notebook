@@ -105,6 +105,10 @@ module.exports = function(Bookshelf, app) {
             }
           }
         },
+        sort: [
+          {_score: {order: "desc"}},
+          {raw_title: {order: "asc"}}
+        ],
         aggs: {
           tags: {
             nested: {
