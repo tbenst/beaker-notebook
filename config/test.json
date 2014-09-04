@@ -1,6 +1,6 @@
 {
   "app": {
-    "command": "--migrate --watch --delay=15",
+    "command": "--migrate --watch --delay=20",
     "links": [
       "db",
       "provisioner",
