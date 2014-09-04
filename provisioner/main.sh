@@ -2,15 +2,19 @@
 
 set -o nounset -o errexit -o pipefail
 
-export BEAKER_CONTAINER_PATTERN=$1
+export BEAKER_IMAGE=$1
+export BEAKER_CONTAINER_PATTERN=$2
 
-for i in "${@:2}"
+for i in "${@:3}"
 do
 case $i in
   -h|--help)
     cat <<EOF
 
-  Usage: provisioner (beaker_container_pattern) [options]
+  Usage: provisioner (beaker_image) (beaker_container_pattern) [options]
+
+  beaker_image is the name of the image from which beakers are built.
+  (it's "beaker" both in dev and test, something else in deployed envs).
 
   beaker_container_pattern tells the Provisioner how to name
   and identify beaker containers.  Currently supported:  /beaker.

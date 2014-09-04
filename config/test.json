@@ -36,7 +36,7 @@
     "environment": [
       "NODE_ENV=test"
     ],
-    "command": "test.beaker"
+    "command": "beaker test.beaker"
   },
   "gateway": {
     "ports": "7778:80",

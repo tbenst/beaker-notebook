@@ -5,6 +5,7 @@ var Uuid = require('node-uuid');
 var NoSuchInstance = require("../lib/no_such_instance");
 
 var BEAKER_PORT = '8801/tcp';
+var BEAKER_IMAGE = process.env.BEAKER_IMAGE;
 // in inspect API, docker prepends a / to names to denote Docker Daemon itself
 var BEAKER_CONTAINER_PATTERN = '/' + process.env.BEAKER_CONTAINER_PATTERN;
 
@@ -26,7 +27,7 @@ _.extend(DockerProvisioner.prototype, {
       exposedPorts[BEAKER_PORT] = {};
       return this.docker.createContainerAsync({
         'name': (BEAKER_CONTAINER_PATTERN + Uuid.v4()),
-        'Image': 'beaker',
+        'Image': BEAKER_IMAGE,
         'ExposedPorts': exposedPorts
       })
       .then(function(container) {
