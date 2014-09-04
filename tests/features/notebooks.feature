@@ -231,3 +231,9 @@ Feature: Use Notebooks
     And I view my projects
     And I open the "ghost of tom jones" project
     Then I should see the project has 5 commits
+
+  Scenario: Open last used notebook
+    When I open the "ghost of tom jones" project
+    And I view the notebook "powderpuff girls"
+    And I view my projects
+    Then I should be in the "powderpuff girls" notebook

@@ -106,7 +106,12 @@ module.exports = function(Bookshelf, app) {
                 return _.extend(row, n);
               })
           });
-        });
+        })
+        .then(function (models) {
+          return models.map( function (attr) {
+            return new Project(attr, {parse: true});
+          })
+        })
     },
 
     findByUserId: function(userId) {
