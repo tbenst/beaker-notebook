@@ -41,7 +41,9 @@
       ],
       "environment": {
         "NODE_ENV": "development",
-        "DB_PORT_5432_TCP_ADDR": "10.0.1.195"
+        "DB_PORT_5432_TCP_ADDR": "10.0.1.195",
+        "ELASTICSEARCH_PORT_9200_TCP_ADDR": "10.0.1.195",
+        "ELASTICSEARCH_PORT_9200_TCP_PORT": "9200"
       },
       "volumes": [
         "/var/bunsen/repos:/var/app/.repos"
