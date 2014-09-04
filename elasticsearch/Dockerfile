@@ -1,6 +1,7 @@
 FROM mojo/debian:wheezy
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
+RUN echo "deb http://apt.withmojo.com/debian vendor main" > /etc/apt/sources.list.d/elasticsearch.list
 RUN echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
 
 RUN apt-get update -qq && \
