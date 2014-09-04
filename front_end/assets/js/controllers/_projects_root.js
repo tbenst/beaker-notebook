@@ -19,9 +19,10 @@
       });
     }
 
-    $scope.openProject = function(notebookId) {
+    $scope.openProject = function(notebook) {
       $state.go('projects.items.item.notebook', {
-        notebook_id: notebookId
+        id: notebook.projectId,
+        notebook_id: notebook.id
       });
     }
 
