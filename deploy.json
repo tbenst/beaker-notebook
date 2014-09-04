@@ -21,7 +21,7 @@
     {
       "name": "provisioner",
       "image": "provisioner",
-      "command": "docker.withmojo.com/beaker",
+      "command": "docker.withmojo.com/beaker beaker.",
       "ports": [
         "3001:3001"
       ],
