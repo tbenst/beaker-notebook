@@ -8,7 +8,7 @@
     }
 
     $scope.onTreeSelection = function(node) {
-      $scope.newSearch({categoryID: node.id});
+      $scope.newSearch({categoryPath: node.path});
     }
 
     $scope.searchByTag = function(tag) {

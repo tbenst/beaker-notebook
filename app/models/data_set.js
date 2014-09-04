@@ -2,9 +2,21 @@ var _         = require('lodash'),
     Bluebird  = require('bluebird'),
     Pipeline  = require('when/pipeline');
 
+var elasticsearch = require('elasticsearch');
+var elastic = {
+  host: process.env.ELASTICSEARCH_PORT_9200_TCP_ADDR,
+  port: process.env.ELASTICSEARCH_PORT_9200_TCP_PORT
+};
+
+var FILTER_KEYS = ['vendorIDs', 'categoryPath', 'tagIDs', 'formats'];
+var QUERY_KEYS = ['searchTerm', 'searchScope'];
+
 module.exports = function(Bookshelf, app) {
   var models = app.Models;
   var query = Bookshelf.knex;
+  var client = new elasticsearch.Client({
+    host: elastic.host + ':' + elastic.port
+  });
 
   var DataSet = Bookshelf.Model.extend({
     tableName: 'data_sets',
@@ -12,7 +24,13 @@ module.exports = function(Bookshelf, app) {
     idAttrs: ["title"],
 
     initialize: function() {
+      var _this = this;
       this.on("saved destroyed", this.touchCategories);
+      this.on("saved", function() {
+        if (process.env["BULK_INDEX"] != 'true') {
+          _this.index()
+        }
+      });
     },
 
     touchCategories: function() {
@@ -23,7 +41,7 @@ module.exports = function(Bookshelf, app) {
     },
 
     vendor: function() {
-      return this.hasOne(model.Vendor)
+      return this.belongsTo(models.Vendor)
     },
 
     users: function() {
@@ -53,6 +71,18 @@ module.exports = function(Bookshelf, app) {
           _this.attributes.related = related;
           return _this;
         });
+    },
+
+    index: function() {
+      return this.load(['categories', 'dataPreviews', 'dataTags', 'vendor'])
+      .then(function(model) {
+        return client.index({
+          index: 'bunsen',
+          type: 'datasets',
+          id: model.id,
+          body: model.toJSON()
+        })
+      })
     }
   }, {
 
@@ -63,81 +93,151 @@ module.exports = function(Bookshelf, app) {
         .orderBy('format', 'ASC')
     },
 
-    findMatching: function(filters, options) {
-      return this.getQuerySql(filters).then(function(sql) {
-        return query().select()
-          .from(query.raw('(' + sql + ') AS matching'))
-          .limit(options['limit'])
-          .offset(options['offset']);
-      }).then(function(models) {
-        return models.map(function(attr) {
-          return new DataSet(attr, {parse: true});
-        })
-      })
-    },
-
-    findMatchingCount: function(filters) {
-      return this.getQuerySql(filters).then(function(sql) {
-        return query()
-          .count('matching.id AS matchingCount')
-          .from(query.raw('(' + sql + ') AS matching'));
-      });
-    },
-
-    findMatchingTags: function(filters) {
-      return this.getQuerySql(filters).then(function(sql) {
-        return query()
-          .select('data_tags.*')
-          .count('data_tags.id AS tagCount')
-          .from(query.raw('(' + sql + ') AS matching'))
-          .join('data_sets_data_tags', 'matching.id', '=', 'data_sets_data_tags.data_set_id')
-          .join('data_tags', 'data_tags.id', '=', 'data_sets_data_tags.data_tag_id')
-          .groupBy('data_tags.id')
-          .orderBy('tagCount', 'DESC');
-      });
-    },
-
-    findMatchingFormats: function(filters) {
-      return this.getQuerySql(filters).then(function(sql) {
-        return query()
-          .select('format')
-          .distinct()
-          .from(query.raw('(' + sql + ') AS matching'))
-          .orderBy('format', 'ASC');
-      });
-    },
-
-    findMatchingVendors: function(filters) {
-      return this.getQuerySql(filters).then(function(sql) {
-        return query()
-          .select('vendors.*')
-          .distinct('vendors.name')
-          .from(query.raw('(' + sql + ') AS matching'))
-          .join('vendors', 'matching.vendor_id', '=', 'vendors.id')
-          .orderBy('vendors.name', 'ASC');
-      });
-    },
-
-    // loops over the filter keys to see if anything was passed via query params
-    // if something was loop over the query builders and construct combined sql
-    getQuerySql: function(filters) {
-      var filterKeys  = ["vendorIDs", "categoryID", "tagIDs", "formats", "searchTerm", "searchScope"];
-
-      var q = query('data_sets')
-        .select('data_sets.*')
-        .orderBy('data_sets.title', 'ASC');
-
-      return Bluebird.each(filterKeys, function(key) {
-        if (filters[key]) {
-          q = this[key+"QueryBuilder"](q, decodeURIComponent(filters[key]));
+    queryBuilder: function(params) {
+      return {
+        query: {
+          filtered: {
+            query: {
+              bool: {must: this.mustQueries(params)}
+            },
+            filter: {
+              bool: {must: this.mustFilters(params)}
+            }
+          }
+        },
+        sort: [
+          {_score: {order: "desc"}},
+          {raw_title: {order: "asc"}}
+        ],
+        aggs: {
+          tags: {
+            nested: {
+              path: 'dataTags'
+            },
+            aggs: {
+              names: {
+                terms: {field: 'dataTags.name'},
+                 aggs: {
+                    ids: {
+                      terms: {field: 'dataTags.id'}
+                    }
+                  }
+              }
+            }
+          },
+          vendors: {
+            terms: {field: 'vendor.name'},
+            aggs: {
+              ids: {
+                terms: {field: 'vendor.id'}
+              }
+            }
+          },
+          formats: {
+            terms: {field: 'format'}
+          }
         }
-      }.bind(this)).then(function() {
-        return q.toString();
-      });;
+      };
     },
 
-    formatsQueryBuilder: function(q, names) {
-      return q.whereIn('format', names.split(","));
+    mustFilters: function(params) {
+      var _this = this;
+      var filters = [];
+      FILTER_KEYS.forEach(function(key) {
+        if (params[key]) {
+          filters.push(_this[key + 'Filter'](decodeURIComponent(params[key])));
+        }
+      });
+      return filters;
+    },
+
+    mustQueries: function(params) {
+      var _this = this;
+      var queries = [];
+      QUERY_KEYS.forEach(function(key) {
+        if (params[key]) {
+          queries.push(_this[key + 'Query'](decodeURIComponent(params[key])));
+        }
+      });
+      if (_.isEmpty(queries)) {
+        queries.push({match_all: {}})
+      }
+      return queries;
+    },
+
+    searchTermQuery: function(term) {
+      return {
+        multi_match: {
+          query: term,
+          fields: ['title', 'description'],
+          operator: 'and'
+        }
+      };
+    },
+
+    searchScopeQuery: function(term) {
+      return this.searchTermQuery(term);
+    },
+
+    tagIDsFilter: function(ids) {
+      return {
+        nested: {
+          path: 'dataTags',
+          filter: {
+            bool: {must: [{term: {'dataTags.id': this.numIds(ids)}}]}
+          }
+        }
+      };
+    },
+
+    vendorIDsFilter: function(ids) {
+      return {term: {'vendor.id': this.numIds(ids)}};
+    },
+
+    formatsFilter: function(format) {
+      return {term: {format: format}};
+    },
+
+    categoryPathFilter: function(path) {
+      return {
+        bool: {
+          should: [
+            {term: {'categories.path': path}},
+            {prefix: {'categories.path': path + '.'}}
+          ]
+        }
+      };
+    },
+
+    transformResults: function(d) {
+      return {
+        // transform Elasticsearch results into format expected by front_end
+        data: _.pluck(d.hits.hits, '_source'),
+        totalItems: d.hits.total,
+        relatedTags: _.map(d.aggregations.tags.names.buckets, function(t) {
+          return {
+            name: t.key,
+            id: t.ids.buckets[0].key
+          }
+        }),
+        formats: _.pluck(d.aggregations.formats.buckets, 'key'),
+        vendors: _.map(d.aggregations.vendors.buckets, function(v) {
+          return {
+            name: v.key,
+            id: v.ids.buckets[0].key
+          }
+        })
+      };
+    },
+
+    findMatching: function(filters, options) {
+      return client.search({
+        type: 'datasets',
+        size: options.size,
+        from: options.from,
+        body: this.queryBuilder(filters)
+      })
+      .then(this.transformResults.bind(this))
     },
 
     numIds: function(s) {
@@ -145,44 +245,6 @@ module.exports = function(Bookshelf, app) {
       // to normalize the data we must split on commas and then
       // convert the string numbers to ints
       return _(s.split(",")).map(function(i) {return +i}).value();
-    },
-
-    tagIDsQueryBuilder: function(q, ids) {
-      return q.distinct()
-        .join('data_sets_data_tags', 'data_sets.id', '=', 'data_sets_data_tags.data_set_id')
-        .whereIn('data_tag_id', this.numIds(ids))
-        .groupBy('data_sets.id')
-        .having(query.raw('count(*) = ' + this.numIds(ids).length));
-    },
-
-    vendorIDsQueryBuilder: function(q, ids) {
-      return q.whereIn('vendor_id', this.numIds(ids));
-    },
-
-    searchScopeQueryBuilder: function(q, term) {
-      return this.searchTermQueryBuilder(q, term, 'scope');
-    },
-
-    searchTermQueryBuilder: function(q, term, joinName) {
-      // note: this subquery is necessary rather than a regular join (even if the two are logically
-      // equivalent) because postgres query planner will not use full text indices for queries
-      // across multiple tables.
-
-      joinName = joinName || 'term';
-
-      return q.join(query.raw('(select "vendors".* from "vendors" where "vendors".name ilike \'%' +
-                              term.replace(/'/g, "''") +  // don't allow param to close quote
-                              '%\') as ' + joinName), joinName + '.id', '=', 'data_sets.vendor_id', 'left')
-        .where(function() {
-            this.where('title', 'ILIKE', '%' + term + '%')
-            .orWhere('data_sets.description', 'ILIKE', '%' + term + '%')
-        });
-    },
-
-    categoryIDQueryBuilder: function(q, id){
-      return q.join('data_sets_categories', 'data_sets.id', '=', 'data_sets_categories.data_set_id').
-        join('categories', 'categories.id', '=', 'data_sets_categories.category_id').
-        whereRaw('path <@ (select path from "categories" where id = ?)', [id]);
     },
 
     taggedWith: function(tags, excludeIds) {

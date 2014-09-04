@@ -3,7 +3,8 @@
     "command": "--migrate --delay=15",
     "links": [
       "db",
-      "provisioner"
+      "provisioner",
+      "elasticsearch"
     ],
     "ports": "2999:3000",
     "environment": [
@@ -47,6 +48,12 @@
     "volumes": [
       "/dev/log:/dev/log",
       "/var/run/docker.sock:/var/run/docker.sock"
+    ]
+  },
+  "elasticsearch": {
+    "ports": "9201:9200",
+    "volumes": [
+      "/var/elasticsearch/data"
     ]
   }
 }

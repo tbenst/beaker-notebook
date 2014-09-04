@@ -60,7 +60,7 @@
         p.description {{item.description | limitTo:100}} {{item.description.length > 100 ? "..." : ""}}
         .vendor
           | Vendor:&nbsp;
-          span.vendors {{vendorName(item)}}
+          span.vendors {{item.vendor.name}}
       .col-quarter
         ul.attributes
           li

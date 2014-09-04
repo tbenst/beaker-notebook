@@ -9,7 +9,7 @@
     };
 
     function clearSearch() {
-      var deleteList = ['categoryID', 'vendorScope', 'typeScope', 'tagScope', 'searchTerm', 'searchScope'];
+      var deleteList = ['categoryPath', 'vendorScope', 'typeScope', 'tagScope', 'searchTerm', 'searchScope'];
       _.each(deleteList, function(i) {
         delete $scope.marketPlace[i];
       });

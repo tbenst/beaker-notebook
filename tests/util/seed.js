@@ -26,11 +26,21 @@ module.exports = function() {
               return result;
             }
           });
-      }, []);
+      }, [])
+      .then(function(result) {
+        return post(base + "/refresh-index")
+        .then(function() {
+          return result;
+        });
+      });
     },
 
     dropRepos: function() {
       return post(base + "/drop-repos");
+    },
+
+    dropIndex: function() {
+      return post(base + "/drop-index");
     },
 
     dropAll: function() {
@@ -51,6 +61,9 @@ module.exports = function() {
     return this.seed.dropRepos()
     .then(function() {
       return this.seed.dropAll();
+    }.bind(this))
+    .then(function() {
+      return this.seed.dropIndex();
     }.bind(this))
     .catch(function(e) {
       console.log(e);

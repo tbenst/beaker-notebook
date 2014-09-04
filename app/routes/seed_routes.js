@@ -3,6 +3,7 @@ var Seed        = require("../seed");
 var exec        = Promise.promisify(require('child_process').exec);
 var path        = require("path");
 var _           = require("lodash");
+var indexer     = require('../lib/indexer');
 
 module.exports = function(app) {
   app.post("/api/seed/data", function(req, res, next) {
@@ -30,6 +31,22 @@ module.exports = function(app) {
   app.post("/api/seed/fetch", function(req, res, next) {
     app.Models[req.body.modelName].forge(req.body.data).fetch().then(function(d) {
       res.json(d);
+    })
+    .catch(next);
+  });
+
+  app.post("/api/seed/drop-index", function(req, res, next) {
+    indexer.clear()
+    .then(function() {
+      res.send(200);
+    })
+    .catch(next);
+  });
+
+  app.post("/api/seed/refresh-index", function(req, res, next) {
+    indexer.refresh()
+    .then(function() {
+      res.send(200);
     })
     .catch(next);
   });

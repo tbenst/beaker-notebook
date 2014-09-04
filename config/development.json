@@ -3,7 +3,8 @@
     "command": "--migrate --delay=5",
     "links": [
       "db",
-      "provisioner"
+      "provisioner",
+      "elasticsearch"
     ],
     "ports": "3000:3000",
     "volumes": [
@@ -52,5 +53,11 @@
       "/vagrant/gateway:/opt/gateway"
     ],
     "command": "beaker localhost:7777"
+  },
+  "elasticsearch": {
+    "ports": "9200:9200",
+    "volumes": [
+      "/var/elasticsearch/data:/var/elasticsearch/data"
+    ]
   }
 }

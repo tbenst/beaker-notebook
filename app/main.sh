@@ -5,6 +5,7 @@ do
 case $i in
   -m|--migrate) migrate=1 ;;
   -s|--seed) seed=1 ;;
+  -i|--index) index=1 ;;
   -w|--watch) watch=1 ;;
   --new-migration=*) new_migration="${i#--new-migration=}" ;;
   --seed-with-file=*) seed_with_file="${i#--seed-with-file=}" ;;
@@ -18,6 +19,7 @@ case $i in
           --new-migration=(name)  Create a new migration
           -m  --migrate           Run migrations before starting app
           -s  --seed              Seed database with fake data starting app
+          -i  --index             Index marketplace datasets in elasticsearch
           --seed-with-file=(file) Seed database with data from specified file starting app
           -w  --watch             Restart server if files change
           --delay=(secs)          Delay start x seconds
@@ -41,6 +43,7 @@ mkdir -p /var/app/node_modules && ln -sf /usr/local/lib/node_modules/knex /var/a
 [[ -z $seed_with_file ]] || node app_seed.js -f $seed_with_file
 [[ $migrate -eq 1 ]] && knex migrate:latest --knexfile=config.js
 [[ $seed -eq 1 ]] && node app_seed.js
+[[ $index -eq 1 ]] && BULK_INDEX=true node reindex.js
 
 if [[ $watch -eq 1 ]]; then
   color exec pm2 start app.js -o /dev/stdout -e /dev/stderr --watch --no-daemon --silent
