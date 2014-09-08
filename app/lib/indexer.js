@@ -62,7 +62,11 @@ function indexAll() {
 
 function indexBatch(i) {
   return app.Models.DataSet
-  .query({limit: BATCH_SIZE, offset: i * BATCH_SIZE})
+  .query(function(q) {
+    q.limit(BATCH_SIZE)
+    q.offset(i * BATCH_SIZE)
+    q.orderBy('data_sets.id', 'ASC')
+  })
   .fetchAll({withRelated: ['vendor', 'categories', 'dataTags']})
   .then(sendBulkRequest)
 }
