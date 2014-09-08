@@ -19,7 +19,7 @@
         a.publish(ng-if="!published" ng-click="openPublishModal()") Publish this notebook &raquo;
 
   .main-content
-    a.back-to-project.btn.btn-light.left(ui-sref="projects.items.item({id: project.id})") Back to project home
+    a.back-to-project.btn.btn-light.left(ui-sref="projects.items.item({id: notebook.projectId})") Back to project home
     button.btn.btn-light.right.close-notebook(close-notebook="{{ notebook.id }}") close notebook
     button.btn.btn-light.right.rename(rename-notebook-toggle ng-click="showRenameModal()") Rename
     .cl
