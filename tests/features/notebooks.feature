@@ -237,3 +237,18 @@ Feature: Use Notebooks
     And I view the notebook "powderpuff girls"
     And I view my projects
     Then I should be in the "powderpuff girls" notebook
+
+  Scenario: Reopening notebooks
+    When I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    And I view my projects
+    And I open the "ghost of tom jones" project
+    And I view the notebook "powderpuff girls"
+    And I see the following recent notebooks:
+      | name              |
+      | powderpuff girls  |
+      | top secret        |
+    When I open the recent notebook "top secret"
+    Then I should be in the "top secret" notebook
+    When I open the recent notebook "powderpuff girls"
+    Then I should be in the "powderpuff girls" notebook
