@@ -12,7 +12,7 @@ module.exports = function() {
     return notebookList.clickByName(notebookName);
   });
 
-  this.Then(/^I should see the following recent notebooks:$/, function(table) {
+  this.Then(/^I (?:should see|see) the following recent notebooks:$/, function(table) {
     var recentNotebooks = new this.Widgets.RecentNotebooks();
 
     return recentNotebooks.getNames().then(function(recent) {
