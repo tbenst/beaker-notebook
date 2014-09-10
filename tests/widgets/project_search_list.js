@@ -1,40 +1,29 @@
+var $ = require('selenium-webdriver').promise;
+var _ = require('lodash');
+
 module.exports = function() {
   return this.Widgets.ProjectSearchList = this.Widget.List.extend({
     root: '.search-results',
     itemSelector: ".bunsen-list-item",
 
-    waitForItem: function() {
-      return this.find(this.itemSelector);
-    },
-
     click: function(index) {
-      var _this = this;
-      return this.waitForItem().then(function() {
-        return _this.items().then(function(children) {
-          return children[index].click();
-        });
-      });
+      return this.clickAt(index);
     },
 
     contents: function() {
-      return $.map(this.items(), function(n) {
-        return $.all([n.find(".title"), n.find(".attributes .count")])
-        .then(function(arr) {
-          return $.all(_.invoke(arr, 'getText'))
-          .then(function(text) {
-            return {
-              name: text[0],
-              notebooks: text[1]
-            }
-          });
+      return this.map(function(n) {
+        return $.all([n.read(".title"), n.read(".attributes .count")])
+        .then(function(attrs) {
+          return {
+            name: attrs[0],
+            notebooks: attrs[1]
+          }
         });
       });
     },
 
     notebookContents: function() {
-      return this.map(function(item) {
-        return item.getText('.title')
-      });
+      return this.invoke({ method: 'read', arguments: ['.title'] });
     },
   });
 }

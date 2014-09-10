@@ -5,7 +5,7 @@ module.exports = function() {
     root: '.modal',
     fields: ['saveAsFileInput'],
     submitSelector: function() {
-      return '.btn-primary'
+      return this.find('.btn-primary');
     }
   });
 };

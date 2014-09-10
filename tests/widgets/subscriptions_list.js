@@ -15,10 +15,8 @@ module.exports = function() {
 
     findDataset: function(title) {
       return this.filter(function(item) {
-        return item.find().then(function(elm) {
-          return elm.getText().then(function(text) {
-            return text.match(title);
-          });
+        return item.read().then(function(text) {
+          return text.match(title);
         });
       })
       .then(function(filtered) {
@@ -27,22 +25,21 @@ module.exports = function() {
     },
 
     hasDataset: function(title) {
-      return this.findDataset(title)
-      .then(function(dataset) {
-        return !!dataset;
+      return this.findDataset(title).then(function(dataset) {
+        return dataset.isPresent();
       });
     },
 
     titles: function() {
-      return this._readAll(this.linkSelector);
+      return this.invoke({ method: 'read', arguments: [this.linkSelector] });
     },
 
     descriptions: function() {
-      return this._readAll('.description');
+      return this.invoke({ method: 'read', arguments: ['.description'] });
     },
 
     locations: function() {
-      return this._readAll('.location .value');
+      return this.invoke({ method: 'read', arguments: ['.location .value'] });
     },
 
     clickOn: function(title) {
@@ -51,19 +48,13 @@ module.exports = function() {
         return dataset.click(this.linkSelector);
       }.bind(this));
     },
-
-    _readAll: function(selector) {
-      return this.map(function(item) {
-        return item.read(selector);
-      });
-    }
   });
 
   this.Widgets.SubscriptionSidebar = this.Widget.extend({
     root: '.subscriptions-sidebar',
 
     search: function(query) {
-      return this.fill('.search', query);
+      return this.fill({ selector: '.search', value: query });
     },
 
     toggleSortBySubscriptionDate: function() {
@@ -84,9 +75,7 @@ module.exports = function() {
 
     recentlyUsedTitles: function() {
       return this.findAll('.recently-used li').then(function(recentlyUsed) {
-        return $.map(recentlyUsed, function(subscription) {
-          return subscription.getText();
-        });
+        return recentlyUsed.invoke('read');
       });
     }
   });

@@ -29,7 +29,7 @@ module.exports = function() {
     },
 
     description: function() {
-      return this.read('.project-description');
+      return this.read('.project-description-display');
     },
 
     updatedAt: function() {

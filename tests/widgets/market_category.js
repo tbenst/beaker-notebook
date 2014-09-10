@@ -1,26 +1,33 @@
+_s = require('underscore.string');
+
 module.exports = function() {
-  return this.Widgets.MarketCategory = this.Widget.extend({
-    root: '.tree-market-category ul li',
+  return this.Widgets.MarketCategory = this.Widget.List.extend({
+    root: '.tree-market-category ul',
 
     clickCategory: function(category) {
-      return this.find().then(function() {
-        return this.driver.executeScript("Sizzle('"+this.root+":contains(\""+category+"\") .tree-label')[0].click()");
-      }.bind(this));
+      return this.filter(function(item) {
+       return item.read({ transformer: _s.titleize }).then(function(contents) {
+          return contents.match(category);
+        });
+      }).then(function(filtered) {
+        return filtered[0].click('.tree-label');
+      });
     },
 
     selectedCategoryCount: function() {
       return this.findAll('.tree-selected').then(function(elements) {
-        return elements.length;
+        return elements.length();
       });
     },
 
     categoryCount: function(category) {
-      return this.find().then(function() {
-        return this.driver.executeScript("return Sizzle('"+this.root+":contains(\""+category+"\") .count')[0]")
-        .then(function(el) {
-          return el.getText();
-        })
-      }.bind(this));
+      return this.filter(function(item) {
+        return item.read({ transformer: _s.titleize }).then(function(categoryContent) {
+          return categoryContent.match(category);
+        });
+      }).then(function(items) {
+        return items[0].read('.count');
+      });
     }
   });
 };

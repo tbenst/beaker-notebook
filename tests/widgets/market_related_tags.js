@@ -4,10 +4,7 @@ module.exports = function() {
     itemSelector: '.related-tag',
 
     is: function(tags) {
-
-      return $.map(this.items(), function(n) {
-        return n.find('.tag-name').getInnerHtml();
-      }).then(function(listedTags) {
+      return this.invoke({ method: 'read', arguments: ['.tag-name'] }).then(function(listedTags) {
         return tags.sort().should.eql(listedTags.sort());
       });
     }

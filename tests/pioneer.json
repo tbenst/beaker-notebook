@@ -1,0 +1,13 @@
+{
+  "feature": "features/",
+  "require": [
+    "util/",
+    "step_definitions",
+    "widgets/"
+  ],
+  "format": "pioneerformat.js",
+  "driver": "chrome",
+  "error_formatter": "errorformat.js",
+  "preventReload": false,
+  "coffee": false
+}

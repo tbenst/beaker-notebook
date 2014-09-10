@@ -4,9 +4,7 @@ module.exports = function() {
 
     recentlyUsedTitles: function() {
       return this.findAll('.recently-used li').then(function(recentlyUsed) {
-        return $.map(recentlyUsed, function(notebook) {
-          return notebook.getText();
-        });
+        return recentlyUsed.invoke('read');
       });
     }
   });
