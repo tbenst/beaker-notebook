@@ -48,7 +48,16 @@ Bunsen's different components (db, app [api server], web, beaker, provisioner, &
     * `$ ./run.sh -t` (or specify image, ex: `$ ./run.sh db`)
   * Run `$ npm start` in the `tests` directory.
 
-### Debugging tests
+## Debugging tests
   * If you get a seed populate error or socket hang up on first few tests, try cancelling running tests and waiting (app takes 15-20 seconds after running containers to be ready)
   * Run one or more specific tests by tagging them with `@failed` and running `npm run-script failures` in the `tests` directory.
   * Run `@failed` scenarios under node-debug (allowing you to use Chrome web inspector to debug JS code) by running `npm run-script test` in the `tests` directory.
+
+## Adding node packages
+  * Due to security policies that apply to our production infrastructure, we cannot rely on having access to github.
+  * This means that we can't rely on NPM, since "npm install" will download the source of node libraries, frequently from github.
+  * So, when you need access to a new node package, rather than simply adding to NPM's "package.json", a system-level apt package needs to be created and included in your Docker container.
+  * Contact jake@mojotech.com and tell him which node package you need to use; he can create the apt package for you and add it to our project-specific apt repository.  It's name will be something like "node-mypackage".
+  * Add a line to your service's Dockerfile to include the new apt package - it will be one of the packages mentioned near the top in the "apt-get" command.
+
+
