@@ -43,7 +43,10 @@ Bunsen's different components (db, app [api server], web, beaker, provisioner, &
 ## To run the test suite
   * Ensure that your vagant is running and provisioned, and your docker images are built (specified above).
   * Run your docker test containers.
-    * `$ ./run.sh -t` (or specify image, ex: `$ ./run.sh db`)
+    * To run in test mode (mount volumes for easier editing):
+      * `$ ./run.sh -t` (or specify image, ex: `$ ./run.sh -t db`)
+    * To run in ci mode (running the entire suite w/o mounting):
+      * `$ ./run.sh --env=ci` (or specify image, ex: `$ ./run.sh --env=ci db`)
   * Run `$ npm start` in the `tests` directory.
 
 ### Debugging tests
