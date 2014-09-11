@@ -1,6 +1,8 @@
 Bunsen API Server
 ==========
 
+### (NOTICE: In order to run these commands in the docker containers, run `./attach.sh <containername>`)
+
 ## Dev
 
 * `npm install`
@@ -13,7 +15,7 @@ Bunsen API Server
 
 ### Generating new migrations
 
-* `docker run app --new_migration=migration_name`
+* (this can be run outside of the container) `docker run app --new_migration=migration_name`
 
 ### Reseed database
 This task will drop the development DB, recreate it, run migrations, and then reseed the data.
