@@ -11,9 +11,9 @@ module.exports = function() {
     },
 
     vendors: function() {
-      return this.read('.vendor').then(function(format){
+      return this.read({ selector: '.vendor', transformer: function(format) {
         return format.toLowerCase();
-      });
+      }});
     },
 
     clickVendor: function() {
@@ -37,7 +37,7 @@ module.exports = function() {
     },
 
     goBackToSearch: function() {
-      return this.click(".return-to-market-search")
+      return this.click(".return-to-market-search");
     },
 
     subscribe: function() {
@@ -49,9 +49,7 @@ module.exports = function() {
     },
 
     activeTab: function() {
-      return this.find('.tab.active').then(function (elm) {
-        return elm.getText();
-      });
+      return this.read('.tab.active');
     },
 
     startDate: function () {

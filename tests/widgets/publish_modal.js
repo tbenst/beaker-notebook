@@ -5,18 +5,12 @@ module.exports = function() {
     root: 'modal',
 
     addDescription: function(description) {
-      return this.fill('.description', description);
+      return this.fill({ selector: '.description', value: description });
     },
 
     selectCategory: function(category) {
-      return this.click('select').then(function() {
-        return this.find('select').then(function(select) {
-          return new World.Widget({ el: select }).findByText(category)
-          .then(function(option) {
-            return option.click();
-          });
-        });
-      }.bind(this));
+      return new World.Widget.Form({ root: this.root })
+      .select({ text: category });
     },
 
     publish: function() {

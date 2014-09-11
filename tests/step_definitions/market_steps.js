@@ -22,7 +22,9 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the following market results$/, function(table) {
-    return new this.Widgets.MarketList().contents().should.eventually.eql(table.hashes());
+    return new this.Widgets.MarketList().contents().then(function(content) {
+      return content[0].should.eql(table.hashes()[0]);
+    });
   });
 
   this.Then(/^I should see the tags "([^"]*)"$/, function(tags) {
@@ -172,8 +174,7 @@ module.exports = function() {
   });
 
   this.When(/^I filter the market page by "([^"]*)"$/, function(searchText) {
-    var marketFilter = new this.Widgets.MarketFilters;
-    return marketFilter.setSearchText(searchText);
+    return new this.Widgets.MarketTextSearch().setTerm(searchText);
   });
 
   this.Then(/^I should see (\d+) market items? on the market list page$/, function(count) {
@@ -225,15 +226,12 @@ module.exports = function() {
 
   this.Then(/^I should see the "([^"]*)" tags selected$/, function(tags, callback) {
     var expected = tags.split(",")
-    var marketTagFilter = new this.Widgets.MarketTagFilter;
-    return marketTagFilter.getSelectedTags().then(function(observedTags) {
-      return assert.deepEqual(observedTags, expected);
-    });
+    return new this.Widgets.MarketTagFilter().getSelected().should.eventually.eql(expected);
   });
 
   this.Then(/^I should see that no tags are selected$/, function() {
     var marketTagFilter = new this.Widgets.MarketTagFilter;
-    return marketTagFilter.getSelectedTags().should.eventually.be.empty;
+    return marketTagFilter.getSelected().should.eventually.be.empty;
   });
 
   this.When(/^there is a market item with the vendor "([^"]*)"$/, function(vendors) {
@@ -255,9 +253,12 @@ module.exports = function() {
     return marketTextSearch.setTerm(term);
   });
 
+  this.When(/^I clear the marketplace search$/, function() {
+    return new this.Widgets.MarketTextSearch().clearSearch();
+  });
+
   this.Then(/^I should see the "([^"]*)" market item on the market list page$/, function(title) {
-    var marketList = new this.Widgets.MarketList()
-    return marketList.contains(title).should.eventually.be.true;
+    return new this.Widgets.MarketList().contains(title).should.eventually.be.true;
   });
 
   this.When(/^I view the "([^"]*)" market item$/, function(title) {
@@ -276,11 +277,11 @@ module.exports = function() {
   });
 
   this.Then(/^I should see no related items$/, function() {
-    return new this.Widgets.RelatedItems().items().should.eventually.have.length(0);
+    return new this.Widgets.RelatedItems().length().should.eventually.equal(0);
   });
 
   this.Then(/^I should see "([^"]*)" related items$/, function(count) {
-    return new this.Widgets.RelatedItems().getCount()
+    return new this.Widgets.RelatedItems().length()
     .should.eventually.eql(+count);
   });
 
@@ -352,8 +353,7 @@ module.exports = function() {
   });
 
   this.When(/^I click the "([^"]*)" tab$/, function(tab) {
-    var tabList = new this.Widgets.TabList()
-    return tabList.clickTab(tab);
+    return new this.Widgets.TabList().clickTab(tab);
   });
 
   this.When(/^I have a market item with no csv preview and no thumbnail$/, function() {
@@ -376,13 +376,11 @@ module.exports = function() {
   });
 
   this.When(/^I browse marketplace by category "([^"]*)"$/, function(category) {
-    var marketCategory = new this.Widgets.MarketCategory();
-    return marketCategory.clickCategory(category);
+    return new this.Widgets.MarketCategory().clickCategory(category);
   });
 
   this.When(/^I filter marketplace by vendor "([^"]*)"$/, function(vendor) {
-    var marketVendorFilter = new this.Widgets.MarketVendorFilter;
-    return marketVendorFilter.selectMatching(vendor.split(","));
+    return new this.Widgets.MarketVendorFilter().selectMatching(vendor.split(","));
   });
 
   this.Then(/^I should see (\d+) items in the "([^"]*)" category count$/, function(count, category) {

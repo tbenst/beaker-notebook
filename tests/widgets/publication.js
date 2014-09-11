@@ -21,18 +21,12 @@ module.exports = function() {
     root: 'modal',
 
     selectProject: function(project) {
-      return this.click('select').then(function() {
-        return this.find('select').then(function(select) {
-          return new World.Widget({ el: select }).findByText(project)
-          .then(function(option) {
-            return option.click();
-          });
-        });
-      }.bind(this));
+      return new World.Widget.Form({ root: this.root })
+      .select({ text: project });
     },
 
     nameNotebook: function(name) {
-      return this.fill('.name', name);
+      return this.fill({ selector: '.name', value: name });
     }
   });
 
@@ -47,13 +41,7 @@ module.exports = function() {
   this.Widgets.PublicationList = this.Widget.List.extend({
     root: '.publication-list',
     itemSelector: '.bunsen-list-item',
-    itemClass: this.Widgets.PublicationListItem,
-
-    clickAt: function(index) {
-      return this.at(index).then(function(item) {
-        return item.click('a.title');
-      });
-    }
+    itemClass: this.Widgets.PublicationListItem
   });
 
   this.Widgets.PublicationSearch = this.Widget.extend({
@@ -68,9 +56,7 @@ module.exports = function() {
     root: '.publication-categories',
 
     clickCategory: function(category) {
-      return this.findByText(category).then(function(categoryLink) {
-        return categoryLink.click();
-      });
+      return this.click({ text: category });
     }
   });
 };

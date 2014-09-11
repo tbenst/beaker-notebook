@@ -3,9 +3,7 @@ module.exports = function() {
     root: '.tabs',
 
     clickTab: function(tab) {
-      return this.driver.findElement(Driver.By.xpath('//*[normalize-space(text())=normalize-space("' + tab + '")]')).then(function(li) {
-        return li.click();
-      });
+      return this.click({ text: tab });
     }
   });
 }

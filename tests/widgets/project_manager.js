@@ -17,21 +17,8 @@ module.exports = function() {
       });
     },
 
-    waitForItem: function() {
-      return this.items();
-    },
-
-    clickProject: function(name) {
-      var method = "return Sizzle('" + this.root + " a:contains(\"" + name + "\")')[0].click()";
-      return this.driver.executeScript(method);
-    },
-
     itemNames: function() {
-      return this.findAll(this.itemSelector).then(function(nodes) {
-        return $.map(nodes, function(n) {
-          return n.getInnerHtml();
-        });
-      });
+      return this.invoke('read');
     }
   });
 };

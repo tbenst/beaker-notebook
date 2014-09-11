@@ -1,6 +1,7 @@
 var moment = require('moment');
 var bluebird = require('bluebird');
 var notebookBase = require('../fixtures/notebook_data_sample');
+var _ = require('lodash');
 
 var randomUser = {
   model: "User",
@@ -117,7 +118,7 @@ module.exports = function() {
   });
 
   this.Given(/^I view the first publication$/, function() {
-    return new this.Widgets.PublicationList().clickAt(0);
+    return new this.Widgets.PublicationList().clickAt({ selector: 'a.title', index: 0 });
   });
 
   this.When(/^I view the publications page$/, function() {

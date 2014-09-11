@@ -1,6 +1,7 @@
 var assert      = require("assert");
 var moment      = require("moment");
 var _           = require("lodash");
+var expect = require('chai').expect;
 var projectBase = {
   model: "Project",
   data: {
@@ -18,13 +19,7 @@ var projectBase = {
 };
 
 function openProject(name) {
-  var projectManager = new this.Widgets.ProjectManager();
-  return this.driver.sleep(2000).then(function() {
-    projectManager.waitForItem()
-    .then(function() {
-      return projectManager.clickProject(name);
-    });
-  });
+  return new this.Widgets.ProjectManager().click({ text: name });
 }
 
 function viewProjectDashboard() {
@@ -45,20 +40,11 @@ module.exports = function() {
   });
 
   this.Then(/^I should see a new project in my list$/, function() {
-    var projects = new this.Widgets.ProjectManager();
-
-    return projects.waitForItem()
-    .then(function() {
-      return projects.items().should.eventually.have.length(2);
-    })
+    return new this.Widgets.ProjectManager().items().should.eventually.have.length(2);
   });
 
   this.When(/^I open the project$/, function() {
-    var projectManager = new this.Widgets.ProjectManager();
-
-    return projectManager.at(0).then(function(item) {
-      item.click();
-    });
+    return new this.Widgets.ProjectManager().clickAt(0);
   });
 
   this.Then(/^I should see the project detail page$/, function() {
@@ -192,9 +178,8 @@ module.exports = function() {
 
   this.When(/^I open the "([^"]*)" project$/, openProject);
 
-  this.Then(/^I should see the description "([^"]*)"$/, function(description, callback) {
-    var projectDetail = new this.Widgets.ProjectDetail();
-    return projectDetail.description().should.eventually.equal(description);
+  this.Then(/^I should see the description "([^"]*)"$/, function(description) {
+    return new this.Widgets.ProjectDetail().description().should.eventually.equal(description);
   });
 
   this.Then(/^I should see the project has (\d+) commits$/, function(num, callback) {
@@ -210,7 +195,9 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the following project results$/, function(table) {
-    return new this.Widgets.ProjectSearchList().contents().should.eventually.eql(table.hashes());
+    return new this.Widgets.ProjectSearchList().contents().then(function(contents) {
+      return expect(contents).to.eql(table.hashes());
+    });
   });
 
   this.Then(/^I should be warned that the project is a duplicate name$/, function(callback) {

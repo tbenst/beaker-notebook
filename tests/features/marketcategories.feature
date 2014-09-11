@@ -14,7 +14,7 @@ As a researcher, I want to be able to browse the market place.
       | Credit Card Complaints | finance    |
       | Crime Rates, Canada    | canada     |
     When I view the market search
-    And I browse marketplace by category "finance"
+    And I browse marketplace by category "Finance"
     Then I should see 1 market item on the market list page
     And I should see the "Credit Card Complaints" market item on the market list page
 
@@ -26,7 +26,7 @@ As a researcher, I want to be able to browse the market place.
     When I view the market search
     And I filter marketplace by vendor "CFPB"
     Then I should see 1 market item on the market list page
-    And I browse marketplace by category "canada"
+    And I browse marketplace by category "Canada"
     Then I should see 1 market item on the market list page
     And I should see the "Crime Rates, Canada" market item on the market list page
 
@@ -37,7 +37,7 @@ As a researcher, I want to be able to browse the market place.
       | World Bank Contract Awards | finance    |
       | Crime Rates, Canada        | canada     |
     When I view the market search
-    Then I should see 2 items in the "finance" category count
+    Then I should see 2 items in the "Finance" category count
 
   Scenario: Data set details category
     Given I have the following market items:

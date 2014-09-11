@@ -8,7 +8,7 @@ module.exports = function() {
 
     enterOverflowText: function () {
       var overflow = Array(1600).join("@")
-      return this.fill('.project-description', overflow)
+      return this.fill({ selector: '.project-description', value: overflow })
     },
 
     getText: function () {
@@ -16,7 +16,7 @@ module.exports = function() {
     },
 
     updateProject: function () {
-      return this.find('.update-project').click()
+      return this.click('.update-project');
     }
   });
 }

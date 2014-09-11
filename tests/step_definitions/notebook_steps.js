@@ -1,12 +1,17 @@
 var _         = require("lodash");
 var Promise   = require("bluebird");
 var assert    = require("assert");
+var $         = require('selenium-webdriver').promise;
 
 var notebookBase = function() {
   return require("../fixtures/notebook_data_sample");
 }
 
 module.exports = function() {
+  this.When(/^I view the notebook list$/, function(notebookName) {
+    return new this.Widgets.Notebook().goBackToProject();
+  });
+
   this.When(/^I view the notebook "([^"]*)"$/, function(notebookName) {
     var notebookList = new this.Widgets.NotebookList();
     return notebookList.clickByName(notebookName);
@@ -51,13 +56,9 @@ module.exports = function() {
     // used from the notebook list page
     return new this.Widgets.NotebookList().clickByName(name)
     .then(function() {
-      return Promise.delay(3000);
-    })
-    .then(function() {
       return new this.Widgets.Notebook().goBackToProject();
     }.bind(this)).then(function() {
-      return Promise.delay(1000).then(function() {
-        return new this.Widgets.NotebookList().findNotebook(name).should.eventually.be.ok;}.bind(this));
+      return new this.Widgets.NotebookList().findNotebook(name).should.eventually.be.ok;
     }.bind(this));
   });
 
@@ -111,7 +112,7 @@ module.exports = function() {
   this.Then(/^I should see the following notebooks:$/, function(table, callback) {
     var expected = _.pluck(table.hashes(), 'name');
 
-    return (new this.Widgets.NotebookList).getNames().should.eventually.deep.equal(expected);
+    return new this.Widgets.NotebookList().getNames().should.eventually.deep.equal(expected);
   });
 
   this.When(/^I close the notebook$/, function(callback) {

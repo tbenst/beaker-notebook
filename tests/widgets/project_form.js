@@ -24,7 +24,7 @@ module.exports = function() {
     },
 
     submitSelector: function() {
-      return '.update-project'
+      return this.find('.update-project');
     }
   });
 };

@@ -19,11 +19,11 @@ module.exports = function() {
     },
 
     close: function() {
-      return this.find('.ng-modal-close').click();
+      return this.click('.ng-modal-close');
     },
 
     closeFromBackground: function() {
-      return this.find('.ng-modal-overlay').click();
+      return this.click('.ng-modal-overlay');
     },
 
     errorMessage: function() {

@@ -1,3 +1,5 @@
+var Driver = require('selenium-webdriver');
+
 module.exports = function() {
   var World = this;
   return this.Widgets.Notebook = this.Widget.extend({
@@ -27,20 +29,20 @@ module.exports = function() {
     },
 
     openRenameModal: function() {
-      return this.find('.rename').click();
+      return this.click('.rename');
     },
 
     openModalAndRename: function(newName) {
       return this.openRenameModal().then(function() {
         var renameModal = new World.Widgets.Modal();
-        return renameModal.fill("input.name", newName).then(function() {
-          return renameModal.find('.save').click();
+        return renameModal.fill({ selector: "input.name", value: newName }).then(function() {
+          return renameModal.click('.save');
         });
       });
     },
 
     openPublishModal: function() {
-      return this.find('.sidebar-box .content .publish').click();
+      return this.click('.sidebar-box .content .publish');
     },
 
     publishStatus: function() {
@@ -69,14 +71,9 @@ module.exports = function() {
     },
 
     waitForBeaker: function() {
-      // this doesn't use Widget's find(), because iframe is appened outside of the Bunsen DOM tree
-      var css = Driver.By.css('iframe.beaker');
-      var _this = this;
-      var isPresent = function() {
-        return _this.driver.isElementPresent(css);
-      };
-      this.driver.wait(isPresent, 15000, "" + css + " not found");
-      return this.driver.findElement(css);
+      return this.driver.wait(function() {
+        return new World.W({ root: 'iframe.beaker' }).isPresent();
+      }, 15000, 'iframe.beaker not found');
     }
   });
 };

@@ -4,27 +4,16 @@ module.exports = function() {
     itemSelector: '.recent-notebook',
 
     showList: function() {
-      // simulate hover
-      var method = "Sizzle('"+this.root+" ul')[0].style.display = 'block';";
-      return this.driver.executeScript(method).then(
-        this.waitForItem.bind(this));
-    },
-
-    waitForItem: function() {
-      return this.find(this.itemSelector);
+      return this.hover();
     },
 
     clickItem: function(name) {
-      return this.findByText(name).then(function(el){
-        return el.click();
-      });
+      return this.click({ text: name });
     },
 
     getNames: function() {
       return this.showList().then(function() {
-        return $.map(this.items(), function(n) {
-          return n.find('a').getInnerHtml();
-        });
+        return this.invoke({ method: 'read', arguments: ['a'] });
       }.bind(this));
     }
   });
