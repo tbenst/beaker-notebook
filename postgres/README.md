@@ -1,9 +1,10 @@
-Beaker provisioning service
-===========================
+Bunsen DB
+==========
 
 ### (NOTICE: In order to run these commands in the docker containers, run `./attach.sh <containername>`)
 
 ## Dev
 
-* `npm install`
-* `npm start`
+### Running `psql`
+  * `$ su postgres`
+  * `$ psql bunsenDevelopment`

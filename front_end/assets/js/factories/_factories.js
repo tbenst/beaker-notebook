@@ -2,6 +2,7 @@
 
   var factories = [
     'CategoriesFactory',
+    'PublicationCategoriesFactory',
     'DataSetsFactory',
     'SubscriptionsFactory',
     'PublicationsFactory',

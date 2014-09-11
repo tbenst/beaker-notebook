@@ -19,9 +19,11 @@ var projectBase = {
 
 function openProject(name) {
   var projectManager = new this.Widgets.ProjectManager();
-  return projectManager.waitForItem()
-  .then(function() {
-    return projectManager.clickProject(name);
+  return this.driver.sleep(2000).then(function() {
+    projectManager.waitForItem()
+    .then(function() {
+      return projectManager.clickProject(name);
+    });
   });
 }
 
@@ -197,7 +199,9 @@ module.exports = function() {
 
   this.Then(/^I should see the project has (\d+) commits$/, function(num, callback) {
     var projectDetail = new this.Widgets.ProjectDetail();
-    return projectDetail.numCommits().should.eventually.equal(num);
+    return this.driver.wait(function() {
+      return projectDetail.numCommits().should.eventually.equal(num);
+    }, 9000);
   });
 
   this.Then(/^I should see last updated as today's date$/, function(callback) {

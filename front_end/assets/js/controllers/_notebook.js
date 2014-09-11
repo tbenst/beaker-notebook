@@ -64,32 +64,21 @@
       F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
         var userId = $sessionStorage.currentUser.id
 
-        $scope.notebook = notebook;
+        $scope.notebook = { current: notebook };
 
         Notebooks.update({id: notebook.id, open: true});
 
         Beaker.whenReady().then(function(url) {
-          $scope.notebook.location = $sce.trustAsResourceUrl(notebookLocation(url, userId, prjId, notebook.id));
+          $scope.notebook.current.location = $sce.trustAsResourceUrl(notebookLocation(url, userId, prjId, notebook.id));
           $scope.cachedNotebooks[notebook.id] = $scope.notebook;
           $scope.loading = false;
         });
       });
     }
 
-    $scope.publish = function() {
-      F.Notebooks.publish($scope.notebook).then(function(notebook) {
-        $scope.notebook = notebook;
-        $scope.$emit('closeModal');
-      });
-    };
-
-    $scope.cancelPublish = function() {
-      $scope.$emit('closeModal');
-    };
-
     $scope.destroyPublication = function() {
-      F.Publications.destroy($scope.notebook.publication).then(function(notebook) {
-        $scope.notebook = notebook;
+      F.Publications.destroy($scope.notebook.current.publication).then(function(notebook) {
+        $scope.notebook.current = notebook;
       });
     };
 
@@ -101,10 +90,10 @@
       $scope.project = _.find($scope.projects.list, {id: parseInt($state.params.id)});
     });
 
-    $scope.$watch('notebook', function(newVal) {
+    $scope.$watch('notebook.current', function(newVal) {
       if (!newVal) return;
 
-      $scope.published = !_.isEmpty($scope.notebook.publication);
+      $scope.published = !_.isEmpty($scope.notebook.current.publication);
     });
 
   }]);

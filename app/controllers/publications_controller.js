@@ -1,4 +1,5 @@
-var RecordNotUniqueError = require("../lib/record_not_unique_error");
+var RecordNotUniqueError = require("../lib/record_not_unique_error"),
+    _ = require('lodash');
 
 module.exports = function(app) {
   var Publication = app.Models.Publication,
@@ -6,7 +7,9 @@ module.exports = function(app) {
 
   return {
     index: function(req, res, next) {
-      Publication.forge()
+      var searchParams = _.pick(req.query, ['category_id']);
+
+      Publication.query({ where: searchParams })
       .fetchAll()
       .then(res.json.bind(res))
       .catch(next);
@@ -28,7 +31,8 @@ module.exports = function(app) {
             notebookId: req.body.id,
             name: notebook.get('name'),
             contents: data,
-            description: req.body.description
+            description: req.body.description,
+            categoryId: req.body.categoryId
           })
           .save();
         });

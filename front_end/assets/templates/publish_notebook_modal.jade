@@ -1,5 +1,8 @@
-h1 Publish Notebook
-label.full(for="description") Notebook description others will see when you publish:
-textarea.full.description(name="description" rows="3" ng-model="notebook.description" placeholder="Enter notebook description others will see when you publish")
-button.publish.btn.btn-light(ng-click="publish()") Publish
-button.btn.btn-light(ng-click="cancelPublish()") Cancel
+div(ng-controller="publishNotebook")
+  h1 Publish Notebook
+  label.full(for="description") Notebook description others will see when you publish:
+  textarea.full.description(name="description" rows="3" ng-model="notebook.current.description" placeholder="Enter notebook description others will see when you publish")
+  label.full(for="category") Category that describes your notebook:
+  select.full(ng-model="notebook.current.categoryId" ng-options="category.id as category.name for category in categories" name="category")
+  button.publish.btn.btn-light(ng-click="publish()") Publish
+  button.btn.btn-light(ng-click="cancelPublish()") Cancel

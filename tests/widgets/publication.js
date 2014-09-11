@@ -22,12 +22,13 @@ module.exports = function() {
 
     selectProject: function(project) {
       return this.click('select').then(function() {
-        return new World.Widget.List({root: 'select'})
-        .findByText(project)
-        .then(function(option) {
-          return option.click();
+        return this.find('select').then(function(select) {
+          return new World.Widget({ el: select }).findByText(project)
+          .then(function(option) {
+            return option.click();
+          });
         });
-      });
+      }.bind(this));
     },
 
     nameNotebook: function(name) {
@@ -60,6 +61,16 @@ module.exports = function() {
 
     search: function(text) {
       return this.fill(text);
+    }
+  });
+
+  this.Widgets.PublicationCategoriesList = this.Widget.List.extend({
+    root: '.publication-categories',
+
+    clickCategory: function(category) {
+      return this.findByText(category).then(function(categoryLink) {
+        return categoryLink.click();
+      });
     }
   });
 };

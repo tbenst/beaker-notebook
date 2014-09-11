@@ -67,7 +67,7 @@ while [[ $# > 0 ]]; do
       ENVIRONMENT='test'
     ;;
     --env=*)
-      ENVIRONMENT="${i#--env}"
+      ENVIRONMENT="${1#--env=}"
     ;;
     *)
       image_args=("$@")

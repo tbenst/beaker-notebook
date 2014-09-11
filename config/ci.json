@@ -1,68 +1,55 @@
 {
   "app": {
-    "command": "--migrate --watch --delay=20",
+    "command": "--migrate --delay=20",
     "links": [
       "db",
       "provisioner",
       "elasticsearch"
     ],
     "ports": "2999:3000",
-    "volumes": [
-      "/vagrant/app:/var/app"
-    ],
     "environment": [
       "NODE_ENV=test"
     ]
   },
   "web": {
-    "command": "--test --watch",
+    "command": "--test",
     "ports": "8079:8080",
-    "build": "front_end",
-    "volumes": [
-      "/vagrant/front_end:/var/www"
-    ]
+    "build": "front_end"
   },
   "db": {
     "ports": "5431:5432",
     "build": "postgres",
     "volumes": [
-      "/var/bunsen_test_db:/var/lib/postgresql/9.1/main",
-      "/vagrant/postgres:/var/postgres"
+      "/var/bunsen_test_db:/var/lib/postgresql/9.1/main"
     ],
     "command": "-c -f --database=bunsenTest"
   },
   "beaker": {
-
     "ports": "8801"
   },
   "provisioner": {
     "ports": "3002:3001",
     "volumes": [
-      "/var/run/docker.sock:/var/run/docker.sock",
-      "/vagrant/provisioner:/opt/provisioner"
+      "/var/run/docker.sock:/var/run/docker.sock"
     ],
     "environment": [
       "NODE_ENV=test"
     ],
-    "command": "beaker test.beaker"
+    "command": "beaker ci.beaker"
   },
   "gateway": {
     "ports": "7778:80",
-    "command": "test.beaker localhost:7778",
+    "command": "ci.beaker localhost:7778",
     "links": [
       "app",
       "web"
     ],
     "volumes": [
       "/dev/log:/dev/log",
-      "/var/run/docker.sock:/var/run/docker.sock",
-      "/vagrant/gateway:/opt/gateway"
+      "/var/run/docker.sock:/var/run/docker.sock"
     ]
   },
   "elasticsearch": {
-    "ports": "9201:9200",
-    "volumes": [
-      "/var/elasticsearch/data"
-    ]
+    "ports": "9201:9200"
   }
 }

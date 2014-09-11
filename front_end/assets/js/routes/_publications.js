@@ -11,15 +11,15 @@
         }
       })
       .state('publications.items', {
-        url: '/publications',
+        url: '/publications?category_id',
         views: {
           "app@publications": {
             controller: 'publicationsList',
             template: templates.publications_list
           },
-          "search@publications": {
-            controller: function() {},
-            template: templates.publication_search
+          "nav@publications": {
+            controller: 'publicationsNav',
+            template: templates.publications_nav
           },
         }
       })
