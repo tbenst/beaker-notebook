@@ -1,4 +1,6 @@
 var _  = require('lodash');
+var url = require('url');
+var Qs = require('qs');
 
 module.exports = function(app) {
   var DataSet = app.Models.DataSet,
@@ -28,7 +30,9 @@ module.exports = function(app) {
     },
 
     index: function(req, res, next) {
-      DataSet.findMatching(req.query, getOptions(req)).then(function(dataSets) {
+      var urlParts = url.parse(req.url, true);
+      params = Qs.parse(urlParts.query);
+      DataSet.findMatching(params, getOptions(req)).then(function(dataSets) {
         res.json(dataSets);
       }).catch(next);
     },
