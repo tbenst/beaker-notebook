@@ -24,7 +24,8 @@
     }
 
     $scope.treeOptions = {
-      nodeChildren: "children"
+      nodeChildren: "children",
+      onLabelClick: "both"
     }
 
     $scope.onTreeSelection = function(node) {
