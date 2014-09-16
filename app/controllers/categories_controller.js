@@ -1,7 +1,6 @@
 module.exports = function(app) {
 
   var Category = app.Models.Category;
-  var cachedTree = {key: null, data: null};
 
   return {
     idParam: function(req, res, next, id) {
@@ -14,23 +13,8 @@ module.exports = function(app) {
     },
 
     index: function(req, res, next) {
-      app.DB.knex('categories').max('updated_at').then(function(result) {
-        var key = (result[0].max || 'empty').toString();
-        if (cachedTree.data && cachedTree.key == key) {
-          return cachedTree.data;
-        }
-        else {
-          return Category.tree()
-            .then(function(tree) {
-              cachedTree.key = key;
-              cachedTree.data = tree;
-              return tree;
-            });
-        }
-      })
-      .then(function(treeData) {
-        res.json(treeData);
-      })
+      Category.tree(req.query.root, req.query.limit)
+      .then(res.json.bind(res))
       .catch(next);
     }
   };

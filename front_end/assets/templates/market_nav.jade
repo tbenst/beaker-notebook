@@ -7,7 +7,8 @@ input.search.full(ng-model="marketPlace.searchTerm", ng-model-options="{ debounc
     options="treeOptions",
     on-selection="onTreeSelection(node)",
     selected-node="marketPlace.currentCategory",
-    options="marketPlace.treeOptions")
+    options="marketPlace.treeOptions",
+    on-node-toggle="onTreeExpansion(node, expanded)")
 
     item: {{node.category}}
     span.count {{node.count}}

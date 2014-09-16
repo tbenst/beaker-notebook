@@ -6,13 +6,20 @@ module.exports = function() {
     root: '.tree-market-category ul',
 
     clickCategory: function(category) {
+      return this.findCategory(category)
+      .then(function(node) {
+        return node.click('.tree-label');
+      });
+    },
+
+    findCategory: function(category) {
       return this.filter(function(item) {
        return item.read({ transformer: _s.titleize }).then(function(contents) {
-          return contents.match(category);
+          return contents.match("^"+category);
         });
-      }).then(function(filtered) {
-        return _.last(filtered).click('.tree-label');
-      });
+      }).then(function (results) {
+        return results[0];
+      })
     },
 
     openCatalog: function() {
@@ -30,13 +37,21 @@ module.exports = function() {
     },
 
     categoryCount: function(category) {
-      return this.filter(function(item) {
-        return item.read({ transformer: _s.titleize }).then(function(categoryContent) {
-          return categoryContent.match(category);
-        });
-      }).then(function(items) {
-        return items[1].read('.count');
+      return this.findCategory(category)
+      .then(function(item) {
+        return item.read('.count');
       });
+    },
+
+    allCategories : function() {
+      return this.invoke({method: 'read', arguments: ['.tree-label item']});
+    },
+
+    clickCategoryExpand: function (category) {
+      return this.findCategory(category)
+      .then(function(node) {
+        return node.click('.tree-branch-head')
+      })
     }
   });
 };

@@ -64,3 +64,19 @@ As a researcher, I want to be able to browse the market place.
   When I view the market search
 	And I browse the default catalog by category "Energy"
 	Then I should see the category owner "Paul"
+
+  Scenario: Using category tree
+    Given I have the following categories:
+      | name       | path    |
+      | Government | 1.1     |
+      | Officials  | 1.1.1   |
+      | Federal    | 1.1.1.1 |
+      | State      | 1.1.1.2 |
+    When I view the market search
+    And I open the marketplace category "Finance"
+    And I open the marketplace category "Government"
+    And I open the marketplace category "Officials"
+    Then I should see the following categories in the navigation:
+      | name       |
+      | Federal    |
+      | State      |

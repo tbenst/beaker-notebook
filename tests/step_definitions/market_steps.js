@@ -456,6 +456,10 @@ module.exports = function() {
     });
   });
 
+  this.When(/^I open the marketplace category "([^"]*)"$/, function(category) {
+    return new this.Widgets.MarketCategory().clickCategoryExpand(category);
+  });
+
   this.When(/^I filter marketplace by vendor "([^"]*)"$/, function(vendor) {
     return new this.Widgets.MarketVendorFilter().selectMatching(vendor.split(","));
   });
@@ -463,6 +467,13 @@ module.exports = function() {
   this.Then(/^I should see (\d+) items in the "([^"]*)" category count$/, function(count, category) {
     var marketCategory = new this.Widgets.MarketCategory();
     return marketCategory.categoryCount(category).should.eventually.equal(count);
+  });
+
+  this.Then(/^I should see the following categories in the navigation:$/, function(table) {
+    return new this.Widgets.MarketCategory().allCategories().then(function (categories) {
+      var intersection = _.intersection(categories, _.pluck(table.hashes(), 'name'));
+      return intersection.length.should.equal(table.hashes().length)
+    })
   });
 
   this.Then(/^I should see the category "([^"]*)"$/, function(category) {

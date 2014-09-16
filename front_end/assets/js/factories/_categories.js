@@ -2,8 +2,8 @@
 
   app.factory('CategoriesFactory', ['Restangular', function(Restangular) {
     return {
-      getCategories: function() {
-        return Restangular.one('categories').getList();
+      getCategories: function(queryParams) {
+        return Restangular.all('categories').getList(queryParams);
       }
     }
   }]);

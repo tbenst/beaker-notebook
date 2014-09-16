@@ -34,14 +34,18 @@ module.exports = function(Bookshelf, app){
     }
   }, {
 
-    findAllWithCounts: function() {
+    findAllWithCounts: function(root, depth) {
+      var path = (depth) ? root + ".*{," + depth + "}" : root + ".*";
+
       return query('categories')
         .select('categories.*')
         .count('data_sets_categories.data_set_id AS dataCount')
         .join('data_sets_categories', 'categories.id', '=', 'data_sets_categories.category_id', 'LEFT OUTER')
+        .where(query.raw('path ~ ?', [path]))
         .groupBy('categories.id', 'name', 'path')
         .orderBy('path')
     },
+
 
     catalogs: function() {
       return Category.query(function(q) {
@@ -54,9 +58,10 @@ module.exports = function(Bookshelf, app){
       })
     },
 
-    tree: function() {
+    tree: function(root, depth) {
       var nodes = {},
-          roots = [];
+          roots = [],
+          root = root || 0;
 
       function parent(path) {
         var items = path.split('.');
@@ -78,9 +83,8 @@ module.exports = function(Bookshelf, app){
         });
       }
 
-      return Category.findAllWithCounts()
+      return Category.findAllWithCounts(root, depth)
         .then(function(categories) {
-
           initNodes(categories);
 
           _.each(categories.reverse(), function(category) {

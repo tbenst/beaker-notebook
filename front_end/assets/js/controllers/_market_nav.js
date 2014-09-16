@@ -8,6 +8,21 @@
       }
     }
 
+    $scope.onTreeExpansion = function (node, expanded) {
+      if(expanded) {
+        F.Categories.getCategories({root: node.path, limit: 2}).then(function (categories) {
+          _.each(node.children, function(category){
+            var child = _.find(categories[0].children, {id: category.id});
+            category.children = child.children ;
+          })
+        })
+      } else{
+        _.each(node.children, function (category) {
+          delete category.children
+        })
+      }
+    }
+
     $scope.treeOptions = {
       nodeChildren: "children"
     }
@@ -36,7 +51,7 @@
       }
     }
 
-    F.Categories.getCategories().then(function(treeData) {
+    F.Categories.getCategories({limit: 3}).then(function(treeData) {
       $scope.treeData = treeData;
     });
 
