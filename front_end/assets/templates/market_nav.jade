@@ -11,12 +11,12 @@ input.search.full(ng-model="marketPlace.searchTerm", ng-model-options="{ debounc
     item: {{node.category}}
     span.count {{node.count}}
 
-.sidebar-box.sidebar-related-tags(ng-if="marketPlace.relatedTags")
+.sidebar-box.sidebar-related-tags(ng-if="marketPlace.filters.tags")
   h3 related sets
   .content
     dl.related-tags(ng-class="expanded ? '' : 'related-tags-hidden'")
-      dt.related-tag(ng-repeat="tag in marketPlace.relatedTags")
-        a.tag-name(ng-click="searchByTag(tag)") {{tag.name}}
+      dt.related-tag(ng-repeat="tag in marketPlace.filters.tags")
+        a.tag-name(ng-click="searchByTag(tag)") {{tag}}
         span(ng-show='isTagSelected(tag)') *
     .related-tags-visibility
       a.related-tags-show-all.right(ng-click="$parent.expanded = !$parent.expanded", ng-if="checkRelatedSetHeight()")

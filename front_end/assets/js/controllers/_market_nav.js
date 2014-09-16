@@ -12,19 +12,19 @@
     }
 
     $scope.searchByTag = function(tag) {
-      $scope.newSearch({tagScope: [tag.id.toString()]});
+      $scope.newSearch({dataTagsScope: [tag]});
     };
 
     $scope.isTagSelected = function(tag) {
-      return _.contains($scope.marketPlace.tagScope, tag.id.toString());
+      return _.contains($scope.marketPlace.tagsScope, tag);
     };
 
     $scope.checkRelatedSetHeight = function() {
-      var relatedTags = $scope.marketPlace.relatedTags;
-      var relatedTagsToDisplay = 6;
+      var dataTags = $scope.marketPlace.tags;
+      var dataTagsToDisplay = 6;
 
-      if(relatedTags != undefined) {
-        return relatedTags.length >= relatedTagsToDisplay;
+      if(dataTags != undefined) {
+        return dataTags.length >= dataTagsToDisplay;
       }
     }
 
