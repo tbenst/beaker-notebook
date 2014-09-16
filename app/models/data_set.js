@@ -73,15 +73,30 @@ module.exports = function(Bookshelf, app) {
         });
     },
 
+    indexName: function() {
+      return 'catalog_' + this.catalogPath();
+    },
+
+    catalogPath: function() {
+      var category = this.related('categories').models[0];
+      return category.get('path').substring(0, 3);
+    },
+
+    elasticJSON: function() {
+      return _.extend(this.get("metadata"), {id: this.id, categories: this.related('categories')});
+    },
+
     index: function() {
-      return this.load(['categories', 'dataPreviews', 'dataTags', 'vendor'])
+      return this.load(['categories'])
       .then(function(model) {
-        return client.index({
-          index: 'bunsen',
-          type: 'datasets',
-          id: model.id,
-          body: model.toJSON()
-        })
+        if (model.related('categories').models.length > 0) {
+          return client.index({
+            index: model.indexName(),
+            type: 'datasets',
+            id: model.id,
+            body: model.elasticJSON()
+          })
+        }
       })
     }
   }, {
