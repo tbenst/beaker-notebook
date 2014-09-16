@@ -30,10 +30,28 @@
                 scope: {
                     treeModel: "=",
                     selectedNode: "=?",
+                    expandedNodes: "=?",
                     onSelection: "&",
-                    options: "=?"
+                    onNodeToggle: "&",
+                    options: "=?",
+                    orderBy: "@",
+                    reverseOrder: "@"
                 },
                 controller: ['$scope', function( $scope ) {
+
+                    function defaultIsLeaf(node) {
+                        return !node[$scope.options.nodeChildren] || node[$scope.options.nodeChildren].length === 0;
+                    }
+
+                    function defaultEquality(a, b) {
+                        if (a === undefined || b === undefined)
+                            return false;
+                        a = angular.copy(a);
+                        a[$scope.options.nodeChildren] = [];
+                        b = angular.copy(b);
+                        b[$scope.options.nodeChildren] = [];
+                        return angular.equals(a, b);
+                    }
 
                     $scope.options = $scope.options || {};
                     ensureDefault($scope.options, "nodeChildren", "children");
@@ -47,43 +65,59 @@
                     ensureDefault($scope.options.injectClasses, "iLeaf", "");
                     ensureDefault($scope.options.injectClasses, "label", "");
                     ensureDefault($scope.options.injectClasses, "labelSelected", "");
-                    ensureDefault($scope.options, "equality", function (a, b) {
-                        if (a === undefined || b === undefined)
-                            return false;
-                        a = angular.copy(a); a[$scope.options.nodeChildren] = [];
-                        b = angular.copy(b); b[$scope.options.nodeChildren] = [];
-                        return angular.equals(a, b);
-                    });
+                    ensureDefault($scope.options, "equality", defaultEquality);
+                    ensureDefault($scope.options, "isLeaf", defaultIsLeaf);
 
-                    $scope.expandedNodes = {};
+                    $scope.expandedNodes = $scope.expandedNodes || [];
+                    $scope.expandedNodesMap = {};
+                    for (var i=0; i < $scope.expandedNodes.length; i++) {
+                        $scope.expandedNodesMap[""+i] = $scope.expandedNodes[i];
+                    }
                     $scope.parentScopeOfTree = $scope.$parent;
+
 
                     $scope.headClass = function(node) {
                         var liSelectionClass = classIfDefined($scope.options.injectClasses.liSelected, false);
                         var injectSelectionClass = "";
-                        if (liSelectionClass && (this.$id == $scope.selectedScope))
+                        if (liSelectionClass && (this.node == $scope.selectedNode))
                             injectSelectionClass = " " + liSelectionClass;
-                        if (!node[$scope.options.nodeChildren] || node[$scope.options.nodeChildren].length === 0)
-                            return "tree-leaf" + injectSelectionClass
-                        if ($scope.expandedNodes[this.$id])
+                        if ($scope.options.isLeaf(node))
+                            return "tree-leaf" + injectSelectionClass;
+                        if ($scope.expandedNodesMap[this.$id])
                             return "tree-expanded" + injectSelectionClass;
                         else
                             return "tree-collapsed" + injectSelectionClass;
                     };
 
                     $scope.iBranchClass = function() {
-                        if ($scope.expandedNodes[this.$id])
+                        if ($scope.expandedNodesMap[this.$id])
                             return classIfDefined($scope.options.injectClasses.iExpanded);
                         else
                             return classIfDefined($scope.options.injectClasses.iCollapsed);
                     };
 
                     $scope.nodeExpanded = function() {
-                        return !!$scope.expandedNodes[this.$id];
+                        return !!$scope.expandedNodesMap[this.$id];
                     };
 
                     $scope.selectNodeHead = function() {
-                        $scope.expandedNodes[this.$id] = ($scope.expandedNodes[this.$id] === undefined ? this.node : undefined);
+                        var expanding = $scope.expandedNodesMap[this.$id] === undefined;
+                        $scope.expandedNodesMap[this.$id] = (expanding ? this.node : undefined);
+                        if (expanding) {
+                            $scope.expandedNodes.push(this.node);
+                        }
+                        else {
+                            var index;
+                            for (var i=0; (i < $scope.expandedNodes.length) && !index; i++) {
+                                if ($scope.options.equality($scope.expandedNodes[i], this.node)) {
+                                    index = i;
+                                }
+                            }
+                            if (index != undefined)
+                                $scope.expandedNodes.splice(index, 1);
+                        }
+                        if ($scope.onNodeToggle)
+                            $scope.onNodeToggle({node: this.node, expanded: expanding});
                     };
 
                     $scope.selectNodeLabel = function( selectedNode ){
@@ -92,26 +126,27 @@
                             this.selectNodeHead();
                         }
                         else {
-                            $scope.selectedScope = this.$id;
-                            $scope.selectedNode = selectedNode;
-                            if ($scope.onSelection)
-                                $scope.onSelection({node: selectedNode});
+                            if ($scope.selectedNode != selectedNode) {
+                                $scope.selectedNode = selectedNode;
+                                if ($scope.onSelection)
+                                    $scope.onSelection({node: selectedNode});
+                            }
                         }
                     };
 
                     $scope.selectedClass = function() {
                         var labelSelectionClass = classIfDefined($scope.options.injectClasses.labelSelected, false);
                         var injectSelectionClass = "";
-                        if (labelSelectionClass && (this.$id == $scope.selectedScope))
+                        if (labelSelectionClass && (this.node == $scope.selectedNode))
                             injectSelectionClass = " " + labelSelectionClass;
 
-                        return (this.$id == $scope.selectedScope)?"tree-selected" + injectSelectionClass:"";
+                        return (this.node == $scope.selectedNode)?"tree-selected" + injectSelectionClass:"";
                     };
 
                     //tree template
                     var template =
                         '<ul '+classIfDefined($scope.options.injectClasses.ul, true)+'>' +
-                            '<li ng-repeat="node in node.' + $scope.options.nodeChildren+'" ng-class="headClass(node)" '+classIfDefined($scope.options.injectClasses.li, true)+'>' +
+                            '<li ng-repeat="node in node.' + $scope.options.nodeChildren + ' | orderBy:orderBy:reverseOrder" ng-class="headClass(node)" '+classIfDefined($scope.options.injectClasses.li, true)+'>' +
                             '<i class="tree-branch-head" ng-class="iBranchClass()" ng-click="selectNodeHead(node)"></i>' +
                             '<i class="tree-leaf-head '+classIfDefined($scope.options.injectClasses.iLeaf, false)+'"></i>' +
                             '<div class="tree-label '+classIfDefined($scope.options.injectClasses.label, false)+'" ng-class="selectedClass()" ng-click="selectNodeLabel(node)" tree-transclude></div>' +
@@ -140,6 +175,39 @@
                             }
                         });
 
+                        scope.$watchCollection('expandedNodes', function(newValue) {
+                            var notFoundIds = 0;
+                            var newExpandedNodesMap = {};
+                            var $liElements = element.find('li');
+                            var existingScopes = [];
+                            // find all nodes visible on the tree and the scope $id of the scopes including them
+                            angular.forEach($liElements, function(liElement) {
+                                var $liElement = angular.element(liElement);
+                                var liScope = $liElement.scope();
+                                existingScopes.push(liScope);
+                            });
+                            // iterate over the newValue, the new expanded nodes, and for each find it in the existingNodesAndScopes
+                            // if found, add the mapping $id -> node into newExpandedNodesMap
+                            // if not found, add the mapping num -> node into newExpandedNodesMap
+                            angular.forEach(newValue, function(newExNode) {
+                                var found = false;
+                                for (var i=0; (i < existingScopes.length) && !found; i++) {
+                                    var existingScope = existingScopes[i];
+                                    if (scope.options.equality(newExNode, existingScope.node)) {
+                                        newExpandedNodesMap[existingScope.$id] = existingScope.node;
+                                        found = true;
+                                    }
+                                }
+                                if (!found)
+                                    newExpandedNodesMap[notFoundIds++] = newExNode;
+                            });
+                            scope.expandedNodesMap = newExpandedNodesMap;
+                        });
+
+//                        scope.$watch('expandedNodesMap', function(newValue) {
+//
+//                        });
+
                         //Rendering template for a root node
                         treemodelCntr.template( scope, function(clone) {
                             element.html('').append( clone );
@@ -167,12 +235,14 @@
         .directive("treeTransclude", function() {
             return {
                 link: function(scope, element, attrs, controller) {
-                    angular.forEach(scope.expandedNodes, function (node, id) {
-                        if (scope.options.equality(node, scope.node)) {
-                            scope.expandedNodes[scope.$id] = scope.node;
-                            scope.expandedNodes[id] = undefined;
-                        }
-                    });
+                    if (!scope.options.isLeaf(scope.node)) {
+                        angular.forEach(scope.expandedNodesMap, function (node, id) {
+                            if (scope.options.equality(node, scope.node)) {
+                                scope.expandedNodesMap[scope.$id] = scope.node;
+                                scope.expandedNodesMap[id] = undefined;
+                            }
+                        });
+                    }
                     if (scope.options.equality(scope.node, scope.selectedNode)) {
                         scope.selectNodeLabel(scope.node);
                     }
