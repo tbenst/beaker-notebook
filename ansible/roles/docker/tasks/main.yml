@@ -2,7 +2,7 @@
 
 - name: install docker
   sudo: yes
-  apt: pkg=lxc-docker default_release=local update_cache=true state=latest
+  apt: pkg=lxc-docker default_release=vendor update_cache=true state=latest
 
 - name: add current user to docker group
   sudo: yes
