@@ -5,7 +5,10 @@
     $scope.marketPlace.treeOptions = {
       equality: function(a, b) {
         return a && b && a.path == b.path;
-      }
+      },
+      nodeChildren: "children",
+      onLabelClick: "both",
+      allowMultiple: false
     }
 
     $scope.onTreeExpansion = function (node, expanded) {
@@ -21,11 +24,6 @@
           delete category.children
         })
       }
-    }
-
-    $scope.treeOptions = {
-      nodeChildren: "children",
-      onLabelClick: "both"
     }
 
     $scope.onTreeSelection = function(node) {
