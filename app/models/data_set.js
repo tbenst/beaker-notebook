@@ -254,7 +254,7 @@ module.exports = function(Bookshelf, app) {
         return query('data_sets').whereNull('id');
       }
       var q = query('data_sets')
-        .select('data_sets.*')
+        .select('data_sets.id', 'data_sets.title')
         .distinct()
         .limit(5)
         .join('data_sets_data_tags', 'data_sets.id', '=', 'data_sets_data_tags.data_set_id')
