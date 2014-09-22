@@ -15,6 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
   end
 
+  config.vm.network "private_network", ip: "10.10.10.10"
 
   config.vm.define "dev", primary: true do |d|
     d.vm.hostname = "dev.local.withmojo.com"
