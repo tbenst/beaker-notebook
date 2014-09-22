@@ -1,0 +1,15 @@
+FROM mojo/debian:wheezy
+MAINTAINER mojotech <ops@mojotech.com>
+
+RUN apt-get update -qq && \
+    apt-get install -qq -y --no-install-recommends -t local nginx && \
+    apt-get clean
+
+ADD . /var/www
+
+RUN cp /var/www/default.nginx.site /etc/nginx/sites-available/default && \
+    echo "daemon off;" >> /etc/nginx/nginx.conf
+
+EXPOSE 80
+
+ENTRYPOINT ["/var/www/main.sh"]
