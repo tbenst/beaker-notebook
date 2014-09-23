@@ -20,7 +20,8 @@ module.exports = {
     return Promise.resolve(app)
       .then(app.Models.init)
       .then(this.clear)
-      .then(indexAll);
+      .then(indexAll)
+      .then(indexCategories);
   },
 
   refresh: function() {
@@ -57,6 +58,14 @@ function defaultMapping() {
                 "index": "not_analyzed"
               }
             }
+          }
+        }
+      },
+      "categories": {
+        "properties": {
+          "path": {
+            "type": "string",
+            "index": "not_analyzed"
           }
         }
       }
@@ -109,11 +118,69 @@ function indexBatch(i) {
   .then(sendBulkRequest);
 }
 
+function indexCategories() {
+  return app.DB.knex('categories')
+        .select('categories.*')
+        .count('data_sets_categories.data_set_id AS dataCount')
+        .join('data_sets_categories', 'categories.id', '=', 'data_sets_categories.category_id', 'LEFT OUTER')
+        .groupBy('categories.id', 'name', 'path')
+        .orderBy('path')
+  .then(function (categories) {
+    var nodes = {},
+        countedNodes = [];
+
+    function parent(path) {
+      var items = path.split('.');
+      if (items.length == 1) {
+        return null;
+      } else {
+        items.pop();
+        return nodes[items.join('.')];
+      }
+    }
+
+    function initNodes(categories) {
+      _.each(categories, function(category) {
+        nodes[category.path] = _.extend(category, {
+          count: +category.dataCount,
+        });
+        countedNodes.push(nodes[category.path]);
+      });
+    }
+
+    initNodes(categories);
+    _.each(categories.reverse(), function(category) {
+      var parentNode = parent(category.path),
+          node = nodes[category.path];
+      if (parentNode) {
+        parentNode.count = parentNode.count + node.count;
+      }
+    });
+
+    return countedNodes;
+  })
+  .then(sendBulkCategoryRequest)
+}
+
 function sendBulkRequest(dataSets) {
   var req = _(dataSets.models).map(function(dataSet) {
     return [
       {index: {_index: dataSet.indexName(), _type: 'datasets', _id: dataSet.id}},
       dataSet.elasticJSON()
+    ];
+  }).flatten().value();
+  return client.bulk({body: req});
+}
+
+function sendBulkCategoryRequest(categories) {
+  function indexName(category) {
+    var path = category.path.substring(0,3)
+    return 'catalog_' + path
+  }
+  var req = _(categories).map(function(category) {
+    return [
+      {index: {_index: indexName(category) , _type: 'categories', _id: category.id}},
+      category
     ];
   }).flatten().value();
   return client.bulk({body: req});
