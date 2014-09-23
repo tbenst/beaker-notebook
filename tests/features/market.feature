@@ -3,6 +3,7 @@ As a researcher, I want to be able to use the market place.
 
   Background:
     Given I'm signed in as a researcher
+    And I have a default catalog
 
   Scenario: See a market item
     When there is a market item
@@ -45,7 +46,7 @@ As a researcher, I want to be able to use the market place.
 
   Scenario: Stacking market item filters
     Given I have the following market items:
-      | title           | vendors       | format  |
+      | title           | vendor        | format  |
       | Lorem ipsum     | George data   | xml     |
       | Dolor sit amet  | George data   | MAGIC   |
     And I view the market search
@@ -58,7 +59,7 @@ As a researcher, I want to be able to use the market place.
 
   Scenario: Dynamic format filter
     Given I have the following market items:
-      | title           | vendors       | format  |
+      | title           | vendor        | format  |
       | Lorem ipsum     | Cicero        | xml     |
       | Dolor sit amet  | Tullius       | json    |
     And I view the market search
@@ -68,7 +69,7 @@ As a researcher, I want to be able to use the market place.
 
   Scenario: Dynamic vendor filter
     Given I have the following market items:
-      | title           | vendors       | format  |
+      | title           | vendor        | format  |
       | Lorem ipsum     | Cicero        | xml     |
       | Dolor sit amet  | Tullius       | json    |
     And I view the market search
@@ -92,14 +93,14 @@ As a researcher, I want to be able to use the market place.
 
   Scenario: Tags and Category on main market nav are mutually exclusive
     Given I have the following categories:
-      | name       | path |
-      | Government |  0.1 |
+      | name       | path   |
+      | Government |  0.1.1 |
     And there is a market item with the tags "cat,dog,human"
     And I view the market search
     And I filter by search by selecting the "cat" tags
     Then I should see the "cat" tags selected
-    And I should see that no category is selected
-    When I click "Government"
+    When I open the default catalog
+    And I click "Government"
     Then I should see that no tags are selected
 
   Scenario: Market items top-level text-search
@@ -215,7 +216,7 @@ As a researcher, I want to be able to use the market place.
 
   Scenario: Data set details vendor
     Given I have the following market items:
-      | title           | vendors             |
+      | title           | vendor              |
       | Delta Quadrant  | Starship Voyager    |
     And I view the market search
     And I view the "Delta Quadrant" market item
@@ -223,7 +224,7 @@ As a researcher, I want to be able to use the market place.
 
   Scenario: Filtering market items by data set vendor
     Given I have the following market items:
-      | title           | description | vendors | format |
+      | title           | description | vendor  | format |
       | Lorem ipsum     | n/a         | Cicero  | txt    |
       | Dolor sit amet  | n/a         | Tullius | txt    |
     And I view the market search
@@ -231,7 +232,7 @@ As a researcher, I want to be able to use the market place.
     When I search marketplace by the data set's vendor
     Then I should see "Cicero" vendor
     And I should see the following market results
-      | title       | description | format | vendors |
+      | title       | description | format | vendor  |
       | lorem ipsum | n/a         | txt    | cicero  |
 
   Scenario: Data set details format
@@ -278,22 +279,22 @@ As a researcher, I want to be able to use the market place.
 
   Scenario: Market item description in list
     Given I have the following market items:
-      | title                     | description                               | format | vendors |
-      | crime rates, canada       | yearly crimes reported per 100,000 people | xml    |         |
+      | title                     | description                               | format | vendor |
+      | crime rates, canada       | yearly crimes reported per 100,000 people | xml    |        |
     When I view the market search
     And I filter the market page by "crime"
     Then I should see the following market results
-      | title                     | description                               | format | vendors |
-      | crime rates, canada       | yearly crimes reported per 100,000 people | xml    |         |
+      | title                     | description                               | format | vendor |
+      | crime rates, canada       | yearly crimes reported per 100,000 people | xml    |        |
 
   Scenario: Market item vendor in list
     Given I have the following market items:
-      | title                     | description                               | format | vendors            |
+      | title                     | description                               | format | vendor            |
       | crime rates, canada       | yearly crimes reported per 100,000 people | xml    | statistics canada  |
     When I view the market search
     And I filter the market page by "Canada"
     Then I should see the following market results
-      | title                     | description                               | format | vendors            |
+      | title                     | description                               | format | vendor            |
       | crime rates, canada       | yearly crimes reported per 100,000 people | xml    | statistics canada  |
 
   Scenario: Market item file path
@@ -308,17 +309,19 @@ As a researcher, I want to be able to use the market place.
   Scenario: Category with a description
     Given I have the following categories:
       | name               | description                               | ownerName   | ownerEmail              | path     |
-      | Energy             | Work and heat are two categories.         | Quentin     | quentin@twosigma.com    | 0.2      |
-      | Government         | Description here woooo                    | Quentin H   | quentin11@twosigma.com  | 0.1      |
+      | Energy             | Work and heat are two categories.         | Quentin     | quentin@twosigma.com    | 0.1.1    |
+      | Government         | Description here woooo                    | Quentin H   | quentin11@twosigma.com  | 0.1.2    |
     When I view the market search
+    And I open the default catalog
     And I click "Energy"
     Then I should see a category description
 
   Scenario: Category without a description
     Given I have the following categories:
       | name               | ownerName   | ownerEmail              | path     |
-      | Government         | Quentin     | quentin@twosigma.com    | 0.1      |
+      | Government         | Quentin     | quentin@twosigma.com    | 0.1.1    |
     When I view the market search
+    And I open the default catalog
     And I click "Government"
     Then I should not see a category description
 

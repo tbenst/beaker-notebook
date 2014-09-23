@@ -5,7 +5,12 @@ module.exports = function() {
 
   return this.Widgets.MarketSelectFilterBase = this.Widget.extend({
     showDropdown: function() {
-      return this.hover();
+      return this.waitForTag()
+      .then(this.hover.bind(this));
+    },
+
+    waitForTag: function() {
+      return this.find('ul li');
     },
 
     selectMatching: function(tags) {
