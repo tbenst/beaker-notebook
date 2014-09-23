@@ -59,5 +59,11 @@
     "volumes": [
       "/var/elasticsearch/data:/var/elasticsearch/data"
     ]
+  },
+  "data_catalog_mock": {
+    "ports": "1880:80",
+    "volumes": [
+      "/vagrant/data_catalog_mock:/var/www"
+    ]
   }
 }
