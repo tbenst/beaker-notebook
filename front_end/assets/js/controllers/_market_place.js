@@ -3,6 +3,8 @@
   app.controller('marketPlace', ['$q', '$scope', 'Factories', 'TagNormalizeService', function($q, $scope, Factories, TagNormalizeService) {
     var F = Factories;
 
+    $scope.marketPlace.currentCategory = {path: "0.1"};
+
     $scope.removeFilter = function(value, model) {
       _.remove($scope.$eval(model), function(v) {
         return v === value;
@@ -62,10 +64,6 @@
     // bootstrap data if first visiting
     if (!$scope.marketPlace.currentPage) {
       $scope.marketPlace.currentPage = 1;
-    }
-
-    if (!$scope.marketPlace.data) {
-      getDataSets();
     }
 
     function filters() {

@@ -2,13 +2,20 @@
 
   app.controller('marketNav', ['$scope', '$state', 'Factories', function($scope, $state, Factories) {
     var F = Factories;
+    $scope.marketPlace.treeOptions = {
+      equality: function(a, b) {
+        return a && b && a.path == b.path;
+      }
+    }
 
     $scope.treeOptions = {
       nodeChildren: "children"
     }
 
     $scope.onTreeSelection = function(node) {
-      $scope.newSearch({categoryPath: node.path});
+      if (node) {
+        $scope.newSearch({categoryPath: node.path});
+      }
     }
 
     $scope.searchByTag = function(tag) {
