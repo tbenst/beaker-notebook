@@ -3,11 +3,11 @@
     var F = Factories;
 
     $scope.toggleSort = function(field, descending) {
-      if ($scope.sort == 'dataSet.title') {
+      if ($scope.sort == 'dataSet.metadata.title') {
         $scope.sort = field;
         $scope.sortDescending = descending;
       } else {
-        $scope.sort = 'dataSet.title';
+        $scope.sort = 'dataSet.metadata.title';
         $scope.sortDescending = false;
       }
     };
@@ -16,7 +16,7 @@
       $scope.subscriptions = subscriptions;
     });
 
-    $scope.sort = 'dataSet.title';
+    $scope.sort = 'dataSet.metadata.title';
     $scope.sortDescending = false;
   }]);
 })(window.bunsen);
