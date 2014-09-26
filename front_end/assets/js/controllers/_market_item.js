@@ -4,15 +4,6 @@
     var F = Factories;
     var DFS = DataFormatService;
 
-    var toUTCDate = function(date){
-      var utc = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),  date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-      return utc;
-    };
-
-    var millisToUTCDate = function(millis){
-      return toUTCDate(new Date(millis));
-    };
-
     $scope.item = {};
 
     F.DataSets.getDataSet($state.params.id).then(function(d) {
@@ -24,9 +15,6 @@
       }
       else if ($scope.item.dataPreviews !== undefined ) {
         $scope.item.tabView = 'thumbnail';
-      }
-      if ($scope.item.startDate !== null) {
-        $scope.item.startDate = millisToUTCDate($scope.item.startDate)
       }
     });
 
