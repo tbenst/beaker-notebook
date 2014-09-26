@@ -51,7 +51,6 @@ function defineMapping() {
 }
 
 function indexAll() {
-  var i = 0;
   return dataSetCount()
   .then(function(count) {
     var numBatches = Math.ceil(count[0]['count'] / BATCH_SIZE);
