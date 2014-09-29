@@ -13,7 +13,7 @@ module.exports = function() {
             title: attrs[0].toLowerCase(),
             description: attrs[1].toLowerCase(),
             format: attrs[2].toLowerCase(),
-            vendors: attrs[3].toLowerCase()
+            vendor: attrs[3].toLowerCase()
           }
         });
       });
@@ -30,7 +30,11 @@ module.exports = function() {
     },
 
     clickItem: function(title) {
-      return this.click({ text: title });
+      var _this = this;
+      return this.items()
+      .then(function() {
+        return _this.click({ text: title });
+      })
     }
   });
 

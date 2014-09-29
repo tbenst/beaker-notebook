@@ -2,29 +2,36 @@
 
   app.controller('marketNav', ['$scope', '$state', 'Factories', function($scope, $state, Factories) {
     var F = Factories;
+    $scope.marketPlace.treeOptions = {
+      equality: function(a, b) {
+        return a && b && a.path == b.path;
+      }
+    }
 
     $scope.treeOptions = {
       nodeChildren: "children"
     }
 
     $scope.onTreeSelection = function(node) {
-      $scope.newSearch({categoryPath: node.path});
+      if (node) {
+        $scope.newSearch({categoryPath: node.path});
+      }
     }
 
     $scope.searchByTag = function(tag) {
-      $scope.newSearch({tagScope: [tag.id.toString()]});
+      $scope.newSearch({dataTagsScope: [tag]});
     };
 
     $scope.isTagSelected = function(tag) {
-      return _.contains($scope.marketPlace.tagScope, tag.id.toString());
+      return _.contains($scope.marketPlace.tagsScope, tag);
     };
 
     $scope.checkRelatedSetHeight = function() {
-      var relatedTags = $scope.marketPlace.relatedTags;
-      var relatedTagsToDisplay = 6;
+      var dataTags = $scope.marketPlace.tags;
+      var dataTagsToDisplay = 6;
 
-      if(relatedTags != undefined) {
-        return relatedTags.length >= relatedTagsToDisplay;
+      if(dataTags != undefined) {
+        return dataTags.length >= dataTagsToDisplay;
       }
     }
 

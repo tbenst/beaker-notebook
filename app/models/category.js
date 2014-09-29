@@ -4,6 +4,14 @@ module.exports = function(Bookshelf, app){
   var models = app.Models;
   var query = Bookshelf.knex;
 
+  function fields(metadata, type) {
+    return _(metadata).map(function(v, k) {
+      if (v.indexes && _.contains(v.indexes, type)) {
+        return k;
+      }
+    }).compact().value()
+  }
+
   var Category = Bookshelf.Model.extend({
     tableName: "categories",
 
@@ -15,6 +23,14 @@ module.exports = function(Bookshelf, app){
 
     notebooks: function() {
       return this.hasMany(models.Notebook);
+    },
+
+    filters: function() {
+      return fields(this.get('metadata'), 'filter')
+    },
+
+    textFields: function() {
+      return fields(this.get('metadata'), 'text')
     }
   }, {
 
@@ -25,6 +41,17 @@ module.exports = function(Bookshelf, app){
         .join('data_sets_categories', 'categories.id', '=', 'data_sets_categories.category_id', 'LEFT OUTER')
         .groupBy('categories.id', 'name', 'path')
         .orderBy('path')
+    },
+
+    catalogs: function() {
+      return Category.query(function(q) {
+        q.whereRaw("path ~ '0.*{1}'")
+        q.orderBy('path', 'ASC')
+      })
+      .fetchAll()
+      .then(function(c) {
+        return c.models;
+      })
     },
 
     tree: function() {

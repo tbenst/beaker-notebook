@@ -1,24 +1,86 @@
 var _         = require("lodash");
 var bluebird  = require("bluebird");
 var assert    = require("assert");
+var config    = require('../util/_config');
+var base      = config.bunsenUrl + 'api/seed';
 
 var marketItemBase = function() {
   return _.cloneDeep({
     model: 'DataSet',
     data: {
-      title: "Credit Card Complaints",
-      description: "We don’t verify all the facts alleged in these complaints but we do take steps to confirm a commercial relationship between the consumer and company. Complaints are listed here after the company responds or after they have had the complaint for 15 calendar days, whichever comes first. We remove complaints if they don’t meet all of the publication criteria. Data is refreshed nightly.",
-      remoteFile: "Credit_card_complaints.csv",
-      rows: 350,
-      format: "XML",
-      updateFrequency: "Weekly"
+      metadata: {
+        title: "Credit Card Complaints",
+        description: "We don’t verify all the facts alleged in these complaints but we do take steps to confirm a commercial relationship between the consumer and company. Complaints are listed here after the company responds or after they have had the complaint for 15 calendar days, whichever comes first. We remove complaints if they don’t meet all of the publication criteria. Data is refreshed nightly.",
+        remoteFile: "Credit_card_complaints.csv",
+        rows: 350,
+        format: "XML",
+        updateFrequency: "Weekly",
+        vendor: 'Two Sigma',
+        tags: ['one']
+      }
     }
   });
 }
 
+var twoSigmaCatalog = {
+  title: {type: 'string', indexes: ['text']},
+  description: {type: 'string', indexes: ['text']},
+  remoteFile: {type: 'string'},
+  rows: {type: 'integer'},
+  format: {type: 'string', indexes: ['filter']},
+  updateFrequency: {type: 'string'},
+  startDate: {type: 'date'},
+  numColumns: {type: 'integer'},
+  csvPreview: {type: 'string'},
+  vendor: {type: 'string', indexes: ['filter']},
+  tags: {type: 'string', indexes: ['filter']}
+};
+
+var quandlCatalog = {
+  name: {type: 'string', indexes: ['text']},
+  about: {type: 'string', indexes: ['text']},
+  type: {type: 'string', indexes: ['filter']},
+  company: {type: 'string', indexes: ['filter']},
+};
+
+
 module.exports = function() {
+
+  this.createCatalog = function(data) {
+    var seedData = {
+      model: 'Category',
+      data: data
+    }
+    return this.seed.populate(seedData)
+    .then(this.seed.dropIndex);
+  }
+
+  this.Given(/^I have a default catalog$/, function() {
+    return this.createCatalog({
+      name: 'default',
+      path: '0.1',
+      metadata: JSON.stringify(twoSigmaCatalog)
+    });
+  });
+
+  this.Given(/^I have Two Sigma catalog$/, function() {
+    return this.createCatalog({
+      name: 'Two Sigma',
+      path: '0.1',
+      metadata: JSON.stringify(twoSigmaCatalog)
+    });
+  });
+
+  this.Given(/^I have Quandl catalog$/, function() {
+    return this.createCatalog({
+      name: 'Quandl',
+      path: '0.2',
+      metadata: JSON.stringify(quandlCatalog)
+    });
+  });
+
   this.When(/^there is a market item$/, function(callback) {
-    return this.seed.populate(marketItemBase());
+    return seedDataSet.call(this, {categories: 'default'});
   });
 
   this.Then(/^I should see the following market results$/, function(table) {
@@ -58,26 +120,27 @@ module.exports = function() {
   this.When(/^there is (\d+) market items$/, function(count, callback) {
     var itemSaves = [];
     for(var i = 0; i < +count; ++i) {
-      itemSaves.push(this.seed.populate(_.merge(marketItemBase(),{
-        data: { title: marketItemBase().data.title + i }})));
+      var item = seedDataSet.call(this, {categories: 'default', metadata: {title: marketItemBase().data.title + i}})
+      itemSaves.push(item);
     }
     return bluebird.all(itemSaves);
   });
 
   function seedDataSet(opts) {
+    opts.metadata = opts.metadata || {}
+    var meta = _.defaults(opts.metadata, {
+      title: marketItemBase().data.metadata.title,
+      description: marketItemBase().data.metadata.description,
+      updateFrequency: marketItemBase().data.metadata.updateFrequency,
+      vendor: '',
+      tags: ''
+    })
     var info = _.defaults(opts, {
-      title: marketItemBase().data.title,
-      tags: 'test',
-      description:  marketItemBase().data.description,
-      vendors: '',
-      categories: '',
+      categories: 'default',
       subscribers: '',
-      updateFrequency: marketItemBase().data.updateFrequency,
       dataPreviews: ''
     });
-
-    info.tags     = [].concat(info.tags.split(','));
-    info.vendors  = [].concat(info.vendors.split(','));
+    info.metadata.tags = [].concat(info.metadata.tags.split(','));
     info.categories  = [].concat(info.categories.split(','));
     info.subscribers = [].concat(info.subscribers.split(','));
     info.dataPreviews = [].concat(info.dataPreviews.split(','));
@@ -87,42 +150,16 @@ module.exports = function() {
     var _this       = this;
     var marketItem  = marketItemBase();
 
-    return this.seed.populate(info.vendors.map(function(vendorName) {
+    return _this.seed.populate(info.dataPreviews.map(function(preview) {
       return {
-        model: 'Vendor',
+        model: 'DataPreview',
         data: {
-          name: vendorName
+          smallPreviewUrl: preview
         }
       }
     }))
     .then(function() {
-      return _this.seed.populate(info.tags.map(function(tagName) {
-        return {
-          model: 'DataTag',
-          data: {
-            name: tagName
-          }
-        }
-      }))
-    })
-    .then(function() {
-      return _this.seed.populate(info.dataPreviews.map(function(preview) {
-        return {
-          model: 'DataPreview',
-          data: {
-            smallPreviewUrl: preview
-          }
-        }
-      }))
-    })
-    .then(function() {
       marketItem.associations = [{
-        joinTable: "data_sets_data_tags",
-        lookup: {"DataTag": info.tags.map(function(tagName) { return {name: tagName}; })}
-      }, {
-        foreignKey: "vendorId",
-        lookup: {"Vendor": info.vendors.map(function(vendorName) { return {name: vendorName}; })}
-      }, {
         joinTable: "data_sets_data_previews",
         lookup: {"DataPreview": info.dataPreviews.map(function(preview){ return {smallPreviewUrl: preview} ;})}
       }];
@@ -142,30 +179,38 @@ module.exports = function() {
         });
       }
 
-      delete info.tags;
-      delete info.vendors;
       delete info.subscribers;
       delete info.dataPreviews;
       delete info.categories;
-
-      return _this.seed.populate(_.merge(marketItem, {
+      var item = _.merge(marketItem, {
         data: info
-      }));
+      })
+      return _this.seed.populate(item);
     });
   }
 
   this.When(/^there is a market item with the tags "([^"]*)"$/, function(tags) {
-    return seedDataSet.call(this, {tags: tags});
+    return seedDataSet.call(this, {metadata: {tags: tags}});
   });
 
+  function dataSetRow(row) {
+    var associations = ['categories', 'subscribers', 'dataPreviews'];
+    var metadata = _.omit(row, associations);
+    var attrs = _.pick(row, associations);
+    return _.extend(attrs, {metadata: metadata});
+  }
+
   this.Given(/^I have the following market items:$/, function(table, callback) {
-    return bluebird.map(table.hashes(), _.bind(seedDataSet, this));
+    var _this = this;
+    return bluebird.map(table.hashes(), function(row) {
+      return seedDataSet.call(_this, dataSetRow(row));
+    });
   });
 
   this.Given(/^I'm subscribed to the following market items:$/, function(table, callback) {
     var _this = this;
     return bluebird.reduce(table.hashes(), function(__, row) {
-      return seedDataSet.call(_this, _.merge(row, { subscribers: 'u@r.edu' }));
+      return seedDataSet.call(_this, dataSetRow(_.merge(row, { subscribers: 'u@r.edu' })));
     }, null);
   });
 
@@ -184,12 +229,7 @@ module.exports = function() {
   });
 
   this.When(/^there is a market item with the title "([^"]*)" and the format "([^"]*)"$/, function(title, format, callback) {
-    return this.seed.populate(_.merge(marketItemBase(), {
-      data: {
-        title: title,
-        format: format
-      }
-    }));
+    return seedDataSet.call(this, {metadata: {title: title, format: format}});
   });
 
   this.When(/^I filter by search by selecting the "([^"]*)" formats$/, function(formats, callback) {
@@ -212,9 +252,8 @@ module.exports = function() {
     });
   });
 
-  this.When(/^I view the first market item$/, function(callback) {
+  this.When(/^I view the first market item$/, function() {
     var marketList = new this.Widgets.MarketList();
-
     return marketList.select(0);
   });
 
@@ -234,8 +273,8 @@ module.exports = function() {
     return marketTagFilter.getSelected().should.eventually.be.empty;
   });
 
-  this.When(/^there is a market item with the vendor "([^"]*)"$/, function(vendors) {
-    return seedDataSet.call(this, {vendors: vendors});
+  this.When(/^there is a market item with the vendor "([^"]*)"$/, function(vendor) {
+    return seedDataSet.call(this, {metadata: {vendor: vendor}});
   });
 
   this.When(/^I filter by search by selecting the "([^"]*)" vendors$/, function(vendors, callback) {
@@ -340,11 +379,11 @@ module.exports = function() {
   });
 
   this.When(/^I have a market item with only a thumbnail$/, function() {
-    return seedDataSet.call(this, {title: "Thumbnail Preview", dataPreviews: "http://placehold.it/100x101"});
+    return seedDataSet.call(this, {dataPreviews: "http://placehold.it/100x101", metadata: {title: "Thumbnail Preview"}});
   });
 
   this.When(/^I have a market item with a csv preview and a thumbnail$/, function() {
-    return seedDataSet.call(this, {title: "Thumbnail and CSV", dataPreviews: "http://placehold.it/100x101", numColumns: 5, csvPreview: "one,two,three\n1,2,3"});
+    return seedDataSet.call(this, {dataPreviews: "http://placehold.it/100x101", metadata: {title: "Thumbnail and CSV", numColumns: 5, csvPreview: "one,two,three\n1,2,3"}});
   });
 
   this.Then(/^I should see (\d+) tab(s*)$/, function(tabCount) {
@@ -357,11 +396,7 @@ module.exports = function() {
   });
 
   this.When(/^I have a market item with no csv preview and no thumbnail$/, function() {
-    return this.seed.populate(_.merge(marketItemBase(), {
-      data: {
-        title: "Sans Previews"
-      }
-    }));
+    return seedDataSet.call(this, {metadata: {title: "Sans Previews"}});
   });
 
   this.Then(/^I should not see any previews$/, function() {
@@ -375,8 +410,32 @@ module.exports = function() {
     return new this.Widgets.MarketItem().clickVendor();
   });
 
-  this.When(/^I browse marketplace by category "([^"]*)"$/, function(category) {
-    return new this.Widgets.MarketCategory().clickCategory(category);
+  this.When(/^I open the default catalog$/, function() {
+    var marketCategory = new this.Widgets.MarketCategory();
+    return marketCategory.openCatalog()
+  });
+
+  this.When(/^I browse the default catalog by category "([^"]*)"$/, function(category) {
+    var _this = this;
+    var marketCategory = new this.Widgets.MarketCategory();
+    return marketCategory.openCatalog()
+    .then(function() {
+      return marketCategory.clickCategory(category);
+    })
+  });
+
+  this.When(/^I browse "([^"]*)" catalog$/, function(catalog) {
+    var marketCategory = new this.Widgets.MarketCategory();
+    return marketCategory.clickCategory(catalog);
+  });
+
+  this.Then(/^I should see the follwing filters:$/, function(table) {
+    var _this = this;
+    return bluebird.map(table.hashes(), function(row) {
+      var filter = new _this.Widgets.MarketFilter(row.filter);
+      var expected = row.values.split(',');
+      return filter.getItemNames().should.eventually.deep.equal(expected);
+    });
   });
 
   this.When(/^I filter marketplace by vendor "([^"]*)"$/, function(vendor) {

@@ -18,7 +18,7 @@
     F.DataSets.getDataSet($state.params.id).then(function(d) {
       $scope.item = d;
       $scope.subscribed = !!(_.findWhere(d.users, {id: $sessionStorage.currentUser.id}));
-      if ($scope.item.csvPreview) {
+      if ($scope.item.metadata.csvPreview) {
         $scope.item.tabView = 'table';
         $scope.tableDataPreview = DFS.buildTable($scope.item);
       }
@@ -36,8 +36,8 @@
       $scope.referrerList = 'marketPlace.items';
     }
 
-    $scope.searchByVendor = function(id) {
-      $scope.newSearch({vendorScope: [id.toString()]});
+    $scope.searchByVendor = function(vendor) {
+      $scope.newSearch({vendorScope: [vendor]});
     };
 
     $scope.unsubscribe = function() {

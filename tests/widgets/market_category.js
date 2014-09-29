@@ -1,4 +1,5 @@
 _s = require('underscore.string');
+var _ = require('lodash');
 
 module.exports = function() {
   return this.Widgets.MarketCategory = this.Widget.List.extend({
@@ -10,8 +11,12 @@ module.exports = function() {
           return contents.match(category);
         });
       }).then(function(filtered) {
-        return filtered[0].click('.tree-label');
+        return _.last(filtered).click('.tree-label');
       });
+    },
+
+    openCatalog: function() {
+      return this.click(".tree-branch-head");
     },
 
     selectedCategoryCount: function() {
@@ -26,7 +31,7 @@ module.exports = function() {
           return categoryContent.match(category);
         });
       }).then(function(items) {
-        return items[0].read('.count');
+        return items[1].read('.count');
       });
     }
   });

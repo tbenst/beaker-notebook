@@ -9,7 +9,11 @@
     };
 
     function clearSearch() {
-      var deleteList = ['categoryPath', 'vendorScope', 'typeScope', 'tagScope', 'searchTerm', 'searchScope'];
+      var filterScopes = _($scope.marketPlace.filters).keys().map(function(f) {
+        return f + 'Scope';
+      }).value()
+
+      var deleteList = _.union(['categoryPath', 'searchTerm', 'searchScope'], filterScopes);
       _.each(deleteList, function(i) {
         delete $scope.marketPlace[i];
       });

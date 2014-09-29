@@ -6,29 +6,24 @@
       limit: scope.itemsPerPage
     };
 
-    if (scope.vendorScope !== void(0) && scope.vendorScope.length > 0) {
-      query.vendorIDs = encodeURIComponent(scope.vendorScope.join(","));
-    }
-
-    if (scope.categoryPath !== void(0)) {
-      query.categoryPath = encodeURIComponent(scope.categoryPath);
-    }
-
-    if (scope.tagScope !== void(0) && scope.tagScope.length > 0) {
-      query.tagIDs = encodeURIComponent(scope.tagScope.join(','));
-    }
-
-    if (scope.typeScope !== void(0) && scope.typeScope.length > 0) {
-      query.formats = encodeURIComponent(scope.typeScope.join(','));
-    }
-
     if (scope.searchTerm !== void(0) && scope.searchTerm.length > 0) {
-      query.searchTerm = encodeURIComponent(scope.searchTerm);
+      query.searchTerm = scope.searchTerm;
     }
 
     if (scope.searchScope !== void(0) && scope.searchScope.length > 0) {
-      query.searchScope = encodeURIComponent(scope.searchScope);
+      query.searchScope = scope.searchScope;
     }
+
+    if (scope.categoryPath !== void(0)) {
+      query.categoryPath = scope.categoryPath;
+    }
+
+    _(scope.filters).keys().each(function(f) {
+      var s = scope[f + 'Scope'];
+      if (s !== void(0) && s.length > 0) {
+        query[f] = s;
+      }
+    })
 
     return query;
   }

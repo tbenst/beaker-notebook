@@ -8,7 +8,6 @@ var elastic = {
   port: process.env.ELASTICSEARCH_PORT_9200_TCP_PORT
 };
 
-var FILTER_KEYS = ['vendorIDs', 'categoryPath', 'tagIDs', 'formats'];
 var QUERY_KEYS = ['searchTerm', 'searchScope'];
 
 module.exports = function(Bookshelf, app) {
@@ -73,15 +72,30 @@ module.exports = function(Bookshelf, app) {
         });
     },
 
+    indexName: function() {
+      return 'catalog_' + this.catalogPath();
+    },
+
+    catalogPath: function() {
+      var category = this.related('categories').models[0];
+      return category.get('path').substring(0, 3);
+    },
+
+    elasticJSON: function() {
+      return _.extend(this.get("metadata"), {id: this.id, categories: this.related('categories')});
+    },
+
     index: function() {
-      return this.load(['categories', 'dataPreviews', 'dataTags', 'vendor'])
+      return this.load(['categories'])
       .then(function(model) {
-        return client.index({
-          index: 'bunsen',
-          type: 'datasets',
-          id: model.id,
-          body: model.toJSON()
-        })
+        if (model.related('categories').models.length > 0) {
+          return client.index({
+            index: model.indexName(),
+            type: 'datasets',
+            id: model.id,
+            body: model.elasticJSON()
+          })
+        }
       })
     }
   }, {
@@ -93,15 +107,15 @@ module.exports = function(Bookshelf, app) {
         .orderBy('format', 'ASC')
     },
 
-    queryBuilder: function(params) {
+    queryBuilder: function(catalog, params) {
       return {
         query: {
           filtered: {
             query: {
-              bool: {must: this.mustQueries(params)}
+              bool: {must: this.mustQueries(catalog.textFields(), params)}
             },
             filter: {
-              bool: {must: this.mustFilters(params)}
+              bool: {must: this.mustFilters(catalog.filters(), params)}
             }
           }
         },
@@ -109,54 +123,31 @@ module.exports = function(Bookshelf, app) {
           {_score: {order: "desc"}},
           {raw_title: {order: "asc"}}
         ],
-        aggs: {
-          tags: {
-            nested: {
-              path: 'dataTags'
-            },
-            aggs: {
-              names: {
-                terms: {field: 'dataTags.name'},
-                 aggs: {
-                    ids: {
-                      terms: {field: 'dataTags.id'}
-                    }
-                  }
-              }
-            }
-          },
-          vendors: {
-            terms: {field: 'vendor.name'},
-            aggs: {
-              ids: {
-                terms: {field: 'vendor.id'}
-              }
-            }
-          },
-          formats: {
-            terms: {field: 'format'}
-          }
-        }
+        aggs: this.aggs(catalog.filters())
       };
     },
 
-    mustFilters: function(params) {
-      var _this = this;
-      var filters = [];
-      FILTER_KEYS.forEach(function(key) {
-        if (params[key]) {
-          filters.push(_this[key + 'Filter'](decodeURIComponent(params[key])));
+    mustFilters: function(fields, params) {
+      var _this = this, v;
+      var filters = [_this.categoryPathFilter(params.categoryPath || '0')];
+      fields.forEach(function(key) {
+        if (v = params[key]) {
+          if (_.isArray(v)) {
+            filters.push(_this.filterTerms(key, v));
+          } else {
+            filters.push(_this.filterTerm(key, v));
+          }
         }
       });
       return filters;
     },
 
-    mustQueries: function(params) {
+    mustQueries: function(fields, params) {
       var _this = this;
       var queries = [];
       QUERY_KEYS.forEach(function(key) {
         if (params[key]) {
-          queries.push(_this[key + 'Query'](decodeURIComponent(params[key])));
+          queries.push(_this[key + 'Query'](fields, params[key]));
         }
       });
       if (_.isEmpty(queries)) {
@@ -165,37 +156,47 @@ module.exports = function(Bookshelf, app) {
       return queries;
     },
 
-    searchTermQuery: function(term) {
+    aggsTerm: function(key) {
+      return {terms: {field: key}};
+    },
+
+    aggs: function(fields) {
+      var _this = this;
+      var aggs = {}
+      fields.forEach(function(key) {
+        aggs[key] = _this.aggsTerm(key);
+      });
+      return aggs;
+    },
+
+    searchTermQuery: function(fields, term) {
       return {
         multi_match: {
           query: term,
-          fields: ['title', 'description'],
+          fields: fields,
           operator: 'and'
         }
       };
     },
 
-    searchScopeQuery: function(term) {
-      return this.searchTermQuery(term);
+    searchScopeQuery: function(fields, term) {
+      return this.searchTermQuery(fields, term);
     },
 
-    tagIDsFilter: function(ids) {
+    // matches multiple values
+    filterTerms: function(key, value) {
+      var t = {execution: 'and'};
+      t[key] = value;
       return {
-        nested: {
-          path: 'dataTags',
-          filter: {
-            bool: {must: [{term: {'dataTags.id': this.numIds(ids)}}]}
-          }
-        }
+        terms: t,
       };
     },
 
-    vendorIDsFilter: function(ids) {
-      return {term: {'vendor.id': this.numIds(ids)}};
-    },
-
-    formatsFilter: function(format) {
-      return {term: {format: format}};
+    // matches a single value
+    filterTerm: function(key, value) {
+      var t = {};
+      t[key] = value;
+      return {term: t};
     },
 
     categoryPathFilter: function(path) {
@@ -209,35 +210,38 @@ module.exports = function(Bookshelf, app) {
       };
     },
 
-    transformResults: function(d) {
-      return {
-        // transform Elasticsearch results into format expected by front_end
+    // transform Elasticsearch results into format expected by front_end
+    transformResults: function(catalog, d) {
+      var res = {
         data: _.pluck(d.hits.hits, '_source'),
-        totalItems: d.hits.total,
-        relatedTags: _.map(d.aggregations.tags.names.buckets, function(t) {
-          return {
-            name: t.key,
-            id: t.ids.buckets[0].key
-          }
-        }),
-        formats: _.pluck(d.aggregations.formats.buckets, 'key'),
-        vendors: _.map(d.aggregations.vendors.buckets, function(v) {
-          return {
-            name: v.key,
-            id: v.ids.buckets[0].key
-          }
-        })
+        totalItems: d.hits.total
       };
+      res.filters = {}
+      catalog.filters().forEach(function(key) {
+        res.filters[key] = _.pluck(d.aggregations[key].buckets, 'key');
+      });
+      return res;
     },
 
-    findMatching: function(filters, options) {
-      return client.search({
-        type: 'datasets',
-        size: options.size,
-        from: options.from,
-        body: this.queryBuilder(filters)
+    findMatching: function(params, options) {
+      var _this = this;
+      var categoryPath = params.categoryPath;
+      var catalogPath = categoryPath ? categoryPath.substring(0, 3) : '0.1';
+      return new app.Models.Category({path: catalogPath})
+      .fetch()
+      .then(function(catalog) {
+        var q = _this.queryBuilder(catalog, params);
+        return client.search({
+          index: 'catalog_' + catalogPath,
+          type: 'datasets',
+          size: options.size,
+          from: options.from,
+          body: q
+        })
+        .then(function(results) {
+          return _this.transformResults(catalog, results);
+        })
       })
-      .then(this.transformResults.bind(this))
     },
 
     numIds: function(s) {

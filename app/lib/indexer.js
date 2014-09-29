@@ -1,7 +1,6 @@
 var _ = require('lodash');
 var app = {};
 var Promise = require('bluebird');
-var mapping = require('./indexer/mapping');
 var elasticsearch = require('elasticsearch');
 
 var elastic = {
@@ -30,7 +29,7 @@ module.exports = {
 
   clear: function() {
     return clearIndex()
-    .then(defineMapping);
+    .then(defineCatalogMappings);
   }
 };
 
@@ -38,20 +37,61 @@ function clearIndex() {
   return client.indices.delete({index: '*'});
 }
 
+function defaultMapping() {
+  return {
+    "mappings": {
+      "datasets": {
+        "properties": {
+          "title": {
+            "type": "multi_field",
+            "fields": {
+               "title": {"type": "string", "index": "analyzed", "store": "yes"},
+               "raw_title": {"type": "string", "index": "not_analyzed", "store": "yes"}
+            }
+          },
+          "categories": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "index": "not_analyzed"
+              }
+            }
+          }
+        }
+      }
+    }
+  };
+}
+
+function defineMapping(catalog) {
+  var mapping = defaultMapping();
+  _.each(catalog.filters(), function(f) {
+    mapping.mappings.datasets.properties[f] = {
+      "type": "string",
+      "index": "not_analyzed"
+    };
+  });
+  return client.indices.create({
+    index: 'catalog_' + catalog.get('path'),
+    body: mapping
+  });
+}
+
+function defineCatalogMappings() {
+  var Category = app.Models.Category;
+  return Category.catalogs()
+  .each(defineMapping);
+}
+
 function dataSetCount() {
   var DataSet = app.Models.DataSet;
   return Promise.resolve(DataSet.query().count('*'));
 }
 
-function defineMapping() {
-  return client.indices.create({
-    index: 'bunsen',
-    body: mapping
-  });
-}
-
 function indexAll() {
-  return dataSetCount()
+  return defineCatalogMappings()
+  .then(dataSetCount)
   .then(function(count) {
     var numBatches = Math.ceil(count[0]['count'] / BATCH_SIZE);
     return _.range(numBatches);
@@ -66,17 +106,16 @@ function indexBatch(i) {
     q.offset(i * BATCH_SIZE)
     q.orderBy('data_sets.id', 'ASC')
   })
-  .fetchAll({withRelated: ['vendor', 'categories', 'dataTags']})
-  .then(sendBulkRequest)
+  .fetchAll({withRelated: ['categories']})
+  .then(sendBulkRequest);
 }
 
 function sendBulkRequest(dataSets) {
   var req = _(dataSets.models).map(function(dataSet) {
     return [
-      {index: {_index: 'bunsen', _type: 'datasets', _id: dataSet.id}},
-      dataSet.toJSON()
+      {index: {_index: dataSet.indexName(), _type: 'datasets', _id: dataSet.id}},
+      dataSet.elasticJSON()
     ];
   }).flatten().value();
   return client.bulk({body: req});
 }
-
