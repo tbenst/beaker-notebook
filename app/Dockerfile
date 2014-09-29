@@ -17,6 +17,7 @@ RUN apt-get update -qq && \
       node-nodegit \
       node-pg \
       node-pm2 \
+      node-qs \
       node-when \
       node-restler \
       node-elasticsearch \
