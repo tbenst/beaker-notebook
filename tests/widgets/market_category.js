@@ -1,4 +1,5 @@
 _s = require('underscore.string');
+var _ = require('lodash');
 
 module.exports = function() {
   return this.Widgets.MarketCategory = this.Widget.List.extend({
@@ -10,7 +11,7 @@ module.exports = function() {
           return contents.match(category);
         });
       }).then(function(filtered) {
-        return filtered[1].click('.tree-label');
+        return _.last(filtered).click('.tree-label');
       });
     },
 

@@ -22,15 +22,61 @@ var marketItemBase = function() {
   });
 }
 
+var twoSigmaCatalog = {
+  title: {type: 'string', indexes: ['text']},
+  description: {type: 'string', indexes: ['text']},
+  remoteFile: {type: 'string'},
+  rows: {type: 'integer'},
+  format: {type: 'string', indexes: ['filter']},
+  updateFrequency: {type: 'string'},
+  startDate: {type: 'date'},
+  numColumns: {type: 'integer'},
+  csvPreview: {type: 'string'},
+  vendor: {type: 'string', indexes: ['filter']},
+  tags: {type: 'string', indexes: ['filter']}
+};
+
+var quandlCatalog = {
+  name: {type: 'string', indexes: ['text']},
+  about: {type: 'string', indexes: ['text']},
+  type: {type: 'string', indexes: ['filter']},
+  company: {type: 'string', indexes: ['filter']},
+};
+
+
 module.exports = function() {
-  this.Given(/^I have a default catalog$/, function() {
-    var _this = this;
+
+  this.createCatalog = function(data) {
     var seedData = {
       model: 'Category',
-      data: {name: 'default', path: '0.1', metadata: '{\"title\": {\"type\": \"string\", \"indexes\": [\"text\"]}, \"description\": {\"type\": \"string\", \"indexes\": [\"text\"]}, \"remoteFile\": { \"type\": \"string\"}, \"rows\": {\"type\": \"integer\"}, \"format\": {\"type\": \"string\", \"indexes\": [\"filter\"]}, \"updateFrequency\": {\"type\": \"string\"}, \"startDate\": {\"type\": \"date\"}, \"numColumns\": {\"type\": \"integer\"}, \"csvPreview\": { \"type\": \"string\"}, \"vendor\": { \"type\": \"string\", \"indexes\": [\"filter\"]}, \"tags\": { \"type\": \"string\", \"indexes\": [\"filter\"]}}'}
+      data: data
     }
     return this.seed.populate(seedData)
     .then(this.seed.dropIndex);
+  }
+
+  this.Given(/^I have a default catalog$/, function() {
+    return this.createCatalog({
+      name: 'default',
+      path: '0.1',
+      metadata: JSON.stringify(twoSigmaCatalog)
+    });
+  });
+
+  this.Given(/^I have Two Sigma catalog$/, function() {
+    return this.createCatalog({
+      name: 'Two Sigma',
+      path: '0.1',
+      metadata: JSON.stringify(twoSigmaCatalog)
+    });
+  });
+
+  this.Given(/^I have Quandl catalog$/, function() {
+    return this.createCatalog({
+      name: 'Quandl',
+      path: '0.2',
+      metadata: JSON.stringify(quandlCatalog)
+    });
   });
 
   this.When(/^there is a market item$/, function(callback) {
@@ -376,6 +422,20 @@ module.exports = function() {
     .then(function() {
       return marketCategory.clickCategory(category);
     })
+  });
+
+  this.When(/^I browse "([^"]*)" catalog$/, function(catalog) {
+    var marketCategory = new this.Widgets.MarketCategory();
+    return marketCategory.clickCategory(catalog);
+  });
+
+  this.Then(/^I should see the follwing filters:$/, function(table) {
+    var _this = this;
+    return bluebird.map(table.hashes(), function(row) {
+      var filter = new _this.Widgets.MarketFilter(row.filter);
+      var expected = row.values.split(',');
+      return filter.getItemNames().should.eventually.deep.equal(expected);
+    });
   });
 
   this.When(/^I filter marketplace by vendor "([^"]*)"$/, function(vendor) {
