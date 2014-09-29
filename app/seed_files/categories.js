@@ -22,7 +22,7 @@ module.exports = [
         numColumns: { type: 'integer' },
         csvPreview: { type: 'string' },
         vendor: { type: 'string' , indexes: ['filter']},
-        dataTags: { type: 'string', indexes: ['filter']}
+        tags: { type: 'string', indexes: ['filter']}
       }
     }
   },
@@ -42,7 +42,7 @@ module.exports = [
         numColumns: { type: 'integer' },
         csvPreview: { type: 'string' },
         vendor: { type: 'string' , indexes: ['filter']},
-        dataTags: { type: 'string', indexes: ['filter']}
+        tags: { type: 'string', indexes: ['filter']}
       }
     }
   },
