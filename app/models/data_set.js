@@ -81,6 +81,20 @@ module.exports = function(Bookshelf, app) {
       return category.get('path').substring(0, 3);
     },
 
+    fetchFromElastic: function() {
+      return DataSet.findByIds({ids: [this.id], size: 1})
+      .then(function(d) {
+        if (d.length < 1) throw new Error('DataSet not found in Elasticsearch');
+        var dataset = d[0];
+        return models.Subscription.query({where: {data_set_id: dataset.id}}).fetchAll()
+        .then(function(subscriptions) {
+          // inject subscription ids into dataset
+          var ids = _.pluck(subscriptions.toJSON(), 'userId');
+          return _.extend(dataset, {subscriberIds: ids});
+        });
+      })
+    },
+
     elasticJSON: function() {
       return _.extend(this.get("metadata"), {id: this.id, categories: this.related('categories')});
     },
@@ -249,6 +263,24 @@ module.exports = function(Bookshelf, app) {
       // to normalize the data we must split on commas and then
       // convert the string numbers to ints
       return _(s.split(",")).map(function(i) {return +i}).value();
+    },
+
+    findByIds: function(options) {
+      var size = options.size || Number.MAX_SAFE_INTEGER;
+      var q = {
+        query: {
+          ids: {values: [options.ids]}
+        }
+      };
+      return client.search({
+        index: '*',
+        type: 'datasets',
+        size: options.size,
+        body: q
+      })
+      .then(function(d) {
+        return _.pluck(d.hits.hits, '_source')
+      });
     },
 
     taggedWith: function(tags, excludeIds) {

@@ -19,16 +19,6 @@ module.exports = function(app) {
   };
 
   return {
-    idParam: function(req, res, next, id) {
-      new DataSet({id: req.params.data_set_id})
-        .fetch({withRelated: ['categories', 'dataPreviews', 'dataTags', 'vendor']})
-        .then(function(dataSet) {
-          if (!dataSet) throw new Error('DataSet not found');
-          req.dataSet = dataSet;
-        })
-        .done(next, next);
-    },
-
     index: function(req, res, next) {
       var urlParts = url.parse(req.url, true);
       params = Qs.parse(urlParts.query);
@@ -38,12 +28,10 @@ module.exports = function(app) {
     },
 
     get: function(req, res, next) {
-      req.dataSet.load('users')
-        .then(function(dataSet) {
-          return dataSet.withRelated();
-        })
-        .then(res.json.bind(res))
-        .catch(next);
+      new DataSet({id: req.params.data_set_id})
+      .fetchFromElastic()
+      .then(res.json.bind(res))
+      .catch(next);
     }
   };
 };
