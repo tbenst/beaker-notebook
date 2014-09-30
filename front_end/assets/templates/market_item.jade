@@ -1,12 +1,12 @@
-.main-content.market-item(ng-if="item.metadata.title")
+.main-content.market-item(ng-if="item.title")
   .btn.btn-light.return-to-market-search(ui-sref="{{referrerList}}") Back to List
   .item-hero
-    h1 {{item.metadata.title}}
-    p.description {{item.metadata.description}}
+    h1 {{item.title}}
+    p.description {{item.description}}
 
     .details
       .col-three-quarters.col-outside
-        a.vendor(ng-click="searchByVendor(item.metadata.vendor)") {{item.metadata.vendor}}
+        a.vendor(ng-click="searchByVendor(item.vendor)") {{item.vendor}}
           span.text-blue &nbsp; &raquo;
       .col-quarter.col-outside
         .right.btn.btn-primary.subscribe(ng-click="subscribed ? unsubscribe() : subscribe()") {{subscribed ? "unsubscribe" : "subscribe"}}
@@ -14,7 +14,7 @@
 
   .subscribed-confirm(ng-if="subscribed")
     p Thank you for subscribing. The data is accessible in the file&nbsp;
-      span.file-path {{item.metadata.remoteFile | dataSetPath}}
+      span.file-path {{item.remoteFile | dataSetPath}}
       &nbsp;
       | from within any Notebook.
 
@@ -26,4 +26,4 @@
     h1 Similar Datasets
     ul.related-items.bunsen-list
       li(ng-repeat="related in item.related")
-        a(ui-sref="marketPlace.items.item({id: related.id})") {{related.metadata.title}}
+        a(ui-sref="marketPlace.items.item({id: related.id})") {{related.title}}

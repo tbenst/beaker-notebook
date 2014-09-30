@@ -8,15 +8,17 @@
       template: templates.dataset_properties,
       controller: ['$scope', function($scope) {
 
-        var uiOmittedMetadata = ['csvPreview','description', 'numColumns', 'remoteFile', 'rows', 'startDate', 'tags','title'];
-        $scope.item.filteredMeta = _.omit($scope.item.metadata, uiOmittedMetadata);
+        var specialUiAttrs = ['csvPreview', 'description', 'numColumns', 'remoteFile', 'rows', 'startDate', 'tags', 'title', 'dataPreviews', 'categories', 'vendor'];
+        var ignoreAttrs = ['subscriberIds', 'id', 'tabView']
+        var omitAttrs = specialUiAttrs.concat(ignoreAttrs);
 
-        if ($scope.item.metadata.startDate) {
-          $scope.item.metadata.startDate = moment().utc($scope.item.metadata.startDate).format("M/DD/YY");
+        $scope.item.filteredMeta = _.omit($scope.item, omitAttrs);
+        if ($scope.item.startDate) {
+          $scope.item.startDate = moment().utc($scope.item.startDate).format("M/DD/YY");
         }
 
-        if ($scope.item.metadata.tags) {
-          $scope.item.metadata.tags = $scope.item.metadata.tags.toString();
+        if ($scope.item.tags) {
+          $scope.item.tags = $scope.item.tags.toString();
         }
 
       }]

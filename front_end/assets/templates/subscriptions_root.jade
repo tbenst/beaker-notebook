@@ -30,19 +30,19 @@
         h4 Recently used datasets
         ul.link-list.recently-used
           li(ng-repeat="subscription in subscriptions | orderBy:createdAt:true | limitTo:4")
-            a(ui-sref="marketPlace.items.item({id: subscription.dataSet.id})") {{subscription.dataSet.metadata.title}}
+            a(ui-sref="marketPlace.items.item({id: subscription.dataSet.id})") {{subscription.dataSet.title}}
 
     ul.subscription-list.bunsen-list
       li.bunsen-list-item(ng-repeat="subscription in subscriptions | orderBy:sort:sortDescending | filter:search")
         .col-three-quarters
           h2
-            a.title(ui-sref="marketPlace.items.item({id: subscription.dataSet.id})") {{subscription.dataSet.metadata.title}}
-          p.description {{subscription.dataSet.metadata.description | words : 30 }}
+            a.title(ui-sref="marketPlace.items.item({id: subscription.dataSet.id})") {{subscription.dataSet.title}}
+          p.description {{subscription.dataSet.description | words : 30 }}
           ul.property-list.small
             li.purchase-date
               .label Purchase date
               .value {{subscription.createdAt | date : 'M/d/yyyy' }}
             li.location
               .label Location
-              .value {{subscription.dataSet.metadata.remoteFile | dataSetPath}}
+              .value {{subscription.dataSet.remoteFile | dataSetPath}}
         .cl
