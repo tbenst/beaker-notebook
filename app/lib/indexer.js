@@ -90,8 +90,7 @@ function dataSetCount() {
 }
 
 function indexAll() {
-  return defineCatalogMappings()
-  .then(dataSetCount)
+  return dataSetCount()
   .then(function(count) {
     var numBatches = Math.ceil(count[0]['count'] / BATCH_SIZE);
     return _.range(numBatches);
