@@ -37,36 +37,12 @@ module.exports = function(app) {
       }).catch(next);
     },
 
-    create: function(req, res, next) {
-      new DataSet({title: req.params.title}).save()
-        .then(function(dataSet) {
-          res.json(dataSet);
-        })
-        .catch(next);
-    },
-
     get: function(req, res, next) {
       req.dataSet.load('users')
         .then(function(dataSet) {
           return dataSet.withRelated();
         })
         .then(res.json.bind(res))
-        .catch(next);
-    },
-
-    update: function(req, res, next) {
-      req.dataSet.save(_.pick(req.body, 'title', 'vendor', 'description', 'url'), {patch: true})
-        .then(function(dataSet) {
-          res.json(dataSet);
-        })
-        .catch(next);
-    },
-
-    destroy: function(req, res, next) {
-      req.dataSet.destroy()
-        .then(function() {
-          res.json(dataSet);
-        })
         .catch(next);
     }
   };
