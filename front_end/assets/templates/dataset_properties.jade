@@ -3,7 +3,7 @@ section.properties
 
   ul.property-list
     li(ng-repeat="(key, value) in item.filteredMeta")
-      .label {{key}}
+      .label {{key | _.str: 'humanize'}}
       .value(ng-class="key | _.str: 'dasherize'") {{value}}
 
     li(ng-if="item.startDate")
