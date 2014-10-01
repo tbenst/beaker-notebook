@@ -8,7 +8,7 @@
 
     F.DataSets.getDataSet($state.params.id).then(function(d) {
       $scope.item = Restangular.stripRestangular(d);
-      $scope.subscribed = !!(_.findWhere(d.users, {id: $sessionStorage.currentUser.id}));
+      $scope.subscribed = _.contains(d.subscriberIds, $sessionStorage.currentUser.id);
       if ($scope.item.csvPreview) {
         $scope.item.tabView = 'table';
         $scope.tableDataPreview = DFS.buildTable($scope.item);
