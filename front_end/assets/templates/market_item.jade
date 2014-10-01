@@ -18,38 +18,7 @@
       &nbsp;
       | from within any Notebook.
 
-  section.properties
-    h1 Properties
-
-    ul.property-list
-      li
-        .label format
-        .value.top-border.format {{item.metadata.format}}
-
-      li
-        .label released
-        .value {{item.lastUpdated | date: 'shortDate'}}
-
-      li
-        .label updated
-        .value {{item.lastUpdated | date: 'shortDate'}}
-
-      li
-        .label frequency
-        .value.update-frequency {{item.metadata.updateFrequency}}
-
-      li(ng-if="item.categories")
-        .label categories
-        .value.categories {{item.categories | names}}
-
-      li(ng-if="item.metadata.startDate")
-        .label start date
-        .value.start-date {{item.metadata.startDate | date: 'shortDate'}}
-
-      li(ng-if="item.metadata.tags")
-        .label tags
-        .value.tags
-          span(ng-repeat="tag in item.metadata.tags") {{tag}}{{$last ? '' : ', '}}
+  dataset-properties(item="item")
 
   datasheet-preview(item="item" table='tableDataPreview')
 

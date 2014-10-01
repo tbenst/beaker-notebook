@@ -11,3 +11,4 @@
 #= require "../../bower_components/angular-sticky/sticky.js"
 #= require "../../bower_components/spin.js/spin.js"
 #= require "../../bower_components/angular-spinner/angular-spinner.js"
+#= require "../../bower_components/moment/moment.js"
