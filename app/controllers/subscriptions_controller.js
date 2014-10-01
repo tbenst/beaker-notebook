@@ -3,8 +3,7 @@ module.exports = function(app) {
 
   return {
     index: function(req, res, next) {
-      req.user.subscriptions()
-      .fetch({ withRelated: 'dataSet' })
+      req.user.subscriptionsWithDatasets()
       .then(res.json.bind(res))
       .catch(next);
     },
