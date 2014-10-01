@@ -16,11 +16,6 @@
         if ($scope.item.startDate) {
           $scope.item.startDate = moment().utc($scope.item.startDate).format("M/DD/YY");
         }
-
-        if ($scope.item.tags) {
-          $scope.item.tags = $scope.item.tags.toString();
-        }
-
       }]
     }
   });

@@ -21,3 +21,8 @@ section.properties
     li(ng-if="item.categories")
       .label categories
       .value.categories {{item.categories | names}}
+
+    li(ng-if="item.tags")
+      .label tags
+      .value.tags
+       span(ng-repeat="tag in item.tags") {{tag}}{{$last ? '' : ', '}}
