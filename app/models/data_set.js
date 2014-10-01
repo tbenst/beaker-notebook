@@ -96,11 +96,15 @@ module.exports = function(Bookshelf, app) {
     },
 
     elasticJSON: function() {
-      return _.extend(this.get("metadata"), {id: this.id, categories: this.related('categories')});
+      return _.extend(this.get("metadata"), {
+        id: this.id,
+        categories: this.related('categories'),
+        dataPreviews: this.related('dataPreviews')
+      });
     },
 
     index: function() {
-      return this.load(['categories'])
+      return this.load(['categories', 'dataPreviews'])
       .then(function(model) {
         if (model.related('categories').models.length > 0) {
           return client.index({
