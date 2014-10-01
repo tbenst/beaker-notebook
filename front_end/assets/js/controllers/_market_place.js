@@ -1,9 +1,9 @@
 !(function(angular, app) {
 
-  app.controller('marketPlace', ['$q', '$scope', 'Factories', 'TagNormalizeService', function($q, $scope, Factories, TagNormalizeService) {
+  app.controller('marketPlace', ['$q', '$scope', 'Factories', 'TagNormalizeService', '$localStorage', function($q, $scope, Factories, TagNormalizeService, $localStorage) {
     var F = Factories;
 
-    $scope.marketPlace.currentCategory = {path: "0.1"};
+    $scope.marketPlace.currentCategory = {path: $localStorage.lastCatalog || "0.1"};
 
     $scope.removeFilter = function(value, model) {
       _.remove($scope.$eval(model), function(v) {
