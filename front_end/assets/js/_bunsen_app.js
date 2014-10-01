@@ -14,6 +14,7 @@
      'sticky',
      'hiddenUpload',
      'truncate',
+     'underscore.string',
      'angularSpinner'
     ], ['RestangularProvider', function(RestangularProvider) {
       RestangularProvider.setBaseUrl('/api');
