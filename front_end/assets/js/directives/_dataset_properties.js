@@ -14,7 +14,7 @@
 
         $scope.item.filteredMeta = _.omit($scope.item, omitAttrs);
         if ($scope.item.startDate) {
-          $scope.item.startDate = moment().utc($scope.item.startDate).format("M/DD/YY");
+          $scope.item.startDate = moment.utc($scope.item.startDate).local().format("M/D/YY");
         }
       }]
     }
