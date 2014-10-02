@@ -66,11 +66,11 @@ As a researcher, I want to be able to browse the market place.
 
   Scenario: Using category tree
     Given I have the following categories:
-      | name       | path    |
-      | Government | 1.1     |
-      | Officials  | 1.1.1   |
-      | Federal    | 1.1.1.1 |
-      | State      | 1.1.1.2 |
+      | name       | path        |
+      | Government | 0.1.1.1     |
+      | Officials  | 0.1.1.1.1   |
+      | Federal    | 0.1.1.1.1.1 |
+      | State      | 0.1.1.1.1.2 |
     When I view the market search
     And I open the marketplace category "Finance"
     And I open the marketplace category "Government"
