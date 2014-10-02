@@ -2,13 +2,6 @@ module.exports = [
   {
     model: "Category",
     data: {
-      name: "All",
-      path: "0"
-    }
-  },
-  {
-    model: "Category",
-    data: {
       name: "Misc",
       path: "0.1",
       metadata: {
