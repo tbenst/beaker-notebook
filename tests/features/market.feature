@@ -99,7 +99,6 @@ As a researcher, I want to be able to use the market place.
     And I view the market search
     And I filter by search by selecting the "cat" tags
     Then I should see the "cat" tags selected
-    When I open the default catalog
     And I click "Government"
     Then I should see that no tags are selected
 
@@ -314,7 +313,6 @@ As a researcher, I want to be able to use the market place.
       | Energy             | Work and heat are two categories.         | Quentin     | quentin@twosigma.com    | 0.1.1    |
       | Government         | Description here woooo                    | Quentin H   | quentin11@twosigma.com  | 0.1.2    |
     When I view the market search
-    And I open the default catalog
     And I click "Energy"
     Then I should see a category description
 
@@ -323,7 +321,6 @@ As a researcher, I want to be able to use the market place.
       | name               | ownerName   | ownerEmail              | path     |
       | Government         | Quentin     | quentin@twosigma.com    | 0.1.1    |
     When I view the market search
-    And I open the default catalog
     And I click "Government"
     Then I should not see a category description
 

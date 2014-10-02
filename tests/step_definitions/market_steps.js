@@ -423,18 +423,10 @@ module.exports = function() {
     return new this.Widgets.MarketItem().clickVendor();
   });
 
-  this.When(/^I open the default catalog$/, function() {
-    var marketCategory = new this.Widgets.MarketCategory();
-    return marketCategory.openCatalog()
-  });
-
   this.When(/^I browse the default catalog by category "([^"]*)"$/, function(category) {
     var _this = this;
     var marketCategory = new this.Widgets.MarketCategory();
-    return marketCategory.openCatalog()
-    .then(function() {
       return marketCategory.clickCategory(category);
-    })
   });
 
   this.When(/^I browse "([^"]*)" catalog$/, function(catalog) {

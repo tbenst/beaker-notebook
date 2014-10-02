@@ -38,7 +38,6 @@ As a researcher, I want to be able to browse the market place.
       | World Bank Contract Awards | finance    |
       | Crime Rates, Canada        | canada     |
     When I view the market search
-    And I open the default catalog
     Then I should see 2 items in the "Finance" category count
 
   Scenario: Data set details category
