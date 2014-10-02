@@ -105,7 +105,7 @@ function indexBatch(i) {
     q.offset(i * BATCH_SIZE)
     q.orderBy('data_sets.id', 'ASC')
   })
-  .fetchAll({withRelated: ['categories']})
+  .fetchAll({withRelated: ['categories', 'dataPreviews']})
   .then(sendBulkRequest);
 }
 

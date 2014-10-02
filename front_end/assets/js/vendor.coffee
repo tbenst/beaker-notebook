@@ -12,3 +12,5 @@
 #= require "../../bower_components/spin.js/spin.js"
 #= require "../../bower_components/angular-spinner/angular-spinner.js"
 #= require "../../bower_components/moment/moment.js"
+#= require "../../bower_components/underscore.string/lib/underscore.string.js"
+#= require "../../bower_components/angular-underscore-string/angular-underscore-string.js"

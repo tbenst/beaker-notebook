@@ -1,7 +1,7 @@
 .data-previews(ng-if="hasPreviews()")
   h1 Data Preview
   ul.tabs
-    li.tab(ng-if="item.metadata.csvPreview" ng-click="item.tabView='table'" ng-class="{active: isActive('table')}") Tables
+    li.tab(ng-if="item.csvPreview" ng-click="item.tabView='table'" ng-class="{active: isActive('table')}") Tables
     li.tab(ng-if="item.dataPreviews.length" ng-click="item.tabView='thumbnail'" ng-class="{active: isActive('thumbnail')}" ) Thumbnails
 
   div(ng-if="item.tabView=='table'" )

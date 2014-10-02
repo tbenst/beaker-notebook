@@ -36,21 +36,37 @@ module.exports = function(Bookshelf, app) {
       return this.hasOne(app.Models.BeakerClaim, 'user_id')
     },
 
-    addSubscription: function(dataSet) {
+    addSubscription: function(dataSetId) {
       return app.Models.Subscription.forge({
-        dataSetId: dataSet.id,
+        dataSetId: dataSetId,
         userId: this.id
       }).save()
     },
 
-    removeSubscription: function(dataSet) {
+    removeSubscription: function(dataSetId) {
       return app.Models.Subscription.forge({
-        dataSetId: dataSet.id,
+        dataSetId: dataSetId,
         userId: this.id
       })
       .fetch()
       .then(function(subscription) {
         return subscription.destroy();
+      })
+    },
+
+    subscriptionsWithDatasets: function() {
+      return this.subscriptions()
+      .fetch()
+      .then(function(subscriptions) {
+        var ids = _.invoke(subscriptions.models, 'get', 'dataSetId');
+        return app.Models.DataSet.findByIds({ids: ids})
+        .then(function(datasets) {
+          // inject datasets into subscriptions
+          return _.map(subscriptions.toJSON(), function(s) {
+            var dataSet = _.findWhere(datasets, {id: s.dataSetId});
+            return _.extend(s, {dataSet: dataSet});
+          })
+        })
       })
     }
   });

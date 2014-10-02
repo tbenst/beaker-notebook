@@ -12,7 +12,7 @@
           if (!$scope.item.dataPreviews) {
             return false
           }
-          return $scope.item.dataPreviews.length || $scope.item.csvPreview !== null
+          return $scope.item.dataPreviews.length || $scope.item.csvPreview
         }
         $scope.isActive = function (tab) {
           return $scope.item.tabView === tab;

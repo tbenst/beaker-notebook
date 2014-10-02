@@ -13,6 +13,8 @@
     "angular-sticky": "git://github.com/Los83/angular-sticky#a21f65ad369bc174d12b3c4afd920834a20319e1",
     "angular-spinner": "0.5.0",
     "sizzle": "1.10.19",
-    "moment": "~2.8.3"
+    "moment": "~2.8.3",
+    "underscore.string": "2.3.3",
+    "angular-underscore-string": "0.1.1"
   }
 }

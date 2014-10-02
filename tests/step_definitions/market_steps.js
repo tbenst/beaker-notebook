@@ -144,25 +144,38 @@ module.exports = function() {
     info.categories  = [].concat(info.categories.split(','));
     info.subscribers = [].concat(info.subscribers.split(','));
     info.dataPreviews = [].concat(info.dataPreviews.split(','));
+    _.pull(info.dataPreviews, '');
     _.pull(info.subscribers, '');
     _.pull(info.categories, '');
 
     var _this       = this;
     var marketItem  = marketItemBase();
 
-    return _this.seed.populate(info.dataPreviews.map(function(preview) {
-      return {
-        model: 'DataPreview',
-        data: {
-          smallPreviewUrl: preview
-        }
+    function seedPreviews(previews) {
+      if (previews.length) {
+        return _this.seed.populate(previews.map(function(preview) {
+          return {
+            model: 'DataPreview',
+            data: {
+              smallPreviewUrl: preview
+            }
+          }
+        }))
+      } else {
+        return bluebird.resolve();
       }
-    }))
+    }
+
+    return seedPreviews(info.dataPreviews)
     .then(function() {
-      marketItem.associations = [{
-        joinTable: "data_sets_data_previews",
-        lookup: {"DataPreview": info.dataPreviews.map(function(preview){ return {smallPreviewUrl: preview} ;})}
-      }];
+      marketItem.associations = [];
+
+      if (info.dataPreviews.length) {
+        marketItem.associations.push({
+          joinTable: "data_sets_data_previews",
+          lookup: {"DataPreview": info.dataPreviews.map(function(preview){ return {smallPreviewUrl: preview} ;})}
+        });
+      }
 
       if (info.subscribers.length) {
         marketItem.associations.push({
