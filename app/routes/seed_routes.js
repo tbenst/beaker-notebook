@@ -50,4 +50,12 @@ module.exports = function(app) {
     })
     .catch(next);
   });
+
+  app.post("/api/seed/reindex", function(req, res, next) {
+    indexer.index()
+    .then(function() {
+      res.send(200);
+    })
+    .catch(next);
+  });
 }
