@@ -1,6 +1,6 @@
 !(function(angular, app) {
 
-  app.controller('marketNav', ['$scope', '$state', 'Factories', function($scope, $state, Factories) {
+  app.controller('marketNav', ['$scope', '$state', 'Factories', '$localStorage', function($scope, $state, Factories, $localStorage) {
     var F = Factories;
     $scope.marketPlace.treeOptions = {
       equality: function(a, b) {
@@ -14,6 +14,7 @@
 
     $scope.onTreeSelection = function(node) {
       if (node) {
+        $localStorage.lastCatalog = node.path.substring(0, 3);
         $scope.newSearch({categoryPath: node.path});
       }
     }

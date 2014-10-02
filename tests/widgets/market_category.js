@@ -25,6 +25,10 @@ module.exports = function() {
       });
     },
 
+    selected: function() {
+      return this.read('.tree-selected item');
+    },
+
     categoryCount: function(category) {
       return this.filter(function(item) {
         return item.read({ transformer: _s.titleize }).then(function(categoryContent) {

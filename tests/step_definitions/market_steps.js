@@ -442,6 +442,11 @@ module.exports = function() {
     return marketCategory.clickCategory(catalog);
   });
 
+  this.Then(/^I should be in "([^"]*)" catalog$/, function(catalog) {
+    var marketCategory = new this.Widgets.MarketCategory();
+    return marketCategory.selected().should.eventually.equal(catalog.toUpperCase());
+  });
+
   this.Then(/^I should see the follwing filters:$/, function(table) {
     var _this = this;
     return bluebird.map(table.hashes(), function(row) {
