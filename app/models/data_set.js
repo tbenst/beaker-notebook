@@ -25,11 +25,6 @@ module.exports = function(Bookshelf, app) {
     initialize: function() {
       var _this = this;
       this.on("saved destroyed", this.touchCategories);
-      this.on("saved", function() {
-        if (process.env["BULK_INDEX"] != 'true') {
-          _this.index()
-        }
-      });
     },
 
     touchCategories: function() {
@@ -103,19 +98,6 @@ module.exports = function(Bookshelf, app) {
       });
     },
 
-    index: function() {
-      return this.load(['categories', 'dataPreviews'])
-      .then(function(model) {
-        if (model.related('categories').models.length > 0) {
-          return client.index({
-            index: model.indexName(),
-            type: 'datasets',
-            id: model.id,
-            body: model.elasticJSON()
-          })
-        }
-      })
-    }
   }, {
 
     formats: function() {
