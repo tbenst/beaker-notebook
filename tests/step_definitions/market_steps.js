@@ -447,6 +447,10 @@ module.exports = function() {
     return marketCategory.selected().should.eventually.equal(catalog.toUpperCase());
   });
 
+  this.Then(/^I shouldn't see "([^"]*)" field listed on the market list page$/, function(field) {
+    return new this.Widgets.MarketList().getText().should.not.eventually.include(field);
+  });
+
   this.Then(/^I should see the follwing filters:$/, function(table) {
     var _this = this;
     return bluebird.map(table.hashes(), function(row) {

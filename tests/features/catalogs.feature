@@ -38,3 +38,11 @@ As a researcher, I want to be able to browse different market place catalogs.
     And I browse "Quandl" catalog
     And I view the market search
     Then I should be in "Quandl" catalog
+
+  Scenario: Not showing fields not defined for the catalog
+    And I have the following market items:
+      | name              | categories |
+      | Crime in Canada   | Quandl     |
+    When I view the market search
+    And I browse "Quandl" catalog
+    Then I shouldn't see "Updated" field listed on the market list page
