@@ -61,4 +61,16 @@ Bunsen's different components (db, app [api server], web, beaker, provisioner, &
   * Contact jake@mojotech.com and tell him which node package you need to use; he can create the apt package for you and add it to our project-specific apt repository.  It's name will be something like "node-mypackage".
   * Add a line to your service's Dockerfile to include the new apt package - it will be one of the packages mentioned near the top in the "apt-get" command.
 
+## Updating embeded beaker-notebook
 
+The beaker directory uses a [git subtree](https://github.com/git/git/blob/master/contrib/subtree/git-subtree.txt) to vendor the beaker-notebook repo. There are changes on this repo that are specific to the Bunsen world.
+
+To update the beaker-notebook:
+  * checkout `bunsen` branch of [beaker-notebook](http://github.com/twosigma/beaker-notebook.git) repo and make your changes
+  * `$ cd core`
+  * `$ npm install`
+  * `$ npm run compile`
+  * commit and push changes to bunsen branch on github
+  * switch back to the `bunsen` project
+  * git subtree pull --prefix=beaker/beaker-notebook http://github.com/twosigma/beaker-notebook.git bunsen
+(For development, it's easier to make the changes directly in `bunsen/beaker/beaker-notebook` and run `cd core && npm install && npm run compile` from there.)
