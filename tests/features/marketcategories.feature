@@ -38,7 +38,6 @@ As a researcher, I want to be able to browse the market place.
       | World Bank Contract Awards | finance    |
       | Crime Rates, Canada        | canada     |
     When I view the market search
-    And I open the default catalog
     Then I should see 2 items in the "Finance" category count
 
   Scenario: Data set details category
@@ -64,3 +63,19 @@ As a researcher, I want to be able to browse the market place.
   When I view the market search
 	And I browse the default catalog by category "Energy"
 	Then I should see the category owner "Paul"
+
+  Scenario: Using category tree
+    Given I have the following categories:
+      | name       | path        |
+      | Government | 0.1.1.1     |
+      | Officials  | 0.1.1.1.1   |
+      | Federal    | 0.1.1.1.1.1 |
+      | State      | 0.1.1.1.1.2 |
+    When I view the market search
+    And I open the marketplace category "Finance"
+    And I open the marketplace category "Government"
+    And I open the marketplace category "Officials"
+    Then I should see the following categories in the navigation:
+      | name       |
+      | Federal    |
+      | State      |

@@ -5,11 +5,25 @@
     $scope.marketPlace.treeOptions = {
       equality: function(a, b) {
         return a && b && a.path == b.path;
-      }
+      },
+      nodeChildren: "children",
+      onLabelClick: "both",
+      allowMultiple: false
     }
 
-    $scope.treeOptions = {
-      nodeChildren: "children"
+    $scope.onTreeExpansion = function (node, expanded) {
+      if(expanded) {
+        F.Categories.getCategories({root: node.path, limit: 2}).then(function (categories) {
+          _.each(node.children, function(category){
+            var child = _.find(categories[0].children, {id: category.id});
+            category.children = child.children ;
+          })
+        })
+      } else{
+        _.each(node.children, function (category) {
+          delete category.children
+        })
+      }
     }
 
     $scope.onTreeSelection = function(node) {
@@ -36,7 +50,7 @@
       }
     }
 
-    F.Categories.getCategories().then(function(treeData) {
+    F.Categories.getCategories({limit: 3}).then(function(treeData) {
       $scope.treeData = treeData;
     });
 

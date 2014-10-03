@@ -10,6 +10,10 @@ module.exports = function() {
   this.seed = {
     populate: function(models) {
       var modelsArray = Array.prototype.concat(models);
+      var shouldReindex = _.find(modelsArray, function(m) {
+        return m.model == 'Category' || m.model == 'DataSet'
+      })
+
       return Promise.reduce(modelsArray, function(result, model) {
         return post(base + "/data", {form: model}).
           then(function(response) {
@@ -28,7 +32,18 @@ module.exports = function() {
           });
       }, [])
       .then(function(result) {
-        return post(base + "/refresh-index")
+        function reindex() {
+          if(shouldReindex){
+            return post(base + "/reindex");
+          } else {
+            return Promise.resolve();
+          }
+        }
+
+        return reindex(result)
+        .then(function() {
+          return post(base + "/refresh-index");
+        })
         .then(function() {
           return result;
         });
