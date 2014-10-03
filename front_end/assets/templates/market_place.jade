@@ -52,10 +52,10 @@
           span.vendors {{item.vendor}}
       .col-quarter
         ul.attributes
-          li
+          li(ng-if="item.format")
             span.label Format:&nbsp
             span.value.format {{item.format}}
-          li
+          li(ng-if="item.lastUpdated")
             span.label Updated:&nbsp
             span.value.last-updated {{item.lastUpdated | date: 'shortDate'}}
       .cl
