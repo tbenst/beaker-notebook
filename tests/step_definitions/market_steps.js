@@ -52,7 +52,6 @@ module.exports = function() {
       data: data
     }
     return this.seed.populate(seedData)
-    .then(this.seed.dropIndex);
   }
 
   this.Given(/^I have a default catalog$/, function() {
