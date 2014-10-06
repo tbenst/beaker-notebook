@@ -76,8 +76,10 @@ module.exports = function() {
   this.Then(/^I should see that the project details are:$/, function(table) {
     var deets = table.hashes()[0];
     var projectDetailWidget = new this.Widgets.ProjectDetail();
-    projectDetailWidget.name().should.eventually.equal(deets.name);
-    return projectDetailWidget.description().should.eventually.equal(deets.description);
+    return projectDetailWidget.name().should.eventually.equal(deets.name)
+    .then(function() {
+      return projectDetailWidget.description().should.eventually.equal(deets.description);
+    });
   });
 
   this.When(/^I delete the project$/, function(table) {
