@@ -43,4 +43,4 @@ if [[ ! -z $bucket ]] && [[ ! -z $mount ]]; then
   unset AWSACCESSKEYID AWSSECRETACCESSKEY
 fi
 
-exec su -m beaker -c "gradle --project-dir /home/beaker/core/config/builds/dev/ run"
+exec su -m beaker -c "./core/beaker.command"
