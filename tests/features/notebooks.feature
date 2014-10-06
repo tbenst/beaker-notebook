@@ -226,11 +226,13 @@ Feature: Use Notebooks
 
   Scenario: Notebooks commit stats
     When I open the "ghost of tom jones" project
-    And I view the notebook "powderpuff girls"
+    And I see the project has 4 commits
+    When I view the notebook "powderpuff girls"
     And I save my changes to the notebook
-    And I view my projects
-    And I open the "ghost of tom jones" project
-    Then I should see the project has 5 commits
+    And I save the notebook as "Winter Grasp"
+    Then I should be in the "Winter Grasp" notebook
+    When I go back to the project
+    Then I should see the project has 6 commits
 
   Scenario: Open last used notebook
     When I open the "ghost of tom jones" project

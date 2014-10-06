@@ -184,7 +184,7 @@ module.exports = function() {
     return new this.Widgets.ProjectDetail().description().should.eventually.equal(description);
   });
 
-  this.Then(/^I should see the project has (\d+) commits$/, function(num, callback) {
+  this.Then(/^I (?:should see|see) the project has (\d+) commits$/, function(num, callback) {
     var projectDetail = new this.Widgets.ProjectDetail();
     return this.driver.wait(function() {
       return projectDetail.numCommits().should.eventually.equal(num);

@@ -8,6 +8,10 @@ var notebookBase = function() {
 }
 
 module.exports = function() {
+  this.When(/^I go back to the project$/, function(notebookName) {
+    return new this.Widgets.Notebook().goBackToProject();
+  });
+
   this.When(/^I view the notebook list$/, function(notebookName) {
     return new this.Widgets.Notebook().goBackToProject();
   });
