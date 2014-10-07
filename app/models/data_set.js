@@ -228,7 +228,7 @@ module.exports = function(Bookshelf, app) {
       var categoryPath = params.categoryPath;
       var catalogPath = categoryPath ? categoryPath.substring(0, 3) : '0.1';
       return new app.Models.Category({path: catalogPath})
-      .fetch()
+      .fetchFromElastic()
       .then(function(catalog) {
         var q = _this.queryBuilder(catalog, params);
         return client.search({
