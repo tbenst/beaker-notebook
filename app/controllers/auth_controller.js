@@ -5,12 +5,14 @@ module.exports = function(app) {
 
   return {
     authenticate: function (req, res, next) {
-      // This a temporary sign up solution meant to be reverted
-      // when the real sign up page is added
-      User.findOrCreate(req.body)
+      User.signIn(req.body)
         .then(function(user) {
-          var u = _.pick(user.attributes, 'id', 'name', 'email');
-          res.json(_.extend(u, {token: user.id}));
+          if(user) {
+            var u = _.pick(user.attributes, 'id', 'name', 'email');
+            res.json(_.extend(u, {token: user.id}));
+          } else {
+            res.statusCode = 403;
+          }
         })
         .catch(next);
     },

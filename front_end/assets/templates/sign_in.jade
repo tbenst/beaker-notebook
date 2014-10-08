@@ -2,9 +2,9 @@ h1 {{message}}
 br
 form.sign-in(ng-submit="submit()")
   input(ng-model="user.email", type="email", name="email", placeholder="Email")
+  br
+  input(ng-model="user.password", type="password", name="password", placeholder="Password")
   input(type="submit", value="Sign in")
 br
-p Use dummy@example.com to access test user.
-p If you enter a non-existing email, a new user with that email will be created.
 
 a(ui-sref="signUp") Create account

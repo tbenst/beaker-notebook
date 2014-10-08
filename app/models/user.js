@@ -83,21 +83,6 @@ module.exports = function(Bookshelf, app) {
       .fetch()
     },
 
-    findOrCreate: function(attrs) {
-      var user = new User(attrs);
-      return user.fetch()
-        .then(function(u) {
-          if (u) {
-            return u;
-          } else {
-            return user.save()
-              .then(function(u) {
-                return u;
-              });
-          }
-        });
-    },
-
     signUp: function(attrs) {
       return new User(_.pick(attrs, "email")).fetch()
         .then(function(user) {
@@ -108,6 +93,20 @@ module.exports = function(Bookshelf, app) {
               var userAttrs = _.omit(attrs, 'password');
               return new User(_.extend(userAttrs, {password: hash})).save();
             })
+        });
+    },
+
+    signIn: function(attrs) {
+      var userEmail = _.pick(attrs, "email");
+
+      return User.forge(userEmail).fetch()
+        .then(function(user) {
+          if(!user) { throw new Error("Email not registered"); }
+          return Bcrypt.compareAsync(attrs.password, user.attributes.password)
+            .then(function(match) {
+              if(!match) { throw new Error('Wrong password'); }
+              return user;
+            });
         });
     }
   });
