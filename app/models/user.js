@@ -1,4 +1,10 @@
 var _                     = require("lodash");
+var Promise               = require('bluebird');
+var Bcrypt                = Promise.promisifyAll(require("bcryptjs"));
+
+function encryptPassword(attrs) {
+  return Bcrypt.hashAsync(attrs.password, 10);
+};
 
 module.exports = function(Bookshelf, app) {
   var query   = Bookshelf.knex;
@@ -89,6 +95,19 @@ module.exports = function(Bookshelf, app) {
                 return u;
               });
           }
+        });
+    },
+
+    signUp: function(attrs) {
+      return new User(_.pick(attrs, "email")).fetch()
+        .then(function(user) {
+          if(user) { throw new Error('Email already registered') }
+
+          return encryptPassword(attrs)
+            .then(function(hash) {
+              var userAttrs = _.omit(attrs, 'password');
+              return new User(_.extend(userAttrs, {password: hash})).save();
+            })
         });
     }
   });
