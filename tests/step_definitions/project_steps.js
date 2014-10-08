@@ -2,6 +2,7 @@ var assert      = require("assert");
 var moment      = require("moment");
 var _           = require("lodash");
 var expect = require('chai').expect;
+var Promise = require('bluebird');
 var projectBase = {
   model: "Project",
   data: {
@@ -19,7 +20,11 @@ var projectBase = {
 };
 
 function openProject(name) {
-  return new this.Widgets.ProjectManager().click({ text: name });
+  var _this = this;
+  return Promise.delay(1500)
+  .then(function() {
+    return new _this.Widgets.ProjectManager().click({ text: name });
+  });
 }
 
 function viewProjectDashboard() {

@@ -314,7 +314,10 @@ module.exports = function() {
 
   this.When(/^I view the "([^"]*)" market item$/, function(title) {
     var marketList = new this.Widgets.MarketList();
-    return marketList.clickItem(title);
+    return bluebird.delay(1500)
+    .then(function() {
+      return marketList.clickItem(title);
+    });
   });
 
   this.Then(/^I should see "([^"]*)" is related$/, function(title) {
@@ -425,7 +428,10 @@ module.exports = function() {
   this.When(/^I browse the default catalog by category "([^"]*)"$/, function(category) {
     var _this = this;
     var marketCategory = new this.Widgets.MarketCategory();
+    return bluebird.delay(1500)
+    .then(function() {
       return marketCategory.clickCategory(category);
+    });
   });
 
   this.When(/^I browse "([^"]*)" catalog$/, function(catalog) {
