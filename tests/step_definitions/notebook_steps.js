@@ -14,7 +14,10 @@ module.exports = function() {
 
   this.When(/^I view the notebook "([^"]*)"$/, function(notebookName) {
     var notebookList = new this.Widgets.NotebookList();
-    return notebookList.clickByName(notebookName);
+    return Promise.delay(1500)
+    .then(function() {
+      return notebookList.clickByName(notebookName);
+    })
   });
 
   this.Then(/^I (?:should see|see) the following recent notebooks:$/, function(table) {
@@ -57,7 +60,11 @@ module.exports = function() {
     return new this.Widgets.NotebookList().clickByName(name)
     .then(function() {
       return new this.Widgets.Notebook().goBackToProject();
-    }.bind(this)).then(function() {
+    }.bind(this))
+    .then(function() {
+      return Promise.delay(1500);
+    })
+    .then(function() {
       return new this.Widgets.NotebookList().findNotebook(name).should.eventually.be.ok;
     }.bind(this));
   });

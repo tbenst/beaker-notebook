@@ -1,4 +1,5 @@
 var _ = require("lodash");
+var Promise = require('bluebird');
 
 module.exports = function() {
   this.Given(/^I view My Datasets$/, function() {
@@ -31,7 +32,11 @@ module.exports = function() {
   });
 
   this.When(/^I view the "([^"]*)" dataset$/, function(title) {
-    return new this.Widgets.SubscriptionList().clickOn(title);
+    var _this = this;
+    return Promise.delay(1500)
+    .then(function() {
+      return new _this.Widgets.SubscriptionList().clickOn(title);
+    })
   });
 
   this.Then(/^I should see that I have (\d+) datasets in the overview$/, function(count) {
