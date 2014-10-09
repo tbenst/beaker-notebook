@@ -89,8 +89,11 @@ function defineMapping(catalog) {
 
 function defineCatalogMappings() {
   var Category = app.Models.Category;
-  return Category.catalogs()
-  .each(defineMapping);
+  return Category
+  .catalogs()
+  .then(function(catalogs) {
+    return _.map(catalogs, defineMapping);
+  })
 }
 
 function dataSetCount() {
@@ -104,7 +107,9 @@ function indexAll() {
     var numBatches = Math.ceil(count[0]['count'] / BATCH_SIZE);
     return _.range(numBatches);
   })
-  .each(indexBatch);
+  .then(function(batches) {
+    return _.map(batches, indexBatch);
+  });
 }
 
 function indexBatch(i) {
