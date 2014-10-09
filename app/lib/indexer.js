@@ -92,8 +92,10 @@ function defineCatalogMappings() {
   return Category
   .catalogs()
   .then(function(catalogs) {
-    return _.map(catalogs, defineMapping);
-  })
+    return Promise.reduce(catalogs, function(total, catalog) {
+      return defineMapping(catalog);
+    }, []);
+  });
 }
 
 function dataSetCount() {
@@ -108,7 +110,9 @@ function indexAll() {
     return _.range(numBatches);
   })
   .then(function(batches) {
-    return _.map(batches, indexBatch);
+    return Promise.reduce(batches, function(total, batch) {
+      return indexBatch(batch);
+    }, []);
   });
 }
 
