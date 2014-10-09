@@ -124,54 +124,65 @@ function indexBatch(i) {
     q.orderBy('data_sets.id', 'ASC')
   })
   .fetchAll({withRelated: ['categories', 'dataPreviews']})
-  .then(sendBulkRequest);
+  .then(sendBulkDataSetRequest);
 }
 
-function indexCategories() {
+function getCategories() {
   return app.DB.knex('categories')
         .select('categories.*')
         .count('data_sets_categories.data_set_id AS dataCount')
         .leftOuterJoin('data_sets_categories', 'categories.id', 'data_sets_categories.category_id')
         .groupBy('categories.id', 'name', 'path')
-        .orderBy('path')
-  .then(function (categories) {
-    var nodes = {},
-        countedNodes = [];
+        .orderBy('path')  
+}
 
-    function parent(path) {
-      var items = path.split('.');
-      if (items.length == 1) {
-        return null;
-      } else {
-        items.pop();
-        return nodes[items.join('.')];
-      }
+function createCategoryTree(categories) {
+  var nodes = {},
+      countedNodes = [];
+
+  function parent(path) {
+    var items = path.split('.');
+    if (items.length == 1) {
+      return null;
+    } else {
+      items.pop();
+      return nodes[items.join('.')];
     }
+  }
 
-    function initNodes(categories) {
-      _.each(categories, function(category) {
-        nodes[category.path] = _.extend(category, {
-          count: +category.dataCount,
-        });
-        countedNodes.push(nodes[category.path]);
+  function initNodes(categories) {
+    _.each(categories, function(category) {
+      nodes[category.path] = _.extend(category, {
+        count: +category.dataCount,
       });
-    }
-
-    initNodes(categories);
-    _.each(categories.reverse(), function(category) {
-      var parentNode = parent(category.path),
-          node = nodes[category.path];
-      if (parentNode) {
-        parentNode.count = parentNode.count + node.count;
-      }
+      countedNodes.push(nodes[category.path]);
     });
+  }
 
-    return countedNodes;
-  })
+  initNodes(categories);
+  _.each(categories.reverse(), function(category) {
+    var parentNode = parent(category.path),
+        node = nodes[category.path];
+    if (parentNode) {
+      parentNode.count = parentNode.count + node.count;
+    }
+  });
+
+  return countedNodes;
+}
+
+function indexCategories() {
+  return getCategories()
+  .then(createCategoryTree)
   .then(sendBulkCategoryRequest)
 }
 
-function sendBulkRequest(dataSets) {
+function generateCatalogIndexName(category) {
+  var path = category.path.substring(0,3)
+  return 'catalog_' + path
+}
+
+function sendBulkDataSetRequest(dataSets) {
   var req = _(dataSets.models).map(function(dataSet) {
     return [
       {index: {_index: dataSet.indexName(), _type: 'datasets', _id: dataSet.id}},
@@ -188,9 +199,14 @@ function sendBulkCategoryRequest(categories) {
   }
   var req = _(categories).map(function(category) {
     return [
-      {index: {_index: indexName(category) , _type: 'categories', _id: category.id}},
+      {index: {
+        _index: generateCatalogIndexName(category),
+        _type: 'categories', 
+        _id: category.id
+      }},
       category
     ];
   }).flatten().value();
+
   return client.bulk({body: req});
 }
