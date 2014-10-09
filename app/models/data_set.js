@@ -121,7 +121,9 @@ module.exports = function(Bookshelf, app) {
       return _.extend(this.get("metadata"), {
         id: this.id,
         categories: this.related('categories'),
-        dataPreviews: this.related('dataPreviews')
+        dataPreviews: this.related('dataPreviews'),
+        released: this.get("createdAt"),
+        lastUpdated: this.get("updatedAt")
       });
     },
 
