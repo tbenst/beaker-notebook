@@ -6,18 +6,6 @@ section.properties
       .label {{key | _.str: 'humanize'}}
       .value(ng-class="'dataset-' + (key | _.str: 'dasherize')") {{value}}
 
-    li(ng-if="item.startDate")
-      .label start date
-      .value.dataset-start-date {{item.startDate}}
-
-    li(ng-if="item.createdAt")
-      .label released
-      .value {{item.createdAt | date: 'shortDate'}}
-
-    li(ng-if="item.lastUpdated")
-      .label updated
-      .value {{item.lastUpdated | date: 'shortDate'}}
-
     li(ng-if="item.categories")
       .label categories
       .value.dataset-categories {{item.categories | names}}
