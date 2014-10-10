@@ -22,7 +22,7 @@ module.exports = function() {
     var subscriptions = new this.Widgets.SubscriptionList();
     var expectedTitles = _.pluck(table.hashes(), 'title');
     var expectedDescriptions = _.pluck(table.hashes(), 'description');
-    var expectedLocations = _.map(table.hashes(), function(r) { return '/var/s3/' + r.remoteFile; });
+    var expectedLocations = _.pluck(table.hashes(), 'remoteFile');
 
     return subscriptions.titles().should.eventually.deep.equal(expectedTitles).then(function() {
       subscriptions.descriptions().should.eventually.deep.equal(expectedDescriptions);
