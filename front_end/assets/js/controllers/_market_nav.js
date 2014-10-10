@@ -34,7 +34,7 @@
     }
 
     $scope.searchByTag = function(tag) {
-      $scope.newSearch({dataTagsScope: [tag]});
+      $scope.newSearch({tagsScope: [tag]});
     };
 
     $scope.isTagSelected = function(tag) {
