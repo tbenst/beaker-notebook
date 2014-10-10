@@ -12,6 +12,10 @@
   [path]
   (json/read-str (-> path io/resource io/file slurp) :key-fn keyword))
 
+(defn get-with-auth
+  [url]
+  (http/get url (when (System/getenv "USE_KERBEROS") {:spnego-auth true})))
+
 (defn read-indexed-results
   "Given params to specify an ES mapping, reads the entire contents into memory"
   [es-conn index-name mapping-name]

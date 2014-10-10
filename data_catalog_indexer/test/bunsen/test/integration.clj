@@ -30,8 +30,8 @@
   "For tests to compare against what was imported, retrieves page of sample datasets"
   [page-number]
   (base/parse-json-from-http
-   sets/extract-datasets (http/get (sets/source-page-url
-                                    dataset-base-url page-number 0))))
+   sets/extract-datasets
+   (base/get-with-auth (sets/source-page-url dataset-base-url page-number 0))))
 
 (defn source-json-fixture
   "Performs a complete import and makes some relevant data available"
@@ -39,7 +39,8 @@
   (def source-categories
     (:result
      (apply hash-map (base/parse-json-from-http
-                      cats/extract-from-source (http/get categories-url)))))
+                      cats/extract-from-source
+                      (base/get-with-auth categories-url)))))
   (def source-datasets
     (concat (sets-from-page 1) (sets-from-page 2)))
   (f))

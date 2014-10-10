@@ -45,7 +45,7 @@
   (loop [page-number 1]
     (let [page-url (source-page-url base-url page-number 0)
           indexer (base/index! es-conn index-name "datasets"
-                               (partial http/get page-url)
+                               (partial base/get-with-auth page-url)
                                (partial base/parse-json-from-http
                                         (partial parse-feed-page categories))
                                base/bulk-to-es!)]

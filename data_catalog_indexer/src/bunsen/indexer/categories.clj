@@ -50,7 +50,7 @@
 (defn index-categories!
   [es-conn index-name categories-url]
   (base/index! es-conn index-name "categories"
-               (partial http/get categories-url)
+               (partial base/get-with-auth categories-url)
                (partial base/parse-json-from-http extract-from-source)
                base/bulk-to-es!))
 
