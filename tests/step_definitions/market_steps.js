@@ -118,11 +118,15 @@ module.exports = function() {
 
   this.When(/^there is (\d+) market items$/, function(count, callback) {
     var itemSaves = [];
+
     for(var i = 0; i < +count; ++i) {
-      var item = seedDataSet.call(this, {categories: 'default', metadata: {title: marketItemBase().data.title + i}})
+      var item = seedDataSet.bind(this, {categories: 'default', metadata: {title: marketItemBase().data.title + i}});
       itemSaves.push(item);
     }
-    return bluebird.all(itemSaves);
+
+    return bluebird.reduce(itemSaves, function(total, f) {
+      return f();
+    }, []);
   });
 
   function seedDataSet(opts) {
