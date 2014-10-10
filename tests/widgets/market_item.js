@@ -25,15 +25,15 @@ module.exports = function() {
     },
 
     tags: function() {
-      return this.read('.tags');
+      return this.read('.dataset-tags');
     },
 
     format: function() {
-      return this.read('.format');
+      return this.read('.dataset-format');
     },
 
     categories: function() {
-      return this.read('.categories');
+      return this.read('.dataset-categories');
     },
 
     goBackToSearch: function() {
@@ -53,7 +53,7 @@ module.exports = function() {
     },
 
     startDate: function () {
-      return this.read('.start-date');
+      return this.read('.dataset-start-date');
     }
   });
 };

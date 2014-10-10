@@ -4,11 +4,11 @@ section.properties
   ul.property-list
     li(ng-repeat="(key, value) in item.filteredMeta")
       .label {{key | _.str: 'humanize'}}
-      .value(ng-class="key | _.str: 'dasherize'") {{value}}
+      .value(ng-class="'dataset-' + (key | _.str: 'dasherize')") {{value}}
 
     li(ng-if="item.startDate")
       .label start date
-      .value.start-date {{item.startDate}}
+      .value.dataset-start-date {{item.startDate}}
 
     li(ng-if="item.createdAt")
       .label released
@@ -20,9 +20,9 @@ section.properties
 
     li(ng-if="item.categories")
       .label categories
-      .value.categories {{item.categories | names}}
+      .value.dataset-categories {{item.categories | names}}
 
     li(ng-if="item.tags")
       .label tags
-      .value.tags
+      .value.dataset-tags
        span(ng-repeat="tag in item.tags") {{tag}}{{$last ? '' : ', '}}
