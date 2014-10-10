@@ -25,7 +25,7 @@ module.exports = {
   },
 
   refresh: function() {
-    return client.indices.refresh({index: '*'});
+    return refresh();
   },
 
   clear: function() {
@@ -34,8 +34,13 @@ module.exports = {
   }
 };
 
+function refresh() {
+  return client.indices.refresh({index: '*'});
+}
+
 function clearIndex() {
-  return client.indices.delete({index: '*'});
+  return client.indices.delete({index: '*'})
+  .then(refresh)
 }
 
 function defaultMapping() {
@@ -84,7 +89,8 @@ function defineMapping(catalog) {
   return client.indices.create({
     index: 'catalog_' + catalog.get('path'),
     body: mapping
-  });
+  })
+  .then(refresh);
 }
 
 function defineCatalogMappings() {
@@ -189,7 +195,8 @@ function sendBulkDataSetRequest(dataSets) {
       dataSet.elasticJSON()
     ];
   }).flatten().value();
-  return client.bulk({body: req});
+  return client.bulk({body: req})
+  .then(refresh)
 }
 
 function sendBulkCategoryRequest(categories) {
@@ -208,5 +215,6 @@ function sendBulkCategoryRequest(categories) {
     ];
   }).flatten().value();
 
-  return client.bulk({body: req});
+  return client.bulk({body: req})
+  .then(refresh)
 }
