@@ -40,6 +40,27 @@ module.exports = function(Bookshelf, app){
 
     textFields: function() {
       return fields(this.get('metadata'), 'text')
+    },
+
+    fetchFromElastic: function() {
+      var _this = this;
+      var q = {
+        query: {
+          term: {path: this.get('path')}
+        }
+      };
+      return client.search({
+        index: '*',
+        type: 'categories',
+        size: 1,
+        body: q
+      })
+      .then(function(d) {
+        if (d.length < 1) throw new Error('Category not found in Elasticsearch');
+        var attrs = _.pluck(d.hits.hits, '_source')[0];
+        _this.set(attrs);
+        return _this;
+      });
     }
   }, {
 
