@@ -10,7 +10,9 @@ module.exports = function(app) {
     Seed([req.body]).then(function(data) {
       res.json(data);
     })
-    .catch(next);
+    .catch(function(e) {
+      throw(e);
+    });
   });
 
   app.post("/api/seed/drop-repos", function(req, res, next) {
@@ -18,21 +20,27 @@ module.exports = function(app) {
     .then(function() {
       res.send(200);
     })
-    .catch(next);
+    .catch(function(e) {
+      throw(e);
+    });
   });
 
   app.post("/api/seed/drop-all", function(req, res, next) {
     Seed.dropAll().then(function() {
       res.send(200);
     })
-    .catch(next);
+    .catch(function(e) {
+      throw(e);
+    });
   });
 
   app.post("/api/seed/fetch", function(req, res, next) {
     app.Models[req.body.modelName].forge(req.body.data).fetch().then(function(d) {
       res.json(d);
     })
-    .catch(next);
+    .catch(function(e) {
+      throw(e);
+    });
   });
 
   app.post("/api/seed/drop-index", function(req, res, next) {
@@ -40,7 +48,9 @@ module.exports = function(app) {
     .then(function() {
       res.send(200);
     })
-    .catch(next);
+    .catch(function(e) {
+      throw(e);
+    });
   });
 
   app.post("/api/seed/refresh-index", function(req, res, next) {
@@ -48,7 +58,9 @@ module.exports = function(app) {
     .then(function() {
       res.send(200);
     })
-    .catch(next);
+    .catch(function(e) {
+      throw(e);
+    });
   });
 
   app.post("/api/seed/reindex", function(req, res, next) {
@@ -56,6 +68,8 @@ module.exports = function(app) {
     .then(function() {
       res.send(200);
     })
-    .catch(next);
+    .catch(function(e) {
+      throw(e);
+    });
   });
 }
