@@ -127,7 +127,7 @@ function indexCategories() {
   return app.DB.knex('categories')
         .select('categories.*')
         .count('data_sets_categories.data_set_id AS dataCount')
-        .join('data_sets_categories', 'categories.id', '=', 'data_sets_categories.category_id', 'LEFT OUTER')
+        .leftOuterJoin('data_sets_categories', 'categories.id', 'data_sets_categories.category_id')
         .groupBy('categories.id', 'name', 'path')
         .orderBy('path')
   .then(function (categories) {
