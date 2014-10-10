@@ -1,10 +1,304 @@
-[
-  { "name": "Government", "id": 443, "children": [
-    { "name": "Military", "id": 232, "children": [
-      { "name": "Pentagon", "id": 883 },
-      { "name": "Army", "id": 923 },
-    ]},
-    { "name": "Congress", "id": 324 }
-  ] },
-  { "name": "Street Signs", "id": 292 }
-]
+{
+   "children":[
+      {
+         "id":"32",
+         "name":"Market Data",
+         "children":[
+            {
+               "id":"80",
+               "name":"Instrument Pricing"
+            },
+            {
+               "id":"25",
+               "name":"Implied Volatility"
+            },
+            {
+               "id":"11",
+               "name":"Calendars"
+            },
+            {
+               "id":"8",
+               "name":"EOD Data"
+            },
+            {
+               "id":"9",
+               "name":"Return Data"
+            },
+            {
+               "id":"7",
+               "name":"Book Data"
+            },
+            {
+               "id":"12",
+               "name":"Trading Hours"
+            },
+            {
+               "id":"10",
+               "name":"Tick Data"
+            },
+            {
+               "id":"27",
+               "name":"Interest Rate"
+            },
+            {
+               "id":"60",
+               "name":"Borrow Data"
+            },
+            {
+               "id":"6",
+               "name":"Summarized Trade Data"
+            },
+            {
+               "id":"24",
+               "name":"EOD Price Data"
+            }
+         ]
+      },
+      {
+         "id":"44",
+         "name":"Corporate Financials",
+         "children":[
+            {
+               "id":"68",
+               "name":"Financial Statements"
+            },
+            {
+               "id":"2",
+               "name":"Corporate Filings"
+            },
+            {
+               "id":"54",
+               "name":"Segmentation Data"
+            }
+         ]
+      },
+      {
+         "id":"51",
+         "name":"Corporate Structure/Metadata",
+         "children":[
+            {
+               "id":"52",
+               "name":"Corporate Classifications"
+            },
+            {
+               "id":"64",
+               "name":"People"
+            },
+            {
+               "id":"69",
+               "name":"TS Proprietary"
+            },
+            {
+               "id":"53",
+               "name":"Legal/Corporate Hierarchy"
+            }
+         ]
+      },
+      {
+         "id":"42",
+         "name":"Index & ETF Data",
+         "children":[
+            {
+               "id":"78",
+               "name":"Methodology"
+            },
+            {
+               "id":"22",
+               "name":"Constituency"
+            }
+         ]
+      },
+      {
+         "id":"23",
+         "name":"Backoffice"
+      },
+      {
+         "id":"56",
+         "name":"Economic Data",
+         "children":[
+            {
+               "id":"77",
+               "name":"Economic Forecasts"
+            },
+            {
+               "id":"76",
+               "name":"Inventories"
+            },
+            {
+               "id":"74",
+               "name":"Government Data / ECO Releases"
+            },
+            {
+               "id":"75",
+               "name":"Policy Calendars"
+            }
+         ]
+      },
+      {
+         "id":"28",
+         "name":"Non-financial",
+         "children":[
+            {
+               "id":"16",
+               "name":"Weather"
+            }
+         ]
+      },
+      {
+         "id":"3",
+         "name":"Ownership",
+         "children":[
+            {
+               "id":"79",
+               "name":"Macro Fund Flow"
+            },
+            {
+               "id":"47",
+               "name":"Insider Holdings"
+            },
+            {
+               "id":"46",
+               "name":"Institutional Holdings"
+            },
+            {
+               "id":"48",
+               "name":"Mutual Fund"
+            }
+         ]
+      },
+      {
+         "id":"57",
+         "name":"Alpha Capture",
+         "children":[
+            {
+               "id":"72",
+               "name":"TS Proprietary",
+               "children":[
+                  {
+                     "id":"61",
+                     "name":"PICS"
+                  },
+                  {
+                     "id":"62",
+                     "name":"Analyst Surveys"
+                  }
+               ]
+            },
+            {
+               "id":"59",
+               "name":"Social Finance"
+            },
+            {
+               "id":"71",
+               "name":"Macro Sentiment"
+            }
+         ]
+      },
+      {
+         "id":"30",
+         "name":"Fundamental Data",
+         "children":[
+            {
+               "id":"4",
+               "name":"Company Data"
+            }
+         ]
+      },
+      {
+         "id":"33",
+         "name":"Security Master",
+         "children":[
+            {
+               "id":"18",
+               "name":"Instrument Symbology"
+            },
+            {
+               "id":"19",
+               "name":"Instrument Attributes"
+            }
+         ]
+      },
+      {
+         "id":"35",
+         "name":"Research",
+         "children":[
+            {
+               "id":"1",
+               "name":"Sell-side Estimates"
+            },
+            {
+               "id":"70",
+               "name":"Sell-side Macro Research"
+            },
+            {
+               "id":"5",
+               "name":"Sell-side Equity Research"
+            },
+            {
+               "id":"73",
+               "name":"Third Party Research"
+            }
+         ]
+      },
+      {
+         "id":"43",
+         "name":"Risk/Return Data",
+         "children":[
+            {
+               "id":"26",
+               "name":"Risk Data"
+            }
+         ]
+      },
+      {
+         "id":"36",
+         "name":"Corporate Events",
+         "children":[
+            {
+               "id":"67",
+               "name":"TS Proprietary",
+               "children":[
+                  {
+                     "id":"81",
+                     "name":"Sub-category"
+                  }
+               ]
+            },
+            {
+               "id":"50",
+               "name":"Company Calendars"
+            },
+            {
+               "id":"49",
+               "name":"Mergers & Acquisitions"
+            },
+            {
+               "id":"17",
+               "name":"Corporate Actions"
+            },
+            {
+               "id":"66",
+               "name":"Corporate Releases"
+            }
+         ]
+      },
+      {
+         "id":"34",
+         "name":"News & Social",
+         "children":[
+            {
+               "id":"29",
+               "name":"News Feeds"
+            },
+            {
+               "id":"45",
+               "name":"Web Sources"
+            },
+            {
+               "id":"58",
+               "name":"Social Feeds"
+            }
+         ]
+      }
+   ]
+}
