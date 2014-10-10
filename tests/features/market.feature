@@ -305,7 +305,7 @@ As a researcher, I want to be able to use the market place.
     And I view the market search
     When I view the "Crime Rates, Canada" market item
     And I subscribe to the market item
-    Then I should see the file path "/var/s3/CRIME.xml"
+    Then I should see the file path "CRIME.xml"
 
   Scenario: Category with a description
     Given I have the following categories:

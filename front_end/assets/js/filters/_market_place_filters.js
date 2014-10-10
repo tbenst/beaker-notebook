@@ -7,11 +7,6 @@
           return i.name;
         }).join(", ");
       };
-    })
-    .filter('dataSetPath', function() {
-      return function(remotePath) {
-        return "/var/s3/" + remotePath;
-      };
     });
 
 })(angular, window.bunsen);
