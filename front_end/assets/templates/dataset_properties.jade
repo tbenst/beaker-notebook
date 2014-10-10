@@ -10,11 +10,11 @@ section.properties
       .label start date
       .value.start-date {{item.startDate}}
 
-    li
+    li(ng-if="item.createdAt")
       .label released
       .value {{item.createdAt | date: 'shortDate'}}
 
-    li
+    li(ng-if="item.lastUpdated")
       .label updated
       .value {{item.lastUpdated | date: 'shortDate'}}
 
