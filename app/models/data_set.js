@@ -266,8 +266,8 @@ module.exports = function(Bookshelf, app) {
     findMatching: function(params, options) {
       var _this = this;
       var categoryPath = params.categoryPath;
-      var catalogPath = categoryPath ? categoryPath.substring(0, 3) : '0.1';
       return new app.Models.Category({path: catalogPath})
+      var catalogPath = categoryPath ? categoryPath.split('.').slice(0,2).join('.') : '0.1';
       .fetchFromElastic()
       .then(function(catalog) {
         var q = _this.queryBuilder(catalog, params);

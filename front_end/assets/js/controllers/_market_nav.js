@@ -28,7 +28,7 @@
 
     $scope.onTreeSelection = function(node) {
       if (node) {
-        $localStorage.lastCatalog = node.path.substring(0, 3);
+        $localStorage.lastCatalog = node.path.split('.').slice(0,2).join('.')
         $scope.newSearch({categoryPath: node.path});
       }
     }

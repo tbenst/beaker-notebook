@@ -203,8 +203,7 @@ function indexCategories() {
 }
 
 function generateCatalogIndexName(category) {
-  var path = category.path.substring(0,3)
-  return 'catalog_' + path
+  return 'catalog_' + category.path.split('.').slice(0,2).join('.');
 }
 
 function sendBulkDataSetRequest(dataSets) {
@@ -219,10 +218,6 @@ function sendBulkDataSetRequest(dataSets) {
 }
 
 function sendBulkCategoryRequest(categories) {
-  function indexName(category) {
-    var path = category.path.substring(0,3)
-    return 'catalog_' + path
-  }
   var req = _(categories).map(function(category) {
     return [
       {index: {
