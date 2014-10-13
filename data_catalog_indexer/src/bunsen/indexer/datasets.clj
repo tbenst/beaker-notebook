@@ -13,9 +13,11 @@
 (defn es-dataset-doc
   "Given one dataset from the feed, and the collection of categories, returns the Elastiche payload for the category"
   [categories dataset]
-  (let [cat-id (dataset :categoryId)
+  (let [id (read-string (:id dataset))
+        cat-id (dataset :categoryId)
         source-category (categories (str cat-id))]
-    {:_id (:id dataset)
+    {:_id id
+     :id id
      :title (:product dataset)
      :vendor (:vendor dataset)
      :categories [{:id cat-id
@@ -25,7 +27,6 @@
      :metaDataChanged (:lastUpdateTime dataset)
      :remoteFile (:storage dataset)
      :createdAt (:firstUpdateTime dataset)
-     :id (:id dataset)
      :description (:description dataset)
      :businessOwner (:businessOwner dataset)
      :public (:public dataset)}))
