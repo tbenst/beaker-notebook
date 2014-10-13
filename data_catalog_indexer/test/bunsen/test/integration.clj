@@ -10,7 +10,7 @@
             [clojure.test :refer :all]
             ))
 
-(def dataset-base-url "http://10.10.10.10:1880/api/v1/metadata")
+(def dataset-base-url "http://10.10.10.10:1880/api/v1/metadata?")
 (def categories-url "http://10.10.10.10:1880/sample_categories.json")
 (def elasticsearch-url "http://10.10.10.10:9200")
 (def index-name "catalog_0.0")
@@ -42,7 +42,7 @@
                       cats/extract-from-source
                       (base/get-with-auth categories-url)))))
   (def source-datasets
-    (concat (sets-from-page 1) (sets-from-page 2)))
+    (concat (sets-from-page 0) (sets-from-page 1)))
   (f))
 
 (defn perform-import-fixture

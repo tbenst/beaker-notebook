@@ -4,9 +4,11 @@
             ))
 
 (defn extract-datasets
-  "Given a feed result page json, extracts the datasets"
+  "Given a feed result page json, extracts the datasets.  Althugh this consists of
+   a single symbol function call, leaving it because there have been other layouts
+  proposed for the structre of the json document"
   [json-body]
-  (-> json-body :payload first :actual))
+  (:pageContent json-body))
 
 (defn es-dataset-doc
   "Given one dataset from the feed, and the collection of categories, returns the Elastiche payload for the category"
@@ -37,12 +39,12 @@
 (defn source-page-url
   "Constructs the full url for a source dataset page from base and params"
   [base page-number since]
-  (str base "?page=" page-number "&since=" since))
+  (str base "&page=" page-number "&since=" since))
 
 (defn index-datasets!
   "Given an elasticsearch connection, base url category map and index name, index all datasets"
   [es-conn index-name base-url categories]
-  (loop [page-number 1]
+  (loop [page-number 0]
     (let [page-url (source-page-url base-url page-number 0)
           indexer (base/index! es-conn index-name "datasets"
                                (partial base/get-with-auth page-url)
