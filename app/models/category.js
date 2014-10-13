@@ -50,7 +50,7 @@ module.exports = function(Bookshelf, app){
         }
       };
       return client.search({
-        index: '*',
+        index: this.get('index'),
         type: 'categories',
         size: 1,
         body: q

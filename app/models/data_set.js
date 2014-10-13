@@ -266,13 +266,14 @@ module.exports = function(Bookshelf, app) {
     findMatching: function(params, options) {
       var _this = this;
       var categoryPath = params.categoryPath;
-      return new app.Models.Category({path: catalogPath})
       var catalogPath = categoryPath ? categoryPath.split('.').slice(0,2).join('.') : '0.1';
+      var index = params.currentIndex;
+      return new app.Models.Category({path: catalogPath, index: index})
       .fetchFromElastic()
       .then(function(catalog) {
         var q = _this.queryBuilder(catalog, params);
         return client.search({
-          index: 'catalog_' + catalogPath,
+          index: index,
           type: 'datasets',
           size: options.size,
           from: options.from,

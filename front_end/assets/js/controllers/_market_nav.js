@@ -4,7 +4,7 @@
     var F = Factories;
     $scope.marketPlace.treeOptions = {
       equality: function(a, b) {
-        return a && b && a.path == b.path;
+        return a && b && a.index == b.index && a.path == b.path;
       },
       nodeChildren: "children",
       onLabelClick: "both",
@@ -28,7 +28,8 @@
 
     $scope.onTreeSelection = function(node) {
       if (node) {
-        $localStorage.lastCatalog = node.path.split('.').slice(0,2).join('.')
+        $localStorage.lastCatalogPath = node.path.split('.').slice(0,2).join('.')
+        $localStorage.lastIndex = node.index;
         $scope.newSearch({categoryPath: node.path});
       }
     }
