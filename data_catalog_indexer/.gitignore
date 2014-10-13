@@ -7,3 +7,5 @@ pom.xml.asc
 *.class
 /.lein-*
 /.nrepl-port
+!local_policy.jar
+!US_export_policy.jar
