@@ -13,7 +13,7 @@ server {
   }
 
   location /api/v1/metadata {
-    if ($args ~* "^page=(\d+)") {
+    if ($args ~* "page=(\d+)") {
         set $page $1;
         set $args '';
         rewrite ^.*$ /sample_datasets_$page.json last;
