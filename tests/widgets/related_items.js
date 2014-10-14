@@ -8,7 +8,15 @@ module.exports = function() {
     },
 
     clickItem: function(title) {
-      return this.click({ text: title });
+      var _this = this;
+
+      return this.find({text: title})
+      .then(function(filtered) {
+        return _this.driver.executeScript("arguments[0].scrollIntoView(true);", filtered)
+        .then(function() {
+          return filtered.click();
+        })
+      });
     }
   });
 };
