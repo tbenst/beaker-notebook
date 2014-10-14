@@ -179,18 +179,17 @@ As a researcher, I want to be able to use the market place.
     Then I should see 1 market item on the market list page
     And I should see the "Crime in America" market item on the market list page
 
-  # @failure
-  # Scenario: Related market items
-  #   Given I have the following market items:
-  #     | title                       | tags                      |
-  #     | Quarterly E-commerce Report | finance,e-commerce        |
-  #     | Amazon Annual Report        | amazon,e-commerce,finance |
-  #     | The World Bank Report 2013  | finance,world bank        |
-  #   And I view the market search
-  #   When I view the "Quarterly E-commerce Report" market item
-  #   Then I should see "Amazon Annual Report" is related
-  #   When I view the "Amazon Annual Report" related item
-  #   Then I should see no related items
+  Scenario: Related market items
+    Given I have the following market items:
+      | title                       | tags                      |
+      | Quarterly E-commerce Report | finance,e-commerce        |
+      | Amazon Annual Report        | amazon,e-commerce,finance |
+      | The World Bank Report 2013  | finance,world bank        |
+    And I view the market search
+    When I view the "Quarterly E-commerce Report" market item
+    Then I should see "Amazon Annual Report" is related
+    When I view the "Amazon Annual Report" related item
+    Then I should see no related items
 
   Scenario: Data set details description
     Given I have the following market items:
@@ -200,20 +199,19 @@ As a researcher, I want to be able to use the market place.
     When I view the "Quarterly E-commerce Report" market item
     Then I should see the market description "All revenue from e-commerce each quarter"
 
-  # @failure
-  # Scenario: No more than 5 related market items
-  #   Given I have the following market items:
-  #     | title                       | tags                      |
-  #     | Quarterly E-commerce Report | finance,e-commerce        |
-  #     | Amazon Annual Report        | amazon,e-commerce,finance |
-  #     | The World Bank Report 2013  | finance,food              |
-  #     | Butter Futures              | finance,e-commerce        |
-  #     | Hog Futures                 | e-commerce,finance        |
-  #     | Wood Futures                | finance,e-commerce        |
-  #     | Yearly e-commerce Report    | finance,e-commerce        |
-  #   And I view the market search
-  #   When I view the "Quarterly E-commerce Report" market item
-  #   Then I should see "5" related items
+  Scenario: No more than 5 related market items
+    Given I have the following market items:
+      | title                       | tags                      |
+      | Quarterly E-commerce Report | finance,e-commerce        |
+      | Amazon Annual Report        | amazon,e-commerce,finance |
+      | The World Bank Report 2013  | finance,food              |
+      | Butter Futures              | finance,e-commerce        |
+      | Hog Futures                 | e-commerce,finance        |
+      | Wood Futures                | finance,e-commerce        |
+      | Yearly e-commerce Report    | finance,e-commerce        |
+    And I view the market search
+    When I view the "Quarterly E-commerce Report" market item
+    Then I should see "5" related items
 
   Scenario: Data set details vendor
     Given I have the following market items:
