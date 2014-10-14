@@ -17,13 +17,13 @@
           "type": "string",
           "index": "not_analyzed"
         },
-        "activeAgo": {
+        "metaDataChanged": {
           "type": "date"
         },
-        "lastUpdateTime": {
+        "lastUpdated": {
           "type": "date"
         },
-        "firstUpdateTime": {
+        "createdAt": {
           "type": "date"
         },
         "categories": {
