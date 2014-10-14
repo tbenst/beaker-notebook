@@ -218,9 +218,9 @@ module.exports = function() {
 
   this.Given(/^I have the following market items:$/, function(table, callback) {
     var _this = this;
-    return bluebird.map(table.hashes(), function(row) {
+    return bluebird.reduce(table.hashes(), function(__, row) {
       return seedDataSet.call(_this, dataSetRow(row));
-    });
+    }, null);
   });
 
   this.Given(/^I'm subscribed to the following market items:$/, function(table, callback) {
