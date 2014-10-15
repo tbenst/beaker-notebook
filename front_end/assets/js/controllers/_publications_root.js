@@ -2,6 +2,14 @@
   app.controller('publicationsRoot', ['$scope', 'Factories', '$state', function($scope, Factories, $state) {
     $scope.publications = {};
 
+    $scope.byPublicationFilter = function(p) {
+      if (!$scope.publications.search) {return true}
+      var name = p.name.toLowerCase();
+      var desc = (p.description ? p.description : '').toLowerCase();
+      var term = $scope.publications.search.toLowerCase();
+      return name.indexOf(term) != -1 || desc.indexOf(term) != -1;
+    };
+
     $scope.$watch('publications.search', function(v) {
       if (v !== void(0) && v !== '') {
         if ($state.is('publications.items.item')) {
