@@ -72,21 +72,46 @@ module.exports = function(Bookshelf, app) {
     },
 
     catalogPath: function() {
-      var category = this.related('categories').models[0];
-      return category.get('path').substring(0, 3);
+      function catalog(path) {
+        var p = path.split('.');
+        return p[0] + '.' + p[1];
+      }
+
+      if (this.get('categories')) {
+        var category = this.get('categories')[0];
+        return catalog(category.path);
+      } else if (this.related('categories')) {
+        var category = this.related('categories').models[0];
+        return catalog(category.get('path'));
+      }
     },
 
     fetchFromElastic: function() {
+      var _this = this;
+
       return DataSet.findByIds({ids: [this.id], size: 1})
       .then(function(d) {
         if (d.length < 1) throw new Error('DataSet not found in Elasticsearch');
         var dataset = d[0];
+        _this.set(dataset);
+
         return models.Subscription.query({where: {data_set_id: dataset.id}}).fetchAll()
         .then(function(subscriptions) {
           // inject subscription ids into dataset
           var ids = _.pluck(subscriptions.toJSON(), 'userId');
           return _.extend(dataset, {subscriberIds: ids});
         });
+      })
+      .then(function(dataset) {
+        // inject related datasets
+        return DataSet.taggedWith({
+          catalogPath: _this.catalogPath(),
+          tags: dataset.tags,
+          exclude: [_this.id]
+        })
+        .then(function(related) {
+          return _.extend(dataset, {related: related.data});
+        })
       })
     },
 
@@ -115,7 +140,10 @@ module.exports = function(Bookshelf, app) {
               bool: {must: this.mustQueries(catalog.textFields(), params)}
             },
             filter: {
-              bool: {must: this.mustFilters(catalog.filters(), params)}
+              bool: {
+                must: this.mustFilters(catalog.filters(), params),
+                must_not: this.mustNotFilters(params)
+              }
             }
           }
         },
@@ -140,6 +168,18 @@ module.exports = function(Bookshelf, app) {
         }
       });
       return filters;
+    },
+
+    mustNotFilters: function(params) {
+      var not = [];
+      if (params.exclude) {
+        not.push({
+          ids: {
+            values: params.exclude
+          }
+        });
+      }
+      return not;
     },
 
     mustQueries: function(fields, params) {
@@ -255,7 +295,7 @@ module.exports = function(Bookshelf, app) {
       var size = options.size || Number.MAX_SAFE_INTEGER;
       var q = {
         query: {
-          ids: {values: [options.ids]}
+          ids: {values: options.ids}
         }
       };
       return client.search({
@@ -269,25 +309,15 @@ module.exports = function(Bookshelf, app) {
       });
     },
 
-    taggedWith: function(tags, excludeIds) {
-      if (!tags || tags.length == 0) {
-        // return no results. workaround for a shortcoming in KNEX.
-        // "where in ()" is invalid SQL.
-        return query('data_sets').whereNull('id');
-      }
-      var q = query('data_sets')
-        .select('data_sets.id', 'data_sets.title')
-        .distinct()
-        .limit(5)
-        .join('data_sets_data_tags', 'data_sets.id', '=', 'data_sets_data_tags.data_set_id')
-        .join('data_tags', 'data_tags.id', '=', 'data_sets_data_tags.data_tag_id')
-        .whereIn('data_tags.name', tags)
-        .groupBy('data_sets.id')
-        .having(query.raw('count(*) = ' + tags.length));
-      if (excludeIds && excludeIds.length > 0) {
-        q = q.whereNotIn('data_sets.id', excludeIds)
-      }
-      return q;
+    taggedWith: function(options) {
+      return this.findMatching({
+        categoryPath: options.catalogPath,
+        tags: options.tags,
+        exclude: options.exclude
+      }, {
+        size: 5,
+        from: 0
+      });
     }
   });
 

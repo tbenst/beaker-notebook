@@ -218,9 +218,9 @@ module.exports = function() {
 
   this.Given(/^I have the following market items:$/, function(table, callback) {
     var _this = this;
-    return bluebird.map(table.hashes(), function(row) {
+    return bluebird.reduce(table.hashes(), function(__, row) {
       return seedDataSet.call(_this, dataSetRow(row));
-    });
+    }, null);
   });
 
   this.Given(/^I'm subscribed to the following market items:$/, function(table, callback) {
@@ -440,7 +440,10 @@ module.exports = function() {
 
   this.When(/^I browse "([^"]*)" catalog$/, function(catalog) {
     var marketCategory = new this.Widgets.MarketCategory();
-    return marketCategory.clickCategory(catalog);
+    return bluebird.delay(1500)
+    .then(function() {
+      return marketCategory.clickCategory(catalog);
+    })
   });
 
   this.Then(/^I should be in "([^"]*)" catalog$/, function(catalog) {

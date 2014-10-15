@@ -9,7 +9,7 @@
       controller: ['$scope', function($scope) {
 
         var specialUiAttrs = ['csvPreview', 'description', 'numColumns', 'remoteFile', 'rows', 'startDate', 'tags', 'title', 'dataPreviews', 'categories', 'vendor'];
-        var ignoreAttrs = ['subscriberIds', 'id', 'tabView']
+        var ignoreAttrs = ['subscriberIds', 'id', 'tabView', 'related']
         var omitAttrs = specialUiAttrs.concat(ignoreAttrs);
 
         $scope.item.filteredMeta = _.omit($scope.item, omitAttrs);

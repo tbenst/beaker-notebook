@@ -17,7 +17,7 @@ module.exports.init = function(app, configPath) {
     throw new Error('Error reading config from '+configPath)
   }
 
-  var DB = Bookshelf.initialize(knex(config));
+  var DB = app.DB || Bookshelf.initialize(knex(config));
 
   //When creating relationships bookshelf adds pivot keys
   //The pivot keys return incorrectly after being formatted and parsed so we should just ignore them
