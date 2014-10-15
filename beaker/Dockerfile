@@ -1,10 +1,5 @@
-FROM mojo/debian:wheezy
-MAINTAINER mojotech <ops@mojotech.com>
-
-ADD apt/jessie.pref /etc/apt/preferences.d/
-ADD apt/jessie.list /etc/apt/sources.list.d/
-
-RUN echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
+FROM mojo/debian
+MAINTAINER mojotech <ops+docker@mojotech.com>
 
 RUN apt-get update -qq && \
     apt-get install -qq -y --no-install-recommends -t wheezy-backports \
@@ -15,26 +10,30 @@ RUN apt-get update -qq && \
       gradle \
       libcurl3 \
       libxml2 \
+      libzmq3 \
       locales \
       mime-support \
       nginx \
       nodejs-legacy \
-      npm \
-      oracle-java7-installer \
-      oracle-java7-set-default \
-      oracle-jdk7-installer \
+      oracle-java7-jdk \
+      oracle-java7-jre \
       python \
       python-pandas \
       python-scipy \
       python-dev \
       python-matplotlib \
       python-numpy \
+      python-ipython \
+      python-jinja2 \
       python-pip \
-      s3fs-fuse && \
+      python-pyzmq \
+      python-tornado \
+      s3fs-fuse \
+      && \
+    apt-get install -qq -y --no-install-recommends -t jessie \
+      npm \
+      && \
     apt-get clean
-
-RUN pip install ipython jinja2 tornado && \
-    pip install pyzmq --install-option="--zmq=bundled"
 
 # TODO: when beaker starts get this error:
 # nginx-stderr>nginx: [alert] could not open error log file: open() "/var/log/nginx/error.log" failed (13: Permission denied)

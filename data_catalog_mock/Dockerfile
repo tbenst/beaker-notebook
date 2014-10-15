@@ -1,5 +1,5 @@
-FROM mojo/debian:wheezy
-MAINTAINER mojotech <ops@mojotech.com>
+FROM mojo/debian
+MAINTAINER mojotech <ops+docker@mojotech.com>
 
 RUN apt-get update -qq && \
     apt-get install -qq -y --no-install-recommends -t local nginx && \

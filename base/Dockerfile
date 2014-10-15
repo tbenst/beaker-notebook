@@ -1,5 +1,5 @@
-FROM debian:wheezy
-MAINTAINER mojotech <ops@mojotech.com>
+FROM debian
+MAINTAINER mojotech <ops+docker@mojotech.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 

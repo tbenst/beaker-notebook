@@ -1,4 +1,4 @@
-FROM mojo/debian:wheezy
+FROM mojo/debian
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
 RUN apt-get update -qq \
