@@ -21,7 +21,7 @@ module.exports = function() {
     },
 
     frequency: function() {
-      return this.read('.update-frequency');
+      return this.read('.dataset-update-frequency');
     },
 
     tags: function() {
