@@ -10,6 +10,8 @@
       });
     };
 
+    $scope.loadProject();
+
     $rootScope.$on('window-message-notebook-create', function(event, notebook) {
       $state.go('projects.items.item.notebook', { notebook_id: notebook.id });
     });
@@ -56,6 +58,7 @@
 
     $scope.updateProject = function() {
       $scope.project.customPUT($scope.newAttributes).then(function() {
+        $scope.loadProject();
         loadProjectList();
         $scope.editMode = false;
         $scope.error = null;
@@ -101,17 +104,6 @@
       var editableAttributes = ['name', 'description'];
 
       $scope.newAttributes = _.pick($scope.project, editableAttributes);
-    });
-
-    $scope.$watchCollection('projects.list', function() {
-      $scope.project = _.find($scope.projects.list, {id: parseInt($state.params.id)});
-      if ($scope.project) { $scope.project.customPUT({ open: true})}
-    });
-
-    $scope.$watchCollection('notebooks.list', function() {
-      $scope.project = $scope.project || {};
-
-      $scope.project.notebooks = _.where($scope.notebooks.list, {projectId: parseInt($state.params.id)});
     });
   }]);
 })(angular, window.bunsen);

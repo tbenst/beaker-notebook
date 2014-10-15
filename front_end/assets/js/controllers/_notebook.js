@@ -56,6 +56,10 @@
       });
     };
 
+    F.Projects.getProject($state.params.id).then(function(project) {
+     $scope.project = project;
+    });
+
     if ($scope.cachedNotebooks[$state.params.notebook_id]) {
       Notebooks.update({id: $state.params.notebook_id, open: true});
       $scope.notebook = $scope.cachedNotebooks[$state.params.notebook_id];
@@ -85,10 +89,6 @@
     $scope.openPublishModal = function() {
       $scope.$emit('openModal', $compile(templates.publish_notebook_modal())($scope), { width: '400px' });
     };
-
-    $scope.$watchCollection('projects.list', function() {
-      $scope.project = _.find($scope.projects.list, {id: parseInt($state.params.id)});
-    });
 
     $scope.$watch('notebook.current', function(newVal) {
       if (!newVal) return;

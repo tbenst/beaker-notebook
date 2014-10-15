@@ -81,8 +81,10 @@ module.exports = function() {
   this.Then(/^I should see that the project details are:$/, function(table) {
     var deets = table.hashes()[0];
     var projectDetailWidget = new this.Widgets.ProjectDetail();
-    projectDetailWidget.name().should.eventually.equal(deets.name);
-    return projectDetailWidget.description().should.eventually.equal(deets.description);
+    return projectDetailWidget.name().should.eventually.equal(deets.name)
+    .then(function() {
+      return projectDetailWidget.description().should.eventually.equal(deets.description);
+    });
   });
 
   this.When(/^I delete the project$/, function(table) {
@@ -187,7 +189,7 @@ module.exports = function() {
     return new this.Widgets.ProjectDetail().description().should.eventually.equal(description);
   });
 
-  this.Then(/^I should see the project has (\d+) commits$/, function(num, callback) {
+  this.Then(/^I (?:should see|see) the project has (\d+) commits$/, function(num, callback) {
     var projectDetail = new this.Widgets.ProjectDetail();
     return this.driver.wait(function() {
       return projectDetail.numCommits().should.eventually.equal(num);
