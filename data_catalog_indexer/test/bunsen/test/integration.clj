@@ -3,6 +3,7 @@
             [bunsen.indexer.categories :as cats]
             [bunsen.indexer.datasets :as sets]
             [bunsen.indexer.main :as main]
+            [bunsen.indexer.mappings :as maps]
             [clj-http.client :as http]
             [clojure.data.json :as json]
             [clojurewerkz.elastisch.rest :as rest]
@@ -37,10 +38,8 @@
   "Performs a complete import and makes some relevant data available"
   [f]
   (def source-categories
-    (:result
-     (apply hash-map (base/parse-json-from-http
-                      cats/extract-from-source
-                      (base/get-with-auth categories-url)))))
+    (base/parse-json-from-http cats/extract-from-source
+                               (base/get-with-auth categories-url)))
   (def source-datasets
     (concat (sets-from-page 0) (sets-from-page 1)))
   (f))
@@ -77,10 +76,11 @@
 (deftest test-dataset-import
   (testing "All datasets indexed"
     (doseq [source-dataset source-datasets]
-      (let [es-dataset (indexed-datasets (str (:id source-dataset)))
+      (let [id (str (:id source-dataset))
+            es-dataset (indexed-datasets id)
             cached-cat (-> es-dataset :categories first)
             original-cat (indexed-categories (str (:id cached-cat)))]
-        (is (not (nil? es-dataset)) "dataset indexed")
+        (is (not (nil? es-dataset)) (str "dataset indexed " id))
         (is (= (:product source-dataset)
                (:title es-dataset))
             "title matches original title")
@@ -99,4 +99,3 @@
             "name matches original title")
         (is (= (count-for source-category) (:count es-category))
             "cached subtree count matches observed count of datasets")))))
-

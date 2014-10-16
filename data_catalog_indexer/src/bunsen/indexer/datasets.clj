@@ -34,25 +34,32 @@
 (defn parse-feed-page
   "Given the raw response from TS feed, parses it"
   [categories json-body]
-  [:more (:more json-body)
-   :result (map (partial es-dataset-doc categories) (extract-datasets json-body))])
+  {:more (:more json-body)
+   :datasets (map (partial es-dataset-doc categories)
+                  (extract-datasets json-body))})
 
 (defn source-page-url
   "Constructs the full url for a source dataset page from base and params"
   [base page-number since]
   (str base "&page=" page-number "&since=" since))
 
+(defn bulk-index!
+  ""
+  [es-conn index-name mapping-type {:keys [more datasets] :as result}]
+  {:index-response (base/bulk-to-es! es-conn index-name mapping-type datasets)
+   :more more})
+
 (defn index-datasets!
   "Given an elasticsearch connection, base url category map and index name, index all datasets"
   [es-conn index-name base-url categories]
   (loop [page-number 0]
     (let [page-url (source-page-url base-url page-number 0)
-          indexer (base/index! es-conn index-name "datasets"
-                               (partial base/get-with-auth page-url)
+          indexer (base/index! es-conn index-name "datasets" page-url
+                               base/get-with-auth
                                (partial base/parse-json-from-http
                                         (partial parse-feed-page categories))
-                               base/bulk-to-es!)]
+                               bulk-index!)]
       (await-for 5000 indexer)
-      (if (:more @indexer)
+      (if (-> @indexer :result :more)
         (recur (+ page-number 1))
         indexer))))

@@ -1,5 +1,6 @@
 (ns bunsen.indexer.base
-  (:require [clj-http.client :as http]
+  (:require [bunsen.indexer.pipeline :as pipe]
+            [clj-http.client :as http]
             [clojure.data.json :as json]
             [clojure.java.io :as io]
             [clojurewerkz.elastisch.rest.bulk :as bulk]
@@ -38,23 +39,21 @@
       (throw (ex-info "failed http request" response)))
     (parse-body-fn (json/read-str body :key-fn keyword))))
 
+(defn watch-log
+  [agent description]
+  (add-watch agent :log (fn [key ref old-ctx new-ctx]
+                          (log/info "agent" description (hash ref)
+                                    "value change" new-ctx))))
+
 (defn index!
   "Implements a pipeline which downloads and parses a data feed,
   and indexes the result in ElasticSearch.  Caller must provide the functions
   to download, parse, and index.  NOTE:  parse-fn must return a vector like
   [:result __payload__ ...]"
-  [es-conn index-name mapping-type download-fn parse-fn index-fn]
-  (-> (agent {:stage "new"})
-      (add-watch :log (fn [key ref old-ctx new-ctx]
-                        (log/info "agent" (hash ref) "value change" new-ctx)))
-      (send-off (fn [ctx]
-                  (assoc ctx :stage "source-downloaded"
-                         :result (download-fn))))
-      (send-off (fn [ctx]
-                  (apply assoc ctx :stage "payload-assembled"
-                         (parse-fn (:result ctx)))))
-      (send-off (fn [ctx]
-                  (assoc ctx :stage "indexed"
-                         :result (index-fn es-conn index-name mapping-type
-                                           (:result ctx)))))))
+  [es-conn index-name mapping-type src-url download-fn parse-fn index-fn]
+  (let [a (agent {:stage "new" :result src-url})]
+    (watch-log a (str "indexer for " src-url))
+    (pipe/pipeline a {:source-downloaded download-fn
+                      :payload-assembled parse-fn
+                      :indexed (partial index-fn es-conn index-name mapping-type)})))
 

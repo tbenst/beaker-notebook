@@ -14,7 +14,7 @@
   (let [es-conn (rest/connect elasticsearch-url)]
     (ind/delete es-conn index-name)
     (ind/create es-conn index-name)
-    (mappings/apply-mappings! es-conn index-name)
+    (await-for 5000 (mappings/apply-mappings! es-conn index-name))
     (await-for 5000 (cats/index-categories! es-conn index-name categories-url))
     (ind/refresh es-conn index-name)
     (let [categories (base/read-indexed-results es-conn index-name "categories")]
