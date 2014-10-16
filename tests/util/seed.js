@@ -11,7 +11,14 @@ module.exports = function() {
     populate: function(models) {
       var modelsArray = Array.prototype.concat(models);
       var shouldReindex = _.find(modelsArray, function(m) {
-        return m.model == 'Category' || m.model == 'DataSet'
+        if (m.data.name) {
+          return (m.data.name !== 'Duplicate Path') && (m.model == 'Category' || m.model == 'DataSet')
+        } else {
+          return m.model == 'Category' || m.model == 'DataSet'
+        }
+      })
+      var duplicatePathCategory = _.find(modelsArray, function(m) {
+        return m.data.name ? m.data.name == 'Duplicate Path': false;
       })
 
       return Promise.reduce(modelsArray, function(result, model) {
@@ -32,9 +39,15 @@ module.exports = function() {
           });
       }, [])
       .then(function(result) {
-        function reindex() {
+        function reindex(result) {
           if(shouldReindex){
             return post(base + "/reindex");
+          } else if(duplicatePathCategory) {
+            return post(base + "/index-test-catalog", {
+              form: {
+                data: result
+              }
+            });
           } else {
             return Promise.resolve();
           }

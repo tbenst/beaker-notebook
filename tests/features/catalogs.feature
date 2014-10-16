@@ -46,3 +46,11 @@ As a researcher, I want to be able to browse different market place catalogs.
     When I view the market search
     And I browse "Quandl" catalog
     Then I shouldn't see "Updated" field listed on the market list page
+
+  Scenario: Two catalogs with the same path
+    And I have a catalog with a duplicate path
+    And I view the market search
+    And I browse "Duplicate Path" catalog
+    And I view the market search
+    Then I should be in "Duplicate Path" catalog
+

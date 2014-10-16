@@ -63,6 +63,16 @@ module.exports = function(app) {
     });
   });
 
+  app.post("/api/seed/index-test-catalog", function(req, res, next) {
+    indexer.indexTestCatalog(req.body)
+    .then(function() {
+      res.send(200);
+    })
+    .catch(function(e) {
+      throw(e);
+    });
+  });
+
   app.post("/api/seed/reindex", function(req, res, next) {
     indexer.index()
     .then(function() {

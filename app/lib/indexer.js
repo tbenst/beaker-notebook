@@ -31,8 +31,27 @@ module.exports = {
   clear: function() {
     return clearIndex()
     .then(defineCatalogMappings);
+  },
+
+  indexTestCatalog: function (catalog) {
+    return indexDuplicate(catalog);
   }
 };
+
+function indexDuplicate(catalog) {
+  return client.indices.create({
+    index: 'catalog_test',
+    body: defaultMapping()
+  })
+  .then(function (){
+    return client.index({
+      index: 'catalog_test',
+      type: 'categories',
+      body: catalog.data[0]
+    })
+  })
+  .then(refresh)
+}
 
 function refresh() {
   return client.indices.refresh({index: '*'});
@@ -139,7 +158,7 @@ function getCategories() {
         .count('data_sets_categories.data_set_id AS dataCount')
         .leftOuterJoin('data_sets_categories', 'categories.id', 'data_sets_categories.category_id')
         .groupBy('categories.id', 'name', 'path')
-        .orderBy('path')  
+        .orderBy('path')
 }
 
 function createCategoryTree(categories) {
@@ -208,7 +227,7 @@ function sendBulkCategoryRequest(categories) {
     return [
       {index: {
         _index: generateCatalogIndexName(category),
-        _type: 'categories', 
+        _type: 'categories',
         _id: category.id
       }},
       category
