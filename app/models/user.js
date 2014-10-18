@@ -1,6 +1,8 @@
 var _                     = require("lodash");
 var Promise               = require('bluebird');
 var Bcrypt                = Promise.promisifyAll(require("bcryptjs"));
+var Checkit               = require('checkit');
+var RecordNotUniqueError  = require("../lib/record_not_unique_error");
 
 function encryptPassword(attrs) {
   return Bcrypt.hashAsync(attrs.password, 10);
@@ -13,8 +15,19 @@ module.exports = function(Bookshelf, app) {
 
     idAttrs: ["email"],
 
+    validations: {
+      email: ['required', 'email', function(email) {
+        return User.forge({email: email}).fetch().then(function(users) {
+          if (users) { throw new Error("Email already registered"); }
+        })
+      }],
+      name: ['required'],
+      password: ['required', 'minLength:6']
+    },
+
     initialize: function () {
       this.on("created", this.createDefaultProject);
+      this.on('saving', this.validate, this);
     },
 
     createDefaultProject: function() {
@@ -74,6 +87,10 @@ module.exports = function(Bookshelf, app) {
           })
         })
       })
+    },
+
+    validate: function (model, attrs, options) {
+      return new Checkit(this.validations).run(this.attributes);
     }
   });
 
@@ -84,16 +101,11 @@ module.exports = function(Bookshelf, app) {
     },
 
     signUp: function(attrs) {
-      return new User(_.pick(attrs, "email")).fetch()
-        .then(function(user) {
-          if(user) { throw new Error('Email already registered') }
-
-          return encryptPassword(attrs)
-            .then(function(hash) {
-              var userAttrs = _.omit(attrs, 'password');
-              return new User(_.extend(userAttrs, {password: hash})).save();
-            })
-        });
+      return encryptPassword(attrs)
+        .then(function(hash) {
+          var userAttrs = _.omit(attrs, 'password');
+          return new User(_.extend(userAttrs, {password: hash})).save();
+        })
     },
 
     signIn: function(attrs) {
