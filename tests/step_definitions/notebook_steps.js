@@ -59,18 +59,16 @@ module.exports = function() {
     });
   });
 
-  this.Then(/^the "([^"]*)" notebook is open$/, function(name) {
-    // used from the notebook list page
-    return new this.Widgets.NotebookList().clickByName(name)
+  this.When(/^the "([^"]*)" notebook is open$/, function(name) {
+    return new this.Widgets.NotebookList()
+    .clickByName(name)
     .then(function() {
       return new this.Widgets.Notebook().goBackToProject();
     }.bind(this))
     .then(function() {
-      return Promise.delay(1500);
-    })
-    .then(function() {
-      return new this.Widgets.NotebookList().findNotebook(name).should.eventually.be.ok;
-    }.bind(this));
+      return new this.Widgets.OpenNotebookList().find({text: name});
+    }.bind(this))
+    .should.eventually.be.ok;
   });
 
   this.Then(/^I should see (\d+) open notebooks$/, function(count) {
