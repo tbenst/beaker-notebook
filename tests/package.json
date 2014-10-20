@@ -20,7 +20,7 @@
   "homepage": "https://github.com/twosigma/bunsen",
   "dependencies": {
     "chai": "1.9.1",
-    "pioneer": "0.10.6-pre-2",
+    "pioneer": "0.10.6-pre-3",
     "lodash": "2.4.1",
     "request": "^2.33.0",
     "bluebird": "1.2.1",
