@@ -1,4 +1,5 @@
 var Driver = require('selenium-webdriver');
+var Promise = require('bluebird');
 
 module.exports = function() {
   var World = this;
@@ -42,7 +43,14 @@ module.exports = function() {
     },
 
     openPublishModal: function() {
-      return this.click('.sidebar-box .content .publish');
+      // This delay is because since we are opening
+      // a new notebook iframe it causes the JS evaluator to
+      // get bogged down. Thus preventing the digest loop
+      // from even happening thus the target of this click
+      // was doing nothing.
+      return Promise.delay(1000).then(function() {
+        return this.click('.sidebar-box .content .publish');
+      }.bind(this));
     },
 
     publishStatus: function() {

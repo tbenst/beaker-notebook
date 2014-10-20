@@ -92,7 +92,7 @@ Feature: Publications
     Then I should see 3 publication results on the page
     When I click the "All" category
     Then I should see 5 publication results on the page
-  @failing
+
   Scenario: Categorizing publications
     Given I have the following publication categories:
       | name       |
