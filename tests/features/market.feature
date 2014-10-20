@@ -257,14 +257,14 @@ As a researcher, I want to be able to use the market place.
     And I view the market search
     And I view the "Crime Rates, Canada" market item
     Then I should see the tags "stats,crime,canada"
-  @failing
+
   Scenario: Data set details start date
     Given I have the following market items:
-      | title               | startDate   |
-      | Crime Rates, Canada | 2014-04-01  |
+      | title               | startDate              |
+      | Crime Rates, Canada | 2014-04-04T12:00:00.000|
     And I view the market search
     And I view the "Crime Rates, Canada" market item
-    Then I should see the start date "4/1/14"
+    Then I should see the start date "4/4/14"
 
   Scenario: Market place related tags
     Given I have the following market items:
