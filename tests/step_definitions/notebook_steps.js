@@ -8,6 +8,7 @@ var notebookBase = function() {
 }
 
 module.exports = function() {
+  var World = this;
   this.When(/^I go back to the project$/, function(notebookName) {
     return new this.Widgets.Notebook().goBackToProject();
   });
@@ -61,9 +62,16 @@ module.exports = function() {
 
   this.When(/^the "([^"]*)" notebook is open$/, function(name) {
     var p = global.timeout;
-    global.timeout = 10000
+    global.timeout = 10000;
+
+    var _this = this;
+
     return new this.Widgets.NotebookList()
     .clickByName(name)
+    .then(function() {
+      var notebook = new _this.Widgets.Notebook();
+      return notebook.find({text: name});
+    })
     .then(function() {
       return new this.Widgets.Notebook().goBackToProject();
     }.bind(this))

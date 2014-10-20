@@ -102,7 +102,7 @@ Feature: Use Notebooks
     And I close the notebook
     Then I should see the following open notebooks:
       | name              |
-  @failing
+
   Scenario: Closing a notebook from the open notebooks list
     Given I open the "ghost of tom jones" project
     And the "top secret" notebook is open
