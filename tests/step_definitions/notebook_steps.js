@@ -198,7 +198,15 @@ module.exports = function() {
   });
 
   this.When(/^I make a new notebook$/, function() {
-    return (new this.Widgets.ProjectDetail()).addNewNotebook();
+    return new this.Widgets.ProjectDetail().addNewNotebook();
+  });
+
+  this.When(/^I ensure the notebook is open$/, function() {
+    return this.driver.wait(function() {
+      return new this.Widgets.Notebook().isPresent()
+    }.bind(this),
+    global.timeout
+    );
   });
 
   this.When(/^I save the notebook as "([^"]*)"$/, function(name) {

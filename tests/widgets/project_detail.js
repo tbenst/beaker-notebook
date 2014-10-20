@@ -41,7 +41,9 @@ module.exports = function() {
     },
 
     addNewNotebook: function() {
-      return this.click('.new-notebook');
+      return this.click({
+        text: "New Notebook"
+      })
     }
   });
 };

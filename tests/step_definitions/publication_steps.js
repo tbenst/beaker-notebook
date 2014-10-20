@@ -183,7 +183,7 @@ module.exports = function() {
     return new this.Widgets.Notebook().publishStatus().should.eventually.eql('This notebook is currently private');
   });
 
-  this.Then(/^I should see that the notebook is published$/, function() {
+  this.When(/^I should see that the notebook is published$/, function() {
     return new this.Widgets.Notebook().publishStatus().should.eventually.eql('This notebook is published');
   });
 

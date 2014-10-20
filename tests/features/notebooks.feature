@@ -113,10 +113,11 @@ Feature: Use Notebooks
       | powderpuff girls |
     When I close the open notebook "powderpuff girls"
     Then I should see the "ghost of tom jones" project detail page
-  @failing
+
   Scenario: Creating a Notebook
     When I open the "ghost of tom jones" project
     And I make a new notebook
+    And I ensure the notebook is open
     And I close the notebook
     Then I should see the following open notebooks:
       | name |
@@ -178,7 +179,7 @@ Feature: Use Notebooks
       | powderpuff girls   |
       | top secret         |
     And I should see the error: "A notebook named 'top secret' already exists in project 'Finance Research'"
-  @failing
+
   Scenario: Saving a new notebook as another name
     When I open the "ghost of tom jones" project
     And I make a new notebook
