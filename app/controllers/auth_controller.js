@@ -8,8 +8,7 @@ module.exports = function(app) {
       User.signIn(req.body)
         .then(function(user) {
           if(user) {
-            var u = _.pick(user.attributes, 'id', 'name', 'email');
-            res.json(_.extend(u, {token: user.id}));
+            res.json(user);
           } else {
             res.statusCode = 403;
           }
@@ -21,8 +20,7 @@ module.exports = function(app) {
       if (req.path === '/api/authenticate' || req.path === '/api/sign_up' || req.path.indexOf("seed/") !== -1) {
         next();
       } else {
-        new User({id: req.get('Authorization')})
-          .fetch()
+        User.checkToken(req.get("Authorization"))
           .then(function(user) {
             if (user) {
               req.user = user;
@@ -38,8 +36,7 @@ module.exports = function(app) {
       User.signUp(req.body)
         .then(function(user) {
           if(user) {
-            var u = _.pick(user.attributes, 'id', 'name', 'email');
-            res.json(_.extend(u, {token: user.id}));
+            res.json(user);
           } else {
             res.statusCode = 422;
           }

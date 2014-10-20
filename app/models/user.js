@@ -3,6 +3,9 @@ var Promise               = require('bluebird');
 var Bcrypt                = Promise.promisifyAll(require("bcryptjs"));
 var Checkit               = require('checkit');
 var RecordNotUniqueError  = require("../lib/record_not_unique_error");
+var Crypto                = require('crypto');
+if(!process.env.CIPHER_KEY) { throw new Error('CIPHER_KEY env variable is not set') }
+var cipherKey             = process.env.CIPHER_KEY;
 
 function encryptPassword(attrs) {
   return Bcrypt.hashAsync(attrs.password, 10);
@@ -91,10 +94,28 @@ module.exports = function(Bookshelf, app) {
 
     validate: function (model, attrs, options) {
       return new Checkit(this.validations).run(this.attributes);
+    },
+
+    setToken: function () {
+      var u      = _.pick(this.attributes, 'id', 'name', 'email'),
+          cipher = Crypto.createCipher('blowfish', cipherKey),
+          token  = cipher.update(this.attributes.id.toString(), 'utf-8', 'base64') + cipher.final('base64');
+      return _.extend(u, {token: token})
     }
   });
 
   User = _.extend(User, {
+    checkToken: function(token) {
+      var decipher = Crypto.createDecipher('blowfish', cipherKey),
+          id       = parseInt(decipher.update(token, 'base64', 'utf-8') + decipher.final('utf-8'));
+      return new User({id: id}).fetch()
+        .then(function (user) {
+          user.attributes = _.omit(user.attributes, 'password');
+          user._previousAttributes = _.omit(user._previousAttributes, 'password')
+          return user;
+        })
+    },
+
     findOneWhere: function(attrs) {
       return User.forge(attrs)
       .fetch()
@@ -104,7 +125,10 @@ module.exports = function(Bookshelf, app) {
       return encryptPassword(attrs)
         .then(function(hash) {
           var userAttrs = _.omit(attrs, 'password');
-          return new User(_.extend(userAttrs, {password: hash})).save();
+          return new User(_.extend(userAttrs, {password: hash})).save()
+            .then(function (user) {
+              return user.setToken();
+            })
         })
     },
 
@@ -117,7 +141,7 @@ module.exports = function(Bookshelf, app) {
           return Bcrypt.compareAsync(attrs.password, user.attributes.password)
             .then(function(match) {
               if(!match) { throw new Error('Wrong password'); }
-              return user;
+              return user.setToken();
             });
         });
     }

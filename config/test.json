@@ -11,7 +11,8 @@
       "/vagrant/app:/var/app"
     ],
     "environment": [
-      "NODE_ENV=test"
+      "NODE_ENV=test",
+      "CIPHER_KEY=Auj/QL_WU[xX64p+1TB81m6AD6wSCl"
     ]
   },
   "web": {
