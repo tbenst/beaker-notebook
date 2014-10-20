@@ -26,7 +26,7 @@ Feature: Publications
     Then I should see a published version of the following notebook:
       | name       | description           |
       | top secret | not so secret anymore |
-  @failing
+
   Scenario: Publications List
     Given there are 5 publications
     And I view my projects
@@ -40,7 +40,7 @@ Feature: Publications
     And I should see the following publication first in the list:
       | name       |
       | top secret |
-  @failing
+
   Scenario: Deleting a Publication
     Given the notebook "top secret" is published
     And I view my projects

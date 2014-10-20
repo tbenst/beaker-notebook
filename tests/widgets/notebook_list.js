@@ -13,13 +13,15 @@ module.exports = function() {
     },
 
     findNotebook: function(name) {
-      return this.filter(function(item) {
-        return item.read().then(function(content) {
-          return content.match(name);
+      return World.driver.wait(function() {
+        return this.filter(function(item) {
+          return item.read().then(function(content) {
+            return content.match(name);
+          });
+        }).then(function(items) {
+          return items[0];
         });
-      }).then(function(items) {
-        return items[0];
-      });
+      }.bind(this), global.timeout);
     },
 
     findProjectInDropdown: function(item, name) {
