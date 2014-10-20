@@ -60,6 +60,8 @@ module.exports = function() {
   });
 
   this.When(/^the "([^"]*)" notebook is open$/, function(name) {
+    var p = global.timeout;
+    global.timeout = 10000
     return new this.Widgets.NotebookList()
     .clickByName(name)
     .then(function() {
@@ -68,6 +70,13 @@ module.exports = function() {
     .then(function() {
       return new this.Widgets.OpenNotebookList().find({text: name});
     }.bind(this))
+    .then(function(v) {
+      global.timeout = p;
+      return v;
+    })
+    .thenCatch(function() {
+      global.timeout = p;
+    })
     .should.eventually.be.ok;
   });
 
