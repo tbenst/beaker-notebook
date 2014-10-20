@@ -1,13 +1,13 @@
-var assert = require("assert"),
-    _ = require('lodash');
-
+var assert  = require("assert"),
+    _       = require('lodash');
 module.exports = function() {
 
   var userData  = {
     model: "User",
     data: {
       name: 'joe research',
-      email: 'u@r.edu'
+      email: 'u@r.edu',
+      password: 'password'
     }
   };
 
@@ -15,18 +15,17 @@ module.exports = function() {
     var _this = this;
     return this.seed.populate(userData).then(function() {
       return _this.driver.get(_this.route.signIn).then(function() {
-        return new _this.Widgets.SignInForm().submitWith(_.pick(userData.data, 'email'));
+        return new _this.Widgets.SignInForm().submitWith(_.pick(userData.data, 'email', 'password'));
       });
     })
     .then(function() {
-      var authControls = new _this.Widgets.AuthControls();
-      return authControls.getCurrentUserEmail().should.eventually.exist;
-    });
+      return new _this.Widgets.SignInForm().ensureNotPresent()
+    })
   });
 
-  this.Given(/^I signed up as "([^"]*)"$/, function(email) {
+  this.Given(/^I signed up as a researcher$/, function() {
     var _this = this;
-    return this.seed.populate(_.extend({data: {email: email}}, userData)).then(function() {
+    return this.seed.populate(userData).then(function() {
       return _this.driver.get(_this.route.home);
     });
   });

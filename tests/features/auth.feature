@@ -2,13 +2,13 @@ Feature: Authentication
 As a researcher, I need to provide my user identity.
 
   Scenario: Sign in
-    Given I signed up as "bob@example.com"
+    Given I signed up as a researcher
     And I'm not signed in
     When I go to the sign in page
     And I fill in the sign in form with:
-      | email           |
-      | bob@example.com |
-    Then I should see I'm signed in as "bob@example.com"
+      | email           | password |
+      | u@r.edu         | password |
+    Then I should see I'm signed in as "u@r.edu"
 
   Scenario: Sign out
     Given I'm signed in as a researcher

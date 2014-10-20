@@ -15,6 +15,14 @@ module.exports = function(app) {
     });
   });
 
+  app.post("/api/seed/sign-up", function(req, res, next) {
+    app.Models.User.signUp(req.body.data)
+    .then(res.json.bind(res))
+    .catch(function(e) {
+      throw(e);
+    });
+  });
+
   app.post("/api/seed/drop-repos", function(req, res, next) {
     exec("rm -rf " + path.resolve(__dirname, '../.repos'))
     .then(function() {
