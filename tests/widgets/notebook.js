@@ -6,17 +6,6 @@ module.exports = function() {
   return this.Widgets.Notebook = this.Widget.extend({
     root: '.notebook',
 
-    scrollAndClick: function(css) {
-      var _this = this;
-      return this.find(css)
-      .then(function(el) {
-        return _this.driver.executeScript("arguments[0].scrollIntoView(true);", el)
-        .then(function() {
-          return el.click();
-        })
-      })
-    },
-
     close: function() {
       return this.openOptions().then(function() {
         return this.click('.close-notebook');
@@ -25,10 +14,6 @@ module.exports = function() {
 
     name: function() {
       return this.read('.name');
-    },
-
-    goBackToProject: function() {
-      return this.scrollAndClick('.back-to-project');
     },
 
     openRenameModal: function() {

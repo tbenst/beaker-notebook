@@ -9,9 +9,6 @@ var notebookBase = function() {
 
 module.exports = function() {
   var World = this;
-  this.When(/^I go back to the project$/, function(notebookName) {
-    return new this.Widgets.Notebook().goBackToProject();
-  });
 
   this.When(/^I view the notebook list$/, function(notebookName) {
     return new this.Widgets.Notebook().goBackToProject();
@@ -76,7 +73,7 @@ module.exports = function() {
       return notebook.find({text: name});
     })
     .then(function() {
-      return new this.Widgets.Notebook().goBackToProject();
+      return this.driver.executeScript('window.history.back();');
     }.bind(this))
     .then(function() {
       return new this.Widgets.OpenNotebookList().find({text: name});
