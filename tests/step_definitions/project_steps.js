@@ -44,8 +44,17 @@ module.exports = function() {
     });
   });
 
-  this.Then(/^I should see a new project in my list$/, function() {
-    return new this.Widgets.ProjectManager().items().should.eventually.have.length(2);
+  this.When(/^I should see a new project in my list$/, function() {
+    return this.driver.wait(function() {
+      return new this.Widgets.ProjectManager()
+      .items().should.eventually.have.length(2)
+      .then(function() {
+        return true;
+      })
+      .thenCatch(function() {
+        return false;
+      })
+    }.bind(this), global.timeout);
   });
 
   this.When(/^I open the project$/, function() {
