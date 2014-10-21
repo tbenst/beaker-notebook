@@ -2,14 +2,27 @@ _s = require('underscore.string');
 var _ = require('lodash');
 
 module.exports = function() {
+  var World = this;
+
   return this.Widgets.MarketCategory = this.Widget.List.extend({
     root: '.tree-market-category ul',
 
     clickCategory: function(category) {
-      return this.findCategory(category)
-      .then(function(node) {
-        return node.click('.tree-label');
-      });
+      return World.driver.wait(function() {
+        return this.findCategory(category)
+        .then(function(v) {
+          return v != undefined
+        })
+        .thenCatch(function() {
+          return false
+        })
+      }.bind(this), global.timeout)
+      .then(function() {
+        return this.findCategory(category)
+        .then(function(node) {
+          return node.click('.tree-label');
+        });
+      }.bind(this));
     },
 
     findCategory: function(category) {
