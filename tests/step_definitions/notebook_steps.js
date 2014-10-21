@@ -138,7 +138,17 @@ module.exports = function() {
   this.Then(/^I should see the following notebooks:$/, function(table, callback) {
     var expected = _.pluck(table.hashes(), 'name');
 
-    return new this.Widgets.NotebookList().getNames().should.eventually.deep.equal(expected);
+    return World.driver.wait(function() {
+      return new this.Widgets.NotebookList()
+      .getNames()
+      .should.eventually.deep.equal(expected)
+      .then(function(){
+        return true;
+      })
+      .thenCatch(function() {
+        return false;
+      })
+    }.bind(this), global.timeout);
   });
 
   this.When(/^I close the notebook$/, function(callback) {
