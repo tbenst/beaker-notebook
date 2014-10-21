@@ -242,7 +242,7 @@ module.exports = function() {
     var _this = this;
     notebook = new this.Widgets.Notebook();
     return notebook.waitForBeaker().then(function() {
-      return (new _this.Widgets.BeakerFrame()).saveAs(name);
+      return notebook.saveAs(name);
     });
   });
 

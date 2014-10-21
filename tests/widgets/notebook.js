@@ -16,6 +16,19 @@ module.exports = function() {
       }.bind(this));
     },
 
+    saveAs: function(name) {
+      var _this = this;
+      return this.openOptions().then(function() {
+        return this.click('.save-as');
+      }.bind(this))
+      .then(function() {
+        var modal = new World.Widgets.Modal();
+        return modal.fill({ selector: '.name', value: name }).then(function() {
+          return modal.submit();
+        });
+      });
+    },
+
     close: function() {
       return this.openOptions().then(function() {
         return this.click('.close-notebook');

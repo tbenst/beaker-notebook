@@ -56,6 +56,10 @@
       });
     };
 
+    var notebookNameTaken = function() {
+      return !!_.find($scope.notebooks.list, { name: $scope.saveAsName, projectId: $scope.notebook.current.projectId });
+    };
+
     F.Projects.getProject($state.params.id).then(function(project) {
      $scope.project = project;
     });
@@ -97,6 +101,24 @@
       var data = { action: 'showStdoutStderr' };
 
       WindowMessageService.sendToIFrame(notebookWindow(), data);
+    };
+
+    $scope.saveAs = function() {
+      $scope.saveAsName = $scope.notebook.current.name + ' 2';
+      $scope.$emit('openModal', $compile(templates.save_as_modal())($scope));
+    };
+
+    $scope.checkSaveAs = function() {
+      if (notebookNameTaken()) {
+        $scope.error = 'That notebook name is already taken in this project.';
+      } else {
+        $scope.save($scope.saveAsName);
+        $scope.$emit('closeModal');
+      }
+    };
+
+    $scope.saveAsCancel = function() {
+      $scope.$emit('closeModal');
     };
 
     $scope.destroyPublication = function() {
