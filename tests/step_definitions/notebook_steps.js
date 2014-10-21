@@ -174,7 +174,18 @@ module.exports = function() {
 
   this.When(/^I should see a notebook import error message$/, function() {
     var importWidget = new this.Widgets.ImportNotebooks();
-    return importWidget.errorMessage().should.eventually.include('valid');
+
+    return this.driver.wait(function() {
+      return importWidget.errorMessage()
+      .should.eventually.include('valid')
+      .then(function() {
+        return true;
+      })
+      .thenCatch(function() {
+        return false;
+      })
+    }, global.timeout)
+
   });
 
   this.When(/^I move the "([^"]*)" notebook to the "([^"]*)" project$/, function(n, p) {
