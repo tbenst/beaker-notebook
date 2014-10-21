@@ -20,8 +20,12 @@
 
   .main-content
     a.back-to-project.btn.btn-light.left(ui-sref="projects.items.item({id: notebook.current.projectId})") Back to project home
-    button.btn.btn-light.right.close-notebook(close-notebook="{{ notebook.current.id }}") close notebook
-    button.btn.btn-light.right.rename(rename-notebook-toggle notebook="notebook.current") Rename
+    span.options.dropdown-toggle.right
+      ul.dropdown
+        li
+          a.rename(rename-notebook-toggle notebook="notebook.current") Rename
+        li
+          a.close-notebook(close-notebook="{{ notebook.current.id }}") Close
     .cl
     br br
     h2 Notebook:&nbsp;

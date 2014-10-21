@@ -18,7 +18,9 @@ module.exports = function() {
     },
 
     close: function() {
-      return this.scrollAndClick('.close-notebook');
+      return this.openOptions().then(function() {
+        return this.click('.close-notebook');
+      }.bind(this));
     },
 
     name: function() {
@@ -30,7 +32,9 @@ module.exports = function() {
     },
 
     openRenameModal: function() {
-      return this.click('.rename');
+      return this.openOptions().then(function() {
+        return this.click('.rename');
+      }.bind(this));
     },
 
     openModalAndRename: function(newName) {
