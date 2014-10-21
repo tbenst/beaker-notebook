@@ -26,6 +26,8 @@
         li
           a.rename(rename-notebook-toggle notebook="notebook.current") Rename
         li
+          a.show-stdout-stderr(ng-click="showStdoutStderr()") Show Stdout/err
+        li
           a.close-notebook(close-notebook="{{ notebook.current.id }}") Close
     h2.left Notebook:&nbsp;
       span.name {{notebook.current.name}}

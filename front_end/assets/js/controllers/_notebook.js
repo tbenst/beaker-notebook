@@ -93,6 +93,12 @@
       WindowMessageService.sendToIFrame(notebookWindow(), data);
     };
 
+    $scope.showStdoutStderr = function() {
+      var data = { action: 'showStdoutStderr' };
+
+      WindowMessageService.sendToIFrame(notebookWindow(), data);
+    };
+
     $scope.destroyPublication = function() {
       F.Publications.destroy($scope.notebook.current.publication).then(function(notebook) {
         $scope.notebook.current = notebook;
