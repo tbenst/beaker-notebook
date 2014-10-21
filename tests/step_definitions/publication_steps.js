@@ -118,7 +118,19 @@ module.exports = function() {
   });
 
   this.Given(/^I view the first publication$/, function() {
-    return new this.Widgets.PublicationList().clickAt({ selector: 'a.title', index: 0 });
+    return this.driver.wait(function() {
+      return new this.Widgets.PublicationList().at(0)
+      .then(function(v) {
+        return v != undefined;
+      })
+      .thenCatch(function() {
+        return false;
+      })
+    }.bind(this), global.timeout)
+    .then(function() {
+      return new this.Widgets.PublicationList()
+      .clickAt({ selector: 'a.title', index: 0 });
+    }.bind(this));
   });
 
   this.When(/^I view the publications page$/, function() {
