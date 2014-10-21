@@ -6,6 +6,16 @@ module.exports = function() {
   return this.Widgets.Notebook = this.Widget.extend({
     root: '.notebook',
 
+    openOptions: function() {
+      return this.hover('.main-content .options');
+    },
+
+    save: function() {
+      return this.openOptions().then(function() {
+        return this.click('.save');
+      }.bind(this));
+    },
+
     close: function() {
       return this.openOptions().then(function() {
         return this.click('.close-notebook');

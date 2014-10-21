@@ -28,18 +28,6 @@ module.exports = function() {
       }).then(function() {
         return _this.leave();
       });
-    },
-
-    saveChanges: function() {
-      var _this = this;
-      return this.enter().then(function() {
-        return (new widgets.Beaker.BunsenButton()).click();
-      }).then(function() {
-        return (new widgets.Beaker.BunsenMenu()).clickSave();
-      }).then(function() {
-        return _this.leave();
-      });
     }
-
   });
 };

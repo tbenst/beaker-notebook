@@ -60,6 +60,10 @@
      $scope.project = project;
     });
 
+    var notebookWindow = function() {
+      return document.getElementById('beaker-frame-' + $scope.notebook.current.id).contentWindow;
+    };
+
     if ($scope.cachedNotebooks[$state.params.notebook_id]) {
       Notebooks.update({id: $state.params.notebook_id, open: true});
       $scope.notebook = $scope.cachedNotebooks[$state.params.notebook_id];
@@ -79,6 +83,15 @@
         });
       });
     }
+
+    $scope.save = function(newName) {
+      var data = { action: 'save' };
+      if (newName) {
+        data.name = newName;
+      }
+
+      WindowMessageService.sendToIFrame(notebookWindow(), data);
+    };
 
     $scope.destroyPublication = function() {
       F.Publications.destroy($scope.notebook.current.publication).then(function(notebook) {

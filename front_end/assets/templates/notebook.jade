@@ -22,6 +22,8 @@
     span.options.dropdown-toggle.right
       ul.dropdown
         li
+          a.save(ng-click="save()") Save
+        li
           a.rename(rename-notebook-toggle notebook="notebook.current") Rename
         li
           a.close-notebook(close-notebook="{{ notebook.current.id }}") Close
