@@ -15,6 +15,7 @@ RUN apt-get update && \
       xfonts-75dpi \
       xfonts-cyrillic \
       xfonts-scalable \
+      git \
       xvfb && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
