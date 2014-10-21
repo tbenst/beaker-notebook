@@ -8,7 +8,6 @@ RUN apt-get update && \
       nodejs-legacy \
       g++ \
       make \
-      npm \
       openjdk-7-jre-headless \
       unzip \
       xfonts-100dpi \
@@ -17,6 +16,8 @@ RUN apt-get update && \
       xfonts-scalable \
       git \
       xvfb && \
+    apt-get install -y --no-install-recommends -t jessie \
+      npm && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
