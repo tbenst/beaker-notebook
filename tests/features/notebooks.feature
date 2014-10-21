@@ -23,6 +23,7 @@ Feature: Use Notebooks
     And I view my projects
     And I open the "ghost of tom jones" project
     And I view the notebook "powderpuff girls"
+    And I ensure the notebook is open
     Then I should see the following recent notebooks:
       | name              |
       | powderpuff girls  |

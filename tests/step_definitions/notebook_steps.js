@@ -25,14 +25,17 @@ module.exports = function() {
     })
   });
 
-  this.Then(/^I (?:should see|see) the following recent notebooks:$/, function(table) {
-    var recentNotebooks = new this.Widgets.RecentNotebooks();
+  this.When(/^I (?:should see|see) the following recent notebooks:$/, function(table) {
+    var names = table.hashes().map(function(n) { return n.name;})
 
-    return recentNotebooks.getNames().then(function(recent) {
-      return assert.deepEqual(recent, table.hashes().map(function(n) {
-        return n.name;
-      }));
-    });
+    return this.driver.wait(function() {
+      return new this.Widgets.RecentNotebooks()
+      .getNames()
+      .then(function(recent) {
+        return Promise.resolve(!assert.deepEqual(recent, names));
+      })
+      .thenCatch(function(v) { return false; })
+    }.bind(this), 10000);
   });
 
   this.Given(/^I have the following notebooks:$/, function(notebooks) {
