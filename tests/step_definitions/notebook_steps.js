@@ -202,11 +202,19 @@ module.exports = function() {
   });
 
   this.When(/^I ensure the notebook is open$/, function() {
+    var p = global.timeout;
+
     return this.driver.wait(function() {
       return new this.Widgets.Notebook().isPresent()
     }.bind(this),
-    global.timeout
-    );
+    10000
+    )
+    .then(function() {
+      global.timeout = p;
+    })
+    .thenCatch(function() {
+      global.timeout = p;
+    })
   });
 
   this.When(/^I save the notebook as "([^"]*)"$/, function(name) {
