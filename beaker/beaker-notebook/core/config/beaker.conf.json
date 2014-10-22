@@ -1,0 +1,22 @@
+{
+  "conf-format": "1",
+  "allow-anonymous-usage-tracking": null,
+  "init": [
+    "./plugin/init/track.js",
+    "./plugin/init/addevalplugins.js"
+  ],
+  "control-panel-menu-plugins": [
+    "./plugin/menu/controlpanel.js",
+    "./plugin/menu/controlpanel_addition.js",
+    "./plugin/menu/help.js",
+    "./plugin/menu/file_ipython.js",
+    "./plugin/menu/bunsen.js"
+  ],
+  "notebook-app-menu-plugins":[
+    "./plugin/menu/bunsen.js",
+    "./plugin/menu/view.js"
+  ],
+  "notebook-cell-menu-plugins": [
+    "./plugin/cellmenu/sharing.js"
+  ]
+}

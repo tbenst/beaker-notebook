@@ -1,0 +1,10 @@
+{
+  "name": "beaker-tests",
+  "scripts": {
+    "start": "pioneer"
+  },
+  "dependencies": {
+    "pioneer": "0.10.1",
+    "selenium-webdriver": "2.42.1"
+  }
+}

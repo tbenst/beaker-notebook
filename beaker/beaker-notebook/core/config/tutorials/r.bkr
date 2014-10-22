@@ -1,0 +1,256 @@
+{
+    "beaker": "2",
+    "evaluators": [
+        {
+            "name": "Html",
+            "plugin": "Html",
+            "view": {
+                "cm": {
+                    "mode": "htmlmixed"
+                }
+            }
+        },
+        {
+            "name": "Latex",
+            "plugin": "Latex",
+            "view": {
+                "cm": {
+                    "mode": "stex"
+                }
+            }
+        },
+        {
+            "name": "JavaScript",
+            "plugin": "JavaScript",
+            "jsSetting2": "",
+            "jsSetting1": "",
+            "view": {
+                "cm": {
+                    "mode": "javascript",
+                    "background": "#FFE0F0"
+                }
+            }
+        },
+        {
+            "name": "R",
+            "plugin": "R",
+            "view": {
+                "cm": {
+                    "mode": "r"
+                }
+            }
+        }
+    ],
+    "cells": [
+        {
+            "id": "section001",
+            "type": "section",
+            "level": 1,
+            "title": "R Basics",
+            "collapsed": false,
+            "evaluatorReader": false
+        },
+        {
+            "id": "textueitad",
+            "type": "text",
+            "body": "The R Project for Statistical Computing publishes GNU R. &nbsp;Follow the instructions on BeakerNotebook.com for how to install R so Beaker can use it.",
+            "evaluatorReader": false
+        },
+        {
+            "id": "code2uVtKX",
+            "type": "code",
+            "evaluator": "R",
+            "input": {
+                "body": "#scalar\na = 1"
+            },
+            "output": {
+                "selectedType": "Hidden",
+                "elapsedTime": 80
+            },
+            "evaluatorReader": true,
+            "lineCount": 2
+        },
+        {
+            "id": "codeFBCt4I",
+            "type": "code",
+            "evaluator": "R",
+            "input": {
+                "body": "#vector\nb = c(1,2,3)"
+            },
+            "output": {
+                "selectedType": "Hidden",
+                "elapsedTime": 51
+            },
+            "evaluatorReader": true,
+            "lineCount": 2
+        },
+        {
+            "id": "codeVEXScq",
+            "type": "code",
+            "evaluator": "R",
+            "input": {
+                "body": "#calling functions\nmean(x=b) #with arg name\nmean(b) #without arg name"
+            },
+            "output": {
+                "selectedType": "Hidden",
+                "elapsedTime": 53
+            },
+            "evaluatorReader": true,
+            "lineCount": 3
+        },
+        {
+            "id": "codeqwiFQG",
+            "type": "code",
+            "evaluator": "R",
+            "input": {
+                "body": "#random data\nrnorm(10)"
+            },
+            "output": {
+                "selectedType": "Hidden",
+                "elapsedTime": 67
+            },
+            "evaluatorReader": true,
+            "lineCount": 2
+        },
+        {
+            "id": "codeLfBKB9",
+            "type": "code",
+            "evaluator": "R",
+            "input": {
+                "body": "#help\nhelp(mean)"
+            },
+            "output": {
+                "selectedType": "Hidden",
+                "elapsedTime": 187
+            },
+            "evaluatorReader": true,
+            "lineCount": 2
+        },
+        {
+            "id": "codeNfYSPD",
+            "type": "code",
+            "evaluator": "R",
+            "input": {
+                "body": "#example\nexample(mean)"
+            },
+            "output": {
+                "selectedType": "Hidden",
+                "elapsedTime": 440
+            },
+            "evaluatorReader": true,
+            "lineCount": 2
+        },
+        {
+            "id": "codeKvYEoF",
+            "type": "code",
+            "evaluator": "R",
+            "input": {
+                "body": "#list defined variables\nls()"
+            },
+            "output": {
+                "selectedType": "Hidden",
+                "elapsedTime": 67
+            },
+            "evaluatorReader": true,
+            "lineCount": 2
+        },
+        {
+            "id": "codePK8OjD",
+            "type": "code",
+            "evaluator": "R",
+            "input": {
+                "body": "#using vectors\nc = c(1,2,3,4)\nc[2] #access, 1-based indexing\nc[5] = 5 #assign\nc"
+            },
+            "output": {
+                "selectedType": "Hidden",
+                "elapsedTime": 56
+            },
+            "evaluatorReader": true,
+            "lineCount": 5
+        },
+        {
+            "id": "codev3jNOm",
+            "type": "code",
+            "evaluator": "R",
+            "input": {
+                "body": "#matrices\nd = matrix(data=c(1,2,3,4,5,6), ncol=3)"
+            },
+            "output": {
+                "selectedType": "Hidden",
+                "elapsedTime": 91
+            },
+            "evaluatorReader": true,
+            "lineCount": 2
+        },
+        {
+            "id": "codeXnB2fB",
+            "type": "code",
+            "evaluator": "R",
+            "input": {
+                "body": "#Data Frames\n#Beaker will display this as a sortable table\ndata.frame(a = c(1,2,3), b = c(4,5,6), c=c(7,8,9))"
+            },
+            "output": {
+                "selectedType": "Hidden",
+                "elapsedTime": 194
+            },
+            "evaluatorReader": true,
+            "lineCount": 3
+        },
+        {
+            "id": "codeoXU48Q",
+            "type": "code",
+            "evaluator": "R",
+            "input": {
+                "body": "#line plot\nplot(rnorm(100), type='l')"
+            },
+            "output": {
+                "selectedType": "Hidden",
+                "elapsedTime": 105
+            },
+            "evaluatorReader": true,
+            "lineCount": 2
+        },
+        {
+            "id": "codemZDt1J",
+            "type": "code",
+            "evaluator": "R",
+            "input": {
+                "body": "#scatterplot\nplot(rnorm(100))"
+            },
+            "output": {
+                "selectedType": "Hidden",
+                "elapsedTime": 94
+            },
+            "evaluatorReader": true,
+            "lineCount": 2
+        },
+        {
+            "id": "codewPuwi3",
+            "type": "code",
+            "evaluator": "R",
+            "input": {
+                "body": "#histogram\nhist(rnorm(100))"
+            },
+            "output": {
+                "selectedType": "Hidden",
+                "elapsedTime": 120
+            },
+            "evaluatorReader": true,
+            "lineCount": 2
+        },
+        {
+            "id": "codeIGQOy3",
+            "type": "code",
+            "evaluator": "R",
+            "input": {
+                "body": "#fancy charts with ggplot2\nlibrary(ggplot2)\ncde <- geom_histogram(position=\"fill\", binwidth = 500)\nggplot(diamonds, aes(x=price, fill=clarity)) + cde"
+            },
+            "output": {
+                "selectedType": "Hidden",
+                "elapsedTime": 2108
+            },
+            "evaluatorReader": true,
+            "lineCount": 4
+        }
+    ]
+}
