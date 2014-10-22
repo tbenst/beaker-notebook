@@ -1,6 +1,6 @@
 # DOCKER-VERSION 0.11.1
-FROM mojo/debian:wheezy
-MAINTAINER mojotech <ops@mojotech.com>
+FROM mojo/debian
+MAINTAINER mojotech <ops+docker@mojotech.com>
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends -t wheezy-backports \
