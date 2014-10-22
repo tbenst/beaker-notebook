@@ -19,12 +19,21 @@ var projectBase = {
   ]
 };
 
-function openProject(name) {
+function openProject(name, count) {
   var _this = this;
+  var count = count || 1;
+
+  if(count > 10) {
+    throw(new Error("Unable to open project "+name))
+  }
+
   return Promise.delay(1500)
   .then(function() {
-    return new _this.Widgets.ProjectManager().click({ text: name });
-  });
+    return new _this.Widgets.ProjectManager().click({ text: name })
+    .thenCatch(function() {
+      return openProject(name, ++count);
+    })
+  })
 }
 
 function viewProjectDashboard() {
