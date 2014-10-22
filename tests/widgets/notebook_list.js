@@ -13,13 +13,15 @@ module.exports = function() {
     },
 
     findNotebook: function(name) {
-      return this.filter(function(item) {
-        return item.read().then(function(content) {
-          return content.match(name);
+      return World.driver.wait(function() {
+        return this.filter(function(item) {
+          return item.read().then(function(content) {
+            return content.match(name);
+          });
+        }).then(function(items) {
+          return items[0];
         });
-      }).then(function(items) {
-        return items[0];
-      });
+      }.bind(this), global.timeout);
     },
 
     findProjectInDropdown: function(item, name) {
@@ -69,11 +71,13 @@ module.exports = function() {
         // for some reason this now requires a double click in test
         // but not in actual env... :(
         return renameModal.click('.save').then(function() {
-          return renameModal.isVisible().then(function(visible) {
-            if (visible) {
-              return renameModal.click('.save');
-            }
+          return renameModal.isVisible()
+          .then(function() {
+            return renameModal.click('.save');
           })
+          .thenCatch(function() {
+
+          });
         });
       });
     },

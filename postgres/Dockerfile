@@ -1,6 +1,6 @@
-FROM mojo/debian:wheezy
-MAINTAINER mojotech <ops@mojotech.com>
-RUN echo 'deb http://apt.withmojo.com/debian vendor main' >> /etc/apt/sources.list
+FROM mojo/debian
+MAINTAINER mojotech <ops+docker@mojotech.com>
+
 RUN apt-get update -qq && \
     apt-get install -qq -y --no-install-recommends -t vendor postgresql postgresql-contrib && \
     apt-get clean

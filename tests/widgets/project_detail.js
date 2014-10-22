@@ -1,3 +1,4 @@
+Promise = require('bluebird');
 module.exports = function() {
   var World = this;
   return this.Widgets.ProjectDetail = this.Widget.extend({
@@ -41,7 +42,12 @@ module.exports = function() {
     },
 
     addNewNotebook: function() {
-      return this.click('.new-notebook');
+      return Promise.delay(1500)
+      .then(function() {
+        return this.click({
+          text: "New Notebook"
+        });
+      }.bind(this));
     }
   });
 };

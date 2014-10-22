@@ -19,12 +19,21 @@ var projectBase = {
   ]
 };
 
-function openProject(name) {
+function openProject(name, count) {
   var _this = this;
+  var count = count || 1;
+
+  if(count > 10) {
+    throw(new Error("Unable to open project "+name))
+  }
+
   return Promise.delay(1500)
   .then(function() {
-    return new _this.Widgets.ProjectManager().click({ text: name });
-  });
+    return new _this.Widgets.ProjectManager().click({ text: name })
+    .thenCatch(function() {
+      return openProject(name, ++count);
+    })
+  })
 }
 
 function viewProjectDashboard() {
@@ -44,8 +53,17 @@ module.exports = function() {
     });
   });
 
-  this.Then(/^I should see a new project in my list$/, function() {
-    return new this.Widgets.ProjectManager().items().should.eventually.have.length(2);
+  this.When(/^I should see a new project in my list$/, function() {
+    return this.driver.wait(function() {
+      return new this.Widgets.ProjectManager()
+      .items().should.eventually.have.length(2)
+      .then(function() {
+        return true;
+      })
+      .thenCatch(function() {
+        return false;
+      })
+    }.bind(this), global.timeout);
   });
 
   this.When(/^I open the project$/, function() {

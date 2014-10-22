@@ -8,6 +8,7 @@ var notebookBase = function() {
 }
 
 module.exports = function() {
+  var World = this;
   this.When(/^I go back to the project$/, function(notebookName) {
     return new this.Widgets.Notebook().goBackToProject();
   });
@@ -24,14 +25,17 @@ module.exports = function() {
     })
   });
 
-  this.Then(/^I (?:should see|see) the following recent notebooks:$/, function(table) {
-    var recentNotebooks = new this.Widgets.RecentNotebooks();
+  this.When(/^I (?:should see|see) the following recent notebooks:$/, function(table) {
+    var names = table.hashes().map(function(n) { return n.name;})
 
-    return recentNotebooks.getNames().then(function(recent) {
-      return assert.deepEqual(recent, table.hashes().map(function(n) {
-        return n.name;
-      }));
-    });
+    return this.driver.wait(function() {
+      return new this.Widgets.RecentNotebooks()
+      .getNames()
+      .then(function(recent) {
+        return Promise.resolve(!assert.deepEqual(recent, names));
+      })
+      .thenCatch(function(v) { return false; })
+    }.bind(this), 10000);
   });
 
   this.Given(/^I have the following notebooks:$/, function(notebooks) {
@@ -59,18 +63,32 @@ module.exports = function() {
     });
   });
 
-  this.Then(/^the "([^"]*)" notebook is open$/, function(name) {
-    // used from the notebook list page
-    return new this.Widgets.NotebookList().clickByName(name)
+  this.When(/^the "([^"]*)" notebook is open$/, function(name) {
+    var p = global.timeout;
+    global.timeout = 10000;
+
+    var _this = this;
+
+    return new this.Widgets.NotebookList()
+    .clickByName(name)
+    .then(function() {
+      var notebook = new _this.Widgets.Notebook();
+      return notebook.find({text: name});
+    })
     .then(function() {
       return new this.Widgets.Notebook().goBackToProject();
     }.bind(this))
     .then(function() {
-      return Promise.delay(1500);
+      return new this.Widgets.OpenNotebookList().find({text: name});
+    }.bind(this))
+    .then(function(v) {
+      global.timeout = p;
+      return v;
     })
-    .then(function() {
-      return new this.Widgets.NotebookList().findNotebook(name).should.eventually.be.ok;
-    }.bind(this));
+    .thenCatch(function() {
+      global.timeout = p;
+    })
+    .should.eventually.be.ok;
   });
 
   this.Then(/^I should see (\d+) open notebooks$/, function(count) {
@@ -123,7 +141,17 @@ module.exports = function() {
   this.Then(/^I should see the following notebooks:$/, function(table, callback) {
     var expected = _.pluck(table.hashes(), 'name');
 
-    return new this.Widgets.NotebookList().getNames().should.eventually.deep.equal(expected);
+    return World.driver.wait(function() {
+      return new this.Widgets.NotebookList()
+      .getNames()
+      .should.eventually.deep.equal(expected)
+      .then(function(){
+        return true;
+      })
+      .thenCatch(function() {
+        return false;
+      })
+    }.bind(this), global.timeout);
   });
 
   this.When(/^I close the notebook$/, function(callback) {
@@ -149,7 +177,18 @@ module.exports = function() {
 
   this.When(/^I should see a notebook import error message$/, function() {
     var importWidget = new this.Widgets.ImportNotebooks();
-    return importWidget.errorMessage().should.eventually.include('valid');
+
+    return this.driver.wait(function() {
+      return importWidget.errorMessage()
+      .should.eventually.include('valid')
+      .then(function() {
+        return true;
+      })
+      .thenCatch(function() {
+        return false;
+      })
+    }, global.timeout)
+
   });
 
   this.When(/^I move the "([^"]*)" notebook to the "([^"]*)" project$/, function(n, p) {
@@ -183,7 +222,23 @@ module.exports = function() {
   });
 
   this.When(/^I make a new notebook$/, function() {
-    return (new this.Widgets.ProjectDetail()).addNewNotebook();
+    return new this.Widgets.ProjectDetail().addNewNotebook();
+  });
+
+  this.When(/^I ensure the notebook is open$/, function() {
+    var p = global.timeout;
+
+    return this.driver.wait(function() {
+      return new this.Widgets.Notebook().isPresent()
+    }.bind(this),
+    10000
+    )
+    .then(function() {
+      global.timeout = p;
+    })
+    .thenCatch(function() {
+      global.timeout = p;
+    })
   });
 
   this.When(/^I save the notebook as "([^"]*)"$/, function(name) {

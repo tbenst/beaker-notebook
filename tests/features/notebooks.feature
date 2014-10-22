@@ -16,13 +16,14 @@ Feature: Use Notebooks
       | name               |
       | powderpuff girls   |
       | top secret         |
-  @failing
+
   Scenario: Recent Notebooks
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
     And I view my projects
     And I open the "ghost of tom jones" project
     And I view the notebook "powderpuff girls"
+    And I ensure the notebook is open
     Then I should see the following recent notebooks:
       | name              |
       | powderpuff girls  |
@@ -46,7 +47,7 @@ Feature: Use Notebooks
       | name              |
       | powderpuff girls  |
       | top secret        |
-  @failing
+
   Scenario: Renaming Notebook from Listing
     When I open the "ghost of tom jones" project
     And I rename the "powderpuff girls" notebook to "powerpuff girls"
@@ -54,7 +55,7 @@ Feature: Use Notebooks
       | name            |
       | powerpuff girls |
       | top secret      |
-  @failing
+
   Scenario: Deleting a Notebook
     Given I open the "ghost of tom jones" project
     And the "top secret" notebook is open
@@ -64,7 +65,7 @@ Feature: Use Notebooks
       | powderpuff girls |
     And I should see 1 recent notebooks
     And I should see 0 open notebooks
-  @failing
+
   Scenario: Canceling Deleting a Notebook
     Given I open the "ghost of tom jones" project
     And I go to delete the "top secret" notebook
@@ -74,7 +75,7 @@ Feature: Use Notebooks
       | name             |
       | powderpuff girls |
       | top secret       |
-  @failing
+
   Scenario: Close Rename Modal
     Given I open the "ghost of tom jones" project
     And I open the rename modal for "top secret"
@@ -86,7 +87,7 @@ Feature: Use Notebooks
     And I view the notebook "top secret"
     When I rename the notebook to "top secrete"
     Then I should be in the "top secrete" notebook
-  @failing
+
   Scenario: Renaming Notebook to Duplicate
     When I open the "ghost of tom jones" project
     And I rename the "powderpuff girls" notebook to "top secret"
@@ -102,7 +103,7 @@ Feature: Use Notebooks
     And I close the notebook
     Then I should see the following open notebooks:
       | name              |
-  @failing
+
   Scenario: Closing a notebook from the open notebooks list
     Given I open the "ghost of tom jones" project
     And the "top secret" notebook is open
@@ -113,10 +114,11 @@ Feature: Use Notebooks
       | powderpuff girls |
     When I close the open notebook "powderpuff girls"
     Then I should see the "ghost of tom jones" project detail page
-  @failing
+
   Scenario: Creating a Notebook
     When I open the "ghost of tom jones" project
     And I make a new notebook
+    And I ensure the notebook is open
     And I close the notebook
     Then I should see the following open notebooks:
       | name |
@@ -125,7 +127,7 @@ Feature: Use Notebooks
       | Notebook 1       |
       | powderpuff girls |
       | top secret       |
-  @failing
+
   Scenario: Importing notebooks
     When I open the "ghost of tom jones" project
     And I import the notebook by uploading the "hello_world.bkr" file
@@ -134,7 +136,7 @@ Feature: Use Notebooks
       | hello_world        |
       | powderpuff girls   |
       | top secret         |
-  @failing
+
   Scenario: Importing an invalid notebook should show an error message
    When I open the "ghost of tom jones" project
    And I import the notebook by uploading the "doge.jpg" file
@@ -178,7 +180,7 @@ Feature: Use Notebooks
       | powderpuff girls   |
       | top secret         |
     And I should see the error: "A notebook named 'top secret' already exists in project 'Finance Research'"
-  @failing
+
   Scenario: Saving a new notebook as another name
     When I open the "ghost of tom jones" project
     And I make a new notebook

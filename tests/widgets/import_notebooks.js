@@ -1,4 +1,5 @@
 var path = require('path');
+var Promise = require('bluebird');
 
 module.exports = function() {
   var World = this;
@@ -12,10 +13,13 @@ module.exports = function() {
     },
 
     attachFile: function(file) {
-      return this.sendKeys({
-        selector: this.fileUploadSelector,
-        keys: path.resolve('fixtures/', file)
-      });
+      return Promise.delay(1000)
+      .then(function() {
+        return this.sendKeys({
+          selector: this.fileUploadSelector,
+          keys: path.resolve('fixtures/', file)
+        });
+      }.bind(this));
     },
 
     errorMessage: function() {
