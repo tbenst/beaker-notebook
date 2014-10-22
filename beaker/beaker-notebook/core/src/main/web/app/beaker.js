@@ -98,19 +98,52 @@
       'bk.evaluatePluginManager',
       'bk.controlPanel',
       'bk.mainApp',
-      'bk.debug'
+      'bk.helper'
     ]);
 
     // setup routing. the template is going to replace ng-view
     beaker.config(function($routeProvider) {
-      $routeProvider.when('/session/:sessionId', {
-        template: "<bk-main-app></bk-main-app>"
-      }).when('/open', {
-            template: "<bk-main-app></bk-main-app>"
-          }).when('/open/:uri', {
-            template: "<bk-main-app></bk-main-app>"
-          }).when('/control', {
-            template: "<bk-control-panel></bk-control-panel>"
+      var sessionRouteResolve = {};
+      var generateId = function() {
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        return _(_.range(6)).map(function() {
+          return possible.charAt(Math.floor(Math.random() * possible.length));
+        }).join('');
+      };
+      var makeNewProvider = function(result) {
+        return function() {
+          var newSessionId = generateId();
+          sessionRouteResolve.isNewSession = function () {
+            return result;
+          };
+          return '/session/' + newSessionId;
+        };
+      };
+      $routeProvider
+          .when('/session/new', {
+            redirectTo: makeNewProvider("new")
+          })
+          .when('/session/empty', {
+            redirectTo: makeNewProvider("empty")
+          })
+          .when('/session/:sessionId', {
+            template: JST["template/mainapp/app"](),
+            resolve: sessionRouteResolve
+          })
+          .when('/open', {
+            redirectTo: function(routeParams, path, search) {
+              var newSessionId = generateId();
+              sessionRouteResolve.isOpen = function() {
+                return true;
+              };
+              sessionRouteResolve.target = function() {
+                return search;
+              };
+              return '/session/' + newSessionId + "?" + window.location.href.split("?")[1];
+            }
+          })
+          .when('/control', {
+            template: JST["template/dashboard/app"](),
           }).otherwise({
             redirectTo: "/control"
           });
@@ -174,22 +207,17 @@
       }
     });
 
-    beaker.run(function($location, $document, bkUtils, bkCoreManager, bkDebug) {
+    beaker.run(function($location, $route, $document, bkUtils, bkCoreManager, bkHelper) {
       var user;
       var lastAction = new Date();
       var beakerRootOp = {
         gotoControlPanel: function() {
-          return $location.path("/control");
+          return $location.path("/control").search({});
         },
         openNotebook: function(notebookUri, uriType, readOnly, format) {
           if (!notebookUri) {
             return;
           }
-
-          bkUtils.log("open", {
-            uri: notebookUri,
-            user: user
-          });
 
           var routeParams = {
             uri: notebookUri
@@ -205,11 +233,19 @@
           }
           return $location.path("/open").search(routeParams);
         },
-        newSession: function() {
-          return $location.path("/session/new");
+        newSession: function(empty) {
+          var name = "/session/new";
+          if (empty) {
+            name = "/session/empty";
+          }
+          if ($location.$$path === name) {
+            return $route.reload();
+          } else {
+            return $location.path(name).search({});
+          }
         },
         openSession: function(sessionId) {
-          return $location.path("session/" + sessionId);
+          return $location.path("session/" + sessionId).search({});
         }
       };
       bkCoreManager.init(beakerRootOp);
@@ -235,34 +271,40 @@
           $('.dropdown.open .dropdown-toggle').dropdown('toggle');
         }
       });
-      window.bkDebug = bkDebug;
+      window.bkHelper = bkHelper;
     });
 
     beaker.run(function(bkEvaluatePluginManager) {
-      if (window.bkInit && window.bkInit.getEvaluators) {
-        var evaluatorsUrlMap = window.bkInit.getEvaluators();
-        _.chain(evaluatorsUrlMap).keys().each(function(key) {
-          var value = evaluatorsUrlMap[key];
-          bkEvaluatePluginManager.addNameToUrlEntry(key, value);
-        });
-      }
-
-      var moreEvaluatorUrlMap = {// for known plugins, so we can refer to the plugin with either its name or URL
-        "IPython": "./plugins/eval/ipythonPlugins/ipython/ipython.js",
-        "IRuby": "./plugins/eval/ipythonPlugins/iruby/iruby.js",
-        "Julia": "./plugins/eval/ipythonPlugins/julia/julia.js",
-        "Groovy": "./plugins/eval/groovy/groovy.js",
-        "R": "./plugins/eval/r/r.js",
-        "Node": "./plugins/eval/node/node.js",
-
+      // for known plugins, so we can refer to the plugin with either its name or URL
+      var defaultEvaluatorUrlMap = {
         "Html": "./plugin/evaluator/html.js",
         "Latex": "./plugin/evaluator/latex.js",
         "JavaScript": "./plugin/evaluator/javaScript.js"
       };
 
-      _.chain(moreEvaluatorUrlMap).keys().each(function(key) {
-        var value = moreEvaluatorUrlMap[key];
+      _.chain(defaultEvaluatorUrlMap).each(function(value, key) {
         bkEvaluatePluginManager.addNameToUrlEntry(key, value);
+      });
+
+      if (window.bkInit && window.bkInit.getEvaluatorUrlMap) {
+        var evaluatorsUrlMap = window.bkInit.getEvaluatorUrlMap();
+        _.chain(evaluatorsUrlMap).keys().each(function(key) {
+          var value = evaluatorsUrlMap[key];
+          bkEvaluatePluginManager.addNameToUrlEntry(key, value);
+        });
+      }
+    });
+
+    beaker.run(function(bkUtils, $rootScope) {
+      bkUtils.getVersionInfo().then(function(versionInfo) {
+        window.beaker.version = versionInfo.version;
+        window.beaker.buildTime = versionInfo.buildTime;
+        $rootScope.getVersion = function() {
+          return window.beaker.version;
+        };
+        $rootScope.getBuildTime = function() {
+          return window.beaker.buildTime;
+        };
       });
     });
   };

@@ -23,6 +23,7 @@
       ["flotr2ViewUtils",
         "bkCellMenuPluginManager",
         function(flotr2ViewUtils, bkCellMenuPluginManager) {
+          var CELL_TYPE = "bko-chart";
           return {
             template: "<div class='tschartcontainer'></div>",
             controller: function($scope) {
@@ -60,19 +61,6 @@
               $scope.data = _.map(model.graphics_list, function(g) {
                 return flotr2ViewUtils.fromGraphicsToData(g);
               });
-//                _.each($scope.model.graphics_list, function(g, index) {
-//                    var foo = {};
-//                    foo.update = function(newG) {
-//                        var oldG = $scope.model.graphics_list[index];
-//                        if (oldG.update_id !== newG.update_id) {
-//                            cometd.unsubscribe(oldG.update_id);
-//                            cometd.subscribe(newG.update_id, foo.update);
-//                        }
-//                        $scope.model.graphics_list[index] = newG;
-//                        $scope.$apply();
-//                    };
-//                    cometd.subscribe(g.update_id, foo.update);
-//                });
               $scope.$watch('model.getCellModel()', function(model) {
                 if (model) {
                   $scope.data = _.map(model.graphics_list, function(g) {
@@ -86,15 +74,11 @@
               });
 
               $scope.getShareMenuPlugin = function() {
-                // the following cellType needs to match
-                //plugin.cellType = "bkChart"; in dynamically loaded outputDisplay_bkChart.js
-                var cellType = "bkChart";
-                return bkCellMenuPluginManager.getPlugin(cellType);
+                return bkCellMenuPluginManager.getPlugin(CELL_TYPE);
               };
-              $scope.$watch("getShareMenuPlugin()", function(getShareMenu) {
-                if (getShareMenu && $scope.model.resetShareMenuItems) {
-                  $scope.model.resetShareMenuItems(getShareMenu($scope));
-                }
+              $scope.$watch("getShareMenuPlugin()", function() {
+                var newItems = bkCellMenuPluginManager.getMenuItems(CELL_TYPE, $scope);
+                $scope.model.resetShareMenuItems(newItems);
               });
             },
             link: function(scope, element, attrs) {

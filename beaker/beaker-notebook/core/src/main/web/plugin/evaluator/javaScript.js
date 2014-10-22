@@ -149,15 +149,23 @@ define(function(require, exports, module) {
     return getCompletions(token, context, keywords, options);
   }
 
-
   var JavaScript_0 = {
     pluginName: PLUGIN_NAME,
     cmMode: "javascript",
     background: "#FFE0F0",
+    bgColor: "#EFDB52",
+    fgColor: "#4A4A4A",
+    borderColor: "",
+    shortName: "Js",
     evaluate: function(code, modelOutput) {
       return bkHelper.fcall(function() {
         try {
-          modelOutput.result = "" + eval(code);
+          var beaker = bkHelper.getNotebookModel().namespace; // this is visible to JS code in cell
+          if (undefined === beaker) {
+            bkHelper.getNotebookModel().namespace = {};
+            beaker = bkHelper.getNotebookModel().namespace;
+          }
+          modelOutput.result = "" + eval(code); // See Issue #396
         } catch (err) {
           modelOutput.result = {
             type: "BeakerDisplay",
@@ -195,6 +203,14 @@ define(function(require, exports, module) {
     if (!settings.jsSetting1) {
       settings.jsSetting1 = "";
     }
+    if (!settings.view) {
+      settings.view = {};
+    }
+    if (!settings.view.cm) {
+      settings.view.cm = {};
+    }
+    settings.view.cm.mode = JavaScript_0.cmMode;
+    settings.view.cm.background = JavaScript_0.background;
     this.settings = settings;
     this.updateAll();
     this.perform = function(what) {

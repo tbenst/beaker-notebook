@@ -14,10 +14,16 @@
         });
     };
 
+    function resizeIframe(data) {
+      var iframe = document.getElementById('beaker-frame-' + data.notebookId);
+      angular.element(iframe).attr('height', data.height);
+    };
+
     function receiveWindowMessage(e) {
       if (new URL(event.origin).hostname !== $location.host()) {
         throw "message received from unauthorized host " + event.origin.host;
       }
+      if (e.data.operation == 'resize') return resizeIframe(e.data);
       if (!e.data.notebook) return; // could be a message for a different purpose
       saveNotebook(e.data);
     }

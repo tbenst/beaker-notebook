@@ -19,16 +19,22 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.attribute.PosixFilePermission;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
 import javax.swing.ImageIcon;
 import javax.ws.rs.FormParam;
@@ -42,6 +48,8 @@ import com.twosigma.beaker.jvm.object.SimpleEvaluationObject;
 import com.twosigma.beaker.jvm.object.TableDisplay;
 import com.twosigma.beaker.r.module.ErrorGobbler;
 import com.twosigma.beaker.r.module.ROutputHandler;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.ClientProtocolException;
 import org.rosuda.REngine.Rserve.RConnection;
@@ -66,36 +74,74 @@ public class RShellRest {
   private int svgUniqueCounter = 0;
   private int corePort = -1;
   private RServer rServer = null;
+  private final Base64 encoder;
 
   public RShellRest() {
+    this.encoder = new Base64();
   }
 
   int getPortFromCore()
     throws IOException, ClientProtocolException
   {
-    String response = Request.Get("http://127.0.0.1:" + corePort + "/rest/plugin-services/getAvailablePort")
+    String password = System.getenv("beaker_core_password");
+    String auth = encoder.encodeBase64String(("beaker:" + password).getBytes("ASCII"));
+    String response = Request.Get("http://127.0.0.1:" + corePort +
+                                  "/rest/plugin-services/getAvailablePort")
+      .addHeader("Authorization", "Basic " + auth)
       .execute().returnContent().asString();
     return Integer.parseInt(response);
   }
 
-  String writeRserveScript(int port)
+  private String makeTemp(String base, String suffix)
     throws IOException
   {
-    File temp = File.createTempFile("BeakerRserveScript", ".r");
-    String location = temp.getAbsolutePath();
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(location))) {
-      bw.write("library(Rserve)\n");
-      bw.write("run.Rserve(port=" + port + ")\n");
+    File dir = new File(System.getenv("beaker_tmp_dir"));
+    File tmp = File.createTempFile(base, suffix, dir);
+    if (!windows()) {
+      Set<PosixFilePermission> perms = EnumSet.of(PosixFilePermission.OWNER_READ,
+                                                  PosixFilePermission.OWNER_WRITE);
+      Files.setPosixFilePermissions(tmp.toPath(), perms);
     }
+    return tmp.getAbsolutePath();
+  }
+
+  private BufferedWriter openTemp(String location)
+    throws UnsupportedEncodingException, FileNotFoundException
+  {
+    // only in Java :(
+    return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(location), "ASCII"));
+  }
+
+  String writeRserveScript(int port, String password)
+    throws IOException
+  {
+    String pwlocation = makeTemp("BeakerRserve", ".pwd");
+    BufferedWriter bw = openTemp(pwlocation);
+    bw.write("beaker " + password + "\n");
+    bw.close();
+
+    if (windows()) {
+	// R chokes on backslash in windows path, need to quote them
+	pwlocation = pwlocation.replace("\\", "\\\\");
+    }
+
+    String location = makeTemp("BeakerRserveScript", ".r");
+    bw = openTemp(location);
+    bw.write("library(Rserve)\n");
+    bw.write("run.Rserve(auth=\"required\", plaintext=\"enable\", port=" +
+             port + ", pwdfile=\"" + pwlocation + "\")\n");
+    bw.close();
+
     return location;
   }
 
   private RServer startRserve()
-    throws IOException, RserveException
+    throws IOException, RserveException, REXPMismatchException
   {
     int port = getPortFromCore();
     String pluginInstallDir = System.getProperty("user.dir");
-    String[] command = {"Rscript", writeRserveScript(port)};
+    String password = RandomStringUtils.random(40, true, true);
+    String[] command = {"Rscript", writeRserveScript(port, password)};
 
     // Need to clear out some environment variables in order for a
     // new Java process to work correctly.
@@ -111,7 +157,8 @@ public class RShellRest {
     environmentList.toArray(environmentArray);
 
     Process rServe = Runtime.getRuntime().exec(command, environmentArray);
-    BufferedReader rServeOutput = new BufferedReader(new InputStreamReader(rServe.getInputStream()));
+    BufferedReader rServeOutput =
+      new BufferedReader(new InputStreamReader(rServe.getInputStream(), "ASCII"));
     String line = null;
     while ((line = rServeOutput.readLine()) != null) {
       if (line.indexOf("(This session will block until Rserve is shut down)") >= 0) {
@@ -127,8 +174,10 @@ public class RShellRest {
                                                 BEGIN_MAGIC, END_MAGIC);
     handler.start();
 
-    return new RServer(new RConnection("127.0.0.1", port),
-                       handler, port);
+    RConnection rconn = new RConnection("127.0.0.1", port);
+    rconn.login("beaker", password);
+    int pid = rconn.eval("Sys.getpid()").asInteger();
+    return new RServer(rconn, handler, errorGobbler, port, password, pid);
   }
 
   // set the port used for communication with the Core server
@@ -141,7 +190,8 @@ public class RShellRest {
   @POST
   @Path("getShell")
   public String getShell(@FormParam("shellid") String shellId)
-                         throws InterruptedException, RserveException, IOException {
+    throws InterruptedException, RserveException, IOException, REXPMismatchException
+  {
     // if the shell doesnot already exist, create a new shell
     if (shellId.isEmpty() || !this.shells.containsKey(shellId)) {
       shellId = UUID.randomUUID().toString();
@@ -159,17 +209,15 @@ public class RShellRest {
   @Path("evaluate")
   public SimpleEvaluationObject evaluate(
       @FormParam("shellID") String shellID,
-      @FormParam("code") String code) throws InterruptedException, REXPMismatchException {
-
-    boolean gotMismatch = false;
-    // System.out.println("evaluating, shellID = " + shellID + ", code = " + code);
+      @FormParam("code") String code) 
+    throws InterruptedException, REXPMismatchException, IOException
+  {
     SimpleEvaluationObject obj = new SimpleEvaluationObject(code);
     obj.started();
     RServer server = getEvaluator(shellID);
     RConnection con = server.connection;
-    String dotDir = System.getProperty("user.home") + "/.beaker";
-    // XXX should use better location on windows.
-    String file = windows() ? "rplot.svg" : (dotDir + "/rplot.svg"); 
+
+    String file = windows() ? "rplot.svg" : makeTemp("rplot", ".svg");
     try {
       java.nio.file.Path p = java.nio.file.Paths.get(file);
       java.nio.file.Files.deleteIfExists(p);
@@ -180,37 +228,36 @@ public class RShellRest {
     try {
       // direct graphical output
       con.eval("svg('" + file + "')");
-      String tryCode = "beaker_eval_=try({" + code + "\n},silent=TRUE)";
+      String tryCode = "beaker_eval_=withVisible(try({" + code + "\n},silent=TRUE))";
       REXP result = con.eval(tryCode);
 
       /*
        if (null != result)
-       System.out.println("result class = " + result.getClass().getName());
+         System.out.println("result class = " + result.getClass().getName());
        else
-       System.out.println("result = null");
-       */
+         System.out.println("result = null");
+      */
 
       if (null == result) {
         obj.finished("");
-      } else if (result.inherits("try-error")) {
-        String prefix = "Error in try({ : ";
-        String rs = result.asString();
-        if (rs.substring(0, prefix.length()).equals(prefix)) {
-          rs = rs.substring(prefix.length());
-        }
-        obj.error(rs);
+      } else if (isError(result, obj)) {
+      } else if (!isVisible(result, obj)) {
+        obj.finished("");
       } else if (isDataFrame(result, obj)) {
         // nothing
       } else {
         server.outputHandler.reset(obj);
-        con.eval("print(\"" + BEGIN_MAGIC + "\")");
-        con.eval("print(beaker_eval_)");
-        con.eval("print(\"" + END_MAGIC + "\")");
+        String finish = "print(\"" + BEGIN_MAGIC + "\")\n" +
+          "print(beaker_eval_$value)\n" +
+          "print(\"" + END_MAGIC + "\")\n";
+        con.eval(finish);
       }
     } catch (RserveException e) {
-      obj.error(e.getMessage());
-    } catch (REXPMismatchException e) {
-      gotMismatch = true;
+      if (127 == e.getRequestReturnCode()) {
+        obj.error("Interrupted");
+      } else {
+        obj.error(e.getMessage());
+      }
     }
 
     // flush graphical output
@@ -244,8 +291,21 @@ public class RShellRest {
   public void exit(@FormParam("shellID") String shellID) {
   }
 
+  @POST
+  @Path("interrupt")
+  public void interrupt(@FormParam("shellID") String shellID)
+    throws IOException
+  {
+    if (windows()) {
+      return;
+    }
+    RServer server = getEvaluator(shellID);
+    server.errorGobbler.expectExtraLine();
+    Runtime.getRuntime().exec("kill -SIGINT " + server.pid);
+  }
+
   private void newEvaluator(String id)
-          throws RserveException, IOException
+    throws RserveException, IOException, REXPMismatchException
   {
     RServer newRs;
     if (useMultipleRservers) {
@@ -254,9 +314,13 @@ public class RShellRest {
       if (null == rServer) {
         rServer = startRserve();
       }
-      newRs = new RServer(new RConnection("127.0.0.1", rServer.port),
-                          rServer.outputHandler, rServer.port);
+      RConnection rconn = new RConnection("127.0.0.1", rServer.port);
+      rconn.login("beaker", rServer.password);
+      int pid = rconn.eval("Sys.getpid()").asInteger();
+      newRs = new RServer(rconn, rServer.outputHandler, rServer.errorGobbler,
+                          rServer.port, rServer.password, pid);
     }
+    
     this.shells.put(id, newRs);
   }
 
@@ -312,10 +376,39 @@ public class RShellRest {
     return false;
   }
 
+  private static boolean isError(REXP result, SimpleEvaluationObject obj) {
+    try {
+      REXP value = result.asList().at(0);
+      if (value.inherits("try-error")) {
+        String prefix = "Error in try({ : ";
+        String rs = value.asString();
+        if (rs.substring(0, prefix.length()).equals(prefix)) {
+          rs = rs.substring(prefix.length());
+        }
+        obj.error(rs);
+        return true;
+      }
+    } catch (REXPMismatchException e) {
+    }
+    return false;
+  }
+
+  private static boolean isVisible(REXP result, SimpleEvaluationObject obj) {
+    try {
+      int[] asInt = result.asList().at(1).asIntegers();
+      if (asInt.length == 1 && asInt[0] != 0) {
+        String[] names = result.asList().keys();
+        return true;
+      }
+    } catch (REXPMismatchException e) {
+    }
+    return false;
+  }
+
   private static boolean isDataFrame(REXP result, SimpleEvaluationObject obj) {
     TableDisplay table;
     try {
-      RList list = result.asList();
+      RList list = result.asList().at(0).asList();
       int cols = list.size();
       String[] names = list.keys();
       if (null == names) {
@@ -328,6 +421,9 @@ public class RShellRest {
       for (int i = 0; i < cols; i++) {
         // XXX should identify numeric columns
         classes.add(String.class);
+        if (null == list.at(i)) {
+          return false;
+        }
         array[i] = list.at(i).asStrings();
       }
       if (array.length < 1) {
@@ -354,11 +450,18 @@ public class RShellRest {
   private static class RServer {
     RConnection connection;
     ROutputHandler outputHandler;
+    ErrorGobbler errorGobbler;
     int port;
-    public RServer(RConnection con, ROutputHandler handler, int port) {
+    String password;
+    int pid;
+    public RServer(RConnection con, ROutputHandler handler, ErrorGobbler gobbler,
+                   int port, String password, int pid) {
       this.connection = con;
       this.outputHandler = handler;
+      this.errorGobbler = gobbler;
       this.port = port;
+      this.password = password;
+      this.pid = pid;
     }
   }
 }

@@ -27,19 +27,7 @@
       bkUtils, bkSession, bkCoreManager, bkRecentMenu, bkEvaluatePluginManager) {
     return {
       restrict: 'E',
-      template: "<table class='table table-striped'>" +
-          "<tbody>" +
-          "<tr><th>ID</th><th>Open Date</th><th>Name</th><th>Path</th><th>Edited</th><th>Operation</th></tr>" +
-          "<tr ng-repeat='session in sessions | orderBy:\"openedDate\":true'>" +
-          "<td>{{session.id}}</td>" +
-          "<td>{{session.openedDate | date:'medium'}}</td>" +
-          "<td><span class='caption' contenteditable='false'>{{getCaption(session)}}</span></td>" +
-          "<td>{{getDescription(session)}}</td>" +
-          "<td>{{session.edited ? '*' : ''}}</td>" +
-          "<td><div class='btn-group'><button class='btn' ng-click='open(session)'>Go to</button>" +
-          "<button class='btn' ng-click='close(session)'>Close</button></div></td>" +
-          "</tr></tbody>" +
-          "</table>",
+      template: JST['controlpanel/table'],
       controller: function($scope) {
         $scope.open = function(session) {
           bkCoreManager.openSession(session.id);
@@ -63,16 +51,16 @@
             closeSession();
           } else {
             // ask if user want to save first
-            bkHelper.showYesNoCancelModal(
+            bkHelper.show3ButtonModal(
                 "Do you want to save [" + $scope.getCaption(session) + "]?",
                 "Confirm close",
                 function() { // yes
                   // save session
                   var saveSession = function() {
                     var notebookModelAsString = bkUtils.toPrettyJson(notebookModel);
-                    if (!_.isEmpty(session.notebookUri)) {
+                    if (!_.isEmpty(session.notebookUri) && !session.readOnly) {
                       var fileSaver = bkCoreManager.getFileSaver(session.uriType);
-                      return fileSaver.save(session.notebookUri, notebookModelAsString);
+                      return fileSaver.save(session.notebookUri, notebookModelAsString, true);
                     } else {
                       var deferred = bkUtils.newDeferred();
                       bkCoreManager.showDefaultSavingFileChooser().then(function(pathInfo) {
@@ -105,7 +93,7 @@
                     if (info.cause === "Save cancelled") {
                       console.log("File saving cancelled");
                     } else {
-                      bkHelper.showErrorModal(info.error, info.cause);
+                      bkHelper.show1ButtonModal(info.error, info.cause);
                     }
                   };
                   saveSession().then(closeSession, savingFailedHandler);

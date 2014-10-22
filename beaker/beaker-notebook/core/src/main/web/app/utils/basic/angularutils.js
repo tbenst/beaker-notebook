@@ -52,8 +52,19 @@
       newPromise: function(value) {
         return $q.when(value);
       },
-      fcall: function(func) {
-        return $q.when(Q.fcall(func));
+      all: function() {
+        return $q.all.apply($q, arguments);
+      },
+      fcall: function (func) {
+        var deferred = $q.defer();
+        $timeout(function () {
+          try {
+            deferred.resolve(func());
+          } catch (err) {
+            deferred.reject(err);
+          }
+        }, 0);
+        return deferred.promise;
       },
       delay: function(ms) {
         var deferred = $q.defer();

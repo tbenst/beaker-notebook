@@ -20,7 +20,7 @@
  */
 (function() {
   'use strict';
-  var module = angular.module('bk.helper', ['bk.utils', 'bk.core', 'bk.share']);
+  var module = angular.module('bk.helper', ['bk.utils', 'bk.core', 'bk.share', 'bk.debug']);
   /**
    * bkHelper
    * - should be the only thing plugins depend on to interact with general beaker stuffs (other than
@@ -30,7 +30,7 @@
    *   plugins dynamically
    * - it mostly should just be a subset of bkUtil
    */
-  module.factory('bkHelper', function(bkUtils, bkCoreManager, bkShare) {
+  module.factory('bkHelper', function(bkUtils, bkCoreManager, bkShare, bkDebug) {
     var getCurrentApp = function() {
       return bkCoreManager.getBkApp();
     };
@@ -43,6 +43,10 @@
     };
 
     var bkHelper = {
+      // enable debug
+      debug: function() {
+        window.bkDebug = bkDebug;
+      },
 
       // beaker (root)
       gotoControlPanel: function() {
@@ -51,8 +55,10 @@
       openNotebook: function(notebookUri, uriType, readOnly, format) {
         return bkCoreManager.openNotebook(notebookUri, uriType, readOnly, format);
       },
-      newSession: function() {
-        return bkCoreManager.newSession();
+      // Empty true means truly empty new session.
+      // otherwise use the default notebook.
+      newSession: function(empty) {
+        return bkCoreManager.newSession(empty);
       },
 
       // current app
@@ -62,11 +68,24 @@
         }
         return "Unknown App";
       },
+      hasSessionId: function() {
+        if (getCurrentApp().getSessionId) {
+          return true;
+        }
+        return false;
+      },
       getSessionId: function() {
         if (getCurrentApp().getSessionId) {
           return getCurrentApp().getSessionId();
         } else {
           console.error("Current app doesn't support getSessionId");
+        }
+      },
+      getNotebookModel: function() {
+        if (getCurrentApp().getNotebookModel) {
+          return getCurrentApp().getNotebookModel();
+        } else {
+          console.error("Current app doesn't support getNotebookModel");
         }
       },
       closeNotebook: function() {
@@ -181,8 +200,8 @@
       findTable: function(elem) {
         return bkUtils.findTable(elem);
       },
-      generateId: function() {
-        return bkUtils.generateId();
+      generateId: function(length) {
+        return bkUtils.generateId(length);
       },
       httpGet: function(url, data, headers) {
         return bkUtils.httpGet(url, data, headers);
@@ -196,6 +215,9 @@
       newPromise: function(value) {
         return bkUtils.newPromise(value);
       },
+      all: function(promises) {
+        return bkUtils.all(promises);
+      },
       fcall: function(func) {
         return bkUtils.fcall(func);
       },
@@ -207,6 +229,12 @@
       setNotebookImporter: function(format, importer) {
         return bkCoreManager.setNotebookImporter(format, importer);
       },
+      setFileLoader: function(uriType, fileLoader) {
+        return bkCoreManager.setFileLoader(uriType, fileLoader);
+      },
+      setFileSaver: function(uriType, fileSaver) {
+        return bkCoreManager.setFileSaver(uriType, fileSaver);
+      },
       showDefaultSavingFileChooser: function() {
         return bkCoreManager.showDefaultSavingFileChooser();
       },
@@ -216,16 +244,16 @@
       showModalDialog: function(callback, template, strategy) {
         return bkCoreManager.showModalDialog(callback, template, strategy);
       },
-      showErrorModal: function(msgBody, msgHeader, callback) {
-        return bkCoreManager.showErrorModal(msgBody, msgHeader, callback);
+      show1ButtonModal: function(msgBody, msgHeader, callback) {
+        return bkCoreManager.show1ButtonModal(msgBody, msgHeader, callback);
       },
-      showOkCancelModal: function(msgBody, msgHeader, okCB, cancelCB, okBtnTxt, cancelBtnTxt) {
-        return bkCoreManager.showOkCancelModal(
+      show2ButtonModal: function(msgBody, msgHeader, okCB, cancelCB, okBtnTxt, cancelBtnTxt) {
+        return bkCoreManager.show2ButtonModal(
             msgBody, msgHeader, okCB, cancelCB, okBtnTxt, cancelBtnTxt);
       },
-      showYesNoCancelModal: function(
+      show3ButtonModal: function(
           msgBody, msgHeader, yesCB, noCB, cancelCB, yesBtnTxt, noBtnTxt, cancelBtnTxt) {
-        return bkCoreManager.showYesNoCancelModal(
+        return bkCoreManager.show3ButtonModal(
             msgBody, msgHeader, yesCB, noCB, cancelCB, yesBtnTxt, noBtnTxt, cancelBtnTxt);
       },
       getFileSystemFileChooserStrategy: function() {
@@ -249,7 +277,7 @@
       // bkShare
       share: bkShare
     };
-    window.bkHelper = bkHelper; // TODO, we want to revisit the decision of making this global
+
     return bkHelper;
   });
 })();

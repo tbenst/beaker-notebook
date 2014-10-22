@@ -1,5 +1,5 @@
 /*
- *  Copyright 2014 TWO SIGMA INVESTMENTS, LLC
+ *  Copyright 2014 TWO SIGMA OPEN SOURCE, LLC
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@
     'bk.utils',
     'bk.session',
     'bk.notebookCellModelManager',
+    'bk.notebookNamespaceModelManager',
     'bk.recentMenu',
     'bk.evaluatorManager'
   ]);
@@ -30,6 +31,7 @@
       bkUtils,
       bkSession,
       bkNotebookCellModelManager,
+      bkNotebookNamespaceModelManager,
       bkEvaluatorManager,
       bkRecentMenu) {
 
@@ -69,7 +71,11 @@
         },
         set: function(v) {
           _v = v;
-          bkNotebookCellModelManager.reset(_v.cells);
+          if (this.isEmpty()) {
+            bkNotebookCellModelManager.reset([]);
+          } else {
+            bkNotebookCellModelManager.reset(_v.cells);
+          }
         },
         isEmpty: function() {
           return _.isEmpty(_v);
@@ -82,6 +88,21 @@
         },
         toPrettyJson: function() {
           return bkUtils.toPrettyJson(_v);
+        },
+        toCleanPrettyJson: function() {
+          //strip out the shell IDs
+          var shellIds = _(_v.evaluators).map(function(evaluator) {
+            var shellId = evaluator.shellID;
+            delete evaluator.shellID;
+            return shellId;
+          });
+          // generate pretty JSON
+          var prettyJson = bkUtils.toPrettyJson(_v);
+          // put the shell IDs back
+          _(_v.evaluators).each(function(evaluator, index) {
+            evaluator.shellID = shellIds[index];
+          });
+          return prettyJson;
         }
       };
     })();
@@ -110,7 +131,7 @@
       return {
         uriType: _uriType,
         notebookUri: _notebookUri.get(),
-        notebookModelAsString: _notebookModel.toPrettyJson()
+        notebookModelAsString: _notebookModel.toCleanPrettyJson()
       };
     };
 
@@ -130,16 +151,20 @@
         }
 
         // reset
-        _notebookUri.set(notebookUri);
         _uriType = uriType;
         _readOnly = readOnly;
         _format = format;
+        _notebookUri.set(notebookUri);
         _notebookModel.set(notebookModel);
         _edited = !!edited;
         _sessionId = sessionId;
+
+        bkNotebookNamespaceModelManager.init(sessionId, notebookModel);
+        bkSession.backup(_sessionId, generateBackupData());
       },
       clear: function() {
         bkEvaluatorManager.reset();
+        bkNotebookNamespaceModelManager.clear(_sessionId);
         _notebookUri.reset();
         _uriType = null;
         _readOnly = null;
@@ -168,10 +193,11 @@
           return bkUtils.newPromise();
         }
       },
-      updateNotebookUri: function(notebookUri, uriType, readOnly) {
+      updateNotebookUri: function(notebookUri, uriType, readOnly, format) {
         // to be used by save-as
         _uriType = uriType;
         _readOnly = readOnly;
+        _format = format;
         _notebookUri.set(notebookUri);
       },
       getNotebookTitle: function() {
@@ -196,6 +222,15 @@
       getSessionId: function() {
         return _sessionId;
       },
+      isSessionValid: function() {
+        if (!_sessionId) {
+          return bkUtils.newPromise("false");
+        } else {
+          return bkSession.getSessions().then(function(sessions) {
+            return _(sessions).chain().keys().contains(_sessionId).value();
+          });
+        }
+      },
       // TODO, move the following impl to a dedicated notebook model manager
       // but still expose it here
       setNotebookModelEdited: function(edited) {
@@ -216,6 +251,23 @@
           }
           _edited = true;
         }
+      },
+      evaluatorUnused: function(plugin) {
+	var n = _.find(_notebookModel.get().cells, function (c) {
+	    return c.type == "code" && c.evaluator == plugin;
+	});
+	return !n;
+      },
+      addEvaluator: function(evaluator) {
+        _notebookModel.get().evaluators.push(evaluator);
+        _edited = true;
+      },
+      removeEvaluator: function(plugin) {
+        var model = _notebookModel.get();
+        model.evaluators = _.reject(model.evaluators, function(e) {
+          return e.plugin == plugin;
+        });
+        _edited = true;
       },
       getNotebookCellOp: function() {
         return bkNotebookCellModelManager;
@@ -302,6 +354,9 @@
         } else {
           return this.getNotebookCellOp().getInitializationCells();
         }
+      },
+      undo: function() {
+        bkNotebookCellModelManager.undo();
       }
     };
   });

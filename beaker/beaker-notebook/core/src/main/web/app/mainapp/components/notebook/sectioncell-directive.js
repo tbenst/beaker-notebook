@@ -24,10 +24,10 @@
       bkSessionManager,
       bkCoreManager,
       bkCellMenuPluginManager) {
+    var CELL_TYPE = "section";
     return {
       restrict: 'E',
-      templateUrl: "./app/mainapp/components/notebook/sectioncell.html",
-      //scope: { cell: "=" },
+      template: JST["mainapp/components/notebook/sectioncell"](),
       controller: function($scope) {
         var notebookCellOp = bkSessionManager.getNotebookCellOp();
         $scope.toggleShowChildren = function() {
@@ -49,6 +49,9 @@
           $scope.cellmodel.title = newTitle;
           bkUtils.refreshRootScope();
         };
+        $scope.$watch('cellmodel.collapsed', function(nu, old) {
+          if (nu!=old) bkBunsenHelper.resizeIFrame();
+        });
         $scope.$watch('cellmodel.title', function(newVal, oldVal) {
           if (newVal !== oldVal) {
             bkSessionManager.setNotebookModelEdited(true);
@@ -59,10 +62,16 @@
             bkSessionManager.setNotebookModelEdited(true);
           }
         });
+
+        $scope.cellview.menu.renameItem({
+          name: "Delete cell",
+          newName: "Delete heading and keep contents"
+        });
+
         $scope.cellview.menu.addItemToHead({
           name: "Delete section and all sub-sections",
           action: function() {
-            notebookCellOp.deleteSection($scope.cellmodel.id);
+            notebookCellOp.deleteSection($scope.cellmodel.id, true);
           }
         });
         $scope.cellview.menu.addItem({
@@ -103,21 +112,27 @@
         };
 
         $scope.getShareData = function() {
-          return {
-            cellModel: $scope.cellmodel,
-            evViewModel: bkEvaluatorManager.getViewModel(),
-            notebookModel: {
-              cells: [$scope.cellmodel]
-                  .concat(notebookCellOp.getAllDescendants($scope.cellmodel.id))
-            }
-          };
+          var cells = [$scope.cellmodel]
+              .concat(notebookCellOp.getAllDescendants($scope.cellmodel.id));
+          var usedEvaluatorsNames = _(cells).chain()
+              .filter(function(cell) {
+                return cell.type === "code";
+              })
+              .map(function (cell) {
+                return cell.evaluator;
+              })
+              .unique().value();
+          var evaluators = bkSessionManager.getRawNotebookModel().evaluators
+              .filter(function (evaluator) {
+                return _.any(usedEvaluatorsNames, function (ev) {
+                  return evaluator.name === ev;
+                });
+              });
+          return bkUtils.generateNotebook(evaluators, cells);
         };
 
         $scope.getShareMenuPlugin = function() {
-          // the following cellType needs to match
-          //plugin.cellType = "sectionCell"; in dynamically loaded cellmenu/sectionCell.js
-          var cellType = "sectionCell";
-          return bkCellMenuPluginManager.getPlugin(cellType);
+          return bkCellMenuPluginManager.getPlugin(CELL_TYPE);
         };
         $scope.cellview.menu.addItem({
           name: "Run all",
@@ -133,10 +148,8 @@
           items: []
         };
         $scope.cellview.menu.addItem(shareMenu);
-        $scope.$watch("getShareMenuPlugin()", function(getShareMenu) {
-          if (getShareMenu) {
-            shareMenu.items = getShareMenu($scope);
-          }
+        $scope.$watch("getShareMenuPlugin()", function() {
+          shareMenu.items = bkCellMenuPluginManager.getMenuItems(CELL_TYPE, $scope);
         });
         $scope.isInitializationCell = function() {
           return $scope.cellmodel.initialization;
@@ -164,6 +177,9 @@
           },
           attachCell: function(newCell) {
             notebookCellOp.insertAfter($scope.cellmodel.id, newCell);
+          },
+          prevCell: function() {
+            return $scope.cellmodel;
           }
         };
       },

@@ -23,6 +23,10 @@ define(function(require, exports, module) {
   var Html = {
     pluginName: PLUGIN_NAME,
     cmMode: "htmlmixed",
+    bgColor: "#E3502B",
+    fgColor: "#FFFFFF",
+    borderColor: "",
+    shortName: "Ht",
     evaluate: function(code, modelOutput) {
       var startTime = new Date().getTime();
       return bkHelper.fcall(function() {
@@ -37,6 +41,13 @@ define(function(require, exports, module) {
     }
   };
   var Html0 = function(settings) {
+    if (!settings.view) {
+      settings.view = {};
+    }
+    if (!settings.view.cm) {
+      settings.view.cm = {};
+    }
+    settings.view.cm.mode = Html.cmMode;
     this.settings = settings;
   };
   Html0.prototype = Html;

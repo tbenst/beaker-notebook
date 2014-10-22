@@ -18,6 +18,7 @@
               frame.src = v;
               frame.setAttribute('width', attrs.width);
               frame.setAttribute('height', attrs.height);
+              frame.setAttribute('scrolling', 'no');
               frame.setAttribute('class', 'beaker');
               document.getElementById('root').appendChild(frame);
             }
