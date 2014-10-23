@@ -43,7 +43,7 @@ As a researcher, I want to be able to browse different market place catalogs.
       | Zebras in Captivity | Stats Inc.       | xml  | Two Sigma  |
     When I view the market search
     And I browse "Quandl" catalog
-    And I search the top-level marketplace for "Crime"
+    And I search the top-level marketplace for "Cri"
     Then I should see 1 market item on the market list page
     When I search the top-level marketplace for "Zebras"
     Then I should see 0 market items on the market list page

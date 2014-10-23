@@ -108,7 +108,7 @@ As a researcher, I want to be able to use the market place.
       | Credit Card Complaints |
       | Crime in Canada        |
     When I view the market search
-    And I search the marketplace in the filters for "Canada"
+    And I search the marketplace in the filters for "Can"
     Then I should see 1 market item on the market list page
     And I should see the "Crime in Canada" market item on the market list page
     When I search the top-level marketplace for "credit card"
@@ -121,7 +121,7 @@ As a researcher, I want to be able to use the market place.
       | Credit Card Complaints |
       | Crime in Canada        |
     When I view the market search
-    And I search the marketplace in the filters for "Canada"
+    And I search the marketplace in the filters for "Cana"
     Then I should see 1 market item on the market list page
     And I should see the "Crime in Canada" market item on the market list page
 

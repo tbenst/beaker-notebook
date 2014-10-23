@@ -213,6 +213,7 @@ module.exports = function(Bookshelf, app) {
       return {
         multi_match: {
           query: term,
+          type: 'phrase_prefix',
           fields: fields,
           operator: 'and'
         }
