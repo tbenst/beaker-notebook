@@ -6,7 +6,7 @@
     function signIn(d) {
       $sessionStorage.currentUser = d;
       $scope.message = 'You are signed in.'
-      $http.defaults.headers.common['Authorization'] = d.token;
+      $http.defaults.headers.common['User-Token'] = d.token;
       if ($rootScope.goTo) {
         $state.go($rootScope.goTo);
         delete $rootScope.goTo;

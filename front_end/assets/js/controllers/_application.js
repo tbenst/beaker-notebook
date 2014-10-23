@@ -4,7 +4,7 @@
     $rootScope.$session = $sessionStorage;
 
     if ($sessionStorage.currentUser && $sessionStorage.currentUser.token) {
-      $http.defaults.headers.common['Authorization'] = $sessionStorage.currentUser.token;
+      $http.defaults.headers.common['User-Token'] = $sessionStorage.currentUser.token;
     }
 
     $scope.$state = $state;

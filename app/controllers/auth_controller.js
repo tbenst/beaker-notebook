@@ -20,7 +20,7 @@ module.exports = function(app) {
       if (app.shouldSkip(req.path, 'authorize')) {
         next();
       } else {
-        User.checkToken(req.get("Authorization"))
+        User.checkToken(req.get('User-Token'))
           .then(function(user) {
             if (user) {
               req.user = user;
