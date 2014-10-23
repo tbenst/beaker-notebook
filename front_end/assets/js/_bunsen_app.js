@@ -15,7 +15,8 @@
      'hiddenUpload',
      'truncate',
      'underscore.string',
-     'angularSpinner'
+     'angularSpinner',
+     'ngSanitize'
     ], ['RestangularProvider', function(RestangularProvider) {
       RestangularProvider.setBaseUrl('/api');
     }]);
