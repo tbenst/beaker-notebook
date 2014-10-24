@@ -27,7 +27,11 @@
       return Array.prototype.concat.apply([], scopes);
     }
 
-    function checkDataSets(newValue, oldValue) { if (newValue !== oldValue) getDataSets(); }
+    function checkDataSets(newValue, oldValue) {
+      if (newValue !== oldValue || !$scope.marketPlace.data) {
+        getDataSets();
+      }
+    }
 
     var previousRequestsAborter;
 

@@ -32,6 +32,12 @@ Feature: Subscriptions
     And I view the "Crime Rates, Canada" dataset
     Then I should see the "Crime Rates, Canada" dataset in the marketplace
 
+  Scenario: Returning to marketplace from my dataset details
+    When I view My Datasets
+    And I view the "Crime Rates, Canada" dataset
+    And I view the market search
+    Then I should see the "Crime Rates, Canada" market item on the market list page
+
   Scenario: Returning to subscription list from detail view
     When I view My Datasets
     And I view the "Crime Rates, Canada" dataset
