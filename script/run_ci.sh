@@ -18,4 +18,4 @@ until $(curl -o /dev/null -s --head --fail -H "Host:gateway" http://u:p@localhos
   sleep 5
 done
 
-docker run --link=ci.gateway:gateway --name ci.test -p 5900:5900 test
+docker run --link=ci.gateway:gateway --name ci.test -p 5900:5900 -e BUNSEN_HOSTNAME=gateway test
