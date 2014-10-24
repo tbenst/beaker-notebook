@@ -67,18 +67,9 @@ module.exports = function() {
 
     rename: function(newName) {
       var renameModal = new World.Widgets.Modal;
-      return renameModal.fill({ selector: "input.name", value: newName }).then(function() {
-        // for some reason this now requires a double click in test
-        // but not in actual env... :(
-        return renameModal.click('.save').then(function() {
-          return renameModal.isVisible()
-          .then(function() {
-            return renameModal.click('.save');
-          })
-          .thenCatch(function() {
-
-          });
-        });
+      return renameModal.fill({ selector: "input.name", value: newName })
+      .then(function() {
+        return renameModal.submit();
       });
     },
 

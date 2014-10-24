@@ -15,7 +15,16 @@ module.exports = function() {
     },
 
     submit: function() {
-      return this.click('.submit');
+      return this.click('.submit').then(function() {
+        // for some reason this now requires a double click in test
+        // but not in actual env... :(
+        return this.isVisible()
+        .then(function() {
+          return this.click('.submit');
+        }.bind(this))
+        .thenCatch(function() {
+        });
+      }.bind(this));
     },
 
     close: function() {

@@ -49,7 +49,7 @@ module.exports = function() {
       return this.openRenameModal().then(function() {
         var renameModal = new World.Widgets.Modal();
         return renameModal.fill({ selector: "input.name", value: newName }).then(function() {
-          return renameModal.click('.save');
+          return renameModal.submit();
         });
       });
     },
