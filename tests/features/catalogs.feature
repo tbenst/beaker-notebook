@@ -33,6 +33,21 @@ As a researcher, I want to be able to browse different market place catalogs.
     | type    | xml              |
     And I should see 1 market item on the market list page
 
+  Scenario: Search an alternate catalog
+    Given I have the following market items:
+      | title                  | vendor           | format  | tags         | categories |
+      | Credit Card Complaints | Bank of America  | json    | bank,america | Quandl  |
+    And I have the following market items:
+      | name                | company          | type | categories |
+      | Crime in Canada     | World Stats Inc. | xml  | Quandl     |
+      | Zebras in Captivity | Stats Inc.       | xml  | Two Sigma  |
+    When I view the market search
+    And I browse "Quandl" catalog
+    And I search the top-level marketplace for "Crime"
+    Then I should see 1 market item on the market list page
+    When I search the top-level marketplace for "Zebras"
+    Then I should see 0 market items on the market list page
+
   Scenario: Opening last visited catalog
     When I view the market search
     And I browse "Quandl" catalog
