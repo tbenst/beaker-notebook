@@ -197,7 +197,7 @@ module.exports = function() {
 
   this.When(/^I rename the notebook to "([^"]*)"$/, function(newName) {
     var _this = this;
-    return Promise.delay(3000).then(function() {
+    return new this.Widgets.Notebook().waitForBeaker().then(function() {
       return new _this.Widgets.Notebook().openModalAndRename(newName);
     })
   });
