@@ -19,9 +19,6 @@
   "db": {
     "ports": "5431:5432",
     "build": "postgres",
-    "volumes": [
-      "/var/bunsen_test_db:/var/lib/postgresql/9.3/main"
-    ],
     "command": "-c -f --database=bunsenTest"
   },
   "beaker": {
@@ -39,7 +36,7 @@
   },
   "gateway": {
     "ports": "7778:80",
-    "command": "ci.beaker localhost:7778",
+    "command": "ci.beaker gateway:7778",
     "links": [
       "app",
       "web"
