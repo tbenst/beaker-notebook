@@ -101,6 +101,7 @@ while [[ ${#images[@]} > 0 ]]; do
     if [[ $link_status != 'running' ]]; then
       images[${#images[@]}]=${images[0]}
       images=("${images[@]:1}")
+      sleep 1
       continue 2
     fi
   done
