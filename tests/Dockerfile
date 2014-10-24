@@ -28,7 +28,7 @@ RUN npm config --global set cache /home/beaker/.npm && \
 ADD . /var/app/test
 WORKDIR /var/app/test
 
-RUN npm install
+RUN npm install --production
 
 RUN chmod +x main.sh
 ENTRYPOINT ./main.sh
