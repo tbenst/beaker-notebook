@@ -66,7 +66,7 @@ module.exports = function() {
 
     var _this = this;
 
-    return new this.Widgets.NotebookList()
+    var stepsPromise = new this.Widgets.NotebookList()
     .clickByName(name)
     .then(function() {
       var notebook = new _this.Widgets.Notebook();
@@ -77,15 +77,11 @@ module.exports = function() {
     }.bind(this))
     .then(function() {
       return new this.Widgets.OpenNotebookList().find({text: name});
-    }.bind(this))
-    .then(function(v) {
-      global.timeout = p;
-      return v;
-    })
-    .thenCatch(function() {
-      global.timeout = p;
-    })
-    .should.eventually.be.ok;
+    }.bind(this));
+
+    global.timeout = p;
+
+    return stepsPromise.should.eventually.be.ok;
   });
 
   this.Then(/^I should see (\d+) open notebooks$/, function(count) {
