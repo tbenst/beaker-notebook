@@ -4,7 +4,6 @@ MAINTAINER mojotech <ops+docker@mojotech.com>
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends -t wheezy-backports \
-      iceweasel \
       nodejs-legacy \
       fluxbox \
       x11vnc \
@@ -17,6 +16,7 @@ RUN apt-get update && \
       xfonts-cyrillic \
       xfonts-scalable \
       git \
+      firefox-mozilla-build \
       xvfb && \
     apt-get install -y --no-install-recommends -t jessie \
       npm && \
