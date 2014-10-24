@@ -30,7 +30,7 @@
       "/var/bunsen_test_db:/var/lib/postgresql/9.3/main",
       "/vagrant/postgres:/var/postgres"
     ],
-    "command": "-c -f --database=bunsenTest"
+    "command": "-c -f --database=bunsenTest -r"
   },
   "beaker": {
 

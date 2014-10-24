@@ -19,7 +19,7 @@
   "db": {
     "ports": "5431:5432",
     "build": "postgres",
-    "command": "-c -f --database=bunsenTest"
+    "command": "-c -f --database=bunsenTest -r"
   },
   "beaker": {
     "ports": "8801"

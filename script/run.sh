@@ -52,7 +52,7 @@ docker_run_or_start() {
         image_command=''
       fi
 
-      docker run -d --name=$container_name -p $ports $env_args $volume_args $link_args $image_name $image_command -r
+      docker run -d --name=$container_name -p $ports $env_args $volume_args $link_args $image_name $image_command
     ;;
   esac
 }
