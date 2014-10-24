@@ -32,6 +32,8 @@ Bunsen's different components (db, app [api server], web, beaker, provisioner, &
 ## To run the application locally
   * Ensure that your vagrant is running and provisioned.
     * `$ vagrant up`
+  * Ensure your docker client is using the docker server running inside vagrant.
+    * e.g. `export DOCKER_HOST=tcp://127.0.0.1:4243`
   * Build your docker images.
     * `$ ./build.sh` (or specify image, ex: `$ ./build.sh beaker`)
   * Initialize the persistent development database.
