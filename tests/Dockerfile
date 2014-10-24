@@ -6,6 +6,8 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends -t wheezy-backports \
       iceweasel \
       nodejs-legacy \
+      fluxbox \
+      x11vnc \
       g++ \
       make \
       openjdk-7-jre-headless \
@@ -24,6 +26,8 @@ RUN apt-get update && \
 ENV NODE_PATH /usr/local/lib/node_modules
 RUN npm config --global set cache /home/beaker/.npm && \
     npm config --global set registry http://registry.npmjs.org/
+
+EXPOSE 5900
 
 ADD . /var/app/test
 WORKDIR /var/app/test
