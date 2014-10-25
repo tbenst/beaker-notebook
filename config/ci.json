@@ -48,5 +48,14 @@
   },
   "elasticsearch": {
     "ports": "9201:9200"
+  },
+  "tests": {
+    "ports": "5900:5900",
+    "environment": [
+      "BUNSEN_HOSTNAME=gateway"
+    ],
+    "links": [
+      "gateway"
+    ]
   }
 }
