@@ -17,6 +17,7 @@ RUN apt-get update && \
       xfonts-scalable \
       git \
       firefox-mozilla-build \
+      curl \
       xvfb && \
     apt-get install -y --no-install-recommends -t jessie \
       npm && \
