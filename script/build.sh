@@ -1,8 +1,24 @@
 #!/usr/bin/env bash
 set -o errexit -o pipefail -o nounset
 
-config_file="config/development.json"
-image_args=("$@")
+ENVIRONMENT=${ENVIRONMENT-development}
+image_args=()
+
+while [[ $# > 0 ]]; do
+  case $1 in
+    --env=*)
+      ENVIRONMENT="${1#--env=}"
+    ;;
+    *)
+      image_args=("$@")
+      break
+    ;;
+  esac
+
+  shift
+done
+
+config_file="config/$ENVIRONMENT.json"
 
 if [[ ${#image_args[@]} > 0 ]]; then
   images=("${image_args[@]}")
