@@ -15,6 +15,8 @@ cleanup
 
 ./script/run.sh --env=ci
 
-docker logs -f ci.tests
+docker logs -f ci.tests || echo "no more logs from ci.tests"
+
+docker images --filter="dangling=true" -q | xargs --no-run-if-empty docker rmi
 
 exit $(docker inspect --format='{{.State.ExitCode}}' test.ci)
