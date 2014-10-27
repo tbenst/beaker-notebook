@@ -15,3 +15,5 @@
 #= require "../../bower_components/underscore.string/lib/underscore.string.js"
 #= require "../../bower_components/angular-underscore-string/angular-underscore-string.js"
 #= require "../../bower_components/angular-sanitize/angular-sanitize.js"
+#= require "../../bower_components/highlightjs/highlight.pack.js
+#= require "../../bower_components/angular-highlightjs/angular-highlightjs.js
