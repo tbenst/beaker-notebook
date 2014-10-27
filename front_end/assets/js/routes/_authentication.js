@@ -24,6 +24,16 @@
             template: templates.sign_out
           }
         }
+      })
+      .state('signUp', {
+        url: '/sign_up',
+        skipAuth: true,
+        views: {
+          root: {
+            controller: 'authentication',
+            template: templates.sign_up
+          }
+        }
       });
 
   }]);

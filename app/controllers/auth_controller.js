@@ -5,32 +5,43 @@ module.exports = function(app) {
 
   return {
     authenticate: function (req, res, next) {
-      // This a temporary sign up solution meant to be reverted
-      // when the real sign up page is added
-      User.findOrCreate(req.body)
+      User.signIn(req.body)
         .then(function(user) {
-          var u = _.pick(user.attributes, 'id', 'name', 'email');
-          res.json(_.extend(u, {token: user.id}));
+          if(user) {
+            res.json(user);
+          } else {
+            res.statusCode = 403;
+          }
         })
         .catch(next);
     },
 
     authorize: function(req, res, next) {
-      if (req.path === '/api/authenticate' || req.path.indexOf("seed/") !== -1) {
+      if (app.shouldSkip(req.path, 'authorize')) {
         next();
       } else {
-        new User({id: req.get('Authorization')})
-          .fetch()
+        User.checkToken(req.get('User-Token'))
           .then(function(user) {
             if (user) {
               req.user = user;
             } else {
               res.statusCode = 403;
-              throw new Error("Unauthorized");
             }
           })
           .done(next, next);
       }
+    },
+
+    signUp: function(req, res, next) {
+      User.signUp(req.body)
+        .then(function(user) {
+          if(user) {
+            res.json(user);
+          } else {
+            res.statusCode = 422;
+          }
+        })
+        .catch(next);
     }
   }
 }

@@ -22,7 +22,9 @@ module.exports = function() {
       })
 
       return Promise.reduce(modelsArray, function(result, model) {
-        return post(base + "/data", {form: model}).
+        var route = model.model == "User" ? "/sign-up" : "/data";
+
+        return post(base + route, {form: model}).
           then(function(response) {
             if (response[0].statusCode != 200) {
               throw new Error(util.format(

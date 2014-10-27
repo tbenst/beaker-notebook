@@ -40,7 +40,7 @@
           {bunsenUiUrl: uiUrl}));
     };
 
-    var notebookLocation = function(url, userId, projectId, notebookId) {
+    var notebookLocation = function(url, userToken, projectId, notebookId) {
       var notebookPath = Restangular.one('notebooks', notebookId).one('contents').getRestangularUrl();
       var notebookUrl = $location.protocol() + "://" + $location.host();
       if ($location.port() && $location.port() != 80) {
@@ -50,7 +50,7 @@
 
       return beakerUrl(url, "open", {
         uri: notebookUrl,
-        userId: userId,
+        userToken: userToken,
         projectId: projectId,
         notebookId: notebookId
       });
@@ -66,14 +66,14 @@
       $scope.loading = false;
     } else {
       F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
-        var userId = $sessionStorage.currentUser.id
+        var userToken = $sessionStorage.currentUser.token
 
         $scope.notebook = { current: notebook };
 
         Notebooks.update({id: notebook.id, open: true});
 
         Beaker.whenReady().then(function(url) {
-          $scope.notebook.current.location = $sce.trustAsResourceUrl(notebookLocation(url, userId, prjId, notebook.id));
+          $scope.notebook.current.location = $sce.trustAsResourceUrl(notebookLocation(url, userToken, prjId, notebook.id));
           $scope.cachedNotebooks[notebook.id] = $scope.notebook;
           $scope.loading = false;
         });

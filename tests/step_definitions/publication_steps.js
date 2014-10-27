@@ -7,7 +7,17 @@ var randomUser = {
   model: "User",
   data: {
     name: 'jane research',
-    email: 'j@r.edu'
+    email: 'j@r.edu',
+    password: 'password'
+  }
+};
+
+var otherUser = {
+  model: "User",
+  data: {
+    name: 'jon research',
+    email: 'jon@r.edu',
+    password: 'password'
   }
 };
 
@@ -33,17 +43,17 @@ var randomNotebook = function(user, project, name, i) {
   }
 };
 
-var seedPublications = function(count, options) {
+var seedPublications = function(count, options, user) {
   var name = options && options.name,
       category = options && options.category,
       projectName = options && options.projectName;
 
-  return this.seed.populate(randomUser).then(function(user) {
-    return this.seed.populate(randomProject(user[0], projectName)).then(function(project) {
+  return this.seed.populate(user).then(function(u) {
+    return this.seed.populate(randomProject(u[0], projectName)).then(function(project) {
       var notebooks = [];
 
       for(var i = 0; i < +count; ++i) {
-        notebooks.push(randomNotebook(user[0], project[0], name, i));
+        notebooks.push(randomNotebook(u[0], project[0], name, i));
       }
 
       return this.seed.populate(notebooks)
@@ -83,11 +93,11 @@ var seedPublications = function(count, options) {
 module.exports = function() {
 
   this.Given(/^there are (\d+) publications(?: for the project "([^"]*)")?$/, function(count, projectName) {
-    return seedPublications.bind(this)(count, { projectName: projectName });
+    return seedPublications.bind(this)(count, { projectName: projectName }, randomUser);
   });
 
   this.Given(/^there are (\d+) publications in the "([^"]*)" category$/, function(count, categoryName) {
-    return seedPublications.bind(this)(count, { category: categoryName });
+    return seedPublications.bind(this)(count, { category: categoryName }, otherUser);
   });
 
   this.Given(/^the notebook "([^"]*)" is published$/, function(notebookName) {
@@ -114,7 +124,7 @@ module.exports = function() {
   });
 
   this.Given(/^there is a publication named "([^"]*)"$/, function(name) {
-    return seedPublications.bind(this)(1, { name: name });
+    return seedPublications.bind(this)(1, { name: name }, otherUser);
   });
 
   this.Given(/^I view the first publication$/, function() {
