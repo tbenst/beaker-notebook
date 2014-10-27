@@ -56,4 +56,3 @@
     (pipe/pipeline a {:source-downloaded download-fn
                       :payload-assembled parse-fn
                       :indexed (partial index-fn es-conn index-name mapping-type)})))
-

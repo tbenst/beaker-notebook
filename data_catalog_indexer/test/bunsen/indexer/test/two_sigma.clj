@@ -1,11 +1,8 @@
-(ns bunsen.test.integration
+(ns bunsen.indexer.test.two-sigma
   (:require [bunsen.indexer.base :as base]
-            [bunsen.indexer.categories :as cats]
-            [bunsen.indexer.datasets :as sets]
             [bunsen.indexer.main :as main]
-            [bunsen.indexer.mappings :as maps]
-            [clj-http.client :as http]
-            [clojure.data.json :as json]
+            [bunsen.indexer.two-sigma.categories :as ts-cats]
+            [bunsen.indexer.two-sigma.datasets :as ts-sets]
             [clojurewerkz.elastisch.rest :as rest]
             [clojurewerkz.elastisch.rest.index :as ind]
             [clojure.test :refer :all]
@@ -13,13 +10,9 @@
 
 (def dataset-base-url "http://10.10.10.10:1880/api/v1/metadata?")
 (def categories-url "http://10.10.10.10:1880/sample_categories.json")
-(def elasticsearch-url "http://10.10.10.10:9200")
 (def index-name "catalog_0.0")
-
-(defn reindex-local-example!
-  "performs a full reindex using common development configuration"
-  []
-  (main/reindex-catalog! dataset-base-url categories-url elasticsearch-url index-name))
+(def mapping-file "two_sigma/mappings.json")
+(def elasticsearch-url "http://10.10.10.10:9200")
 
 (defn es-conn-fixture
   "Opens a connection to ES for the tests to use to verify output"
@@ -27,18 +20,33 @@
   (def es-conn (rest/connect elasticsearch-url))
   (f))
 
+(defn indexed-data-fixture
+  "retrieves information about the data that is already in the ES index"
+  [f]
+  (def indexed-categories (base/read-indexed-results es-conn index-name "categories"))
+  (def indexed-datasets (base/read-indexed-results es-conn index-name "datasets"))
+  (f))
+
+(defn reindex-ts-example!
+  "performs a full reindex using example TwoSigma configuration"
+  []
+  (main/reindex-catalog! mapping-file dataset-base-url
+                         categories-url elasticsearch-url index-name
+                         ts-cats/index-categories!
+                         ts-sets/index-datasets!))
+
 (defn sets-from-page
   "For tests to compare against what was imported, retrieves page of sample datasets"
   [page-number]
   (base/parse-json-from-http
-   sets/extract-datasets
-   (base/get-with-auth (sets/source-page-url dataset-base-url page-number 0))))
+   ts-sets/extract-datasets
+   (base/get-with-auth (ts-sets/source-page-url dataset-base-url page-number 0))))
 
 (defn source-json-fixture
   "Performs a complete import and makes some relevant data available"
   [f]
   (def source-categories
-    (base/parse-json-from-http cats/extract-from-source
+    (base/parse-json-from-http ts-cats/extract-from-source
                                (base/get-with-auth categories-url)))
   (def source-datasets
     (concat (sets-from-page 0) (sets-from-page 1)))
@@ -47,15 +55,8 @@
 (defn perform-import-fixture
   "Performs a complete import and makes some relevant data available"
   [f]
-  (reindex-local-example!)
+  (reindex-ts-example!)
   (ind/refresh es-conn index-name)
-  (f))
-
-(defn indexed-data-fixture
-  "retrieves information about the data that is already in the ES index"
-  [f]
-  (def indexed-categories (base/read-indexed-results es-conn index-name "categories"))
-  (def indexed-datasets (base/read-indexed-results es-conn index-name "datasets"))
   (f))
 
 (defn count-for
