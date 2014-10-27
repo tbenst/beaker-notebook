@@ -54,6 +54,14 @@ module.exports = function() {
     return this.seed.populate(seedData)
   }
 
+  this.Given(/^I have a catalog with a duplicate path$/, function() {
+    return this.createCatalog({
+      name: 'Duplicate Path',
+      path: '0.1',
+      metadata: JSON.stringify(twoSigmaCatalog)
+    });
+  })
+
   this.Given(/^I have a default catalog$/, function() {
     return this.createCatalog({
       name: 'default',

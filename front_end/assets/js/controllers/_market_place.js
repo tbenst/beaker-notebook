@@ -3,7 +3,8 @@
   app.controller('marketPlace', ['$q', '$scope', 'Factories', 'TagNormalizeService', '$localStorage', function($q, $scope, Factories, TagNormalizeService, $localStorage) {
     var F = Factories;
 
-    $scope.marketPlace.currentCategory = {path: $localStorage.lastCatalog || "0.1"};
+    $scope.marketPlace.currentCategory = {path: $localStorage.lastCatalogPath || "0.1", index: $localStorage.lastIndex || "catalog_0.1"};
+    $scope.marketPlace.categoryPath = $localStorage.lastCatalogPath || "0.1";
 
     $scope.removeFilter = function(value, model) {
       _.remove($scope.$eval(model), function(v) {
@@ -26,7 +27,11 @@
       return Array.prototype.concat.apply([], scopes);
     }
 
-    function checkDataSets(newValue, oldValue) { if (newValue !== oldValue) getDataSets(); }
+    function checkDataSets(newValue, oldValue) {
+      if (newValue !== oldValue || !$scope.marketPlace.data) {
+        getDataSets();
+      }
+    }
 
     var previousRequestsAborter;
 

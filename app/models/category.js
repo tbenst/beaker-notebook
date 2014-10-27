@@ -50,7 +50,7 @@ module.exports = function(Bookshelf, app){
         }
       };
       return client.search({
-        index: '*',
+        index: this.get('index'),
         type: 'categories',
         size: 1,
         body: q
@@ -82,7 +82,7 @@ module.exports = function(Bookshelf, app){
 
       function initNodes(categories) {
         _.each(categories, function(category) {
-          nodes[category.path] = _.extend(category, {
+          nodes[category.index +'_'+ category.path] = _.extend(category, {
             category: category.name,
             count: +category.count,
             children: []
@@ -90,25 +90,27 @@ module.exports = function(Bookshelf, app){
         });
       }
 
-      function parent(path) {
+      function parent(index, path) {
         var items = path.split('.');
         if (items.length == 1) {
           return null;
         } else {
           items.pop();
-          return nodes[items.join('.')];
+          return nodes[index +'_'+items.join('.')];
         }
       }
 
       function transformResults(results) {
-        return _.pluck(results.hits.hits, '_source');
+        return _.map(results.hits.hits, function (result) {
+          return _.extend(result._source, {index: result._index})
+        })
       }
 
       function generateTree(categories) {
         initNodes(categories);
         _.each(categories.reverse(), function(category) {
-          var parentNode = parent(category.path),
-              node = nodes[category.path];
+          var parentNode = parent(category.index, category.path),
+              node = nodes[category.index+'_'+category.path];
           if (parentNode) {
             parentNode.children.unshift(node);
           } else {
@@ -117,7 +119,7 @@ module.exports = function(Bookshelf, app){
         });
 
         return _.map(roots, function(root) {
-          return nodes[root.path];
+          return nodes[root.index+'_'+root.path];
         });
       }
 

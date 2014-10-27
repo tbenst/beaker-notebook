@@ -2,9 +2,16 @@
 
   app.controller('marketNav', ['$scope', '$state', 'Factories', '$localStorage', function($scope, $state, Factories, $localStorage) {
     var F = Factories;
+
+    // Catalogs are top-level categories, so the catalog path of any category
+    // is going to be the first two segments of the dot-divided path
+    function extractCatalogPath(categoryPath) {
+      return categoryPath.split('.').slice(0,2).join('.');
+    }
+
     $scope.marketPlace.treeOptions = {
       equality: function(a, b) {
-        return a && b && a.path == b.path;
+        return a && b && a.index == b.index && a.path == b.path;
       },
       nodeChildren: "children",
       onLabelClick: "both",
@@ -28,7 +35,8 @@
 
     $scope.onTreeSelection = function(node) {
       if (node) {
-        $localStorage.lastCatalog = node.path.substring(0, 3);
+        $localStorage.lastCatalogPath = extractCatalogPath(node.path);
+        $localStorage.lastIndex = node.index;
         $scope.newSearch({categoryPath: node.path});
       }
     }
@@ -56,7 +64,9 @@
 
     $scope.$watch('marketPlace.searchTerm', function(v) {
       if (v !== void(0)) {
-        $scope.newSearch({searchTerm: $scope.marketPlace.searchTerm});
+        $scope.newSearch({
+          searchTerm: $scope.marketPlace.searchTerm,
+          categoryPath: extractCatalogPath($scope.marketPlace.categoryPath)});
       }
     });
   }]);
