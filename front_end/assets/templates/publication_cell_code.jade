@@ -1,4 +1,10 @@
-.code
+.code(ng-controller="publication-cell-code")
+  .toggle-expand(ng-class="{collapsed: cell.input.collapsed}", ng-click="toggleCollapsed('input')")
   section-headline {{cell.evaluator}}
-  .input(hljs="hljs", source="cell.input.body")
-  .output {{cell.output.result}}
+  .input-cell(ng-class="{collapsed: cell.input.collapsed}")
+    .input
+      .contents(hljs="hljs", source="cell.input.body")
+  .output-cell(ng-class="{collapsed: cell.output.collapsed}")
+    .toggle-expand(ng-class="{collapsed: cell.output.collapsed}", ng-click="toggleCollapsed('output')")
+    .output
+      .contents {{cell.output.result}}

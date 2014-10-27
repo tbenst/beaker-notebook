@@ -34,16 +34,6 @@
     }
   });
 
-  app.directive('publicationCellCode', function() {
-    return {
-      scope: {
-        cell: "="
-      },
-      restrict: "E",
-      template: templates.publication_cell_code
-    }
-  });
-
   app.directive('publicationCellText', function() {
     return {
       scope: {

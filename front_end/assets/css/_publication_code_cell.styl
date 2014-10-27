@@ -1,0 +1,53 @@
+publication-cell
+  .toggle-expand
+    top: 10px
+    right: 20px
+    width: 25px
+    height: 25px
+    cursor: pointer
+    position: absolute
+    background: transparent url('../images/collapse@2x.png') no-repeat center center
+    background-size: 11px
+
+    &.collapsed
+      background-image: url('../images/expand@2x.png')
+
+    &:hover
+      background-color: action-blue
+      background-image: url('../images/collapse_white@2x.png')
+
+      &.collapsed
+        background-image: url('../images/expand_white@2x.png')
+
+
+  .code
+    border:   solid 1px base-step5
+    position: relative
+
+    section-headline
+      padding: 0 25px
+      display: block
+      margin-top: 25px
+      font-size: 14px
+
+    .collapsed
+      .input
+        padding: 10px
+
+      .contents
+        display: none
+
+    .output-cell, .input-cell
+      position: relative
+
+    .input, .output
+      padding: 20px
+
+    .input
+      border-bottom: solid 1px base-step5
+
+    .hljs
+      background: transparent
+
+    code.hljs
+      font-size: 14px
