@@ -16,7 +16,8 @@
      'truncate',
      'underscore.string',
      'angularSpinner',
-     'ngSanitize'
+     'ngSanitize',
+     'hljs'
     ], ['RestangularProvider', function(RestangularProvider) {
       RestangularProvider.setBaseUrl('/api');
     }]);
