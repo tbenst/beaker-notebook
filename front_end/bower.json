@@ -16,6 +16,8 @@
     "moment": "~2.8.3",
     "underscore.string": "2.3.3",
     "angular-underscore-string": "0.1.1",
-    "highlightjs": "8.3.0"
+    "highlightjs": "8.3.0",
+    "marked": "0.3.2",
+    "angular-marked": "0.0.12"
   }
 }
