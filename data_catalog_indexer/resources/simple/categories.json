@@ -1,0 +1,380 @@
+[
+    {
+        "id": "0",
+        "metadata": {
+            "activeAgo": {
+                "type": "date"
+            },
+            "businessOwner": {
+                "indexes": [
+                    "filter"
+                ],
+                "type": "string"
+            },
+            "description": {
+                "indexes": [
+                    "text"
+                ],
+                "type": "string"
+            },
+            "firstUpdateTime": {
+                "type": "date"
+            },
+            "lastUpdateTime": {
+                "type": "date"
+            },
+            "storage": {
+                "type": "string"
+            },
+            "title": {
+                "indexes": [
+                    "text"
+                ],
+                "type": "string"
+            },
+            "vendor": {
+                "indexes": [
+                    "filter"
+                ],
+                "type": "string"
+            }
+        },
+        "name": "Two Sigma",
+        "path": "0.0"
+    },
+    {
+        "id": "32",
+        "name": "Market Data",
+        "path": "0.0.0"
+    },
+    {
+        "id": "80",
+        "name": "Instrument Pricing",
+        "path": "0.0.0.0"
+    },
+    {
+        "id": "25",
+        "name": "Implied Volatility",
+        "path": "0.0.0.1"
+    },
+    {
+        "id": "11",
+        "name": "Calendars",
+        "path": "0.0.0.2"
+    },
+    {
+        "id": "8",
+        "name": "EOD Data",
+        "path": "0.0.0.3"
+    },
+    {
+        "id": "9",
+        "name": "Return Data",
+        "path": "0.0.0.4"
+    },
+    {
+        "id": "7",
+        "name": "Book Data",
+        "path": "0.0.0.5"
+    },
+    {
+        "id": "12",
+        "name": "Trading Hours",
+        "path": "0.0.0.6"
+    },
+    {
+        "id": "10",
+        "name": "Tick Data",
+        "path": "0.0.0.7"
+    },
+    {
+        "id": "27",
+        "name": "Interest Rate",
+        "path": "0.0.0.8"
+    },
+    {
+        "id": "60",
+        "name": "Borrow Data",
+        "path": "0.0.0.9"
+    },
+    {
+        "id": "6",
+        "name": "Summarized Trade Data",
+        "path": "0.0.0.10"
+    },
+    {
+        "id": "24",
+        "name": "EOD Price Data",
+        "path": "0.0.0.11"
+    },
+    {
+        "id": "44",
+        "name": "Corporate Financials",
+        "path": "0.0.1"
+    },
+    {
+        "id": "68",
+        "name": "Financial Statements",
+        "path": "0.0.1.0"
+    },
+    {
+        "id": "2",
+        "name": "Corporate Filings",
+        "path": "0.0.1.1"
+    },
+    {
+        "id": "54",
+        "name": "Segmentation Data",
+        "path": "0.0.1.2"
+    },
+    {
+        "id": "51",
+        "name": "Corporate Structure/Metadata",
+        "path": "0.0.2"
+    },
+    {
+        "id": "52",
+        "name": "Corporate Classifications",
+        "path": "0.0.2.0"
+    },
+    {
+        "id": "64",
+        "name": "People",
+        "path": "0.0.2.1"
+    },
+    {
+        "id": "69",
+        "name": "TS Proprietary",
+        "path": "0.0.2.2"
+    },
+    {
+        "id": "53",
+        "name": "Legal/Corporate Hierarchy",
+        "path": "0.0.2.3"
+    },
+    {
+        "id": "42",
+        "name": "Index & ETF Data",
+        "path": "0.0.3"
+    },
+    {
+        "id": "78",
+        "name": "Methodology",
+        "path": "0.0.3.0"
+    },
+    {
+        "id": "22",
+        "name": "Constituency",
+        "path": "0.0.3.1"
+    },
+    {
+        "id": "23",
+        "name": "Backoffice",
+        "path": "0.0.4"
+    },
+    {
+        "id": "56",
+        "name": "Economic Data",
+        "path": "0.0.5"
+    },
+    {
+        "id": "77",
+        "name": "Economic Forecasts",
+        "path": "0.0.5.0"
+    },
+    {
+        "id": "76",
+        "name": "Inventories",
+        "path": "0.0.5.1"
+    },
+    {
+        "id": "74",
+        "name": "Government Data / ECO Releases",
+        "path": "0.0.5.2"
+    },
+    {
+        "id": "75",
+        "name": "Policy Calendars",
+        "path": "0.0.5.3"
+    },
+    {
+        "id": "28",
+        "name": "Non-financial",
+        "path": "0.0.6"
+    },
+    {
+        "id": "16",
+        "name": "Weather",
+        "path": "0.0.6.0"
+    },
+    {
+        "id": "3",
+        "name": "Ownership",
+        "path": "0.0.7"
+    },
+    {
+        "id": "79",
+        "name": "Macro Fund Flow",
+        "path": "0.0.7.0"
+    },
+    {
+        "id": "47",
+        "name": "Insider Holdings",
+        "path": "0.0.7.1"
+    },
+    {
+        "id": "46",
+        "name": "Institutional Holdings",
+        "path": "0.0.7.2"
+    },
+    {
+        "id": "48",
+        "name": "Mutual Fund",
+        "path": "0.0.7.3"
+    },
+    {
+        "id": "57",
+        "name": "Alpha Capture",
+        "path": "0.0.8"
+    },
+    {
+        "id": "72",
+        "name": "TS Proprietary",
+        "path": "0.0.8.0"
+    },
+    {
+        "id": "61",
+        "name": "PICS",
+        "path": "0.0.8.0.0"
+    },
+    {
+        "id": "62",
+        "name": "Analyst Surveys",
+        "path": "0.0.8.0.1"
+    },
+    {
+        "id": "59",
+        "name": "Social Finance",
+        "path": "0.0.8.1"
+    },
+    {
+        "id": "71",
+        "name": "Macro Sentiment",
+        "path": "0.0.8.2"
+    },
+    {
+        "id": "30",
+        "name": "Fundamental Data",
+        "path": "0.0.9"
+    },
+    {
+        "id": "4",
+        "name": "Company Data",
+        "path": "0.0.9.0"
+    },
+    {
+        "id": "33",
+        "name": "Security Master",
+        "path": "0.0.10"
+    },
+    {
+        "id": "18",
+        "name": "Instrument Symbology",
+        "path": "0.0.10.0"
+    },
+    {
+        "id": "19",
+        "name": "Instrument Attributes",
+        "path": "0.0.10.1"
+    },
+    {
+        "id": "35",
+        "name": "Research",
+        "path": "0.0.11"
+    },
+    {
+        "id": "1",
+        "name": "Sell-side Estimates",
+        "path": "0.0.11.0"
+    },
+    {
+        "id": "70",
+        "name": "Sell-side Macro Research",
+        "path": "0.0.11.1"
+    },
+    {
+        "id": "5",
+        "name": "Sell-side Equity Research",
+        "path": "0.0.11.2"
+    },
+    {
+        "id": "73",
+        "name": "Third Party Research",
+        "path": "0.0.11.3"
+    },
+    {
+        "id": "43",
+        "name": "Risk/Return Data",
+        "path": "0.0.12"
+    },
+    {
+        "id": "26",
+        "name": "Risk Data",
+        "path": "0.0.12.0"
+    },
+    {
+        "id": "36",
+        "name": "Corporate Events",
+        "path": "0.0.13"
+    },
+    {
+        "id": "67",
+        "name": "TS Proprietary",
+        "path": "0.0.13.0"
+    },
+    {
+        "id": "81",
+        "name": "Sub-category",
+        "path": "0.0.13.0.0"
+    },
+    {
+        "id": "50",
+        "name": "Company Calendars",
+        "path": "0.0.13.1"
+    },
+    {
+        "id": "49",
+        "name": "Mergers & Acquisitions",
+        "path": "0.0.13.2"
+    },
+    {
+        "id": "17",
+        "name": "Corporate Actions",
+        "path": "0.0.13.3"
+    },
+    {
+        "id": "66",
+        "name": "Corporate Releases",
+        "path": "0.0.13.4"
+    },
+    {
+        "id": "34",
+        "name": "News & Social",
+        "path": "0.0.14"
+    },
+    {
+        "id": "29",
+        "name": "News Feeds",
+        "path": "0.0.14.0"
+    },
+    {
+        "id": "45",
+        "name": "Web Sources",
+        "path": "0.0.14.1"
+    },
+    {
+        "id": "58",
+        "name": "Social Feeds",
+        "path": "0.0.14.2"
+    }
+]

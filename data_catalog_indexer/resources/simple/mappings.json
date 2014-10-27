@@ -1,0 +1,52 @@
+{
+  "mappings": {
+    "datasets": {
+      "properties": {
+        "title": {
+          "type": "multi_field",
+          "fields": {
+             "title": {"type": "string", "index": "analyzed", "store": "yes"},
+             "raw_title": {"type": "string", "index": "not_analyzed", "store": "yes"}
+          }
+        },
+        "vendor": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "businessOwner": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "metaDataChanged": {
+          "type": "date"
+        },
+        "lastUpdated": {
+          "type": "date"
+        },
+        "createdAt": {
+          "type": "date"
+        },
+        "categories": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "index": "not_analyzed"
+            }
+            "count": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "categories": {
+      "properties": {
+        "path": {
+          "type": "string",
+          "index": "not_analyzed"
+        }
+      }
+    }
+  }
+}
