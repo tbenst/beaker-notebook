@@ -12,12 +12,6 @@ RUN apt-get update -qq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-ADD local_policy.jar \
-    /usr/lib/jvm/jdk-7-oracle-x64/jre/lib/security/local_policy.jar
-
-ADD US_export_policy.jar \
-    /usr/lib/jvm/jdk-7-oracle-x64/jre/lib/security/US_export_policy.jar
-
 ADD lein /usr/bin/lein
 RUN /usr/bin/lein
 
