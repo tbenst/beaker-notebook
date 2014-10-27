@@ -32,7 +32,7 @@
     {
       "name": "app",
       "image": "app",
-      "command": "--migrate --delay=5",
+      "command": "--migrate --delay=5 --index",
       "links": [
         "provisioner:provisioner"
       ],

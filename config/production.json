@@ -1,0 +1,53 @@
+{
+  "app": {
+    "command": "--migrate --delay=5",
+    "links": [
+      "db",
+      "provisioner",
+      "elasticsearch"
+    ],
+    "ports": "3000:3000",
+    "environment": [
+      "NODE_ENV=development"
+    ]
+  },
+  "web": {
+    "ports": "8080:8080",
+    "build": "front_end"
+  },
+  "db": {
+    "ports": "5432:5432",
+    "build": "postgres",
+    "volumes": [
+      "/var/bunsen/postgres:/var/lib/postgresql/9.3/main"
+    ]
+  },
+  "beaker": {
+    "ports": "8801:8801"
+  },
+  "provisioner": {
+    "ports": "3001:3001",
+    "volumes": [
+      "/var/run/docker.sock:/var/run/docker.sock"
+    ],
+    "command": "beaker beaker."
+  },
+  "gateway": {
+    "ports": "7777:80",
+    "links": [
+      "app",
+      "web"
+    ],
+    "volumes": [
+      "/dev/log:/dev/log",
+      "/var/run/docker.sock:/var/run/docker.sock"
+    ],
+    "command": "beaker *PUT_AN_IP_HERE*:7777"
+  },
+  "elasticsearch": {
+    "ports": "9200:9200",
+    "volumes": [
+      "/var/bunsen/elasticsearch/data:/var/elasticsearch/data"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "title": { "type":"string", "indexes": ["text"]},
+  "vendor": { "type": "string" , "indexes": ["filter"]},
+  "description": {"type": "string", "indexes": ["text"]},
+  "activeAgo": { "type": "date" },
+  "lastUpdateTime": { "type": "date" },
+  "firstUpdateTime": { "type": "date" },
+  "businessOwner": {"type": "string", "indexes": ["filter"]},
+  "storage": {"type": "string" }
+}
