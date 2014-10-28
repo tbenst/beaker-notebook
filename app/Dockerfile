@@ -3,8 +3,11 @@ MAINTAINER mojotech <ops+docker@mojotech.com>
 
 RUN apt-get update -qq && \
     apt-get install -qq -y --no-install-recommends \
+      node-bcryptjs \
       node-bluebird \
       node-bookshelf \
+      node-checkit \
+      node-crypto \
       node-express \
       node-glob \
       node-inflection \

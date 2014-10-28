@@ -8,7 +8,8 @@
     ],
     "ports": "3000:3000",
     "environment": [
-      "NODE_ENV=development"
+      "NODE_ENV=development",
+      "CIPHER_KEY=Auj/QL_WU[xX64p+1TB81m6AD6wSCl"
     ]
   },
   "web": {
