@@ -59,22 +59,13 @@
         });
       },
 
-      saveNotebook: function(newName) {
-        var saveData = bkSessionManager.getSaveData().notebookModelAsString;
-        var action = 'update';
+      saveNotebook: function() {
+        var saveData = bkSessionManager.getSaveData();
         var serializedNotebook = {
-          data: saveData,
+          data: saveData.notebookModelAsString,
           id: $routeParams.notebookId
         };
-        if (newName) {
-          action = 'create';
-          _.extend(serializedNotebook, {
-            id: null,
-            name: newName
-          });
-        }
-
-        bunsenSave(serializedNotebook, action);
+        bunsenSave(serializedNotebook, 'update');
       },
 
       saveNotebookAs: function(callback, template) {
