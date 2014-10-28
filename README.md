@@ -54,6 +54,13 @@ docker run -d --name=app -p 3000:3000 -e NODE_ENV=development -e CIPHER_KEY=Auj/
 744c9201f92a62c23c9aa02b97767f771c172900854aa296167dc0b3bbbfec7e
 ```
 
+## Looking at the database.
+
+* `./script/attach db`
+* `su postgres`
+* `psql bunsenDevelopment`
+
+
 ## To run the test suite
   * Ensure that your vagant is running and provisioned, and your docker images are built (specified above).
   * Run your docker test containers.
