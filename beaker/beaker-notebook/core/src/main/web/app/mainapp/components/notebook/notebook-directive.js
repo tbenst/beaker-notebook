@@ -33,7 +33,6 @@
       bkCellMenuPluginManager,
       bkSessionManager,
       bkCoreManager,
-      bkWindowMessageService,
       bkOutputLog) {
     var CELL_TYPE = "notebook";
     return {
