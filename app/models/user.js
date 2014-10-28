@@ -116,6 +116,22 @@ module.exports = function(Bookshelf, app) {
           cipher = Crypto.createCipher('blowfish', cipherKey),
           token  = cipher.update(this.attributes.id.toString(), 'utf-8', 'base64') + cipher.final('base64');
       return _.extend(u, {token: token})
+    },
+
+    update: function(attrs) {
+      var _this = this;
+      return User.forge({email: this.attributes.email}).fetch()
+        .then(function(user) {
+          return Bcrypt.compareAsync(attrs.currentPassword, user.attributes.password)
+            .then(function(match) {
+              if (!match) { throw new Error('Wrong Password')}
+              var password = attrs.newPassword ? attrs.newPassword : attrs.currentPassword;
+              attrs = _.omit(attrs, 'currentPassword', 'newPassword');
+              _.extend(attrs, { password: password })
+              return _this.save(attrs)
+                .then(User.sanitize)
+            })
+        })
     }
   });
 
@@ -134,6 +150,10 @@ module.exports = function(Bookshelf, app) {
     findOneWhere: function(attrs) {
       return User.forge(attrs)
       .fetch()
+    },
+
+    sanitize: function(user) {
+      return _.pick(user.attributes, 'name', 'email', 'id');
     },
 
     signUp: function(attrs) {
