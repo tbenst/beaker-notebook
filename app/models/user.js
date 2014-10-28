@@ -112,7 +112,7 @@ module.exports = function(Bookshelf, app) {
     checkToken: function(token) {
       var decipher = Crypto.createDecipher('blowfish', cipherKey),
           id       = parseInt(decipher.update(token, 'base64', 'utf-8') + decipher.final('utf-8'));
-      return new User({id: id}).fetch()
+      return new User({id: id}).fetch({ require: true })
         .then(function (user) {
           user.attributes = _.omit(user.attributes, 'password');
           user._previousAttributes = _.omit(user._previousAttributes, 'password')
