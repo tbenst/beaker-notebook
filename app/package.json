@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/twosigma/bunsen",
   "dependencies": {
-    "bluebird": "^1.2.4",
     "bookshelf": "0.7.6",
     "express": "3.4.8",
     "glob": "3.2.9",
