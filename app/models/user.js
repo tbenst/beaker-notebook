@@ -20,9 +20,13 @@ module.exports = function(Bookshelf, app) {
 
     validations: {
       email: ['required', 'email', function(email) {
-        return User.forge({email: email}).fetch().then(function(users) {
-          if (users) { throw new Error("Email already registered"); }
-        })
+        var _this = this;
+        return User.forge({email: email}).fetch().then(function(user) {
+          // Only throw if the user is different than the current user.
+          if (user && user.id != _this.id) {
+            throw new Error("Email already registered");
+          }
+        });
       }],
       name: ['required'],
       password: ['required', 'minLength:6']
