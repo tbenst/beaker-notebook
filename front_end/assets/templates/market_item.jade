@@ -26,4 +26,4 @@
     h1 Similar Datasets
     ul.related-items.bunsen-list
       li(ng-repeat="related in item.related")
-        a(ui-sref="marketPlace.items.item({id: related.id})") {{related.title}}
+        a(ui-sref="marketPlace.items.item({index: item.index, id: related.id})") {{related.title}}

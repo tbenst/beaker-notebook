@@ -28,7 +28,7 @@ module.exports = function(app) {
     },
 
     get: function(req, res, next) {
-      new DataSet({id: req.params.data_set_id})
+      new DataSet({index: req.params.index, id: req.params.data_set_id})
       .fetchFromElastic()
       .then(res.json.bind(res))
       .catch(next);

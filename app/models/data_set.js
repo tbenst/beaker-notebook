@@ -88,8 +88,9 @@ module.exports = function(Bookshelf, app) {
 
     fetchFromElastic: function() {
       var _this = this;
-
-      return DataSet.findByIds({ids: [this.id], size: 1})
+      return DataSet.findByIds({index: this.attributes.index,
+                                ids: [this.id],
+                                size: 1})
       .then(function(d) {
         if (d.length < 1) throw new Error('DataSet not found in Elasticsearch');
         var dataset = d[0];
@@ -251,10 +252,14 @@ module.exports = function(Bookshelf, app) {
       };
     },
 
+    attributesWithIndex: function(esResult) {
+      return _.extend(esResult._source, {'index': esResult._index});
+    },
+
     // transform Elasticsearch results into format expected by front_end
     transformResults: function(catalog, d) {
       var res = {
-        data: _.pluck(d.hits.hits, '_source'),
+        data: _.map(d.hits.hits, app.Models.DataSet.attributesWithIndex),
         totalItems: d.hits.total
       };
       res.filters = {}
@@ -301,13 +306,13 @@ module.exports = function(Bookshelf, app) {
         }
       };
       return client.search({
-        index: '*',
+        index: options.index,
         type: 'datasets',
         size: options.size,
         body: q
       })
       .then(function(d) {
-        return _.pluck(d.hits.hits, '_source')
+        return _.map(d.hits.hits, app.Models.DataSet.attributesWithIndex);
       });
     },
 

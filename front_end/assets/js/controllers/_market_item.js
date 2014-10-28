@@ -6,7 +6,7 @@
 
     $scope.item = {};
 
-    F.DataSets.getDataSet($state.params.id).then(function(d) {
+    F.DataSets.getDataSet($state.params.index, $state.params.id).then(function(d) {
       $scope.item = Restangular.stripRestangular(d);
       $scope.subscribed = _.contains(d.subscriberIds, $sessionStorage.currentUser.id);
       if ($scope.item.csvPreview) {
