@@ -20,7 +20,7 @@ module.exports = function(Bookshelf, app) {
 
     validations: {
       email: ['required', 'email', function(email) {
-        var _this = this;
+        var _this = this.target;
         return User.forge({email: email}).fetch().then(function(user) {
           // Only throw if the user is different than the current user.
           if (user && user.id != _this.id) {
