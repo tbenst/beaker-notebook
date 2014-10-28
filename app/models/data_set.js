@@ -115,6 +115,13 @@ module.exports = function(Bookshelf, app) {
           return _.extend(dataset, {related: related.data});
         })
       })
+      .then(function(dataset) {
+        return new models.Category({path: _this.catalogPath(), index: dataset.index})
+        .fetchFromElastic()
+        .then(function(catalog) {
+          return _.extend(dataset, {catalog: catalog})
+        })
+      })
     },
 
     elasticJSON: function() {
