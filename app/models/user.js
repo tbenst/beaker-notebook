@@ -7,8 +7,8 @@ var Crypto                = require('crypto');
 if(!process.env.CIPHER_KEY) { throw new Error('CIPHER_KEY env variable is not set') }
 var cipherKey             = process.env.CIPHER_KEY;
 
-function encryptPassword(attrs) {
-  return Bcrypt.hashAsync(attrs.password, 10);
+function encryptPassword(password) {
+  return Bcrypt.hashAsync(password, 10);
 };
 
 module.exports = function(Bookshelf, app) {
@@ -129,7 +129,7 @@ module.exports = function(Bookshelf, app) {
     },
 
     signUp: function(attrs) {
-      return encryptPassword(attrs)
+      return encryptPassword(attrs.password)
         .then(function(hash) {
           var userAttrs = _.omit(attrs, 'password');
           return new User(_.extend(userAttrs, {password: hash})).save()
