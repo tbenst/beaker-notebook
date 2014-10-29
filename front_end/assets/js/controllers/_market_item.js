@@ -28,16 +28,20 @@
       $scope.newSearch({vendorScope: [vendor]});
     };
 
+    function restangularSubscription() {
+      return R.all('subscriptions').one($state.params.index, $state.params.id);
+    }
+
     $scope.unsubscribe = function() {
-       R.one('subscriptions', $state.params.id).remove().then(function(d) {
+      restangularSubscription().remove().then(function(d) {
         $scope.subscribed = false;
-       });
+      });
     }
 
     $scope.subscribe = function() {
-       R.one('subscriptions', $state.params.id).put().then(function(d) {
+      restangularSubscription().put().then(function(d) {
         $scope.subscribed = true;
-       });
+      });
     }
   }]);
 })(angular, window.bunsen);

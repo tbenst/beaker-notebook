@@ -95,8 +95,9 @@ module.exports = function(Bookshelf, app) {
         if (d.length < 1) throw new Error('DataSet not found in Elasticsearch');
         var dataset = d[0];
         _this.set(dataset);
-
-        return models.Subscription.query({where: {data_set_id: dataset.id}}).fetchAll()
+        return models.Subscription.query(
+          {where: {index_name: dataset.index, data_set_id: dataset.id}})
+          .fetchAll()
         .then(function(subscriptions) {
           // inject subscription ids into dataset
           var ids = _.pluck(subscriptions.toJSON(), 'userId');

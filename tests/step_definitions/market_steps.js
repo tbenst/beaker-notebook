@@ -148,15 +148,12 @@ module.exports = function() {
     })
     var info = _.defaults(opts, {
       categories: 'default',
-      subscribers: '',
       dataPreviews: ''
     });
     info.metadata.tags = [].concat(info.metadata.tags.split(','));
     info.categories  = [].concat(info.categories.split(','));
-    info.subscribers = [].concat(info.subscribers.split(','));
     info.dataPreviews = [].concat(info.dataPreviews.split(','));
     _.pull(info.dataPreviews, '');
-    _.pull(info.subscribers, '');
     _.pull(info.categories, '');
 
     var _this       = this;
@@ -188,12 +185,6 @@ module.exports = function() {
         });
       }
 
-      if (info.subscribers.length) {
-        marketItem.associations.push({
-          joinTable: "data_sets_users",
-          lookup: {"User": info.subscribers.map(function(userEmail) { return {email: userEmail}; })}
-        });
-      }
       if (info.categories.length) {
         marketItem.associations.push({
           joinTable: "data_sets_categories",
@@ -203,7 +194,6 @@ module.exports = function() {
         });
       }
 
-      delete info.subscribers;
       delete info.dataPreviews;
       delete info.categories;
       var item = _.merge(marketItem, {
@@ -218,7 +208,7 @@ module.exports = function() {
   });
 
   function dataSetRow(row) {
-    var associations = ['categories', 'subscribers', 'dataPreviews'];
+    var associations = ['categories', 'dataPreviews'];
     var metadata = _.omit(row, associations);
     var attrs = _.pick(row, associations);
     return _.extend(attrs, {metadata: metadata});
@@ -234,7 +224,19 @@ module.exports = function() {
   this.Given(/^I'm subscribed to the following market items:$/, function(table, callback) {
     var _this = this;
     return bluebird.reduce(table.hashes(), function(__, row) {
-      return seedDataSet.call(_this, dataSetRow(_.merge(row, { subscribers: 'u@r.edu' })));
+      return seedDataSet.call(_this, dataSetRow(row))
+        .then(function() {
+          return _this.driver.get(_this.route.subscriptions);
+        })
+        .then(function() {
+          return _this.driver.get(_this.route.market);
+        })
+        .then(function() {
+          return new _this.Widgets.MarketList().clickItem(row.title);
+        })
+        .then(function() {
+          return new _this.Widgets.MarketItem().subscribe();
+        });
     }, null);
   });
 
