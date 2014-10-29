@@ -70,7 +70,7 @@ docker run -d --name=app -p 3000:3000 -e NODE_ENV=development -e CIPHER_KEY=Auj/
       * `$ ./run.sh -t` (or specify image, ex: `$ ./run.sh -t db`)
     * To run in ci mode (running the entire suite w/o mounting):
       * `$ ./run.sh --env=ci` (or specify image, ex: `$ ./run.sh --env=ci db`)
-  * Run `$ npm start` in the `tests` directory.
+  * Run `$ BUNSEN_HOSTNAME=localhost:7778 npm start` in the `tests` directory.
 
 ## Debugging tests
   * If you get a seed populate error or socket hang up on first few tests, try cancelling running tests and waiting (app takes 15-20 seconds after running containers to be ready)
