@@ -13,7 +13,6 @@ var marketItemBase = function() {
         description: "We don’t verify all the facts alleged in these complaints but we do take steps to confirm a commercial relationship between the consumer and company. Complaints are listed here after the company responds or after they have had the complaint for 15 calendar days, whichever comes first. We remove complaints if they don’t meet all of the publication criteria. Data is refreshed nightly.",
         remoteFile: "Credit_card_complaints.csv",
         rows: 350,
-        format: "XML",
         updateFrequency: "Weekly",
         vendor: 'Two Sigma',
         tags: ['one']

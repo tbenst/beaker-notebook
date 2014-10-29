@@ -60,7 +60,7 @@ As a researcher, I want to be able to browse different market place catalogs.
       | Crime in Canada   | Quandl     |
     When I view the market search
     And I browse "Quandl" catalog
-    Then I shouldn't see "Updated" field listed on the market list page
+    Then I shouldn't see "Format" field listed on the market list page
 
   Scenario: Two catalogs with the same path
     And I have a catalog with a duplicate path

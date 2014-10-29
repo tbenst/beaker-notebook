@@ -115,13 +115,22 @@ module.exports = function(Bookshelf, app) {
           return _.extend(dataset, {related: related.data});
         })
       })
+      .then(function(dataset) {
+        return new models.Category({path: _this.catalogPath(), index: dataset.index})
+        .fetchFromElastic()
+        .then(function(catalog) {
+          return _.extend(dataset, {catalog: catalog})
+        })
+      })
     },
 
     elasticJSON: function() {
       return _.extend(this.get("metadata"), {
         id: this.id,
         categories: this.related('categories'),
-        dataPreviews: this.related('dataPreviews')
+        dataPreviews: this.related('dataPreviews'),
+        released: this.get("createdAt"),
+        lastUpdated: this.get("updatedAt")
       });
     },
 

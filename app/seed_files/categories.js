@@ -15,7 +15,9 @@ module.exports = [
         numColumns: { type: 'integer' },
         csvPreview: { type: 'string' },
         vendor: { type: 'string' , indexes: ['filter']},
-        tags: { type: 'string', indexes: ['filter']}
+        tags: { type: 'string', indexes: ['filter']},
+        released: { type: 'date' },
+        lastUpdated: { type: 'date' }
       }
     }
   },
@@ -35,7 +37,9 @@ module.exports = [
         numColumns: { type: 'integer' },
         csvPreview: { type: 'string' },
         vendor: { type: 'string' , indexes: ['filter']},
-        tags: { type: 'string', indexes: ['filter']}
+        tags: { type: 'string', indexes: ['filter']},
+        released: { type: 'date' },
+        lastUpdated: { type: 'date' }
       }
     }
   },
