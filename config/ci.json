@@ -8,7 +8,8 @@
     ],
     "ports": "2999:3000",
     "environment": [
-      "NODE_ENV=test"
+      "NODE_ENV=test",
+      "CIPHER_KEY=Auj/QL_WU[xX64p+1TB81m6AD6wSCl"
     ]
   },
   "web": {
@@ -19,10 +20,7 @@
   "db": {
     "ports": "5431:5432",
     "build": "postgres",
-    "volumes": [
-      "/var/bunsen_test_db:/var/lib/postgresql/9.3/main"
-    ],
-    "command": "-c -f --database=bunsenTest"
+    "command": "-c -f --database=bunsenTest -r"
   },
   "beaker": {
     "ports": "8801"
@@ -39,7 +37,7 @@
   },
   "gateway": {
     "ports": "7778:80",
-    "command": "ci.beaker localhost:7778",
+    "command": "ci.beaker gateway:7778",
     "links": [
       "app",
       "web"
@@ -51,5 +49,14 @@
   },
   "elasticsearch": {
     "ports": "9201:9200"
+  },
+  "tests": {
+    "ports": "5900:5900",
+    "environment": [
+      "BUNSEN_HOSTNAME=gateway"
+    ],
+    "links": [
+      "gateway"
+    ]
   }
 }

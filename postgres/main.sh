@@ -13,7 +13,7 @@ case $i in
   Usage: app options
   Options:
           -h  --help      Display this message and exit.
-          -c  --cluster   Create a new cluster (holds multiple db's).
+          -c  --create    Create a new cluster (holds multiple db's).
           -f  --force     Before creating cluster, delete any existing old one
           --database=(db) Create a database with name db.
           -r  --run       Run the postgres server in the foreground.

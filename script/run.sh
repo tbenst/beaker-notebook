@@ -52,7 +52,7 @@ docker_run_or_start() {
         image_command=''
       fi
 
-      docker run -d --name=$container_name -p $ports $env_args $volume_args $link_args $image_name $image_command -r
+      docker run -d --name=$container_name -p $ports $env_args $volume_args $link_args $image_name $image_command
     ;;
   esac
 }
@@ -101,6 +101,7 @@ while [[ ${#images[@]} > 0 ]]; do
     if [[ $link_status != 'running' ]]; then
       images[${#images[@]}]=${images[0]}
       images=("${images[@]:1}")
+      sleep 1
       continue 2
     fi
   done

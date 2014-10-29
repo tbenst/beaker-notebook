@@ -6,7 +6,7 @@
     "widgets/"
   ],
   "format": "pioneerformat.js",
-  "driver": "chrome",
+  "driver": "firefox",
   "error_formatter": "errorformat.js",
   "preventReload": false,
   "coffee": false
