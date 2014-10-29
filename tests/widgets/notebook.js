@@ -6,38 +6,50 @@ module.exports = function() {
   return this.Widgets.Notebook = this.Widget.extend({
     root: '.notebook',
 
-    scrollAndClick: function(css) {
+    openOptions: function() {
+      return this.hover('.main-content .options');
+    },
+
+    save: function() {
+      return this.openOptions().then(function() {
+        return this.click('.save');
+      }.bind(this));
+    },
+
+    saveAs: function(name) {
       var _this = this;
-      return this.find(css)
-      .then(function(el) {
-        return _this.driver.executeScript("arguments[0].scrollIntoView(true);", el)
-        .then(function() {
-          return el.click();
-        })
-      })
+      return this.openOptions().then(function() {
+        return this.click('.save-as');
+      }.bind(this))
+      .then(function() {
+        var modal = new World.Widgets.Modal();
+        return modal.fill({ selector: '.name', value: name }).then(function() {
+          return modal.submit();
+        });
+      });
     },
 
     close: function() {
-      return this.scrollAndClick('.close-notebook');
+      return this.openOptions().then(function() {
+        return this.click('.close-notebook');
+      }.bind(this));
     },
 
     name: function() {
       return this.read('.name');
     },
 
-    goBackToProject: function() {
-      return this.scrollAndClick('.back-to-project');
-    },
-
     openRenameModal: function() {
-      return this.click('.rename');
+      return this.openOptions().then(function() {
+        return this.click('.rename');
+      }.bind(this));
     },
 
     openModalAndRename: function(newName) {
       return this.openRenameModal().then(function() {
         var renameModal = new World.Widgets.Modal();
         return renameModal.fill({ selector: "input.name", value: newName }).then(function() {
-          return renameModal.click('.save');
+          return renameModal.submit();
         });
       });
     },

@@ -1,0 +1,6 @@
+h1 Save As
+p.error(ng-show="error") {{error}}
+form(ng-submit="checkSaveAs()")
+  input.full.name(type="text" ng-model="saveAsName")
+  button.cancel.btn.btn-light(type="button" ng-click="saveAsCancel()") Cancel
+  input.submit.save.btn.btn-primary(type="submit", value="Save")

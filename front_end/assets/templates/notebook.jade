@@ -19,13 +19,21 @@
         a.publish(ng-if="!published" ng-click="openPublishModal()") Publish this notebook &raquo;
 
   .main-content
-    a.back-to-project.btn.btn-light.left(ui-sref="projects.items.item({id: notebook.current.projectId})") Back to project home
-    button.btn.btn-light.right.close-notebook(close-notebook="{{ notebook.current.id }}") close notebook
-    button.btn.btn-light.right.rename(rename-notebook-toggle notebook="notebook.current") Rename
-    .cl
-    br br
-    h2 Notebook:&nbsp;
+    span.options.dropdown-toggle.right
+      ul.dropdown
+        li
+          a.save(ng-click="save()") Save
+        li
+          a.save-as(ng-click="saveAs()") Save As
+        li
+          a.rename(rename-notebook-toggle notebook="notebook.current") Rename
+        li
+          a.show-stdout-stderr(ng-click="showStdoutStderr()") Show Stdout/err
+        li
+          a.close-notebook(close-notebook="{{ notebook.current.id }}") Close
+    h2.left Notebook:&nbsp;
       span.name {{notebook.current.name}}
+    .cl
     .loading(ng-if="loading")
       .spinner(us-spinner="{lines: 12, radius:20, width:6, length: 10, corners: 0, speed: 0.6, trail: 40, color: '#3f5264'}")
 

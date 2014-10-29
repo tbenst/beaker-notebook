@@ -28,9 +28,14 @@
       saveNotebook(e.data);
     }
 
+    function sendToIFrame(contentWindow, data) {
+      var uiUrl = $location.absUrl().split("#")[0];
+
+      contentWindow.postMessage(data, uiUrl);
+    }
+
     $window.addEventListener('message', receiveWindowMessage, false);
 
-    // no public API
-    return {};
+    return { sendToIFrame: sendToIFrame };
   }]);
 })(window.bunsen);

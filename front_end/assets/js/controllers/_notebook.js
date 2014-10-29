@@ -56,9 +56,17 @@
       });
     };
 
+    var notebookNameTaken = function() {
+      return !!_.find($scope.notebooks.list, { name: $scope.saveAsName, projectId: $scope.notebook.current.projectId });
+    };
+
     F.Projects.getProject($state.params.id).then(function(project) {
      $scope.project = project;
     });
+
+    var notebookWindow = function() {
+      return document.getElementById('beaker-frame-' + $scope.notebook.current.id).contentWindow;
+    };
 
     if ($scope.cachedNotebooks[$state.params.notebook_id]) {
       Notebooks.update({id: $state.params.notebook_id, open: true});
@@ -79,6 +87,39 @@
         });
       });
     }
+
+    $scope.save = function(newName) {
+      var data = { action: 'save' };
+      if (newName) {
+        data.name = newName;
+      }
+
+      WindowMessageService.sendToIFrame(notebookWindow(), data);
+    };
+
+    $scope.showStdoutStderr = function() {
+      var data = { action: 'showStdoutStderr' };
+
+      WindowMessageService.sendToIFrame(notebookWindow(), data);
+    };
+
+    $scope.saveAs = function() {
+      $scope.saveAsName = $scope.notebook.current.name + ' 2';
+      $scope.$emit('openModal', $compile(templates.save_as_modal())($scope));
+    };
+
+    $scope.checkSaveAs = function() {
+      if (notebookNameTaken()) {
+        $scope.error = 'That notebook name is already taken in this project.';
+      } else {
+        $scope.save($scope.saveAsName);
+        $scope.$emit('closeModal');
+      }
+    };
+
+    $scope.saveAsCancel = function() {
+      $scope.$emit('closeModal');
+    };
 
     $scope.destroyPublication = function() {
       F.Publications.destroy($scope.notebook.current.publication).then(function(notebook) {

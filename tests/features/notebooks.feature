@@ -233,7 +233,7 @@ Feature: Use Notebooks
     And I save my changes to the notebook
     And I save the notebook as "Winter Grasp"
     Then I should be in the "Winter Grasp" notebook
-    When I go back to the project
+    When I open the "ghost of tom jones" project
     Then I should see the project has 6 commits
 
   Scenario: Open last used notebook

@@ -9,9 +9,6 @@ var notebookBase = function() {
 
 module.exports = function() {
   var World = this;
-  this.When(/^I go back to the project$/, function(notebookName) {
-    return new this.Widgets.Notebook().goBackToProject();
-  });
 
   this.When(/^I view the notebook list$/, function(notebookName) {
     return new this.Widgets.Notebook().goBackToProject();
@@ -69,26 +66,22 @@ module.exports = function() {
 
     var _this = this;
 
-    return new this.Widgets.NotebookList()
+    var stepsPromise = new this.Widgets.NotebookList()
     .clickByName(name)
     .then(function() {
       var notebook = new _this.Widgets.Notebook();
       return notebook.find({text: name});
     })
     .then(function() {
-      return new this.Widgets.Notebook().goBackToProject();
+      return this.driver.executeScript('window.history.back();');
     }.bind(this))
     .then(function() {
       return new this.Widgets.OpenNotebookList().find({text: name});
-    }.bind(this))
-    .then(function(v) {
-      global.timeout = p;
-      return v;
-    })
-    .thenCatch(function() {
-      global.timeout = p;
-    })
-    .should.eventually.be.ok;
+    }.bind(this));
+
+    global.timeout = p;
+
+    return stepsPromise.should.eventually.be.ok;
   });
 
   this.Then(/^I should see (\d+) open notebooks$/, function(count) {
@@ -204,7 +197,7 @@ module.exports = function() {
 
   this.When(/^I rename the notebook to "([^"]*)"$/, function(newName) {
     var _this = this;
-    return Promise.delay(3000).then(function() {
+    return new this.Widgets.Notebook().waitForBeaker().then(function() {
       return new _this.Widgets.Notebook().openModalAndRename(newName);
     })
   });
@@ -245,7 +238,7 @@ module.exports = function() {
     var _this = this;
     notebook = new this.Widgets.Notebook();
     return notebook.waitForBeaker().then(function() {
-      return (new _this.Widgets.BeakerFrame()).saveAs(name);
+      return notebook.saveAs(name);
     });
   });
 
@@ -261,7 +254,7 @@ module.exports = function() {
     var _this = this;
     notebook = new this.Widgets.Notebook();
     return notebook.waitForBeaker().then(function() {
-      return (new _this.Widgets.BeakerFrame()).saveChanges();
+      return notebook.save();
     });
   });
 
