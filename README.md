@@ -45,15 +45,10 @@ Bunsen's different components (db, app [api server], web, beaker, provisioner, &
 ## Seeding your development env
 
 * First ensure that your containers are all running.
-* Then remove your app container
-
-`docker rm -f app`
-
 * Then run the following:
 
 ```bash
-docker run -d --name=app -p 3000:3000 -e NODE_ENV=development -e CIPHER_KEY=Auj/QL_WU[xX64p+1TB81m6AD6wSCl -v /vagrant/app:/var/app --link db:db --link provisioner:provisioner app  --migrate --delay=5 -r --seed
-744c9201f92a62c23c9aa02b97767f771c172900854aa296167dc0b3bbbfec7e
+docker run -e NODE_ENV=development -e CIPHER_KEY=Auj/QL_WU[xX64p+1TB81m6AD6wSCl -v /vagrant/app:/var/app --link db:db --link provisioner:provisioner --link elasticsearch:elasticsearch app --migrate --delay=25 --seed --index -r
 ```
 
 ## Looking at the database.

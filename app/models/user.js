@@ -20,7 +20,7 @@ module.exports = function(Bookshelf, app) {
 
     validations: {
       email: ['required', 'email', function(email) {
-        var _this = this;
+        var _this = this.target;
         return User.forge({email: email}).fetch().then(function(user) {
           // Only throw if the user is different than the current user.
           if (user && user.id != _this.id) {
@@ -112,7 +112,7 @@ module.exports = function(Bookshelf, app) {
     checkToken: function(token) {
       var decipher = Crypto.createDecipher('blowfish', cipherKey),
           id       = parseInt(decipher.update(token, 'base64', 'utf-8') + decipher.final('utf-8'));
-      return new User({id: id}).fetch()
+      return new User({id: id}).fetch({ require: true })
         .then(function (user) {
           user.attributes = _.omit(user.attributes, 'password');
           user._previousAttributes = _.omit(user._previousAttributes, 'password')
