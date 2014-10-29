@@ -38,16 +38,26 @@ module.exports = function() {
     return this.driver.get(this.route.signIn);
   });
 
+  this.When(/^I go to the edit user page$/, function() {
+    return this.driver.get(this.route.userEdit);
+  });
+
+  this.When(/^I fill in the edit user form with:$/, function(table) {
+    return new this.Widgets.EditUserForm().submitWith(table.hashes()[0]);
+  });
+
+  this.When(/^I should see an error message of "([^"]*)"$/, function(message) {
+    return new this.Widgets.EditUserMessage().getMessage()
+      .should.eventually.eql(message);
+  });
+
   this.When(/^I fill in the sign in form with:$/, function(table) {
     return new this.Widgets.SignInForm().submitWith(table.hashes()[0]);
   });
 
-  this.Then(/^I should see I'm signed in as "([^"]*)"$/, function(expected) {
+  this.Then(/^I should see the header greeting "([^"]*)"$/, function(expected) {
     var authControls = new this.Widgets.AuthControls();
-
-    return authControls.getCurrentUserEmail().then(function(email) {
-      return assert.equal(email, expected);
-    });
+    return authControls.getCurrentUserName().should.eventually.eql(expected)
   });
 
   this.When(/^I click the sign out link$/, function() {

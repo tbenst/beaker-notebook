@@ -11,6 +11,7 @@ module.exports = function() {
     subscriptions: base+"#/subscriptions",
     publications: base+"#/publications",
     projectDashboard: base + "#/projects",
+    userEdit: base + "#/user_edit",
     forProject: function(project) {
       return util.format('%s#/projects/%s', base, project.id);
     }
