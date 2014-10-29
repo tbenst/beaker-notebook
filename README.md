@@ -23,7 +23,7 @@ Bunsen's different components (db, app [api server], web, beaker, provisioner, &
   * Other info:
     * Because each container is isolated with its own process namespace, you'll need to run bash in the container
       to run commands in the proper context.  Assuming you're running your docker containers in vagrant, Attach to a
-      running container by running `./attach.sh app` or whichever container, and then run commands like one
+      running container by running `./script/attach.sh app` or whichever container, and then run commands like one
       would normally in the server
     * One may occasionally get `Cannot start container: Port has already been allocated`.
       [This bug](https://github.com/docker/docker/issues/6476) is known, and in the meantime, just restart docker.
@@ -35,11 +35,11 @@ Bunsen's different components (db, app [api server], web, beaker, provisioner, &
   * Ensure your docker client is using the docker server running inside vagrant.
     * e.g. `export DOCKER_HOST=tcp://127.0.0.1:4243`
   * Build your docker images.
-    * `$ ./build.sh` (or specify image, ex: `$ ./build.sh beaker`)
+    * `$ ./script/build.sh` (or specify image, ex: `$ ./script/build.sh beaker`)
   * Initialize the persistent development database.
     * `docker run  --volume="/var/bunsen_dbs/:/var/lib/postgresql/9.3/main" db -c -f --database=bunsenDevelopment`
   * Run your docker containers.
-    * `$ ./run.sh` (or specify image, ex: `$ ./run.sh app`) (run `bash -x run.sh` to show full docker commands)
+    * `$ ./script/run.sh` (or specify image, ex: `$ ./script/run.sh app`) (run `bash -x run.sh` to show full docker commands)
   * Browse to http://localhost:7777/
 
 ## Seeding your development env
@@ -67,9 +67,9 @@ docker run -d --name=app -p 3000:3000 -e NODE_ENV=development -e CIPHER_KEY=Auj/
   * Ensure that your vagant is running and provisioned, and your docker images are built (specified above).
   * Run your docker test containers.
     * To run in test mode (mount volumes for easier editing):
-      * `$ ./run.sh -t` (or specify image, ex: `$ ./run.sh -t db`)
+      * `$ ./script/run.sh -t` (or specify image, ex: `$ ./script/run.sh -t db`)
     * To run in ci mode (running the entire suite w/o mounting):
-      * `$ ./run.sh --env=ci` (or specify image, ex: `$ ./run.sh --env=ci db`)
+      * `$ ./script/run.sh --env=ci` (or specify image, ex: `$ ./script/run.sh --env=ci db`)
   * Run `$ BUNSEN_HOSTNAME=localhost:7778 npm start` in the `tests` directory.
 
 ## Debugging tests
