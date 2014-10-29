@@ -34,8 +34,8 @@
 
   app.factory('DataSetsFactory', ['TimeoutRestangular', function(TimeoutRestangular) {
     return {
-      getDataSet: function(id) {
-        return TimeoutRestangular().one('data_sets', id).get();
+      getDataSet: function(index, id) {
+        return TimeoutRestangular().all('data_sets').one(index, id).get();
       },
 
       getDataSets: function(scope, abort) {

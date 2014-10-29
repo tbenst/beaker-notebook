@@ -62,15 +62,17 @@ module.exports = function(Bookshelf, app) {
       return this.hasOne(app.Models.BeakerClaim, 'user_id')
     },
 
-    addSubscription: function(dataSetId) {
+    addSubscription: function(indexName, dataSetId) {
       return app.Models.Subscription.forge({
+        indexName: indexName,
         dataSetId: dataSetId,
         userId: this.id
       }).save()
     },
 
-    removeSubscription: function(dataSetId) {
+    removeSubscription: function(indexName, dataSetId) {
       return app.Models.Subscription.forge({
+        indexName: indexName,
         dataSetId: dataSetId,
         userId: this.id
       })
@@ -85,11 +87,12 @@ module.exports = function(Bookshelf, app) {
       .fetch()
       .then(function(subscriptions) {
         var ids = _.invoke(subscriptions.models, 'get', 'dataSetId');
-        return app.Models.DataSet.findByIds({ids: ids})
+        return app.Models.DataSet.findByIds({ids: ids, index: '*'})
         .then(function(datasets) {
           // inject datasets into subscriptions
           return _.map(subscriptions.toJSON(), function(s) {
-            var dataSet = _.findWhere(datasets, {id: s.dataSetId});
+            var dataSet = _.findWhere(datasets,
+                                      {id: s.dataSetId, index: s.indexName});
             return _.extend(s, {dataSet: dataSet});
           })
         })

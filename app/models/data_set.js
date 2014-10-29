@@ -88,14 +88,16 @@ module.exports = function(Bookshelf, app) {
 
     fetchFromElastic: function() {
       var _this = this;
-
-      return DataSet.findByIds({ids: [this.id], size: 1})
+      return DataSet.findByIds({index: this.attributes.index,
+                                ids: [this.id],
+                                size: 1})
       .then(function(d) {
         if (d.length < 1) throw new Error('DataSet not found in Elasticsearch');
         var dataset = d[0];
         _this.set(dataset);
-
-        return models.Subscription.query({where: {data_set_id: dataset.id}}).fetchAll()
+        return models.Subscription.query(
+          {where: {index_name: dataset.index, data_set_id: dataset.id}})
+          .fetchAll()
         .then(function(subscriptions) {
           // inject subscription ids into dataset
           var ids = _.pluck(subscriptions.toJSON(), 'userId');
@@ -251,10 +253,14 @@ module.exports = function(Bookshelf, app) {
       };
     },
 
+    attributesWithIndex: function(esResult) {
+      return _.extend(esResult._source, {'index': esResult._index});
+    },
+
     // transform Elasticsearch results into format expected by front_end
     transformResults: function(catalog, d) {
       var res = {
-        data: _.pluck(d.hits.hits, '_source'),
+        data: _.map(d.hits.hits, app.Models.DataSet.attributesWithIndex),
         totalItems: d.hits.total
       };
       res.filters = {}
@@ -301,13 +307,13 @@ module.exports = function(Bookshelf, app) {
         }
       };
       return client.search({
-        index: '*',
+        index: options.index,
         type: 'datasets',
         size: options.size,
         body: q
       })
       .then(function(d) {
-        return _.pluck(d.hits.hits, '_source')
+        return _.map(d.hits.hits, app.Models.DataSet.attributesWithIndex);
       });
     },
 

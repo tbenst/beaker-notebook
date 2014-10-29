@@ -51,7 +51,8 @@ Feature: Subscriptions
     Given I have the following market items:
       | title            | remoteFile |
       | Employment Rates | MONEYS.csv |
-    When I view the market search
+    When I view My Datasets
+    And I view the market search
     And I view the "Employment Rates" market item
     And I subscribe to the market item
     And I view My Datasets
@@ -68,6 +69,7 @@ Feature: Subscriptions
     Given I have the following market items:
       | title            | remoteFile | description |
       | Employment Rates | MONEYS.csv | some        |
+    When I view My Datasets
     When I view the market search
     And I view the "Employment Rates" market item
     And I subscribe to the market item
@@ -76,8 +78,8 @@ Feature: Subscriptions
     Then I should see the following subscriptions:
       | title               | remoteFile | description  |
       | Employment Rates    | MONEYS.csv | some         |
-      | Crime Rates, Canada | CRIME.xml  | pretty bad   |
       | Population, Canada  | POP.xml    | somewhat low |
+      | Crime Rates, Canada | CRIME.xml  | pretty bad   |
     When I unsort by subscription date
     Then I should see the following subscriptions:
       | title               | remoteFile | description  |

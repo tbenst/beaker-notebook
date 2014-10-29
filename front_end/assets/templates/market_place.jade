@@ -45,7 +45,7 @@
     li.bunsen-list-item(ng-repeat="item in marketPlace.data")
       .col-three-quarters
         h2
-          a.title(ui-sref="marketPlace.items.item({id: item.id})") {{item.title}}
+          a.title(ui-sref="marketPlace.items.item({index: item.index, id: item.id})") {{item.title}}
         p.description {{item.description | limitTo:100}} {{item.description.length > 100 ? "..." : ""}}
         .vendor
           | Vendor:&nbsp;
