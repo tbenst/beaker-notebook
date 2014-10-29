@@ -24,7 +24,7 @@
     ]
   },
   "db": {
-    "command": "-c -f --database=bunsenTest -r",
+    "command": "-r",
     "ports": "5432:5432",
     "build": "postgres",
     "volumes": [
