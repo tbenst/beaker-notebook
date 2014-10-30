@@ -235,7 +235,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should not see the project duplicate warning$/, function() {
-    return new this.Widgets.ProjectDetail().error().should.eventually.contain("");
+    return new this.Widgets.ProjectDetail().error().should.eventually.be.empty;
   });
 
   this.Then(/^I should see the following recently used notebooks:$/, function(table) {
