@@ -11,7 +11,12 @@ module.exports = function(app) {
 
       Publication.query({ where: searchParams })
       .fetchAll()
-      .then(res.json.bind(res))
+      .then(function(publications) {
+        _.each(publications.models, function(publication) {
+          publication.set('languages', Publication.languages(publication.get('contents')));
+        });
+        res.json(publications);
+      })
       .catch(next);
     },
 

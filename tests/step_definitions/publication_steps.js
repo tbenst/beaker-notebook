@@ -223,7 +223,11 @@ module.exports = function() {
 
   this.Then(/^I should see the following publication first in the list:$/, function(table) {
     return new this.Widgets.PublicationList().at(0).then(function(publication) {
-      return publication.name().should.eventually.eql(_.pluck(table.hashes(), 'name')[0]);
+      return publication.name().should.eventually.eql(_.pluck(table.hashes(), 'name')[0])
+      .then(function() {
+        var languages = _.pluck(table.hashes(), 'languages')[0];
+        return !languages || publication.languages().should.eventually.eql(languages);
+      });
     });
   });
 
