@@ -2,11 +2,14 @@
   .contain
     a(href="/")
       img(src="images/header/logo-bunsen.png", width="100", height="27", class="header-logo")
-    ul.header-actions-list.right
+    ul.header-actions-list.right.auth-controls
+      li(ng-show='$session.currentUser')
+        span.signed-in Hi, {{$session.currentUser.name}}
       li
-        a(href="#")
-          img(src="images/header/icon-settings.png", width="15", height="15")
-      li
-        .auth-controls(ng-show='$session.currentUser')
-          a.sign-out(ui-sref="signOut", ng-show='$session.currentUser') Sign out
-          span.signed-in Hi, {{$session.currentUser.name}}
+        span.dropdown-toggle.settings
+          .dropdown-wrapper.settings-dropdown(ng-show='$session.currentUser')
+            ul.dropdown
+              li
+                a.edit-info(ui-sref="userEdit") Edit Information
+              li
+                a.sign-out(ui-sref="signOut") Sign out
