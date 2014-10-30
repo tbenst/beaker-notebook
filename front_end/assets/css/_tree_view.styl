@@ -11,8 +11,21 @@ treecontrol
   li
     position relative
 
-  li i
-    display: none
+    i
+      display: block
+      height: 10px
+      width: 10px
+      left: 18px
+      top: 35px
+      position: absolute
+      z-index: 1
+      display: none
+
+    &.tree-expanded > i
+      border-left: 8px solid transparent
+      border-right: 8px solid transparent
+      border-top: 8px solid #3A556F
+      display: block
 
   .tree-label
     color white
@@ -30,12 +43,25 @@ treecontrol
     &:hover
       background-color action-blue
 
+    i
+      border-top: 8px solid red
+
   li li
     background-color darken(action-strong-blue, 20%)
+
+    &.tree-expanded i
+      border-top: 8px solid darken(action-strong-blue, 20%)
+
     .tree-label
       text-transform capitalize
+
     li
       background-color darken(action-strong-blue, 30%)
+
       .tree-label
         padding-left 36px
-        border-bottom none
+        border-bottom 1px solid darken(action-strong-blue, 40%)
+
+      &.tree-expanded i
+        left: 35px
+        border-top: 8px solid darken(action-strong-blue, 30%)
