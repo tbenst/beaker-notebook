@@ -4,4 +4,5 @@
       h2
         a.title(ui-sref="publications.items.item({id: publication.id})") {{publication.name}}
       p.description {{publication.description | words : 30 }}
-
+      ul.language-icons
+        language-icon(ng-repeat="language in publication.languages" language="language")

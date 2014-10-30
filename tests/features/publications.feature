@@ -38,8 +38,8 @@ Feature: Publications
     When I view the publications page
     Then I should see 6 publication results on the page
     And I should see the following publication first in the list:
-      | name       |
-      | top secret |
+      | name       | languages         |
+      | top secret | Ht, Py, R, Gr, JS |
 
   Scenario: Deleting a Publication
     Given the notebook "top secret" is published

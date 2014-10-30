@@ -35,6 +35,14 @@ module.exports = function() {
 
     name: function() {
       return this.read('h2 a');
+    },
+
+    languages: function() {
+      return this.findAll('language-icon').then(function(languageIcons) {
+        return languageIcons.invoke('read').then(function(languages) {
+          return languages.join(', ');
+        });
+      });
     }
   });
 
