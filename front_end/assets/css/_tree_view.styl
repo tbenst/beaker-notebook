@@ -1,8 +1,3 @@
-treecontrol li.tree-expanded i.tree-leaf-head, treecontrol li.tree-collapsed i.tree-leaf-head {display:none;}
-treecontrol li.tree-expanded i.tree-branch-head, treecontrol li.tree-collapsed i.tree-branch-head {display:inline;}
-treecontrol li.tree-leaf i.tree-branch-head {display:none;}
-treecontrol li.tree-leaf i.tree-leaf-head {display:inline;}
-
 .sidebar-tree
   padding 0 !important
 
@@ -16,28 +11,8 @@ treecontrol
   li
     position relative
 
-  li.tree-expanded i,
-  li.tree-collapsed i
-    background-position center center
-    background-repeat no-repeat
-
-  li.tree-expanded i
-    background-image url('../images/menu-expanded.png')
-    background-size 8px 2px
-
-  li.tree-collapsed i
-    background-image url('../images/menu-collapsed.png')
-    background-size 8px 8px
-
-  li.tree-leaf i
-    background-image none
-
   li i
-    width 12px
-    height 12px
-    position absolute
-    top 10px
-    left 5px
+    display: none
 
   .tree-label
     color white
@@ -50,8 +25,6 @@ treecontrol
 
   .tree-selected
     background-color action-blue
-    li.tree-expanded i
-      background-image url('../images/menu-expanded-selected.png')
     .count
       color white
     &:hover
