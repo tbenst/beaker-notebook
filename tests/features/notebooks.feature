@@ -240,6 +240,7 @@ Feature: Use Notebooks
     When I open the "ghost of tom jones" project
     And I view the notebook "powderpuff girls"
     And I view my projects
+    And I ensure the notebook is open
     Then I should be in the "powderpuff girls" notebook
 
   Scenario: Reopening notebooks
