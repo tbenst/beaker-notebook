@@ -464,7 +464,7 @@ module.exports = function() {
     return new this.Widgets.MarketList().getText().should.not.eventually.include(field);
   });
 
-  this.Then(/^I should see the follwing filters:$/, function(table) {
+  this.Then(/^I should see the following filters:$/, function(table) {
     var _this = this;
     return bluebird.map(table.hashes(), function(row) {
       var filter = new _this.Widgets.MarketFilter(row.filter);

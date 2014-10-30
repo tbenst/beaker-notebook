@@ -11,7 +11,7 @@ As a researcher, I want to be able to browse different market place catalogs.
       | title                  | vendor           | format  | tags         | categories |
       | Credit Card Complaints | Bank of America  | json    | bank,america | Two Sigma  |
     When I view the market search
-    Then I should see the follwing filters:
+    Then I should see the following filters:
     | filter | values          |
     | vendor | Bank of America |
     | format | json            |
@@ -27,7 +27,7 @@ As a researcher, I want to be able to browse different market place catalogs.
       | Crime in Canada   | World Stats Inc. | xml     | Quandl     |
     When I view the market search
     And I browse "Quandl" catalog
-    Then I should see the follwing filters:
+    Then I should see the following filters:
     | filter  | values           |
     | company | World Stats Inc. |
     | type    | xml              |

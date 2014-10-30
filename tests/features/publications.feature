@@ -112,3 +112,14 @@ Feature: Publications
       | top secret |
     When I click the "Energy" category
     Then I should see 0 publication results on the page
+
+  Scenario: Categorizing publications
+    Given I have a publication
+    When I view the publication
+    Then I should see the publication notebook
+
+  Scenario: Minimizing publication sections
+    Given I have a publication
+    When I view the publication
+    Then I should be able to collapse and expand inputs
+    And I should be able to collapse and expand outputs
