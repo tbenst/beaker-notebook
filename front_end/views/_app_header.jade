@@ -8,6 +8,5 @@
           img(src="images/header/icon-settings.png", width="15", height="15")
       li
         .auth-controls(ng-show='$session.currentUser')
-          span.signed-in {{$session.currentUser.email}}
-          &nbsp
           a.sign-out(ui-sref="signOut", ng-show='$session.currentUser') Sign out
+          span.signed-in Hi, {{$session.currentUser.name}}
