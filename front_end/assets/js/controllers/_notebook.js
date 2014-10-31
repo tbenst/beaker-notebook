@@ -60,6 +60,14 @@
       return !!_.find($scope.notebooks.list, { name: $scope.saveAsName, projectId: $scope.notebook.current.projectId });
     };
 
+    var scrollToBottom = function() {
+      var body = document.body,
+          html = document.documentElement;
+      var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+
+      window.scrollTo(window.pageXOffset, height);
+    };
+
     F.Projects.getProject($state.params.id).then(function(project) {
      $scope.project = project;
     });
@@ -101,6 +109,7 @@
       var data = { action: 'showStdoutStderr' };
 
       WindowMessageService.sendToIFrame(notebookWindow(), data);
+      scrollToBottom();
     };
 
     $scope.saveAs = function() {
