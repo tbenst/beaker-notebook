@@ -1,8 +1,8 @@
 FROM mojo/debian
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
-RUN apt-get update -qq && \
-    apt-get install -qq -y --no-install-recommends -t wheezy-backports nodejs-legacy nginx roots && \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends -t wheezy-backports nodejs-legacy nginx roots && \
     apt-get clean
 
 ADD . /var/www
