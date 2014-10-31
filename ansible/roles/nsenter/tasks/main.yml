@@ -1,5 +1,0 @@
----
-
-- name: install nsenter
-  sudo: yes
-  apt: pkg=nsenter default_release=local update_cache=true state=latest

@@ -23,7 +23,7 @@ Bunsen's different components (db, app [api server], web, beaker, provisioner, &
   * Other info:
     * Because each container is isolated with its own process namespace, you'll need to run bash in the container
       to run commands in the proper context.  Assuming you're running your docker containers in vagrant, Attach to a
-      running container by running `./script/attach.sh app` or whichever container, and then run commands like one
+      running container by running `docker exec -it app bash` or whichever container, and then run commands like one
       would normally in the server
     * One may occasionally get `Cannot start container: Port has already been allocated`.
       [This bug](https://github.com/docker/docker/issues/6476) is known, and in the meantime, just restart docker.
@@ -53,7 +53,7 @@ docker run -e NODE_ENV=development -e CIPHER_KEY=Auj/QL_WU[xX64p+1TB81m6AD6wSCl 
 
 ## Looking at the database.
 
-* `./script/attach db`
+* `docker exec -it db bash`
 * `su postgres`
 * `psql bunsenDevelopment`
 
