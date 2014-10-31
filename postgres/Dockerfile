@@ -1,8 +1,8 @@
 FROM mojo/debian
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
-RUN apt-get update -qq && \
-    apt-get install -qq -y --no-install-recommends -t vendor postgresql postgresql-contrib && \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends -t vendor postgresql postgresql-contrib && \
     apt-get clean
 
 ADD config /tmp/config

@@ -1,8 +1,8 @@
 FROM mojo/debian
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
-RUN apt-get update -qq && \
-    apt-get install -qq -y --no-install-recommends -t wheezy-backports \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends -t wheezy-backports \
       build-essential \
       fuse \
       fuse-utils \
@@ -30,7 +30,7 @@ RUN apt-get update -qq && \
       python-tornado \
       s3fs-fuse \
       && \
-    apt-get install -qq -y --no-install-recommends -t jessie \
+    apt-get install -y --no-install-recommends -t jessie \
       npm \
       && \
     apt-get clean

@@ -1,12 +1,12 @@
 FROM mojo/debian
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
-RUN apt-get update -qq && \
-    apt-get install -qq -y --no-install-recommends\
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends\
       oracle-java7-jdk \
       oracle-java7-jre
 
-RUN apt-get install -qq -y --no-install-recommends -t vendor elasticsearch
+RUN apt-get install -y --no-install-recommends -t vendor elasticsearch
 
 ADD config/elasticsearch.yml /etc/elasticsearch/
 

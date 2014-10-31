@@ -1,8 +1,8 @@
 FROM mojo/debian
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
-RUN apt-get update -qq && \
-    apt-get install -qq -y --no-install-recommends -t local nginx && \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends -t local nginx && \
     apt-get clean
 
 ADD . /var/www
