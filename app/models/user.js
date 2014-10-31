@@ -2,7 +2,6 @@ var _                     = require("lodash");
 var Promise               = require('bluebird');
 var Bcrypt                = Promise.promisifyAll(require("bcryptjs"));
 var Checkit               = require('checkit');
-var RecordNotUniqueError  = require("../lib/record_not_unique_error");
 var Crypto                = require('crypto');
 if(!process.env.CIPHER_KEY) { throw new Error('CIPHER_KEY env variable is not set') }
 var cipherKey             = process.env.CIPHER_KEY;
