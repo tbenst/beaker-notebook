@@ -10,7 +10,7 @@ RUN apt-get update && \
       gradle \
       libcurl3 \
       libxml2 \
-      libzmq3 \
+      libzmq3/local \
       locales \
       mime-support \
       nginx \
