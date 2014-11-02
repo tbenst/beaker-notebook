@@ -26,7 +26,6 @@ RUN apt-get update && \
       python-numpy \
       python-ipython \
       python-jinja2 \
-      python-pip \
       python-pyzmq \
       python-tornado \
       python-yaml \
