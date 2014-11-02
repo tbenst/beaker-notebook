@@ -18,15 +18,15 @@ RUN apt-get update && \
       oracle-java7-jdk \
       oracle-java7-jre \
       python \
-      python-pandas \
-      python-scipy \
       python-certifi \
       python-dev \
-      python-matplotlib \
-      python-numpy \
       python-ipython \
       python-jinja2 \
+      python-matplotlib \
+      python-numpy \
+      python-pandas \
       python-pyzmq \
+      python-scipy \
       python-tornado \
       python-yaml \
       s3fs-fuse \
