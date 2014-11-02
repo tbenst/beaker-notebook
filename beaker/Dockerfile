@@ -20,6 +20,7 @@ RUN apt-get update && \
       python \
       python-pandas \
       python-scipy \
+      python-certifi \
       python-dev \
       python-matplotlib \
       python-numpy \
@@ -28,6 +29,7 @@ RUN apt-get update && \
       python-pip \
       python-pyzmq \
       python-tornado \
+      python-yaml \
       s3fs-fuse \
       && \
     apt-get install -y --no-install-recommends -t jessie \
