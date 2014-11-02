@@ -42,7 +42,10 @@
     }
 
     $scope.searchByTag = function(tag) {
-      $scope.newSearch({tagsScope: [tag]});
+      $scope.newSearch({
+        tagsScope: [tag],
+        categoryPath: extractCatalogPath($scope.marketPlace.categoryPath)
+      });
     };
 
     $scope.isTagSelected = function(tag) {

@@ -265,6 +265,10 @@ As a researcher, I want to be able to use the market place.
     When I view the market search
     And I filter the market page by "Canada"
     Then I should see the related tags "canada,census,stats,crime"
+    When I follow the related tag "canada"
+    Then I should see 2 market items on the market list page
+    And I should see the "Crime Rates, Canada" market item on the market list page
+    And I should see the "Population in Canada" market item on the market list page
 
   Scenario: Market item description in list
     Given I have the following market items:
