@@ -16,10 +16,10 @@
       restrict: 'E',
       template: templates.language_icon,
       scope: {
-        language: '='
+        lang: '='
       },
       link: function(scope, element, attrs) {
-        _.extend(scope, languages[scope.language]);
+        _.extend(scope, languages[scope.lang]);
       }
     }
   });
