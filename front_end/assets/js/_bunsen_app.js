@@ -28,5 +28,7 @@
     $templateCache.put('publication_cell_code',     templates['publication_cell_code']())
     $templateCache.put('publication_cell_text',     templates['publication_cell_text']())
     $templateCache.put('publication_cell_section',  templates['publication_cell_section']())
+    $templateCache.put('publication_output_obj',    templates['publication_output_obj']())
+    $templateCache.put('publication_output_raw',    templates['publication_output_raw']())
   }])
 })(angular);

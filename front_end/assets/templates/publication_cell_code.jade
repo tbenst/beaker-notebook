@@ -7,4 +7,4 @@
   .output-cell(ng-class="{collapsed: cell.output.collapsed}")
     .toggle-expand.output-toggle(ng-class="{collapsed: cell.output.collapsed}", ng-click="toggleCollapsed('output')")
     .output
-      .contents {{cell.output.result}}
+      publication-cell-code-output(cell="cell")
