@@ -24,11 +24,11 @@
     }]);
 
   window.bunsen.run(['$templateCache', function($templateCache){
-    $templateCache.put('publication_cell_markdown', templates['publication_cell_markdown']())
-    $templateCache.put('publication_cell_code',     templates['publication_cell_code']())
-    $templateCache.put('publication_cell_text',     templates['publication_cell_text']())
-    $templateCache.put('publication_cell_section',  templates['publication_cell_section']())
-    $templateCache.put('publication_output_obj',    templates['publication_output_obj']())
-    $templateCache.put('publication_output_raw',    templates['publication_output_raw']())
+    $templateCache.put('publication_cell_markdown', templates['publications/publication_cell_markdown']())
+    $templateCache.put('publication_cell_code',     templates['publications/publication_cell_code']())
+    $templateCache.put('publication_cell_text',     templates['publications/publication_cell_text']())
+    $templateCache.put('publication_cell_section',  templates['publications/publication_cell_section']())
+    $templateCache.put('publication_output_obj',    templates['publications/publication_output_obj']())
+    $templateCache.put('publication_output_raw',    templates['publications/publication_output_raw']())
   }])
 })(angular);
