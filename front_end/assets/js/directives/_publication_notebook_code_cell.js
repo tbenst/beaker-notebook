@@ -25,6 +25,10 @@
       controller: function($scope) {
         $scope.getOutputType = function(cell) {
           if (_.isObject(cell.output.result)) {
+            if (cell.output.result.innertype == "Progress") {
+              return "publication_output_empty"
+            }
+
             return "publication_output_obj"
           } else {
             return "publication_output_raw"
