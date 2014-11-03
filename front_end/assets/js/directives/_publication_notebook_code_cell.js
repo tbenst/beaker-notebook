@@ -24,13 +24,15 @@
       restrict: "E",
       controller: function($scope) {
         $scope.getOutputType = function(cell) {
-          switch (cell.output.result.innertype) {
+          switch (cell.output.result.innertype || cell.output.result.type) {
             case "Progress":
               return "publication_output_empty";
             case "Error":
               return "publication_output_error";
             case "Html":
               return "publication_output_html";
+            case "TableDisplay":
+              return "publication_output_table";
             default:
               return "publication_output_raw";
           }
