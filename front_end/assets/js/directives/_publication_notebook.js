@@ -20,7 +20,7 @@
       scope: {
         publication: '='
       },
-      template: templates.publication_notebook,
+      template: templates['publications/publication_notebook'],
       link: function(scope, elm) {
         scope.$watch('publication', function(nu, old) {
           if (nu != old) {

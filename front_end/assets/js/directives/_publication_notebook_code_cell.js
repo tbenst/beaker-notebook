@@ -12,7 +12,7 @@
         cell: "="
       },
       restrict: "E",
-      template: templates.publication_cell_code
+      template: templates['publications/publication_cell_code']
     }
   });
 
@@ -31,7 +31,7 @@
           }
         }
       },
-      template: templates.publication_cell_code_output
+      template: templates['publications/publication_cell_code_output']
     }
   });
 })(angular, window.bunsen);

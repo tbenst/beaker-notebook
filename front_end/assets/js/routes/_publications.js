@@ -6,7 +6,7 @@
         views: {
           root: {
             controller: function() {}, // no-op
-            template: templates.publications_root
+            template: templates['publications/publications_root']
           }
         }
       })
@@ -15,11 +15,11 @@
         views: {
           "app@publications": {
             controller: 'publicationsList',
-            template: templates.publications_list
+            template: templates['publications/publications_list']
           },
           "nav@publications": {
             controller: 'publicationsNav',
-            template: templates.publications_nav
+            template: templates['publications/publications_nav']
           },
         }
       })
@@ -28,7 +28,7 @@
         views: {
           "app@publications": {
             controller: 'publication',
-            template: templates.publication
+            template: templates['publications/publication']
           }
         }
       });

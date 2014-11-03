@@ -10,7 +10,7 @@
           return "publication_cell_"+$scope.cell.type;
         }
       },
-      template: templates.publication_cell
+      template: templates['publications/publication_cell']
     }
   }]);
 
@@ -20,7 +20,7 @@
         cell: "="
       },
       restrict: "E",
-      template: templates.publication_cell_section
+      template: templates['publications/publication_cell_section']
     }
   });
 
@@ -30,7 +30,7 @@
         cell: "="
       },
       restrict: "E",
-      template: templates.publication_cell_markdown
+      template: templates['publications/publication_cell_markdown']
     }
   });
 
@@ -40,7 +40,7 @@
         cell: "="
       },
       restrict: "E",
-      template: templates.publication_cell_text,
+      template: templates['publications/publication_cell_text']
     }
   });
 })(angular, window.bunsen);
