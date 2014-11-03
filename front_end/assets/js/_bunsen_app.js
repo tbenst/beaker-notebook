@@ -30,7 +30,7 @@
     $templateCache.put('publication_cell_section',  templates['publications/publication_cell_section']())
     $templateCache.put('publication_output_obj',    templates['publications/publication_output_obj']())
     $templateCache.put('publication_output_raw',    templates['publications/publication_output_raw']())
-    $templateCache.put('publication_output_empty',    templates['publications/publication_output_raw']())
+    $templateCache.put('publication_output_empty',    templates['publications/publication_output_empty']())
     $templateCache.put('publication_output_error',    templates['publications/publication_output_error']())
   }])
 })(angular);
