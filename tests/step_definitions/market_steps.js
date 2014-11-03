@@ -325,6 +325,10 @@ module.exports = function() {
     return new this.Widgets.MarketList().contains(title).should.eventually.be.true;
   });
 
+  this.When(/^I follow the related tag "([^"]*)"$/, function(tag) {
+    return new this.Widgets.MarketRelatedTags().click({ text: tag });
+  });
+
   this.When(/^I view the "([^"]*)" market item$/, function(title) {
     var marketList = new this.Widgets.MarketList();
     return bluebird.delay(1500)
