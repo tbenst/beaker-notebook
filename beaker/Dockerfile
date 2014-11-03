@@ -10,7 +10,6 @@ RUN apt-get update && \
       gradle \
       libcurl3 \
       libxml2 \
-      libzmq3/local \
       locales \
       mime-support \
       nginx \
@@ -18,8 +17,12 @@ RUN apt-get update && \
       oracle-java7-jdk \
       oracle-java7-jre \
       python \
+      python-yaml \
+      s3fs-fuse \
+      && \
+    apt-get install -y --no-install-recommends -t local \
+      libzmq3 \
       python-certifi \
-      python-dev \
       python-ipython \
       python-jinja2 \
       python-matplotlib \
@@ -28,8 +31,6 @@ RUN apt-get update && \
       python-pyzmq \
       python-scipy \
       python-tornado \
-      python-yaml \
-      s3fs-fuse \
       && \
     apt-get install -y --no-install-recommends -t jessie \
       npm \
