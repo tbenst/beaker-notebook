@@ -24,14 +24,15 @@
       restrict: "E",
       controller: function($scope) {
         $scope.getOutputType = function(cell) {
-          if (_.isObject(cell.output.result)) {
-            if (cell.output.result.innertype == "Progress") {
-              return "publication_output_empty"
-            }
-
-            return "publication_output_obj"
-          } else {
-            return "publication_output_raw"
+          switch (cell.output.result.innertype) {
+            case "Progress":
+              return "publication_output_empty";
+            case "Error":
+              return "publication_output_error";
+            case "Html":
+              return "publication_output_html";
+            default:
+              return "publication_output_raw";
           }
         }
       },
