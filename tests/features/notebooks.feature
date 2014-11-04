@@ -257,3 +257,10 @@ Feature: Use Notebooks
     Then I should be in the "top secret" notebook
     When I open the recent notebook "powderpuff girls"
     Then I should be in the "powderpuff girls" notebook
+
+  Scenario: Leaving a notebook open when browsing away from Projects tab
+    When I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    And I wait for the notebook to load
+    And I navigate away from the projects tab
+    Then my notebook should remain open in the background

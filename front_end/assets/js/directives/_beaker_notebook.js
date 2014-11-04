@@ -20,7 +20,7 @@
               frame.setAttribute('height', attrs.height);
               frame.setAttribute('scrolling', 'no');
               frame.setAttribute('class', 'beaker');
-              document.getElementById('root').appendChild(frame);
+              document.getElementById('beaker-container').appendChild(frame);
             }
 
             element.on('$destroy', function() {
