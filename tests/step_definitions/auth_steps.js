@@ -76,4 +76,16 @@ module.exports = function() {
     var signInForm = new this.Widgets.SignInForm()
     return signInForm.isPresent().should.eventually.equal(true);
   });
+
+  this.Then(/^I should see navigation$/, function() {
+    return new this.Widgets.MainNav().navList().then(function(nav) {
+      return nav.isDisplayed().should.eventually.be.true;
+    });
+  });
+
+  this.Then(/^I shouldn't see navigation$/, function() {
+    return new this.Widgets.MainNav().navList().then(function(nav) {
+      return nav.isDisplayed().should.eventually.be.false;
+    });
+  });
 };

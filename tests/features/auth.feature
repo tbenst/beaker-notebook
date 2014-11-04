@@ -9,18 +9,20 @@ As a researcher, I need to provide my user identity.
       | email           | password |
       | u@r.edu         | password |
     Then I should see the header greeting "Hi, joe research"
+    And I should see navigation
 
   Scenario: Sign out
     Given I'm signed in as a researcher
     When I click the sign out link
     Then I should see I've been signed out
-    When I go to my projects
+    When I navigate to my projects
     Then I should see the sign in form
 
   Scenario: Unauthorized access
     Given I'm not signed in
-    When I go to my projects
+    When I navigate to my projects
     Then I should see the sign in form
+    And I shouldn't see navigation
 
   Scenario: Changing user information
     Given I'm signed in as a researcher
