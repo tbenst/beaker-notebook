@@ -35,11 +35,19 @@ module.exports = function(Bookshelf, app) {
     initialize: function () {
       this.on("created", this.createDefaultProject);
       this.on('saving', this.validate, this);
+      this.on('saving', this.hashPassword, this);
     },
 
     createDefaultProject: function() {
       return app.Models.Project.forge({ownerId: this.id, name: 'Sandbox', description: 'Sandbox'})
       .save()
+    },
+
+    hashPassword: function(model) {
+      return encryptPassword(model.get('password'))
+        .then(function(hash) {
+          return model.set({ password: hash });
+        })
     },
 
     projects: function(id) {
@@ -129,13 +137,9 @@ module.exports = function(Bookshelf, app) {
     },
 
     signUp: function(attrs) {
-      return encryptPassword(attrs.password)
-        .then(function(hash) {
-          var userAttrs = _.omit(attrs, 'password');
-          return new User(_.extend(userAttrs, {password: hash})).save()
-            .then(function (user) {
-              return user.setToken();
-            })
+      return new User(attrs).save()
+        .then(function(user) {
+          return user.setToken();
         })
     },
 
