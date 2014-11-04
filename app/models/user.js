@@ -2,13 +2,12 @@ var _                     = require("lodash");
 var Promise               = require('bluebird');
 var Bcrypt                = Promise.promisifyAll(require("bcryptjs"));
 var Checkit               = require('checkit');
-var RecordNotUniqueError  = require("../lib/record_not_unique_error");
 var Crypto                = require('crypto');
 if(!process.env.CIPHER_KEY) { throw new Error('CIPHER_KEY env variable is not set') }
 var cipherKey             = process.env.CIPHER_KEY;
 
-function encryptPassword(attrs) {
-  return Bcrypt.hashAsync(attrs.password, 10);
+function encryptPassword(password) {
+  return Bcrypt.hashAsync(password, 10);
 };
 
 module.exports = function(Bookshelf, app) {
@@ -35,11 +34,19 @@ module.exports = function(Bookshelf, app) {
     initialize: function () {
       this.on("created", this.createDefaultProject);
       this.on('saving', this.validate, this);
+      this.on('saving', this.hashPassword, this);
     },
 
     createDefaultProject: function() {
       return app.Models.Project.forge({ownerId: this.id, name: 'Sandbox', description: 'Sandbox'})
       .save()
+    },
+
+    hashPassword: function(model) {
+      return encryptPassword(model.get('password'))
+        .then(function(hash) {
+          return model.set({ password: hash });
+        })
     },
 
     projects: function(id) {
@@ -108,6 +115,22 @@ module.exports = function(Bookshelf, app) {
           cipher = Crypto.createCipher('blowfish', cipherKey),
           token  = cipher.update(this.attributes.id.toString(), 'utf-8', 'base64') + cipher.final('base64');
       return _.extend(u, {token: token})
+    },
+
+    update: function(attrs) {
+      var _this = this;
+      return User.forge({email: this.attributes.email}).fetch()
+        .then(function(user) {
+          return Bcrypt.compareAsync(attrs.currentPassword, user.attributes.password)
+            .then(function(match) {
+              if (!match) { throw new Error('Wrong Password')}
+              var password = attrs.newPassword ? attrs.newPassword : attrs.currentPassword;
+              attrs = _.omit(attrs, 'currentPassword', 'newPassword');
+              _.extend(attrs, { password: password })
+              return _this.save(attrs)
+                .then(User.sanitize)
+            })
+        })
     }
   });
 
@@ -128,14 +151,14 @@ module.exports = function(Bookshelf, app) {
       .fetch()
     },
 
+    sanitize: function(user) {
+      return _.pick(user.attributes, 'name', 'email', 'id');
+    },
+
     signUp: function(attrs) {
-      return encryptPassword(attrs)
-        .then(function(hash) {
-          var userAttrs = _.omit(attrs, 'password');
-          return new User(_.extend(userAttrs, {password: hash})).save()
-            .then(function (user) {
-              return user.setToken();
-            })
+      return new User(attrs).save()
+        .then(function(user) {
+          return user.setToken();
         })
     },
 

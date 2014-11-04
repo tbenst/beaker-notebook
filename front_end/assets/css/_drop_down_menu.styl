@@ -32,17 +32,37 @@
     &:hover
       background-color transparent
 
+.dropdown-toggle .settings-dropdown
+  top 25px
+
+.settings
+  width 25px
+  height 25px
+  top 8px
+  display inline-block
+  background url("../images/header/icon-settings.png") no-repeat center
+  background-size 15px
+  &:hover
+    background-color action-blue
+  &.light
+    &:hover
+      background-color transparent
+
 .dropdown
   background-color white
   box-shadow 1px 1px 6px 1px rgba(17,17,17,0.15)
   min-width 120px
   li
+    display block
+    padding 0
+    margin: 0
     a, span
       text-decoration none
       width 100%
       padding 12px 14px 8px 14px
       color base-step2
       font-size font-size-base
+      line-height font-size-base
       display block
       &:hover
         background-color action-blue

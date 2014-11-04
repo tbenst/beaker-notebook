@@ -1,0 +1,20 @@
+h1.user-edit-page-message(ng-if='message') {{message}}
+h2 Edit User
+br
+form.user-edit(name='editUserForm', ng-submit='editUser(editUserForm.$valid)')
+  label.full(for='name') Name:
+  input.user-form(ng-model='user.name', type='text', name='name', id='name', required)
+  br
+  label.full(for='email') Email:
+  input.user-form(ng-model='user.email', type='email', name='email', id='email', required)
+  br
+  label.full(for='current-password') Current Password:
+  input.user-form(ng-model='user.currentPassword', type='password', name='currentPassword',id='current-password', required)
+  p Enter password to update user
+  a(ng-click="toggleEditMode()") Change Password
+  br
+  label.full(ng-show='editMode', for='new-password') New Password:
+  input.user-form(ng-show='editMode', ng-model='user.newPassword', type='password', name='newPassword', id='new-password', ng-minlength=6)
+  p(ng-show='editUserForm.newPassword.$invalid && !editUserForm.newPassword.$pristine') Password must be at least 6 chars
+  br
+  input(type='submit', value='Update')
