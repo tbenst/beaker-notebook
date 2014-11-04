@@ -273,4 +273,15 @@ module.exports = function() {
     .should.eventually.eql(_.pluck(table.hashes(), 'name'));
   });
 
+  this.When(/^I navigate away from the projects tab$/, function() {
+    return new this.Widgets.MainNav().visitMarketPlace();
+  });
+
+  this.When(/^I wait for the notebook to load$/, function() {
+    return new this.Widgets.Notebook().waitForBeaker();
+  });
+
+  this.When(/^my notebook should remain open in the background$/, function() {
+    return new this.Widgets.BeakerFrame().isPresent().should.eventually.equal(true);
+  });
 }

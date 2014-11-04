@@ -24,7 +24,7 @@ html(ng-app="bunsen")
             li
               a.nav-item.publications(ui-sref-active='nav-item-active', ui-sref="publications.items") Publications
           .cl
-      .contain
+      #beaker-container.contain
         #root(ui-view="root")
           != content
       modal(ng-show="modalShown")
