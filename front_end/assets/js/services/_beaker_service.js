@@ -4,16 +4,8 @@
 
     return {
       whenReady: function() {
-        var _this = this;
-
-        return this.beakerUrl()
-        .then(this.waitForReady.bind(this), function(e) {
-          if (e.status == 404) {
-            // instance hasn't been provisioned yet, so provision one
-            return _this.provision()
-            .then(_this.waitForReady.bind(_this));
-          }
-        });
+        return this.provision()
+        .then(this.waitForReady.bind(this));
       },
 
       beaker: function() {
