@@ -15,7 +15,7 @@ Bunsen API Server
 
 ### Generating new migrations
 
-* (this can be run outside of the container) `docker run app --new_migration=migration_name`
+* (this can be run outside of the container) `docker run -v /vagrant/app:/var/app app --new-migration=migration_name`
 
 ### Reseed database
 This task will drop the development DB, recreate it, run migrations, and then reseed the data.
