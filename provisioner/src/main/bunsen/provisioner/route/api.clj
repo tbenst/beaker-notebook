@@ -1,4 +1,6 @@
 (ns bunsen.provisioner.route.api)
 
-(def status
-  {"/api/v1/status" :status})
+(def routes
+  {"/api/v1" {"/status" :status
+              "/instance" {"" :instances
+                           ["/" :id] :instance}}})
