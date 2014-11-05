@@ -10,7 +10,7 @@ module.exports = function(app) {
       var searchParams = _.pick(req.query, ['category_id']);
 
       Publication.query({ where: searchParams })
-      .fetchAll()
+      .fetchAll({ withRelated: 'author' })
       .then(function(publications) {
         _.each(publications.models, function(publication) {
           publication.set('languages', Publication.languages(publication.get('contents')));
@@ -34,6 +34,7 @@ module.exports = function(app) {
         return notebook.getData().then(function(data) {
           return Publication.forge({
             notebookId: req.body.id,
+            userId: req.user.id,
             name: notebook.get('name'),
             contents: data,
             description: req.body.description,

@@ -41,6 +41,16 @@ Feature: Publications
       | name       | languages         |
       | top secret | Ht, Py, R, Gr, JS |
 
+  Scenario: Author Info in publication list
+    When I view my projects
+    And I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    And I go to publish the notebook
+    And I publish the notebook
+    Then I should see that the notebook is published
+    When I view the publications page
+    Then I should see my author info in the first publication
+
   Scenario: Deleting a Publication
     Given the notebook "top secret" is published
     And I view my projects

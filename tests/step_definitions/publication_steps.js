@@ -231,6 +231,18 @@ module.exports = function() {
     });
   });
 
+  this.Then(/^I should see my author info in the first publication$/, function() {
+    return new this.Widgets.PublicationList().at(0).then(function(publication) {
+      return publication.author().should.eventually.equal('joe research')
+      .then(function() {
+        return publication.authorJobTitle().should.eventually.contain('Researcher');
+      })
+      .then(function() {
+        return publication.authorCompany().should.eventually.equal('Two Sigma');
+      });
+    });
+  });
+
   this.When(/^I search for publication "([^"]*)"$/, function (searchText) {
     var publicationSearch = new this.Widgets.PublicationSearch;
     return publicationSearch.search(searchText);
