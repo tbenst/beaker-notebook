@@ -1,7 +1,9 @@
 var _ = require('lodash');
+var PasswordResetException = require('../lib/password_reset_exception');
 
 module.exports = function(app) {
   var User = app.Models.User;
+  var FPR  = app.Models.ForgotPasswordRequests;
 
   return {
     authenticate: function (req, res, next) {
@@ -42,6 +44,28 @@ module.exports = function(app) {
           }
         })
         .catch(next);
+    },
+
+    forgotPassword: function(req, res, next) {
+      FPR.sendRequest(req.body)
+        .then(function() {
+          res.status(200).end();
+        })
+        .catch(next);
+    },
+
+    changePassword: function(req, res, next) {
+      User.changePassword(req.body)
+        .then(function() {
+          res.status(200).end();
+        })
+        .catch(function(err) {
+          if (err instanceof PasswordResetException){
+            res.status(403).send(err.message);
+          } else {
+            res.status(500).send(err.message);
+          }
+        });
     }
   }
 }
