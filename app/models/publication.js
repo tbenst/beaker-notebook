@@ -6,6 +6,10 @@ module.exports = function(Bookshelf, app) {
 
     notebook: function() {
       return this.belongsTo(app.Models.Notebook);
+    },
+
+    author: function() {
+      return this.belongsTo(app.Models.User);
     }
   });
 
