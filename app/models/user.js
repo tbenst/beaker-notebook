@@ -127,8 +127,7 @@ module.exports = function(Bookshelf, app) {
               var password = attrs.newPassword ? attrs.newPassword : attrs.currentPassword;
               attrs = _.omit(attrs, 'currentPassword', 'newPassword');
               _.extend(attrs, { password: password })
-              return _this.save(attrs)
-                .then(User.sanitize)
+              return _this.save(attrs);
             })
         })
     }
@@ -149,10 +148,6 @@ module.exports = function(Bookshelf, app) {
     findOneWhere: function(attrs) {
       return User.forge(attrs)
       .fetch()
-    },
-
-    sanitize: function(user) {
-      return _.pick(user.attributes, 'name', 'email', 'id');
     },
 
     signUp: function(attrs) {

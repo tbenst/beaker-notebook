@@ -1,6 +1,8 @@
 var _ = require("lodash");
 
 module.exports = function(app) {
+  var userParams = ['name', 'email', 'id', 'jobTitle', 'company', 'bio'];
+
   return {
     subscribe: function(req, res, next) {
       req.user.addSubscription(req.params.index, req.params.data_set_id)
@@ -17,14 +19,18 @@ module.exports = function(app) {
     },
 
     get: function (req, res, next) {
-      res.json(app.Models.User.sanitize(req.user))
+      res.json(_.pick(req.user.attributes, userParams))
     },
 
     update: function (req, res, next) {
-      var attrs = _.pick(req.body, 'name', 'email', 'currentPassword', 'newPassword');
+      var attrs = _(req.body)
+        .pick(userParams.concat('currentPassword', 'newPassword'))
+        .omit('id')
+        .value();
+
       req.user.update(attrs)
         .then(function (user) {
-          res.json(user);
+          res.json(_.pick(user.attributes, userParams));
         })
         .catch(function (err) {
           var statusCode = 500;
