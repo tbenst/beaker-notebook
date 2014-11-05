@@ -119,6 +119,10 @@ module.exports = function() {
 
   this.Given(/^I am viewing the project dashboard$/, viewProjectDashboard);
 
+  this.When(/^I navigate to my projects$/, function() {
+    return this.driver.get(this.route.projectDashboard);
+  });
+
   this.When(/^I cancel deleting the project$/, function(callback) {
     return new this.Widgets.Modal().cancel();
   });

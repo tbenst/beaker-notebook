@@ -1,1 +1,8 @@
-h1 hello bunsen
+.header
+  .header-content
+    .col-two-thirds
+      img.main-logo(src="images/header_logo@2x.png")
+      p.header-copy.welcome
+        Beaker is a notebook-style development environment for working interactively with large and complex datasets. Its plugin-based architecture allows you to switch between languages or add new ones with ease, ensuring that you always have the right tool for any of your analysis and visualization needs.
+    .col-third.cta(ng-hide='$session.currentUser')
+      a.btn.large.alt(ui-sref="signIn") Sign In
