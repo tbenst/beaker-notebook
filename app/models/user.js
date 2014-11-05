@@ -4,6 +4,8 @@ var Bcrypt                = Promise.promisifyAll(require("bcryptjs"));
 var Checkit               = require('checkit');
 var Crypto                = require('crypto');
 var CryptoLib             = require('../lib/crypto');
+var moment                = require('moment');
+var PasswordResetException = require('../lib/password_reset_exception');
 
 function encryptPassword(password) {
   return Bcrypt.hashAsync(password, 10);
@@ -178,6 +180,31 @@ module.exports = function(Bookshelf, app) {
               return user.setToken();
             });
         });
+    },
+
+    changePassword: function(attrs) {
+      function isExpired(rpr) {
+        return moment().utc().diff(moment(new Date(rpr.get('createdAt'))).utc(), 'hours') >=24;
+      };
+
+      return app.Models.ForgotPasswordRequests.forge({requestId: attrs.requestId})
+      .fetch()
+      .then(function(resetPasswordRequest) {
+        if (!resetPasswordRequest) {
+          throw new PasswordResetException('Password link is invalid or has already been used');
+        } else if (isExpired(resetPasswordRequest)) {
+          resetPasswordRequest.destroy();
+          throw new PasswordResetException('Sorry your request has expired');
+        } else {
+          return User.forge({id: resetPasswordRequest.get('userId')}).fetch()
+            .then(function(user) {
+              return user.save({password: attrs.password})
+                .then(function() {
+                  return resetPasswordRequest.destroy();
+                })
+            })
+        }
+      })
     }
   });
 
