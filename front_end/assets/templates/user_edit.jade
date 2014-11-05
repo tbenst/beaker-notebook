@@ -8,6 +8,15 @@ form.user-edit(name='editUserForm', ng-submit='editUser(editUserForm.$valid)')
   label.full(for='user-email') Email:
   input.user-form(ng-model='user.email', type='email', name='email', id='user-email', required)
   br
+  label.full(for='user-job-title') Job Title:
+  input.user-form(ng-model='user.jobTitle', type='text', name='job_title', id='user-job-title')
+  br
+  label.full(for='user-company') Company:
+  input.user-form(ng-model='user.company', type='text', name='company', id='user-company')
+  br
+  label.full(for='user-bio') Bio:
+  textarea.user-form(ng-model='user.bio', type='text', name='bio', id='user-bio')
+  br
   label.full(for='user-current-password') Current Password:
   input.user-form(ng-model='user.currentPassword', type='password', name='currentPassword',id='user-current-password', required)
   p Enter password to update user

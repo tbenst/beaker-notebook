@@ -1,7 +1,7 @@
 var _ = require("lodash");
 
 module.exports = function(app) {
-  var userParams = ['name', 'email', 'id'];
+  var userParams = ['name', 'email', 'id', 'jobTitle', 'company', 'bio'];
 
   return {
     subscribe: function(req, res, next) {
