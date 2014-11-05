@@ -37,6 +37,18 @@ module.exports = function() {
       return this.read('h2 a');
     },
 
+    author: function() {
+      return this.read('.author .name');
+    },
+
+    authorJobTitle: function() {
+      return this.read('.author .job-title');
+    },
+
+    authorCompany: function() {
+      return this.read('.author .company');
+    },
+
     languages: function() {
       return this.findAll('language-icon').then(function(languageIcons) {
         return languageIcons.invoke('read').then(function(languages) {

@@ -7,7 +7,10 @@ module.exports = function() {
     data: {
       name: 'joe research',
       email: 'u@r.edu',
-      password: 'password'
+      password: 'password',
+      job_title: 'Researcher',
+      company: 'Two Sigma',
+      bio: 'I got data all around me'
     }
   };
 
