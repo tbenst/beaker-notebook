@@ -18,6 +18,7 @@
     "angular-underscore-string": "0.1.1",
     "highlightjs": "8.3.0",
     "marked": "0.3.2",
-    "angular-marked": "0.0.12"
+    "angular-marked": "0.0.12",
+    "angular-ui-grid": "~3.0.0-rc.12"
   }
 }

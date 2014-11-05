@@ -18,7 +18,9 @@
      'angularSpinner',
      'ngSanitize',
      'hljs',
-     'hc.marked'
+     'hc.marked',
+     'ui.grid',
+     'ui.grid.autoResize'
     ], ['RestangularProvider', function(RestangularProvider) {
       RestangularProvider.setBaseUrl('/api');
     }]);

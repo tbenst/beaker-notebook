@@ -19,3 +19,4 @@
 #= require "../../bower_components/angular-highlightjs/angular-highlightjs.js"
 #= require "../../bower_components/marked/lib/marked.js"
 #= require "../../bower_components/angular-marked/angular-marked.js"
+#= require "../../bower_components/angular-ui-grid/ui-grid.js"
