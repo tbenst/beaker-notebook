@@ -19,7 +19,9 @@ RUN apt-get update && \
       node-lodash-contrib \
       node-minimist \
       node-mkdirp \
+      node-moment \
       node-nodegit \
+      node-mailer \
       node-pg \
       node-pm2 \
       node-qs \
