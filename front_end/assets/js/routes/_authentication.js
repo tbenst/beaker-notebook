@@ -5,7 +5,6 @@
     function setRoutes(
       $stateProvider,
       $urlRouterProvider) {
-
         $stateProvider
           .state('signIn', {
             url: '/sign_in',
@@ -38,6 +37,26 @@
               root: {
                 controller: 'authentication',
                 template: templates.sign_up
+              }
+            }
+          })
+          .state('retrievePassword', {
+            url: '/retrieve_password',
+            skipAuth: true,
+            views: {
+              root: {
+                controller: 'authentication',
+                template: templates.forgot_password
+              }
+            }
+          })
+          .state('changePassword', {
+            url: '/change_password?id',
+            skipAuth: true,
+            views: {
+              root: {
+                controller: 'authentication',
+                template: templates.change_password
               }
             }
           });
