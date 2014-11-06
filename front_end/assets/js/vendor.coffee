@@ -15,7 +15,8 @@
 #= require "../../bower_components/underscore.string/lib/underscore.string.js"
 #= require "../../bower_components/angular-underscore-string/angular-underscore-string.js"
 #= require "../../bower_components/angular-sanitize/angular-sanitize.js"
-#= require "../../bower_components/highlightjs/highlight.pack.js
-#= require "../../bower_components/angular-highlightjs/angular-highlightjs.js
-#= require "../../bower_components/marked/lib/marked.js
-#= require "../../bower_components/angular-marked/angular-marked.js
+#= require "../../bower_components/highlightjs/highlight.pack.js"
+#= require "../../bower_components/angular-highlightjs/angular-highlightjs.js"
+#= require "../../bower_components/marked/lib/marked.js"
+#= require "../../bower_components/angular-marked/angular-marked.js"
+#= require "../../bower_components/angular-ui-grid/ui-grid.js"
