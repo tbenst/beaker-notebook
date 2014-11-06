@@ -3,8 +3,7 @@ var Promise               = require('bluebird');
 var Bcrypt                = Promise.promisifyAll(require("bcryptjs"));
 var Checkit               = require('checkit');
 var Crypto                = require('crypto');
-if(!process.env.CIPHER_KEY) { throw new Error('CIPHER_KEY env variable is not set') }
-var cipherKey             = process.env.CIPHER_KEY;
+var CryptoLib             = require('../lib/crypto');
 
 function encryptPassword(password) {
   return Bcrypt.hashAsync(password, 10);
@@ -123,8 +122,7 @@ module.exports = function(Bookshelf, app) {
 
     setToken: function () {
       var u      = _.pick(this.attributes, 'id', 'name', 'email'),
-          cipher = Crypto.createCipher('blowfish', cipherKey),
-          token  = cipher.update(this.attributes.id.toString(), 'utf-8', 'base64') + cipher.final('base64');
+          token  = CryptoLib.encrypt(this.attributes.id.toString());
       return _.extend(u, {token: token})
     },
 
@@ -146,8 +144,8 @@ module.exports = function(Bookshelf, app) {
 
   User = _.extend(User, {
     checkToken: function(token) {
-      var decipher = Crypto.createDecipher('blowfish', cipherKey),
-          id       = parseInt(decipher.update(token, 'base64', 'utf-8') + decipher.final('utf-8'));
+      var id = parseInt(CryptoLib.decrypt(token));
+
       return new User({id: id}).fetch({ require: true })
         .then(function (user) {
           user.attributes = _.omit(user.attributes, 'password');
