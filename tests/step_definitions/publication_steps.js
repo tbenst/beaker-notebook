@@ -151,6 +151,10 @@ module.exports = function() {
     return new this.Widgets.PublicationCategoriesList().clickCategory(category);
   });
 
+  this.Then(/^The category has the description "([^"]*)"$/, function(description) {
+    return new this.Widgets.PublicationCategoryHero().description().should.eventually.equal(description);
+  });
+
   this.When(/^I go to publish the notebook$/, function() {
     return new this.Widgets.Notebook().openPublishModal();
   });

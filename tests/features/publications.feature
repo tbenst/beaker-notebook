@@ -104,14 +104,15 @@ Feature: Publications
 
   Scenario: Publication categories
     Given I have the following publication categories:
-      | name       |
-      | Energy     |
+      | name       | description          |
+      | Energy     | Energy is energetic. |
     Given there are 2 publications for the project "random"
     And there are 3 publications in the "Energy" category
     When I view the publications page
     Then I should see 5 publication results on the page
     When I click the "Energy" category
     Then I should see 3 publication results on the page
+    And The category has the description "Energy is energetic."
     When I click the "All" category
     Then I should see 5 publication results on the page
 
