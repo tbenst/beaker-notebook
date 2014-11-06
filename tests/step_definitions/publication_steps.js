@@ -243,6 +243,10 @@ module.exports = function() {
     });
   });
 
+  this.Then(/^I should see the following top contributors:$/, function(table) {
+    return new this.Widgets.TopContributorList().contents().should.eventually.eql(table.hashes());
+  });
+
   this.When(/^I search for publication "([^"]*)"$/, function (searchText) {
     var publicationSearch = new this.Widgets.PublicationSearch;
     return publicationSearch.search(searchText);

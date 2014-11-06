@@ -1,6 +1,7 @@
 ;(function(app) {
   app.controller('publicationsRoot', ['$scope', 'Factories', '$state', function($scope, Factories, $state) {
     $scope.publications = {};
+    $scope.contributors = {};
 
     $scope.byPublicationFilter = function(p) {
       if (!$scope.publications.search) {return true}

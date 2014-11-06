@@ -1,0 +1,9 @@
+.contributors.sidebar-box.light
+  h3 Top Contributors
+  .content
+    ul
+      li.contributor(ng-repeat="contributor in contributors.list")
+        .name
+          strong {{contributor.name}}
+        .job-title {{contributor.jobTitle}}
+        .company {{contributor.company}}
