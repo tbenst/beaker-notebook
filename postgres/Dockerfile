@@ -1,4 +1,4 @@
-FROM mojo/debian
+FROM quay.io/mojotech/debian
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
 RUN apt-get update && \
@@ -18,4 +18,3 @@ VOLUME /var/lib/postgresql/9.3/main
 
 CMD []
 ENTRYPOINT ["/main.sh"]
-
