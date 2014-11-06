@@ -244,7 +244,16 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the following top contributors:$/, function(table) {
-    return new this.Widgets.TopContributorList().contents().should.eventually.eql(table.hashes());
+    var expectedValues = _.map(table.hashes(), function(row) {
+      var hash = require('crypto').createHash('md5').update(row.gravatar_email).digest('hex');
+      var expected_icon_src = 'http://www.gravatar.com/avatar/' + hash + '?d=retro&size=50';
+      delete row.gravatar_email;
+      row.icon_src = expected_icon_src;
+
+      return row;
+    });
+
+    return new this.Widgets.TopContributorList().contents().should.eventually.eql(expectedValues);
   });
 
   this.When(/^I search for publication "([^"]*)"$/, function (searchText) {

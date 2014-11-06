@@ -3,7 +3,9 @@
   .content
     ul
       li.contributor(ng-repeat="contributor in contributors.list")
+        img.icon(ng-src="{{contributor.gravatar}}&size=50")
         .name
           strong {{contributor.name}}
         .job-title {{contributor.jobTitle}}
         .company {{contributor.company}}
+        .cl

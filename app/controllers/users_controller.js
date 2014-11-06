@@ -16,6 +16,11 @@ module.exports = function(app) {
         .limit(5)
       })
       .fetchAll()
+      .then(function(contributors) {
+        return _.map(contributors.models, function(contributor) {
+          return contributor.set('gravatar', contributor.gravatar());
+        });
+      })
       .then(res.json.bind(res))
       .catch(next);
     },

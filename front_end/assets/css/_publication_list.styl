@@ -1,7 +1,4 @@
 .author, .contributor
-  line-height 18px
-  margin-bottom 10px
-
   .name
     font-size 14px
     margin-left 1px
@@ -9,8 +6,28 @@
   .job-title
     font-style italic
 
-  span.company
+.author
+  line-height 18px
+  margin-bottom 10px
+
+  .company
     margin-left 6px
 
-.contributor:last-of-type
-  margin-bottom 0
+.contributor
+  line-height 16px
+  margin-bottom 18px
+
+  &:last-of-type
+    margin-bottom 0
+
+  .icon
+    width 50px
+    height 50px
+    border-radius 50px
+    overflow hidden
+    float left
+    margin-right 15px
+    box-shadow 3px 3px 9px rgba(0,0,0,0.3)
+
+  .name
+    padding-top 3px
