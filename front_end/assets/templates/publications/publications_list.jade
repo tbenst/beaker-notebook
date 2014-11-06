@@ -7,7 +7,7 @@
         .name
           strong {{publication.author.name}}
         .info
-          span.job-title {{publication.author.jobTitle}},
+          span.job-title(ng-if="publication.author.jobTitle") {{publication.author.jobTitle}},
           span.company {{publication.author.company}}
       p.description {{publication.description | words : 30 }}
       ul.language-icons
