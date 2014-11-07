@@ -21,6 +21,7 @@ module.exports = [
     model: 'PublicationCategory',
     data: {
       name: 'Energy',
+      description: "This is a description for energy"
     }
   },
   {
