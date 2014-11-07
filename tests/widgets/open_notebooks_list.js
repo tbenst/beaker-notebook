@@ -23,6 +23,10 @@ module.exports = function() {
           return item.click('.close-notebook');
         });
       }.bind(this));
+    },
+
+    activeNotebook: function() {
+      return this.read('.active')
     }
 
   });

@@ -264,3 +264,8 @@ Feature: Use Notebooks
     And I wait for the notebook to load
     And I navigate away from the projects tab
     Then my notebook should remain open in the background
+
+  Scenario: Highlight current notebook
+    And I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    Then the "top secret" notebook should be active
