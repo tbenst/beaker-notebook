@@ -1,15 +1,15 @@
 module.exports = function(Bookshelf, app) {
   var PublicationCategory = Bookshelf.Model.extend({
     tableName: 'publication_categories',
-
+    hasTimestamps: true,
     publications: function() {
       return this.hasMany(app.Models.PublicationCategory);
     }
   });
 
   PublicationCategory.fetchAllWithCount = function() {
-    var publicationsTable = app.Models.Publication.__super__.tableName;
-    var publicationCategoryTable = app.Models.PublicationCategory.__super__.tableName;
+    var publicationsTable = app.Models.Publication.prototype.tableName;
+    var publicationCategoryTable = app.Models.PublicationCategory.prototype.tableName;
 
     return Bookshelf.knex.raw('SELECT p.*, COALESCE(t1.p_count,0) AS count ' +
                               'FROM ' + publicationCategoryTable + ' p ' +

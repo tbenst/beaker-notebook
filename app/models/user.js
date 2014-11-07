@@ -14,7 +14,7 @@ module.exports = function(Bookshelf, app) {
   var query   = Bookshelf.knex;
   var User    = Bookshelf.Model.extend({
     tableName: "users",
-
+    hasTimestamps: true,
     idAttrs: ["email"],
 
     validations: {

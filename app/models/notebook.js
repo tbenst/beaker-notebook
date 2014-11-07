@@ -67,7 +67,7 @@ function Notebook(Bookshelf, app) {
 
   var Notebook = Bookshelf.Model.extend({
     tableName: "notebooks",
-
+    hasTimestamps: true,
     idAttrs: ["name", "projectId"],
 
     initialize: function() {

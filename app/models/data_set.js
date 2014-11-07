@@ -19,7 +19,7 @@ module.exports = function(Bookshelf, app) {
 
   var DataSet = Bookshelf.Model.extend({
     tableName: 'data_sets',
-
+    hasTimestamps: true,
     idAttrs: ["title"],
 
     initialize: function() {
