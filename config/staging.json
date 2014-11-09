@@ -1,0 +1,70 @@
+{
+  "web": {
+    "id": "/bunsen/staging/web",
+    "cmd": "",
+    "cpus": 1,
+    "mem": 512,
+    "instances": 1,
+    "container": {
+      "type": "DOCKER",
+      "docker": {
+        "network": "BRIDGE",
+        "image": "quay.io/mojotech/bunsen-web",
+        "portMappings": [
+          {
+            "containerPort": 8080,
+            "hostPort": 0,
+            "servicePort": 8080,
+            "protocol": "tcp"
+          }
+        ]
+      }
+    },
+    "uris": [
+        "file:///etc/.dockercfg"
+    ]
+  },
+  "api": {
+    "id": "/bunsen/staging/api",
+    "cmd": "",
+    "cpus": 1,
+    "mem": 512,
+    "instances": 1,
+    "container": {
+      "type": "DOCKER",
+      "docker": {
+        "network": "BRIDGE",
+        "image": "quay.io/mojotech/bunsen-api",
+        "portMappings": [
+          {
+            "containerPort": 3000,
+            "hostPort": 0,
+            "servicePort": 3000,
+            "protocol": "tcp"
+          }
+        ]
+      },
+      "volumes": [
+        {
+        "hostPath": "/mnt/lustre/bunsen/repos",
+        "containerPath": "/var/app/.repos",
+        "mode": "RW"
+        }
+      ]
+    },
+    "env": {
+      "NODE_ENV": "development",
+      "CIPHER_KEY": "Auj/QL_WU[xX64p+1TB81m6AD6wSCl",
+      "EXTERNAL_DB_HOST": "bunsen-staging-db.cyuqbkun2hqi.us-east-1.rds.amazonaws.com",
+      "EXTERNAL_DB_USER": "bunsen",
+      "EXTERNAL_DB_PASS": "FSoq93X8KuyQN6333EV3411zf",
+      "EXTERNAL_DB_NAME": "bunsen_staging",
+      "ELASTICSEARCH_PORT_9200_TCP_ADDR": "10.0.1.195",
+      "ELASTICSEARCH_PORT_9200_TCP_PORT": "9200"
+    },
+    "uris": [
+      "file:///etc/.dockercfg"
+    ]
+  }
+
+}
