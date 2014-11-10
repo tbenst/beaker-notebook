@@ -1,41 +1,11 @@
 .landing
+  @import "landing/_social"
+  @import "landing/_header"
+  @import "landing/_nav"
+  @import "landing/_markdown"
+
   > .contain
     width: auto
-  > .main-nav
-    margin-bottom: 0
+  > .main-nav, > .app-header
+    display: none
 
-.header-copy
-  padding-top: 5px
-  line-height: 140%
-  font-family: $font-family-primary-bold
-  font-size: 17px
-
-.header
-  height: 526px
-  background: url("../images/hero.jpg") center center no-repeat;
-  color: #FFF
-  background-size: cover;
-  border: 1px solid transparent
-
-.cta
-  margin-top: 117px
-  font-family: $font-family-primary-bold
-  padding-right: 11%
-  text-align: right
-
-  .btn
-    font-size: 19px
-    padding: 20px 31px
-
-.header-content
-  width: 960px
-  margin: 0 auto
-  padding: 200px 25px 25px
-
-.main-logo
-  max-width: 526px
-  width: 100%
-  transform: translateX(-18.8%)
-  transition: all 300ms
-  @media (max-width: 1050px)
-    transform: translateX(0%)
