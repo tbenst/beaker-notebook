@@ -10,3 +10,6 @@ form.sign-up(name='signUpForm', ng-submit="signUp(signUpForm.$valid)")
   p(ng-show="showPasswordValidationErrorMessage(signUpForm)") Password must be at least 6 characters
   br
   input(type="submit", value="Sign up")
+
+.loading(ng-if="loading")
+  .spinner(us-spinner="{lines: 12, radius:5, width:3, length: 5, corners: 0, speed: 0.6, trail: 40, color: '#3f5264'}")
