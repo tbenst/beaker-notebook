@@ -30,7 +30,7 @@ function appConfig(app) {
   var AuthController = app.Controllers.AuthController;
 
   // all environments
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', process.env.APP_PORT || 3000);
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'jade');
   app.use(express.favicon());

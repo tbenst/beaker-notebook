@@ -1,5 +1,4 @@
-# DOCKER-VERSION 0.11.1
-FROM mojo/debian
+FROM quay.io/mojotech/debian
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
 RUN apt-get update && \

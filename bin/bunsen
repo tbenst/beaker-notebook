@@ -1,0 +1,122 @@
+#!/usr/bin/env bash
+
+set -o errexit -o pipefail -o nounset
+
+NAME=bunsen
+VERSION=0.0.1
+CONFIG="$(cat $BUNSEN_CONFIG)"
+
+#
+# main functions
+#
+
+function print_main_help {
+  cat <<EOF
+Usage: $NAME [options] <command> [<arguments>]
+
+Options:
+  -h, --help      print help
+  -v, --version   print version
+
+Commands:
+  deploy          deploy service
+EOF
+}
+
+function print_main_version {
+  printf "Version: %s\n" "$VERSION";
+}
+
+function print_error {
+  printf "Error: %s\n" "$*" >&2
+}
+
+function main {
+  while [[ $# > 0 ]]; do
+    case "$1" in
+      --) shift; break ;;
+      -h|--help) print_main_help; exit 1 ;;
+      -v|--version) print_main_version; exit 1 ;;
+      -*) print_error "unknown option" \"$1\"; exit 1 ;;
+      *) break ;;
+    esac
+    shift
+  done
+
+  case "${1+$1}" in
+    d*) deploy "${@:2}" ;;
+    "") print_error "missing <command>"; exit 1 ;;
+    *) print_error "unknown <command>" \"$1\"; exit 1 ;;
+  esac
+}
+
+#
+# deploy command functions
+#
+
+function print_deploy_help {
+  cat <<EOF
+Usage: $NAME deploy [options] <service>...
+
+Options:
+  -h, --help    print help
+EOF
+}
+
+function print_deploy_version {
+  print_main_version
+}
+
+function get {
+  jq -r -c -e ".$1 // \"\"" <<<"$CONFIG"
+}
+
+function deploy {
+  local id
+  local data
+
+  while [[ $# > 0 ]]; do
+    case "$1" in
+      --) shift; break ;;
+      -h|--help) print_deploy_help; exit 1 ;;
+      -*) print_error "unknown option" \"$1\"; exit 1 ;;
+      *) break ;;
+    esac
+    shift
+  done
+
+  [[ $# -eq 0 ]] && { print_error "missing <service>"; exit 1; }
+
+  for s in "$@"; do
+    id=$(get "$s.id")
+
+    [[ -n "$id" ]] || { print_error "missing <service>.id"; exit 1; }
+
+    if (set +e; marathon GET "apps/$id" 2>/dev/null | jq '.'); then
+      marathon PUT "apps/$id" "$(get "$s")" | jq '.'
+    else
+      marathon POST "apps" "$(get "$s")" | jq '.'
+    fi
+  done
+}
+
+#
+# helpers
+#
+
+function marathon {
+  curl \
+    -sSfL \
+    -X "$1" \
+    -u "$MARATHON_USER:$MARATHON_PASS" \
+    -H "Accept: application/json" \
+    -H "Content-Type: application/json" \
+    "$MARATHON_HOST/v2/$2" \
+    ${3+-d "$3"}
+}
+
+#
+# entrypoint
+#
+
+main "$@"
