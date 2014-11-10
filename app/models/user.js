@@ -70,7 +70,12 @@ module.exports = function(Bookshelf, app) {
     },
 
     gravatar: function() {
-      var email = this.get('email').trim().toLowerCase();
+      var email = this.get('email');
+
+      // If a user does not have an email yet
+      // default to an empty string.
+      email = email ? email.trim().toLowerCase() : "";
+
       var hash = Crypto.createHash('md5').update(email).digest('hex');
       return 'http://www.gravatar.com/avatar/' + hash + '?d=retro';
     },
