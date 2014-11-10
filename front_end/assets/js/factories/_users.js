@@ -6,6 +6,10 @@
       getUser: function() {
         return R.one('users').customGET('current');
       },
+
+      getContributors: function() {
+        return R.all('contributors').getList();
+      }
     };
   }]);
 })(angular, window.bunsen);

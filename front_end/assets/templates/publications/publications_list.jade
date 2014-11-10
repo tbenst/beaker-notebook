@@ -1,3 +1,6 @@
+.sidebar-right
+  contributors
+
 .main-content.publications
   ul.publication-list.bunsen-list
     li.bunsen-list-item(ng-repeat="publication in publications.list | filter:byPublicationFilter | orderBy:'createdAt':true")
@@ -7,7 +10,7 @@
         .name
           strong {{publication.author.name}}
         .info
-          span.job-title {{publication.author.jobTitle}},
+          span.job-title(ng-if="publication.author.jobTitle") {{publication.author.jobTitle}},
           span.company {{publication.author.company}}
       p.description {{publication.description | words : 30 }}
       ul.language-icons

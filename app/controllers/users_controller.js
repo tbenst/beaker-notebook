@@ -1,9 +1,30 @@
 var _ = require("lodash");
 
 module.exports = function(app) {
-  var userParams = ['name', 'email', 'id', 'jobTitle', 'company', 'bio'];
+  var User = app.Models.User,
+      userParams = ['name', 'email', 'id', 'jobTitle', 'company', 'bio'];
 
   return {
+    contributors: function(req, res, next) {
+      User.query(function(qb) {
+        qb.select('users.*')
+        .count('publications.id as publication_count')
+        .from('users')
+        .rightJoin('publications', 'users.id', 'publications.user_id')
+        .groupBy('users.id')
+        .orderBy('publication_count', 'desc')
+        .limit(5)
+      })
+      .fetchAll()
+      .then(function(contributors) {
+        return _.map(contributors.models, function(contributor) {
+          return contributor.set('gravatar', contributor.gravatar());
+        });
+      })
+      .then(res.json.bind(res))
+      .catch(next);
+    },
+
     subscribe: function(req, res, next) {
       req.user.addSubscription(req.params.index, req.params.data_set_id)
         .then(function() {
