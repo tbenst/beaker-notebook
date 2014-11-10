@@ -21,9 +21,11 @@
     };
 
     $scope.submit = function() {
+      $scope.loading = true;
       Restangular.all('authenticate').post($scope.user)
         .then(signIn)
         .catch(function(err) {
+          $scope.loading = false;
           $scope.message = 'Error: Invalid user or password';
         });
     };
