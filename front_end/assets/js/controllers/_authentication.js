@@ -7,6 +7,7 @@
       $sessionStorage.currentUser = d;
       $scope.message = 'You are signed in.'
       $http.defaults.headers.common['User-Token'] = d.token;
+      $scope.loading = false;
       if ($rootScope.goTo) {
         $state.go($rootScope.goTo);
         delete $rootScope.goTo;
@@ -29,9 +30,11 @@
 
     $scope.signUp = function (isValid) {
       if(isValid) {
+        $scope.loading = true;
         Restangular.all('sign_up').post($scope.user)
           .then(signIn)
           .catch(function(err) {
+            $scope.loading = false;
             $scope.message = 'Error: Invalid user or password';
           });
         } else {
