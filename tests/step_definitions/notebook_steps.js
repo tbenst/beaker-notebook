@@ -284,4 +284,8 @@ module.exports = function() {
   this.When(/^my notebook should remain open in the background$/, function() {
     return new this.Widgets.BeakerFrame().isPresent().should.eventually.equal(true);
   });
+
+  this.Then(/^the "([^"]*)" notebook should be active$/, function(notebook) {
+    return new this.Widgets.OpenNotebookList().activeNotebook().should.eventually.equal(notebook)
+  });
 }

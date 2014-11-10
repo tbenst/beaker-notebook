@@ -26,6 +26,10 @@
       });
     }
 
+    $scope.isViewingNotebook = function (notebookId) {
+       return $state.includes('projects.items.item.notebook') && $state.params.notebook_id == notebookId;
+    };
+
     $scope.projects = $scope.projects || {};
     $scope.notebooks = $scope.notebooks || {};
     $scope.searchable = $scope.searchable || {}
