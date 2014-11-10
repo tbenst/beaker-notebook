@@ -71,7 +71,7 @@ module.exports = function() {
         })
       }.bind(this),
         global.timeout,
-        "unable to find category #{category}"
+        "unable to find category " + category
       )
       .then(function() {
         return this.findCategory(category);
