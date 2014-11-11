@@ -1,0 +1,21 @@
+{
+  "Marathon": {
+    "Endpoint": "http://localhost:8080"
+  },
+  "Bamboo": {
+    "Endpoint": "http://localhost:8000",
+    "Zookeeper": {
+      "Host": "localhost:2181",
+      "Path": "/marathon-haproxy/state",
+      "ReportingDelay": 5
+    }
+  },
+  "HAProxy": {
+    "TemplatePath": "/etc/bamboo/haproxy_template.cfg",
+    "OutputPath": "/var/bamboo/haproxy.cfg",
+    "ReloadCommand": "sudo /bin/systemctl reload haproxy"
+  },
+  "StatsD": {
+    "Enabled": false
+  }
+}

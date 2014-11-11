@@ -1,0 +1,2 @@
+%vagrant ALL=(ALL:ALL) NOPASSWD:ALL
+%bamboo  ALL=NOPASSWD: /bin/systemctl reload haproxy

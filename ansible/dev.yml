@@ -1,8 +1,13 @@
 ---
 
-- name: initial setup work
-  hosts: all
+- hosts: all
   roles:
-    - common
+    - apt
+    - sudoers
     - docker
-    - mesos
+    - zookeeper
+    - mesos_master
+    - mesos_slave
+    - marathon
+    - bamboo
+    - haproxy

@@ -23,7 +23,41 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     d.vm.provision :ansible do |a|
       a.playbook   = "ansible/dev.yml"
       a.extra_vars = {
-        docker_options: "--restart=false -H unix:///var/run/docker.sock -H tcp://0.0.0.0:4243"
+        apt_config_files: [
+          "config/apt/preferences",
+          "config/apt/sources.list"
+        ],
+        sudoers_config_file: "config/sudoers",
+        docker_release: "local",
+        docker_options: "--restart=false -H unix:///var/run/docker.sock -H tcp://0.0.0.0:4243 --bip=172.17.42.1/16",
+        zookeeper_config_files: [
+          "config/zookeeper/myid",
+          "config/zookeeper/zoo.cfg"
+        ],
+        mesos_common_services: [
+          "marathon",
+          "mesos-slave",
+          "mesos-master"
+        ],
+        mesos_common_config: {
+          zk: "zk://localhost:2181/mesos"
+        },
+        mesos_master_config: {
+          work_dir: "/var/lib/mesos",
+          quorum: 1
+        },
+        mesos_slave_config: {
+          containerizers: "docker,mesos",
+          executor_registration_timeout: "5mins"
+        },
+        marathon_config: {
+          event_subscriber: "http_callback",
+          task_launch_timeout: 360000
+        },
+        bamboo_config_files: [
+          "config/bamboo/bamboo.json",
+          "config/bamboo/haproxy_template.cfg.j2"
+        ]
       }
     end
   end
