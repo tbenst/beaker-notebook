@@ -1,9 +1,15 @@
 ---
 
-- name: reload systemd
+- name: reload docker options
   sudo: yes
-  shell: /bin/systemctl --system daemon-reload
+  command: /bin/systemctl --system daemon-reload
+  notify:
+    - restart docker
+  tags:
+    - docker
 
 - name: restart docker
   sudo: yes
   service: name=docker state=restarted
+  tags:
+    - docker

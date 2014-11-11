@@ -1,0 +1,27 @@
+---
+
+- name: render sudoers config
+  sudo: yes
+  template: src={{ sudoers_config_file }} dest=/etc/sudoers.d/ansible_sudoers validate='visudo -cf %s' mode=0440
+  tags:
+    - configure
+    - sudoers
+
+- name: search for sudoers files
+  sudo: yes
+  command: >
+    ls -1 /etc/sudoers.d
+  register: sudoers_files
+  changed_when: False
+  tags:
+    - configure
+    - sudoers
+
+- name: remove unmanaged sudoers
+  sudo: yes
+  file: path=/etc/sudoers.d/{{ item }} state=absent
+  when: item != 'ansible_sudoers'
+  with_items: sudoers_files.stdout_lines
+  tags:
+    - configure
+    - sudoers

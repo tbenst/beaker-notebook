@@ -1,0 +1,19 @@
+---
+
+- name: create zookeeper data directory
+  sudo: yes
+  file: path={{ zookeeper_data_directory }} owner={{ zookeeper_user }} group={{ zookeeper_user }} state=directory recurse=yes
+  when: zookeeper_data_directory != ""
+  tags:
+    - initialize
+    - zookeeper
+
+- name: render zookeeper config files
+  sudo: yes
+  template: src={{ item }} dest="/etc/zookeeper/conf/{{ item | basename | regex_replace('(.*).j2$','\\1') }}"
+  with_items: zookeeper_config_files
+  notify:
+    - restart zookeeper
+  tags:
+    - configure
+    - zookeeper

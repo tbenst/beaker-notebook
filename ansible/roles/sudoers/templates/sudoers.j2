@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+{% for a in access if a.hosts == 'all' or a.hosts in group_names -%}
+{% for u in a.admin_users | default([]) -%}
+  {{ u }} ALL=(ALL:ALL) NOPASSWD:ALL
+{% endfor -%}
+{% for g in a.admin_groups | default([]) -%}
+  %{{ g }} ALL=(ALL:ALL) NOPASSWD:ALL
+{% endfor -%}
+{% for e in a.extra | default([]) -%}
+  {{ e }}
+{% endfor -%}
+{% endfor -%}

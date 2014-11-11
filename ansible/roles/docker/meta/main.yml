@@ -1,0 +1,7 @@
+---
+
+dependencies:
+  - role: packages
+    from: docker
+    tags: docker
+    packages: "{{ docker_packages }}"

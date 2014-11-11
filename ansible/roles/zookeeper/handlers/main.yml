@@ -1,0 +1,7 @@
+---
+
+- name: restart zookeeper
+  sudo: yes
+  service: name=zookeeper state=restarted
+  tags:
+    - zookeeper

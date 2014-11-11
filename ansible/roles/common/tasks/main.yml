@@ -1,9 +1,0 @@
----
-
-- name: add vendor source
-  sudo: yes
-  apt_repository: repo='deb http://apt.withmojo.com/debian vendor main'
-
-- name: update apt cache
-  sudo: yes
-  apt: update_cache=yes

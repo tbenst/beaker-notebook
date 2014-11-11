@@ -1,24 +1,46 @@
 ---
 
-- name: install docker
+- name: create docker group
   sudo: yes
-  apt: pkg=lxc-docker default_release=vendor update_cache=true state=latest
+  group: name=docker state=present
+  tags:
+    - initialize
+    - docker
 
-- name: add current user to docker group
+- name: create docker directories
   sudo: yes
-  user: name={{ ansible_ssh_user }} groups=docker append=yes
+  file: path={{ item }} state=directory
+  with_items:
+    - "{{ docker_data_directory }}"
+    - /etc/systemd/system/docker.service.d
+  tags:
+    - initialize
+    - docker
 
-- name: create docker config directory
+- name: render docker config
   sudo: yes
-  file: path="/etc/systemd/system/docker.service.d" state=directory
+  template: src={{ docker_config_file }} dest={{ item }}
+  when: docker_config_file != ""
+  with_items:
+    - /etc/.dockercfg
+    - /root/.dockercfg
+  tags:
+    - configure
+    - docker
 
-- name: set docker config options
+- name: render docker options
   sudo: yes
-  template: src="docker.conf.j2" dest=/etc/systemd/system/docker.service.d/docker.conf
+  template: src={{ docker_options_file }} dest=/etc/systemd/system/docker.service.d/docker.conf
+  when: docker_options_file != ""
   notify:
-    - reload systemd
-    - restart docker
+    - reload docker options
+  tags:
+    - configure
+    - docker
 
 - name: enable docker service
   sudo: yes
-  service: name=docker enabled=yes
+  service: name=docker enabled=yes state=started
+  tags:
+    - start
+    - docker

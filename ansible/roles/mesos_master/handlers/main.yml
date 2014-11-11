@@ -1,0 +1,8 @@
+---
+
+- name: restart mesos-master
+  sudo: yes
+  service: name=mesos-master state=restarted
+  tags:
+    - mesos_master
+    - restart

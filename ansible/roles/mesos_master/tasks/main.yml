@@ -1,0 +1,46 @@
+---
+
+- name: update mesos master config
+  sudo: yes
+  lineinfile: dest="/etc/mesos-master/{{ item.key }}" line={{ item.value }} regexp='.*' create=yes state=present
+  with_dict: mesos_master_config
+  notify:
+    - restart mesos-master
+  tags:
+    - configure
+    - mesos_master
+
+- name: find mesos master config files
+  sudo: yes
+  shell: find /etc/mesos-master ! -type d -name '*'
+  register: found_mesos_master_config
+  changed_when: False
+  tags:
+    - configure
+    - mesos_master
+
+- name: remove unmanaged mesos master config
+  sudo: yes
+  file: path={{ item }} state=absent
+  when: >
+    item | basename not in mesos_master_config.keys()
+  with_items: found_mesos_master_config.stdout_lines
+  notify:
+    - restart mesos-master
+  tags:
+    - configure
+    - mesos_master
+
+- name: copy mesos-leader script
+  sudo: yes
+  copy: src=mesos-leader dest=/usr/local/bin/mesos-leader mode="0755"
+  tags:
+    - configure
+    - mesos_master
+
+- name: start and enable mesos-master
+  sudo: yes
+  service: name=mesos-master state=started enabled=yes
+  tags:
+    - start
+    - mesos_master

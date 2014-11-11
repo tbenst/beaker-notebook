@@ -1,0 +1,40 @@
+---
+
+- name: update mesos slave config
+  sudo: yes
+  lineinfile: dest="/etc/mesos-slave/{{ item.key }}" line={{ item.value }} regexp='.*' create=yes state=present
+  with_dict: mesos_slave_config
+  notify:
+    - restart mesos-slave
+  tags:
+    - configure
+    - mesos_slave
+
+- name: find mesos slave config files
+  sudo: yes
+  shell: find /etc/mesos-slave ! -type d -name '*'
+  register: found_mesos_slave_config
+  changed_when: False
+  tags:
+    - configure
+    - mesos_slave
+
+- name: remove unmanaged mesos slave config
+  sudo: yes
+  file: path={{ item }} state=absent
+  when: >
+    item | basename not in mesos_slave_config.keys()
+  with_items: found_mesos_slave_config.stdout_lines
+  notify:
+    - restart mesos-slave
+  tags:
+    - configure
+    - mesos_slave
+
+
+- name: start and enable mesos-slave
+  sudo: yes
+  service: name=mesos-slave state=started enabled=yes
+  tags:
+    - start
+    - mesos_slave

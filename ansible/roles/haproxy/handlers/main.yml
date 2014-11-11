@@ -1,0 +1,5 @@
+---
+
+- name: reload haproxy
+  sudo: yes
+  service: name=haproxy state=reloaded

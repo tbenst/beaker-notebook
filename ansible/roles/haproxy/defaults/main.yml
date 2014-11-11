@@ -1,0 +1,10 @@
+---
+
+haproxy_release: wheezy
+haproxy_config_file: ""
+haproxy_cert_key_pair_files: []
+
+haproxy_packages:
+  - name: haproxy
+    release: "{{ haproxy_release }}"
+  - socat

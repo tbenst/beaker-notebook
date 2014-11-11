@@ -1,0 +1,10 @@
+---
+
+dependencies:
+  - role: mesos_common
+    from: mesos_master
+    tags: mesos_master
+  - role: packages
+    from: mesos_master
+    tags: mesos_master
+    packages: "{{ mesos_master_packages }}"

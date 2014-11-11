@@ -1,0 +1,5 @@
+---
+
+mesos_slave_config: {}
+mesos_slave_packages:
+  - mesos

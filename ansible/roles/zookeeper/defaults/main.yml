@@ -1,0 +1,8 @@
+---
+
+zookeeper_packages:
+  - zookeeperd
+
+zookeeper_user: zookeeper
+zookeeper_config_files: []
+zookeeper_data_directory: /var/lib/zookeeper

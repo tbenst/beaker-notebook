@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+function leader_host {
+  mesos resolve `cat /etc/mesos/zk` 2>/dev/null
+}
+
+function master_host {
+  echo `ip -o -4 addr show eth0 | awk -F'/| +' '{print $4}'`:5050
+}
+
+if [[ `leader_host` == `master_host` ]]; then
+  echo -en 'HTTP/1.1 200 OK\r\n'
+  echo -en 'Content-Type: text/plain\r\n'
+  echo -en 'Content-Length: 8\r\n'
+  echo -en '\r\n'
+  echo -en 'leader\r\n'
+  echo -en '\r\n'
+else
+  echo -en 'HTTP/1.1 503 Service Unavailable\r\n'
+  echo -en 'Content-Type: text/plain\r\n'
+  echo -en 'Content-Length: 10\r\n'
+  echo -en '\r\n'
+  echo -en 'follower\r\n'
+  echo -en '\r\n'
+fi
