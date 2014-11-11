@@ -4,6 +4,10 @@ module.exports = function(app) {
   var User = app.Models.User,
       userParams = ['name', 'email', 'id', 'jobTitle', 'company', 'bio'];
 
+  function setGravatar (user) {
+    return user.set('gravatar', user.gravatar());
+  }
+
   return {
     contributors: function(req, res, next) {
       User.query(function(qb) {
@@ -18,7 +22,7 @@ module.exports = function(app) {
       .fetchAll()
       .then(function(contributors) {
         return _.map(contributors.models, function(contributor) {
-          return contributor.set('gravatar', contributor.gravatar());
+          return setGravatar(contributor);
         });
       })
       .then(res.json.bind(res))
@@ -40,7 +44,8 @@ module.exports = function(app) {
     },
 
     get: function (req, res, next) {
-      res.json(_.pick(req.user.attributes, userParams))
+      setGravatar(req.user);
+      res.json(_.pick(req.user.attributes, userParams.concat('gravatar')));
     },
 
     update: function (req, res, next) {
