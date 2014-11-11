@@ -1,6 +1,6 @@
 module.exports = function() {
   return this.Widgets.MarketCategoryHero = this.Widget.extend({
-    root: '.category-hero',
+    root: '.marketplace .category-hero',
 
     description: function() {
       return this.read('.description');

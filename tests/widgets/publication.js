@@ -79,4 +79,12 @@ module.exports = function() {
       return this.click({ text: category });
     }
   });
+
+  this.Widgets.PublicationCategoryHero = this.Widget.extend({
+    root: '.publications .category-hero',
+
+    description: function() {
+      return this.read('.description');
+    }
+  });
 };
