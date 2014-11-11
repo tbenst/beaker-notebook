@@ -136,7 +136,7 @@ Feature: Publications
     When I click the "Energy" category
     Then I should see 0 publication results on the page
 
-  Scenario: Categorizing publications
+  Scenario: Viewing publications
     Given I have a publication
     When I view the publication
     Then I should see the publication notebook
