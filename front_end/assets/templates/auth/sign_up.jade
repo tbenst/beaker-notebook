@@ -3,16 +3,11 @@ br
 form.sign-up(name='signUpForm', ng-submit="signUp(signUpForm.$valid)")
   label(for="user-name") name
   input(ng-model="user.name", type="text", name="name", placeholder="Name", required, id="user-name")
-  br
   label(for="user-email") email
-  br
   input(ng-model="user.email", type="email", name="email", placeholder="Email", id="user-email", required)
-  br
   label(for="user-password") password
-  br
   input(ng-model="user.password", type="password", name="password", placeholder="Password", id="user-password", required, ng-minlength=6)
   p(ng-show="showPasswordValidationErrorMessage(signUpForm)") Password must be at least 6 characters
-  br
   input.btn.alt.mid(type="submit", value="Sign up")
 .sub-action
   | Have An Account? &nbsp;
