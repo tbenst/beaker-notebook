@@ -1,9 +1,27 @@
-sign-in, sign-up
+auth-toggle
   display: block
   background: rgba(7, 58, 97, 0.55)
-  padding: 25px
+
   max-width: 500px
   margin: 0 auto
+  margin-top: -50px
+  min-height: 336px
+  position: relative
+
+  sign-up, sign-in
+    top: 0
+    left: 0
+    width: 100%
+    padding: 25px
+    display: block
+    position: absolute
+
+    transform: rotateY(0deg)
+    transition: all 500ms
+    -webkit-backface-visibility: hidden
+
+    &.active
+      transform: rotateY(180deg)
 
   .message
     font-size: 15px
@@ -18,6 +36,7 @@ sign-in, sign-up
   label
     text-transform: uppercase
     opacity: 0.8
+    margin-bottom: 3px
 
   input, label
     width:         100%
@@ -30,7 +49,15 @@ sign-in, sign-up
   .sub-action
     opacity: 0.8
     text-align: center
+    position: absolute
+    top:  275px
+    left: 0
+    width 100%
+    padding: 25px
 
-  .create-account
+  .create-account, .login-to-account
     cursor:          pointer
     text-decoration: underline
+
+  .sign-in input[type="submit"]
+    margin-top: 64px
