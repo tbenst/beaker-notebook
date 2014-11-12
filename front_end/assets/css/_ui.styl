@@ -11,6 +11,11 @@
   text-transform capitalize
   text-decoration none
   outline none
+
+  &.mid
+    font-size: 17px
+    padding: 11px 20px
+
   &:hover
     background-color lighten(action-strong-blue, color-adjust-amount)
   &:active
@@ -32,6 +37,15 @@
       background-color lighten(base-step5, color-adjust-amount)
     &:active
       background-color darken(base-step5, color-adjust-amount)
+
+  &.alt
+    background: action-strong-green
+
+    &:active
+      background: darken(action-strong-green, color-adjust-amount)
+
+    &:hover
+      background: lighten(action-strong-green, color-adjust-amount)
 
 .btn-group
   margin: 5px 0

@@ -1,6 +1,6 @@
 !(function(app) {
   app.controller('authentication', ['$rootScope', '$scope', '$state', 'Restangular', '$http', '$sessionStorage', function($rootScope, $scope, $state, Restangular, $http, $sessionStorage) {
-    $scope.message = 'Welcome to Bunsen'
+    $scope.message = ''
     $scope.user = $scope.user || {};
 
     function signIn(d) {
