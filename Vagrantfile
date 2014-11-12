@@ -16,6 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "dev", primary: true do |d|
     d.vm.hostname = "dev.local.withmojo.com"
 
+    d.vm.network :forwarded_port, guest: 80, host: 8888, auto_correct: true
     d.vm.network :forwarded_port, guest: 4243, host: 4243, auto_correct: true # docker
     d.vm.network :forwarded_port, guest: 7777, host: 7777, auto_correct: true # dev gateway proxy
     d.vm.network :forwarded_port, guest: 7778, host: 7778, auto_correct: true # test gateway proxy
