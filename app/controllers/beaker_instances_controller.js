@@ -2,8 +2,7 @@ var _ = require('lodash')
 var Provisioner = require('../lib/provisioner');
 
 module.exports = function(app) {
-  var BeakerClaim = app.Models.BeakerClaim,
-      User = app.Models.User
+  var User = app.Models.User
       config = app.config;
 
   var provisioner = new Provisioner(config.provisioner)

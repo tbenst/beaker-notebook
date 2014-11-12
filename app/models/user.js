@@ -65,10 +65,6 @@ module.exports = function(Bookshelf, app) {
       return this.hasMany(app.Models.Publication, 'user_id').through(app.Models.Notebook, 'notebook_id');
     },
 
-    beakerClaim: function() {
-      return this.hasOne(app.Models.BeakerClaim, 'user_id')
-    },
-
     gravatar: function() {
       var email = this.get('email');
 
