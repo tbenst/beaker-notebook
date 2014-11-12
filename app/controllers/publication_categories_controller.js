@@ -7,14 +7,16 @@ module.exports = function(app) {
       .fetch()
       .then(function(record) {
         if (!record) throw new Error('Publication Category not found ');
-        req.category = record
+        req.category = record;
       })
       .done(next, next);
     },
     index: function(req, res, next) {
-      PublicationCategory.fetchAll()
-      .then(res.json.bind(res))
-      .catch(next);
+      PublicationCategory
+      .fetchAllWithCount()
+      .then(function(categories) {
+        res.json(categories.rows);
+      }).catch(next);
     },
     get: function(req, res, next) {
       res.json(req.category);
