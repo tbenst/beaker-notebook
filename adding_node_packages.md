@@ -18,7 +18,7 @@ that have native extensions such as fpm.
 
 > There is a bug in the current release of fpm, https://github.com/jordansissel/fpm/issues/806 so we need to pass the --prefix argument
 
-* `sudo fpm -s npm -t deb --prefix /usr  <package_root_path>`
+* `sudo fpm -s npm -t deb --prefix /usr/local  <package_root_path>`
 
 > You should see output like `Created package {:path=>"node-moment_2.8.3_amd64.deb"}`
 
