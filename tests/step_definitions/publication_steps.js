@@ -225,6 +225,10 @@ module.exports = function() {
     return new this.Widgets.PublicationList().items().should.eventually.have.length(count);
   });
 
+  this.Then(/^I should see (\d+) publication results next to the "([^"]*)" category$/, function(n, category) {
+    return new this.Widgets.PublicationCategoriesList().count(category).should.eventually.eql(n)
+  });
+
   this.Then(/^I should see the following publication first in the list:$/, function(table) {
     return new this.Widgets.PublicationList().at(0).then(function(publication) {
       return publication.name().should.eventually.eql(_.pluck(table.hashes(), 'name')[0])

@@ -75,6 +75,12 @@ module.exports = function() {
   this.Widgets.PublicationCategoriesList = this.Widget.List.extend({
     root: '.publication-categories',
 
+    count: function(category) {
+      return this.find({text: category}).then(function(el) {
+        return World.driver.executeScript('return arguments[0].parentNode.getElementsByClassName("count")[0].innerText', el);
+      })
+    },
+
     clickCategory: function(category) {
       return this.click({ text: category });
     }

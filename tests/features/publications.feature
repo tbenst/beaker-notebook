@@ -115,6 +115,7 @@ Feature: Publications
     And The category has the description "Energy is energetic."
     When I click the "All" category
     Then I should see 5 publication results on the page
+    Then I should see 3 publication results next to the "Energy" category
 
   Scenario: Categorizing publications
     Given I have the following publication categories:
