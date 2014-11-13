@@ -8,4 +8,4 @@ input.search.full.publication-search(ng-model="publications.search", placeholder
     li(ng-repeat="category in publications.categories | orderBy:'name'")
       a.sidebar-box-list-link.category(ng-class="publications.currentCategory == category.id && 'active'", ng-click="filterByCategory(category.id)")
         span.left {{category.name}}
-        span.right {{category.count}}
+        span.right.count {{category.count}}
