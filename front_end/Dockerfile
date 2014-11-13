@@ -13,6 +13,6 @@ RUN roots compile --no-compress
 RUN mv config/default /etc/nginx/sites-available/ && \
     echo "daemon off;" >> /etc/nginx/nginx.conf
 
-EXPOSE 8080
+EXPOSE 7777
 
 ENTRYPOINT ["/var/www/main.sh"]

@@ -14,7 +14,7 @@ cat <<EOF
     "name": "bunsen_web",
     "match": "$BUNSEN_MATCH/",
     "targets": [
-      "${WEB_PORT_8080_TCP_ADDR}:8080"
+      "${WEB_PORT_7777_TCP_ADDR}:7777"
     ],
     "options": [
       "acl beaker path_beg /beaker/",
