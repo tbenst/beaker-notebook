@@ -1,0 +1,63 @@
+auth-toggle
+  display: block
+  background: rgba(7, 58, 97, 0.55)
+
+  max-width: 500px
+  margin: 0 auto
+  margin-top: -50px
+  min-height: 336px
+  position: relative
+
+  sign-up, sign-in
+    top: 0
+    left: 0
+    width: 100%
+    padding: 25px
+    display: block
+    position: absolute
+
+    transform: rotateY(0deg)
+    transition: all 500ms
+    -webkit-backface-visibility: hidden
+
+    &.active
+      transform: rotateY(180deg)
+
+  .message
+    font-size: 15px
+    text-align: center
+    color: white
+    background: rgba(255, 0, 0, 0.39)
+    margin: -25px
+    padding: 15px
+    top: -45px
+    position: relative
+
+  label
+    text-transform: uppercase
+    opacity: 0.8
+    margin-bottom: 3px
+
+  input, label
+    width:         100%
+    margin:        0 auto
+    display:       block
+
+  input
+    margin-bottom: 15px
+
+  .sub-action
+    opacity: 0.8
+    text-align: center
+    position: absolute
+    top:  275px
+    left: 0
+    width 100%
+    padding: 25px
+
+  .create-account, .login-to-account
+    cursor:          pointer
+    text-decoration: underline
+
+  .sign-in input[type="submit"]
+    margin-top: 64px

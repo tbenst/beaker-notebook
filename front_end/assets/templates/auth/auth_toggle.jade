@@ -1,0 +1,9 @@
+sign-in(ng-class="{active: signUp}")
+sign-up(ng-class="{active: !signUp}")
+.sub-action
+  div(ng-show="!signUp")
+    | No Account? &nbsp;
+    span.create-account(ng-click="signUp = !signUp") Create New Account
+  div(ng-show="signUp")
+    | Have An Account? &nbsp;
+    span.login-to-account(ng-click="signUp = !signUp") Login

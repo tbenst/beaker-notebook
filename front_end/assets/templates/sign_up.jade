@@ -1,15 +1,1 @@
-h1 {{message}}
-h2 Sign up
-br
-form.sign-up(name='signUpForm', ng-submit="signUp(signUpForm.$valid)")
-  input(ng-model="user.name", type="text", name="name", placeholder="Name", required)
-  br
-  input(ng-model="user.email", type="email", name="email", placeholder="Email", required)
-  br
-  input(ng-model="user.password", type="password", name="password", placeholder='Password', required, ng-minlength=6)
-  p(ng-show="showPasswordValidationErrorMessage(signUpForm)") Password must be at least 6 characters
-  br
-  input(type="submit", value="Sign up")
-
-.loading(ng-if="loading")
-  .spinner(us-spinner="{lines: 12, radius:5, width:3, length: 5, corners: 0, speed: 0.6, trail: 40, color: '#3f5264'}")
+auth-toggle(default-state="signUp")
