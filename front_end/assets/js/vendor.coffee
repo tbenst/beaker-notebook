@@ -20,3 +20,4 @@
 #= require "../../bower_components/marked/lib/marked.js"
 #= require "../../bower_components/angular-marked/angular-marked.js"
 #= require "../../bower_components/angular-ui-grid/ui-grid.js"
+#= require "../../bower_components/katex/katex.min.js"
