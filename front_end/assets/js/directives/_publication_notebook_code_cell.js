@@ -33,6 +33,8 @@
               return "publication_output_html";
             case "TableDisplay":
               return "publication_output_table";
+            case "Latex":
+              return "publication_output_latex";
             default:
               return "publication_output_raw";
           }
