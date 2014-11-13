@@ -21,10 +21,9 @@ module.exports = function(app) {
     },
 
     get: function(req, res, next) {
-      Publication.forge({ id: req.params.id })
-      .fetch()
-      .then(res.json.bind(res))
-      .catch(next);
+      Publication.withAuthor(req.params.id)
+        .then(res.json.bind(res))
+        .catch(next);
     },
 
     create: function(req, res, next) {
