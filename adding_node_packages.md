@@ -20,6 +20,8 @@ that have native extensions such as fpm.
 
 * `sudo fpm -s npm -t deb --prefix /usr/local  <package_root_path>`
 
+> If the package is already named something like `node-inspector` pass the `--name=node-inspector` argument to fpm to prevent `node-node-inspector`.
+
 > You should see output like `Created package {:path=>"node-moment_2.8.3_amd64.deb"}`
 
 * Move the build file to the `/vagrant` directory and copy the files from your local disk and send them to Will,
