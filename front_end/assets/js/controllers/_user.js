@@ -1,5 +1,15 @@
 ;(function(angular, app) {
-  app.controller('user', ['$scope', '$state', 'Factories', '$sessionStorage', function($scope, $state, Factories, $sessionStorage) {
+  app.controller('user', [
+    '$scope',
+    '$state',
+    'Factories',
+    '$sessionStorage',
+    function(
+      $scope,
+      $state,
+      Factories,
+      $sessionStorage) {
+
     var F = Factories;
     $scope.user = {};
     $scope.loading = false;

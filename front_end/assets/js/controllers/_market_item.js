@@ -1,5 +1,21 @@
 !(function(angular, app) {
-  app.controller('marketItem', ['$scope', '$rootScope', '$state', 'Factories', 'Restangular', '$sessionStorage', 'DataFormatService', function($scope, $rootScope,$state, Factories, Restangular, $sessionStorage, DataFormatService) {
+  app.controller('marketItem', [
+    '$scope',
+    '$rootScope',
+    '$state',
+    'Factories',
+    'Restangular',
+    '$sessionStorage',
+    'DataFormatService',
+    function(
+      $scope,
+      $rootScope,
+      $state,
+      Factories,
+      Restangular,
+      $sessionStorage,
+      DataFormatService) {
+
     var R = Restangular;
     var F = Factories;
     var DFS = DataFormatService;

@@ -1,13 +1,21 @@
 !(function(app) {
-  app.controller('authentication',
-    ['$rootScope',
-     '$scope',
-     '$state',
-     'Restangular',
-     '$http',
-     '$sessionStorage',
-     '$stateParams',
-  function($rootScope, $scope, $state, Restangular, $http, $sessionStorage, $stateParams) {
+  app.controller('authentication', [
+    '$rootScope',
+    '$scope',
+    '$state',
+    'Restangular',
+    '$http',
+    '$sessionStorage',
+    '$stateParams',
+    function(
+      $rootScope,
+      $scope,
+      $state,
+      Restangular,
+      $http,
+      $sessionStorage,
+      $stateParams) {
+
     $scope.message = ''
     $scope.user = $scope.user || {};
 
