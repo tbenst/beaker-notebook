@@ -27,3 +27,35 @@ that have native extensions such as fpm.
 * Move the build file to the `/vagrant` directory and copy the files from your local disk and send them to Will,
 
 * Add a line to your service's Dockerfile to include the new apt package - it will be one of the packages mentioned near the top in the "apt-get" command.
+
+
+* `kinit`
+
+* `scp <deb file> ns0.local.withmojo.com:/tmp`
+
+* `ssh ns0.local.withmojo.com`
+
+* `sudo su aptly`
+
+* `cd ~`
+
+* `aptly repo add bunsen /tmp/node-inspector*.deb`
+
+* `aptly snapshot create bunsen/`script/timestamp` from repo bunsen
+sudo su aptly`
+
+Then You will then see something like this:
+
+> Snapshot bunsen/<TIMESTAMP_1> successfully created.
+You can run 'aptly publish snapshot bunsen/<TIMESTAMP_1>' to publish snapshot as Debian repository.
+
+
+* Then run aptly snapshot merge local/`script/timestamp` cloud/20141107T212724Z bunsen/<TIMESTAMP_1>
+
+Then you will see something like this:
+
+> Snapshot local/<TIMESTAMP_2> successfully created.
+You can run 'aptly publish snapshot local/<TIMESTAMP_2>' to publish snapshot as Debian repository.
+
+* `aptly publish switch local debian local/<TIMESTAMP_2>`
+
