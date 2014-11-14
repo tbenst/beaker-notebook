@@ -3,7 +3,10 @@
     var F = Factories;
 
     $scope.createProject = function() {
-      F.Projects.createProject($scope.projects.list);
+      F.Projects.createProject($scope.projects.list)
+      .then(function(p) {
+        $state.go('projects.items.item', { id: p.id});
+      });
     };
 
     //We can replace this function with '$state.includes('projects.items.item', {id: project.id})' in the view
