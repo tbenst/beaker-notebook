@@ -36,6 +36,7 @@
                 })
                 .then(function(p) {
                   projects.push(p);
+                  return p
                 });
       },
 

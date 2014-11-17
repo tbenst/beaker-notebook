@@ -6,6 +6,6 @@
         img.icon(ng-src="{{contributor.gravatar}}&size=50")
         .name
           strong {{contributor.name}}
-        .job-title {{contributor.jobTitle}}
+        .job-title {{contributor.jobTitle | limitTo: 23}}
         .company {{contributor.company}}
         .cl
