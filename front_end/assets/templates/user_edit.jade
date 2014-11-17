@@ -31,3 +31,6 @@
         label.full(for='user-bio') Bio:
         textarea.user-form(ng-model='user.bio', type='text', name='bio', id='user-bio')
         br
+
+  .loading(ng-if="loading")
+   bunsen-spinner
