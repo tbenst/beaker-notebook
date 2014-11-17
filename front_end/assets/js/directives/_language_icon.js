@@ -19,7 +19,9 @@
         lang: '='
       },
       link: function(scope, element, attrs) {
-        _.extend(scope, languages[scope.lang]);
+        _.extend(scope, _.defaults(languages[scope.lang], {
+          borderColor: 'transparent'
+        }));
       }
     }
   });
