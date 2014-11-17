@@ -35,6 +35,6 @@
       span.name {{notebook.current.name}}
     .cl
     .loading(ng-if="loading")
-      .spinner(us-spinner="{lines: 12, radius:5, width:3, length: 5, corners: 0, speed: 0.6, trail: 40, color: '#3f5264'}")
+      bunsen-spinner
 
     beakernotebook(notebook-id="{{ notebook.current.id }}", src="{{ notebook.current.location }}", width="600", height="1000")
