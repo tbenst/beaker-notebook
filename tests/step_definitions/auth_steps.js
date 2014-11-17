@@ -68,11 +68,9 @@ module.exports = function() {
   });
 
   this.Then(/^I should see I've been signed out$/, function() {
-    var signedOut = new this.Widgets.SignedOut();
+    var landing = new this.Widgets.LandingPage();
 
-    return signedOut.getMessage().then(function(msg) {
-      return assert.equal(msg, "You've been signed out.");
-    });
+    return landing.isPresent().should.eventually.eql(true);
   });
 
   this.Then(/^I should see the sign in form$/, function() {

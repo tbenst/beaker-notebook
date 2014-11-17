@@ -25,8 +25,9 @@
             }],
             views: {
               root: {
-                controller: 'authentication',
-                template: templates.sign_out
+                controller: ['$state', function($state){
+                  $state.go('landing');
+                }]
               }
             }
           })
