@@ -35,5 +35,6 @@
     $templateCache.put('publication_output_raw',    templates['publications/publication_output_raw']())
     $templateCache.put('publication_output_empty',    templates['publications/publication_output_empty']())
     $templateCache.put('publication_output_error',    templates['publications/publication_output_error']())
+    $templateCache.put('publication_output_latex',    templates['publications/publication_output_latex']())
   }])
 })(angular);

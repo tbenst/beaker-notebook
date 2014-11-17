@@ -24,6 +24,12 @@
       restrict: "E",
       controller: function($scope) {
         $scope.getOutputType = function(cell) {
+          // Handle case when there is
+          // no output to the published cell.
+          if (cell.output.result == void 0) {
+            return "publication_output_empty"
+          }
+
           switch (cell.output.result.innertype || cell.output.result.type) {
             case "Progress":
               return "publication_output_empty";
@@ -33,6 +39,8 @@
               return "publication_output_html";
             case "TableDisplay":
               return "publication_output_table";
+            case "Latex":
+              return "publication_output_latex";
             default:
               return "publication_output_raw";
           }
