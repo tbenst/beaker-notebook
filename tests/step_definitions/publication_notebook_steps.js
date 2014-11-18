@@ -21,11 +21,24 @@ module.exports = function() {
   });
 
   this.When(/^I view the publication$/, function() {
-    return this.driver.get(this.route.publications).then(function() {
-      return new this.Widgets.PublicationList().at(0).then(function(el) {
-        return el.click("a.title");
-      })
-    }.bind(this));
+    var _this = this;
+    return _this.driver.get(_this.route.publications).then(function() {
+      _this.driver.wait(function() {
+        return new _this.Widgets.PublicationList().at(0).then(function(el) {
+          return el.isPresent();
+        }).then(function(v) {
+          return v;
+        })
+        .thenCatch(function() {
+          return false;
+        })
+      }, global.timout)
+      .then(function() {
+        return new _this.Widgets.PublicationList().at(0).then(function(el) {
+          return el.click("a.title");
+        })
+      });
+    });
   });
 
   this.When(/^I should see the publication notebook$/, function() {
