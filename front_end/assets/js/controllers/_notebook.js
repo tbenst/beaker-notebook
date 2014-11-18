@@ -34,6 +34,16 @@
 
     $scope.loading = true;
 
+    $scope.menu = false;
+
+    $scope.showMenu = function() {
+      this.menu = true;
+    };
+
+    $scope.hideMenu = function() {
+      this.menu = false;
+    };
+
     var beakerUrl = function(url, subPath, params) {
       return url + "#/" +
         subPath + "?" + UrlGeneratorService.toParams(_.extend(params,
@@ -103,6 +113,7 @@
       }
 
       WindowMessageService.sendToIFrame(notebookWindow(), data);
+      $scope.hideMenu();
     };
 
     $scope.showStdoutStderr = function() {
