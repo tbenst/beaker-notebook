@@ -141,6 +141,7 @@ Feature: Publications
     Given I have a publication
     When I view the publication
     Then I should see the publication notebook
+    And I should see the author "joe research"
 
   Scenario: Minimizing publication sections
     Given I have a publication

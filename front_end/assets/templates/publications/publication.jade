@@ -4,6 +4,7 @@
       h1.name {{publication.name}}
       p.description {{publication.description}}
       .details
+        span.left.author {{publication.author.name}}
         .btn.btn-primary.right.copy-notebook(ng-click="copyNotebook()") Open in Bunsen
         .cl
 

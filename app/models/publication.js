@@ -23,6 +23,16 @@ module.exports = function(Bookshelf, app) {
       .value();
   };
 
+  Publication.withAuthor = function(id) {
+    return Publication
+      .query('where', 'id', '=', id)
+      .fetch({withRelated: 'author'})
+      .then(function(p) {
+        p.relations.author.attributes = _.omit(p.relations.author.attributes, 'password');
+        return p;
+      });
+  };
+
   return {
     name: "Publication",
     model: Publication
