@@ -29,6 +29,7 @@ module.exports = function(Bookshelf, app) {
       .fetch({withRelated: 'author'})
       .then(function(p) {
         p.relations.author.attributes = _.omit(p.relations.author.attributes, 'password');
+        p.relations.author.set('gravatar', p.relations.author.gravatar());
         return p;
       });
   };

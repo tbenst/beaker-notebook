@@ -9,5 +9,9 @@
     $scope.copyNotebook = function() {
       $scope.$emit('openModal', $compile(templates.copy_notebook_modal())($scope));
     };
+
+    $scope.commaNeeded = function() {
+      return $scope.publication.author.jobTitle && $scope.publication.author.company;
+    }
   }]);
 })(angular, window.bunsen);

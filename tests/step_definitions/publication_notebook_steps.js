@@ -55,6 +55,20 @@ module.exports = function() {
     return new this.Widgets.PublicationNotebookHero().author().should.eventually.eql(author);
   });
 
+  this.Then(/^I should see the authors job title "([^"]*)"$/, function(jobTitle) {
+    return new this.Widgets.PublicationNotebookHero().authorJobTitle().should.eventually.eql(jobTitle);
+  });
+
+  this.Then(/^I should see the authors company "([^"]*)"$/, function(company) {
+    return new this.Widgets.PublicationNotebookHero().authorCompany().should.eventually.eql(company);
+  });
+
+  this.Then(/^I should see the gravatar for "([^"]*)"$/, function(email) {
+    var hash = require('crypto').createHash('md5').update(email).digest('hex');
+    var gravatarLink = 'http://www.gravatar.com/avatar/' + hash + '?d=retro&size=100';
+    return new this.Widgets.PublicationNotebookHero().gravatarLink().should.eventually.eql(gravatarLink);
+  });
+
   this.When(/^I should be able to collapse and expand inputs$/, function() {
     var notebook = new this.Widgets.PublicationNotebook();
 
