@@ -41,8 +41,7 @@ that have native extensions such as fpm.
 
 * `aptly repo add bunsen /tmp/node-inspector*.deb`
 
-* `aptly snapshot create bunsen/`script/timestamp` from repo bunsen
-sudo su aptly`
+* `aptly snapshot create bunsen/`script/timestamp` from repo bunsen`
 
 Then You will then see something like this:
 
