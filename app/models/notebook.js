@@ -18,7 +18,7 @@ var UNIQUE_VIOLATION_ERROR = 23505; // Postgresql error codes: www.postgresql.or
 var RDWR_EXCL = cnst.O_CREAT | cnst.O_TRUNC | cnst.O_RDWR | cnst.O_EXCL;
 
 function generateNotebookFilePath() {
-  var file = this.get("name") + EXTENSION;
+  var file = this.get("id") + EXTENSION;
   var dir = Path.join(__dirname, "../", ".repos", ""+ this.get("id"));
 
   return Path.resolve(Path.join(dir, file));
