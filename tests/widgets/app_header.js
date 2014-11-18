@@ -1,6 +1,6 @@
 module.exports = function() {
-  return this.Widgets.AuthControls = this.Widget.extend({
-    root: '.auth-controls',
+  return this.Widgets.AppHeader = this.Widget.extend({
+    root: '.app-header',
 
     getCurrentUserName: function() {
       return this.read(".signed-in");

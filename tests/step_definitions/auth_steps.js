@@ -59,12 +59,12 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the header greeting "([^"]*)"$/, function(expected) {
-    var authControls = new this.Widgets.AuthControls();
-    return authControls.getCurrentUserName().should.eventually.eql(expected)
+    var appHeader = new this.Widgets.AppHeader();
+    return appHeader.getCurrentUserName().should.eventually.eql(expected)
   });
 
   this.When(/^I click the sign out link$/, function() {
-    return new this.Widgets.AuthControls().signOut();
+    return new this.Widgets.AppHeader().signOut();
   });
 
   this.Then(/^I should see I've been signed out$/, function() {
