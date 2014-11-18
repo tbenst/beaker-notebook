@@ -49,7 +49,7 @@ Then You will then see something like this:
 You can run 'aptly publish snapshot bunsen/<TIMESTAMP_1>' to publish snapshot as Debian repository.
 
 
-* Then run aptly snapshot merge local/`script/timestamp` cloud/20141107T212724Z bunsen/<TIMESTAMP_1>
+* Then run `aptly snapshot merge local/`script/timestamp` cloud/20141107T212724Z bunsen/<TIMESTAMP_1>`
 
 Then you will see something like this:
 
