@@ -19,8 +19,8 @@
         a.publish(ng-if="!published" ng-click="openPublishModal()") Publish this notebook &raquo;
 
   .main-content
-    span.options.dropdown-toggle.right
-      ul.dropdown
+    span.options.dropdown-toggle.right.expanded(ng-mouseover="showMenu()" ng-mouseleave="hideMenu()")
+      ul.dropdown(ng-if="menu")
         li
           a.save(ng-click="save()") Save
         li
