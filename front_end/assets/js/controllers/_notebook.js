@@ -113,6 +113,7 @@
       }
 
       WindowMessageService.sendToIFrame(notebookWindow(), data);
+      $scope.hideMenu();
     };
 
     $scope.showStdoutStderr = function() {
