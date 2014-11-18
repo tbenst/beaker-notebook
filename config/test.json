@@ -17,7 +17,7 @@
   },
   "web": {
     "command": "--test --watch",
-    "ports": "8079:8080",
+    "ports": "8079:7777",
     "build": "front_end",
     "volumes": [
       "/vagrant/front_end:/var/www"

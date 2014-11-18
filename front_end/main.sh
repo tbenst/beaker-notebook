@@ -25,9 +25,9 @@ esac
 done
 
 if [[ $watch -eq 1 ]]; then
-  PORT=8080 exec roots watch
+  PORT=7777 exec roots watch
 elif [[ $test -eq 1 ]]; then
-  PORT=8080 NODE_ENV=test exec roots watch
+  PORT=7777 NODE_ENV=test exec roots watch
 else
   exec /usr/sbin/nginx
 fi
