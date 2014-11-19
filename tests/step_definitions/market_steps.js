@@ -65,6 +65,7 @@ module.exports = function() {
     return this.createCatalog({
       name: 'default',
       path: '0.1',
+      base_path: '/var/s3/',
       metadata: JSON.stringify(twoSigmaCatalog)
     });
   });
