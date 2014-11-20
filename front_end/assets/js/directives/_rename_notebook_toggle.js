@@ -1,5 +1,9 @@
 ;(function(angular, app) {
-  app.directive('renameNotebookToggle', ['$compile', 'Notebooks', function($compile, Notebooks) {
+  app.directive('renameNotebookToggle', [
+    '$compile',
+    'Notebooks',
+    '$rootScope',
+    function($compile, Notebooks, $rootScope) {
     return {
       restrict: 'A',
       scope: {
@@ -20,7 +24,7 @@
         $scope.renameSave = function() {
           Notebooks.update({ id: $scope.notebook.id, name: $scope.notebookNewName }).then(function(notebook) {
             $scope.notebook.name = notebook.name;
-            $scope.$emit('closeModal');
+            $rootScope.$broadcast('closeModal');
             delete $scope.error;
           }).catch(function(response) {
             $scope.error = response.data.error;
@@ -29,7 +33,7 @@
 
         $scope.renameCancel = function() {
           $scope.notebookNewName = $scope.notebook.name;
-          $scope.$emit('closeModal');
+          $rootScope.$broadcast('closeModal');
         };
       }
     }
