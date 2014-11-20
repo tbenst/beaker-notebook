@@ -221,6 +221,10 @@ module.exports = function() {
     });
   });
 
+  this.Then(/^the notebook cells should be visible$/, function() {
+    return new this.Widgets.NotebookiFrames().hasVisible().should.eventually.eql(true);
+  });
+
   this.Then(/^I should see (\d+) publication results on the page$/, function(count) {
     return new this.Widgets.PublicationList().items().should.eventually.have.length(count);
   });
