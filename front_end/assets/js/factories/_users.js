@@ -9,6 +9,9 @@
 
       getContributors: function() {
         return R.all('contributors').getList();
+      },
+      getContributorsByCat: function(categoryId) {
+        return R.all('contributors').customGET(categoryId);
       }
     };
   }]);
