@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -8,8 +7,15 @@ var when = require('when');
 var http = require('http');
 var path = require('path');
 var _ = require('lodash');
-var skipMiddleware = require("./lib/skip_middleware");
 var app = express();
+
+if (app.get('env') == 'test') {
+  var im = require('istanbul-middleware');
+  im.hookLoader(__dirname);
+  app.use('/api/coverage', im.createHandler());
+}
+
+var skipMiddleware = require("./lib/skip_middleware");
 
 app.Models = require('./models');
 app.Controllers = require('./controllers');

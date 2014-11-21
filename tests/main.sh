@@ -19,3 +19,12 @@ done
 # run the test
 java -jar selenium.jar &
 npm start
+features_return_code=$?
+
+# download test coverage
+coverage_dir=/var/app/test/coverage
+mkdir -p $coverage_dir
+curl -o "${coverage_dir}/client_coverage.zip" -H "Host:${BUNSEN_HOSTNAME}" $bunsen_url/coverage/download
+curl -o "${coverage_dir}/api_coverage.zip" -H "Host:${BUNSEN_HOSTNAME}" $bunsen_url/api/coverage/download
+
+exit $features_return_code

@@ -13,9 +13,9 @@
     ]
   },
   "web": {
-    "command": "--test",
     "ports": "8079:7777",
-    "build": "front_end"
+    "build": "front_end",
+    "command": "--coverage"
   },
   "db": {
     "ports": "5431:5432",
@@ -57,6 +57,9 @@
     ],
     "links": [
       "gateway"
+    ],
+    "volumes": [
+      "/var/lib/jenkins/workspace/bunsen/coverage:/var/app/test/coverage"
     ]
   }
 }
