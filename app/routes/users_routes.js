@@ -6,4 +6,6 @@ module.exports = function(app) {
   app.get('/api/users/current', UsersController.get);
   app.put('/api/users/:id', UsersController.update);
   app.get('/api/contributors', UsersController.contributors);
+  app.get('/api/contributors/:cat_id', UsersController.contributorsByCat);
+
 };
