@@ -12,6 +12,17 @@ Feature: Publications
       | name               | projectName        |
       | top secret         | ghost of tom jones |
 
+  Scenario: Viewing an open and published notebook
+    Given I view my projects
+    And I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    When I go to publish the notebook
+    And I give it the description "not so secret anymore"
+    And I publish the notebook
+    When I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    Then the notebook cells should be visible
+
   Scenario: Publishing a Notebook
     Given I view my projects
     And I open the "ghost of tom jones" project
@@ -22,6 +33,9 @@ Feature: Publications
     And I publish the notebook
     Then I should see that the notebook is published
     And the notebook publish date should be now
+    When I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    Then the notebook cells should be visible
     When I view the published version
     Then I should see a published version of the following notebook:
       | name       | description           |
