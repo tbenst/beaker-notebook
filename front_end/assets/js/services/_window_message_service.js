@@ -20,8 +20,8 @@
     };
 
     function receiveWindowMessage(e) {
-      if (new URL(event.origin).hostname !== $location.host()) {
-        throw "message received from unauthorized host " + event.origin.host;
+      if (new URL(e.origin).hostname !== $location.host()) {
+        throw "message received from unauthorized host " + e.origin.host;
       }
       if (e.data.operation == 'resize') return resizeIframe(e.data);
       if (!e.data.notebook) return; // could be a message for a different purpose
