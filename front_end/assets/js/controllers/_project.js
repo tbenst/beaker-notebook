@@ -109,7 +109,6 @@
         $scope.upload = $upload.upload({
           url: url,
           method: 'POST',
-          headers: {'User-Token': $sessionStorage.currentUser.token},
           file: file
         }).success(function() {
           $scope.importError = null;

@@ -22,7 +22,6 @@
     function signIn(d) {
       $sessionStorage.currentUser = d;
       $scope.message = 'You are signed in.'
-      $http.defaults.headers.common['User-Token'] = d.token;
       $scope.loading = false;
       if ($rootScope.goTo) {
         $state.go($rootScope.goTo);
