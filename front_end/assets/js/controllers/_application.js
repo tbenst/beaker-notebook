@@ -5,7 +5,8 @@
     '$state',
     '$sessionStorage',
     '$http',
-    function($rootScope, $scope, $state, $sessionStorage, $http) {
+    'Restangular',
+    function($rootScope, $scope, $state, $sessionStorage, $http, Restangular) {
       $rootScope.$session = $sessionStorage;
 
       if ($sessionStorage.currentUser && $sessionStorage.currentUser.token) {
@@ -28,6 +29,7 @@
 
       $rootScope.signOut = function() {
         delete $sessionStorage.currentUser;
+        return Restangular.all('sign_out').post();
       }
   }]);
 })(window.bunsen);

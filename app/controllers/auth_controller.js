@@ -10,6 +10,7 @@ module.exports = function(app) {
       User.signIn(req.body)
         .then(function(user) {
           if(user) {
+            req.session.user = user.id;
             res.json(user);
           } else {
             res.statusCode = 403;
@@ -21,8 +22,9 @@ module.exports = function(app) {
     authorize: function(req, res, next) {
       if (app.shouldSkip(req.path, 'authorize')) {
         next();
-      } else {
-        User.checkToken(req.get('User-Token'))
+      } else if (req.session.user !== undefined) {
+        User.forge({id: req.session.user})
+          .fetch()
           .then(function(user) {
             if (user) {
               req.user = user;
@@ -31,6 +33,8 @@ module.exports = function(app) {
             }
           })
           .done(next, next);
+      } else {
+        res.send(403);
       }
     },
 
@@ -38,6 +42,7 @@ module.exports = function(app) {
       User.signUp(req.body)
         .then(function(user) {
           if(user) {
+            req.session.user = user.id;
             res.json(user);
           } else {
             res.statusCode = 422;
@@ -66,6 +71,11 @@ module.exports = function(app) {
             res.status(500).send(err.message);
           }
         });
+    },
+
+    signOut: function(req, res, next) {
+      req.session = null;
+      res.status(200).end();
     }
   }
 }
