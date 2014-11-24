@@ -9,7 +9,6 @@
     "ports": "3000:3000",
     "environment": [
       "NODE_ENV=development",
-      "CIPHER_KEY=Auj/QL_WU[xX64p+1TB81m6AD6wSCl",
       "HOSTNAME=bunsen-staging.withmojo.com",
       "MANDRILL_PASSWORD=-QG6MBSWNPR7sPwRali8Jg",
       "MANDRILL_USER=ops+mandrill@mojotech.com",
