@@ -8,7 +8,6 @@
     'Notebooks',
     '$upload',
     'Restangular',
-    '$sessionStorage',
     function(
       $scope,
       $rootScope,
@@ -17,8 +16,7 @@
       Factories,
       Notebooks,
       $upload,
-      Restangular,
-      $sessionStorage) {
+      Restangular) {
 
     var F = Factories;
     $scope.editMode = false;

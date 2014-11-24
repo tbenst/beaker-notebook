@@ -5,7 +5,7 @@
     '$state',
     'Restangular',
     '$http',
-    '$sessionStorage',
+    '$cookies',
     '$stateParams',
     function(
       $rootScope,
@@ -13,14 +13,15 @@
       $state,
       Restangular,
       $http,
-      $sessionStorage,
+      $cookies,
       $stateParams) {
 
     $scope.message = ''
     $scope.user = $scope.user || {};
 
     function signIn(d) {
-      $sessionStorage.currentUser = d;
+      $cookies.currentUserName = d.name;
+      $cookies.currentUserId = d.id;
       $scope.message = 'You are signed in.'
       $scope.loading = false;
       if ($rootScope.goTo) {

@@ -3,12 +3,12 @@
     '$scope',
     '$state',
     'Factories',
-    '$sessionStorage',
+    '$cookies',
     function(
       $scope,
       $state,
       Factories,
-      $sessionStorage) {
+      $cookies) {
 
     var F = Factories;
     $scope.user = {};
@@ -26,7 +26,8 @@
       if (isValid) {
         $scope.loading = true;
         $scope.user.customPUT($scope.user).then(function(u) {
-          _.extend($sessionStorage.currentUser, u);
+          $cookies.currentUserId = u.id;
+          $cookies.currentUserName = u.name;
           $scope.user = u;
           $scope.message = "User Updated"
           $scope.loading = false;
