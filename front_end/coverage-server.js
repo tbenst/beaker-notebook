@@ -1,6 +1,6 @@
 var path    = require('path');
 var express = require('express');
-var port    = process.env["PORT"] || 4444;
+var port    = process.env["PORT"] || 8080;
 var url     = require('url')
 var app     = express();
 var im      = require('istanbul-middleware');
@@ -18,5 +18,5 @@ app.use(im.createClientHandler(publicDir, { matcher: matcher }));
 
 app.use(express.static(publicDir));
 
-console.log("Listening on " + port);
+console.log("Test coverage server on " + port);
 app.listen(port)

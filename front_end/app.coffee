@@ -1,5 +1,5 @@
 # roots v2.1.2
-ignore_files: ['_*', 'readme*', '.gitignore', '.DS_Store', 'test-server.js']
+ignore_files: ['_*', 'readme*', '.gitignore', '.DS_Store', 'coverage-server.js']
 ignore_folders: ['.git', 'bower_components', 'bower.json', 'node_modules']
 
 watcher_ignore_folders: ['.git', 'bower_components', 'bower.json', 'node_modules', 'components']

@@ -7,7 +7,7 @@ cleanup() {
 }
 
 # this seems to be necessary to work around an aufs permissions bug
-chmod 775 -R beaker/beaker-notebook
+chmod -R 775 beaker/beaker-notebook
 
 ./script/build.sh --env=ci
 

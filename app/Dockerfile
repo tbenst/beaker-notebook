@@ -11,6 +11,8 @@ RUN apt-get update && \
       node-express \
       node-glob \
       node-inflection \
+      node-istanbul \
+      node-istanbul-middleware \
       node-jade \
       node-knex \
       node-lodash \
