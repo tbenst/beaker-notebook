@@ -3,7 +3,6 @@ var Promise               = require('bluebird');
 var Bcrypt                = Promise.promisifyAll(require("bcryptjs"));
 var Checkit               = require('checkit');
 var Crypto                = require('crypto');
-var CryptoLib             = require('../lib/crypto');
 var moment                = require('moment');
 var PasswordResetException = require('../lib/password_reset_exception');
 
@@ -122,12 +121,6 @@ module.exports = function(Bookshelf, app) {
       return new Checkit(this.validations).run(this.attributes);
     },
 
-    setToken: function () {
-      var u      = _.pick(this.attributes, 'id', 'name', 'email'),
-          token  = CryptoLib.encrypt(this.attributes.id.toString());
-      return _.extend(u, {token: token})
-    },
-
     update: function(attrs) {
       var _this = this;
       return User.forge({email: this.attributes.email}).fetch()
@@ -145,17 +138,6 @@ module.exports = function(Bookshelf, app) {
   });
 
   User = _.extend(User, {
-    checkToken: function(token) {
-      var id = parseInt(CryptoLib.decrypt(token));
-
-      return new User({id: id}).fetch({ require: true })
-        .then(function (user) {
-          user.attributes = _.omit(user.attributes, 'password');
-          user._previousAttributes = _.omit(user._previousAttributes, 'password')
-          return user;
-        })
-    },
-
     findOneWhere: function(attrs) {
       return User.forge(attrs)
       .fetch()
@@ -163,9 +145,6 @@ module.exports = function(Bookshelf, app) {
 
     signUp: function(attrs) {
       return new User(attrs).save()
-        .then(function(user) {
-          return user.setToken();
-        })
     },
 
     signIn: function(attrs) {
@@ -177,7 +156,7 @@ module.exports = function(Bookshelf, app) {
           return Bcrypt.compareAsync(attrs.password, user.attributes.password)
             .then(function(match) {
               if(!match) { throw new Error('Wrong password'); }
-              return user.setToken();
+              return user;
             });
         });
     },

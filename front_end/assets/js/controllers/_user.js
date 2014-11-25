@@ -1,5 +1,15 @@
 ;(function(angular, app) {
-  app.controller('user', ['$scope', '$state', 'Factories', '$sessionStorage', function($scope, $state, Factories, $sessionStorage) {
+  app.controller('user', [
+    '$scope',
+    '$state',
+    'Factories',
+    '$cookies',
+    function(
+      $scope,
+      $state,
+      Factories,
+      $cookies) {
+
     var F = Factories;
     $scope.user = {};
     $scope.loading = false;
@@ -16,7 +26,8 @@
       if (isValid) {
         $scope.loading = true;
         $scope.user.customPUT($scope.user).then(function(u) {
-          _.extend($sessionStorage.currentUser, u);
+          $cookies.currentUserId = u.id;
+          $cookies.currentUserName = u.name;
           $scope.user = u;
           $scope.message = "User Updated"
           $scope.loading = false;

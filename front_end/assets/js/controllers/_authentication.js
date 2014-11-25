@@ -1,20 +1,28 @@
 !(function(app) {
-  app.controller('authentication',
-    ['$rootScope',
-     '$scope',
-     '$state',
-     'Restangular',
-     '$http',
-     '$sessionStorage',
-     '$stateParams',
-  function($rootScope, $scope, $state, Restangular, $http, $sessionStorage, $stateParams) {
+  app.controller('authentication', [
+    '$rootScope',
+    '$scope',
+    '$state',
+    'Restangular',
+    '$http',
+    '$cookies',
+    '$stateParams',
+    function(
+      $rootScope,
+      $scope,
+      $state,
+      Restangular,
+      $http,
+      $cookies,
+      $stateParams) {
+
     $scope.message = ''
     $scope.user = $scope.user || {};
 
     function signIn(d) {
-      $sessionStorage.currentUser = d;
+      $cookies.currentUserName = d.name;
+      $cookies.currentUserId = d.id;
       $scope.message = 'You are signed in.'
-      $http.defaults.headers.common['User-Token'] = d.token;
       $scope.loading = false;
       if ($rootScope.goTo) {
         $state.go($rootScope.goTo);

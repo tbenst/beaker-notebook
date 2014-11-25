@@ -1,5 +1,21 @@
 !(function(angular, app) {
-  app.controller('marketItem', ['$scope', '$rootScope', '$state', 'Factories', 'Restangular', '$sessionStorage', 'DataFormatService', function($scope, $rootScope,$state, Factories, Restangular, $sessionStorage, DataFormatService) {
+  app.controller('marketItem', [
+    '$scope',
+    '$rootScope',
+    '$state',
+    'Factories',
+    'Restangular',
+    '$cookies',
+    'DataFormatService',
+    function(
+      $scope,
+      $rootScope,
+      $state,
+      Factories,
+      Restangular,
+      $cookies,
+      DataFormatService) {
+
     var R = Restangular;
     var F = Factories;
     var DFS = DataFormatService;
@@ -8,7 +24,7 @@
 
     F.DataSets.getDataSet($state.params.index, $state.params.id).then(function(d) {
       $scope.item = Restangular.stripRestangular(d);
-      $scope.subscribed = _.contains(d.subscriberIds, $sessionStorage.currentUser.id);
+      $scope.subscribed = _.contains(d.subscriberIds, $cookies.currentUserId);
       if ($scope.item.csvPreview) {
         $scope.item.tabView = 'table';
         $scope.tableDataPreview = DFS.buildTable($scope.item);

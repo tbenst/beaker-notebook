@@ -41,7 +41,6 @@
       ],
       "environment": {
         "NODE_ENV": "development",
-        "CIPHER_KEY": "Auj/QL_WU[xX64p+1TB81m6AD6wSCl",
         "DB_PORT_5432_TCP_ADDR": "10.0.1.195",
         "ELASTICSEARCH_PORT_9200_TCP_ADDR": "10.0.1.195",
         "ELASTICSEARCH_PORT_9200_TCP_PORT": "9200"

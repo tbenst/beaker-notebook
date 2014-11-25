@@ -54,7 +54,6 @@
     },
     "env": {
       "NODE_ENV": "development",
-      "CIPHER_KEY": "Auj/QL_WU[xX64p+1TB81m6AD6wSCl",
       "EXTERNAL_DB_HOST": "bunsen-staging-db.cyuqbkun2hqi.us-east-1.rds.amazonaws.com",
       "EXTERNAL_DB_USER": "bunsen",
       "EXTERNAL_DB_PASS": "FSoq93X8KuyQN6333EV3411zf",

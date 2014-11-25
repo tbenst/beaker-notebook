@@ -3,14 +3,11 @@
     '$rootScope',
     '$scope',
     '$state',
-    '$sessionStorage',
+    '$cookies',
     '$http',
-    function($rootScope, $scope, $state, $sessionStorage, $http) {
-      $rootScope.$session = $sessionStorage;
-
-      if ($sessionStorage.currentUser && $sessionStorage.currentUser.token) {
-        $http.defaults.headers.common['User-Token'] = $sessionStorage.currentUser.token;
-      }
+    'Restangular',
+    function($rootScope, $scope, $state, $cookies, $http, Restangular) {
+      $rootScope.$session = $cookies;
 
       $scope.$state = $state;
       $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
@@ -19,7 +16,7 @@
           fromParams: fromParams
         }
 
-        if (!$sessionStorage.currentUser && !toState.skipAuth) {
+        if (!$cookies.currentUserId && !toState.skipAuth) {
           $rootScope.goTo = toState;
           $state.go("signIn");
           event.preventDefault();
@@ -27,7 +24,8 @@
       });
 
       $rootScope.signOut = function() {
-        delete $sessionStorage.currentUser;
+        delete $cookies.currentUserId;
+        return Restangular.all('sign_out').post();
       }
   }]);
 })(window.bunsen);
