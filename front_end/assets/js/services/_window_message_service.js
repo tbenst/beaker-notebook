@@ -19,11 +19,16 @@
       angular.element(iframe).attr('height', data.height);
     };
 
+    function setNotebookEdited(data) {
+      $rootScope.$broadcast('notebook-edited', data);
+    };
+
     function receiveWindowMessage(e) {
       if (new URL(e.origin).hostname !== $location.host()) {
         throw "message received from unauthorized host " + e.origin.host;
       }
       if (e.data.operation == 'resize') return resizeIframe(e.data);
+      if (e.data.operation == 'edited') return setNotebookEdited(e.data);
       if (!e.data.notebook) return; // could be a message for a different purpose
       saveNotebook(e.data);
     }

@@ -1,10 +1,20 @@
 ;(function(angular, app) {
-  app.controller('publishNotebook', ['$scope', 'Factories', function($scope, F) {
+  app.controller('publishNotebook', ['$timeout', '$scope', 'Factories', function($timeout, $scope, F) {
+    $scope.showButtons = true;
+
     $scope.publish = function() {
       F.Notebooks.publish($scope.notebook.current).then(function(notebook) {
         $scope.notebook.current = notebook;
         $scope.$emit('closeModal');
       });
+    };
+
+    $scope.savePublish = function() {
+      $scope.showButtons = false;
+      $scope.save();
+      // Currently there is no way to detect if notebook was saved in Bunsen,
+      // so we wait before publishing it
+      $timeout($scope.publish, 1000);
     };
 
     $scope.cancelPublish = function() {
