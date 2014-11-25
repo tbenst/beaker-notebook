@@ -84,13 +84,16 @@ module.exports = function() {
     move: function(notebook, project) {
       return this.findNotebook(notebook).then(function(item) {
         return item.hover({ selector: '.dropdown-toggle' })
-        .then(function(){
-          return item.hover('.move');
+        .then(function(dropdown){
+          return dropdown.hover('.move');
         })
-        .then(function() {
-          return item.click({ text: project });
+        .then(function(menuItem) {
+          return menuItem.hover({selector: '.project'})
+        })
+        .then(function(p) {
+          return p.click({ text: project });
         });
-      })
+      });
     }
   });
 }
