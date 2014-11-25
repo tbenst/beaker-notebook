@@ -242,6 +242,14 @@ module.exports = function() {
     });
   });
 
+  this.When(/^I edit the notebook$/, function() {
+    var _this = this;
+    notebook = new this.Widgets.Notebook();
+    return notebook.waitForBeaker().then(function() {
+      return (new _this.Widgets.BeakerFrame()).insertCell();
+    });
+  });
+
   this.Then(/^I should be in the "([^"]*)" notebook$/, function(name) {
     return new this.Widgets.Notebook().name().should.eventually.equal(name);
   });

@@ -165,3 +165,11 @@ Feature: Publications
     When I view the publication
     Then I should be able to collapse and expand inputs
     And I should be able to collapse and expand outputs
+
+  Scenario: Publishing a Notebook with unsaved changes
+    Given I view my projects
+    And I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    When I edit the notebook
+    And I go to publish the notebook
+    Then I should see "Warning, your notebook has unsaved changes."
