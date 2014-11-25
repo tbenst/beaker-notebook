@@ -7,6 +7,7 @@
      'marketPlaceFilters',
      'truncate',
      'ngStorage',
+     'ngCookies',
      'beakerNotebook',
      'angularFileUpload',
      'stopEvent',
