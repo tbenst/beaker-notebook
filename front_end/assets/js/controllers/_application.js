@@ -23,6 +23,8 @@
         }
       });
 
+      $scope.cachedNotebooks = $scope.cachedNotebooks || {};
+
       $rootScope.signOut = function() {
         delete $cookies.currentUserId;
         return Restangular.all('sign_out').post();
