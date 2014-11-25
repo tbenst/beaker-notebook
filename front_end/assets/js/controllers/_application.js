@@ -26,6 +26,8 @@
         }
       });
 
+      $scope.cachedNotebooks = $scope.cachedNotebooks || {};
+
       $rootScope.signOut = function() {
         delete $sessionStorage.currentUser;
       }
