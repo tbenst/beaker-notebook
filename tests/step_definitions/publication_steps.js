@@ -68,7 +68,8 @@ var seedPublications = function(count, options, user) {
               data: {
                 notebook_id: notebook.id,
                 name: i== 0 ? publicationName : publicationName + ' ' + i,
-                contents: notebookBase.data
+                contents: notebookBase.data,
+                userId: u[0].id
               }
             };
 
