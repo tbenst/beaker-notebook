@@ -4,7 +4,7 @@ module.exports = function(Bookshelf, app) {
   var query   = Bookshelf.knex;
   var DataTag = Bookshelf.Model.extend({
     tableName: 'data_tags',
-
+    hasTimestamps: true,
     idAttrs: ["name"]
   });
 

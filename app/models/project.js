@@ -33,7 +33,7 @@ module.exports = function(Bookshelf, app) {
 
   var Project = Bookshelf.Model.extend({
     tableName: "projects",
-
+    hasTimestamps: true,
     idAttrs: ["name"],
 
     initialize: function() {

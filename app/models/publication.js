@@ -3,7 +3,7 @@ var _ = require('lodash');
 module.exports = function(Bookshelf, app) {
   var Publication = Bookshelf.Model.extend({
     tableName: "publications",
-
+    hasTimestamps: true,
     notebook: function() {
       return this.belongsTo(app.Models.Notebook);
     },

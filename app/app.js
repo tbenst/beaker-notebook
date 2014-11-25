@@ -71,6 +71,8 @@ function appConfig(app) {
 
   app.useMiddleware(AuthController, 'authorize', {except: [
     '/api/authenticate',
+    '/api/change_password',
+    '/api/forgot_password',
     '/api/sign_up',
     '/seed'
   ]});

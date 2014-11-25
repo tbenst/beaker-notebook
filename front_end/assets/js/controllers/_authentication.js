@@ -1,5 +1,13 @@
 !(function(app) {
-  app.controller('authentication', ['$rootScope', '$scope', '$state', 'Restangular', '$http', '$sessionStorage', function($rootScope, $scope, $state, Restangular, $http, $sessionStorage) {
+  app.controller('authentication',
+    ['$rootScope',
+     '$scope',
+     '$state',
+     'Restangular',
+     '$http',
+     '$sessionStorage',
+     '$stateParams',
+  function($rootScope, $scope, $state, Restangular, $http, $sessionStorage, $stateParams) {
     $scope.message = ''
     $scope.user = $scope.user || {};
 
@@ -43,6 +51,31 @@
           $scope.message = 'Error: Please fill in form completely'
         }
 
+    };
+
+    $scope.sendEmail = function () {
+      Restangular.all('forgot_password').post($scope.user)
+        .then(function() {
+          $scope.message = 'An email with further instruction has been sent';
+        })
+        .catch(function(err) {
+          $scope.message = err
+        })
+    };
+
+    $scope.submitPassword = function(isValid) {
+      if (isValid) {
+        $scope.user.requestId = $stateParams.id
+        Restangular.all('change_password').post($scope.user)
+          .then(function() {
+            $scope.message = 'Your password has been updated'
+          })
+          .catch(function(err) {
+            $scope.message = "Error: " + err.data;
+          })
+      } else {
+        $scope.message = "Error: The entered password is too short"
+      }
     };
   }]);
 })(window.bunsen);

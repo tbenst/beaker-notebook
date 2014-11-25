@@ -4,6 +4,8 @@ sign-up(ng-class="{active: !signUp}")
   div(ng-show="!signUp")
     | No Account? &nbsp;
     span.create-account(ng-click="signUp = !signUp") Create New Account
+    br
+    span.retrieve-password(ui-sref="retrievePassword") Forgot Password
   div(ng-show="signUp")
     | Have An Account? &nbsp;
     span.login-to-account(ng-click="signUp = !signUp") Login
