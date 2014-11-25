@@ -8,6 +8,10 @@ To prevent slow uploading when building images you must enable a `virtio-net` ad
 
 <img src="docs/virtual-box-network.png" width="400px">
 
+## Understanding How we Use ElasticSearch
+
+#### [Read All about it](elastic_search_for_us.md)
+
 ## Docker 101
 We use docker ([CLI](https://docs.docker.com/reference/commandline/cli)) to create images and containers to run
 Bunsen's different components (db, app [api server], web, beaker, provisioner, & gateway)
