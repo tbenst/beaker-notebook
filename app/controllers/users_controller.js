@@ -10,9 +10,8 @@ module.exports = function(app) {
 
   return {
     contributors: function(req, res, next) {
-      User.query(function(qb) {
-        qb.select('users.*')
-        .count('publications.id as publication_count')
+      User.query(function(db) {
+        db.count('publications.id as publication_count')
         .from('users')
         .rightJoin('publications', 'users.id', 'publications.user_id')
         .groupBy('users.id')
@@ -22,6 +21,28 @@ module.exports = function(app) {
       .fetchAll()
       .then(function(contributors) {
         return _.map(contributors.models, function(contributor) {
+          delete contributor.attributes.password;
+          return setGravatar(contributor);
+        });
+      })
+      .then(res.json.bind(res))
+      .catch(next);
+    },
+
+    contributorsByCat: function(req, res, next) {
+      User.query(function(db) {
+        db.count('publications.id as publication_count')
+        .rightJoin('publications', 'users.id', 'publications.user_id')
+        .rightJoin('publication_categories', 'publications.category_id', 'publication_categories.id')
+        .where('publication_categories.id', req.params.cat_id)
+        .groupBy('users.id')
+        .orderBy('publication_count', 'desc')
+        .limit(5)
+      })
+      .fetchAll()
+      .then(function(contributors) {
+        return _.map(contributors.models, function(contributor) {
+          delete contributor.attributes.password;
           return setGravatar(contributor);
         });
       })

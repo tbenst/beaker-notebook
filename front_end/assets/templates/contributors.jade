@@ -2,7 +2,7 @@
   h3 Top Contributors
   .content
     ul
-      li.contributor(ng-repeat="contributor in contributors.list")
+      li.contributor(ng-repeat="contributor in contributors")
         img.icon.top-contributor-icon(ng-src="{{contributor.gravatar}}&size=100")
         .name
           strong {{contributor.name}}

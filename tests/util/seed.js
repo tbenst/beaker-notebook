@@ -32,7 +32,7 @@ module.exports = function() {
                 response[0].statusCode, response[1]));
             }
             else {
-              var models = JSON.parse(response[0].body);
+              var models = Array.prototype.concat(JSON.parse(response[0].body));
               models = _.flatten(models);
               if (models.length == 1) models = models[0];
               result.push(models)

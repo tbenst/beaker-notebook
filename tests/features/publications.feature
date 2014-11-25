@@ -66,6 +66,10 @@ Feature: Publications
     Then I should see my author info in the first publication
 
   Scenario: Top Contributors List in Sidebar
+    Given I have the following publication categories:
+      | name       | description          |
+      | Energy     | Energy is energetic. |
+    And there are 3 publications in the "Energy" category
     When I view my projects
     And I open the "ghost of tom jones" project
     And I view the notebook "top secret"
@@ -75,7 +79,12 @@ Feature: Publications
     When I view the publications page
     Then I should see the following top contributors:
       | name          | job_title  | company   | gravatar_email |
+      | jon research  |            |           | jon@r.edu      |
       | joe research  | Researcher | Two Sigma | u@r.edu        |
+    When I click the "Energy" category
+    Then I should see the following top contributors:
+      | name          | job_title  | company   | gravatar_email |
+      | jon research  |            |           | jon@r.edu      |
 
   Scenario: Deleting a Publication
     Given the notebook "top secret" is published
