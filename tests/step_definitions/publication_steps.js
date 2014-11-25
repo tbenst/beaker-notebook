@@ -163,6 +163,10 @@ module.exports = function() {
     return new this.Widgets.PublishModal().addDescription(description)
   });
 
+  this.Then(/^I should see "([^"]*)"$/, function(msg) {
+    return new this.Widgets.PublishModal().find({text: msg});
+  });
+
   this.When(/^I give it the category "([^"]*)"$/, function(category) {
     return new this.Widgets.PublishModal().selectCategory(category);
   });

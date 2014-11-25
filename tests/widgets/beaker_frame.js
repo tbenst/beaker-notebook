@@ -14,6 +14,15 @@ module.exports = function() {
 
     leave: function() {
       return this.driver.switchTo().defaultContent();
+    },
+
+    insertCell: function() {
+      var _this = this;
+      return this.enter().then(function() {
+        return (new widgets.Beaker.InsertCell()).click();
+      }).then(function() {
+        return _this.leave();
+      });
     }
   });
 };

@@ -1,6 +1,7 @@
 !(function(angular, app) {
   app.controller('notebook', [
     '$scope',
+    '$rootScope',
     '$state',
     '$sce',
     'Factories',
@@ -13,6 +14,7 @@
     'WindowMessageService',
     'Beaker', function(
       $scope,
+      $rootScope,
       $state,
       $sce,
       Factories,
@@ -35,6 +37,8 @@
     $scope.loading = true;
 
     $scope.menu = false;
+
+    $scope.edited = false;
 
     $scope.showMenu = function() {
       this.menu = true;
@@ -150,6 +154,12 @@
     $scope.openPublishModal = function() {
       $scope.$emit('openModal', $compile(templates.publish_notebook_modal())($scope), { width: '400px' });
     };
+
+    $rootScope.$on('notebook-edited', function(event, data) {
+      if ($scope.notebook && $scope.notebook.current.id == data.notebookId) {
+        $scope.edited = data.value;
+      }
+    });
 
     $scope.$watch('notebook.current', function(newVal) {
       if (!newVal) return;
