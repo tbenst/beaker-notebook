@@ -3,7 +3,6 @@ var Promise               = require('bluebird');
 var Bcrypt                = Promise.promisifyAll(require("bcryptjs"));
 var Checkit               = require('checkit');
 var Crypto                = require('crypto');
-var CryptoLib             = require('../lib/crypto');
 var moment                = require('moment');
 var PasswordResetException = require('../lib/password_reset_exception');
 
