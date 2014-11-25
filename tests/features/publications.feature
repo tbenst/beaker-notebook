@@ -142,6 +142,9 @@ Feature: Publications
     When I view the publication
     Then I should see the publication notebook
     And I should see the author "joe research"
+    And I should see the gravatar for "u@r.edu"
+    And I should see the authors job title "Researcher"
+    And I should see the authors company "Two Sigma"
 
   Scenario: Minimizing publication sections
     Given I have a publication

@@ -3,7 +3,7 @@
   .content
     ul
       li.contributor(ng-repeat="contributor in contributors.list")
-        img.icon(ng-src="{{contributor.gravatar}}&size=50")
+        img.icon.top-contributor-icon(ng-src="{{contributor.gravatar}}&size=100")
         .name
           strong {{contributor.name}}
         .job-title {{contributor.jobTitle | limitTo: 23}}

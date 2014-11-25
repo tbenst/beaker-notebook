@@ -16,7 +16,19 @@ module.exports = function() {
     root: '.publication .item-hero',
 
     author: function() {
-      return this.read('span.author');
+      return this.read('.author-info .name');
+    },
+
+    authorJobTitle: function() {
+      return this.read('.author-info .job');
+    },
+
+    authorCompany: function() {
+      return this.read('.author-info .company');
+    },
+
+    gravatarLink: function() {
+      return this.getAttribute({selector: '.publication-notebook-icon', attribute: 'src'})
     }
   });
 
