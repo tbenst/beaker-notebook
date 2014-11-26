@@ -22,9 +22,10 @@ module.exports = function(app) {
     index: function(req, res, next) {
       var urlParts = url.parse(req.url, true);
       params = Qs.parse(urlParts.query);
-      DataSet.findMatching(params, getOptions(req)).then(function(dataSets) {
-        res.json(dataSets);
-      }).catch(next);
+
+      DataSet.findMatching(params, getOptions(req))
+      .then(res.json.bind(res))
+      .catch(next);
     },
 
     get: function(req, res, next) {

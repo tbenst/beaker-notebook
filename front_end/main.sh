@@ -30,5 +30,5 @@ elif [[ $coverage -eq 1 ]]; then
   echo "Running server in coverage mode..."
   PORT=7777 NODE_ENV=test exec node coverage-server
 else
-  exec /usr/sbin/nginx
+  exec roots compile && /usr/sbin/nginx
 fi

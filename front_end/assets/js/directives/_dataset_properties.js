@@ -8,8 +8,29 @@
       template: templates.dataset_properties,
       controller: ['$scope', function($scope) {
 
-        var specialUiAttrs = ['csvPreview', 'description', 'numColumns', 'remoteFile', 'rows', 'tags', 'title', 'dataPreviews', 'categories', 'vendor'];
-        var ignoreAttrs = ['subscriberIds', 'id', '_id', 'tabView', 'related', 'catalog', 'index']
+        var specialUiAttrs = [
+          'csvPreview',
+          'description',
+          'numColumns',
+          'remoteFile',
+          'rows',
+          'tags',
+          'title',
+          'dataPreviews',
+          'categories',
+          'vendor'
+        ];
+
+        var ignoreAttrs = [
+          'subscriberIds',
+          'id',
+          '_id',
+          'tabView',
+          'related',
+          'catalog',
+          'index'
+        ];
+
         var omitAttrs = specialUiAttrs.concat(ignoreAttrs);
 
         function parseDate(dateField) {
