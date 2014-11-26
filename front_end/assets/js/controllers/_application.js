@@ -25,6 +25,14 @@
 
       $scope.cachedNotebooks = $scope.cachedNotebooks || {};
 
+      $scope.className = function() {
+        var ngClass = $state.current.name;
+        if ($state.includes('projects.items.item.notebook')) {
+          ngClass += " projects";
+        }
+        return ngClass;
+      }
+
       $rootScope.signOut = function() {
         delete $cookies.currentUserId;
         return Restangular.all('sign_out').post();
