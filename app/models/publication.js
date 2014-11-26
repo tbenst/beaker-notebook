@@ -10,6 +10,9 @@ module.exports = function(Bookshelf, app) {
 
     author: function() {
       return this.belongsTo(app.Models.User);
+    },
+    category: function() {
+      return this.belongsTo(app.Models.PublicationCategory, 'category_id');
     }
   });
 
