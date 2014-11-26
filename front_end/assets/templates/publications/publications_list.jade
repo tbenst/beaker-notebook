@@ -5,14 +5,18 @@
   publication-hero(publications='publications')
   ul.publication-list.bunsen-list
     li.bunsen-list-item(ng-repeat="publication in publications.list | filter:byPublicationFilter | orderBy:'createdAt':true")
-      h2
-        a.title(ui-sref="publications.items.item({id: publication.id})") {{publication.name}}
-      .author(ng-if="publication.author.name")
-        .name
-          strong {{publication.author.name}}
-        .info
-          span.job-title(ng-if="publication.author.jobTitle") {{publication.author.jobTitle}},
-          span.company {{publication.author.company}}
-      p.description {{publication.description | words : 30 }}
-      ul.language-icons
-        language-icon(ng-repeat="language in publication.languages" lang="language")
+      figure
+        .category-icon(data-icon="{{publication.category.name}}")
+        figcaption {{publication.category.name}}
+      .publication-meta
+        h2
+          a.title(ui-sref="publications.items.item({id: publication.id})") {{publication.name}}
+        .author(ng-if="publication.author.name")
+          .name
+            strong {{publication.author.name}}
+          .info
+            span.job-title(ng-if="publication.author.jobTitle") {{publication.author.jobTitle}},
+            span.company {{publication.author.company}}
+        p.description {{publication.description | words : 30 }}
+        ul.language-icons
+          language-icon(ng-repeat="language in publication.languages" lang="language")
