@@ -125,6 +125,7 @@ Feature: Publications
       | name       |
       | top secret |
 
+  @firefox_failure
   Scenario: Publication categories
     Given I have the following publication categories:
       | name       | description          |
