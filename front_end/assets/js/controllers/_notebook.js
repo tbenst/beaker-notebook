@@ -60,10 +60,9 @@
       }
       notebookUrl += notebookPath;
 
-      return beakerUrl(url, "open", {
+      return beakerUrl(url, "edit/" + notebookId, {
         uri: notebookUrl,
-        projectId: projectId,
-        notebookId: notebookId
+        projectId: projectId
       });
     };
 
