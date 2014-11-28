@@ -19,6 +19,10 @@ config[env] = {
     host : process.env.PROVISIONER_PORT_3001_TCP_ADDR || '127.0.0.1',
     port : process.env.PROVISIONER_PORT_3001_TCP_PORT || '3001'
   },
+  elastic: {
+    host: process.env.ELASTICSEARCH_PORT_9200_TCP_ADDR,
+    port: process.env.ELASTICSEARCH_PORT_9200_TCP_PORT
+  },
   beakerHost: "localhost"
 };
 
