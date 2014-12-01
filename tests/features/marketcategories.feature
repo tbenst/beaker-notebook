@@ -9,7 +9,6 @@ As a researcher, I want to be able to browse the market place.
       | finance    | 0.1.1 |
       | canada     | 0.1.2 |
 
-  @firefox_failure
   Scenario: Browse market items by category
     Given I have the following market items:
       | title                  | categories |
@@ -65,7 +64,6 @@ As a researcher, I want to be able to browse the market place.
 	And I browse the default catalog by category "Energy"
 	Then I should see the category owner "Paul"
 
-  @firefox_failure
   Scenario: Using category tree
     Given I have the following categories:
       | name       | path        |
