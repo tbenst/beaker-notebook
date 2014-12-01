@@ -5,7 +5,6 @@
       restrict: 'E',
       scope: {
         notebook: "=",
-        width: "@",
         height: "@"
       },
       link: function(scope, element) {
@@ -31,7 +30,6 @@
             var frame = document.createElement("iframe")
             frame.setAttribute('id', frameId);
             frame.src = location.toString();
-            frame.setAttribute('width', scope.width);
             frame.setAttribute('height', scope.height);
             frame.setAttribute('scrolling', 'no');
             frame.setAttribute('class', 'beaker');
