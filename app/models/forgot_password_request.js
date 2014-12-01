@@ -11,7 +11,7 @@ module.exports = function(Bookshelf, app) {
   ForgotPasswordRequests = _.extend(ForgotPasswordRequests, {
 
     sendRequest: function(attrs) {
-      return app.Models.User.forge({email: attrs.email}).fetch({require: true})
+      return app.Models.User.forge({email: attrs.email}).fetch()
         .then(function(user) {
           return crypto.randomBytes(64, function (err, buf) {
             var requestId = buf.toString('hex')
