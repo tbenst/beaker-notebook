@@ -55,6 +55,10 @@ module.exports = function() {
           return languages.join(', ');
         });
       });
+    },
+
+    icon: function() {
+      return this.getAttribute({selector: '.category-icon', attribute: 'data-icon'})
     }
   });
 
@@ -102,6 +106,10 @@ module.exports = function() {
 
     description: function() {
       return this.read('.description');
+    },
+
+    icon: function() {
+      return this.getAttribute({selector: '.category-icon', attribute: 'data-icon'})
     }
   });
 };

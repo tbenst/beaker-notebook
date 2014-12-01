@@ -152,7 +152,11 @@ module.exports = function() {
     return new this.Widgets.PublicationCategoriesList().clickCategory(category);
   });
 
-  this.Then(/^The category has the description "([^"]*)"$/, function(description) {
+  this.Then(/^The category should display the "([^"]*)" icon$/, function(category) {
+    return new this.Widgets.PublicationCategoryHero().icon().should.eventually.eql(category);
+  });
+
+  this.Then(/^The category should have the description "([^"]*)"$/, function(description) {
     return new this.Widgets.PublicationCategoryHero().description().should.eventually.equal(description);
   });
 
@@ -235,6 +239,12 @@ module.exports = function() {
 
   this.Then(/^I should see (\d+) publication results on the page$/, function(count) {
     return new this.Widgets.PublicationList().items().should.eventually.have.length(count);
+  });
+
+  this.Then(/^I should see the "([^"]*)" icon in the first result$/, function(category) {
+    return new this.Widgets.PublicationList().at(0).then(function(publication) {
+      return publication.icon().should.eventually.eql(category);
+    });
   });
 
   this.Then(/^I should see (\d+) publication results next to the "([^"]*)" category$/, function(n, category) {
