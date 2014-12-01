@@ -5,6 +5,11 @@
   @media medium
     width page-width-medium
 
+.projects
+  .contain
+    @media large
+      width page-width-large
+
 .cl
   clear both
 
@@ -52,3 +57,10 @@ $sidebar
     width main-content-medium-width
     .sidebar-right ~ &
       width main-content-medium-width - sidebar-width - right-gutter-medium-width
+
+.projects
+  .main-content
+    @media large
+      width main-content-large-width - sidebar-width - right-gutter-medium-width
+      .sidebar-right ~ &
+        width main-content-large-width - sidebar-width - right-gutter-medium-width
