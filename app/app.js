@@ -70,6 +70,7 @@ function appConfig(app) {
   }
 
   app.useMiddleware(AuthController, 'authorize', {except: [
+    '/api/status',
     '/api/authenticate',
     '/api/change_password',
     '/api/forgot_password',
