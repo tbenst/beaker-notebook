@@ -1,4 +1,6 @@
 .category-hero(ng-if='publications.category')
+  .category-icon-wrapper
+    .category-icon(data-icon="{{publications.category.name}}")
   .category
     h2 {{publications.category.name}}
     .category-information

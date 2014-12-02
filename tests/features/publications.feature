@@ -125,21 +125,22 @@ Feature: Publications
       | name       |
       | top secret |
 
-  @firefox_failure
   Scenario: Publication categories
     Given I have the following publication categories:
-      | name       | description          |
-      | Energy     | Energy is energetic. |
+      | name       | description             |
+      | Politics   | Politics are political. |
     Given there are 2 publications for the project "random"
-    And there are 3 publications in the "Energy" category
+    And there are 3 publications in the "Politics" category
     When I view the publications page
     Then I should see 5 publication results on the page
-    When I click the "Energy" category
+    When I click the "Politics" category
+    Then The category should display the "Politics" icon
+    And The category should have the description "Politics are political."
     Then I should see 3 publication results on the page
-    And The category has the description "Energy is energetic."
+    And I should see the "Politics" icon in the first result
     When I click the "All" category
     Then I should see 5 publication results on the page
-    Then I should see 3 publication results next to the "Energy" category
+    Then I should see 3 publication results next to the "Politics" category
 
   Scenario: Categorizing publications
     Given I have the following publication categories:

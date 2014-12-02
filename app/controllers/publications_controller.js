@@ -10,7 +10,7 @@ module.exports = function(app) {
       var searchParams = _.pick(req.query, ['category_id']);
 
       Publication.query({ where: searchParams })
-      .fetchAll({ withRelated: 'author' })
+      .fetchAll({ withRelated: ['author', 'category'] })
       .then(function(publications) {
         _.each(publications.models, function(publication) {
           publication.set('languages', Publication.languages(publication.get('contents')));

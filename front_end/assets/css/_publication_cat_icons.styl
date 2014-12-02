@@ -1,0 +1,7 @@
+category-icon(category, slug, width, height, type)
+  .category-icon[data-icon={'"' + category + '"'}]
+    background-image: url("../images/publication_categories/" + type + "/" + slug + ".png")
+    height: unit(height, px)
+    width: unit(width, px)
+    @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2)
+      background-image: url("../images/publication_categories/" + type + "/" + slug + "@2x.png")

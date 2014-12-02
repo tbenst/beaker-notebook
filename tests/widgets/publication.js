@@ -55,6 +55,10 @@ module.exports = function() {
           return languages.join(', ');
         });
       });
+    },
+
+    icon: function() {
+      return this.getAttribute({selector: '.category-icon', attribute: 'data-icon'})
     }
   });
 
@@ -76,8 +80,19 @@ module.exports = function() {
     root: '.publication-categories',
 
     count: function(category) {
-      return this.find({text: category}).then(function(el) {
-        return World.driver.executeScript('return arguments[0].parentNode.getElementsByClassName("count")[0].innerText', el);
+      return this.findCategory(category)
+      .then(function(item) {
+        return item.read('.count');
+      });
+    },
+
+    findCategory: function(category) {
+      return this.filter(function(item) {
+       return item.read({ transformer: _s.titleize }).then(function(contents) {
+          return contents.match("^"+category);
+        });
+      }).then(function (results) {
+        return results[0];
       })
     },
 
@@ -91,6 +106,10 @@ module.exports = function() {
 
     description: function() {
       return this.read('.description');
+    },
+
+    icon: function() {
+      return this.getAttribute({selector: '.category-icon', attribute: 'data-icon'})
     }
   });
 };
