@@ -56,7 +56,13 @@ module.exports = function(app) {
         .then(function() {
           res.status(200).end();
         })
-        .catch(next);
+        .catch(function(err) {
+          if (err instanceof PasswordResetException) {
+            res.status(404).send(err.message);
+          } else {
+            res.status(500).send(err);
+          }
+        });
     },
 
     changePassword: function(req, res, next) {

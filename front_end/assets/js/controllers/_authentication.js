@@ -67,7 +67,7 @@
           $scope.message = 'An email with further instruction has been sent';
         })
         .catch(function(err) {
-          $scope.message = err
+          $scope.message = "Error: " + err.data;
         })
     };
 
