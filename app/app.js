@@ -12,7 +12,7 @@ var app = express();
 if (app.get('env') == 'test') {
   var im = require('istanbul-middleware');
   im.hookLoader(__dirname);
-  app.use('/api/coverage', im.createHandler());
+  app.use('/api/coverage', im.createHandler({ verbose: true, resetOnGet: false }));
 }
 
 var skipMiddleware = require("./lib/skip_middleware");
