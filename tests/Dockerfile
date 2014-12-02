@@ -1,38 +1,34 @@
 FROM quay.io/mojotech/debian
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends -t wheezy-backports \
-      nodejs-legacy \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends -t wheezy-backports \
+      curl \
+      firefox-mozilla-build \
       fluxbox \
-      x11vnc \
       g++ \
+      git \
       make \
+      nodejs-legacy \
+      npm \
       openjdk-7-jre-headless \
       unzip \
+      x11vnc \
       xfonts-100dpi \
       xfonts-75dpi \
       xfonts-cyrillic \
       xfonts-scalable \
-      git \
-      firefox-mozilla-build \
-      curl \
-      xvfb && \
-    apt-get install -y --no-install-recommends -t jessie \
-      npm && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+      xvfb \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 ENV NODE_PATH /usr/local/lib/node_modules
-RUN npm config --global set cache /home/beaker/.npm && \
-    npm config --global set registry http://registry.npmjs.org/
 
 EXPOSE 5900
 
 ADD . /var/app/test
 WORKDIR /var/app/test
 
-RUN npm install --production
+RUN npm install
 
-RUN chmod +x main.sh
 ENTRYPOINT ./main.sh
