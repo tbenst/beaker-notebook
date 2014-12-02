@@ -4,11 +4,11 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box     = "mojo-debian-7.5-3.14-0.5"
-  config.vm.box_url = "http://mojo-boxes.s3.amazonaws.com/mojo-debian-7.5-3.14-0.5-virtualbox.box"
+  config.vm.box     = "mojo-debian-7.5-3.14-0.5.3"
+  config.vm.box_url = "http://mojo-boxes.s3.amazonaws.com/mojo-debian-7.5-3.14-0.5.3-virtualbox.box"
 
   config.vm.provider :vmware_fusion do |v, override|
-    override.vm.box_url = "http://mojo-boxes.s3.amazonaws.com/mojo-debian-7.5-3.14-0.5-vmware.box"
+    override.vm.box_url = "http://mojo-boxes.s3.amazonaws.com/mojo-debian-7.5-3.14-0.5.3-vmware.box"
   end
 
   config.vm.network "private_network", ip: "10.10.10.10"
