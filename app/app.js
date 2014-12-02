@@ -9,7 +9,11 @@ var path = require('path');
 var _ = require('lodash');
 var app = express();
 
-if (app.get('env') == 'test') {
+app.set('allow seed', !!process.env.ALLOW_SEED);
+app.set('allow cross origin', !!process.env.ALLOW_CROSS_ORIGIN);
+app.set('enable coverage', !!process.env.ENABLE_COVERAGE);
+
+if (app.get('enable coverage')) {
   var im = require('istanbul-middleware');
   im.hookLoader(__dirname);
   app.use('/api/coverage', im.createHandler());
@@ -49,9 +53,7 @@ function appConfig(app) {
   app.use(express.session());
   app.use(express.static(path.join(__dirname, 'public')));
 
-  // development only
-  if (_.contains(['test', 'development'], app.get('env'))) {
-    // allow cross origin requests in DEV and TEST
+  if (app.get('allow cross origin')) {
     app.use(function(req, res, next) {
       res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,HEAD');
@@ -65,9 +67,9 @@ function appConfig(app) {
         next();
       }
     });
-
-    app.use(express.errorHandler());
   }
+
+  app.use(express.errorHandler());
 
   app.useMiddleware(AuthController, 'authorize', {except: [
     '/api/status',

@@ -15,8 +15,8 @@ module.exports.init = function(app) {
   require('./tag_routes.js')(app);
   require('./beaker_instances_routes.js')(app);
 
-  if (app.get('env') === "test") {
-    console.log("WARNING! In test mode, enabling seed routes!")
+  if (app.get('allow seed')) {
+    console.log("WARNING! Enabling seed routes!")
     require('./seed_routes.js')(app);
   }
 
