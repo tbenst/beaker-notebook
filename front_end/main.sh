@@ -1,34 +1,34 @@
 #!/bin/bash -e
 
-for i in "$@"
-do
-case $i in
-  -w|--watch) watch=1 ;;
-  -t|--test) test=1 ;;
-  -c|--coverage) coverage=1 ;;
-  -h|--help)
-    cat <<EOF
+function main {
+  local temp=""
+  local help=\
+"Usage: web [options]
 
-  Usage: web [options]
-  Options:
-          -h  --help          Display this message
-          -w  --watch         Restart server if files change
-          -t  --test          Run test server
+Options:
+  -h,  --help          Display this message
+  -w,  --watch         Restart server if files change
+  -c,  --coverage      Instrument javascript files for coverage report"
 
-EOF
-    exit
-    ;;
-esac
-done
+  for i in "$@"; do
+    case $i in
+      -h|--help) echo "$help"; exit 1 ;;
+      -w|--watch) ENABLE_WATCH=y ;;
+      -c|--coverage) ENABLE_COVERAGE=y ;;
+    esac
+    shift
+  done
 
-if [[ $watch -eq 1 ]]; then
-  PORT=7777 exec roots watch
-elif [[ $test -eq 1 ]]; then
-  PORT=7777 NODE_ENV=test exec roots watch
-elif [[ $coverage -eq 1 ]]; then
-  roots compile --no-compress
-  echo "Running server in coverage mode..."
-  PORT=7777 NODE_ENV=test exec node coverage-server
-else
-  exec roots compile && /usr/sbin/nginx
-fi
+  if [[ -n $ENABLE_COVERAGE ]]; then
+    istanbul instrument --embed-source -o public/js/main.js.tmp public/js/main.js
+    mv public/js/main.js{.tmp,}
+  fi
+
+  if [[ -n $ENABLE_WATCH ]]; then
+    PORT=8080 exec roots watch
+  else
+    exec /usr/sbin/nginx
+  fi
+}
+
+main "$@"
