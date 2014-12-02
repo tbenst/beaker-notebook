@@ -7,7 +7,8 @@
     "start": "NODE_ENV=test pioneer",
     "failures": "NODE_ENV=test pioneer --tags @failed",
     "ci": "NODE_ENV=test DISPLAY=:99.0 pioneer features/ --driver=firefox",
-    "test": "NODE_ENV=test node-debug --web-port 8081 --debug-port 5859 pioneer --tags @failed"
+    "test": "NODE_ENV=test node-debug --web-port 8081 --debug-port 5859 pioneer --tags @failed",
+    "coverage": "istanbul report text"
   },
   "repository": {
     "type": "git",
@@ -26,7 +27,8 @@
     "bluebird": "1.2.1",
     "moment": "^2.6.0",
     "underscore.string": "2.3.3",
-    "selenium-webdriver": "2.41.0"
+    "selenium-webdriver": "2.41.0",
+    "istanbul": "0.3.2"
   },
   "devDependencies": {
     "node-inspector": "0.7.0"
