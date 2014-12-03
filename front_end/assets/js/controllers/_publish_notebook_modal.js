@@ -1,14 +1,18 @@
 ;(function(angular, app) {
   app.controller('publishNotebook', ['$timeout', '$scope', 'Factories', function($timeout, $scope, F) {
+    var publishType;
     $scope.showButtons = true;
 
-    if(!$scope.published) {
+    if($scope.published) {
+      publishType = 'updatePublication';
+    } else {
       $scope.notebook.current.publication = {};
+      publishType = 'publish';
     }
 
     $scope.publish = function() {
       _.extend($scope.notebook.current.publication, {notebookId: $scope.notebook.current.id});
-      F.Notebooks.publish($scope.notebook.current.publication).then(function(notebook) {
+      F.Notebooks[publishType]($scope.notebook.current.publication).then(function(notebook) {
         $scope.notebook.current = notebook;
         $scope.$emit('closeModal');
       });
