@@ -53,6 +53,35 @@ module.exports = function(app) {
       .catch(next);
     },
 
+    update: function(req, res, next) {
+      return new Notebook({ id: req.body.notebookId, userId: req.user.id })
+      .fetch({ require: true, withRelated: 'publication' })
+      .then(function(notebook) {
+        return notebook.getData().then(function(data) {
+          var attrs = {
+            name: notebook.get('name'),
+            contents: data,
+            description: req.body.description,
+            category_id: req.body.categoryId
+          };
+
+          return new Publication({
+            id: req.body.id,
+            user_id: req.user.id
+          })
+          .save(attrs, {patch: true})
+          .then(function(publication) {
+            return notebook.load('publication');
+          });
+        });
+      })
+      .then(res.json.bind(res))
+      .catch(Notebook.NotFoundError, function() {
+        return res.status(404).end();
+      })
+      .catch(next);
+    },
+
     destroy: function(req, res, next) {
       req.user.publications()
       .query({where: {'publications.id': req.params.id}})
