@@ -34,7 +34,9 @@
 
     $scope.menu = false;
 
-    $scope.edited = false;
+    $scope.edited = function() {
+      return $scope.notebook.current.edited;
+    };
 
     $scope.showMenu = function() {
       this.menu = true;
@@ -145,7 +147,7 @@
 
     $rootScope.$on('notebook-edited', function(event, data) {
       if ($scope.notebook && $scope.notebook.current.id == data.notebookId) {
-        $scope.edited = data.value;
+        $scope.notebook.current.edited = data.value;
       }
     });
 
