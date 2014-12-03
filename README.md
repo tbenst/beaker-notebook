@@ -10,7 +10,7 @@ To prevent slow uploading when building images you must enable a `virtio-net` ad
 
 ## Understanding How we Use ElasticSearch
 
-#### [Read All about it](elastic_search_for_us.md)
+#### [Read All about it](docs/elasticsearch_for_us.md)
 
 ## Docker 101
 We use docker ([CLI](https://docs.docker.com/reference/commandline/cli)) to create images and containers to run
@@ -40,8 +40,6 @@ Bunsen's different components (db, app [api server], web, beaker, provisioner, &
     * e.g. `export DOCKER_HOST=tcp://127.0.0.1:4243`
   * Build your docker images.
     * `$ ./script/build.sh` (or specify image, ex: `$ ./script/build.sh beaker`)
-  * Initialize the persistent development database.
-    * `docker run  --volume="/var/bunsen_dbs/:/var/lib/postgresql/9.3/main" db -c -f --database=bunsenDevelopment`
   * Run your docker containers.
     * `$ ./script/run.sh` (or specify image, ex: `$ ./script/run.sh app`) (run `bash -x run.sh` to show full docker commands)
   * Browse to http://localhost:7777/
@@ -78,7 +76,7 @@ docker run -e NODE_ENV=development -e CIPHER_KEY=Auj/QL_WU[xX64p+1TB81m6AD6wSCl 
 
 ## Adding node packages
 
-#### [Learn how to](adding_node_packages.md)
+#### [Learn how to](docs/adding_node_packages.md)
 
 ## Updating embeded beaker-notebook
 
