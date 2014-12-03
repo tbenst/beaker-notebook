@@ -258,6 +258,18 @@ module.exports = function() {
     return new this.Widgets.Modal().errorMessage().should.eventually.equal(error);
   });
 
+  this.Then(/^I should see a warning in the modal saying "([^"]*)"$/, function(warning) {
+    return new this.Widgets.Modal().warningMessage().should.eventually.equal(warning);
+  });
+
+  this.When(/^I click close without saving$/, function() {
+    return new this.Widgets.Modal().cancel();
+  });
+
+  this.When(/^I click save and close$/, function() {
+    return new this.Widgets.Modal().accept();
+  });
+
   this.When(/^I save my changes to the notebook$/, function() {
     var _this = this;
     notebook = new this.Widgets.Notebook();
