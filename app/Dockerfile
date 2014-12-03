@@ -3,6 +3,7 @@ MAINTAINER mojotech <ops+docker@mojotech.com>
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+      ca-certificates \
       node-bcryptjs \
       node-bluebird \
       node-bookshelf \
