@@ -41,6 +41,25 @@ Feature: Publications
       | name       | description           |
       | top secret | not so secret anymore |
 
+  Scenario: Updating a Publication
+    Given I have the following publication categories:
+      | name       |
+      | Finance    |
+    And the notebook "top secret" is published
+    When I view my projects
+    And I open the "ghost of tom jones" project
+    And I rename the "top secret" notebook to "top secrets"
+    And I view the notebook "top secrets"
+    And I go to update the publication
+    And I give it the description "a new description"
+    And I give it the category "Finance"
+    And I update the publication
+    Then the notebook updated time should be now
+    When I view the published version
+    Then I should see an updated version of the following notebook:
+      | name        | description       | category |
+      | top secrets | a new description | Finance  |
+
   Scenario: Publications List
     Given there are 5 publications
     And I view my projects

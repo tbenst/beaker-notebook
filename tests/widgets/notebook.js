@@ -77,16 +77,28 @@ module.exports = function() {
       return this.read('.publish-time');
     },
 
+    updateTime: function() {
+      return this.read('.update-time');
+    },
+
+    goToUpdatePublication: function() {
+      return this._openPublicationOptions().then(function() {
+        return this.click('.update-publication');
+      }.bind(this));
+    },
+
     removePublication: function() {
-      return this.find('.publishing .dropdown-toggle')
-      .then(function(el) {
-        return new World.Widgets.Dropdown().show(el);
-      })
-      .then(function() {
+      return this._openPublicationOptions().then(function() {
         return this.click('.destroy-publication');
       }.bind(this))
       .then(function() {
         return new World.Widgets.Modal().accept();
+      });
+    },
+
+    _openPublicationOptions: function() {
+      return this.find('.publishing .dropdown-toggle').then(function(el) {
+        return new World.Widgets.Dropdown().show(el);
       });
     },
 
