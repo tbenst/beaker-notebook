@@ -23,6 +23,10 @@
         return R.all('publications').post(attrs);
       },
 
+      updatePublication: function(attrs) {
+        return R.one('publications', attrs.id).customPUT(attrs);
+      },
+
       destroy: function(id) {
         return R.one('notebooks', id).remove();
       },
