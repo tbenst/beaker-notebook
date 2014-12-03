@@ -5,8 +5,8 @@
         | Publishing
         span.options.dropdown-toggle.light.right
           ul.dropdown.drop-bottom-left
-            li
-              a.publish(ng-class="published && 'disabled'" ng-click="published || openPublishModal()") Publish notebook
+            li(ng-if="!published")
+              a.publish(ng-click="openPublishModal()") Publish notebook
             li(ng-if="published")
               a.destroy-publication(confirm="Are you sure you want to delete the publication for this notebook?" on-confirm="destroyPublication()") Remove published
       .content
