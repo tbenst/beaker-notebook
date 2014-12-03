@@ -17,6 +17,10 @@
         });
     };
 
+    function removeIFrame(frame) {
+      frame.parentNode.removeChild(frame);
+    }
+
     function resizeIframe(data) {
       angular.element(getIFrame(data.notebookId))
         .attr('height', data.height);
@@ -30,6 +34,7 @@
       if (new URL(e.origin).hostname !== $location.host()) {
         throw "message received from unauthorized host " + e.origin.host;
       }
+      if (e.data.operation == 'close') return removeIFrame(e.source.frameElement);
       if (e.data.operation == 'resize') return resizeIframe(e.data);
       if (e.data.operation == 'edited') return setNotebookEdited(e.data);
       if (!e.data.notebook) return; // could be a message for a different purpose
@@ -43,8 +48,8 @@
     }
 
     function closeIfOpen(notebookId) {
-      if (frame = document.querySelector("#beaker-frame-"+notebookId)) {
-        frame.parentNode.removeChild(frame);
+      if (frame = getIFrame(notebookId)) {
+        sendToIFrame(notebookId, { action: 'close' });
       }
       if ($state.is("projects.items.item.notebook") && $state.params.notebook_id == notebookId) {
         $state.go('projects.items.item', {id: $state.params.id});
