@@ -5,9 +5,15 @@
 
     if($scope.published) {
       publishType = 'updatePublication';
+      $scope.title = "Update Notebook";
+      $scope.saveButton = "Update";
+      $scope.savePublishButton = "Save and Update";
     } else {
       $scope.notebook.current.publication = {};
       publishType = 'publish';
+      $scope.title = "Publish Notebook";
+      $scope.saveButton = "Publish";
+      $scope.savePublishButton = "Save and Publish";
     }
 
     $scope.publish = function() {
