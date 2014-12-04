@@ -5,13 +5,20 @@ module.exports = function(app) {
   var User = app.Models.User;
   var FPR  = app.Models.ForgotPasswordRequests;
 
+  function sendUser(res, user, expDate) {
+    res.cookie('user', user.id, {signed: true, expires: expDate});
+    res.json(user);
+  }
+
   return {
     authenticate: function (req, res, next) {
+      var expDate = new Date();
+      expDate.setDate(expDate.getDate() + 31);
+
       User.signIn(req.body)
         .then(function(user) {
           if(user) {
-            req.session.user = user.id;
-            res.json(user);
+            sendUser(res, user, expDate);
           } else {
             res.statusCode = 403;
           }
@@ -22,8 +29,8 @@ module.exports = function(app) {
     authorize: function(req, res, next) {
       if (app.shouldSkip(req.path, 'authorize')) {
         next();
-      } else if (req.session.user !== undefined) {
-        User.forge({id: req.session.user})
+      } else if (req.signedCookies.user !== undefined) {
+        User.forge({id: req.signedCookies.user})
           .fetch()
           .then(function(user) {
             if (user) {
@@ -34,16 +41,19 @@ module.exports = function(app) {
           })
           .done(next, next);
       } else {
+        res.clearCookie('user');
         res.send(403);
       }
     },
 
     signUp: function(req, res, next) {
+      var expDate = new Date();
+      expDate.setDate(expDate.getDate() + 31);
+
       User.signUp(req.body)
         .then(function(user) {
           if(user) {
-            req.session.user = user.id;
-            res.json(user);
+            sendUser(res, user, expDate);
           } else {
             res.statusCode = 422;
           }
@@ -80,7 +90,7 @@ module.exports = function(app) {
     },
 
     signOut: function(req, res, next) {
-      req.session = null;
+      res.clearCookie('user');
       res.status(200).end();
     }
   }
