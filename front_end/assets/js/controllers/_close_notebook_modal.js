@@ -3,12 +3,22 @@
     '$scope',
     'Notebooks',
     '$rootScope',
+    'Notebooks',
     function(
       $scope,
       Notebooks,
-      $rootScope) {
+      $rootScope,
+      Notebooks) {
 
     $scope.closeWithoutSaving = function() {
+      Notebooks.closeNotebook($scope.notebookId)
+      .then(function() {
+        $rootScope.$broadcast('closeModal');
+      })
+    };
+
+    $scope.saveAndClose = function() {
+      Notebooks.save($scope.notebookId);
       Notebooks.closeNotebook($scope.notebookId)
       .then(function() {
         $rootScope.$broadcast('closeModal');
