@@ -10,7 +10,6 @@
     '$compile',
     '$location',
     'Notebooks',
-    'WindowMessageService',
     'Beaker', function(
       $scope,
       $rootScope,
@@ -22,7 +21,6 @@
       $compile,
       $location,
       Notebooks,
-      WindowMessageService,
       Beaker) {
 
     var F = Factories;
@@ -82,10 +80,6 @@
      $scope.project = project;
     });
 
-    var notebookWindow = function() {
-      return document.getElementById('beaker-frame-' + $scope.notebook.current.id).contentWindow;
-    };
-
     if ($scope.cachedNotebooks[$state.params.notebook_id]) {
       Notebooks.update({id: $state.params.notebook_id, open: true});
       $scope.notebook = $scope.cachedNotebooks[$state.params.notebook_id];
@@ -110,14 +104,14 @@
         data.name = newName;
       }
 
-      WindowMessageService.sendToIFrame(notebookWindow(), data);
+      Notebooks.sendToIFrame($scope.notebook.current.id, data);
       $scope.hideMenu();
     };
 
     $scope.showStdoutStderr = function() {
       var data = { action: 'showStdoutStderr' };
 
-      WindowMessageService.sendToIFrame(notebookWindow(), data);
+      Notebooks.sendToIFrame($scope.notebook.current.id, data);
       scrollToBottom();
     };
 
