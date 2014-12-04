@@ -101,12 +101,7 @@
     }
 
     $scope.save = function(newName) {
-      var data = { action: 'save' };
-      if (newName) {
-        data.name = newName;
-      }
-
-      Notebooks.sendToIFrame($scope.notebook.current.id, data);
+      Notebooks.save($scope.notebook.current.id, newName);
       $scope.hideMenu();
     };
 

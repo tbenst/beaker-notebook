@@ -59,6 +59,15 @@
     return {
       sendToIFrame: sendToIFrame,
 
+      save: function(notebookId, newName) {
+        var data = { action: 'save' };
+        if (newName) {
+          data.name = newName;
+        }
+
+        sendToIFrame(notebookId, data);
+      },
+
       update: function(attrs) {
         return Factories.Notebooks.update(attrs).then(function(notebook) {
           $rootScope.$broadcast('notebookUpdated', notebook);
