@@ -17,6 +17,9 @@
           li
             .label Published
             .value.publish-time {{notebook.current.publication.createdAt | date:'short'}}
+          li
+            .label Last updated
+            .value.update-time {{notebook.current.publication.updatedAt | date:'short'}}
         a.view-published(ng-if="published" ui-sref="publications.items.item({id: notebook.current.publication.id})") View published version &raquo;
         a.publish(ng-if="!published" ng-click="openPublishModal()") Publish this notebook &raquo;
 
