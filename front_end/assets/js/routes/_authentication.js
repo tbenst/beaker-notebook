@@ -21,14 +21,7 @@
             skipAuth: true,
             onEnter: ['$rootScope', function($rootScope) {
               $rootScope.signOut();
-            }],
-            views: {
-              root: {
-                controller: ['$state', function($state){
-                  $state.go('landing');
-                }]
-              }
-            }
+            }]
           })
           .state('signUp', {
             url: '/sign_up',

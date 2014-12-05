@@ -3,11 +3,11 @@
     a(ui-sref="projects.items")
       img(src="images/header/logo-bunsen.png", width="100", height="27", class="header-logo")
     ul.header-actions-list.right.auth-controls
-      li(ng-show='$session.currentUserId')
-        span.signed-in Hi, {{$session.currentUserName}}
+      li(ng-show='$session.user')
+        span.signed-in Hi, {{$session.user.name}}
       li
         span.dropdown-toggle.settings
-          .dropdown-wrapper.settings-dropdown(ng-show='$session.currentUserId')
+          .dropdown-wrapper.settings-dropdown(ng-show='$session.user')
             ul.dropdown
               li
                 a.edit-info(ui-sref="userEdit") Edit Information
