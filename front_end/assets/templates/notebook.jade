@@ -8,6 +8,8 @@
             li(ng-if="!published")
               a.publish(ng-click="openPublishModal()") Publish notebook
             li(ng-if="published")
+              a.update-publication(ng-click="openPublishModal()") Update published
+            li(ng-if="published")
               a.destroy-publication(confirm="Are you sure you want to delete the publication for this notebook?" on-confirm="destroyPublication()") Remove published
       .content
         .publish-status.text-small(ng-class="published ? 'public' : 'private'") This notebook is {{ published ? 'published' : 'currently private' }}
