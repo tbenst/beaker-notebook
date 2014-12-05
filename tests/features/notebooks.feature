@@ -269,3 +269,24 @@ Feature: Use Notebooks
     And I open the "ghost of tom jones" project
     And I view the notebook "top secret"
     Then the "top secret" notebook should be active
+
+  Scenario: Warning user when trying to close unsaved notebook
+    And I open the "ghost of tom jones" project
+    And I view the notebook "powderpuff girls"
+    And I edit the notebook
+    And I close the notebook
+    Then I should see a warning in the modal saying "Warning: Your notebook has unsaved changes"
+    When I click close without saving
+    Then the modal should be closed
+    And I should see the "ghost of tom jones" project detail page
+
+  Scenario: Saving and closing a notebook with edits
+    And I open the "ghost of tom jones" project
+    And I view the notebook "powderpuff girls"
+    And I edit the notebook
+    And I close the notebook
+    Then I should see a warning in the modal saying "Warning: Your notebook has unsaved changes"
+    When I click save and close
+    Then the modal should be closed
+    And I should see the "ghost of tom jones" project detail page
+

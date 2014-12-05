@@ -37,6 +37,10 @@ module.exports = function() {
 
     errorMessage: function() {
       return this.read('.error');
+    },
+
+    warningMessage: function() {
+      return this.read('.warning');
     }
   });
 }

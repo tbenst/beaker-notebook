@@ -34,7 +34,9 @@
 
     $scope.menu = false;
 
-    $scope.edited = false;
+    $scope.edited = function() {
+      return $scope.notebook.current.edited;
+    };
 
     $scope.showMenu = function() {
       this.menu = true;
@@ -80,9 +82,9 @@
      $scope.project = project;
     });
 
-    if ($scope.cachedNotebooks[$state.params.notebook_id]) {
+    if ($rootScope.cachedNotebooks[$state.params.notebook_id]) {
       Notebooks.update({id: $state.params.notebook_id, open: true});
-      $scope.notebook = $scope.cachedNotebooks[$state.params.notebook_id];
+      $scope.notebook = $rootScope.cachedNotebooks[$state.params.notebook_id];
       $scope.loading = false;
     } else {
       F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
@@ -92,19 +94,14 @@
 
         Beaker.whenReady().then(function(url) {
           $scope.notebook.current.location = $sce.trustAsResourceUrl(notebookLocation(url, prjId, notebook.id));
-          $scope.cachedNotebooks[notebook.id] = $scope.notebook;
+          $rootScope.cachedNotebooks[notebook.id] = $scope.notebook;
           $scope.loading = false;
         });
       });
     }
 
     $scope.save = function(newName) {
-      var data = { action: 'save' };
-      if (newName) {
-        data.name = newName;
-      }
-
-      Notebooks.sendToIFrame($scope.notebook.current.id, data);
+      Notebooks.save($scope.notebook.current.id, newName);
       $scope.hideMenu();
     };
 
@@ -145,7 +142,7 @@
 
     $rootScope.$on('notebook-edited', function(event, data) {
       if ($scope.notebook && $scope.notebook.current.id == data.notebookId) {
-        $scope.edited = data.value;
+        $scope.notebook.current.edited = data.value;
       }
     });
 
