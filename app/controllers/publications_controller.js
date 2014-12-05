@@ -27,12 +27,12 @@ module.exports = function(app) {
     },
 
     create: function(req, res, next) {
-      Notebook.forge({ id: req.body.id, userId: req.user.id })
+      Notebook.forge({ id: req.body.notebookId, userId: req.user.id })
       .fetch({ require: true })
       .then(function(notebook) {
         return notebook.getData().then(function(data) {
           return Publication.forge({
-            notebookId: req.body.id,
+            notebookId: req.body.notebookId,
             userId: req.user.id,
             name: notebook.get('name'),
             contents: data,
@@ -43,7 +43,7 @@ module.exports = function(app) {
         });
       })
       .then(function(notebook) {
-        Notebook.forge({ id: req.body.id })
+        Notebook.forge({ id: req.body.notebookId })
         .fetch({ withRelated: 'publication' })
         .then(res.json.bind(res));
       })

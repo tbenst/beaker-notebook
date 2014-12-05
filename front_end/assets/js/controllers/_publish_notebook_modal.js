@@ -2,8 +2,13 @@
   app.controller('publishNotebook', ['$timeout', '$scope', 'Factories', function($timeout, $scope, F) {
     $scope.showButtons = true;
 
+    if(!$scope.published) {
+      $scope.notebook.current.publication = {};
+    }
+
     $scope.publish = function() {
-      F.Notebooks.publish($scope.notebook.current).then(function(notebook) {
+      _.extend($scope.notebook.current.publication, {notebookId: $scope.notebook.current.id});
+      F.Notebooks.publish($scope.notebook.current.publication).then(function(notebook) {
         $scope.notebook.current = notebook;
         $scope.$emit('closeModal');
       });
@@ -22,7 +27,7 @@
     };
 
     $scope.categoryBase = [{ id: 0, name: 'Select a Category' }];
-    $scope.notebook.current.categoryId = 0;
+    $scope.notebook.current.publication.categoryId = $scope.notebook.current.publication.categoryId || 0;
 
     F.PublicationCategories.getAll().then(function(categories) {
       $scope.categories = $scope.categoryBase.concat(categories);

@@ -1,9 +1,9 @@
 .publish-modal(ng-controller="publishNotebook")
   h1 Publish Notebook
   label.full(for="description") Notebook description others will see when you publish:
-  textarea.full.description(name="description" rows="3" ng-model="notebook.current.description" placeholder="Enter notebook description others will see when you publish")
+  textarea.full.description(name="description" rows="3" ng-model="notebook.current.publication.description" placeholder="Enter notebook description others will see when you publish")
   label.full(for="category") Category that describes your notebook:
-  select.full(ng-model="notebook.current.categoryId" ng-options="category.id as category.name for category in categories" name="category")
+  select.full(ng-model="notebook.current.publication.categoryId" ng-options="category.id as category.name for category in categories" name="category")
   button.publish.btn.btn-light(ng-if="showButtons && !edited()" ng-click="publish()") Publish
   .unsaved(ng-if="edited()")
     .note Warning, your notebook has unsaved changes.
