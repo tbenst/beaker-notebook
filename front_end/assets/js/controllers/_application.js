@@ -23,7 +23,7 @@
         }
       });
 
-      $scope.cachedNotebooks = $scope.cachedNotebooks || {};
+      $rootScope.cachedNotebooks = $rootScope.cachedNotebooks || {};
 
       $scope.className = function() {
         var ngClass = $state.current.name;
