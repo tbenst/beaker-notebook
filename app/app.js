@@ -16,7 +16,7 @@ app.set('enable coverage', !!process.env.ENABLE_COVERAGE);
 if (app.get('enable coverage')) {
   var im = require('istanbul-middleware');
   im.hookLoader(__dirname);
-  app.use('/api/coverage', im.createHandler());
+  app.use('/api/coverage', im.createHandler({ verbose: true, resetOnGet: false }));
 }
 
 var skipMiddleware = require("./lib/skip_middleware");
