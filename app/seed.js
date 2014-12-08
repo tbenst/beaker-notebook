@@ -69,7 +69,7 @@ module.exports.dropAll = function(configPath) {
   return findAllTables()
     .then(function(names) {
       truncateAll = _.map(names, function(n) {
-        return "TRUNCATE \"" + n.table_name + "\""
+        return "TRUNCATE \"" + n.table_name + "\" RESTART IDENTITY"
       }).join(";");
       return app.DB.knex.raw(truncateAll)
     }).then(function() {

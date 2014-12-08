@@ -16,6 +16,7 @@ ADD . /var/www
 WORKDIR /var/www
 
 RUN roots compile --no-compress
+RUN chmod -R 755 public
 
 RUN mv config/default /etc/nginx/sites-available/ && \
     echo "daemon off;" >> /etc/nginx/nginx.conf
