@@ -176,12 +176,16 @@ module.exports = function() {
     return new this.Widgets.PublishModal().selectCategory(category);
   });
 
-  this.When(/^I publish the notebook$/, function() {
+  this.When(/^I publish the notebook|update the publication$/, function() {
     return new this.Widgets.PublishModal().publish();
   });
 
   this.When(/^I view the published version$/, function() {
     return new this.Widgets.Notebook().viewPublished();
+  });
+
+  this.When(/^I go to update the publication$/, function(callback) {
+    return new this.Widgets.Notebook().goToUpdatePublication();
   });
 
   this.When(/^I delete the publication$/, function() {
@@ -214,12 +218,30 @@ module.exports = function() {
     })
   });
 
+  this.Then(/^I should see an updated version of the following notebook:$/, function(table) {
+    var attrs = table.hashes()[0];
+    var publication = new this.Widgets.Publication();
+
+    return publication.name().should.eventually.eql(attrs.name)
+    .then(function() {
+      return publication.description().should.eventually.eql(attrs.description);
+    })
+  });
+
   this.Then(/^I should see that the notebook is not published$/, function() {
     return new this.Widgets.Notebook().publishStatus().should.eventually.eql('This notebook is currently private');
   });
 
   this.When(/^I should see that the notebook is published$/, function() {
     return new this.Widgets.Notebook().publishStatus().should.eventually.eql('This notebook is published');
+  });
+
+  this.Then(/^the notebook updated time should be now$/, function(callback) {
+    return new this.Widgets.Notebook().updateTime().then(function(publishTime) {
+      var publishTime = moment(publishTime, "M/D/YY h:mm A");
+      var now = moment();
+      return now.diff(publishTime, 'minutes').should.be.at.most(1);
+    });
   });
 
   this.Then(/^the notebook publish date should be now$/, function() {

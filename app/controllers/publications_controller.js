@@ -27,12 +27,12 @@ module.exports = function(app) {
     },
 
     create: function(req, res, next) {
-      Notebook.forge({ id: req.body.id, userId: req.user.id })
+      Notebook.forge({ id: req.body.notebookId, userId: req.user.id })
       .fetch({ require: true })
       .then(function(notebook) {
         return notebook.getData().then(function(data) {
           return Publication.forge({
-            notebookId: req.body.id,
+            notebookId: req.body.notebookId,
             userId: req.user.id,
             name: notebook.get('name'),
             contents: data,
@@ -43,12 +43,41 @@ module.exports = function(app) {
         });
       })
       .then(function(notebook) {
-        Notebook.forge({ id: req.body.id })
+        Notebook.forge({ id: req.body.notebookId })
         .fetch({ withRelated: 'publication' })
         .then(res.json.bind(res));
       })
       .catch(Notebook.NotFoundError, function() {
-        return res.send(404);
+        return res.status(404).end();
+      })
+      .catch(next);
+    },
+
+    update: function(req, res, next) {
+      return new Notebook({ id: req.body.notebookId, userId: req.user.id })
+      .fetch({ require: true, withRelated: 'publication' })
+      .then(function(notebook) {
+        return notebook.getData().then(function(data) {
+          var attrs = {
+            name: notebook.get('name'),
+            contents: data,
+            description: req.body.description,
+            category_id: req.body.categoryId
+          };
+
+          return new Publication({
+            id: req.body.id,
+            user_id: req.user.id
+          })
+          .save(attrs, {patch: true})
+          .then(function(publication) {
+            return notebook.load('publication');
+          });
+        });
+      })
+      .then(res.json.bind(res))
+      .catch(Notebook.NotFoundError, function() {
+        return res.status(404).end();
       })
       .catch(next);
     },
