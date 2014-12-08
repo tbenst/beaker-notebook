@@ -39,10 +39,15 @@ Bunsen's different components (db, app [api server], web, beaker, provisioner, &
   * Ensure your docker client is using the docker server running inside vagrant.
     * e.g. `export DOCKER_HOST=tcp://127.0.0.1:4243`
   * Build your docker images.
-    * `$ ./script/build.sh` (or specify image, ex: `$ ./script/build.sh beaker`)
-  * Run your docker containers.
-    * `$ ./script/run.sh` (or specify image, ex: `$ ./script/run.sh app`) (run `bash -x run.sh` to show full docker commands)
-  * Browse to http://localhost:8888/
+    * `$ make -j8` (or specify image, ex: `$ make beaker`)
+  * Run your services and add to marathon
+    * `$ make start`
+  * Configure Bamboo for wiring
+    * `$ make wire`
+  * Add the following lines to your host machine's `/etc/hosts`
+    * `10.10.10.10    bunsen-dev`
+    * `10.10.10.10    bunsen-test`
+  * Browse to http://bunsen-dev/
 
 ## Seeding your development env
 
