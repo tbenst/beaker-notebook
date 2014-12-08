@@ -1,4 +1,0 @@
----
-
-docker_options: "--restart=false"
-docker_environment: ""

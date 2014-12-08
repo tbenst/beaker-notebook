@@ -1,0 +1,11 @@
+---
+
+- name: update mesos_common_config
+  sudo: yes
+  lineinfile: dest="/etc/mesos/{{ item.key }}" line={{ item.value }} regexp='.*' create=yes state=present
+  with_dict: mesos_common_config
+  notify:
+    - handle changed mesos_common_config
+  tags:
+    - configure
+    - mesos_common

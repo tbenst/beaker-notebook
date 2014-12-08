@@ -1,7 +1,5 @@
-[Unit]
-After=iptables-persistent.service
+# {{ ansible_managed }}
 
 [Service]
-Environment={{ docker_environment }}
 ExecStart=
-ExecStart=/usr/bin/docker --daemon {{ docker_options }}
+ExecStart=/usr/bin/docker --daemon {% if docker_data_directory != "" %}-g {{ docker_data_directory }}{% endif %} {{ docker_options }}

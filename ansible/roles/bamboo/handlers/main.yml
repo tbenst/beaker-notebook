@@ -1,0 +1,8 @@
+---
+
+- name: restart bamboo
+  sudo: yes
+  service: name=bamboo state=restarted
+  tags:
+    - bamboo
+    - restart

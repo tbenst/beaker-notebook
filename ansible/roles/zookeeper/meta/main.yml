@@ -1,0 +1,7 @@
+---
+
+dependencies:
+  - role: packages
+    from: zookeeper
+    tags: zookeeper
+    packages: "{{ zookeeper_packages }}"

@@ -1,0 +1,10 @@
+---
+
+dependencies:
+  - role: mesos_common
+    from: marathon
+    tags: marathon
+  - role: packages
+    from: marathon
+    tags: marathon
+    packages: "{{ marathon_packages }}"

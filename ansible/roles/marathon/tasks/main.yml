@@ -1,0 +1,25 @@
+---
+
+- name: create marathon config directory
+  sudo: yes
+  file: path=/etc/marathon/conf state=directory
+  tags:
+    - initialize
+    - marathon
+
+- name: update marathon config
+  sudo: yes
+  lineinfile: dest="/etc/marathon/conf/{{ item.key }}" line={{ item.value }} regexp='.*' create=yes state=present
+  with_dict: marathon_config
+  notify:
+    - restart marathon
+  tags:
+    - configure
+    - marathon
+
+- name: start and enable marathon
+  sudo: yes
+  service: name=marathon state=started enabled=yes
+  tags:
+    - start
+    - marathon

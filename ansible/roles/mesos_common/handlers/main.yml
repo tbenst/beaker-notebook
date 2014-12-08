@@ -1,0 +1,10 @@
+---
+
+- name: handle changed mesos_common_config
+  sudo: yes
+  service: >
+    name={{ item.name | default(item) }}
+    state={{ item.changed_state | default('restarted') }}
+  with_items: mesos_common_services
+  tags:
+    - mesos_common

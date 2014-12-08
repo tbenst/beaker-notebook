@@ -1,0 +1,7 @@
+---
+
+dependencies:
+  - role: packages
+    from: bamboo
+    tags: bamboo
+    packages: "{{ bamboo_packages }}"

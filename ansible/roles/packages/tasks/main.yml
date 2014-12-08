@@ -1,0 +1,9 @@
+---
+
+- name: install packages
+  sudo: yes
+  apt: name={{ item.name | default(item) }} default_release={{ item.release | default('wheezy') }} state={{ item.state | default('latest') }}
+  with_items: packages
+  tags:
+    - packages
+    - install

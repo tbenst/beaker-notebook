@@ -1,0 +1,5 @@
+---
+
+marathon_config: {}
+marathon_packages:
+  - marathon

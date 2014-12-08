@@ -1,0 +1,29 @@
+---
+
+- name: render haproxy certificate/key file
+  sudo: yes
+  template: src={{ item }} dest=/etc/ssl/private/{{ item | basename }}
+  with_items: haproxy_cert_key_pair_files
+  notify:
+    - reload haproxy
+  tags:
+    - configure
+    - haproxy
+
+- name: render haproxy config
+  sudo: yes
+  template: src={{ haproxy_config_file }} dest=/etc/haproxy/haproxy.cfg validate='haproxy -c -f %s'
+  when: haproxy_config_file != ""
+  notify:
+    - reload haproxy
+  tags:
+    - configure
+    - haproxy
+
+- name: start and enable haproxy
+  sudo: yes
+  service: name=haproxy state=started enabled=yes
+  when: haproxy_config_file != ""
+  tags:
+    - start
+    - haproxy

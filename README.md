@@ -44,7 +44,7 @@ Bunsen's different components (db, app [api server], web, beaker, provisioner, &
     * `docker run  --volume="/var/bunsen_dbs/:/var/lib/postgresql/9.3/main" db -c -f --database=bunsenDevelopment`
   * Run your docker containers.
     * `$ ./script/run.sh` (or specify image, ex: `$ ./script/run.sh app`) (run `bash -x run.sh` to show full docker commands)
-  * Browse to http://localhost:7777/
+  * Browse to http://localhost:8888/
 
 ## Seeding your development env
 

@@ -1,0 +1,6 @@
+---
+
+- name: update apt cache
+  tags: apt
+  sudo: yes
+  apt: update_cache=yes

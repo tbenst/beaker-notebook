@@ -1,0 +1,13 @@
+---
+
+docker_release: wheezy
+docker_options: "--restart=false"
+docker_config_file: ""
+docker_options_file: docker.conf.j2
+docker_data_directory: /var/lib/docker
+
+docker_packages:
+  - name: lxc-docker
+    release: "{{ docker_release }}"
+  - name: docker-py
+    release: "{{ docker_release }}"

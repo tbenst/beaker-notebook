@@ -1,0 +1,7 @@
+---
+
+- sudo: yes
+  include: configure.yml tags=apt,configure
+
+- sudo: yes
+  include: initialize.yml tags=apt,initialize

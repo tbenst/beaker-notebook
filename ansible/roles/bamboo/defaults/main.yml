@@ -1,0 +1,5 @@
+---
+
+bamboo_config_files: []
+bamboo_packages:
+  - bamboo

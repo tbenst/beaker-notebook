@@ -1,0 +1,17 @@
+---
+
+- name: render config templates
+  template: src={{ item }} dest=/etc/apt/{{ item | basename | regex_replace('(.*).j2$','\\1') }}
+  with_items: apt_config_files
+  notify:
+    - update apt cache
+
+- name: remove unmanaged files
+  shell: rm -rfv /etc/apt/{{ item }}/*
+  register: r
+  changed_when: r.stdout != ""
+  with_items:
+    - preferences.d
+    - sources.list.d
+  notify:
+    - update apt cache
