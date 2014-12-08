@@ -12,37 +12,31 @@ To prevent slow uploading when building images you must enable a `virtio-net` ad
 
 #### [Read All about it](docs/elasticsearch_for_us.md)
 
-## Docker 101
-We use docker ([CLI](https://docs.docker.com/reference/commandline/cli)) to create images and containers to run
-Bunsen's different components (db, app [api server], web, beaker, provisioner, & gateway)
-  * Common Commands:
-    * Build images with `docker build <component>` (see below for auto build script)
-    * Run a container with `docker run <container>` (many options are required for bunsen, see below for auto run script)
-    * Tail a container's log with `docker logs -f <container>`
-    * Stop a container with `docker stop <container>`
-    * Restart a container with `docker restart <container>`
-    * Remove a container with `docker rm <container>`
-    * List running containers with `docker ps`
-    * Stop all containers with `docker stop $(docker ps -q)`
-  * Other info:
-    * Because each container is isolated with its own process namespace, you'll need to run bash in the container
-      to run commands in the proper context.  Assuming you're running your docker containers in vagrant, Attach to a
-      running container by running `docker exec -it app bash` or whichever container, and then run commands like one
-      would normally in the server
-    * One may occasionally get `Cannot start container: Port has already been allocated`.
-      [This bug](https://github.com/docker/docker/issues/6476) is known, and in the meantime, just restart docker.
-      (`vagrant ssh`, then once ssh'ed, `sudo systemctl restart docker`)
-
 ## To run the application locally
   * Ensure that your vagrant is running and provisioned.
     * `$ vagrant up`
   * Ensure your docker client is using the docker server running inside vagrant.
     * e.g. `export DOCKER_HOST=tcp://127.0.0.1:4243`
   * Build your docker images.
-    * `$ ./script/build.sh` (or specify image, ex: `$ ./script/build.sh beaker`)
-  * Run your docker containers.
-    * `$ ./script/run.sh` (or specify image, ex: `$ ./script/run.sh app`) (run `bash -x run.sh` to show full docker commands)
-  * Browse to http://localhost:8888/
+    * `$ make -j8` (or specify image, ex: `$ make beaker`)
+  * Run your services and add to marathon
+    * `$ make start`
+  * Configure Bamboo for wiring
+    * `$ make wire`
+  * Add the following lines to your host machine's `/etc/hosts`
+    * `10.10.10.10    bunsen-dev`
+    * `10.10.10.10    bunsen-test`
+  * Browse to http://bunsen-dev/
+
+## Debugging
+  * List running containers with `docker ps`
+  * Tail a container's log with `docker logs -f <container>`
+  * Run bash in a running container with `docker exec -it <container> bash`
+  * Looking at the database:
+    * get container id or name from `docker ps | grep postgres`
+    * `docker exec -it <container> bash`
+    * `su postgres`
+    * `psql bunsenDevelopment`
 
 ## Seeding your development env
 
@@ -52,13 +46,6 @@ Bunsen's different components (db, app [api server], web, beaker, provisioner, &
 ```bash
 docker run -e NODE_ENV=development -e CIPHER_KEY=Auj/QL_WU[xX64p+1TB81m6AD6wSCl -v /vagrant/app:/var/app --link db:db --link provisioner:provisioner --link elasticsearch:elasticsearch app --migrate --delay=25 --seed --index -r
 ```
-
-## Looking at the database.
-
-* `docker exec -it db bash`
-* `su postgres`
-* `psql bunsenDevelopment`
-
 
 ## To run the test suite
   * Ensure that your vagant is running and provisioned, and your docker images are built (specified above).

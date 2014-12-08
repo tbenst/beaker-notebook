@@ -177,11 +177,11 @@
           {
             "protocol": "HTTP",
             "path": "/api/v1/status",
-            "gracePeriodSeconds": 10,
+            "gracePeriodSeconds": 60,
             "intervalSeconds": 10,
             "portIndex": 0,
             "timeoutSeconds": 5,
-            "maxConsecutiveFailures": 3
+            "maxConsecutiveFailures": 5
           }
         ],
         "upgradeStrategy": {
