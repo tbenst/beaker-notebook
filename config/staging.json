@@ -60,6 +60,7 @@
       "EXTERNAL_DB_NAME": "bunsen_staging",
       "ELASTICSEARCH_PORT_9200_TCP_ADDR": "10.0.1.195",
       "ELASTICSEARCH_PORT_9200_TCP_PORT": "9200",
+      "HOSTNAME": "bunsen-staging.withmojo.com",
       "MANDRILL_PASSWORD": "-QG6MBSWNPR7sPwRali8Jg",
       "MANDRILL_USER": "ops+mandrill@mojotech.com",
       "MAIL_FROM": "ops+bunsen@mojotech.com"
