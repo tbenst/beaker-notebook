@@ -48,7 +48,7 @@ module.exports = function(app) {
         .then(res.json.bind(res));
       })
       .catch(Notebook.NotFoundError, function() {
-        return res.send(404);
+        return res.status(404).end();
       })
       .catch(next);
     },
