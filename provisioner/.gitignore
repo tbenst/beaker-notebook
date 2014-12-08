@@ -1,2 +1,12 @@
-node_modules/
-npm-debug.log
+/target
+/lib
+/classes
+/checkouts
+pom.xml
+pom.xml.asc
+*.jar
+*.class
+/.lein-*
+/.nrepl-port
+/.repl
+/profiles.clj

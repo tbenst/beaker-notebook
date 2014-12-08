@@ -1,21 +1,20 @@
 FROM quay.io/mojotech/debian
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-      node-express \
-      node-lodash \
-      node-bluebird \
-      node-dockerode \
-      node-uuid \
-      nodejs-legacy && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+    && apt-get install -y -t local --no-install-recommends \
+      leiningen \
+      oracle-java7-jdk \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV LEIN_ROOT 1
 
 ADD . /opt/provisioner
-
-ENV NODE_PATH /usr/local/lib/node_modules
+WORKDIR /opt/provisioner
+RUN lein deps
 
 EXPOSE 3001
 
-ENTRYPOINT ["/opt/provisioner/main.sh"]
+ENTRYPOINT ["lein"]
+CMD ["run"]
