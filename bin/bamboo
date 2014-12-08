@@ -1,0 +1,230 @@
+#!/usr/bin/env bash
+
+set -o errexit -o pipefail -o nounset
+
+NAME=bamboo
+VERSION=0.0.1
+
+function main {
+  local help=\
+"Usage: $NAME [options] <command> [<arguments>...]
+
+Options:
+  -h, --help      print help
+  -v, --version   print version
+  --verbose       print commands as they are executed
+  --trace         expand and print commands as they are executed
+  -H HOST, --host=HOST
+                  provide host, ex: https://marathon.example.com
+  -u USER, --username=USER
+                  provide username
+  -p PASS, --password=PASS
+                  provide password
+
+Commands:
+  state           show state
+  service         manipulate services"
+
+  while [[ $# > 0 ]]; do
+    case "$1" in
+      --) shift; break ;;
+      -h|--help) echo "$help"; exit 1 ;;
+      -v|--version) echo "$VERSION"; exit 1 ;;
+      --trace) set -o xtrace;;
+      --verbose) set -o verbose;;
+      -H) BAMBOO_HOST="$2"; shift ;;
+      --host=*) BAMBOO_HOST="${1#--host=*}" ;;
+      -u) BAMBOO_USER="$2"; shift ;;
+      --username=*) BAMBOO_USER="${1#--username=*}" ;;
+      -p) BAMBOO_PASS="$2"; shift ;;
+      --password=*) BAMBOO_PASS="${1#--password=*}" ;;
+      -*) error "unknown option" \"$1\"; exit 1 ;;
+      *) break ;;
+    esac
+    shift
+  done
+
+  BAMBOO_HOST="${BAMBOO_HOST+$BAMBOO_HOST}"
+  BAMBOO_USER="${BAMBOO_USER+$BAMBOO_USER}"
+  BAMBOO_PASS="${BAMBOO_PASS+$BAMBOO_PASS}"
+
+  [[ -n $BAMBOO_HOST ]] || { error "missing --host"; exit 1; }
+  [[ -n $BAMBOO_USER ]] || unset BAMBOO_USER
+  [[ -n $BAMBOO_PASS ]] || unset BAMBOO_PASS
+
+  case "${1+$1}" in
+    state) state "${@:2}" ;;
+    service) service "${@:2}" ;;
+    "") error "missing <command>"; exit 1 ;;
+    *) error "unknown <command>" \"$1\"; exit 1 ;;
+  esac
+}
+
+function state {
+  local help=\
+"Usage: $NAME state [options]
+
+Options:
+  -h, --help    print help"
+
+  case "${1+$1}" in
+    -h|--help) echo "$help"; exit 1 ;;
+    -*) error "unknown option" \"$1\"; exit 1 ;;
+  esac
+
+  request GET "api/state"
+}
+
+function service {
+  local help=\
+"Usage: $NAME service [options] <command> [<arguments>...]
+
+Options:
+  -h, --help    print help
+
+Commands:
+  show          show service
+  create        create service
+  update        update service
+  delete        delete service"
+
+  case "${1+$1}" in
+    -h|--help) echo "$help"; exit 1 ;;
+    -*) error "unknown option" \"$1\"; exit 1 ;;
+    show) show_service "${@:2}" ;;
+    create) create_service "${@:2}" ;;
+    update) update_service "${@:2}" ;;
+    delete) delete_service "${@:2}" ;;
+    "") error "missing <command>"; exit 1 ;;
+    *) error "unknown <command>" \"$1\"; exit 1 ;;
+  esac
+}
+
+function show_service {
+  local help=\
+"Usage: $NAME service show [options] [<id>]
+
+Options:
+  -h, --help    print help"
+
+  case "${1+$1}" in
+    -h|--help) echo "$help"; exit 1 ;;
+  esac
+
+  request GET "api/services"
+}
+
+function create_service {
+  local data=""
+  local help=\
+"Usage: $NAME service create [options] [<data>]
+
+Options:
+  -h, --help    print help
+  -             read service data from stdin
+  --file=FILE   read service data from file"
+
+  while [[ $# > 0 ]]; do
+    case "$1" in
+      -) data="$(cat)" ;;
+      --file=*) data="$(cat "${1#--file=*}")" ;;
+      -h|--help) echo "$help"; exit 1 ;;
+      -*) error "unknown option" \"$1\"; exit 1 ;;
+      *) break ;;
+    esac
+    shift
+  done
+
+  [[ -n ${1+$1} ]] && data="$1"
+
+  if [[ -n "$data" ]]; then
+    request POST "api/services" "$data"
+  else
+    error "missing service data"
+  fi
+}
+
+function update_service {
+  local data=""
+  local create=""
+  local quiet=""
+  local help=\
+"Usage: $NAME service update [options] <id> [<data>]
+
+Options:
+  -h, --help    print help
+  -c, --create  create service if nonexistent
+  -q, --quiet   treat empty input as success
+  -             read service data from stdin
+  --file=FILE   read service data from file"
+
+  while [[ $# > 0 ]]; do
+    case "$1" in
+      -) data="$(cat)" ;;
+      --file=*) data="$(cat "${1#--file=*}")" ;;
+      -c|--create) create=y ;;
+      -q|--quiet) quiet=y ;;
+      -h|--help) echo "$help"; exit 1 ;;
+      -*) error "unknown option" \"$1\"; exit 1 ;;
+      *) break ;;
+    esac
+    shift
+  done
+
+  [[ -n ${2+$2} ]] && data="$2"
+
+  if [[ -n $data && -n ${1+$1} ]]; then
+    if [[ -n $create ]]; then
+      (request POST "api/services" "$data" 2>/dev/null) ||
+        request PUT "api/services/$(encode_id $1)" "$data"
+    else
+      request PUT "api/services/$(encode_id $1)" "$data"
+    fi
+  else
+    [[ -n $quiet ]] || error "missing service data"
+  fi
+}
+
+function delete_service {
+  local help=\
+"Usage: $NAME service delete [options] <id>
+
+Options:
+  -h, --help print help"
+
+  case "${1+$1}" in
+    -h|--help) echo "$help"; exit 1 ;;
+    "") error "missing <id>"; exit 1 ;;
+  esac
+
+  request DELETE "api/services/$(encode_id $1)"
+}
+
+function request {
+  curl \
+    -sSfL \
+    -X "$1" \
+    ${BAMBOO_USER+-u "$BAMBOO_USER:$BAMBOO_PASS"} \
+    -H "Accept: application/json" \
+    -H "Content-Type: application/json" \
+    "$BAMBOO_HOST/$2" \
+    ${3+-d "$3"}
+}
+
+function encode_id {
+  (
+    set +o pipefail;
+    printf $1 | url_encode | tr -d '\n' | url_encode | tr -d '\n';
+  )
+}
+
+function url_encode {
+  # http://stackoverflow.com/a/10797966
+  curl -Gso /dev/null -w %{url_effective} --data-urlencode @- "" | cut -c 3-
+}
+
+function error {
+  printf "Error: %s\n" "$*" >&2
+}
+
+main "$@"

@@ -1,43 +1,32 @@
-#!/bin/bash -e
+#!/bin/bash
 
-for i in "$@"
-do
-case $i in
-  --database=*) database="${i#--database=}" ;;
-  -c|--create) create=1 ;;
-  -f|--force) force=1 ;;
-  -r|--run) run=1 ;;
-  -h|--help)
-    cat <<EOF
+set -o errexit -o pipefail -o nounset
 
-  Usage: app options
-  Options:
-          -h  --help      Display this message and exit.
-          -c  --create    Create a new cluster (holds multiple db's).
-          -f  --force     Before creating cluster, delete any existing old one
-          --database=(db) Create a database with name db.
-          -r  --run       Run the postgres server in the foreground.
+for i in "$@"; do
+  case "$i" in
+    --database=*) database="${i#--database=}" ;;
+    -h|--help) cat <<EOF
+Usage: postgres [options]
+
+Options:
+  -h, --help      Display this message and exit.
+  --database=<db> Create a database with name db.
 EOF
-    exit
+    exit 1
     ;;
-esac
+  esac
 done
 
-if [[ $create -eq 1 ]]; then
-    chown postgres:postgres /var/lib/postgresql/9.3/main
-    if [[ $force -eq 1 ]]; then
-      rm -rf /var/lib/postgresql/9.3/main/*
-    fi
-    su postgres -c "/usr/lib/postgresql/9.3/bin/initdb /var/lib/postgresql/9.3/main"
+if [[ -z $(ls /var/lib/postgresql/9.3/main) ]]; then
+  chown postgres:postgres /var/lib/postgresql/9.3/main
+  su postgres -c "/usr/lib/postgresql/9.3/bin/initdb /var/lib/postgresql/9.3/main"
 fi
 
-if [[ $database ]]; then
-    /etc/init.d/postgresql start
-    echo "createdb $database"
-    su postgres -c "createdb $database"
-    /etc/init.d/postgresql stop
+if [[ -n ${database+$database} ]]; then
+  /etc/init.d/postgresql start
+  (set +o pipefail +o errexit; psql -Upostgres -h127.0.0.1 -lqt | awk '{print $1}' | grep -qo "$database") \
+    || su postgres -c "createdb -e $database"
+  /etc/init.d/postgresql stop
 fi
 
-if [[ $run -eq 1 ]]; then
-    exec su postgres -c "/usr/lib/postgresql/9.3/bin/postgres -D /etc/postgresql/9.3/main"
-fi
+exec su postgres -c "/usr/lib/postgresql/9.3/bin/postgres -D /etc/postgresql/9.3/main"
