@@ -1,6 +1,6 @@
 ---
 
-- name: allow bamboo to update haproxy config directory
+- name: allow bamboo to update haproxy config
   sudo: yes
   file: path=/etc/haproxy/haproxy.cfg src=/var/bamboo/haproxy.cfg state=link force=yes
   tags:
@@ -12,14 +12,17 @@
   template: src={{ item }} dest="/etc/bamboo/{{ item | basename | regex_replace('(.*).j2$','\\1') }}"
   with_items: bamboo_config_files
   notify:
-    - restart bamboo
+    - restart bamboo and haproxy
   tags:
     - configure
     - bamboo
 
-- name: start and enable bamboo
+- name: start and enable bamboo and haproxy
   sudo: yes
-  service: name=bamboo state=started enabled=yes
+  service: name={{ item }} state=started enabled=yes
+  with_items:
+    - bamboo
+    - haproxy
   tags:
     - start
     - bamboo
