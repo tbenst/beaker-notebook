@@ -7,7 +7,8 @@
     '$http',
     'Restangular',
     '$sessionStorage',
-    function($rootScope, $scope, $state, $cookies, $http, Restangular, $sessionStorage) {
+    'AuthService',
+    function($rootScope, $scope, $state, $cookies, $http, Restangular, $sessionStorage, AuthService) {
       $rootScope.$session = $sessionStorage;
 
       $scope.$state = $state;
@@ -18,9 +19,14 @@
         }
 
         if (!$sessionStorage.user && !toState.skipAuth) {
-          $rootScope.goTo = toState;
-          $state.go("signIn");
-          event.preventDefault();
+          AuthService.setUserIfLoggedIn()
+          .catch(function() {
+            if (!$sessionStorage.user) {
+              $rootScope.goTo = toState;
+              $state.go("signIn");
+              event.preventDefault();
+            }
+          })
         }
       });
 
