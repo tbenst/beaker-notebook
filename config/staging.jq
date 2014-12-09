@@ -89,7 +89,7 @@
           "MANDRILL_PASSWORD":"-QG6MBSWNPR7sPwRali8Jg",
           "MANDRILL_USER":"ops+mandrill@mojotech.com",
           "MAIL_FROM": "ops+bunsen@mojotech.com",
-          "ELASTICSEARCH_PORT_9200_TCP_ADDR": "10.0.1.195",
+          "ELASTICSEARCH_PORT_9200_TCP_ADDR": "bunsen:s6nFTwtbZP3wHh@172.17.42.1",
           "ELASTICSEARCH_PORT_9200_TCP_PORT": 9200,
           "PROVISIONER_PORT_3001_TCP_ADDR": "172.17.42.1",
           "PROVISIONER_PORT_3001_TCP_PORT": 3001
