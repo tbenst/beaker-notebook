@@ -11,7 +11,7 @@
     (when (marathon/get-app marathon-url app-id)
       {:id id})))
 
-(defn create-instance [config id]
+(defn create-instance [config {id "id" app-config "config"}]
   (let [{:keys [bamboo-url
                 marathon-url
                 app-group
@@ -21,6 +21,7 @@
         app-id (str app-group "/" id)
         app (marathon/app
               {:id app-id
+               :config app-config
                :template app-template})
         service (bamboo/service
                   {:id app-id
