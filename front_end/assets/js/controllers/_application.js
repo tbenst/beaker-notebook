@@ -30,6 +30,14 @@
         }
       });
 
+      $scope.$watch(function() {
+        return $cookies.user;
+      }, function(){
+        if (!$cookies.user && $sessionStorage.user) {
+          $rootScope.signOut();
+        }
+      })
+
       $rootScope.cachedNotebooks = $rootScope.cachedNotebooks || {};
 
       $scope.className = function() {
