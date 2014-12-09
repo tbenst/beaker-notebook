@@ -18,8 +18,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.network "private_network", ip: "10.10.10.10"
 
-  config.vm.define "dev", primary: true do |d|
-    d.vm.hostname = "dev.local.withmojo.com"
+  config.vm.define "bunsen-dev", primary: true do |d|
+    d.vm.hostname = "bunsen-dev"
 
     d.vm.network :forwarded_port, guest: 80, host: 8888, auto_correct: true
     d.vm.network :forwarded_port, guest: 4243, host: 4243, auto_correct: true # docker
