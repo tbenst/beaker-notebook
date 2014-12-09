@@ -1,8 +1,11 @@
 ---
 
-- name: restart bamboo
+- name: restart bamboo and haproxy
   sudo: yes
-  service: name=bamboo state=restarted
+  service: name={{ item }} state=restarted
+  with_items:
+    - bamboo
+    - haproxy
   tags:
     - bamboo
     - restart

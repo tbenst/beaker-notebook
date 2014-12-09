@@ -18,8 +18,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.network "private_network", ip: "10.10.10.10"
 
-  config.vm.define "dev", primary: true do |d|
-    d.vm.hostname = "dev.local.withmojo.com"
+  config.vm.define "bunsen-dev", primary: true do |d|
+    d.vm.hostname = "bunsen-dev"
 
     d.vm.network :forwarded_port, guest: 80, host: 8888, auto_correct: true
     d.vm.network :forwarded_port, guest: 4243, host: 4243, auto_correct: true # docker
@@ -49,16 +49,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           zk: "zk://localhost:2181/mesos"
         },
         mesos_master_config: {
-          work_dir: "/var/lib/mesos",
-          quorum: 1
+          "?registry_strict" => true,
+          "work_dir" => "/var/lib/mesos",
+          "quorum" => 1
         },
         mesos_slave_config: {
-          containerizers: "docker,mesos",
-          executor_registration_timeout: "5mins"
+          "?no-strict" => true,
+          "containerizers" => "docker,mesos",
+          "executor_registration_timeout" => "5mins"
         },
         marathon_config: {
-          event_subscriber: "http_callback",
-          task_launch_timeout: 360000
+          "?checkpoint" =>  true,
+          "event_subscriber" => "http_callback",
+          "task_launch_timeout" => 360000
         },
         bamboo_config_files: [
           "config/bamboo/bamboo.json",
