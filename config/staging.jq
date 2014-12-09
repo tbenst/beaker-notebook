@@ -92,7 +92,8 @@
           "ELASTICSEARCH_PORT_9200_TCP_ADDR": "bunsen:s6nFTwtbZP3wHh@172.17.42.1",
           "ELASTICSEARCH_PORT_9200_TCP_PORT": 9200,
           "PROVISIONER_PORT_3001_TCP_ADDR": "172.17.42.1",
-          "PROVISIONER_PORT_3001_TCP_PORT": 3001
+          "PROVISIONER_PORT_3001_TCP_PORT": 3001,
+          "SCRATCH_SPACE_ROOT": "/mnt/lustre/bunsen-staging/beaker"
         },
         "healthChecks": [
           {

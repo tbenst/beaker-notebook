@@ -7,8 +7,8 @@ Provisioner = restler.service(function(options) {
     port: options.port
   });
 }, null, {
-  provision: function(id) {
-    return this.jsonAsync('POST', 'api/v1/instance', {id: id})
+  provision: function(config) {
+    return this.jsonAsync('POST', 'api/v1/instance', config)
     .spread(function(data, res) {
       return data;
     })
