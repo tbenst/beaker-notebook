@@ -39,7 +39,6 @@ config := '$(shell \
 	stop \
 	wire \
 	unwire \
-	test \
 	config \
 	clean \
 	clean-% \
@@ -47,7 +46,8 @@ config := '$(shell \
 	clean-all \
 	kick \
 	version \
-	status
+	status \
+	run-%
 
 all: $(IMAGES)
 
@@ -89,9 +89,9 @@ unwire:
 		| jq -r -c '.Services[] | select(.Id | contains("$(HOST)")) | .Id' \
 		| xargs -n1 $(bamboo) service delete
 
-test:
-	@echo 'TESTING $(HOST) >>>'
-	@jq '.jobs[] | select(.id | contains("test")) | (.ports[] | "--publish=\(.)"), (.env | to_entries[] | "--env=\(.key)=\(.value)"), .container.image' <<<$(config) \
+run-%:
+	@echo 'RUNNING $(HOST) $* >>>'
+	@jq '.jobs[] | select(.id | contains("$*")) | ((.ports // [])[] | "--publish=\(.)"), (.env | to_entries[] | "--env=\(.key)=\(.value)"), .container.image, (.args // [])[]' <<<$(config) \
 		| xargs docker run --rm -t --add-host=$(HOST):172.17.42.1
 
 config:
