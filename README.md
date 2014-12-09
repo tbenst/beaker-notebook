@@ -44,17 +44,14 @@ To prevent slow uploading when building images you must enable a `virtio-net` ad
 * Then run the following:
 
 ```bash
-docker run -e NODE_ENV=development -e CIPHER_KEY=Auj/QL_WU[xX64p+1TB81m6AD6wSCl -v /vagrant/app:/var/app --link db:db --link provisioner:provisioner --link elasticsearch:elasticsearch app --migrate --delay=25 --seed --index -r
+make run-seed
+make run-index
 ```
 
 ## To run the test suite
   * Ensure that your vagant is running and provisioned, and your docker images are built (specified above).
-  * Run your docker test containers.
-    * To run in test mode (mount volumes for easier editing):
-      * `$ ./script/run.sh -t` (or specify image, ex: `$ ./script/run.sh -t db`)
-    * To run in ci mode (running the entire suite w/o mounting):
-      * `$ ./script/run.sh --env=ci` (or specify image, ex: `$ ./script/run.sh --env=ci db`)
-  * Run `$ npm start` in the `tests` directory.
+  * For Bunsen in test mode, run: `$ make HOST=bunsen-test CONFIG=config/test.jq run-test`
+  * To begin the test suite, run: `$ npm start` in the `tests` directory.
 
 ## Debugging tests
   * If you get a seed populate error or socket hang up on first few tests, try cancelling running tests and waiting (app takes 15-20 seconds after running containers to be ready)
