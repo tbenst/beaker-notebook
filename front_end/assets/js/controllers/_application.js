@@ -36,7 +36,7 @@
 
       $rootScope.signOut = function() {
         delete $sessionStorage.user;
-        return Restangular.all('sign_out').post()
+        return Restangular.all('session').remove()
         .then(function() {
           $state.go('landing');
         })

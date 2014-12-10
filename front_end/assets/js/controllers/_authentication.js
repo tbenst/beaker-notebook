@@ -37,7 +37,7 @@
 
     $scope.submit = function() {
       $scope.loading = true;
-      Restangular.all('authenticate').post($scope.user)
+      Restangular.all('session').post($scope.user)
         .then(signIn)
         .catch(function(err) {
           $scope.loading = false;
