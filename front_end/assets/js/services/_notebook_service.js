@@ -21,9 +21,8 @@
       frame.parentNode.removeChild(frame);
     }
 
-    function resizeIframe(data) {
-      angular.element(getIFrame(data.notebookId))
-        .attr('height', data.height);
+    function resizeIframe(frame, height) {
+      angular.element(frame).attr('height', height);
     };
 
     function setNotebookEdited(data) {
@@ -35,7 +34,7 @@
         throw "message received from unauthorized host " + e.origin.host;
       }
       if (e.data.operation == 'close') return removeIFrame(e.source.frameElement);
-      if (e.data.operation == 'resize') return resizeIframe(e.data);
+      if (e.data.operation == 'resize') return resizeIframe(e.source.frameElement, e.data.height);
       if (e.data.operation == 'edited') return setNotebookEdited(e.data);
       if (!e.data.notebook) return; // could be a message for a different purpose
       saveNotebook(e.data);
