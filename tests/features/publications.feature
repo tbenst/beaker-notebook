@@ -190,6 +190,12 @@ Feature: Publications
     And I should see the authors job title "Researcher"
     And I should see the authors company "Two Sigma"
 
+  Scenario: Delete a publication from publication page
+    Given I have a publication
+    When I view the publication
+    And I delete the publication from publication page
+    Then I should see 0 publication results on the page
+
   Scenario: Minimizing publication sections
     Given I have a publication
     When I view the publication
