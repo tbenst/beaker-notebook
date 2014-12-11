@@ -285,7 +285,7 @@
             "intervalSeconds": 10,
             "portIndex": 0,
             "timeoutSeconds": 5,
-            "maxConsecutiveFailures": 3
+            "maxConsecutiveFailures": 10
           }
         ],
         "upgradeStrategy": {

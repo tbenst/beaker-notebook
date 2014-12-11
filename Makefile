@@ -53,15 +53,15 @@ all: $(IMAGES)
 
 $(filter-out web api,$(IMAGES)):
 	@echo 'BUILDING $@ >>>'
-	@docker build -t $@ $@
+	@docker build --force-rm -t $@ $@
 
 web:
 	@echo 'BUILDING $@ >>>'
-	@docker build -t web front_end
+	@docker build --force-rm -t web front_end
 
 api:
 	@echo 'BUILDING $@ >>>'
-	@docker build -t api app
+	@docker build --force-rm -t api app
 
 start:
 	@echo 'STARTING $(HOST) >>>'
