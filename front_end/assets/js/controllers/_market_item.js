@@ -24,7 +24,7 @@
 
     F.DataSets.getDataSet($state.params.index, $state.params.id).then(function(d) {
       $scope.item = Restangular.stripRestangular(d);
-      $scope.subscribed = _.contains(d.subscriberIds, $cookies.currentUserId);
+      $scope.subscribed = _.contains(d.subscriberIds, parseInt($cookies.currentUserId));
       if ($scope.item.csvPreview) {
         $scope.item.tabView = 'table';
         $scope.tableDataPreview = DFS.buildTable($scope.item);

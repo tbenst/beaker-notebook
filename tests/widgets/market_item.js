@@ -44,6 +44,10 @@ module.exports = function() {
       return this.click(".subscribe")
     },
 
+    unsubscribe: function() {
+      return this.read(".subscribe").should.eventually.contain('Unsubscribe');
+    },
+
     filePath: function() {
       return this.read('.file-path');
     },
