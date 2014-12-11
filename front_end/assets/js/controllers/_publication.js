@@ -1,5 +1,15 @@
 ;(function(angular, app) {
-  app.controller('publication', ['$scope', '$state', '$compile', 'Factories', function($scope, $state, $compile, Factories) {
+  app.controller('publication', [
+    '$scope',
+    '$state',
+    '$compile',
+    'Factories',
+    function(
+      $scope,
+      $state,
+      $compile,
+      Factories) {
+
     var F = Factories;
 
     F.Publications.getPublication($state.params.id).then(function(publication) {
