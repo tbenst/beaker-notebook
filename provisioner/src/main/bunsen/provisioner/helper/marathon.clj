@@ -25,8 +25,8 @@
       (update-app host id app))
     (create-app host app)))
 
-(defn app [{:keys [id template]}]
-  (assoc template "id" id))
+(defn app [{:keys [id config template]}]
+  (merge-with merge template (assoc config "id" id)))
 
 ; http://mikerowecode.com/2013/02/clojure-polling-function.html
 (defn wait-for

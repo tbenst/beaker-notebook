@@ -5,6 +5,7 @@ var Checkit               = require('checkit');
 var Crypto                = require('crypto');
 var moment                = require('moment');
 var PasswordResetException = require('../lib/password_reset_exception');
+var path = require('path');
 
 function encryptPassword(password) {
   return Bcrypt.hashAsync(password, 10);
@@ -130,6 +131,21 @@ module.exports = function(Bookshelf, app) {
               return _this.save(attrs);
             })
         })
+    },
+
+    provisionerConfig: function() {
+      return {
+        "id": this.id,
+        "config": {
+          "container": {
+            "volumes": [{
+              "hostPath": path.join(process.env.SCRATCH_SPACE_ROOT, this.id.toString()),
+              "containerPath": "/mnt/scratch",
+              "mode": "RW"
+            }]
+          }
+        }
+      };
     }
   });
 

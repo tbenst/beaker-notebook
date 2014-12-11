@@ -9,7 +9,7 @@ module.exports = function(app) {
 
   return {
     create: function(req, res, next) {
-      provisioner.provision(req.user.id)
+      provisioner.provision(req.user.provisionerConfig())
       .then(function(instance) {
         res.json(beakerResponse(instance))
       })

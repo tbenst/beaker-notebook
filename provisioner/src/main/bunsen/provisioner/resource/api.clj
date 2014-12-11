@@ -18,7 +18,7 @@
   :post! (fn [ctx]
            (when-let [i (api/create-instance
                           config
-                          (get-in ctx [:request :params "id"]))]
+                          (get-in ctx [:request :params]))]
              {::instance i}))
   :handle-created ::instance
   :available-media-types ["application/json"])
