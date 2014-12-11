@@ -28,15 +28,8 @@ To prevent slow uploading when building images you must enable a `virtio-net` ad
     * `10.10.10.10    bunsen-test`
   * Browse to http://bunsen-dev/
 
-## Debugging
-  * List running containers with `docker ps`
-  * Tail a container's log with `docker logs -f <container>`
-  * Run bash in a running container with `docker exec -it <container> bash`
-  * Looking at the database:
-    * get container id or name from `docker ps | grep postgres`
-    * `docker exec -it <container> bash`
-    * `su postgres`
-    * `psql bunsenDevelopment`
+## Database
+### [Read All About it](/docs/postgres)
 
 ## Seeding your development env
 
