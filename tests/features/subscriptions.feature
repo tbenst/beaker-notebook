@@ -24,8 +24,8 @@ Feature: Subscriptions
     When I view My Datasets
     Then I should see the following subscriptions:
       | title               | remoteFile | description  |
-      | Crime Rates, Canada | CRIME.xml  | pretty bad   |
-      | Population, Canada  | POP.xml    | somewhat low |
+      | Crime Rates, Canada | /var/s3/CRIME.xml  | pretty bad   |
+      | Population, Canada  | /var/s3/POP.xml    | somewhat low |
 
   Scenario: Viewing dataset details
     When I view My Datasets
@@ -45,8 +45,8 @@ Feature: Subscriptions
     And I return to the list from the market item
     Then I should see the following subscriptions:
       | title               | remoteFile | description  |
-      | Crime Rates, Canada | CRIME.xml  | pretty bad   |
-      | Population, Canada  | POP.xml    | somewhat low |
+      | Crime Rates, Canada | /var/s3/CRIME.xml  | pretty bad   |
+      | Population, Canada  | /var/s3/POP.xml    | somewhat low |
 
   Scenario: Seeing subscription date
     Given I have the following market items:
@@ -63,8 +63,8 @@ Feature: Subscriptions
     When I view My Datasets
     And I search my subscriptions for "Crime Rates"
     Then I should see the following subscriptions:
-      | title               | remoteFile | description  |
-      | Crime Rates, Canada | CRIME.xml  | pretty bad   |
+      | title               | remoteFile         | description  |
+      | Crime Rates, Canada | /var/s3/CRIME.xml  | pretty bad   |
 
   Scenario: Sorting datasets by subscription date
     Given I have the following market items:
@@ -78,12 +78,12 @@ Feature: Subscriptions
     And I sort by subscription date
     Then I should see the following subscriptions:
       | title               | remoteFile | description  |
-      | Employment Rates    | MONEYS.csv | some         |
-      | Population, Canada  | POP.xml    | somewhat low |
-      | Crime Rates, Canada | CRIME.xml  | pretty bad   |
+      | Employment Rates    | /var/s3/MONEYS.csv | some         |
+      | Population, Canada  | /var/s3/POP.xml    | somewhat low |
+      | Crime Rates, Canada | /var/s3/CRIME.xml  | pretty bad   |
     When I unsort by subscription date
     Then I should see the following subscriptions:
       | title               | remoteFile | description  |
-      | Crime Rates, Canada | CRIME.xml  | pretty bad   |
-      | Employment Rates    | MONEYS.csv | some         |
-      | Population, Canada  | POP.xml    | somewhat low |
+      | Crime Rates, Canada | /var/s3/CRIME.xml  | pretty bad   |
+      | Employment Rates    | /var/s3/MONEYS.csv | some         |
+      | Population, Canada  | /var/s3/POP.xml    | somewhat low |

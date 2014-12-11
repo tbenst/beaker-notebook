@@ -104,6 +104,18 @@ module.exports = function(Bookshelf, app) {
         var ids = _.invoke(subscriptions.models, 'get', 'dataSetId');
         return app.Models.DataSet.findByIds({ids: ids, index: '*'})
         .then(function(datasets) {
+          // inject catalog into datasets
+          return Promise.map(datasets, function(set) {
+            var dataset = app.Models.DataSet.forge(set);
+            return new app.Models.Category({path: dataset.catalogPath(), index: dataset.get('index')})
+            .fetchFromElastic()
+            .then(function(catalog) {
+              dataset.set('catalog', catalog);
+              return dataset.toJSON()
+            })
+          });
+        })
+        .then(function(datasets) {
           // inject datasets into subscriptions
           return _.map(subscriptions.toJSON(), function(s) {
             var dataSet = _.findWhere(datasets,
