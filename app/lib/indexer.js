@@ -2,17 +2,14 @@ var _ = require('lodash');
 var app = {};
 var Promise = require('bluebird');
 var elasticsearch = require('elasticsearch');
+var config = require('../config.js')[process.env["NODE_ENV"]];
 
-var elastic = {
-  host: process.env.ELASTICSEARCH_PORT_9200_TCP_ADDR,
-  port: process.env.ELASTICSEARCH_PORT_9200_TCP_PORT
-};
 var BATCH_SIZE = 1000;
 
 app.Models = require('../models');
 
 var client = new elasticsearch.Client({
-  host: elastic.host + ':' + elastic.port,
+  host: config.elastic.host + ':' + config.elastic.port,
   requestTimeout: 300000
 });
 

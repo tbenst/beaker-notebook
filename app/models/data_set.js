@@ -3,10 +3,7 @@ var _         = require('lodash'),
     Pipeline  = require('when/pipeline');
 
 var elasticsearch = require('elasticsearch');
-var elastic = {
-  host: process.env.ELASTICSEARCH_PORT_9200_TCP_ADDR,
-  port: process.env.ELASTICSEARCH_PORT_9200_TCP_PORT
-};
+var config = require('../config.js')[process.env["NODE_ENV"]];
 
 var QUERY_KEYS = ['searchTerm', 'searchScope'];
 
@@ -14,7 +11,7 @@ module.exports = function(Bookshelf, app) {
   var models = app.Models;
   var query = Bookshelf.knex;
   var client = new elasticsearch.Client({
-    host: elastic.host + ':' + elastic.port
+    host: config.elastic.host + ':' + config.elastic.port
   });
 
   var DataSet = Bookshelf.Model.extend({
