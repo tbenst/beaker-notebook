@@ -8,7 +8,7 @@ auth-toggle
   min-height: 336px
   position: relative
 
-  sign-up, sign-in
+  sign-up, sign-in, forgot-password
     top: 0
     left: 0
     width: 100%
@@ -16,13 +16,13 @@ auth-toggle
     display: block
     position: absolute
 
-    transform: rotateY(0deg)
+    transform: rotateY(180deg)
     transition: all 500ms
     backface-visibility: hidden
     -webkit-backface-visibility: hidden
 
     &.active
-      transform: rotateY(180deg)
+      transform: rotateY(0deg)
 
   .message
     font-size: 15px

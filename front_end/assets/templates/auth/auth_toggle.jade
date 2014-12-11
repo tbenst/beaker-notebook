@@ -1,11 +1,13 @@
-sign-in(ng-class="{active: signUp}")
-sign-up(ng-class="{active: !signUp}")
+div(ng-hide="isState(['forgotPassword'])")
+  sign-in(ng-class="{active: isState(['signIn'])}")
+  sign-up(ng-class="{active: isState(['signUp'])}")
+forgot-password(ng-if="isState(['forgotPassword'])" ng-class="{active: isState(['forgotPassword'])}")
 .sub-action
-  div(ng-show="!signUp")
+  div(ng-show="isState(['signIn','forgotPassword'])")
     | No Account? &nbsp;
-    span.create-account(ng-click="signUp = !signUp") Create New Account
+    span.create-account(ng-click="switchState('signUp')") Create New Account
     br
-    span.retrieve-password(ui-sref="retrievePassword") Forgot Password
-  div(ng-show="signUp")
+    span.retrieve-password(ng-click="switchState('forgotPassword')") Forgot Password
+  div(ng-show="isState(['signUp'])")
     | Have An Account? &nbsp;
-    span.login-to-account(ng-click="signUp = !signUp") Login
+    span.login-to-account(ng-click="switchState('signIn')") Login
