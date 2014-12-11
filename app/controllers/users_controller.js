@@ -65,8 +65,12 @@ module.exports = function(app) {
     },
 
     get: function (req, res, next) {
-      setGravatar(req.user);
-      res.json(_.pick(req.user.attributes, userParams.concat('gravatar')));
+      User.forge({id: req.signedCookies.user})
+        .fetch()
+        .then(function(user) {
+          setGravatar(user);
+          res.json(_.pick(req.user.attributes, userParams.concat('gravatar')));
+        })
     },
 
     update: function (req, res, next) {

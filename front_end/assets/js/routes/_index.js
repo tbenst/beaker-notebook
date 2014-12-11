@@ -3,7 +3,12 @@
     $stateProvider
       .state('landing', {
         url: '',
-        skipAuth: true
+        skipAuth: true,
+        views: {
+          root: {
+            controller: 'landing'
+          }
+        }
       });
   }]);
 })(angular, window.bunsen, templates);

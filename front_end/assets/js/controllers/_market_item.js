@@ -5,7 +5,7 @@
     '$state',
     'Factories',
     'Restangular',
-    '$cookies',
+    '$sessionStorage',
     'DataFormatService',
     function(
       $scope,
@@ -13,7 +13,7 @@
       $state,
       Factories,
       Restangular,
-      $cookies,
+      $sessionStorage,
       DataFormatService) {
 
     var R = Restangular;
@@ -24,7 +24,7 @@
 
     F.DataSets.getDataSet($state.params.index, $state.params.id).then(function(d) {
       $scope.item = Restangular.stripRestangular(d);
-      $scope.subscribed = _.contains(d.subscriberIds, parseInt($cookies.currentUserId));
+      $scope.subscribed = _.contains(d.subscriberIds, $sessionStorage.user.id);
       if ($scope.item.csvPreview) {
         $scope.item.tabView = 'table';
         $scope.tableDataPreview = DFS.buildTable($scope.item);

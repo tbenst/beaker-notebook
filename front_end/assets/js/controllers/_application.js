@@ -6,8 +6,10 @@
     '$cookies',
     '$http',
     'Restangular',
-    function($rootScope, $scope, $state, $cookies, $http, Restangular) {
-      $rootScope.$session = $cookies;
+    '$sessionStorage',
+    'AuthService',
+    function($rootScope, $scope, $state, $cookies, $http, Restangular, $sessionStorage, AuthService) {
+      $rootScope.$session = $sessionStorage;
 
       $scope.$state = $state;
       $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
@@ -16,12 +18,25 @@
           fromParams: fromParams
         }
 
-        if (!$cookies.currentUserId && !toState.skipAuth) {
-          $rootScope.goTo = toState;
-          $state.go("signIn");
-          event.preventDefault();
+        if (!$sessionStorage.user && !toState.skipAuth) {
+          AuthService.setUserIfLoggedIn()
+          .catch(function() {
+            if (!$sessionStorage.user) {
+              $rootScope.goTo = toState;
+              $state.go("signIn");
+              event.preventDefault();
+            }
+          })
         }
       });
+
+      $scope.$watch(function() {
+        return $cookies.user;
+      }, function(){
+        if (!$cookies.user && $sessionStorage.user) {
+          $rootScope.signOut();
+        }
+      })
 
       $rootScope.cachedNotebooks = $rootScope.cachedNotebooks || {};
 
@@ -34,8 +49,11 @@
       }
 
       $rootScope.signOut = function() {
-        delete $cookies.currentUserId;
-        return Restangular.all('sign_out').post();
+        delete $sessionStorage.user;
+        return Restangular.all('session').remove()
+        .then(function() {
+          $state.go('landing');
+        })
       }
   }]);
 })(window.bunsen);
