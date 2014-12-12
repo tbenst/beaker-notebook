@@ -1,4 +1,33 @@
 {
+  "jobs": [
+    {
+      "id": "index",
+      "container": {
+        "image": "api:\($TAG)"
+      },
+      "args": [
+        "--index"
+      ],
+      "env": {
+        "NODE_ENV": "staging",
+        "ALLOW_CROSS_ORIGIN": true,
+        "CIPHER_KEY": "Auj/QL_WU[xX64p+1TB81m6AD6wSCl",
+        "EXTERNAL_DB_HOST": "bunsen-staging-db.cyuqbkun2hqi.us-east-1.rds.amazonaws.com",
+        "EXTERNAL_DB_USER": "bunsen",
+        "EXTERNAL_DB_PASS": "FSoq93X8KuyQN6333EV3411zf",
+        "EXTERNAL_DB_NAME": "bunsen_staging",
+        "HOSTNAME": "bunsen-staging.withmojo.com",
+        "MANDRILL_PASSWORD":"-QG6MBSWNPR7sPwRali8Jg",
+        "MANDRILL_USER":"ops+mandrill@mojotech.com",
+        "MAIL_FROM": "ops+bunsen@mojotech.com",
+        "ELASTICSEARCH_PORT_9200_TCP_ADDR": "bunsen:s6nFTwtbZP3wHh@172.17.42.1",
+        "ELASTICSEARCH_PORT_9200_TCP_PORT": 9200,
+        "PROVISIONER_PORT_3001_TCP_ADDR": "172.17.42.1",
+        "PROVISIONER_PORT_3001_TCP_PORT": 3001,
+        "SCRATCH_SPACE_ROOT": "/mnt/lustre/bunsen-staging/beaker"
+      }
+    }
+  ],
   "services": [
     {
       "id": "/bunsen-staging/web",
