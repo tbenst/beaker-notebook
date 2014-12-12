@@ -6,3 +6,6 @@ We store much of our data in postgres. The ORM that we use on our api server is 
   * Looking at the database:
     * `su postgres`
     * `psql bunsen_dev`
+
+## Working with postgres on Staging
+* Refer to the instructions [here](interacting_with_staging.md)
