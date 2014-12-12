@@ -69,7 +69,7 @@ module.exports = function(app) {
         .fetch()
         .then(function(user) {
           setGravatar(user);
-          res.json(_.pick(req.user.attributes, userParams.concat('gravatar')));
+          res.json(_.pick(user.attributes, userParams.concat('gravatar')));
         })
     },
 
