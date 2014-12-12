@@ -7,7 +7,7 @@ forgot-password(ng-if="isState(['forgotPassword'])" ng-class="{active: isState([
     | No Account? &nbsp;
     span.create-account(ng-click="switchState('signUp')") Create New Account
     br
-    span.retrieve-password(ng-click="switchState('forgotPassword')") Forgot Password
+    span.retrieve-password(ng-hide="isState(['forgotPassword'])" ng-click="switchState('forgotPassword')") Forgot Password
   div(ng-show="isState(['signUp'])")
     | Have An Account? &nbsp;
     span.login-to-account(ng-click="switchState('signIn')") Login
