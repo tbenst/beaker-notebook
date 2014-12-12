@@ -162,11 +162,6 @@ module.exports = function(Bookshelf, app) {
   });
 
   User = _.extend(User, {
-    findOneWhere: function(attrs) {
-      return User.forge(attrs)
-      .fetch()
-    },
-
     signUp: function(attrs) {
       return new User(attrs).save()
     },
