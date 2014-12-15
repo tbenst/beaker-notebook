@@ -1,7 +1,9 @@
 bunsen
 ======
 
-Big data for fun and profit.
+## Big data for fun and profit.
+
+### [Setting up your environment](docs/setting-up-your-environment.md)
 
 ## Setting up Vagrant with Virtual Box
 To prevent slow uploading when building images you must enable a `virtio-net` adapter for your given VM.
