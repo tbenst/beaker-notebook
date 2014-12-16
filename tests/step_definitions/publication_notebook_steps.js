@@ -41,6 +41,10 @@ module.exports = function() {
     });
   });
 
+  this.When(/^I delete the publication from publication page$/, function() {
+    return new this.Widgets.PublicationNotebookHero().deletePublication();
+  });
+
   this.When(/^I should see the publication notebook$/, function() {
     return this.driver.wait(function() {
       return new this.Widgets.PublicationNotebook().isVisible()

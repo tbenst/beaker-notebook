@@ -83,9 +83,9 @@ module.exports = function(app) {
     },
 
     destroy: function(req, res, next) {
-      req.user.publications()
-      .query({where: {'publications.id': req.params.id}})
-      .fetchOne()
+      Publication
+      .query({where: {'id': req.params.id}, andWhere: {'user_id': req.user.id}})
+      .fetch()
       .then(function(publication) {
         return publication.destroy()
         .then(res.json.bind(res));

@@ -15,12 +15,8 @@
         return R.one('publications', id).post('copy', options);
       },
 
-      destroy: function(publication) {
-        var notebookId = publication.notebookId;
-
-        return R.one('publications', publication.id).remove().then(function() {
-          return R.one('notebooks', notebookId).get();
-        });
+      destroy: function(publicationId) {
+        return R.one('publications', publicationId).remove();
       }
     };
   }]);

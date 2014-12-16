@@ -131,8 +131,10 @@
     };
 
     $scope.destroyPublication = function() {
-      F.Publications.destroy($scope.notebook.current.publication).then(function(notebook) {
-        $scope.notebook.current = notebook;
+      F.Publications.destroy($scope.notebook.current.publication.id).then(function() {
+        F.Notebooks.getNotebook($scope.notebook.current.id).then(function(notebook) {
+          $scope.notebook.current = notebook;
+        });
       });
     };
 

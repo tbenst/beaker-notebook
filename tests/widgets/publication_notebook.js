@@ -29,6 +29,10 @@ module.exports = function() {
 
     gravatarLink: function() {
       return this.getAttribute({selector: '.publication-notebook-icon', attribute: 'src'})
+    },
+
+    deletePublication: function() {
+      return this.click('.destroy-publication');
     }
   });
 
