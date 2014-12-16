@@ -1,0 +1,15 @@
+{
+  "name": "performance",
+  "_cacheHeaders": {
+    "ETag": "\"090bd7faed5b28899d65c919fc5b2328\"",
+    "Content-Length": "2427",
+    "Content-Type": "text/plain",
+    "Content-Disposition": "inline"
+  },
+  "_release": "e-tag:090bd7fae",
+  "main": "index.js",
+  "_source": "https://gist.githubusercontent.com/RubaXa/8662836/raw/b428281a8616576dfb478b26f07fb60f007a9a7b/performance.js",
+  "_target": "*",
+  "_originalSource": "https://gist.githubusercontent.com/RubaXa/8662836/raw/b428281a8616576dfb478b26f07fb60f007a9a7b/performance.js",
+  "_direct": true
+}
