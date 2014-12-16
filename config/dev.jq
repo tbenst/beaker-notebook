@@ -24,7 +24,6 @@
       "env": {
         "ALLOW_SEED": true,
         "NODE_ENV": "development",
-        "CIPHER_KEY": "Auj/QL_WU[xX64p+1TB81m6AD6wSCl",
         "DB_PORT_5432_TCP_ADDR": "172.17.42.1",
         "DB_PORT_5432_TCP_PORT": "\($POSTGRES_PORT)",
         "ELASTICSEARCH_PORT_9200_TCP_ADDR": "172.17.42.1",
@@ -45,7 +44,6 @@
       "env": {
         "ALLOW_SEED": true,
         "NODE_ENV": "development",
-        "CIPHER_KEY": "Auj/QL_WU[xX64p+1TB81m6AD6wSCl",
         "DB_PORT_5432_TCP_ADDR": "172.17.42.1",
         "DB_PORT_5432_TCP_PORT": "\($POSTGRES_PORT)",
         "ELASTICSEARCH_PORT_9200_TCP_ADDR": "172.17.42.1",
@@ -264,7 +262,6 @@
           "NODE_ENV": "development",
           "ALLOW_SEED": true,
           "ALLOW_CROSS_ORIGIN": true,
-          "CIPHER_KEY": "Auj/QL_WU[xX64p+1TB81m6AD6wSCl",
           "DB_PORT_5432_TCP_ADDR": "172.17.42.1",
           "DB_PORT_5432_TCP_PORT": "\($POSTGRES_PORT)",
           "MANDRILL_PASSWORD":"-QG6MBSWNPR7sPwRali8Jg",

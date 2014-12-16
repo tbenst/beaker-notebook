@@ -21,13 +21,13 @@ Bunsen API Server
 This task will drop the development DB, recreate it, run migrations, and then reseed the data.
 
 
-* `docker run -e NODE_ENV=development -e CIPHER_KEY=Auj/QL_WU[xX64p+1TB81m6AD6wSCl -v /vagrant/app:/var/app --link db:db --link provisioner:provisioner --link elasticsearch:elasticsearch app --migrate --seed`
+* `docker run -e NODE_ENV=development -v /vagrant/app:/var/app --link db:db --link provisioner:provisioner --link elasticsearch:elasticsearch app --migrate --seed`
 
 ## Migrate per ENV
 
 It is quite simple to change your migration
 target via the NODE_ENV variable.
 
-* `docker run -e NODE_ENV=development -e CIPHER_KEY=Auj/QL_WU[xX64p+1TB81m6AD6wSCl -v /vagrant/app:/var/app --link db:db --link provisioner:provisioner --link elasticsearch:elasticsearch app --migrate`
+* `docker run -e NODE_ENV=development -v /vagrant/app:/var/app --link db:db --link provisioner:provisioner --link elasticsearch:elasticsearch app --migrate`
 
-* `docker run -e NODE_ENV=test -e CIPHER_KEY=Auj/QL_WU[xX64p+1TB81m6AD6wSCl -v /vagrant/app:/var/app --link db:db --link provisioner:provisioner --link elasticsearch:elasticsearch app --migrate`
+* `docker run -e NODE_ENV=test -v /vagrant/app:/var/app --link db:db --link provisioner:provisioner --link elasticsearch:elasticsearch app --migrate`
