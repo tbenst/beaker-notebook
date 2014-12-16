@@ -110,6 +110,12 @@ module.exports = function() {
       associations: [{
         foreignKey: 'notebook_id',
         lookup: {"Notebook": {name: notebookName}}
+      },
+      {
+        foreignKey: "user_id",
+        lookup: {
+          User: {email: "u@r.edu"}
+        }
       }]
     });
   });
