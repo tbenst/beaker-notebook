@@ -9,9 +9,10 @@ module.exports = function(app) {
 
   return {
     create: function(req, res, next) {
-      provisioner.provision(req.user.provisionerConfig())
-      .then(function(instance) {
-        res.json(beakerResponse(instance))
+      req.user.beakerConfig()
+      .then(provisioner.provision.bind(provisioner))
+      .then(function() {
+        res.json(req.user.beakerUrl())
       })
       .catch(next);
     },
@@ -19,17 +20,9 @@ module.exports = function(app) {
     get: function(req, res, next) {
       provisioner.inspect(req.user.id)
       .then(function(instance) {
-        res.json(beakerResponse(instance))
+        res.json(instance)
       })
       .catch(next);
     }
   };
-
-  function beakerUrl(cid) {
-    return '/beaker/' + cid + '/beaker/';
-  }
-
-  function beakerResponse(data) {
-    return _.merge(data, {url: beakerUrl(data.id)})
-  }
 };
