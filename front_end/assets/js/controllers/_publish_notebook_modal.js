@@ -40,7 +40,7 @@
     $scope.notebook.current.publication.categoryId = $scope.notebook.current.publication.categoryId || 0;
 
     F.PublicationCategories.getAll().then(function(categories) {
-      $scope.categories = $scope.categoryBase.concat(categories);
+      $scope.categories = $scope.categoryBase.concat(_.sortBy(categories, "name"));
     });
   }]);
 } (angular, window.bunsen));
