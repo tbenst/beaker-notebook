@@ -11,6 +11,9 @@ Feature: Publications
     And I have the following notebooks:
       | name               | projectName        |
       | top secret         | ghost of tom jones |
+    And I have the following publication categories:
+      | name       |
+      | Finance    |
 
   Scenario: Viewing an open and published notebook
     Given I view my projects
@@ -18,6 +21,7 @@ Feature: Publications
     And I view the notebook "top secret"
     When I go to publish the notebook
     And I give it the description "not so secret anymore"
+    And I give it the category "Finance"
     And I publish the notebook
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
@@ -30,6 +34,7 @@ Feature: Publications
     Then I should see that the notebook is not published
     When I go to publish the notebook
     And I give it the description "not so secret anymore"
+    And I give it the category "Finance"
     And I publish the notebook
     Then I should see that the notebook is published
     And the notebook publish date should be now
@@ -66,6 +71,7 @@ Feature: Publications
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
     And I go to publish the notebook
+    And I give it the category "Finance"
     And I publish the notebook
     Then I should see that the notebook is published
     When I view the publications page
@@ -79,6 +85,7 @@ Feature: Publications
     And I open the "ghost of tom jones" project
     And I view the notebook "top secret"
     And I go to publish the notebook
+    And I give it the category "Finance"
     And I publish the notebook
     Then I should see that the notebook is published
     When I view the publications page
@@ -93,6 +100,7 @@ Feature: Publications
     And I open the "ghost of tom jones" project
     And I view the notebook "top secret"
     And I go to publish the notebook
+    And I give it the category "Finance"
     And I publish the notebook
     Then I should see that the notebook is published
     When I view the publications page
