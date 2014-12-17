@@ -10,6 +10,10 @@ module.exports = function(app) {
       var searchParams = _.pick(req.query, ['category_id']);
 
       Publication.query({ where: searchParams })
+      .query(function(q) {
+        q.limit(req.query.limit);
+        q.offset(req.query.offset);
+      })
       .fetchAll({ withRelated: ['author', 'category'] })
       .then(function(publications) {
         _.each(publications.models, function(publication) {
