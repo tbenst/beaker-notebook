@@ -247,6 +247,9 @@
               {
                 "containerPort": 3000,
                 "protocol": "tcp"
+              },
+              {
+                "containerPort": 8080
               }
             ]
           },
