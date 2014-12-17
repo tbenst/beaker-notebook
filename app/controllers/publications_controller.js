@@ -20,6 +20,17 @@ module.exports = function(app) {
       .catch(next);
     },
 
+    count: function(req, res, next) {
+      var searchParams = _.pick(req.query, ['category_id']);
+      Publication.query()
+      .count('*')
+      .where(searchParams)
+      .then(function(row) {
+        res.json(parseInt(_.first(row).count));
+      })
+      .catch(next);
+    },
+
     get: function(req, res, next) {
       Publication.withAuthor(req.params.id)
         .then(res.json.bind(res))
