@@ -1,7 +1,7 @@
 ### Connect to staging
 
   * kinit
-  * First connect to the staging box via <username>@build.withmojo.com
+  * First connect to the staging box via `ssh <username>@build.withmojo.com`
     * If you recieve a connection closed message you do not have an account on the server, ask will@mojotech.com for one.
   * the staging environment is described very precisely in the configuration file
     config/staging.jq. Just as you would look in dev.jq for details about the
