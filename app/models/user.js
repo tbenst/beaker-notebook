@@ -74,7 +74,7 @@ module.exports = function(Bookshelf, app) {
       email = email ? email.trim().toLowerCase() : "";
 
       var hash = Crypto.createHash('md5').update(email).digest('hex');
-      return 'http://www.gravatar.com/avatar/' + hash + '?d=retro';
+      return 'https://secure.gravatar.com/avatar/' + hash + '?d=retro';
     },
 
     addSubscription: function(indexName, dataSetId) {

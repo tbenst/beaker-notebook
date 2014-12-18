@@ -69,7 +69,7 @@ module.exports = function() {
 
   this.Then(/^I should see the gravatar for "([^"]*)"$/, function(email) {
     var hash = require('crypto').createHash('md5').update(email).digest('hex');
-    var gravatarLink = 'http://www.gravatar.com/avatar/' + hash + '?d=retro&size=100';
+    var gravatarLink = 'https://secure.gravatar.com/avatar/' + hash + '?d=retro&size=100';
     return new this.Widgets.PublicationNotebookHero().gravatarLink().should.eventually.eql(gravatarLink);
   });
 

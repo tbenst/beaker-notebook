@@ -304,7 +304,7 @@ module.exports = function() {
   this.Then(/^I should see the following top contributors:$/, function(table) {
     var expectedValues = _.map(table.hashes(), function(row) {
       var hash = require('crypto').createHash('md5').update(row.gravatar_email).digest('hex');
-      var expected_icon_src = 'http://www.gravatar.com/avatar/' + hash + '?d=retro&size=100';
+      var expected_icon_src = 'https://secure.gravatar.com/avatar/' + hash + '?d=retro&size=100';
       delete row.gravatar_email;
       row.icon_src = expected_icon_src;
 
