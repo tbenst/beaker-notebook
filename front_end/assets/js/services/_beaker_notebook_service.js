@@ -1,5 +1,16 @@
 ;(function(app) {
-  app.service('BeakerNotebookService', function() {
+  app.service('BeakerNotebookService', [
+    '$location',
+    'UrlGeneratorService',
+    'Restangular',
+    '$rootScope',
+    '$sce',
+    function(
+      $location,
+      UrlGeneratorService,
+      Restangular,
+      $rootScope,
+      $sce) {
     return {
       getFrameMeta: function(notebook) {
         return {
@@ -10,7 +21,7 @@
           frame: document.querySelector('#beaker-frame-' + notebook.id)
         };
       },
-      renderFrame: function(notebook, height) {
+      renderFrame: function(notebook, height, hide) {
         var meta   = this.getFrameMeta(notebook);
         var cached = meta.frame;
 
@@ -23,7 +34,9 @@
           frame.setAttribute('height', height);
           frame.setAttribute('scrolling', 'no');
           frame.setAttribute('class', 'beaker');
-          frame.style.display = "none";
+          if(hide) {
+            frame.style.display = "none";
+          }
           document.getElementById('beaker-container').appendChild(frame);
         }
       },
@@ -32,7 +45,30 @@
         if (frame) {
           frame.style.display = "none";
         }
+      },
+      notebookLocation: function(url, projectId, notebookId) {
+        var notebookPath = Restangular.one('notebooks', notebookId).one('contents').getRestangularUrl();
+        var notebookUrl  = $location.protocol() + "://" + $location.host();
+
+        if ($location.port() && $location.port() != 80) {
+          notebookUrl += ':' + $location.port();
+        }
+        notebookUrl += notebookPath;
+
+        return this.beakerUrl(url, "edit/" + notebookId, {
+          uri: notebookUrl,
+          projectId: projectId
+        });
+      },
+      beakerUrl: function(url, subPath, params) {
+        return url + "#/" +
+          subPath + "?" +
+          UrlGeneratorService.toParams(
+            _.extend(params, {
+              bunsenUiUrl: $location.absUrl().split("#")[0]
+            })
+          );
       }
     };
-  });
+  }]);
 })(window.bunsen);

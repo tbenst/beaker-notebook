@@ -5,27 +5,24 @@
     '$state',
     '$sce',
     'Factories',
-    'UrlGeneratorService',
-    'Restangular',
     '$compile',
     '$location',
     'Notebooks',
-    'Beaker', function(
+    'Beaker',
+    'BeakerNotebookService',
+    function(
       $scope,
       $rootScope,
       $state,
       $sce,
-      Factories,
-      UrlGeneratorService,
-      Restangular,
+      F,
       $compile,
       $location,
       Notebooks,
-      Beaker) {
+      Beaker,
+      BeakerNotebookService) {
 
-    var F = Factories;
     var frame;
-    var uiUrl = $location.absUrl().split("#")[0];
     var prjId = $state.params.id;
 
     $scope.projects.search = '';
@@ -46,26 +43,6 @@
 
     $scope.hideMenu = function() {
       this.menu = false;
-    };
-
-    var beakerUrl = function(url, subPath, params) {
-      return url + "#/" +
-        subPath + "?" + UrlGeneratorService.toParams(_.extend(params,
-          {bunsenUiUrl: uiUrl}));
-    };
-
-    var notebookLocation = function(url, projectId, notebookId) {
-      var notebookPath = Restangular.one('notebooks', notebookId).one('contents').getRestangularUrl();
-      var notebookUrl = $location.protocol() + "://" + $location.host();
-      if ($location.port() && $location.port() != 80) {
-        notebookUrl += ':' + $location.port();
-      }
-      notebookUrl += notebookPath;
-
-      return beakerUrl(url, "edit/" + notebookId, {
-        uri: notebookUrl,
-        projectId: projectId
-      });
     };
 
     var notebookNameTaken = function() {
@@ -98,11 +75,10 @@
           $scope.loading = false;
           if (result === 'timeout') {
             return $scope.warning = 'Beaker has timed out.  Please refresh to try again.';
-          }
-          else if (result === 'error') {
+          } else if (result === 'error') {
             return $scope.warning = 'An Error has occurred';
           }
-          $scope.notebook.current.location = $sce.trustAsResourceUrl(notebookLocation(result, prjId, notebook.id));
+          $scope.notebook.current.location = $sce.trustAsResourceUrl(BeakerNotebookService.notebookLocation(result, prjId, notebook.id));
           $rootScope.cachedNotebooks[notebook.id] = $scope.notebook;
         });
       });
