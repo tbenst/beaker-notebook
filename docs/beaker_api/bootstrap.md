@@ -57,8 +57,8 @@ initialization sequence.
     * bkTrackProvider is set up allowing GA tracking
     * the angular run block is registered (but not executed until the Angular bootstrap
     process is kicked off later on).
-    
-### Finally, actually kick of Angular bootstrap process ###
+
+### Kick off Angular bootstrap process ###
 
 In addition to Angular's own "launch sequence", the run block defined above will
 be executed now.
@@ -73,10 +73,21 @@ The run block will do these things:
     * For bunsen, response is always "beaker"
     * We don't need it
 * Set up universal language plugins
-    * Hardcoded ones are only Html, Latex, JavaScript 
+    * Hardcoded ones are only Html, Latex, JavaScript
     * (client js for other languages will be dynamically loaded later on
     when it's determined that the active notebook uses these languages).
     * add to global plugin registry map
 * ../beaker/rest/util/getVersionInfo
     * stores version and buildTime
     * helps beaker decides what to do with older format .bkr files
+
+### Fetch notebook contents from Bunsen server
+
+* This is actually code created by the Bunsen team and patched onto Beaker.
+* An AJAX GET request is made to e.g. /notebooks/29/contents
+
+### Initialize notebook UI with notebook contents
+
+* bk-main-app UI element is attached to its controller and Angular takes over
+  from there.  (This is no longer a part of the API between the client and the
+  server).
