@@ -1,5 +1,12 @@
 ;(function(angular, app) {
-  app.controller('projects', ['$scope', 'Factories', '$state', function($scope, Factories, $state) {
+  app.controller('projects', [
+    '$scope',
+    'Factories',
+    '$state',
+    function(
+      $scope,
+      Factories,
+      $state) {
     delete $scope.projects.search;
 
     function stateGo(item) {
