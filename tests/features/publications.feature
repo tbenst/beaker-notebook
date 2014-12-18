@@ -217,3 +217,12 @@ Feature: Publications
     When I edit the notebook
     And I go to publish the notebook
     Then I should see "Warning, your notebook has unsaved changes."
+
+  Scenario: Paginated publications
+    Given I have the following publication categories:
+      | name       | description             |
+      | Politics   | Politics are political. |
+    And there are 15 publications in the "Politics" category
+    When I view the publications page
+    Then I should see 10 publication results on the page
+    Then I should see 15 publication results next to the "Politics" category
