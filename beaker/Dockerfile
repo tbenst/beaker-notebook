@@ -19,6 +19,7 @@ RUN apt-get update && \
       python \
       python-yaml \
       s3fs-fuse \
+      apache2-utils \
       && \
     apt-get install -y --no-install-recommends -t local \
       libzmq3 \

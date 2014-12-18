@@ -43,4 +43,6 @@ if [[ ! -z $bucket ]] && [[ ! -z $mount ]]; then
   unset AWSACCESSKEYID AWSSECRETACCESSKEY
 fi
 
+htpasswd -bc /etc/nginx/.htpasswd beaker $BEAKER_PASSWORD
+
 exec su -m beaker -c "./core/beaker.command"
