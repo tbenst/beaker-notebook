@@ -9,10 +9,12 @@
       margin-top: 150px
 
 .beaker
-  float left
   transition width 200ms ease-in
   width main-content-small-width - sidebar-width - right-gutter-small-width
   @media medium
     width main-content-medium-width - sidebar-width - right-gutter-medium-width
   @media large
     width main-content-large-width - sidebar-width - right-gutter-medium-width
+
+#beaker-container
+  overflow hidden
