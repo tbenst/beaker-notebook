@@ -25,8 +25,15 @@ module.exports = function(app) {
     },
 
     index: function(req, res, next) {
-      req.user.notebooks()
-      .fetch()
+      var conditions = {'user_id': req.user.id};
+
+      if (req.query.opened) {
+        conditions.open = true;
+      }
+
+      Notebook
+      .query({where: conditions})
+      .fetchAll()
       .then(res.json.bind(res))
       .catch(next);
     },

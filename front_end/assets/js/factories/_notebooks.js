@@ -15,6 +15,10 @@
         return R.all('notebooks').getList();
       },
 
+      getOpened: function() {
+        return R.all('notebooks').getList({opened: true});
+      },
+
       update: function(attrs) {
         return R.one('notebooks', attrs.id).customPUT(attrs);
       },
