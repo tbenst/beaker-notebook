@@ -80,7 +80,7 @@ var seedPublications = function(count, options, user) {
               }]
             }
 
-            var publicationPromise = this.seed.populate(publication);
+            var publicationPromise = this.seed.populate.bind(this, publication);
 
             publicationPromises.push(publicationPromise);
           }.bind(this));
@@ -88,7 +88,10 @@ var seedPublications = function(count, options, user) {
           return publicationPromises;
         }.bind(this));
     }.bind(this));
-  }.bind(this));
+  }.bind(this))
+  .then(function(arr) {
+    return bluebird.reduce(arr, function(total, v){return v()}, 0);
+  })
 };
 
 module.exports = function() {
