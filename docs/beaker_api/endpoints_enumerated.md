@@ -219,7 +219,7 @@ Organized by client JS file that accesses the endpoint.
       * uriType:http
       * readOnly:false
       * format:bkr
-      * notebookModelJson: (see [sample_notebook_model.json])
+      * notebookModelJson: actual notebook contents
       * edited:false
     </td>
     <td></td>
@@ -236,7 +236,7 @@ Organized by client JS file that accesses the endpoint.
     <td>/beaker/rest/session-backup/load</td>
     <td>GET</td>
     <td>sessionId=183</td>
-    <td>(see [sample_notebook_model.json])</td>
+    <td>(see [sessions.md](Sessions))</td>
     <td>Loads the actual notebook contents from a session backup so that the
       notebook can be rendered.  An alternative to loading it from a file.
       One difference is that the session backup can also contain evaluator ids
