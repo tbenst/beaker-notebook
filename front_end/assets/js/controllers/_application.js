@@ -8,7 +8,15 @@
     'Restangular',
     '$sessionStorage',
     'AuthService',
-    function($rootScope, $scope, $state, $cookies, $http, Restangular, $sessionStorage, AuthService) {
+    function(
+      $rootScope,
+      $scope,
+      $state,
+      $cookies,
+      $http,
+      Restangular,
+      $sessionStorage,
+      AuthService) {
       $rootScope.$session = $sessionStorage;
 
       $scope.$state = $state;
