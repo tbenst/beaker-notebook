@@ -268,6 +268,7 @@
           "MANDRILL_USER":"ops+mandrill@mojotech.com",
           "MAIL_FROM": "ops+bunsen@mojotech.com",
           "EXTERNAL_DB_NAME": "bunsen_dev",
+          "HOSTNAME": "\($HOST)",
           "ELASTICSEARCH_PORT_9200_TCP_ADDR": "172.17.42.1",
           "ELASTICSEARCH_PORT_9200_TCP_PORT": "\($ELASTICSEARCH_PORT)",
           "PROVISIONER_PORT_3001_TCP_ADDR": "172.17.42.1",

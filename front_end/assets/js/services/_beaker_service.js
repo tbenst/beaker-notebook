@@ -1,5 +1,5 @@
 ;(function(app) {
-  app.service('Beaker', ['$q', 'Restangular', function($q, Restangular) {
+  app.service('Beaker', ['$q', 'Restangular', '$location', function($q, Restangular, $location) {
     var waitInterval = 3000;
 
     return {
@@ -22,7 +22,7 @@
       provision: function() {
         return this.beaker().post()
         .then(function(res) {
-          return res.url;
+          return $location.protocol() + "://" + res.url;
         });
       },
 
