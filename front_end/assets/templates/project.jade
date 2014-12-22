@@ -74,6 +74,7 @@
                 li
                   a.destroy(confirm="Are you sure you want to delete {{ notebook.name }}?" on-confirm="deleteNotebook(notebook)") Delete
         .cl
+        p.warning(ng-if="notebook.corrupt") This notebook is corrupt. Please contact support.
 
     span.import-notebooks.btn-group
       a.btn.btn-light.new-notebook(ng-click="createNotebook()") New Notebook
