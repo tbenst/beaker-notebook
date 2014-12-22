@@ -44,6 +44,10 @@ module.exports = function(Bookshelf, app) {
     },
 
     hashPassword: function(model) {
+      if (!this.hasChanged('password')) {
+        return;
+      }
+
       return encryptPassword(model.get('password'))
         .then(function(hash) {
           return model.set({ password: hash });
@@ -127,6 +131,10 @@ module.exports = function(Bookshelf, app) {
     },
 
     validate: function (model, attrs, options) {
+      if (!this.hasChanged('password') &&
+          !this.hasChanged('email') &&
+          !this.hasChanged('name')) { return; }
+
       return new Checkit(this.validations).run(this.attributes);
     },
 
@@ -163,7 +171,10 @@ module.exports = function(Bookshelf, app) {
           return Promise.resolve(user.get('beakerPassword'));
         } else {
           var password = randomSecure();
-          return user.save({beakerPassword: password}, {patch: true})
+
+          return user.save({beakerPassword: password}, {
+            patch: true
+          })
           .then(function() {
             user.set({beakerPassword: password});
             return password;
