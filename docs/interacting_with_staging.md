@@ -10,6 +10,15 @@
   * you're going to need to run all commands that need to interact with docker
     with "sudo", e.g. `sudo docker ps`
 
+### Deploying to staging
+
+We have Jenkins set up to watch for pushes to the "staging" branch in the
+TwoSigma repository:  git@github.com:twosigma/bunsen.git#staging.
+
+When you push to this branch, the Jenkins task will kick off:
+https://ci.withmojo.com/job/Bunsen%20Staging/ and this will build and deploy Bunsen based
+on the contents in the staging branch.
+
 
 ### Connecting to the staging postgres database
 
