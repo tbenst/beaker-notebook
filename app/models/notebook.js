@@ -23,6 +23,15 @@ function generateNotebookFilePath() {
 
   return Path.resolve(Path.join(dir, file));
 }
+function handleGitError(e, notebook) {
+  var gitErr = /Failed to resolve path/;
+
+  if (gitErr.test(e.message)) {
+    notebook.set('corrupt', true);
+    return notebook.attributes;
+  }
+  throw e;
+}
 
 function addCommitCount(notebook) {
   var git = new Git(Path.dirname(generateNotebookFilePath.call(notebook)));
@@ -33,6 +42,9 @@ function addCommitCount(notebook) {
       notebook.set('numCommits', count);
       return notebook.attributes;
     });
+  })
+  .catch(function(e) {
+    return handleGitError(e, notebook);
   });
 }
 
