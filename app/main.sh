@@ -46,7 +46,7 @@ mkdir -p /var/app/node_modules && ln -sf /usr/local/lib/node_modules/knex /var/a
 [[ $index -eq 1 ]] && BULK_INDEX=true node reindex.js
 
 if [[ $watch -eq 1 ]]; then
-  color exec pm2 start app.js -o /dev/stdout -e /dev/stderr --watch --no-daemon --silent
+  color exec pm2 start dev_run.sh -o /dev/stdout -e /dev/stderr --watch --no-daemon -x --silent
 else
   exec node app.js
 fi
