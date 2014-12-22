@@ -1,5 +1,5 @@
 .sidebar-right
-  contributors(category-id="publications.category.id")
+  contributors(ng-if="publications.list" category-id="publications.category.id")
 
 .main-content.publications
   publication-hero(publications='publications')

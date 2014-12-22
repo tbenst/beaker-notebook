@@ -17,12 +17,19 @@
     }
 
     $scope.publish = function() {
+      if ($scope.notebook.current.publication.categoryId == 0) {
+        return $scope.error = true;
+      }
       _.extend($scope.notebook.current.publication, {notebookId: $scope.notebook.current.id});
       F.Notebooks[publishType]($scope.notebook.current.publication).then(function(notebook) {
         $scope.notebook.current = notebook;
         $scope.$emit('closeModal');
       });
     };
+
+    $scope.refresh = function() {
+      $scope.error = ($scope.notebook.current.publication.categoryId == 0);
+    }
 
     $scope.savePublish = function() {
       $scope.showButtons = false;
@@ -40,7 +47,7 @@
     $scope.notebook.current.publication.categoryId = $scope.notebook.current.publication.categoryId || 0;
 
     F.PublicationCategories.getAll().then(function(categories) {
-      $scope.categories = $scope.categoryBase.concat(categories);
+      $scope.categories = $scope.categoryBase.concat(_.sortBy(categories, "name"));
     });
   }]);
 } (angular, window.bunsen));
