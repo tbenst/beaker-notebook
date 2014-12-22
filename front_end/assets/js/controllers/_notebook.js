@@ -61,10 +61,18 @@
      $scope.project = project;
     });
 
-    if ($rootScope.cachedNotebooks[$state.params.notebook_id]) {
-      Notebooks.update({id: $state.params.notebook_id, open: true});
-      $scope.notebook.current = $rootScope.cachedNotebooks[$state.params.notebook_id];
-      $scope.loading = false;
+    if (cached = $rootScope.cachedNotebooks[$state.params.notebook_id]) {
+      $scope.$watch('cachedNotebooks.ready', function(ready) {
+        if (ready == void 0) return;
+
+        if (!ready) {
+          $scope.loading = true;
+        } else {
+          $scope.loading = false;
+          $scope.notebook = {};
+          $scope.notebook.current = $rootScope.cachedNotebooks[$state.params.notebook_id];
+        }
+      });
     } else {
       F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
         $scope.notebook = { current: notebook };

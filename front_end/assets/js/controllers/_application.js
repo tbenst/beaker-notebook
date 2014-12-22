@@ -8,6 +8,8 @@
     'Restangular',
     '$sessionStorage',
     'AuthService',
+    'Factories',
+    'BeakerNotebookService',
     function(
       $rootScope,
       $scope,
@@ -16,7 +18,9 @@
       $http,
       Restangular,
       $sessionStorage,
-      AuthService) {
+      AuthService,
+      F,
+      BeakerNotebookService) {
       $rootScope.$session = $sessionStorage;
 
       $scope.$state = $state;
@@ -63,5 +67,11 @@
           $state.go('landing');
         })
       }
+
+      F.Notebooks.getOpened().then(function(notebooks) {
+        if (notebooks.length) {
+          return BeakerNotebookService.loadOpened(notebooks);
+        }
+      });
   }]);
 })(window.bunsen);

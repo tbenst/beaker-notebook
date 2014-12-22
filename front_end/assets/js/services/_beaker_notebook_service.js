@@ -4,13 +4,17 @@
     'UrlGeneratorService',
     'Restangular',
     '$rootScope',
+    'Beaker',
     '$sce',
+    '$q',
     function(
       $location,
       UrlGeneratorService,
       Restangular,
       $rootScope,
-      $sce) {
+      Beaker,
+      $sce,
+      $q) {
     return {
       getFrameMeta: function(notebook) {
         return {
@@ -39,6 +43,19 @@
         if (frame) {
           frame.style.display = "none";
         }
+      },
+      loadOpened: function(notebooks) {
+        var self = this;
+
+        return Beaker.whenReady().then(function(url) {
+          return $q.all(notebooks.map(function(notebook) {
+            notebook.location = $sce.trustAsResourceUrl(self.notebookLocation(url, notebook.projectId, notebook.id));
+            $rootScope.cachedNotebooks[notebook.id] = notebook;
+            self.renderFrame(notebook, 1000, true);
+          })).then(function(){
+            $rootScope.cachedNotebooks.ready = true;
+          });
+        });
       },
       notebookLocation: function(url, projectId, notebookId) {
         var notebookPath = Restangular.one('notebooks', notebookId).one('contents').getRestangularUrl();
