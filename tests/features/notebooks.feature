@@ -290,3 +290,7 @@ Feature: Use Notebooks
     Then the modal should be closed
     And I should see the "ghost of tom jones" project detail page
 
+  Scenario: Corrupt notebook
+    Given my "powderpuff girls" notebook is corrupt
+    When I open the "ghost of tom jones" project
+    Then I should see a warning in the "powderpuff girls" notebook

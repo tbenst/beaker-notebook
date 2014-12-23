@@ -94,6 +94,22 @@ module.exports = function() {
           return p.click({ text: project });
         });
       });
+    },
+
+    isCorrupt: function(name) {
+      return this.findNotebook(name)
+      .then(function(item) {
+        // find throws an error which
+        // we are catching and returning false from
+        // which will cause the test to fail.
+        return item.find('.warning');
+      })
+      .then(function() {
+        return true;
+      })
+      .thenCatch(function() {
+        return false;
+      });
     }
   });
 }

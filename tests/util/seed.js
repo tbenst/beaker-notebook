@@ -4,6 +4,7 @@ var Promise = require('bluebird');
 var util = require('util');
 var post    = Promise.promisify(require('request').post);
 var base    = config.bunsenUrl + 'api/seed';
+var del = Promise.promisify(require('request').del);
 
 module.exports = function() {
 
@@ -83,6 +84,13 @@ module.exports = function() {
           modelName: modelName,
           data: data
         }
+      });
+    },
+
+    deleteNotebookGit: function(name) {
+      return this.fetch("Notebook", {name: name})
+      .then(function(res) {
+        return del(base + "/remove-notebook-git/" + JSON.parse(res[0].body).id);
       });
     }
   }

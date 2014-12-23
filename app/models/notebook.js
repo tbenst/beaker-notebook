@@ -8,6 +8,7 @@ var Git         = require("../lib/notebook/git"),
     _           = require("lodash"),
     EXTENSION   = ".bkr",
     MAX_RECENT_NOTEBOOKS = 5,
+    fsx = require("fs-extra"),
 
     RecordNotUniqueError = require("../lib/record_not_unique_error");
 
@@ -31,6 +32,10 @@ function handleGitError(e, notebook) {
     return notebook.attributes;
   }
   throw e;
+}
+
+function getGitPath() {
+  return Path.join(__dirname, "../", ".repos", ""+ this.get("id") + "/.git");
 }
 
 function addCommitCount(notebook) {
@@ -202,6 +207,10 @@ function Notebook(Bookshelf, app) {
       .then(function() {
         return self;
       });
+    },
+
+    removeGitContents: function() {
+      return fsx.remove(getGitPath.call(this));
     }
   });
 
