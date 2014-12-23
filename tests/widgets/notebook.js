@@ -106,6 +106,16 @@ module.exports = function() {
       return this.driver.wait(function() {
         return new World.W({ root: 'iframe.beaker' }).isPresent();
       }, 120000, 'iframe.beaker not found');
+    },
+
+    beakerNotebookCount: function() {
+      return this.waitForBeaker().then(function() {
+        return new World.W.List({
+          root: '#beaker-container',
+          itemSelector: 'iframe.beaker'
+        })
+        .length()
+      });
     }
   });
 };

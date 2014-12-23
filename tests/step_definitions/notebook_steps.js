@@ -316,4 +316,8 @@ module.exports = function() {
   this.Then(/^I should see a warning in the "([^"]*)" notebook$/, function(name) {
     return new this.Widgets.NotebookList().isCorrupt(name).should.eventually.equal(true);
   });
+
+  this.Then(/^(\d+) notebooks should load in the background$/, function(n) {
+    return new this.Widgets.Notebook().beakerNotebookCount().should.eventually.equal(parseInt(n));
+  });
 }

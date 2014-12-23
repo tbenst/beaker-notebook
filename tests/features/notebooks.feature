@@ -33,6 +33,8 @@ Feature: Use Notebooks
       | name             |
       | top secret       |
       | powderpuff girls |
+    When I refresh the page
+    Then 2 notebooks should load in the background
 
   Scenario: Open Notebooks
     When I open the "ghost of tom jones" project
