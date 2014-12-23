@@ -17,7 +17,7 @@ function EventEmitterPromisifier(originalMethod) {
           resolve([data, response]);
         })
         .on("fail", function(data, response) {
-          reject(new Error("Response code " + response));
+          reject(new Error("Response code " + response.statusCode));
         })
         .on("error", function(err) {
           reject(err);
