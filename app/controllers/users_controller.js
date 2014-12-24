@@ -93,6 +93,16 @@ module.exports = function(app) {
           }
           res.status(statusCode).send(err.message);
         });
+    },
+
+    scratchSpaceFiles: function(req, res, next) {
+      User.forge({id: req.signedCookies.user})
+      .fetch()
+      .then(function(user) {
+        return user.getScratchSpaceContents();
+      })
+      .then(res.json.bind(res))
+      .catch(next);
     }
   }
 }

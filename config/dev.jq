@@ -258,6 +258,11 @@
               "hostPath": "/vagrant/app",
               "containerPath": "/var/app",
               "mode": "RW"
+            },
+            {
+              "hostPath": "/mnt/lustre/bunsen-dev/beaker",
+              "containerPath": "/mnt/lustre/bunsen-dev/beaker",
+              "mode": "RW"
             }
           ]
         },

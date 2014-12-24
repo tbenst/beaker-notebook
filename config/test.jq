@@ -187,7 +187,14 @@
                 "protocol": "tcp"
               }
             ]
-          }
+          },
+          "volumes": [
+            {
+              "hostPath": "/mnt/lustre/bunsen-test/beaker",
+              "containerPath": "/mnt/lustre/bunsen-test/beaker",
+              "mode": "RW"
+            }
+          ]
         },
         "env": {
           "NODE_ENV": "test",

@@ -103,6 +103,11 @@
               "hostPath": "/mnt/lustre/bunsen/repos",
               "containerPath": "/var/app/.repos",
               "mode": "RW"
+            },
+            {
+              "hostPath": "/mnt/lustre/bunsen/beaker",
+              "containerPath": "/mnt/lustre/bunsen/beaker",
+              "mode": "RW"
             }
           ]
         },

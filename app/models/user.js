@@ -6,6 +6,7 @@ var Crypto                = require('crypto');
 var moment                = require('moment');
 var PasswordResetException = require('../lib/password_reset_exception');
 var path = require('path');
+var fileTree = require('../lib/file_tree_generator') ;
 
 function encryptPassword(password) {
   return Bcrypt.hashAsync(password, 10);
@@ -151,6 +152,14 @@ module.exports = function(Bookshelf, app) {
               return _this.save(attrs);
             })
         })
+    },
+
+    getScratchSpacePath: function() {
+      return path.join(process.env.SCRATCH_SPACE_ROOT, this.id.toString());
+    },
+
+    getScratchSpaceContents: function() {
+      return fileTree(this.getScratchSpacePath());
     },
 
     beakerConfig: function() {
