@@ -30,7 +30,6 @@
         var deferred = $q.defer();
         var ready = false;
         var requesting = false;
-
         // Ping the instance at 3s intervals until it's ready
         var interval = setInterval(function () {
           if (ready) {
@@ -38,7 +37,7 @@
             deferred.resolve(url);
           } else if (!requesting) {
             requesting = true;
-            Restangular.oneUrl('instance', url).get()
+            Restangular.oneUrl('instance', url + "rest/util/whoami").get()
             .then(function() {
               ready = true;
             }, function() {
