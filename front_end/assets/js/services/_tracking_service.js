@@ -9,8 +9,11 @@
         console.log(mark);
       },
       measure: function(name, from, to) {
-        var measurement = performance.measure(name, from, to);
-        console.log(measurement);
+        if(performance.getEntriesByName(from).length && performance.getEntriesByName(to).length) {
+          performance.measure(name, from, to);
+          var measurement = performance.getEntriesByName(name);
+          console.log(measurement);
+        }
       }
     };
   }]);
