@@ -1,6 +1,13 @@
 !(function(app) {
 
-  app.controller('projectsRoot', ['$scope', 'Factories', '$state', function($scope, Factories, $state) {
+  app.controller('projectsRoot', [
+    '$scope',
+    'Factories',
+    '$state',
+    function(
+      $scope,
+      Factories,
+      $state) {
     var F = Factories;
 
     function setProjects() {
