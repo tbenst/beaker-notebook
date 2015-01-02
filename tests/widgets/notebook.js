@@ -105,7 +105,7 @@ module.exports = function() {
     waitForBeaker: function() {
       return this.driver.wait(function() {
         return new World.W({ root: 'iframe.beaker' }).isPresent();
-      }, 60000, 'iframe.beaker not found');
+      }, 120000, 'iframe.beaker not found');
     }
   });
 };
