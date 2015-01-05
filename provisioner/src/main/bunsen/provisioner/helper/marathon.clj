@@ -1,7 +1,7 @@
 (ns bunsen.provisioner.helper.marathon
   (:require [bunsen.provisioner.helper.rest :as rest]))
 
-(declare wait-for)
+(declare wait-for deep-merge-with)
 
 (defn get-app [host id]
   (rest/get host (str "v2/apps" id)))
@@ -25,8 +25,20 @@
       (update-app host id app))
     (create-app host app)))
 
+(defn merge-strategy [& data]
+  (if (sequential? (first data)) (apply concat data) (last data)))
+
 (defn app [{:keys [id config template]}]
-  (merge-with merge template (assoc config "id" id)))
+  (deep-merge-with merge-strategy template (assoc config "id" id)))
+
+;; Copied verbatim from the defunct clojure-contrib (http://bit.ly/deep-merge-with)
+(defn deep-merge-with [f & maps]
+  (apply
+    (fn m [& maps]
+      (if (every? map? maps)
+        (apply merge-with m maps)
+        (apply f maps)))
+    maps))
 
 ; http://mikerowecode.com/2013/02/clojure-polling-function.html
 (defn wait-for
