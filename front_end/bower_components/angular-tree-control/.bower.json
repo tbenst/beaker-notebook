@@ -18,12 +18,12 @@
     "google-code-prettify": "1.0.1"
   },
   "homepage": "https://github.com/Los83/angular-tree-control",
-  "_release": "5a26c86189",
+  "_release": "607a4d0251",
   "_resolution": {
     "type": "commit",
-    "commit": "5a26c86189419bd134aa1914b9789d06c2b02a36"
+    "commit": "607a4d0251c670315a8ad85d9c691b2d47799c0d"
   },
   "_source": "git://github.com/Los83/angular-tree-control.git",
-  "_target": "5a26c86189419bd134aa1914b9789d06c2b02a36",
+  "_target": "607a4d0251c670315a8ad85d9c691b2d47799c0d",
   "_originalSource": "Los83/angular-tree-control"
 }
