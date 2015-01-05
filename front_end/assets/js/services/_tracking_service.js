@@ -4,6 +4,7 @@
     function(F) {
     return {
       mark: function(name) {
+        performance.clearMarks(name);
         performance.mark(name);
         var mark = performance.getEntriesByName(name);
         console.log(mark);
