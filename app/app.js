@@ -45,7 +45,12 @@ function appConfig(app) {
   app.set('view engine', 'jade');
   app.use(express.compress());
   app.use(express.favicon());
-  app.use(express.logger('dev'));
+  app.use(function(req, res, next) {
+    if (req.url == "/api/status") {
+      return next();
+    }
+    express.logger('dev').apply(this, arguments);
+  });
   app.use(express.json());
   app.use(express.urlencoded());
   app.use(express.methodOverride());
