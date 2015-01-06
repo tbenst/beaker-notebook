@@ -63,7 +63,7 @@
 
     if ($rootScope.cachedNotebooks[$state.params.notebook_id]) {
       Notebooks.update({id: $state.params.notebook_id, open: true});
-      $scope.notebook = $rootScope.cachedNotebooks[$state.params.notebook_id];
+      $scope.notebook.current = $rootScope.cachedNotebooks[$state.params.notebook_id];
       $scope.loading = false;
     } else {
       F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
@@ -79,7 +79,7 @@
             return $scope.warning = 'An Error has occurred';
           }
           $scope.notebook.current.location = $sce.trustAsResourceUrl(BeakerNotebookService.notebookLocation(result, prjId, notebook.id));
-          $rootScope.cachedNotebooks[notebook.id] = $scope.notebook;
+          $rootScope.cachedNotebooks[notebook.id] = $scope.notebook.current;
         });
       });
     }
