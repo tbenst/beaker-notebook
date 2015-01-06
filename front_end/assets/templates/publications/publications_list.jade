@@ -20,3 +20,6 @@
         p.description {{publication.description | words : 30 }}
         ul.language-icons
           language-icon(ng-repeat="language in publication.languages" lang="language")
+
+  .pagination-contain
+    pagination(page="publications.currentPage" max-size="publications.maxSize" items-per-page="publications.itemsPerPage" total-items="publications.quantity")

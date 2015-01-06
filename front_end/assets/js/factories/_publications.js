@@ -7,6 +7,10 @@
         return R.all('publications').getList(params);
       },
 
+      getPublicationCount: function(categoryId) {
+        return R.one('publication_count').customGET('', {category_id: categoryId});
+      },
+
       getPublication: function(publicationId) {
         return R.one('publications', publicationId).get();
       },

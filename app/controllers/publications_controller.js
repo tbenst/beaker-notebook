@@ -10,12 +10,27 @@ module.exports = function(app) {
       var searchParams = _.pick(req.query, ['category_id']);
 
       Publication.query({ where: searchParams })
+      .query(function(q) {
+        q.limit(req.query.limit);
+        q.offset(req.query.offset);
+      })
       .fetchAll({ withRelated: ['author', 'category'] })
       .then(function(publications) {
         _.each(publications.models, function(publication) {
           publication.set('languages', Publication.languages(publication.get('contents')));
         });
         res.json(publications);
+      })
+      .catch(next);
+    },
+
+    count: function(req, res, next) {
+      var searchParams = _.pick(req.query, ['category_id']);
+      Publication.query()
+      .count('*')
+      .where(searchParams)
+      .then(function(row) {
+        res.json(parseInt(_.first(row).count));
       })
       .catch(next);
     },
