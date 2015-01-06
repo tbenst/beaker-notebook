@@ -58,27 +58,6 @@ module.exports = function() {
 
     allCategories : function() {
       return this.invoke({method: 'read', arguments: ['.tree-label item']});
-    },
-
-    clickCategoryExpand: function (category) {
-      return this.driver.wait(function() {
-        return this.findCategory(category)
-        .then(function(node) {
-          return node != undefined
-        })
-        .thenCatch(function() {
-          return false;
-        })
-      }.bind(this),
-        global.timeout,
-        "unable to find category " + category
-      )
-      .then(function() {
-        return this.findCategory(category);
-      }.bind(this))
-      .then(function(node) {
-        return node.click('.tree-branch-head')
-      });
     }
   });
 };

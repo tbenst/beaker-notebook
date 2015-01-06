@@ -479,7 +479,7 @@ module.exports = function() {
   });
 
   this.When(/^I open the marketplace category "([^"]*)"$/, function(category) {
-    return new this.Widgets.MarketCategory().clickCategoryExpand(category);
+    return new this.Widgets.MarketCategory().clickCategory(category);
   });
 
   this.When(/^I filter marketplace by vendor "([^"]*)"$/, function(vendor) {
