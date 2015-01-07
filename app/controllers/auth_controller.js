@@ -31,7 +31,7 @@ module.exports = function(app) {
         next();
       } else if (req.signedCookies.user !== undefined) {
         User.forge({id: req.signedCookies.user})
-          .fetch({columns: ['id', 'name', 'email', 'beaker_password']})
+          .fetch()
           .then(function(user) {
             if (user) {
               req.user = user;
