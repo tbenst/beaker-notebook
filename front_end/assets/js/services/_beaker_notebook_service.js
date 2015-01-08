@@ -24,20 +24,14 @@
       renderFrame: function(notebook, height, hide) {
         var meta   = this.getFrameMeta(notebook);
         var cached = meta.frame;
+        meta.height = height;
+        meta.hide = hide;
 
         if (cached) {
           cached.style.display = "block";
         } else {
-          var frame = document.createElement("iframe")
-          frame.setAttribute('id', meta.frameId);
-          frame.src = meta.location.toString();
-          frame.setAttribute('height', height);
-          frame.setAttribute('scrolling', 'no');
-          frame.setAttribute('class', 'beaker');
-          if(hide) {
-            frame.style.display = "none";
-          }
-          document.getElementById('beaker-container').appendChild(frame);
+          document.getElementById('beaker-container')
+            .insertAdjacentHTML('beforeend', templates.notebook_iframe(meta));
         }
       },
       hideFrame: function(notebook) {
