@@ -5,7 +5,8 @@
     return {
       whenReady: function() {
         return this.provision()
-        .then(this.waitForReady.bind(this));
+        .then(this.waitForReady.bind(this))
+        .catch(this.handleErr);
       },
 
       beaker: function() {
@@ -17,6 +18,10 @@
         .then(function(res) {
           return res.url;
         });
+      },
+
+      handleErr: function(e) {
+        return e.status == 504 ? 'timeout' : 'error';
       },
 
       provision: function() {
