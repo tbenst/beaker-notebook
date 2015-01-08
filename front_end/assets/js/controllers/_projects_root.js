@@ -1,7 +1,23 @@
 !(function(app) {
 
-  app.controller('projectsRoot', ['$scope', 'Factories', '$state', function($scope, Factories, $state) {
+  app.controller('projectsRoot', [
+    '$scope',
+    'Factories',
+    '$state',
+    '$rootScope',
+    'TrackingService',
+    function(
+      $scope,
+      Factories,
+      $state,
+      $rootScope,
+      TrackingService) {
     var F = Factories;
+
+    if($rootScope.referrer.fromState.name === "landing") {
+      TrackingService.mark('Authenticated');
+      TrackingService.measure('BaselineAccountCreation', 'SignUp', 'Authenticated');
+    }
 
     function setProjects() {
       if ($scope.projects.list) return;

@@ -7,6 +7,7 @@
     '$http',
     '$sessionStorage',
     '$stateParams',
+    'TrackingService',
     function(
       $rootScope,
       $scope,
@@ -14,7 +15,8 @@
       Restangular,
       $http,
       $sessionStorage,
-      $stateParams) {
+      $stateParams,
+      TrackingService) {
 
     $scope.message = ''
     $scope.user = $scope.user || {};
@@ -46,6 +48,7 @@
     };
 
     $scope.signUp = function (isValid) {
+      TrackingService.mark('SignUp');
       if(isValid) {
         $scope.loading = true;
         Restangular.all('sign_up').post($scope.user)
