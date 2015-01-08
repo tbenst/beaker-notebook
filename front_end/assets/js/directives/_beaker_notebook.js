@@ -8,10 +8,8 @@
         height: "@"
       },
       link: function(scope, element) {
-        scope.$watch("notebook", function(nu, old) {
-          if (nu == void 0) {
-            return ;
-          }
+        scope.$watch("notebook.current.location", function(location) {
+          if (location == void 0) return;
 
           BeakerNotebookService.renderFrame(scope.notebook.current, scope.height);
 

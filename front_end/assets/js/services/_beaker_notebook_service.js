@@ -14,10 +14,6 @@
         var meta   = this.getFrameMeta(notebook);
         var cached = meta.frame;
 
-        if (meta.location == void 0 && cached == void 0) {
-          return;
-        }
-
         if (cached) {
           cached.style.display = "block";
         } else {
