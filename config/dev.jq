@@ -62,6 +62,10 @@
     {
       "id": "/\($HOST)/api",
       "acl": "{ hdr_dom(host) -i \($HOST) } { path_beg -i /api }"
+    },
+    {
+      "id": "/\($HOST)/riemann",
+      "acl": "{ hdr_dom(host) -i \($HOST) } { path_beg -i /events }"
     }
   ],
   "group": {
@@ -344,6 +348,47 @@
         ],
         "upgradeStrategy": {
           "minimumHealthCapacity": 0
+        }
+      },
+      {
+        "id": "/\($HOST)/riemann",
+        "cmd": "",
+        "cpus": 0.1,
+        "mem": 100,
+        "ports": [
+          "\($RIEMANN_PORT)"
+        ],
+        "instances": 1,
+        "container": {
+          "type": "DOCKER",
+          "docker": {
+            "network": "BRIDGE",
+            "image": "riemann:\($TAG)",
+            "portMappings": [
+              {
+                "containerPort": 5556,
+                "servicePort": 5556
+              }
+            ]
+          }
+        },
+        "env": {
+          "LIBRATO_USER": "chris@mojotech.com",
+          "LIBRATO_TOKEN": "f7dbfefb544dbe35dc0812590ff6eaeb0d8eda87c53e707b3d60a68f7f0f451b"
+        },
+        "healthChecks": [
+          {
+            "protocol": "TCP",
+            "path": ".",
+            "gracePeriodSeconds": 10,
+            "intervalSeconds": 10,
+            "portIndex": 0,
+            "timeoutSeconds": 5,
+            "maxConsecutiveFailures": 3
+          }
+        ],
+        "upgradeStrategy": {
+          "minimumHealthCapacity": 0.5
         }
       }
     ]
