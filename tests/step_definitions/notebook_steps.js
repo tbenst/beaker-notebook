@@ -308,4 +308,12 @@ module.exports = function() {
   this.Then(/^the "([^"]*)" notebook should be active$/, function(notebook) {
     return new this.Widgets.OpenNotebookList().activeNotebook().should.eventually.equal(notebook)
   });
+
+  this.When(/^my "([^"]*)" notebook is corrupt$/, function(name) {
+    return this.seed.deleteNotebookGit(name);
+  });
+
+  this.Then(/^I should see a warning in the "([^"]*)" notebook$/, function(name) {
+    return new this.Widgets.NotebookList().isCorrupt(name).should.eventually.equal(true);
+  });
 }

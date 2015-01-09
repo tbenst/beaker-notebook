@@ -72,4 +72,15 @@ module.exports = function(app) {
     })
     .catch(next);
   });
+
+  app.delete("/api/seed/remove-notebook-git/:id", function(req, res, next) {
+    app.Models.Notebook.forge({id: req.params.id}).fetch()
+    .then(function(notebook) {
+      notebook.removeGitContents()
+      .then(function() {
+        res.send(200);
+      })
+      .catch(next);
+    });
+  });
 }

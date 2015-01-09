@@ -8,6 +8,7 @@ var Git         = require("../lib/notebook/git"),
     _           = require("lodash"),
     EXTENSION   = ".bkr",
     MAX_RECENT_NOTEBOOKS = 5,
+    fsx = require("fs-extra"),
 
     RecordNotUniqueError = require("../lib/record_not_unique_error");
 
@@ -23,6 +24,19 @@ function generateNotebookFilePath() {
 
   return Path.resolve(Path.join(dir, file));
 }
+function handleGitError(e, notebook) {
+  var gitErr = /Failed to resolve path/;
+
+  if (gitErr.test(e.message)) {
+    notebook.set('corrupt', true);
+    return notebook.attributes;
+  }
+  throw e;
+}
+
+function getGitPath() {
+  return Path.join(__dirname, "../", ".repos", ""+ this.get("id") + "/.git");
+}
 
 function addCommitCount(notebook) {
   var git = new Git(Path.dirname(generateNotebookFilePath.call(notebook)));
@@ -33,6 +47,9 @@ function addCommitCount(notebook) {
       notebook.set('numCommits', count);
       return notebook.attributes;
     });
+  })
+  .catch(function(e) {
+    return handleGitError(e, notebook);
   });
 }
 
@@ -190,6 +207,10 @@ function Notebook(Bookshelf, app) {
       .then(function() {
         return self;
       });
+    },
+
+    removeGitContents: function() {
+      return fsx.remove(getGitPath.call(this));
     }
   });
 
