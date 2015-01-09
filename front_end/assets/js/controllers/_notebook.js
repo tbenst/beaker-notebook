@@ -34,6 +34,8 @@
 
     $scope.menu = false;
 
+    $scope.warning = ""
+
     $scope.edited = function() {
       return $scope.notebook.current.edited;
     };
@@ -92,10 +94,16 @@
 
         Notebooks.update({id: notebook.id, open: true});
 
-        Beaker.whenReady().then(function(url) {
-          $scope.notebook.current.location = $sce.trustAsResourceUrl(notebookLocation(url, prjId, notebook.id));
-          $rootScope.cachedNotebooks[notebook.id] = $scope.notebook;
+        Beaker.whenReady().then(function(result) {
           $scope.loading = false;
+          if (result === 'timeout') {
+            return $scope.warning = 'Beaker has timed out.  Please refresh to try again.';
+          }
+          else if (result === 'error') {
+            return $scope.warning = 'An Error has occurred';
+          }
+          $scope.notebook.current.location = $sce.trustAsResourceUrl(notebookLocation(result, prjId, notebook.id));
+          $rootScope.cachedNotebooks[notebook.id] = $scope.notebook;
         });
       });
     }
