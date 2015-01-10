@@ -309,7 +309,7 @@ module.exports = function() {
     return new this.Widgets.OpenNotebookList().activeNotebook().should.eventually.equal(notebook)
   });
 
-  this.When(/^my "([^"]*)" notebook is corrupt$/, function(name) {
+  this.Given(/^my "([^"]*)" notebook is corrupt$/, function(name) {
     return this.seed.deleteNotebookGit(name);
   });
 
