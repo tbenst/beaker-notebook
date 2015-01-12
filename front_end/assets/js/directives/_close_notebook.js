@@ -15,7 +15,7 @@
         attrs.$observe("closeNotebook", function(v) {
           if (!v.length) return;
           element.bind('click', function() {
-            if ($rootScope.cachedNotebooks[v] !== undefined &&  $rootScope.cachedNotebooks[v].current.edited) {
+            if ($rootScope.cachedNotebooks[v] !== undefined &&  $rootScope.cachedNotebooks[v].edited) {
               $rootScope.$apply(function() {
                 // This event modifies a $scope that controls modal visibility,
                 // so needs to be called inside .$apply
