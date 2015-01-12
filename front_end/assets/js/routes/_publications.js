@@ -5,7 +5,7 @@
         abstract: true,
         views: {
           root: {
-            controller: function() {}, // no-op
+            controller: 'publicationsRoot',
             template: templates['publications/publications_root']
           }
         }
