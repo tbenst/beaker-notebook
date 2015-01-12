@@ -41,9 +41,9 @@ ADD . /var/app
 ENV NODE_ENV production
 ENV NODE_PATH /usr/local/lib/node_modules
 
-RUN npm install -g node-inspector
-RUN npm install fs-extra \
-                walkdir
+RUN npm install -g node-inspector@0.8.1
+RUN npm install fs-extra@0.14.0 \
+                walkdir@0.0.7
 EXPOSE 8080
 EXPOSE 3000
 
