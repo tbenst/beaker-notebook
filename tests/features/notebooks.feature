@@ -5,9 +5,9 @@ Feature: Use Notebooks
       | name               | description  | openedAt                |
       | ghost of tom jones | watch out    | 2000-01-01 00:00:00.000 |
     And I have the following notebooks:
-      | name               | projectName        | openedAt                |
-      | top secret         | ghost of tom jones | 1990-01-01 00:00:00.000 |
-      | powderpuff girls   | ghost of tom jones | 1991-01-01 00:00:00.000 |
+      | name               | projectName        | openedAt                | open  |
+      | top secret         | ghost of tom jones | 1990-01-01 00:00:00.000 | false |
+      | powderpuff girls   | ghost of tom jones | 1991-01-01 00:00:00.000 | false |
     And I view my projects
 
   Scenario: Notebooks Listing
