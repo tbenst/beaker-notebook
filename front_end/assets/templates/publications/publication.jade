@@ -2,6 +2,7 @@
   .main-content
     section.item-hero
       h1.name {{publication.name}}
+      p.publish-date Published: {{publication.createdAt | date : 'M/d/yy' : 'UTC'}}
       p.description {{publication.description}}
       img.icon.publication-notebook-icon(ng-src="{{publication.author.gravatar}}&size=100")
       .author-info
