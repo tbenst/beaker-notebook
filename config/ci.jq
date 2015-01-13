@@ -3,7 +3,7 @@
     {
       "id": "test",
       "ports": [
-        "\($VNC_PORT):5900"
+        "5900"
       ],
       "container": {
         "image": "quay.io/mojotech/bunsen-tests:\($TAG)"
