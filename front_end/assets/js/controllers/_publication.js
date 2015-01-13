@@ -24,7 +24,9 @@
     };
 
     $scope.commaNeeded = function() {
-      return $scope.publication.author.jobTitle && $scope.publication.author.company;
+      if ($scope.publication) {
+        return $scope.publication.author.jobTitle && $scope.publication.author.company;
+      }
     };
 
     $scope.destroyPublication = function() {
