@@ -4,7 +4,7 @@
 .main-content.publications
   publication-hero(publications='publications')
   ul.publication-list.bunsen-list
-    li.bunsen-list-item(ng-repeat="publication in publications.list | filter:byPublicationFilter | orderBy:'createdAt':true")
+    li.bunsen-list-item(ng-repeat="publication in publications.list | orderBy:'createdAt':true")
       figure
         .category-icon(data-icon="{{publication.category.name}}")
         figcaption {{publication.category.name}}

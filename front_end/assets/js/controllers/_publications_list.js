@@ -7,12 +7,20 @@
       var F = Factories;
       var categoryID = $stateParams.category_id;
 
-      function loadPublications () {
+      function loadPublications() {
         var query = {
               limit: $scope.publications.itemsPerPage,
               category_id: categoryID,
               offset: Math.max(($scope.publications.currentPage - 1) * $scope.publications.itemsPerPage, 0)
             };
+
+        if ($scope.publications.search) {
+          query.searchTerm = $scope.publications.search.toLowerCase();
+        }
+
+        F.Publications.getPublicationCount(query).then(function(quantity) {
+          $scope.publications.quantity = quantity;
+        });
 
         F.Publications.getPublications(query).then(function(publications) {
           $scope.publications.list = publications;
@@ -37,13 +45,10 @@
         $scope.publications.category = (categoryID !== null) ? category : null;
       });
 
-      F.Publications.getPublicationCount(categoryID).then(function(quantity) {
-        $scope.publications.quantity = quantity;
-      });
-
       loadPublications();
 
       $scope.$watch('publications.currentPage', changePage);
+      $scope.$watch('publications.search', loadPublications);
     }
   ]);
 })(window.bunsen);

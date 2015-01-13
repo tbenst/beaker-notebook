@@ -7,8 +7,8 @@
         return R.all('publications').getList(params);
       },
 
-      getPublicationCount: function(categoryId) {
-        return R.one('publication_count').customGET('', {category_id: categoryId});
+      getPublicationCount: function(params) {
+        return R.one('publication_count').customGET('', params);
       },
 
       getPublication: function(publicationId) {
