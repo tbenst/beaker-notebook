@@ -31,7 +31,7 @@
         meta.height = height;
         meta.hide = hide;
 
-        if (cached) {
+        if (cached && !hide) {
           cached.style.display = "block";
         } else {
           document.getElementById('beaker-container')
