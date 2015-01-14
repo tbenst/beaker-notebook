@@ -112,4 +112,16 @@ module.exports = function() {
       return this.getAttribute({selector: '.category-icon', attribute: 'data-icon'})
     }
   });
+
+  this.Widgets.PublicationsPagination = this.Widget.extend({
+    root: '.pagination',
+
+    currentPage: function() {
+      return this.read('.active a');
+    },
+
+    clickPage: function(page) {
+      return this.click({ text: page });
+    }
+  });
 };
