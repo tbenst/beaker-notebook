@@ -6,7 +6,7 @@ TAG := latest
 HOST := bunsen-dev
 CONFIG := config/dev.jq
 
-IMAGES := postgres elasticsearch web api provisioner beaker tests
+IMAGES := postgres elasticsearch web api provisioner beaker tests riemann
 
 PACKAGES := lxc-docker zookeeper mesos marathon haproxy bamboo
 SERVICES := docker zookeeper mesos-master mesos-slave marathon haproxy bamboo
@@ -20,6 +20,7 @@ POSTGRES_PORT := 5432
 ELASTICSEARCH_PORT := 9200
 PROVISIONER_PORT := 3001
 VNC_PORT := 5900
+RIEMANN_PORT := 5556
 
 bamboo := ./bin/bamboo -H $(BAMBOO_HOST)
 marathon := ./bin/marathon -H $(MARATHON_HOST)
@@ -31,7 +32,8 @@ config := '$(shell \
 		--arg VNC_PORT "$(VNC_PORT)" \
 		--arg POSTGRES_PORT "$(POSTGRES_PORT)" \
 		--arg ELASTICSEARCH_PORT "$(ELASTICSEARCH_PORT)" \
-		--arg PROVISIONER_PORT "$(PROVISIONER_PORT)")'
+		--arg PROVISIONER_PORT "$(PROVISIONER_PORT)" \
+		--arg RIEMANN_PORT "$(RIEMANN_PORT)")'
 
 .PHONY: \
 	$(IMAGES) \

@@ -2,10 +2,8 @@
   app.factory('EventsFactory', [
     "Restangular",
     function(R) {
-    return {
-      create: function(attrs) {
-        return R.one('events').post(attrs);
-      },
-    };
+      return R.withConfig(function(config) {
+        config.setBaseUrl('');
+      });
   }]);
 })(angular, window.bunsen);

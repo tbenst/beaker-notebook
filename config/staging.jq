@@ -31,11 +31,15 @@
   "services": [
     {
       "id": "/bunsen-staging/web",
-      "acl": "{ hdr(host) -i bunsen-staging.withmojo.com } !{ path_beg -i /api } !{ path_beg -i /beaker }"
+      "acl": "{ hdr(host) -i bunsen-staging.withmojo.com } !{ path_beg -i /api } !{ path_beg -i /beaker } !{ path_beg -i /events }"
     },
     {
       "id": "/bunsen-staging/api",
       "acl": "{ hdr(host) -i bunsen-staging.withmojo.com } { path_beg -i /api }"
+    },
+    {
+      "id": "/bunsen-staging/riemann",
+      "acl": "{ hdr(host) -i bunsen-staging.withmojo.com } { path_beg -i /events }"
     }
   ],
   "group": {
@@ -213,6 +217,47 @@
           {
             "protocol": "HTTP",
             "path": "/api/v1/status",
+            "gracePeriodSeconds": 10,
+            "intervalSeconds": 10,
+            "portIndex": 0,
+            "timeoutSeconds": 5,
+            "maxConsecutiveFailures": 3
+          }
+        ],
+        "upgradeStrategy": {
+          "minimumHealthCapacity": 0.5
+        },
+        "uris": [
+          "file:///etc/.dockercfg"
+        ]
+      },
+      {
+        "id": "/bunsen-staging/riemann",
+        "cmd": "",
+        "cpus": 1,
+        "mem": 512,
+        "instances": 1,
+        "container": {
+          "type": "DOCKER",
+          "docker": {
+            "network": "BRIDGE",
+            "image": "quay.io/mojotech/bunsen-riemann:\($TAG)",
+            "portMappings": [
+              {
+                "containerPort": 5556,
+                "servicePort": 5556
+              }
+            ]
+          }
+        },
+        "env": {
+          "LIBRATO_USER": "chris@mojotech.com",
+          "LIBRATO_TOKEN": "f7dbfefb544dbe35dc0812590ff6eaeb0d8eda87c53e707b3d60a68f7f0f451b"
+        },
+        "healthChecks": [
+          {
+            "protocol": "TCP",
+            "path": ".",
             "gracePeriodSeconds": 10,
             "intervalSeconds": 10,
             "portIndex": 0,
