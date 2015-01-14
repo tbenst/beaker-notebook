@@ -7,6 +7,7 @@
       $scope.treeOptions = { nodeChildren: "children" };
 
       $scope.filterByCategory = function(id) {
+        $scope.publications.currentPage = 1;
         $state.go('publications.items', { category_id: id });
       };
 
