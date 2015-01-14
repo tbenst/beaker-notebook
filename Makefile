@@ -94,7 +94,7 @@ unwire:
 run-%:
 	@echo 'RUNNING $(HOST) $* >>>'
 	@jq '.jobs[] | select(.id | contains("$*")) | ((.ports // [])[] | "--publish=\(.)"), (.env | to_entries[] | "--env=\(.key)=\(.value)"), .container.image, (.args // [])[]' <<<$(config) \
-		| xargs docker run --rm -t --add-host=$(HOST):172.17.42.1
+		| xargs docker run --rm -t --add-host=$(HOST):172.17.42.1 --name="$*$(BUILD_NUMBER)"
 
 config:
 	@jq -n $(config) | jq '.'
