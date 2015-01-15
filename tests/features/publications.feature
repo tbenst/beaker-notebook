@@ -197,6 +197,7 @@ Feature: Publications
     And I should see the gravatar for "u@r.edu"
     And I should see the authors job title "Researcher"
     And I should see the authors company "Two Sigma"
+    And I should see the current date as the publish date
 
   Scenario: Delete a publication from publication page
     Given I have a publication
