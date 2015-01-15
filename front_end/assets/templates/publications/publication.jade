@@ -2,16 +2,19 @@
   .main-content
     section.item-hero
       h1.name {{publication.name}}
+      p.publish-date Published: {{publication.createdAt | date : 'M/d/yy' : 'UTC'}}
       p.description {{publication.description}}
-      img.icon.publication-notebook-icon(ng-src="{{publication.author.gravatar}}&size=100")
-      .author-info
-        .name {{publication.author.name}}
-        span.job{{publication.author.jobTitle}}
-        span(ng-if="commaNeeded()") {{ ", "}}
-        span.company{{publication.author.company}}
       .details.cl
-        .btn.btn-primary.right.copy-notebook(ng-click="copyNotebook()") Open in Bunsen
-        .btn.btn-primary.right.destroy-publication(ng-if="isOwner", ng-click="destroyPublication()") Delete Publication
-        .cl
+        div.publication-author
+          img.icon.publication-notebook-icon(ng-src="{{publication.author.gravatar}}&size=100")
+          .author-info
+            .name {{publication.author.name}}
+            span.job{{publication.author.jobTitle}}
+            span(ng-if="commaNeeded()") {{ ", "}}
+            span.company{{publication.author.company}}
+        div.publication-control
+          .btn.btn-primary.right.copy-notebook(ng-click="copyNotebook()") Open in Bunsen
+          .btn.btn-primary.right.destroy-publication(ng-if="isOwner", ng-click="destroyPublication()") Delete Publication
+          .cl
 
   publication-notebook.main-content(publication="publication")

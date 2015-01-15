@@ -33,6 +33,10 @@ module.exports = function() {
 
     deletePublication: function() {
       return this.click('.destroy-publication');
+    },
+
+    publishDate: function() {
+      return this.read('.publish-date');
     }
   });
 
