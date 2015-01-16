@@ -29,7 +29,7 @@
 
     $scope.menu = false;
 
-    $scope.warning = ""
+    $scope.warning = "";
 
     $scope.edited = function() {
       return $scope.notebook.current.edited;
