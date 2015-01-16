@@ -132,6 +132,5 @@
 
       $scope.published = !_.isEmpty($scope.notebook.current.publication);
     });
-
   }]);
 } (angular, window.bunsen));
