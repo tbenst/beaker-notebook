@@ -17,6 +17,7 @@
     if($rootScope.referrer.fromState.name === "landing") {
       TrackingService.mark('Authenticated');
       TrackingService.measure('BaselineAccountCreation', 'SignUp', 'Authenticated');
+      TrackingService.measure('BaselineAccountSignIn', 'SignIn', 'Authenticated');
     }
 
     function setProjects() {

@@ -38,6 +38,7 @@
     };
 
     $scope.submit = function() {
+      TrackingService.mark('SignIn');
       $scope.loading = true;
       Restangular.all('session').post($scope.user)
         .then(signIn)
