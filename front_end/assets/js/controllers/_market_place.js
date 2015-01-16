@@ -6,12 +6,14 @@
     'Factories',
     'TagNormalizeService',
     '$localStorage',
+    'TrackingService',
     function(
       $q,
       $scope,
       Factories,
       TagNormalizeService,
-      $localStorage) {
+      $localStorage,
+      TrackingService) {
 
     var F = Factories;
 
@@ -53,6 +55,8 @@
 
       F.DataSets.getDataSets($scope.marketPlace, previousRequestsAborter).then(function(d) {
         _.extend($scope.marketPlace, d);
+        TrackingService.mark('MarketPlaceResults');
+        TrackingService.measure('BaselineMarketPlaceSearch', 'UnfilteredMarketPlaceSearch', 'MarketPlaceResults');
       })
       .then(function() {
         $scope.currentFilters = getSelectedFilters();

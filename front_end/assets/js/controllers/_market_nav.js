@@ -5,11 +5,13 @@
     '$state',
     'Factories',
     '$localStorage',
+    'TrackingService',
     function(
       $scope,
       $state,
       Factories,
-      $localStorage) {
+      $localStorage,
+      TrackingService) {
 
     var F = Factories;
 
@@ -77,6 +79,7 @@
 
     $scope.$watch('marketPlace.searchTerm', function(v) {
       if (v !== void(0)) {
+        TrackingService.mark('UnfilteredMarketPlaceSearch');
         $scope.newSearch({
           searchTerm: $scope.marketPlace.searchTerm,
           categoryPath: extractCatalogPath($scope.marketPlace.categoryPath)});
