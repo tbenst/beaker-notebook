@@ -11,7 +11,7 @@
   function buildPostData(measurement) {
     return {
       host: "bunsen",
-      service: "http req",
+      service: "http request",
       metric: msToSeconds(measurement.duration),
       state: "ok",
       description: beautifyName(measurement.name) + " took " + msToSeconds(measurement.duration) + ".",
