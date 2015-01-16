@@ -1,6 +1,16 @@
 !(function(angular, app) {
 
-  app.controller('marketNav', ['$scope', '$state', 'Factories', '$localStorage', function($scope, $state, Factories, $localStorage) {
+  app.controller('marketNav', [
+    '$scope',
+    '$state',
+    'Factories',
+    '$localStorage',
+    function(
+      $scope,
+      $state,
+      Factories,
+      $localStorage) {
+
     var F = Factories;
 
     // Catalogs are top-level categories, so the catalog path of any category
