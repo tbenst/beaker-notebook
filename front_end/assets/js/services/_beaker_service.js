@@ -13,10 +13,10 @@
         return Restangular.one('beaker');
       },
 
-      beakerUrl: function() {
+      getBeakerInstance: function() {
         return this.beaker().get()
         .then(function(res) {
-          return res.url;
+          return res;
         });
       },
 
