@@ -10,6 +10,7 @@
     'Notebooks',
     'Beaker',
     'BeakerNotebookService',
+    'TrackingService',
     function(
       $scope,
       $rootScope,
@@ -20,7 +21,8 @@
       $location,
       Notebooks,
       Beaker,
-      BeakerNotebookService) {
+      BeakerNotebookService,
+      TrackingService) {
 
     var frame;
     var prjId = $state.params.id;
@@ -75,6 +77,9 @@
           }
           notebook.location = $sce.trustAsResourceUrl(BeakerNotebookService.notebookLocation(result, prjId, notebook.id));
           $scope.loading = false;
+          TrackingService.mark('NotebookLoaded');
+          TrackingService.measure('BaselineUnprovisionedNotebookLoad', 'LoadUnprovisionedNotebook', 'NotebookLoaded');
+          TrackingService.measure('BaselineProvisionedNotebookLoad', 'LoadProvisionedNotebook', 'NotebookLoaded');
         });
       });
     }

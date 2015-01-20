@@ -8,6 +8,8 @@
     'Notebooks',
     '$upload',
     'Restangular',
+    'TrackingService',
+    'Beaker',
     function(
       $scope,
       $rootScope,
@@ -16,7 +18,9 @@
       Factories,
       Notebooks,
       $upload,
-      Restangular) {
+      Restangular,
+      TrackingService,
+      Beaker) {
 
     var F = Factories;
     $scope.editMode = false;
@@ -39,6 +43,11 @@
     };
 
     $scope.createNotebook = function() {
+      Beaker.getBeakerInstance().then(function(instance) {
+        var markName = instance !== 'null' ? 'LoadProvisionedNotebook' : 'LoadUnprovisionedNotebook';
+        TrackingService.mark(markName);
+      });
+
       Restangular.one('projects', $scope.project.id)
       .all('notebooks')
       .post()
