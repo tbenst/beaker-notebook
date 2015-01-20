@@ -8,10 +8,10 @@
     return time / 1000;
   }
 
-  function buildPostData(measurement) {
+  function buildPostData(measurement, serviceName) {
     return {
       host: "bunsen",
-      service: "http request",
+      service: serviceName,
       metric: msToSeconds(measurement.duration),
       state: "ok",
       description: beautifyName(measurement.name) + " took " + msToSeconds(measurement.duration) + ".",
@@ -34,7 +34,7 @@
           performance.measure(name, from, to);
           var measurement = performance.getEntriesByName(name)[0];
 
-          F.Events.one('events').customPOST(buildPostData(measurement));
+          F.Events.one('events').customPOST(buildPostData(measurement, name));
         }
       }
     };
