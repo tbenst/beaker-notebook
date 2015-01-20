@@ -5,15 +5,33 @@ module.exports = function(app) {
   var Publication = app.Models.Publication,
       Notebook = app.Models.Notebook;
 
+  function querySearchTerm(req, query) {
+    if (req.query.searchTerm) {
+      return query
+        .where('name', 'ilike', '%'+req.query.searchTerm+'%')
+        .orWhere('description', 'ilike', '%'+req.query.searchTerm+'%');
+    }
+  }
+
   return {
     index: function(req, res, next) {
-      var searchParams = _.pick(req.query, ['category_id']);
-
-      Publication.query({ where: searchParams })
-      .query(function(q) {
+      var publicationList = Publication.query(function(q) {
         q.limit(req.query.limit);
         q.offset(req.query.offset);
-      })
+      });
+
+      publicationList.query(function(q) {
+        querySearchTerm(req, q);
+      });
+
+      if (req.query.category_id) {
+        publicationList.query(function(q) {
+          q.having('category_id', '=', req.query.category_id);
+          q.groupBy('publications.id');
+        });
+      }
+
+      publicationList
       .fetchAll({ withRelated: ['author', 'category'] })
       .then(function(publications) {
         _.each(publications.models, function(publication) {
@@ -26,9 +44,13 @@ module.exports = function(app) {
 
     count: function(req, res, next) {
       var searchParams = _.pick(req.query, ['category_id']);
-      Publication.query()
+      var publicationCount = Publication.query()
       .count('*')
-      .where(searchParams)
+      .where(searchParams);
+
+      querySearchTerm(req, publicationCount);
+
+      publicationCount
       .then(function(row) {
         res.json(parseInt(_.first(row).count));
       })

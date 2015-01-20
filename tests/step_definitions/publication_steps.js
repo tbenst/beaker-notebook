@@ -321,4 +321,12 @@ module.exports = function() {
     var publicationSearch = new this.Widgets.PublicationSearch;
     return publicationSearch.search(searchText);
   });
+
+  this.Then(/^I should be on page (\d+) of results$/, function(page) {
+    return new this.Widgets.PublicationsPagination().currentPage().should.eventually.eql(page);
+  });
+
+  this.When(/^I click page (\d+) of pagination$/, function(page) {
+    return new this.Widgets.PublicationsPagination().clickPage(page);
+  });
 }

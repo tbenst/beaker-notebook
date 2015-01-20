@@ -140,7 +140,7 @@ Feature: Publications
       | top secret 2 |
 
   Scenario: Searching publications
-    Given there are 2 publications
+    Given there are 12 publications
     And the notebook "top secret" is published
     When I view the publications page
     And I search for publication "lorem ipsum"
@@ -148,6 +148,7 @@ Feature: Publications
     When I view the publications page
     And I search for publication "top secret"
     Then I should see 1 publication results on the page
+    And I should be on page 1 of results
     And I should see the following publication first in the list:
       | name       |
       | top secret |
@@ -226,4 +227,6 @@ Feature: Publications
     And there are 15 publications in the "Politics" category
     When I view the publications page
     Then I should see 10 publication results on the page
-    Then I should see 15 publication results next to the "Politics" category
+    And I should see 15 publication results next to the "Politics" category
+    When I click page 2 of pagination
+    Then I should see 5 publication results on the page
