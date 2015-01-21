@@ -191,7 +191,7 @@
           "volumes": [
             {
               "hostPath": "/mnt/lustre/bunsen-test/beaker",
-              "containerPath": "/mnt/lustre/bunsen-test/beaker",
+              "containerPath": "/mnt/scratch",
               "mode": "RW"
             }
           ]
