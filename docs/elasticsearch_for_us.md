@@ -1,7 +1,7 @@
-Elastic Search and Bunsen
+Elasticsearch and Bunsen
 ======
 
-Elastic search is responsible for storing __Categories__ and __DataSets__.
+Elasticsearch is responsible for storing __Categories__ and __DataSets__.
 
 For us
 
@@ -9,10 +9,16 @@ __DataSets__ belong to __Categories__.
 __Categories__ belong to other __Categories__.
 The top most __Category__ is known as a __Catalog__
 
+Currently, two Bunsen services connect to Elasticsearch.
 
-To interface with elastic search we use [https://github.com/elasticsearch/elasticsearch-js](https://github.com/elasticsearch/elasticsearch-js), which is just a wrapper that sits on top of their restful api.
+* In "app" the Node code connects via
+[elasticsearch-js](https://github.com/elasticsearch/elasticsearch-js).
+* In "data\_catalog\_indexer", the Clojure code connects via [elastisch](https://github.com/clojurewerkz/elastisch)
 
-### Dev Flow
+Both of these are simple wrappers around Elasticsearch's REST API.
+
+
+### Ad-hoc queries and Troubleshooting
 
 While you are working on debugging and constructing elasticsearch queries your best option is to use a combination of `curl` and `jq` within vagrant.
 
