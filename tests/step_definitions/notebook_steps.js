@@ -235,14 +235,12 @@ module.exports = function() {
   });
 
   this.When(/^I save the notebook as "([^"]*)"$/, function(name) {
-    var _this = this;
-    notebook = new this.Widgets.Notebook();
-    return notebook.waitForBeaker().then(function() {
-      return notebook.saveAs(name);
-    });
+    return new this.Widgets.Notebook().waitForBeaker().then(function() {
+      return new this.Widgets.Notebook().saveAs(name);
+    }.bind(this));
   });
 
-  this.When(/^I edit the notebook$/, function() {
+  this.When(/^edit the notebook$/, function() {
     var _this = this;
     notebook = new this.Widgets.Notebook();
     return notebook.waitForBeaker().then(function() {
@@ -271,11 +269,9 @@ module.exports = function() {
   });
 
   this.When(/^I save my changes to the notebook$/, function() {
-    var _this = this;
-    notebook = new this.Widgets.Notebook();
-    return notebook.waitForBeaker().then(function() {
-      return notebook.save();
-    });
+    return new this.Widgets.Notebook().waitForBeaker().then(function() {
+      return new this.Widgets.Notebook().save();
+    }.bind(this));
   });
 
   this.When(/^I open the recent notebook "([^"]*)"$/, function(name) {
