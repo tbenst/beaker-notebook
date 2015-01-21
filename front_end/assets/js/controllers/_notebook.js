@@ -62,6 +62,7 @@
     });
 
     if (cached = $rootScope.cachedNotebooks[$state.params.notebook_id]) {
+      Notebooks.update({id: $state.params.notebook_id, open: true});
       $scope.$watch('cachedNotebooks.ready', function(ready) {
         if (ready == void 0) return;
 

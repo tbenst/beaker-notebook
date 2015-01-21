@@ -29,10 +29,12 @@
           $sessionStorage.user = _.pick(u, 'name', 'id');
           $scope.user = u;
           $scope.message = "User Updated"
-          $scope.loading = false;
         })
         .catch(function (err) {
           $scope.message  = "Error: " + err.data;
+        })
+        .finally(function() {
+          $scope.loading = false;
         })
       } else {
         $scope.message = "Please fill out the form completely.";
