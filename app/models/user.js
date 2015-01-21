@@ -6,7 +6,8 @@ var Crypto                = require('crypto');
 var moment                = require('moment');
 var PasswordResetException = require('../lib/password_reset_exception');
 var path = require('path');
-var fileTree = require('../lib/file_tree_generator') ;
+var fileTree = require('../lib/file_tree_generator');
+var fs = Promise.promisifyAll(require('fs-extra'))
 
 function encryptPassword(password) {
   return Bcrypt.hashAsync(password, 10);
@@ -155,11 +156,17 @@ module.exports = function(Bookshelf, app) {
     },
 
     getScratchSpacePath: function() {
-      return path.join(process.env.SCRATCH_SPACE_ROOT, this.id.toString());
+      return path.join("/mnt/scratch", this.id.toString());
+    },
+
+    ensureScratchSpace: function() {
+      var dir = this.getScratchSpacePath();
+      fs.ensureDirSync(dir);
+      return dir;
     },
 
     getScratchSpaceContents: function() {
-      return fileTree(this.getScratchSpacePath());
+      return fileTree(this.ensureScratchSpace(), '/mnt/scratch');
     },
 
     beakerConfig: function() {
