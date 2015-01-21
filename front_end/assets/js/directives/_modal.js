@@ -8,6 +8,7 @@
 
         scope.$on('openModal', function(e, content, options) {
           scope.width = options && options.width;
+          scope.class = options && options.class;
           angular.element(element).find('section').empty().append(content);
           scope.modalShown = true;
         });
