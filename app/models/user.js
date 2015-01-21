@@ -169,6 +169,13 @@ module.exports = function(Bookshelf, app) {
       return fileTree(this.ensureScratchSpace(), '/mnt/scratch');
     },
 
+    emptyScratchSpace: function() {
+      return fs.readdirAsync(this.getScratchSpacePath())
+      .each(function(file) {
+        return fs.unlinkAsync(file);
+      });
+    },
+
     beakerConfig: function() {
       var user = this;
 

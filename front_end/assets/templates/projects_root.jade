@@ -1,7 +1,11 @@
 .projects-root
   .sidebar-left.project-sidebar
     .nav(ui-view="nav")
-    file-uploader
+    .sidebar-box
+      h3 Files
+      .btn-group.file-actions
+        file-uploader
+        file-upload-list
     div(sticky offset='20').open-notebooks
       .sidebar-box.list
         h3

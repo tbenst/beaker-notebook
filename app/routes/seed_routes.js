@@ -83,4 +83,14 @@ module.exports = function(app) {
       .catch(next);
     });
   });
+
+  app.delete("/api/auth-seed/empty-scratchspace", function(req, res, next) {
+    req.user.emptyScratchSpace()
+    .then(function() {
+      res.send(200);
+    })
+    .catch(function(err) {
+      next(err);
+    });
+  });
 }
