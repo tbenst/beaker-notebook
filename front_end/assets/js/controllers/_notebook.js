@@ -61,10 +61,6 @@
       $rootScope.cachedNotebooks[notebook.id] = notebook;
     }
 
-    F.Projects.getProject($state.params.id).then(function(project) {
-     $scope.project = project;
-    });
-
     if (cached = $rootScope.cachedNotebooks[$state.params.notebook_id]) {
       openNotebook(cached);
     } else {
