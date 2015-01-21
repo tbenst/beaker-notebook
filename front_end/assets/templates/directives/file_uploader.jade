@@ -1,0 +1,8 @@
+.sidebar-box
+  h3 Upload a file
+  .upload-cta
+    .btn.btn-light {{uploading && "Uploading..." || "Upload"}}
+      //- alas angular
+      //- https://github.com/angular/angular.js/issues/1375
+      input(type="file", onchange="angular.element(this).scope().onFileSet(this.files)", name="file", ng-if="!uploading")
+
