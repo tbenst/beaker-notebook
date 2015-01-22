@@ -23,6 +23,7 @@
       _.extend($scope.notebook.current.publication, {notebookId: $scope.notebook.current.id});
       F.Notebooks[publishType]($scope.notebook.current.publication).then(function(notebook) {
         $scope.notebook.current = notebook;
+        $scope.cachedNotebooks[notebook.id].publication = notebook.publication;
         $scope.$emit('closeModal');
       });
     };
