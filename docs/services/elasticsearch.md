@@ -1,13 +1,14 @@
-Elasticsearch and Bunsen
+Elasticsearch Service
 ======
 
 Elasticsearch is responsible for storing __Categories__ and __DataSets__.
 
-For us
-
 __DataSets__ belong to __Categories__.
 __Categories__ belong to other __Categories__.
 The top most __Category__ is known as a __Catalog__
+
+
+###  Dependent services
 
 Currently, two Bunsen services connect to Elasticsearch.
 
