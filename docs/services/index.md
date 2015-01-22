@@ -11,7 +11,7 @@
 * [Postgres](postgres.md)
 * [Provisioner](provisioner.md)
 * Reimann
-* Tests
+* [Tests](tests.md)
 * Web
 
 ## Dependencies
