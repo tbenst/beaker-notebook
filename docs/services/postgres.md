@@ -12,4 +12,4 @@ The ORM that we use on our api server is [knex](http://knexjs.org/) and [bookshe
     * `psql bunsen_dev`
 
 ## Working with postgres on Staging
-* Refer to the instructions [here](../interacting_with_staging.md)
+* Refer to the instructions [here](../environments/staging.md)
