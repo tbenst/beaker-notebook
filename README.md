@@ -51,20 +51,6 @@ make run-index
   * Run one or more specific tests by tagging them with `@failed` and running `npm run-script failures` in the `tests` directory.
   * Run `@failed` scenarios under node-debug (allowing you to use Chrome web inspector to debug JS code) by running `npm run-script test` in the `tests` directory.
 
-## Testing with ci.withmojo.com
-  * Get credentials from @wkf
-  * Authenticate with kerberos `$ kinit you@WITHMOJO.COM` and enter your credentials received from last step
-  * Run the following lines in the command line, so that you can connect to ci.withmojo.com
-
-  ```bash
-  defaults write com.google.Chrome AuthServerWhitelist *.withmojo.com*
-  defaults write com.google.Chrome AuthNegotiatePort 0
-  defaults write com.google.Chrome AuthNegotiateDelegateWhitelist ""
-  ```
-
-  * Restart Chrome
-  * If you have a CI remote already, remove it and run `$ git remote add ci git@github.com:mojotech/bunsen.git`
-  * To send your branch for testing on ci, run `$ git push ci`
 
 ## Adding node packages
 
