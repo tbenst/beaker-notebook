@@ -15,11 +15,6 @@ This makes some things simpler, and other things more complicated.
 [Here](docs/services/index.md) is a page that enumerates all of the services that comprise Bunsen, and
 describes each of them and how they interrelate.
 
-
-## Understanding How we Use ElasticSearch
-
-#### [Read All about it](docs/elasticsearch_for_us.md)
-
 ## To run the application locally
   * Ensure that your vagrant is running and provisioned.
     * `$ vagrant up`
@@ -35,9 +30,6 @@ describes each of them and how they interrelate.
     * `10.10.10.10    bunsen-dev`
     * `10.10.10.10    bunsen-test`
   * Browse to http://bunsen-dev/
-
-## Database
-### [Read All About it](/docs/postgres)
 
 ## Seeding your development env
 
