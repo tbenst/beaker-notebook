@@ -265,7 +265,7 @@
             },
             {
               "hostPath": "/mnt/lustre/bunsen-dev/beaker",
-              "containerPath": "/mnt/lustre/bunsen-dev/beaker",
+              "containerPath": "/mnt/scratch",
               "mode": "RW"
             }
           ]

@@ -1,4 +1,6 @@
 var _ = require("lodash");
+var fs = require('fs');
+var path = require('path');
 
 module.exports = function(app) {
   var User = app.Models.User,
@@ -93,6 +95,27 @@ module.exports = function(app) {
           }
           res.status(statusCode).send(err.message);
         });
+    },
+
+    uploadFile: function(req, res, next) {
+      if (!req.files || !req.files.file) {
+        // Unprocessable entity
+        return res.status(422).end();
+      }
+
+      var file = req.files.file;
+      var newFilePath = path.join(req.user.ensureScratchSpace(), file.originalFilename);
+
+      var readSteam  = fs.createReadStream(file.path);
+
+      readSteam
+      .pipe(fs.createWriteStream(newFilePath));
+
+      readSteam.on('error', next);
+
+      readSteam.on('end', function(){
+        res.status(200).end();
+      });
     },
 
     scratchSpaceFiles: function(req, res, next) {

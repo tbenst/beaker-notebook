@@ -186,6 +186,7 @@ Feature: Use Notebooks
   Scenario: Saving a new notebook as another name
     When I open the "ghost of tom jones" project
     And I make a new notebook
+    And I ensure the notebook is open
     And I save the notebook as "Winter Grasp"
     Then I should be in the "Winter Grasp" notebook
     When I open the "ghost of tom jones" project
