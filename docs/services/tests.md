@@ -2,8 +2,13 @@
 
 ## To run the test suite
   * Ensure that your vagant is running and provisioned, and your docker images are built.
-  * For Bunsen in test mode, run: `$ make HOST=bunsen-test CONFIG=config/test.jq run-test`
-  * To begin the test suite, run: `$ npm start` in the `tests` directory.
+  * To set up the Bunsen environment in test mode, run: `$ make HOST=bunsen-test CONFIG=config/test.jq`
+  * To run the tests using entirely processes isolated to a Docker: `$ make
+    HOST=bunsen-test CONFIG=config/test.jq`  (you will see the test output, but
+    won't be able to visually see the browser).
+  * To run the tests using a browser on your host desktop OS, run: `$ npm start`
+    in the `tests` directory.  (This way, you will be able to visually see the
+    browser interacting with the running Bunsen environment).
 
 ## Debugging tests
   * If you get a seed populate error or socket hang up on first few tests, try cancelling running tests and waiting (app takes 15-20 seconds after running containers to be ready)
@@ -25,9 +30,8 @@ to deal with this:
 
 ## Coverage
 
-* In ci env,  code coverage reports are available for both the
-client-side javascript  and the "api" node service.
-*  After a test run, to access test coverage locally for the frontend, visit /coverage.
-*  To access test coverage locally for the API, visit /api/coverage.
-* In addition,  a summary of test coverage will be printed out to STDOUT
+* Code coverage reports are available for both the client-side javascript  and the "api" node service.
+* After a test run, to access test coverage locally for the frontend, visit /coverage.
+* To access test coverage locally for the API, visit /api/coverage.
+* In addition,  A summary of test coverage will be printed out to STDOUT
   whenever tests are run.
