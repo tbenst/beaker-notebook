@@ -51,11 +51,6 @@ make run-index
   * Run one or more specific tests by tagging them with `@failed` and running `npm run-script failures` in the `tests` directory.
   * Run `@failed` scenarios under node-debug (allowing you to use Chrome web inspector to debug JS code) by running `npm run-script test` in the `tests` directory.
 
-
-## Adding node packages
-
-#### [Learn how to](docs/adding_node_packages.md)
-
 ## Updating embeded beaker-notebook
 
 The beaker directory uses a [git subtree](https://github.com/git/git/blob/master/contrib/subtree/git-subtree.txt) to vendor the beaker-notebook repo. There are changes on this repo that are specific to the Bunsen world.
