@@ -1,8 +1,6 @@
 knex = require('knex');
 
 module.exports.init = function(app, configPath) {
-  var configPath = configPath || '../config.js';
-
   app.Models = app.Models || {};
 
   var fs      = require('fs'),
@@ -10,6 +8,8 @@ module.exports.init = function(app, configPath) {
     Bookshelf = require('bookshelf'),
     _         = require('lodash-contrib'),
     config    = {};
+
+  var configPath = configPath || path.join(__dirname, '../config.js');
 
   try {
     config = require(configPath)[process.env["NODE_ENV"] || "development"];
