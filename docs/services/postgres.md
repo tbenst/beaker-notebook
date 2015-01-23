@@ -1,4 +1,8 @@
-We store much of our data in postgres. The ORM that we use on our api server is [knex](http://knexjs.org/) and [bookshelf](http://bookshelfjs.org/)
+# Postgres service
+
+The API service stores its own data in Postgres.
+
+The ORM that we use on our api server is [knex](http://knexjs.org/) and [bookshelf](http://bookshelfjs.org/)
 
 ## Debugging (repl)
   * On your host computer first find the postgres container `docker ps | grep postgres`
@@ -8,4 +12,4 @@ We store much of our data in postgres. The ORM that we use on our api server is 
     * `psql bunsen_dev`
 
 ## Working with postgres on Staging
-* Refer to the instructions [here](interacting_with_staging.md)
+* Refer to the instructions [here](../environments/staging.md)

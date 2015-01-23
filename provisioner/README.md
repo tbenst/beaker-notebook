@@ -1,7 +1,7 @@
 Bunsen Provisioner
 ===========================
 ###Description
-A clojure web service that starts beaker instances using either Docker or Mesos (via Marathon).
+A clojure web service that starts beaker instances using Mesos (via Marathon).
 
 
 ###Requirements
@@ -31,7 +31,3 @@ Also in development, the service can be restarted or stopped from the `repl`:
 All commands should be run in the service directory. To create the uberjar, first run:
 
 	lein build
-
-To create the docker container, run either `build.sh` or:
-
-	docker build --rm --force-rm -t provisioner .

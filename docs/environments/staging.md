@@ -1,3 +1,6 @@
+# Staging environment
+
+
 ### Connect to staging
 
   * kinit
