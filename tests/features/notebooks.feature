@@ -240,6 +240,7 @@ Feature: Use Notebooks
 
   Scenario: Open last used notebook
     When I open the "ghost of tom jones" project
+    And I see the project detail page
     And I view the notebook "powderpuff girls"
     And I view my projects
     And I ensure the notebook is open
