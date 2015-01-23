@@ -14,7 +14,7 @@ module.exports.init = function(app, configPath) {
   try {
     config = require(configPath)[process.env["NODE_ENV"] || "development"];
   } catch(e) {
-    throw new Error('Error reading config from '+configPath)
+    throw new Error('Error reading config from '+configPath+ " " + e.message)
   }
 
   var DB = app.DB || Bookshelf.initialize(knex(config));
