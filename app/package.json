@@ -35,6 +35,7 @@
     "jade": "1.1.5",
     "knex": "0.6.22",
     "lodash": "2.4.1",
+    "lodash-contrib": "241.4.14",
     "minimist": "^0.2.0",
     "mkdirp": "0.3.5",
     "moment": "^2.8.3",
