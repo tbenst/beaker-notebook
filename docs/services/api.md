@@ -24,5 +24,5 @@ To create a migration, you can
 
 * Build the API image (see [README](../../README.md))
 * Find the api image's id
-* `docker run -v /vagrant/app:/var/app [api-container-id] --new-migration=migration_name`
+* `docker run -v /vagrant/app:/var/app [api-image-id] --new-migration=migration_name`
 
