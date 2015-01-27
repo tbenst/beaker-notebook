@@ -1,14 +1,14 @@
-.contain
-  width page-width-small
+.contain, .header-container
+  min-width 1220px
   margin 0 auto
+  width 95%
   transition width 500ms ease-in
   @media medium
-    width page-width-medium
+    width 87%
 
-.projects
-  .contain
-    @media large
-      width page-width-large
+.roots, .header-container
+  margin 0 auto
+  max-width 1500px
 
 .cl
   clear both
@@ -37,33 +37,25 @@ $sidebar
   @extends $sidebar
   float left
   margin-right left-gutter-small-width
-  @media medium
-    margin-right left-gutter-medium-width
 
 .sidebar-right
   @extends $sidebar
   float right
   margin-left right-gutter-small-width
-  @media medium
-    margin-left right-gutter-medium-width
+
+@css {
+  .main-content {
+    width: calc(100%  - 280px)
+  }
+
+  .two-sidebars .main-content {
+    width: calc(100% - 560px)
+  }
+}
 
 .main-content
-  float left
-  width main-content-small-width
-  transition width 500ms ease-in
-  .sidebar-right ~ &
-    width main-content-small-width - sidebar-width - right-gutter-small-width
-  @media medium
-    width main-content-medium-width
-    .sidebar-right ~ &
-      width main-content-medium-width - sidebar-width - right-gutter-medium-width
-
-.projects
-  .main-content
-    @media large
-      width main-content-large-width - sidebar-width - right-gutter-medium-width
-      .sidebar-right ~ &
-        width main-content-large-width - sidebar-width - right-gutter-medium-width
+  display inline-block
+  vertical-align top
 
 .warning
   color red

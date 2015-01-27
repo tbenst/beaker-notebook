@@ -8,13 +8,11 @@
     .spinner
       margin-top: 150px
 
-.beaker
-  transition width 200ms ease-in
-  width main-content-small-width - sidebar-width - right-gutter-small-width
-  @media medium
-    width main-content-medium-width - sidebar-width - right-gutter-medium-width
-  @media large
-    width main-content-large-width - sidebar-width - right-gutter-medium-width
+@css {
+  .beaker {
+    width: calc(100% - 560px)
+  }
+}
 
 #beaker-container
   overflow hidden

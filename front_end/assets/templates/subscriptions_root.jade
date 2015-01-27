@@ -1,48 +1,49 @@
-.subscriptions-root
-  .sidebar-left.subscriptions-sidebar
-    .nav
-      input.search.full.subscription-search(ng-model="search", placeholder="Search subscriptions...")
+.roots
+  .subscriptions-root
+    .sidebar-left.subscriptions-sidebar
+      .nav
+        input.search.full.subscription-search(ng-model="search", placeholder="Search subscriptions...")
 
-      .sidebar-box.list
-        h3 My Datasets
-        ul.sidebar-box-list
-          li
-            span.sidebar-box-list-item All subscribed sets
-              span.right {{subscriptions.length}}
-          li
-            a.sidebar-box-list-link.sort-by.subscription-date(ng-class="sort == 'createdAt' && 'active'" ng-click="toggleSort('createdAt', true)") By Subscription Date
+        .sidebar-box.list
+          h3 My Datasets
+          ul.sidebar-box-list
+            li
+              span.sidebar-box-list-item All subscribed sets
+                span.right {{subscriptions.length}}
+            li
+              a.sidebar-box-list-link.sort-by.subscription-date(ng-class="sort == 'createdAt' && 'active'" ng-click="toggleSort('createdAt', true)") By Subscription Date
 
-      a.btn.btn-block.btn-light(ui-sref="marketPlace.items") Find more datasets &raquo;
+        a.btn.btn-block.btn-light(ui-sref="marketPlace.items") Find more datasets &raquo;
 
-  .main-content
-    h1 My Datasets
-    section.overview
-      .col-half
-        h4 Properties
-        ul.property-list.small
-          li.sets
-            .label Sets
-            .value {{subscriptions.length}}
-          li.cost
-            .label Total cost
-            .value $0
-      .col-half
-        h4 Recently used datasets
-        ul.link-list.recently-used
-          li(ng-repeat="subscription in subscriptions | orderBy:createdAt:true | limitTo:4")
-            a(ui-sref="marketPlace.items.item({index: subscription.dataSet.index, id: subscription.dataSet.id})") {{subscription.dataSet.title}}
-
-    ul.subscription-list.bunsen-list
-      li.bunsen-list-item(ng-repeat="subscription in subscriptions | orderBy:sort:sortDescending | filter:search")
-        .col-three-quarters
-          h2
-            a.title(ui-sref="marketPlace.items.item({index: subscription.dataSet.index, id: subscription.dataSet.id})") {{subscription.dataSet.title}}
-          p.description {{subscription.dataSet.description | words : 30 }}
+    .main-content
+      h1 My Datasets
+      section.overview
+        .col-half
+          h4 Properties
           ul.property-list.small
-            li.purchase-date
-              .label Purchase date
-              .value {{subscription.createdAt | date : 'M/d/yyyy' }}
-            li.location
-              .label Location
-              .value {{subscription.dataSet.catalog.base_path + subscription.dataSet.remoteFile}}
-        .cl
+            li.sets
+              .label Sets
+              .value {{subscriptions.length}}
+            li.cost
+              .label Total cost
+              .value $0
+        .col-half
+          h4 Recently used datasets
+          ul.link-list.recently-used
+            li(ng-repeat="subscription in subscriptions | orderBy:createdAt:true | limitTo:4")
+              a(ui-sref="marketPlace.items.item({index: subscription.dataSet.index, id: subscription.dataSet.id})") {{subscription.dataSet.title}}
+
+      ul.subscription-list.bunsen-list
+        li.bunsen-list-item(ng-repeat="subscription in subscriptions | orderBy:sort:sortDescending | filter:search")
+          .col-three-quarters
+            h2
+              a.title(ui-sref="marketPlace.items.item({index: subscription.dataSet.index, id: subscription.dataSet.id})") {{subscription.dataSet.title}}
+            p.description {{subscription.dataSet.description | words : 30 }}
+            ul.property-list.small
+              li.purchase-date
+                .label Purchase date
+                .value {{subscription.createdAt | date : 'M/d/yyyy' }}
+              li.location
+                .label Location
+                .value {{subscription.dataSet.catalog.base_path + subscription.dataSet.remoteFile}}
+          .cl

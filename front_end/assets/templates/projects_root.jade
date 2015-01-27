@@ -1,25 +1,27 @@
-.projects-root
-  .sidebar-left.project-sidebar
-    .nav(ui-view="nav")
-    .sidebar-box
-      h3 Files
-      .btn-group.file-actions
-        file-uploader
-        file-upload-list
-    div(sticky offset='20').open-notebooks
-      .sidebar-box.list
-        h3
-          span.sidebar-box-header-count {{(notebooks.list | filter:{open: true}).length}}
-          | Open Notebooks
-        ul.open-notebooks.sidebar-box-list
-          li.open-notebook(ng-repeat="notebook in notebooks.list | filter:{open:true} | orderBy:'name'")
-            a.sidebar-box-list-link(ng-class="{active: isViewingNotebook(notebook.id)}", ng-click="openProject(notebook)") {{notebook.name}}
-              span.inline-icon-sidebar.inline-close-notebook.close-notebook(ng-click="$event.stopPropagation()", "close-notebook"="{{ notebook.id }}")
-                img(src="images/close-white-small.png", width="10", height="10")
-          li.recently-used.dropdown-toggle
-            a.sidebar-box-list-link.dropright-arrow Recently Used
-            ul.dropdown.dropright
-              li.recent-notebook(ng-repeat="notebook in notebooks.list | orderBy:'openedAt':true | limitTo:4")
-                a(ui-sref="projects.items.item.notebook({id: notebook.projectId, notebook_id: notebook.id})") {{notebook.name}}
+.roots
+  .projects-root
+    .sidebar-left.project-sidebar
+      .nav(ui-view="nav")
+      .sidebar-box
+        h3 Files
+        .btn-group.file-actions
+          file-uploader
+          file-upload-list
+      div(sticky offset='20').open-notebooks
+        .sidebar-box.list
+          h3
+            span.sidebar-box-header-count {{(notebooks.list | filter:{open: true}).length}}
+            | Open Notebooks
+          ul.open-notebooks.sidebar-box-list
+            li.open-notebook(ng-repeat="notebook in notebooks.list | filter:{open:true} | orderBy:'name'")
+              a.sidebar-box-list-link(ng-class="{active: isViewingNotebook(notebook.id)}", ng-click="openProject(notebook)") {{notebook.name}}
+                span.inline-icon-sidebar.inline-close-notebook.close-notebook(ng-click="$event.stopPropagation()", "close-notebook"="{{ notebook.id }}")
+                  img(src="images/close-white-small.png", width="10", height="10")
+            li.recently-used.dropdown-toggle
+              a.sidebar-box-list-link.dropright-arrow Recently Used
+              ul.dropdown.dropright
+                li.recent-notebook(ng-repeat="notebook in notebooks.list | orderBy:'openedAt':true | limitTo:4")
+                  a(ui-sref="projects.items.item.notebook({id: notebook.projectId, notebook_id: notebook.id})") {{notebook.name}}
 
-  #app(ui-view="app")
+
+    #app(ui-view="app")
