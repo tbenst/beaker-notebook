@@ -13,73 +13,74 @@
         h4.char-count(ng-show="editMode") ({{ 1500 - newAttributes.description.length}} characters remaining)
       .cl
 
-.main-content.project-detail
-  notice.error(message="error")
-  h1.project-name
-    span(ng-hide="editMode") {{project.name}}
-    input(name="name", ng-model="newAttributes.name", ng-show="editMode")
-  a.btn.btn-light.update-project-top-btn(ng-show="editMode", ng-click="updateProject()") Save
+.two-sidebars
+  .main-content.project-detail
+    notice.error(message="error")
+    h1.project-name
+      span(ng-hide="editMode") {{project.name}}
+      input(name="name", ng-model="newAttributes.name", ng-show="editMode")
+    a.btn.btn-light.update-project-top-btn(ng-show="editMode", ng-click="updateProject()") Save
 
-  .right.project-menu
-    span.options.dropdown-toggle
-      .dropdown-wrapper
-        ul.dropdown
-          li(ng-hide="editMode")
-            a.edit-project(ng-click="editProject()") Edit
-          li(ng-show="editMode")
-            a.update-project(ng-click="updateProject()") Save
+    .right.project-menu
+      span.options.dropdown-toggle
+        .dropdown-wrapper
+          ul.dropdown
+            li(ng-hide="editMode")
+              a.edit-project(ng-click="editProject()") Edit
+            li(ng-show="editMode")
+              a.update-project(ng-click="updateProject()") Save
+            li
+              a.delete-project(confirm="Are you sure you want to delete \"{{project.name}}\" AND all of the associated notebooks?" on-confirm="deleteProject()") Delete
+    .cl
+
+    section.section-padding-top.overview
+      .col-half
+        h4 Properties
+        ul.property-list.small
           li
-            a.delete-project(confirm="Are you sure you want to delete \"{{project.name}}\" AND all of the associated notebooks?" on-confirm="deleteProject()") Delete
-  .cl
+            .label Last used
+            .value {{project.lastExecuted || "N/A" | date: 'short'}}
+          li
+            .label Updated
+            .value.last-updated {{project.lastUpdatedAt | date: 'short'}}
+          li
+            .label Commits
+            .value.num-commits {{project.numCommits}}
 
-  section.section-padding-top.overview
-    .col-half
-      h4 Properties
-      ul.property-list.small
-        li
-          .label Last used
-          .value {{project.lastExecuted || "N/A" | date: 'short'}}
-        li
-          .label Updated
-          .value.last-updated {{project.lastUpdatedAt | date: 'short'}}
-        li
-          .label Commits
-          .value.num-commits {{project.numCommits}}
-
-    .col-half
-      h4 Recently Used Notebooks
-      ul.link-list.recently-used
-        li(ng-repeat="notebook in project.notebooks | orderBy:'openedAt':true | limitTo:4")
-          a(ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") {{notebook.name}}
-
-  section
-    h2 Notebooks
-    ul.notebook-list.bunsen-list
-      li(ng-if="project.notebooks.length === 0") no notebooks yet.
-      li.skinny.bunsen-list-item(ng-repeat="notebook in project.notebooks | orderBy:'name'")
-        .col-half.padding-reset
-          h2
+      .col-half
+        h4 Recently Used Notebooks
+        ul.link-list.recently-used
+          li(ng-repeat="notebook in project.notebooks | orderBy:'openedAt':true | limitTo:4")
             a(ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") {{notebook.name}}
 
-        .right
-          span.text-small.notebook-last-used  Last used on
-            span.text-green.date {{notebook.updatedAt | date: 'short'}}
-          span.notebook-options
-            span.options.dropdown-toggle
-              ul.dropdown
-                li
-                  a.rename(rename-notebook-toggle notebook="notebook") Rename
-                li(ng-if="projects.list.length > 1")
-                  span.move.dropdown-toggle.dropright-arrow(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)")
-                li
-                  a.destroy(confirm="Are you sure you want to delete {{ notebook.name }}?" on-confirm="deleteNotebook(notebook)") Delete
-        .cl
-        p.warning(ng-if="notebook.corrupt") This notebook is corrupt. Please contact support.
+    section
+      h2 Notebooks
+      ul.notebook-list.bunsen-list
+        li(ng-if="project.notebooks.length === 0") no notebooks yet.
+        li.skinny.bunsen-list-item(ng-repeat="notebook in project.notebooks | orderBy:'name'")
+          .col-half.padding-reset
+            h2
+              a(ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") {{notebook.name}}
 
-    span.import-notebooks.btn-group
-      a.btn.btn-light.new-notebook(ng-click="createNotebook()") New Notebook
-      span(hidden-upload="true")
-        a.import.btn-light.btn Import
-        input.visibility-hidden.import-notebook(type="file" ng-file-select="onFileSelect($files)" multiple)
-        notice.error(message="importError")
+          .right
+            span.text-small.notebook-last-used  Last used on
+              span.text-green.date {{notebook.updatedAt | date: 'short'}}
+            span.notebook-options
+              span.options.dropdown-toggle
+                ul.dropdown
+                  li
+                    a.rename(rename-notebook-toggle notebook="notebook") Rename
+                  li(ng-if="projects.list.length > 1")
+                    span.move.dropdown-toggle.dropright-arrow(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)")
+                  li
+                    a.destroy(confirm="Are you sure you want to delete {{ notebook.name }}?" on-confirm="deleteNotebook(notebook)") Delete
+          .cl
+          p.warning(ng-if="notebook.corrupt") This notebook is corrupt. Please contact support.
+
+      span.import-notebooks.btn-group
+        a.btn.btn-light.new-notebook(ng-click="createNotebook()") New Notebook
+        span(hidden-upload="true")
+          a.import.btn-light.btn Import
+          input.visibility-hidden.import-notebook(type="file" ng-file-select="onFileSelect($files)" multiple)
+          notice.error(message="importError")
 

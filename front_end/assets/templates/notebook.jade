@@ -23,24 +23,25 @@
         a.view-published(ng-if="published" ui-sref="publications.items.item({id: notebook.current.publication.id})") View published version &raquo;
         a.publish(ng-if="!published" ng-click="openPublishModal()") Publish this notebook &raquo;
 
-  .main-content
-    span.options.dropdown-toggle.right.expanded(ng-mouseover="showMenu()" ng-mouseleave="hideMenu()")
-      ul.dropdown(ng-if="menu")
-        li
-          a.save(ng-click="save()") Save
-        li
-          a.save-as(ng-click="saveAs()") Save As
-        li
-          a.rename(rename-notebook-toggle notebook="notebook.current") Rename
-        li
-          a.show-stdout-stderr(ng-click="showStdoutStderr()") Show Stdout/err
-        li
-          a.close-notebook(close-notebook="{{ notebook.current.id }}") Close
-    h2.left Notebook:&nbsp;
-      span.name {{notebook.current.name}}
-    .cl
-    .loading(ng-if="loading")
-      bunsen-spinner
-    .warning(ng-if="warning") {{warning}}
+  .two-sidebars
+    .main-content
+      span.options.dropdown-toggle.right.expanded(ng-mouseover="showMenu()" ng-mouseleave="hideMenu()")
+        ul.dropdown(ng-if="menu")
+          li
+            a.save(ng-click="save()") Save
+          li
+            a.save-as(ng-click="saveAs()") Save As
+          li
+            a.rename(rename-notebook-toggle notebook="notebook.current") Rename
+          li
+            a.show-stdout-stderr(ng-click="showStdoutStderr()") Show Stdout/err
+          li
+            a.close-notebook(close-notebook="{{ notebook.current.id }}") Close
+      h2.left Notebook:&nbsp;
+        span.name {{notebook.current.name}}
+      .cl
+      .loading(ng-if="loading")
+        bunsen-spinner
+      .warning(ng-if="warning") {{warning}}
 
-    beakernotebook(notebook="notebook", height="1000")
+      beakernotebook(notebook="notebook", height="1000")
