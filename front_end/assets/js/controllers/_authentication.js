@@ -22,7 +22,7 @@
     $scope.user = $scope.user || {};
 
     function signIn(d) {
-      $sessionStorage.user = _.pick(d, 'name', 'id');
+      $sessionStorage.user = _.pick(d, 'name', 'id', 'role');
       $scope.message = 'You are signed in.'
       $scope.loading = false;
       if ($rootScope.goTo) {

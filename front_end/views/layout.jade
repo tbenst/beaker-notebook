@@ -23,6 +23,8 @@ html(ng-app="bunsen")
               a.nav-item.market-place(ui-sref-active='nav-item-active', ui-sref="marketPlace.items") Marketplace
             li
               a.nav-item.publications(ui-sref-active='nav-item-active', ui-sref="publications.items") Publications
+            li(ng-show="$session.user.role > 0")
+              a.nav-item.admin(ui-sref-active='nav-item-active', ui-sref="admin.index") Admin
           .cl
       #beaker-container.contain
         #root(ui-view="root")
