@@ -4,7 +4,9 @@
 (declare wait-for deep-merge-with)
 
 (defn get-app [host id]
-  (rest/get host (str "v2/apps" id)))
+  (try
+    (rest/get host (str "v2/apps" id))
+    (catch Exception e nil)))
 
 (defn create-app [host app]
   (rest/post host "v2/apps" {:form-params app})
