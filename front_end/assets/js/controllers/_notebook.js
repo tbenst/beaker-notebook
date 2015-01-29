@@ -27,11 +27,9 @@
 
     $scope.projects.search = '';
 
-    $scope.loading = true;
-
     $scope.menu = false;
 
-    $scope.warning = ""
+    $scope.warning = "";
 
     $scope.edited = function() {
       return $scope.notebook.current.edited;
@@ -57,38 +55,26 @@
       window.scrollTo(window.pageXOffset, height);
     };
 
-    F.Projects.getProject($state.params.id).then(function(project) {
-     $scope.project = project;
-    });
+    function openNotebook(notebook) {
+      Notebooks.update({id: notebook.id, open: true});
+      $scope.notebook = {current: notebook};
+      $rootScope.cachedNotebooks[notebook.id] = notebook;
+    }
 
     if (cached = $rootScope.cachedNotebooks[$state.params.notebook_id]) {
-      Notebooks.update({id: $state.params.notebook_id, open: true});
-      $scope.$watch('cachedNotebooks.ready', function(ready) {
-        if (ready == void 0) return;
-
-        if (!ready) {
-          $scope.loading = true;
-        } else {
-          $scope.loading = false;
-          $scope.notebook = {};
-          $scope.notebook.current = $rootScope.cachedNotebooks[$state.params.notebook_id];
-        }
-      });
+      openNotebook(cached);
     } else {
+      $scope.loading = true;
       F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
-        $scope.notebook = { current: notebook };
-
-        Notebooks.update({id: notebook.id, open: true});
-
+        openNotebook(notebook);
         Beaker.whenReady().then(function(result) {
-          $scope.loading = false;
           if (result === 'timeout') {
             return $scope.warning = 'Beaker has timed out.  Please refresh to try again.';
           } else if (result === 'error') {
             return $scope.warning = 'An Error has occurred';
           }
-          $scope.notebook.current.location = $sce.trustAsResourceUrl(BeakerNotebookService.notebookLocation(result, prjId, notebook.id));
-          $rootScope.cachedNotebooks[notebook.id] = $scope.notebook.current;
+          notebook.location = $sce.trustAsResourceUrl(BeakerNotebookService.notebookLocation(result, prjId, notebook.id));
+          $scope.loading = false;
         });
       });
     }
@@ -146,6 +132,5 @@
 
       $scope.published = !_.isEmpty($scope.notebook.current.publication);
     });
-
   }]);
 } (angular, window.bunsen));

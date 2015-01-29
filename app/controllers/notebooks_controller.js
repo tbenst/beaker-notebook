@@ -33,7 +33,7 @@ module.exports = function(app) {
 
       Notebook
       .query({where: conditions})
-      .fetchAll()
+      .fetchAll({withRelated: ['publication']})
       .then(res.json.bind(res))
       .catch(next);
     },

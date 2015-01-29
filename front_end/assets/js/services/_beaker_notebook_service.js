@@ -48,12 +48,10 @@
         var self = this;
 
         return Beaker.whenReady().then(function(url) {
-          return $q.all(notebooks.map(function(notebook) {
+          _.each(notebooks, function(notebook) {
             notebook.location = $sce.trustAsResourceUrl(self.notebookLocation(url, notebook.projectId, notebook.id));
             $rootScope.cachedNotebooks[notebook.id] = notebook;
             self.renderFrame(notebook, 1000, true);
-          })).then(function(){
-            $rootScope.cachedNotebooks.ready = true;
           });
         });
       },

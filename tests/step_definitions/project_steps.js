@@ -70,7 +70,7 @@ module.exports = function() {
     return new this.Widgets.ProjectManager().clickAt(0);
   });
 
-  this.Then(/^I should see the project detail page$/, function() {
+  this.Then(/^I (?:should see|see) the project detail page$/, function() {
     var projectDetail = new this.Widgets.ProjectDetail();
 
     return projectDetail.isPresent().should.eventually.equal(true);
