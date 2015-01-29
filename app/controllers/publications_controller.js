@@ -18,6 +18,7 @@ module.exports = function(app) {
       var publicationList = Publication.query(function(q) {
         q.limit(req.query.limit);
         q.offset(req.query.offset);
+        q.orderBy('created_at', 'desc');
       });
 
       publicationList.query(function(q) {
