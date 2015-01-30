@@ -27,6 +27,7 @@
                   {:id app-id
                    :host service-host
                    :path (str service-path "/" id "/")})]
-    (when (and (marathon/create-app marathon-url app)
+    (when (and (or (marathon/get-app marathon-url app-id)
+                   (marathon/create-app marathon-url app))
                (bamboo/create-or-update-service bamboo-url app-id service))
       {:id id})))
