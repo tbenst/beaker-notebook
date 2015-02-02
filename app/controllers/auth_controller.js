@@ -14,6 +14,7 @@ module.exports = function(app) {
   }
 
   return {
+    setUserCookie: sendUser,
     authenticate: function (req, res, next) {
      User.signIn(req.body)
         .then(function(user) {
