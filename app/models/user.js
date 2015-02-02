@@ -64,6 +64,10 @@ module.exports = function(Bookshelf, app) {
       return this.hasMany(app.Models.Notebook)
     },
 
+    ratings: function() {
+      return this.hasMany(app.Models.Rating);
+    },
+
     subscriptions: function() {
       return this.hasMany(app.Models.Subscription);
     },
