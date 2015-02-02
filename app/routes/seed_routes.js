@@ -6,6 +6,7 @@ var _           = require("lodash");
 var indexer     = require('../lib/indexer');
 
 module.exports = function(app) {
+  var setAuth = require('../controllers/auth_controller.js')(app).setUserCookie;
   app.post("/api/seed/data", function(req, res, next) {
     Seed([req.body]).then(function(data) {
       res.json(data);
@@ -15,6 +16,10 @@ module.exports = function(app) {
 
   app.post("/api/seed/sign-up", function(req, res, next) {
     app.Models.User.signUp(req.body.data)
+    .then(function(user) {
+      setAuth(res, user);
+      return user;
+    })
     .then(res.json.bind(res))
     .catch(next);
   });
