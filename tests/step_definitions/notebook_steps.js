@@ -240,7 +240,7 @@ module.exports = function() {
     }.bind(this));
   });
 
-  this.When(/^edit the notebook$/, function() {
+  this.When(/^I edit the notebook$/, function() {
     var _this = this;
     notebook = new this.Widgets.Notebook();
     return notebook.waitForBeaker().then(function() {
