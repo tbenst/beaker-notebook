@@ -1,6 +1,20 @@
 !(function(angular, app) {
 
-  app.controller('marketPlace', ['$q', '$scope', 'Factories', 'TagNormalizeService', '$localStorage', function($q, $scope, Factories, TagNormalizeService, $localStorage) {
+  app.controller('marketPlace', [
+    '$q',
+    '$scope',
+    'Factories',
+    'TagNormalizeService',
+    '$localStorage',
+    'TrackingService',
+    function(
+      $q,
+      $scope,
+      Factories,
+      TagNormalizeService,
+      $localStorage,
+      TrackingService) {
+
     var F = Factories;
 
     $scope.marketPlace.currentCategory = {path: $localStorage.lastCatalogPath || "0.1", index: $localStorage.lastIndex || "catalog_0.1"};
@@ -41,6 +55,9 @@
 
       F.DataSets.getDataSets($scope.marketPlace, previousRequestsAborter).then(function(d) {
         _.extend($scope.marketPlace, d);
+        TrackingService.mark('MarketPlaceResults');
+        TrackingService.measure('BaselineMarketPlaceSearch', 'UnfilteredMarketPlaceSearch', 'MarketPlaceResults');
+        TrackingService.measure('BaselineMarketPlaceFilteredSearch', 'FilteredMarketPlaceSearch', 'MarketPlaceResults');
       })
       .then(function() {
         $scope.currentFilters = getSelectedFilters();
@@ -77,7 +94,10 @@
 
     $scope.$watch('marketPlace.currentPage', changePage);
     $scope.$watch('marketPlace.searchTerm', resetDataSets);
-    $scope.$watch('marketPlace.searchScope', resetDataSets);
+    $scope.$watch('marketPlace.searchScope', function(searchTerm) {
+      TrackingService.mark('FilteredMarketPlaceSearch');
+      resetDataSets(searchTerm);
+    });
     $scope.$watch('marketPlace.currentCategory', checkDataSets);
     $scope.$watch(filters, watchFilterScopes, true);
 

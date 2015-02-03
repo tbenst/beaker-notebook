@@ -1,6 +1,18 @@
 !(function(angular, app) {
 
-  app.controller('marketNav', ['$scope', '$state', 'Factories', '$localStorage', function($scope, $state, Factories, $localStorage) {
+  app.controller('marketNav', [
+    '$scope',
+    '$state',
+    'Factories',
+    '$localStorage',
+    'TrackingService',
+    function(
+      $scope,
+      $state,
+      Factories,
+      $localStorage,
+      TrackingService) {
+
     var F = Factories;
 
     // Catalogs are top-level categories, so the catalog path of any category
@@ -67,6 +79,7 @@
 
     $scope.$watch('marketPlace.searchTerm', function(v) {
       if (v !== void(0)) {
+        TrackingService.mark('UnfilteredMarketPlaceSearch');
         $scope.newSearch({
           searchTerm: $scope.marketPlace.searchTerm,
           categoryPath: extractCatalogPath($scope.marketPlace.categoryPath)});
