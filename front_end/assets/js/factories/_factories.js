@@ -9,7 +9,8 @@
     'NotebooksFactory',
     'ProjectsFactory',
     'UsersFactory',
-    'EventsFactory'
+    'EventsFactory',
+    'RatingsFactory'
   ]
 
   // Build a function defining the master factory:
