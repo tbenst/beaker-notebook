@@ -4,6 +4,7 @@
       h1.name {{publication.name}}
       p.publish-date Published: {{publication.createdAt | date : 'M/d/yy' : 'UTC'}}
       p.description {{publication.description}}
+      ratings(score="publication.userRating" average="publication.averageRating" max="5" rating-attrs="ratingAttrs")
       .details.cl
         div.publication-author
           img.icon.publication-notebook-icon(ng-src="{{publication.author.gravatar}}&size=100")

@@ -14,9 +14,24 @@
 
     var F = Factories;
 
+    $scope.ratingAttrs = {
+      rateableId: 'publications' + $state.params.id.toString(),
+      userId: $sessionStorage.user.id
+    };
+
     F.Publications.getPublication($state.params.id).then(function(publication) {
       $scope.publication = publication;
       $scope.isOwner = (publication.author.id === $sessionStorage.user.id);
+
+      F.Ratings.averageRating($scope.ratingAttrs)
+      .then(function(count) {
+        _.extend($scope.publication, {averageRating: parseFloat(count)});
+      });
+
+      F.Ratings.userRating($scope.ratingAttrs)
+      .then(function(rate) {
+        _.extend($scope.publication, {userRating: rate});
+      });
     });
 
     $scope.copyNotebook = function() {
