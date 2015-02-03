@@ -329,4 +329,16 @@ module.exports = function() {
   this.When(/^I click page (\d+) of pagination$/, function(page) {
     return new this.Widgets.PublicationsPagination().clickPage(page);
   });
+
+  this.Then(/^I give the publication a rating of (\d+)$/, function(index) {
+    return new this.Widgets.UserRating({root: '.rating'}).clickStar(index);
+  });
+
+  this.Then(/^I should see (\d+) stars highlighted in my rate$/, function(count) {
+    return new this.Widgets.UserRating({root: '.rating'}).currentRating().should.eventually.have.length(count);
+  });
+
+  this.Then(/^I should see (\d+) stars highlighted in the average$/, function(count) {
+    return new this.Widgets.UserRating({root: '.average'}).currentRating().should.eventually.have.length(count);
+  });
 }
