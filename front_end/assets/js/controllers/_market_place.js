@@ -57,6 +57,7 @@
         _.extend($scope.marketPlace, d);
         TrackingService.mark('MarketPlaceResults');
         TrackingService.measure('BaselineMarketPlaceSearch', 'UnfilteredMarketPlaceSearch', 'MarketPlaceResults');
+        TrackingService.measure('BaselineMarketPlaceFilteredSearch', 'FilteredMarketPlaceSearch', 'MarketPlaceResults');
       })
       .then(function() {
         $scope.currentFilters = getSelectedFilters();
@@ -93,7 +94,10 @@
 
     $scope.$watch('marketPlace.currentPage', changePage);
     $scope.$watch('marketPlace.searchTerm', resetDataSets);
-    $scope.$watch('marketPlace.searchScope', resetDataSets);
+    $scope.$watch('marketPlace.searchScope', function(searchTerm) {
+      TrackingService.mark('FilteredMarketPlaceSearch');
+      resetDataSets(searchTerm);
+    });
     $scope.$watch('marketPlace.currentCategory', checkDataSets);
     $scope.$watch(filters, watchFilterScopes, true);
 
