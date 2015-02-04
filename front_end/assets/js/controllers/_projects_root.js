@@ -32,7 +32,7 @@
       });
     }
 
-    $scope.openProject = function(notebook) {
+    $scope.openNotebook = function(notebook) {
       $state.go('projects.items.item.notebook', {
         id: notebook.projectId,
         notebook_id: notebook.id
