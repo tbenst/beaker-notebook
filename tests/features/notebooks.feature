@@ -298,3 +298,7 @@ Feature: Use Notebooks
     Given my "powderpuff girls" notebook is unavailable
     When I open the "ghost of tom jones" project
     Then I should see a warning in the "powderpuff girls" notebook
+    And I view the notebook "powderpuff girls"
+    Then I should see the "ghost of tom jones" project detail page
+    When I navigate directly to the unavailable notebook
+    Then I should see the "ghost of tom jones" project detail page

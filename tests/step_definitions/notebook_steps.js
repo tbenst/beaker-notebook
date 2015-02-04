@@ -316,4 +316,8 @@ module.exports = function() {
   this.Then(/^(\d+) notebooks should load in the background$/, function(n) {
     return new this.Widgets.Notebook().beakerNotebookCount().should.eventually.equal(parseInt(n));
   });
+
+  this.When(/^I navigate directly to the unavailable notebook$/, function() {
+    return this.driver.get(this.route.projectDashboard + '/2/notebooks/2');
+  });
 }
