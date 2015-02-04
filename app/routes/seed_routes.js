@@ -15,7 +15,7 @@ module.exports = function(app) {
   });
 
   app.post("/api/seed/sign-up", function(req, res, next) {
-    app.Models.User.signUp(req.body.data)
+    app.Models.User.signUp(req.body)
     .then(function(user) {
       setAuth(res, user);
       return user;
