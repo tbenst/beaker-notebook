@@ -17,14 +17,14 @@
       }
     }
 
-    function goToLast(list) {
-      if (!(list && list[0])) {return}
-      var omniList = _.filter(list.concat($scope.notebooks.list || []), 'openedAt'),
+    function goToLast() {
+      var union = $scope.projects.list.concat($scope.notebooks.list);
+      var omniList = _.filter(union, 'openedAt'),
           mostRecentItem = _.last(_.sortBy(omniList, 'openedAt'));
 
-      stateGo(mostRecentItem || _.last(_.sortBy(list, 'createdAt')))
+      stateGo(mostRecentItem || _.last(_.sortBy(union, 'createdAt')))
     }
 
-    $scope.$watch('projects.list', goToLast);
+    $scope.projects.ready.then(goToLast);
   }]);
 })(angular, window.bunsen);
