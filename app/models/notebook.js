@@ -170,9 +170,18 @@ function Notebook(Bookshelf, app) {
 
     withData: function() {
       var _this = this;
-      return readFile(generateNotebookFilePath.call(this)).then(function(data) {
-        _.extend(_this.attributes, {data: data});
-        return _this;
+      var notebookFilePath = generateNotebookFilePath.call(_this);
+      var git = new Git(Path.dirname(notebookFilePath));
+
+      return git.open()
+      .then(function() {
+        return readFile(notebookFilePath).then(function(data) {
+          _.extend(_this.attributes, {data: data});
+          return _this;
+        });
+      })
+      .catch(function(e) {
+        return handleGitError(e, _this);
       });
     },
 

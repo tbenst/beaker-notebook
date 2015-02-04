@@ -60,7 +60,7 @@
         li.skinny.bunsen-list-item(ng-repeat="notebook in project.notebooks | orderBy:'name'")
           .col-half.padding-reset
             h2
-              a(ui-sref="projects.items.item.notebook({id: project.id, notebook_id: notebook.id})") {{notebook.name}}
+              a(ng-click="openNotebook(notebook)") {{notebook.name}}
 
           .right
             span.text-small.notebook-last-used  Last used on

@@ -33,6 +33,7 @@
     }
 
     $scope.openNotebook = function(notebook) {
+      if (notebook.unavailable) return;
       $state.go('projects.items.item.notebook', {
         id: notebook.projectId,
         notebook_id: notebook.id

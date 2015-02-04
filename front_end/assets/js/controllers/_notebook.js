@@ -58,6 +58,7 @@
     };
 
     function openNotebook(notebook) {
+      if (notebook.unavailable) return $state.go('projects.items.item',{id: notebook.projectId});
       Notebooks.update({id: notebook.id, open: true});
       $scope.notebook = {current: notebook};
       $rootScope.cachedNotebooks[notebook.id] = notebook;
