@@ -305,12 +305,12 @@ module.exports = function() {
     return new this.Widgets.OpenNotebookList().activeNotebook().should.eventually.equal(notebook)
   });
 
-  this.Given(/^my "([^"]*)" notebook is corrupt$/, function(name) {
+  this.Given(/^my "([^"]*)" notebook is unavailable$/, function(name) {
     return this.seed.deleteNotebookGit(name);
   });
 
   this.Then(/^I should see a warning in the "([^"]*)" notebook$/, function(name) {
-    return new this.Widgets.NotebookList().isCorrupt(name).should.eventually.equal(true);
+    return new this.Widgets.NotebookList().isUnavailable(name).should.eventually.equal(true);
   });
 
   this.Then(/^(\d+) notebooks should load in the background$/, function(n) {

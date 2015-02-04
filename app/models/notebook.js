@@ -28,7 +28,7 @@ function handleGitError(e, notebook) {
   var gitErr = /Failed to resolve path/;
 
   if (gitErr.test(e.message)) {
-    notebook.set('corrupt', true);
+    notebook.set('unavailable', true);
     return notebook.attributes;
   }
   throw e;
