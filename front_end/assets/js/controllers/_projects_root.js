@@ -21,16 +21,12 @@
     }
 
     function setProjects() {
-      if ($scope.projects.list) return;
-
       F.Projects.getProjects().then(function(projects) {
         $scope.projects.list = projects;
       });
     }
 
     function setNotebooks() {
-      if ($scope.notebooks.list) return;
-
       F.Notebooks.getNotebooks().then(function(notebooks) {
         $scope.notebooks.list = notebooks;
       });
