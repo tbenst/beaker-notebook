@@ -6,19 +6,20 @@ module.exports = function(app) {
   var FPR  = app.Models.ForgotPasswordRequests;
 
   function sendUser(res, user, expDate) {
-    res.cookie('user', user.id, {signed: true, expires: expDate});
+    var defaultDate = new Date();
+    defaultDate.setDate(defaultDate.getDate() + 31);
+
+    res.cookie('user', user.id, {signed: true, expires: expDate||defaultDate});
     res.json(user);
   }
 
   return {
+    setUserCookie: sendUser,
     authenticate: function (req, res, next) {
-      var expDate = new Date();
-      expDate.setDate(expDate.getDate() + 31);
-
-      User.signIn(req.body)
+     User.signIn(req.body)
         .then(function(user) {
           if(user) {
-            sendUser(res, user, expDate);
+            sendUser(res, user);
           } else {
             res.statusCode = 403;
           }

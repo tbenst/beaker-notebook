@@ -1,8 +1,6 @@
 knex = require('knex');
 
 module.exports.init = function(app, configPath) {
-  var configPath = configPath || '../config.js';
-
   app.Models = app.Models || {};
 
   var fs      = require('fs'),
@@ -11,10 +9,12 @@ module.exports.init = function(app, configPath) {
     _         = require('lodash-contrib'),
     config    = {};
 
+  var configPath = configPath || path.join(__dirname, '../config.js');
+
   try {
     config = require(configPath)[process.env["NODE_ENV"] || "development"];
   } catch(e) {
-    throw new Error('Error reading config from '+configPath)
+    throw new Error('Error reading config from '+configPath+ " " + e.message)
   }
 
   var DB = app.DB || Bookshelf.initialize(knex(config));
