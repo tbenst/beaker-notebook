@@ -49,11 +49,19 @@
     return emitter;
   }
 
-  app.directive('fileUploader', function() {
+  app.directive('fileUploader', ['$timeout', function($timeout) {
+    var messages = {
+      uploading: function() {return "Uploading..."},
+      uploaded: function(i) {return i > 1 ? "Files have been uploaded" : "File has been uploaded"},
+      failed: function(i) {return i > 1 ? "Files haven't been uploaded correctly" : "File hasn't been uploaded correctly"}
+    }
+
     return {
       restrict: "E",
       template: templates['directives/file_uploader'],
       controller: ['$scope', function($scope) {
+        var timeout;
+
         $scope.onFileSet = function(files) {
           // Since Angular has no idea about the invocation of this method
           // (from the DOM node onchange)
@@ -63,24 +71,32 @@
             return;
           }
 
+          function showMessage(type) {
+            if (timeout) {$timeout.cancel(timeout)}
+            timeout = $timeout(function() {
+              delete $scope.fileUploadMessage;
+            }, 3000);
+            $scope.fileUploadMessage = messages[type](files.length);
+          }
+
           $scope.$apply(function() {
-            $scope.uploading = true;
+            showMessage("uploading");
           });
 
           upload(files)
           .on("end", function() {
             $scope.$apply(function() {
-              $scope.uploading = false;
+              showMessage("uploaded");
             });
           })
           .on("error", function() {
             $scope.$apply(function() {
-              $scope.uploading = false;
+              showMessage("failed");
             });
           })
         }
       }]
     }
-  });
+  }]);
 
 })(angular, window.bunsen);
