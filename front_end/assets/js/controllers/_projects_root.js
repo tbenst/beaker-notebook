@@ -21,17 +21,13 @@
     }
 
     function setProjects() {
-      if ($scope.projects.list) return;
-
-      F.Projects.getProjects().then(function(projects) {
+      return F.Projects.getProjects().then(function(projects) {
         $scope.projects.list = projects;
       });
     }
 
     function setNotebooks() {
-      if ($scope.notebooks.list) return;
-
-      F.Notebooks.getNotebooks().then(function(notebooks) {
+      return F.Notebooks.getNotebooks().then(function(notebooks) {
         $scope.notebooks.list = notebooks;
       });
     }
@@ -51,8 +47,7 @@
     $scope.notebooks = $scope.notebooks || {};
     $scope.searchable = $scope.searchable || {}
 
-    setProjects();
-    setNotebooks();
+    $scope.projects.ready = setProjects().then(setNotebooks);
 
     $scope.$watch('searchable.search', function(v) {
       if (v !== void(0) && v !== '') {
