@@ -73,7 +73,7 @@ module.exports = function(app) {
           res.status(200).end();
         })
         .catch(function(err) {
-          if (err instanceof PasswordResetException) {
+          if (err.name == "PasswordResetException") {
             res.status(404).send(err.message);
           } else {
             res.status(500).send(err);
@@ -87,7 +87,7 @@ module.exports = function(app) {
           res.status(200).end();
         })
         .catch(function(err) {
-          if (err instanceof PasswordResetException){
+          if (err.name == "PasswordResetException"){
             res.status(403).send(err.message);
           } else {
             res.status(500).send(err.message);
