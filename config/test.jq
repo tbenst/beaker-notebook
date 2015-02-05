@@ -212,7 +212,8 @@
           "ELASTICSEARCH_PORT_9200_TCP_PORT": "\($ELASTICSEARCH_PORT)",
           "PROVISIONER_PORT_3001_TCP_ADDR": "172.17.42.1",
           "PROVISIONER_PORT_3001_TCP_PORT": "\($PROVISIONER_PORT)",
-          "SCRATCH_SPACE_ROOT": "/mnt/lustre/bunsen-test/beaker"
+          "SCRATCH_SPACE_ROOT": "/mnt/lustre/bunsen-test/beaker",
+          "COOKIE_SALT": "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<"
         },
         "healthChecks": [
           {
