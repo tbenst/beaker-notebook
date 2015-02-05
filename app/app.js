@@ -55,7 +55,7 @@ function appConfig(app) {
   app.use(express.urlencoded());
   app.use(express.methodOverride());
   app.use(express.bodyParser());
-  app.use(express.cookieParser('r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<'));
+  app.use(express.cookieParser(process.env.COOKIE_SALT));
   app.use(express.session());
   app.use(express.static(path.join(__dirname, 'public')));
 
