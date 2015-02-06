@@ -107,11 +107,18 @@ module.exports = function(app) {
       var newFilePath = path.join(req.user.ensureScratchSpace(), file.originalFilename);
 
       var readSteam  = fs.createReadStream(file.path);
+      var writeStream = fs.createWriteStream(newFilePath);
 
       readSteam
-      .pipe(fs.createWriteStream(newFilePath));
+      .pipe(writeStream);
 
       readSteam.on('error', next);
+
+      writeStream.on('error', function (err) {
+        if (err.code === 'ENOSPC') {
+          res.status(422).send("Disk quota exceeded");
+        }
+      });
 
       readSteam.on('end', function(){
         res.status(200).end();
