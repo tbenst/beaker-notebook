@@ -22,15 +22,16 @@
           $scope.publications.quantity = quantity;
         });
 
-        F.Publications.getPublications(query).then(function(publications) {
+        return F.Publications.getPublications(query).then(function(publications) {
           $scope.publications.list = publications;
         });
       }
 
       function changePage(newValue, oldValue) {
         if (newValue === oldValue) {return;}
-        loadPublications();
-        window.scrollTo(0,0);
+        loadPublications().then(function() {
+          window.scrollTo(0,0);
+        });
       }
 
       $scope.publications.itemsPerPage = 10;
