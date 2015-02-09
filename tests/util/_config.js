@@ -1,3 +1,3 @@
 module.exports = {
-  bunsenUrl: 'http://' + (process.env.BUNSEN_HOSTNAME || 'localhost:7778') + '/'
+  bunsenUrl: 'http://' + (process.env.HOSTNAME || 'localhost:7778') + '/'
 }
