@@ -24,8 +24,10 @@
                          :app-template-path "resources/templates/app.json"
                          :service-host "localhost"
                          :service-path "/beaker"}
+                   :repl-options {:init (user/watch)}
                    :source-paths ["src/dev"]
-                   :dependencies [[ring-mock "0.1.5"]
+                   :dependencies [[hawk "0.1.1"]
+                                  [ring-mock "0.1.5"]
                                   [org.clojure/tools.namespace "0.2.7"]]}
              :test {:env {:server-port 6001}}}
   :aliases {"build" ["do" ["clean"] ["uberjar"]]})
