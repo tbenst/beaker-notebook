@@ -75,11 +75,13 @@
             return details || messages[type](files.length)
           }
 
-          function showMessage(msg) {
+          function showMessage(msg, seconds) {
             if (timeout) {$timeout.cancel(timeout)}
-            timeout = $timeout(function() {
-              delete $scope.fileUploadMessage;
-            }, 3000);
+            if (seconds) {
+              timeout = $timeout(function() {
+                delete $scope.fileUploadMessage;
+              }, seconds * 1000);
+            }
             $scope.fileUploadMessage = msg;
           }
 
@@ -90,14 +92,14 @@
           upload(files)
           .on("end", function() {
             $scope.$apply(function() {
-              showMessage(formatMessage("uploaded"));
+              showMessage(formatMessage("uploaded"), 5);
             });
           })
           .on("error", function(err) {
             var req = err[1].target;
             $scope.$apply(function() {
               var errorMessage = formatMessage("failed", req.status == 422 && req.responseText);
-              showMessage(errorMessage);
+              showMessage(errorMessage, 30);
             });
           })
         }
