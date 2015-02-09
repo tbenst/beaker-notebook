@@ -1,0 +1,170 @@
+{
+  "id": "/bunsen-test",
+  "apps": [
+    {
+      "id": "/bunsen-test/provisioner",
+      "cmd": "",
+      "cpus": 0.1,
+      "mem": 100,
+      "ports": [
+        "13001"
+      ],
+      "instances": 1,
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "network": "BRIDGE",
+          "image": "provisioner",
+          "portMappings": [
+            {
+              "containerPort": 3001,
+              "servicePort": "13001",
+              "protocol": "tcp"
+            }
+          ]
+        }
+      },
+      "env": {
+        "SERVER_PORT": 3001,
+        "PROVISIONER_STRATEGY": "docker",
+        "MARATHON_URL": "http://172.17.42.1:8080",
+        "APP_GROUP": "/bunsen-test/beaker",
+        "APP_TEMPLATE": {
+          "container": {
+            "type": "DOCKER",
+            "docker": {
+              "image": "beaker",
+              "network": "BRIDGE",
+              "portMappings": [
+                {
+                  "containerPort": 8801
+                }
+              ]
+            }
+          },
+          "cpus": 0.1,
+          "mem": 100,
+          "instances": 1
+        },
+        "SERVICE_HOST": "bunsen-test",
+        "SERVICE_PATH": "/beaker"
+      },
+      "healthChecks": [
+        {
+          "protocol": "HTTP",
+          "path": "/api/v1/status",
+          "gracePeriodSeconds": 10,
+          "intervalSeconds": 10,
+          "portIndex": 0,
+          "timeoutSeconds": 5,
+          "maxConsecutiveFailures": 3
+        }
+      ],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0
+      }
+    },
+    {
+      "id": "/bunsen-test/api",
+      "args": [
+        "--migrate"
+      ],
+      "cpus": 0.1,
+      "mem": 100,
+      "instances": 1,
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "network": "BRIDGE",
+          "image": "api",
+          "portMappings": [
+            {
+              "containerPort": 3000,
+              "protocol": "tcp"
+            }
+          ]
+        },
+        "volumes": [
+          {
+            "hostPath": "/var/bunsen/test/beaker",
+            "containerPath": "/mnt/scratch",
+            "mode": "RW"
+          }
+        ]
+      },
+      "env": {
+        "NODE_ENV": "test",
+        "ALLOW_SEED": true,
+        "ALLOW_CROSS_ORIGIN": true,
+        "ENABLE_COVERAGE": true,
+        "DB_PORT_5432_TCP_ADDR": "172.17.42.1",
+        "DB_PORT_5432_TCP_PORT": "15432",
+        "MANDRILL_PASSWORD":"-QG6MBSWNPR7sPwRali8Jg",
+        "MANDRILL_USER":"ops+mandrill@mojotech.com",
+        "MAIL_FROM": "ops+bunsen@mojotech.com",
+        "EXTERNAL_DB_NAME": "bunsen_test",
+        "HOSTNAME": "bunsen-test",
+        "ELASTICSEARCH_PORT_9200_TCP_ADDR": "172.17.42.1",
+        "ELASTICSEARCH_PORT_9200_TCP_PORT": "19200",
+        "PROVISIONER_PORT_3001_TCP_ADDR": "172.17.42.1",
+        "PROVISIONER_PORT_3001_TCP_PORT": "13001",
+        "SCRATCH_SPACE_ROOT": "/var/bunsen/test/beaker"
+      },
+      "healthChecks": [
+        {
+          "protocol": "HTTP",
+          "path": "/api/status",
+          "gracePeriodSeconds": 10,
+          "intervalSeconds": 10,
+          "portIndex": 0,
+          "timeoutSeconds": 5,
+          "maxConsecutiveFailures": 3
+        }
+      ],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0
+      },
+      "dependencies": [
+        "../postgres",
+        "../provisioner",
+        "../elasticsearch"
+      ]
+    },
+    {
+      "id": "/bunsen-test/web",
+      "cpus": 0.1,
+      "mem": 100,
+      "instances": 1,
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "network": "BRIDGE",
+          "image": "web",
+          "portMappings": [
+            {
+              "containerPort": 8080,
+              "protocol": "tcp"
+            }
+          ]
+        }
+      },
+      "env": {
+        "ENABLE_COVERAGE": true
+      },
+      "healthChecks": [
+        {
+          "protocol": "HTTP",
+          "path": "/",
+          "gracePeriodSeconds": 10,
+          "intervalSeconds": 10,
+          "portIndex": 0,
+          "timeoutSeconds": 5,
+          "maxConsecutiveFailures": 3
+        }
+      ],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0
+      }
+    }
+  ]
+}
