@@ -156,7 +156,7 @@ module.exports = function(Bookshelf, app) {
     },
 
     getScratchSpacePath: function() {
-      return path.join("/mnt/scratch", this.id.toString());
+      return path.join(process.env.SCRATCH_SPACE_ROOT, this.id.toString());
     },
 
     ensureScratchSpace: function() {
@@ -166,7 +166,7 @@ module.exports = function(Bookshelf, app) {
     },
 
     getScratchSpaceContents: function() {
-      return fileTree(this.ensureScratchSpace(), '/mnt/scratch');
+      return fileTree(this.ensureScratchSpace(), process.env.SCRATCH_SPACE_ROOT);
     },
 
     emptyScratchSpace: function() {
