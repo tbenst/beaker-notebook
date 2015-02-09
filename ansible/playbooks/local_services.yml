@@ -1,0 +1,37 @@
+---
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    state: started
+    services:
+      - postgresql
+      - elasticsearch-1.3.4
+  tasks:
+    - name: enable services
+      shell: >
+        if [[ ! -e ~/Library/LaunchAgents/homebrew.mxcl.{{ item }}.plist ]]; then
+          ln -sfv /usr/local/opt/{{ item }}/*.plist ~/Library/LaunchAgents; echo changed;
+        fi;
+      register: r
+      changed_when: "'changed' in r.stdout"
+      with_items: services
+
+    - name: update services
+      shell: >
+        case {{ state }} in
+        stopped)
+          launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.{{ item }}.plist
+          ;;
+        started)
+          launchctl load ~/Library/LaunchAgents/homebrew.mxcl.{{ item }}.plist
+          ;;
+        restarted)
+          launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.{{ item }}.plist
+          launchctl load ~/Library/LaunchAgents/homebrew.mxcl.{{ item }}.plist
+          ;;
+        esac;
+      register: r
+      changed_when: r.stderr == ''
+      with_items: services

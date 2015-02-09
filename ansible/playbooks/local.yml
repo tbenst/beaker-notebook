@@ -1,0 +1,55 @@
+---
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: tap homebrew repositories
+      homebrew_tap: tap={{ item }} state=present
+      with_items:
+        - caskroom/cask
+        - homebrew/nginx
+        - mojotech/formulas
+
+    - name: update homebrew packages
+      homebrew: update_homebrew=yes
+
+    - name: install cask
+      homebrew: name=brew-cask state=present
+
+    - name: install cask packages
+      homebrew_cask: name={{ item }} state=present
+      with_items:
+        - java
+        - vagrant
+        - virtualbox
+
+    - name: install homebrew packages
+      homebrew:
+        name: "{{ item.name | default(item) }}"
+        install_options: "{{ item.options | default('') }}"
+        state: present
+      with_items:
+        - jq
+        - docker
+        - wget
+        - node
+        - riemann
+        - leiningen
+        - forego
+        - gradle
+        - haproxy
+        - postgresql
+        - elasticsearch-1.3.4
+        - name: nginx-full
+          options: --with-lua-module
+
+    - name: install pip
+      sudo: yes
+      easy_install: name=pip
+
+    - name: install pip packages
+      sudo: yes
+      pip: name={{ item }} state=present
+      with_items:
+        - virtualenv
