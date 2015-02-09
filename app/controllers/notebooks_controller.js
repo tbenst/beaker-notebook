@@ -80,10 +80,13 @@ module.exports = function(app) {
     get: function(req, res, next) {
       req.notebook.withData()
       .then(function(notebook) {
+        if (notebook.unavailable) {
+          return res.json(notebook);
+        }
         notebook.load('publication')
         .then(res.json.bind(res))
-        .catch(next);
-      });
+      })
+      .catch(next);
     },
 
     notebookContents: function(req, res, next) {

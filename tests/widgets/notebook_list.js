@@ -96,7 +96,7 @@ module.exports = function() {
       });
     },
 
-    isCorrupt: function(name) {
+    isUnavailable: function(name) {
       return this.findNotebook(name)
       .then(function(item) {
         // find throws an error which
