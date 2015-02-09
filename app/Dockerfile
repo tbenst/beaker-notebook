@@ -1,51 +1,24 @@
-FROM quay.io/mojotech/debian:latest
+FROM quay.io/mojotech/node:c5c4097
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-      build-essential \
-      ca-certificates \
-      git \
-      python \
-      lsof \
-      npm \
-      node-bcryptjs \
-      node-bluebird \
-      node-bookshelf \
-      node-checkit \
-      node-crypto \
-      node-express \
-      node-glob \
-      node-inflection \
-      node-istanbul \
-      node-istanbul-middleware \
-      node-jade \
-      node-knex \
-      node-lodash \
-      node-lodash-contrib \
-      node-minimist \
-      node-mkdirp \
-      node-moment \
-      node-nodegit \
-      node-mailer \
-      node-pg \
-      node-pm2 \
-      node-qs \
-      node-when \
-      node-restler \
-      node-elasticsearch \
-      nodejs-legacy && \
-    apt-get clean
+RUN apt-get install -y --no-install-recommends -t vendor \
+      # to build libgit
+      cmake \
+      # to build pg
+      libpq-dev
+
+WORKDIR /var/app
+
+# as an optimization, only re`make` if package.json or the Makefile changes
+ADD Makefile package.json /var/app/
+RUN make
 
 ADD . /var/app
 
-ENV NODE_ENV production
-ENV NODE_PATH /usr/local/lib/node_modules
-
-RUN npm install -g mojotech/node-inspector#v0.8.4+mojo1
-RUN npm install fs-extra@0.14.0 \
-                walkdir@0.0.7
-EXPOSE 8080
 EXPOSE 3000
 
-ENTRYPOINT ["/var/app/main.sh"]
+# volume for *ROOT* of scratch space (may actually be mounted elsewhere at runtime)
+VOLUME ["/mnt/scratch"]
+
+ENTRYPOINT ["make"]
+CMD ["migrate", "run"]
