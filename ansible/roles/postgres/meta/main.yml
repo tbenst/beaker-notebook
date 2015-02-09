@@ -1,0 +1,12 @@
+---
+
+dependencies:
+  - role: packages
+    from: postgres
+    tags: postgres
+    packages:
+      - name: postgresql
+        release: vendor
+      - name: postgresql-contrib
+        release: vendor
+      - python-psycopg2

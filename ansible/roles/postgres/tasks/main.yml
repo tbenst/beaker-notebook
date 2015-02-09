@@ -1,0 +1,35 @@
+---
+
+- name: create config directory
+  sudo: yes
+  file: path={{ postgres_config_directory }} state=directory
+  when: postgres_config_directory != ""
+  tags:
+    - initialize
+    - postgres
+
+- name: render postgres config
+  sudo: yes
+  template: src={{ item }} dest="{{ postgres_config_directory }}/{{ item | basename | regex_replace('(.*).j2$','\\1') }}" owner=postgres group=postgres
+  with_items: postgres_config_files
+  notify:
+    - restart postgres
+  tags:
+    - configure
+    - postgres
+
+- name: start and enable postgres service
+  sudo: yes
+  service: name=postgresql enabled=yes state=started
+  tags:
+    - start
+    - postgres
+
+- name: create postgres databases
+  sudo: yes
+  sudo_user: postgres
+  postgresql_db: name={{ item }}
+  with_items: postgres_databases
+  tags:
+    - configure
+    - postgres
