@@ -11,7 +11,8 @@ module.exports = function(Bookshelf, app) {
   var models = app.Models;
   var query = Bookshelf.knex;
   var client = new elasticsearch.Client({
-    host: config.elastic.host + ':' + config.elastic.port
+    host: config.elasticsearch.host + ':' + config.elasticsearch.port,
+    apiVersion: config.elasticsearch.apiVersion
   });
 
   var DataSet = Bookshelf.Model.extend({
