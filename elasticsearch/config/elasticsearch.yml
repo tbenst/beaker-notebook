@@ -1,2 +1,0 @@
-path.data: /var/elasticsearch/data
-http.port: 9200
