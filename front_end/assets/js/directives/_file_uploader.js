@@ -71,27 +71,33 @@
             return;
           }
 
-          function showMessage(type) {
+          function formatMessage(type, details) {
+            return details || messages[type](files.length)
+          }
+
+          function showMessage(msg) {
             if (timeout) {$timeout.cancel(timeout)}
             timeout = $timeout(function() {
               delete $scope.fileUploadMessage;
             }, 3000);
-            $scope.fileUploadMessage = messages[type](files.length);
+            $scope.fileUploadMessage = msg;
           }
 
           $scope.$apply(function() {
-            showMessage("uploading");
+            showMessage(formatMessage("uploading"));
           });
 
           upload(files)
           .on("end", function() {
             $scope.$apply(function() {
-              showMessage("uploaded");
+              showMessage(formatMessage("uploaded"));
             });
           })
-          .on("error", function() {
+          .on("error", function(err) {
+            var req = err[1].target;
             $scope.$apply(function() {
-              showMessage("failed");
+              var errorMessage = formatMessage("failed", req.status == 422 && req.responseText);
+              showMessage(errorMessage);
             });
           })
         }
