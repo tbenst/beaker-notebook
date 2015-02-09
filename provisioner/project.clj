@@ -4,6 +4,7 @@
   :main bunsen.provisioner.service
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/tools.cli "0.3.1"]
+                 [org.clojure/data.codec "0.1.0"]
                  [com.stuartsierra/component "0.2.2"]
                  [ring "1.3.1"]
                  [bidi "1.10.4"]
@@ -11,7 +12,8 @@
                  [clj-http "1.0.0"]
                  [com.cemerick/url "0.1.1"]
                  [ring/ring-json "0.3.1"]
-                 [environ "1.0.0"]]
+                 [environ "1.0.0"]
+                 [pandect "0.5.1"]]
   :plugins [[lein-environ "1.0.0"]]
   :test-paths ["src/test"]
   :source-paths ["src/main"]

@@ -2,6 +2,7 @@
   (:require [liberator.core :refer [defresource]]
             [bunsen.provisioner.helper.resource :as resource]
             [bunsen.provisioner.lifecycle :refer [lifecycle] :as lifecycle]
+            [bunsen.provisioner.lifecycle.local]
             [bunsen.provisioner.lifecycle.docker]
             [bunsen.provisioner.lifecycle.marathon]))
 
