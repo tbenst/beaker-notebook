@@ -48,35 +48,66 @@ listen stats
   stats enable
   stats auth admin:admin
 
-{{ if $services := .Services }}
+frontend http
+  bind *:9000
+  use_backend api if { path_beg -i /api }
+  use_backend riemann if { path_beg -i /events }
+  use_backend beaker if { path_beg -i /beaker }
+  default_backend web
+
+backend api
+  balance roundrobin
+  server api-server localhost:3000
+
+backend web
+  balance roundrobin
+  server web-server localhost:8081
+
+backend riemann
+  balance roundrobin
+  server riemann-server localhost:5556
+
+backend beaker
+  balance roundrobin
+  server beaker-server localhost:8801
+
+{{ $services := .Services }}
 frontend http-in
   bind *:80
-  {{ range $index, $app := .Apps }} {{ if hasKey $services $app.Id }} {{ $service := getService $services $app.Id }}
-  use_backend {{ $app.EscapedId }}-cluster if {{ $service.Acl }} {{ end }} {{ end }}
-{{ end }}
+  {{ range $index, $app := .Apps }}
+  {{ if hasKey $services $app.Id }}
+  {{ $service := getService $services $app.Id }}
+  use_backend {{ $app.EscapedId }}-cluster if {{ $service.Acl }}
+  {{ else if (or $app.Env.BAMBOO_HOST $app.Env.BAMBOO_PATH $app.Env.BAMBOO_ACLS) }}
+  use_backend {{ $app.EscapedId }}-cluster if {{ with $app.Env.BAMBOO_HOST }}{{ printf "{ hdr_dom(host) -i %s }" . }}{{ end }} {{ with $app.Env.BAMBOO_PATH }}{{ printf "{ path_beg -i %s }" . }}{{ end }} {{ with $app.Env.BAMBOO_ACLS }}{{ printf "%s" . }}{{ end }}
+  {{ end }}
+  {{ end }}
 
 {{ range $index, $app := .Apps }}
 backend {{ $app.EscapedId }}-cluster
+  mode http
   {{ if and $app.HealthCheckPath (ne $app.HealthCheckPath ".") }}
   option httpchk GET {{ $app.HealthCheckPath }}
   {{ end }}
   balance leastconn
   option httpclose
   option forwardfor
-  {{ range $page, $task := .Tasks }}
-  server {{ $app.EscapedId}}-{{ $task.Host }}-{{ $task.Port }} {{ $task.Host }}:{{ $task.Port }} {{ if $app.HealthCheckPath }} check inter 2s {{ end }} {{ end }}
+  {{ range $page, $task := $app.Tasks }}
+  server {{ $app.EscapedId}}-{{ $task.Host }}-{{ $task.Port }} {{ $task.Host }}:{{ $task.Port }} {{ if $app.HealthCheckPath }} check inter 5s {{ end }} {{ end }}
 {{ end }}
 
-{{ range $index, $app := .Apps }} {{ if ne $app.ServicePort 0 }}
-listen {{ $app.EscapedId }}_{{ $app.ServicePort }}
-  bind *:{{ $app.ServicePort }}
+{{ range $index, $app := .Apps }}
+{{ with $port := (or $app.Env.BAMBOO_PORT $app.ServicePort) }}
+listen {{ $app.EscapedId }}-{{ $port }}
+  bind *:{{ $port }}
   mode tcp
+  option tcplog
   {{ if and $app.HealthCheckPath (ne $app.HealthCheckPath ".") }}
   option httpchk GET {{ $app.HealthCheckPath }}
   {{ end }}
   balance leastconn
-  option forwardfor
-  {{ range $page, $task := .Tasks }}
-  server {{ $app.EscapedId}}-{{ $task.Host }}-{{ $task.Port }} {{ $task.Host }}:{{ $task.Port }} {{ if $app.HealthCheckPath }} check inter 2s {{ end }} {{ end }}
-{{ end }} {{ end }}
+  {{ range $page, $task := $app.Tasks }}
+  server {{ $app.EscapedId}}-{{ $task.Host }}-{{ $task.Port }} {{ $task.Host }}:{{ $task.Port }} {{ if $app.HealthCheckPath }} check inter 5s {{ end }} {{ end }}
+{{ end }}
+{{ end }}
 {% endraw %}

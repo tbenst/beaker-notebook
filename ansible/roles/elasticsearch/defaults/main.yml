@@ -1,0 +1,8 @@
+---
+
+elasticsearch_data_directories:
+  - /var/lib/elasticsearch
+elasticsearch_config_files: []
+elasticsearch_config_directory: /etc/elasticsearch
+elasticsearch_defaults_file: ""
+elasticsearch_release: vendor

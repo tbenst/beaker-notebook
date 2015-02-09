@@ -3,7 +3,9 @@
 # export display so firefox knows where to show
 # since we are in headless mode
 export DISPLAY=:99.0
-export BUNSEN_HOSTNAME=${BUNSEN_HOSTNAME-localhost}
+export HOSTNAME=${HOSTNAME-localhost}
+
+echo $HOSTNAME
 
 function main {
   local code=0
@@ -38,7 +40,7 @@ Options:
   npm start; code=$?
 
   if [[ -n $ENABLE_COVERAGE ]]; then
-    curl -o "coverage.json" $BUNSEN_HOSTNAME/api/coverage/object
+    curl -o "coverage.json" $HOSTNAME/api/coverage/object
     npm run coverage
   fi
 

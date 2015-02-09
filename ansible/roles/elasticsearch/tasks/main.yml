@@ -1,0 +1,35 @@
+---
+
+- name: create elasticsearch data directories
+  sudo: yes
+  file: dest={{ item }} state=directory owner=elasticsearch group=elasticsearch
+  with_items: elasticsearch_data_directories
+  tags:
+    - configure
+    - elasticsearch
+
+- name: copy elasticsearch defaults
+  template: src={{ elasticsearch_defaults_file }} dest=/etc/default/elasticsearch
+  when: elasticsearch_defaults_file != ""
+  notify:
+    - restart elasticsearch
+  tags:
+    - configure
+    - elasticsearch
+
+- name: render elasticsearch config
+  sudo: yes
+  template: src={{ item }} dest="{{ elasticsearch_config_directory }}/{{ item | basename | regex_replace('(.*).j2$','\\1') }}"
+  with_items: elasticsearch_config_files
+  notify:
+    - restart elasticsearch
+  tags:
+    - configure
+    - elasticsearch_config_files
+
+- name: start and enable elasticsearch service
+  sudo: yes
+  service: name=elasticsearch enabled=yes state=started
+  tags:
+    - start
+    - elasticsearch

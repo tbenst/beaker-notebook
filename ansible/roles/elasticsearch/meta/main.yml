@@ -1,0 +1,13 @@
+---
+
+dependencies:
+  - role: java
+    from: elasticsearch
+    tags: elasticsearch
+  - role: packages
+    from: elasticsearch
+    tags: elasticsearch
+    packages:
+      - name: elasticsearch
+        release: "{{ elasticsearch_release }}"
+        state: present

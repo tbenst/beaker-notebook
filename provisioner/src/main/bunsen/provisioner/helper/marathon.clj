@@ -10,6 +10,7 @@
 
 (defn create-app [host app]
   (rest/post host "v2/apps" {:form-params app})
+  ;; TODO stop waiting here
   (wait-for
     #(->
        (get-app host (get app "id"))
@@ -30,8 +31,8 @@
 (defn merge-strategy [& data]
   (if (sequential? (first data)) (apply concat data) (last data)))
 
-(defn app [{:keys [id config template]}]
-  (deep-merge-with merge-strategy template (assoc config "id" id)))
+(defn app [{:keys [id config defaults]}]
+  (deep-merge-with merge-strategy defaults (assoc config "id" id)))
 
 ;; Copied verbatim from the defunct clojure-contrib (http://bit.ly/deep-merge-with)
 (defn deep-merge-with [f & maps]

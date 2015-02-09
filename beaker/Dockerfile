@@ -1,29 +1,34 @@
-FROM quay.io/mojotech/debian:latest
+FROM quay.io/mojotech/groovy:c5c4097
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends -t wheezy-backports \
-      build-essential \
-      fuse \
-      fuse-utils \
-      git \
-      gradle \
-      libcurl3 \
-      libxml2 \
-      locales \
+# setup node.js
+#   - set NODE_PATH so `require` works with npm modules installed via apt
+ENV NODE_PATH /usr/local/lib/node_modules
+RUN apt-get install -y --no-install-recommends -t local \
+      nodejs-legacy \
+      npm
+
+# setup python
+RUN apt-get install -y --no-install-recommends -t local \
+      python \
+      python-dev \
+      python-pip \
+      python-virtualenv
+
+# setup nginx
+#   - allow beaker (any) user to set the nginx basic auth password at runtime
+RUN apt-get install -y --no-install-recommends -t local \
       mime-support \
       nginx \
-      nodejs-legacy \
-      oracle-java7-jdk \
-      oracle-java7-jre \
-      python \
-      python-yaml \
-      s3fs-fuse \
-      apache2-utils \
-      && \
-    apt-get install -y --no-install-recommends -t local \
-      libzmq3 \
-      python-certifi \
+      apache2-utils
+RUN touch /etc/nginx/.htpasswd && chmod 777 /etc/nginx/.htpasswd
+
+# setup beaker python plugin dependencies
+#   - installing these packages here is an *optimization only*
+#   - compiling scipy requires a ton of dependencies, including fortran
+#   - they would also get installed by the call to `make deps` belowe
+#   - *new* python dependencies should be added to requirements.txt instead
+RUN apt-get install -y --no-install-recommends -t local \
       python-ipython \
       python-jinja2 \
       python-matplotlib \
@@ -31,34 +36,29 @@ RUN apt-get update && \
       python-pandas \
       python-pyzmq \
       python-scipy \
-      python-tornado \
-      && \
-    apt-get install -y --no-install-recommends -t jessie \
-      npm \
-      && \
-    apt-get clean
+      python-yaml
 
-# TODO: when beaker starts get this error:
-# nginx-stderr>nginx: [alert] could not open error log file: open() "/var/log/nginx/error.log" failed (13: Permission denied)
+RUN useradd beaker -d /opt/beaker --create-home
+ADD . /opt/beaker/
 
-RUN update-alternatives --install /usr/bin/nginx nginx /usr/sbin/nginx 1
+# gradle build fails if we don't fix these permissions
+RUN chown -R beaker:beaker /opt/beaker/
 
-ENV NODE_PATH /usr/local/lib/node_modules
-RUN npm config --global set cache /home/beaker/.npm && \
-    npm config --global set registry http://registry.npmjs.org/
+USER beaker
 
-RUN useradd beaker --create-home
-ADD main.sh /home/beaker/
-ADD beaker-notebook/core/ /home/beaker/core/
-ADD beaker-notebook/plugin/ /home/beaker/plugin/
-ADD beaker-notebook/shared/ /home/beaker/shared/
-RUN chown -R beaker:beaker /home/beaker
+# beaker tries to run nginx, so it needs to be on the path
+ENV PATH /usr/sbin:$PATH
 
-VOLUME ["/var/s3"]
-RUN chmod 777 /var/s3
-
-RUN su -m beaker -c "gradle --project-dir /home/beaker/core/config/builds/dev/ build"
+WORKDIR /opt/beaker
+RUN make
 
 EXPOSE 8801
-CMD []
-ENTRYPOINT ["/home/beaker/main.sh"]
+
+# volume for data sets
+VOLUME ["/mnt/data"]
+
+# volume  for scratch space
+VOLUME ["/mnt/scratch"]
+
+ENTRYPOINT ["make"]
+CMD ["password", "run"]

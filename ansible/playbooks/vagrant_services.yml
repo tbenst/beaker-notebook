@@ -1,0 +1,16 @@
+---
+
+- hosts: vagrant
+  gather_facts: false
+  vars:
+    state: started
+    services:
+      - docker
+      - haproxy
+      - postgresql
+      - elasticsearch
+  tasks:
+    - name: update services
+      sudo: yes
+      service: name={{ item }} state={{ state }}
+      with_items: services

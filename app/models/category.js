@@ -8,7 +8,8 @@ module.exports = function(Bookshelf, app){
   var models = app.Models;
   var query = Bookshelf.knex;
   var client = new elasticsearch.Client({
-    host: config.elastic.host + ':' + config.elastic.port
+    host: config.elasticsearch.host + ':' + config.elasticsearch.port,
+    apiVersion: config.elasticsearch.apiVersion
   });
 
   function fields(metadata, type) {
@@ -126,7 +127,7 @@ module.exports = function(Bookshelf, app){
         from: 0,
         size: MAX_RESULTS,
         body: {
-          sort: [ "path"],
+          sort: [ "path" ],
           query: {
             regexp: {
               "path": ''+root+'(\.[0-9]*){0,'+depth+'}'

@@ -1,0 +1,7 @@
+---
+
+dependencies:
+  - role: packages
+    from: java
+    tags: java
+    packages: "{{ java_packages }}"

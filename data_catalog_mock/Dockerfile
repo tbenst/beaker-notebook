@@ -1,4 +1,4 @@
-FROM quay.io/mojotech/debian
+FROM quay.io/mojotech/debian:c5c4097
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
 RUN apt-get update && \

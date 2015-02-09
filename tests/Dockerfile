@@ -1,16 +1,9 @@
-FROM quay.io/mojotech/debian:latest
+FROM quay.io/mojotech/node:c5c4097
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends -t wheezy-backports \
-      curl \
+RUN apt-get install -y --no-install-recommends -t wheezy-backports \
       firefox-mozilla-build \
       fluxbox \
-      g++ \
-      git \
-      make \
-      nodejs-legacy \
-      npm \
       openjdk-7-jre-headless \
       unzip \
       x11vnc \
@@ -18,17 +11,16 @@ RUN apt-get update \
       xfonts-75dpi \
       xfonts-cyrillic \
       xfonts-scalable \
-      xvfb \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+      xvfb
 
-ENV NODE_PATH /usr/local/lib/node_modules
-
-EXPOSE 5900
-
-ADD . /var/app/test
 WORKDIR /var/app/test
 
-RUN npm install
+# as an optimization, only re`make` if package.json or the Makefile changes
+ADD Makefile package.json /var/app/test/
+RUN make
+
+ADD . /var/app/test
+
+EXPOSE 5900
 
 ENTRYPOINT ./main.sh

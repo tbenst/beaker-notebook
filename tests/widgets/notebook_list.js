@@ -56,11 +56,18 @@ module.exports = function() {
     },
 
     destroy: function(name) {
+      var _this = this;
       return this.findNotebook(name)
       .then(function(item) {
         return item.hover({ selector: '.dropdown-toggle' })
         .then(function() {
-          return item.click('.destroy');
+          return item.find('.destroy')
+          .then(function(el) {
+            return _this.driver.executeScript("arguments[0].scrollIntoView(true);", el)
+            .then(function() {
+              return el.click();
+            });
+          });
         });
       })
     },
@@ -113,4 +120,3 @@ module.exports = function() {
     }
   });
 }
-

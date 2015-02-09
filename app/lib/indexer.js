@@ -9,7 +9,8 @@ var BATCH_SIZE = 1000;
 app.Models = require('../models');
 
 var client = new elasticsearch.Client({
-  host: config.elastic.host + ':' + config.elastic.port,
+  host: config.elasticsearch.host + ':' + config.elasticsearch.port,
+  apiVersion: config.elasticsearch.apiVersion,
   requestTimeout: 300000
 });
 

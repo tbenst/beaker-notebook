@@ -1,20 +1,15 @@
-FROM quay.io/mojotech/debian:latest
+FROM quay.io/mojotech/clojure:c5c4097
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
-RUN apt-get update \
-    && apt-get install -y -t local --no-install-recommends \
-      leiningen \
-      oracle-java7-jdk \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+WORKDIR /opt/provisioner
 
-ENV LEIN_ROOT 1
+# as an optimization, only re`make` if project.clj or the Makefile changes
+ADD Makefile project.clj /opt/provisioner/
+RUN make
 
 ADD . /opt/provisioner
-WORKDIR /opt/provisioner
-RUN lein deps
 
 EXPOSE 3001
 
-ENTRYPOINT ["lein"]
+ENTRYPOINT ["make"]
 CMD ["run"]

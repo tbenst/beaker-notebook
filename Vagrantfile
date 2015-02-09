@@ -23,22 +23,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     d.vm.network :forwarded_port, guest: 80, host: 8888, auto_correct: true
     d.vm.network :forwarded_port, guest: 4243, host: 4243, auto_correct: true # docker
-    d.vm.network :forwarded_port, guest: 7777, host: 7777, auto_correct: true # dev gateway proxy
-    d.vm.network :forwarded_port, guest: 7778, host: 7778, auto_correct: true # test gateway proxy
 
     d.vm.provision :ansible do |a|
-      a.playbook   = "ansible/dev.yml"
+      a.playbook   = "ansible/playbooks/vagrant.yml"
       a.extra_vars = {
         apt_config_files: [
-          "config/apt/preferences",
-          "config/apt/sources.list"
+          "../config/apt/preferences",
+          "../config/apt/sources.list"
         ],
-        sudoers_config_file: "config/sudoers",
+        sudoers_config_file: "../config/sudoers",
         docker_release: "local",
         docker_options: "--restart=false -H unix:///var/run/docker.sock -H tcp://0.0.0.0:4243 --bip=172.17.42.1/16",
         zookeeper_config_files: [
-          "config/zookeeper/myid",
-          "config/zookeeper/zoo.cfg"
+          "../config/zookeeper/myid",
+          "../config/zookeeper/zoo.cfg"
         ],
         mesos_common_services: [
           "marathon",
@@ -64,9 +62,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           "task_launch_timeout" => 360000
         },
         bamboo_config_files: [
-          "config/bamboo/bamboo.json",
-          "config/bamboo/haproxy_template.cfg.j2"
-        ]
+          "../config/bamboo/bamboo.json",
+          "../config/bamboo/haproxy_template.cfg.j2"
+        ],
+        java_packages: [{
+          "name" => "oracle-java7-jdk",
+          "release" => "local"
+        }],
+        postgres_config_files: [
+          "../config/postgres/pg_hba.conf",
+          "../config/postgres/pg_ident.conf",
+          "../config/postgres/postgresql.conf"
+        ],
+        postgres_databases: [
+          "bunsen_dev",
+          "bunsen_test"
+        ],
+        postgres_config_directory: "/etc/postgresql/9.3/main"
       }
     end
   end

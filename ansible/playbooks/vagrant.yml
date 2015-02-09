@@ -1,0 +1,15 @@
+---
+
+- hosts: all
+  roles:
+    - apt
+    - sudoers
+    - postgres
+    - elasticsearch
+    - docker
+    - zookeeper
+    - mesos_master
+    - mesos_slave
+    - marathon
+    - haproxy
+    - bamboo
