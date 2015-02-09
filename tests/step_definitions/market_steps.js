@@ -515,4 +515,16 @@ module.exports = function() {
   this.Then(/^I should see the start date "([^"]*)"$/, function(date) {
     return (new this.Widgets.MarketItem()).startDate().should.eventually.equal(date)
   });
+
+  this.Then(/^I give the market item a rating of (\d+)$/, function(index) {
+    return new this.Widgets.UserRating({root: '.rating'}).clickStar(index);
+  });
+
+  this.Then(/^I should see (\d+) stars highlighted in my rate$/, function(count) {
+    return new this.Widgets.UserRating({root: '.rating'}).currentRating().should.eventually.have.length(count);
+  });
+
+  this.Then(/^I should see (\d+) stars highlighted in the average$/, function(count) {
+    return new this.Widgets.UserRating({root: '.average'}).currentRating().should.eventually.have.length(count);
+  });
 }

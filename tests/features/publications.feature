@@ -230,3 +230,10 @@ Feature: Publications
     And I should see 15 publication results next to the "Politics" category
     When I click page 2 of pagination
     Then I should see 5 publication results on the page
+
+  Scenario: Rating a publication
+    Given I have a publication
+    When I view the publication
+    And I give the publication a rating of 3
+    Then I should see 3 stars highlighted in my rate
+    And I should see 3 stars highlighted in the average

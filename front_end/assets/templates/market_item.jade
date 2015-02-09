@@ -3,6 +3,7 @@
   .item-hero
     h1 {{item.title}}
     p.description {{item.description}}
+    ratings(score="item.userRating" average="item.averageRating" max="5" rating-attrs="ratingAttrs")
 
     .details
       .col-three-quarters.col-outside

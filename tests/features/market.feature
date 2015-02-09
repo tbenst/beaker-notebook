@@ -342,3 +342,13 @@ As a researcher, I want to be able to use the market place.
     Then I should see an active tab of "Tables"
     When I click the "Thumbnails" tab
     Then I should see an active tab of "Thumbnails"
+
+  Scenario: Rating a market item
+    Given I have the following market items:
+      | title           | vendor           |
+      | Rate Me         | Ratings R Us     |
+    And I view the market search
+    And I view the "Rate Me" market item
+    When I give the market item a rating of 4
+    Then I should see 4 stars highlighted in my rate
+    And I should see 4 stars highlighted in the average
