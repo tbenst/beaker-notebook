@@ -1,26 +1,18 @@
-FROM quay.io/mojotech/debian:latest
+FROM quay.io/mojotech/node:c5c4097
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends -t wheezy-backports \
-      nodejs-legacy \
-      node-istanbul \
-      nginx \
-      roots && \
-    apt-get clean
+RUN apt-get install -y --no-install-recommends -t local nginx
 
-ENV NODE_PATH /usr/local/lib/node_modules
-
-ADD . /var/www
 WORKDIR /var/www
 
-RUN umask 0755
-RUN roots compile --no-compress
-RUN chmod -R 755 public
+# as an optimization, only re`make` if package.json, bower.json, or the Makefile changes
+ADD Makefile package.json bower.json /var/www/
+RUN make
 
-RUN mv config/default /etc/nginx/sites-available/ && \
-    echo "daemon off;" >> /etc/nginx/nginx.conf
+ADD . /var/www
+RUN make compile
 
-EXPOSE 8080
+EXPOSE 8081
 
-ENTRYPOINT ["/var/www/main.sh"]
+ENTRYPOINT ["make"]
+CMD ["instrument", "run"]
