@@ -14,8 +14,7 @@
               :query-params {"name" (get spec "Id")}}))
 
 (defn start-container [url id]
-  (rest/post url
-             (str "containers/" id "/start")))
+  (rest/post url (str "containers/" id "/start")))
 
 (defn stop-container [url id]
   (rest/post url (str "containers/" id "/stop")))
@@ -43,26 +42,3 @@
                              volumes)
                    "PortBindings" {(str (get defaults "port") "/tcp")
                                    [{"HostPort" (str (get defaults "port"))}]}}}))
-
-(comment
-
-  (create-container
-    "http://10.10.10.10:4243"
-    (container {:id "hello"
-                :config {"container" {"volumes" [{"hostPath" "/var/bunsen/scratch"
-                                                  "containerPath" "/mnt/scratch"
-                                                  "mode" "RW"}]}
-                         "env" {"BEAKER_PASSWORD" "password"}}
-                :defaults {"port" 8801
-                           "cmd" ["sleep" "1000"]
-                           "image" "quay.io/mojotech/debian"}}))
-
-  (start-container "http://10.10.10.10:4243" "hello")
-
-  (get-container "http://10.10.10.10:4243" "hello")
-
-  (stop-container "http://10.10.10.10:4243" "hello")
-
-  (remove-container "http://10.10.10.10:4243" "hello")
-
-  )
