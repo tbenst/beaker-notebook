@@ -218,7 +218,9 @@ module.exports = function(Bookshelf, app) {
               }]
             },
             "env": {
-              "BEAKER_PASSWORD": password
+              "BEAKER_PASSWORD": password,
+              "BAMBOO_HOST": process.env.BAMBOO_HOST || process.env.HOSTNAME,
+              "BAMBOO_PATH": "/beaker/" + user.id + "/"
             }
           }
         };
