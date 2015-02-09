@@ -4,6 +4,8 @@
   roles:
     - apt
     - sudoers
+    - postgres
+    - elasticsearch
     - docker
     - zookeeper
     - mesos_master
