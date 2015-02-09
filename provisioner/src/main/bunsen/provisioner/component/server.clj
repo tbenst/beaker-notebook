@@ -5,8 +5,8 @@
             [ring.middleware.json :refer [wrap-json-params]]
             [ring.util.response :refer [response]]
             [bunsen.provisioner.helper.route :as route]
-            [bunsen.provisioner.route.api :as api-route]
-            [bunsen.provisioner.resource.api :as api-resource]))
+            [bunsen.provisioner.route :as api-route]
+            [bunsen.provisioner.resource :as api-resource]))
 
 (def routes
   (route/with-default
@@ -38,4 +38,5 @@
       (.stop jetty))
     (dissoc server :jetty)))
 
-(defn server [] (map->Server {}))
+(defn server [config]
+  (map->Server {:config config}))

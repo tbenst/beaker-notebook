@@ -1,4 +1,4 @@
-(ns bunsen.provisioner.route.api)
+(ns bunsen.provisioner.route)
 
 (def routes
   {"/api/v1" {"/status" :status
