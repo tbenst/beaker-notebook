@@ -1,0 +1,8 @@
+env
+.gradle
+beaker-notebook/.git
+beaker-notebook/.gradle
+beaker-notebook/core/build
+beaker-notebook/shared/build
+beaker-notebook/plugin/jvm/build
+beaker-notebook/core/config/plugins/eval/node/app/node_modules
