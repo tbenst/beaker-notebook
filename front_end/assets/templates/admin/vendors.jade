@@ -1,0 +1,13 @@
+.vendors-container
+  h1 Vendors - Create
+
+  .vendor-create-message(ng-if='message') {{message}}
+
+  form.vendor-create(name="createVendorForm", ng-submit="createVendor(createVendorForm.$valid)")
+    input.vendor-name(type="text", ng-model="vendor.name" placeholder="name", required)
+
+    button.btn.cancel(ng-click="cancel()") Cancel
+    input.btn.submit(type="submit", value="Save")
+
+  .loading(ng-if="loading")
+    bunsen-spinner

@@ -20,6 +20,15 @@
           }
         }
       })
+      .state('admin.vendors', {
+        url: '/admin/vendors',
+        views: {
+          "app@admin": {
+            controller: 'vendors',
+            template: templates['admin/vendors']
+          }
+        }
+      })
 
   }]);
 })(angular, window.bunsen, templates);

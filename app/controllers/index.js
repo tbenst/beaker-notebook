@@ -12,6 +12,7 @@ module.exports.init = function(app) {
     DataTagsController: require('./data_tags_controller.js')(app),
     BeakerInstancesController: require('./beaker_instances_controller.js')(app),
     RatingsController: require('./ratings_controller.js')(app),
+    VendorsController: require('./vendors_controller')(app)
   };
 
   return app;
