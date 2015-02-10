@@ -6,8 +6,22 @@
   form.vendor-create(name="createVendorForm", ng-submit="createVendor(createVendorForm.$valid)")
     input.vendor-name(type="text", ng-model="vendor.name" placeholder="name", required)
 
-    button.btn.cancel(ng-click="cancel()") Cancel
+    button.btn.clear(type="button", ng-click="vendor.name = ''") Clear
     input.btn.submit(type="submit", value="Save")
 
   .loading(ng-if="loading")
     bunsen-spinner
+
+  ul.vendor-list.bunsen-list
+    li(ng-if="vendors.length === 0") It looks like we don't have any vendors.
+    li.skinny.bunsen-list-item(ng-repeat="vendor in vendors | orderBy:'name'")
+      .col-half.padding-reset
+        h2
+          a {{vendor.name}}
+
+      .right
+        span.text-small.notebook-last-used  Last updated on
+          span.text-green.date {{vendor.updatedAt | date: 'short'}}
+      .cl
+
+  .cl

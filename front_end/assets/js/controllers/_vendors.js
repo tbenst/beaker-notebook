@@ -7,11 +7,13 @@
       $scope,
       $state,
       F) {
-        $scope.vendor = {};
+        $scope.vendors = {};
         $scope.loading = false;
 
-        $scope.cancel = function() {
-          $state.go('admin.index');
+        getVendors();
+
+        $scope.clear = function(form) {
+          form.$setPristine();
         };
 
         $scope.createVendor = function(isValid) {
@@ -21,12 +23,24 @@
           F.Vendors.create($scope.vendor).then(function(vendor) {
             $scope.vendor = vendor;
             $scope.message = "Vendor Created";
+            getVendors();
           })
           .catch(function(err) {
             $scope.message = "Error: " + err.data;
           })
           .finally(function() {
             $scope.loading = false;
+            $scope.vendor.name = null;
+          });
+        };
+
+        $scope.deleteVendor = function(vendor) {
+          F.Vendors.destroy(vendor.id).then(getVendors);
+        };
+
+        function getVendors() {
+          F.Vendors.getVendors().then(function(vendors) {
+            $scope.vendors = vendors;
           });
         };
   }]);
