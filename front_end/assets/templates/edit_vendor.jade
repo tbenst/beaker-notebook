@@ -1,0 +1,6 @@
+p Please enter a new name for this vendor
+p.error(ng-show="error") {{error}}
+form(name="vendorEdit", ng-submit="update(vendorEdit)")
+  input.full.name(type="text" ng-model="vendorName")
+  button.cancel.btn.btn-light(type="button" ng-click="cancel()") Cancel
+  input.submit.save.btn.btn-primary(type="submit", value="Save")

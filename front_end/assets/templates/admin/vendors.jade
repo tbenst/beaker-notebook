@@ -21,7 +21,7 @@
         input(type="checkbox", ng-model="vendor.delete")
       .col-half.padding-reset
         h2
-          a {{vendor.name}}
+          a(edit-vendor-modal="edit-vendor-modal", vendor="vendor") {{vendor.name}}
 
       .right
         span.text-small.notebook-last-used  Last updated on
