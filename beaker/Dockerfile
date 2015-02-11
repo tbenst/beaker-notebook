@@ -30,7 +30,6 @@ RUN touch /etc/nginx/.htpasswd && chmod 777 /etc/nginx/.htpasswd
 #   - *new* python dependencies should be added to requirements.txt instead
 RUN apt-get install -y --no-install-recommends -t local \
       libzmq3 \
-      python-ipython \
       python-jinja2 \
       python-matplotlib \
       python-numpy \

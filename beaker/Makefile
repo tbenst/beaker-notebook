@@ -4,7 +4,7 @@ SHELL := /usr/bin/env bash
 .PHONY: all watch run build
 
 all: env
-	env/bin/pip install -r requirements.txt
+	env/bin/pip install --upgrade -r requirements.txt
 	cd beaker-notebook && gradle build
 
 # isolate python packages inside a virtualenv
