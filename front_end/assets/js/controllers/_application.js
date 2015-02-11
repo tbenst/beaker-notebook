@@ -44,7 +44,15 @@
 
       $scope.$watch(function() {
         return $cookies.user;
-      }, function(){
+      }, function() {
+        if ($cookies.user && $sessionStorage.user) {
+          F.Notebooks.getOpened().then(function(notebooks) {
+            if (notebooks.length) {
+              return BeakerNotebookService.loadOpened(notebooks);
+            }
+          });
+        }
+
         if (!$cookies.user && $sessionStorage.user) {
           $rootScope.signOut();
         }
@@ -68,10 +76,5 @@
         })
       }
 
-      F.Notebooks.getOpened().then(function(notebooks) {
-        if (notebooks.length) {
-          return BeakerNotebookService.loadOpened(notebooks);
-        }
-      });
   }]);
 })(window.bunsen);
