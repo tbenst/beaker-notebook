@@ -13,7 +13,7 @@ so that I can use files within my cells that I might not want shared on the inte
   Scenario: Uploading files
     When I upload a file
     And I view my files
-    Then I should see uploaded files
+    Then I should see 1 uploaded file
 
   Scenario: Viewing file sizes
     When I upload a file

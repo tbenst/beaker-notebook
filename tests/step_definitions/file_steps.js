@@ -20,9 +20,9 @@ module.exports = function() {
     .upload(path.resolve("fixtures/", "doge.jpg"));
   });
 
-  this.Then(/^I should see uploaded files$/, function() {
+  this.Then(/^I should see (\d+) uploaded file(s*)$/, function(fileCount) {
     return new this.Widgets.FileList().length()
-    .should.eventually.eql(1);
+    .should.eventually.eql(parseInt(fileCount));
   });
 
   this.Then(/^I should see the uploaded file is (.*)$/, function (size) {
