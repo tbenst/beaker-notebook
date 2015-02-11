@@ -6,15 +6,13 @@
     '$rootScope',
     'Beaker',
     '$sce',
-    '$q',
     function(
       $location,
       UrlGeneratorService,
       Restangular,
       $rootScope,
       Beaker,
-      $sce,
-      $q) {
+      $sce) {
     return {
       getFrameMeta: function(notebook) {
         return {
