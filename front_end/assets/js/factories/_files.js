@@ -4,6 +4,10 @@
     return {
       getScratchSpaceFiles: function() {
         return R.all('files').getList();
+      },
+
+      deleteChecked: function(params) {
+        return R.all('files').customDELETE('', params);
       }
     }
   }]);

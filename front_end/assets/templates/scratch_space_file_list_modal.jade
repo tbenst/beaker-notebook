@@ -1,5 +1,18 @@
 h2 Scratch Space Uploads
-table.file-list
+div.confirm(ng-show="confirmVisible")
+  span Are you sure?
+  button.btn.btn-light(ng-click="deleteCheckedFiles()") Yes
+  button.btn.btn-light(ng-click="hideConfirmation()") No
+
+table.file-list(ng-show="scratchSpaceFiles")
+  tr.file-list-head
+    td
+      input.master-check(type="checkbox" ng-model="masterCheck" ng-click="toggleAll()")
+    td
+    td
+      button.btn.btn-light(ng-click="showConfirmation()") Delete Files
   tr.file-list-item(ng-repeat="file in scratchSpaceFiles | orderBy: 'name'")
+    td
+      input(type="checkbox" ng-model="file.selected")
     td.name {{file.name}}
     td.size {{file.stat.size | humanizeFilesize}}

@@ -7,10 +7,32 @@ file-upload-list
 
 table.file-list
   width: 100%
-  tr.file-list-item
+  tr.file-list-item, tr.file-list-head
     td
       margin: 5px
       border-bottom: solid 1px base-step5
       padding: 10px 0
       &.size
         text-align: right
+
+.master-check
+  position: relative
+  top: 10px
+
+.confirm
+  overflow: hidden
+  padding: 2px
+  color: red
+  font-size: 15px
+  background: rgb(255, 232, 232)
+  border: solid 1px rgb(255, 118, 118)
+
+  span
+    position: relative
+    top: 11px
+    margin-left: 5px
+
+  .btn
+    min-width: 60px
+    margin-left: 4px
+
