@@ -3,4 +3,5 @@ module.exports = function(app) {
 
   app.get('/api/files', FilesController.index);
   app.post('/api/files', FilesController.uploadFile);
+  app.del('/api/files', FilesController.deleteFiles);
 };

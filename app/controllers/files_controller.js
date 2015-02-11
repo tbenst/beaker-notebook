@@ -6,6 +6,13 @@ module.exports = function(app) {
   var User = app.Models.User;
 
   return {
+    deleteFiles: function(req, res, next) {
+      var fileArr = _.values(req.query);
+      req.user.deleteFiles(fileArr)
+      .then(res.json.bind(res))
+      .catch(next);
+    },
+
     index: function(req, res, next) {
       User.forge({id: req.signedCookies.user})
       .fetch()
