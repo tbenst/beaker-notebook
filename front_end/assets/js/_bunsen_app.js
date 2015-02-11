@@ -17,6 +17,7 @@
      'truncate',
      'underscore.string',
      'angularSpinner',
+     'angular-humanize',
      'ngSanitize',
      'hljs',
      'hc.marked',
