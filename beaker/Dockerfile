@@ -29,6 +29,7 @@ RUN touch /etc/nginx/.htpasswd && chmod 777 /etc/nginx/.htpasswd
 #   - they would also get installed by the call to `make deps` belowe
 #   - *new* python dependencies should be added to requirements.txt instead
 RUN apt-get install -y --no-install-recommends -t local \
+      libzmq3 \
       python-ipython \
       python-jinja2 \
       python-matplotlib \
