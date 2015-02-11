@@ -3,18 +3,22 @@
 
   .vendor-create-message(ng-if='message') {{message}}
 
+  .loading(ng-if="loading")
+    bunsen-spinner
+
   form.vendor-create(name="createVendorForm", ng-submit="createVendor(createVendorForm.$valid)")
     input.vendor-name(type="text", ng-model="vendor.name" placeholder="name", required)
 
     button.btn.clear(type="button", ng-click="vendor.name = ''") Clear
     input.btn.submit(type="submit", value="Save")
 
-  .loading(ng-if="loading")
-    bunsen-spinner
+  i.delete(confirm="Are you sure you want to delete these vendors?" on-confirm="deleteVendors()")
 
   ul.vendor-list.bunsen-list
     li(ng-if="vendors.length === 0") It looks like we don't have any vendors.
     li.skinny.bunsen-list-item(ng-repeat="vendor in vendors | orderBy:'name'")
+      .vendor-delete
+        input(type="checkbox", ng-model="vendor.delete")
       .col-half.padding-reset
         h2
           a {{vendor.name}}

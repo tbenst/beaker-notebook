@@ -3,10 +3,12 @@
     '$scope',
     '$state',
     'Factories',
+    '$q',
     function(
       $scope,
       $state,
-      F) {
+      F,
+      $q) {
         $scope.vendors = {};
         $scope.loading = false;
 
@@ -25,23 +27,30 @@
             $scope.message = "Vendor Created";
             getVendors();
           })
-          .catch(function(err) {
-            $scope.message = "Error: " + err.data;
-          })
+          .catch(errorMessage)
           .finally(function() {
             $scope.loading = false;
             $scope.vendor.name = null;
           });
         };
 
-        $scope.deleteVendor = function(vendor) {
-          F.Vendors.destroy(vendor.id).then(getVendors);
+        $scope.deleteVendors = function() {
+          $q.all(_.map($scope.vendors, function(vendor) {
+            if(vendor.delete)
+              return F.Vendors.destroy(vendor.id);
+          }))
+          .then(getVendors)
+          .catch(errorMessage);
         };
 
         function getVendors() {
           F.Vendors.getVendors().then(function(vendors) {
             $scope.vendors = vendors;
           });
+        };
+
+        function errorMessage(err) {
+          $scope.message = "Error: " + err.statusText;
         };
   }]);
 })(angular, window.bunsen);
