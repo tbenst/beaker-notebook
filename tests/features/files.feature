@@ -19,3 +19,12 @@ so that I can use files within my cells that I might not want shared on the inte
     When I upload a file
     And I view my files
     Then I should see the uploaded file is 21.07 KB
+
+  Scenario: Deleting files
+    When I upload a file
+    And I view my files
+    Then I should see 1 uploaded files
+    When I select the file "doge.jpg"
+    And I delete the selected files
+    When I click yes to confirm deletion
+    Then I should see 0 uploaded files
