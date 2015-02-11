@@ -14,15 +14,16 @@
           "image": "quay.io/mojotech/bunsen-web",
           "portMappings": [
             {
-              "containerPort": 8080,
+              "containerPort": 8081,
               "hostPort": 0,
-              "servicePort": 8080,
+              "servicePort": 8081,
               "protocol": "tcp"
             }
           ]
         }
       },
       "env": {
+        "WEB_ROOT": "/var/www/public",
         "BAMBOO_HOST": "bunsen-staging.withmojo.com",
         "BAMBOO_ACLS": "!{ path_beg -i /api } !{ path_beg -i /beaker } !{ path_beg -i /events }"
       },
@@ -46,7 +47,7 @@
     },
     {
       "id": "/bunsen-staging/api",
-      "args": ["--migrate"],
+      "cmd": "",
       "cpus": 1,
       "mem": 512,
       "instances": 1,
@@ -137,11 +138,12 @@
         3001
       ],
       "env": {
-        "SERVER_PORT": 3001,
+        "PROVISIONER_PORT": 3001,
+        "PROVISIONER_LIFECYCLE_STRATEGY": "marathon",
         "BAMBOO_URL": "http://cluster-slave.withmojo.com:8000",
         "MARATHON_URL": "http://cluster-master.withmojo.com:8080",
         "APP_GROUP": "/bunsen-staging/beaker",
-        "APP_TEMPLATE": {
+        "APP_DEFAULTS": {
           "container": {
             "type": "DOCKER",
             "docker": {
