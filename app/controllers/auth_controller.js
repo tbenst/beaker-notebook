@@ -52,7 +52,8 @@ module.exports = function(app) {
       var expDate = new Date();
       expDate.setDate(expDate.getDate() + 31);
 
-      User.signUp(req.body)
+      User.forge(_.pick(req.body, 'name', 'email', 'password'))
+      .save()
       .then(function(user) {
         if(user) {
           sendUser(res, user, expDate);

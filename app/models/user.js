@@ -252,11 +252,6 @@ module.exports = function(Bookshelf, app) {
   });
 
   User = _.extend(User, {
-    signUp: function(attrs) {
-      return User.forge(_.pick(attrs, 'name', 'email', 'password'))
-      .save()
-    },
-
     signIn: function(attrs) {
       var userEmail = _.pick(attrs, "email");
 
