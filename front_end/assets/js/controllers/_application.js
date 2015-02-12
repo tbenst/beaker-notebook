@@ -73,14 +73,6 @@
 
       $rootScope.cachedNotebooks = $rootScope.cachedNotebooks || {};
 
-      $scope.className = function() {
-        var ngClass = $state.current.name;
-        if ($state.includes('projects.items.item.notebook')) {
-          ngClass += " projects";
-        }
-        return ngClass;
-      }
-
       $rootScope.signOut = function() {
         delete $sessionStorage.user;
         return Restangular.all('session').remove()
