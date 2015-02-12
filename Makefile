@@ -147,8 +147,8 @@ define tag_images
 	| .apps[].container.docker.image |= "\(.):$(TAG)"
 	| .apps |= map(if .id | contains("provisioner")
 									then (.
-												| .env.APP_TEMPLATE.container.docker.image |= "\(.):$(TAG)"
-												| .env.APP_TEMPLATE |= tojson
+												| .env.APP_DEFAULTS.container.docker.image |= "\(.):$(TAG)"
+												| .env.APP_DEFAULTS |= tojson
 											)
 									else .
 								end)
@@ -156,7 +156,7 @@ endef
 
 deploy-%: export tag_images := $(tag_images)
 deploy-%:
-	jq "$$tag_images" config/$*.json  | bin/marathon group update -c - /bunsen-$*
+	jq "$$tag_images" config/$*.json  | bin/marathon group update - /bunsen-$*
 
 #
 #
