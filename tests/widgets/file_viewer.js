@@ -9,7 +9,7 @@ module.exports = function() {
 
   this.Widgets.FileList = this.Widget.List.extend({
     root: '.file-upload-list',
-    itemSelector: 'li'
+    itemSelector: 'tr'
   });
 
 };

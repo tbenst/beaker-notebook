@@ -14,3 +14,8 @@ so that I can use files within my cells that I might not want shared on the inte
     When I upload a file
     And I view my files
     Then I should see uploaded files
+
+  Scenario: Viewing file sizes
+    When I upload a file
+    And I view my files
+    Then I should see the uploaded file is 21.07 KB
