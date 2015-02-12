@@ -1,5 +1,7 @@
 ;(function(app) {
 
+  var creatingNotebook;
+
   function beautifyName(name) {
     return name.match(/[A-Z][a-z]+/g).join(" ");
   }
@@ -36,6 +38,14 @@
 
           F.Events.one('events').customPOST(buildPostData(measurement, name));
         }
+      },
+
+      setNotebookState: function(bool) {
+        creatingNotebook = bool;
+      },
+
+      getNotebookState: function() {
+        return creatingNotebook;
       }
     };
   }]);
