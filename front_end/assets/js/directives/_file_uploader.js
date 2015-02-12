@@ -42,7 +42,7 @@
       return emitter.emit("end", e);
     }
 
-    req.open("POST", "/api/users/scratchspace", true);
+    req.open("POST", "/api/files", true);
 
     req.send(data);
 

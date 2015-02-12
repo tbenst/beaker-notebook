@@ -16,6 +16,7 @@ module.exports.init = function(app) {
   require('./beaker_instances_routes.js')(app);
   require('./ratings_routes.js')(app);
   require('./vendor_routes')(app);
+  require('./files_routes')(app);
 
   if (app.get('allow seed')) {
     console.log("WARNING! Enabling seed routes!")

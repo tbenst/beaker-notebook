@@ -3,7 +3,7 @@
   app.factory('FilesFactory', ['Restangular', function(R) {
     return {
       getScratchSpaceFiles: function() {
-        return R.all('users').customGET('scratchspace_files');
+        return R.all('files').getList();
       }
     }
   }]);
