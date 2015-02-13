@@ -32,7 +32,7 @@ module.exports = function() {
     return this.driver.get(this.route.admin);
   });
 
-  this.Then(/^I should see the header Admin Panel$/, function() {
+  this.Then(/^I should see the Admin Panel heading$/, function() {
     var admin = new this.Widgets.Admin();
     return admin.getHeader().should.eventually.eql("Admin Panel");
   });

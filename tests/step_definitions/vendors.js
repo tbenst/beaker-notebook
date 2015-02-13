@@ -4,8 +4,12 @@ module.exports = function() {
     return this.driver.get(this.route.vendors);
   });
 
- this.When(/^I cancel creating a vendor$/, function() {
-    return new this.Widgets.Vendors().cancelCreation();
- });
+  this.When(/^I enter and clear the vendor name$/, function() {
+    return new this.Widgets.Vendors().clearName();
+  });
+
+  this.Then(/^I should see an empty vendor name field$/, function() {
+    return new this.Widgets.Vendors().nameField().should.eventually.equal('')
+  });
 
 };
