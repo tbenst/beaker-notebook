@@ -1,22 +1,24 @@
 (ns bunsen.provisioner.component.server
-  (:require [ring.adapter.jetty :refer [run-jetty]]
-            [com.stuartsierra.component :as component :refer [start stop]]
-
+  (:require [bidi.ring :refer [make-handler]]
+            [bidi.bidi :refer [compile-route]]
+            [ring.util.response :refer [response status]]
+            [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.json :refer [wrap-json-params]]
-            [ring.util.response :refer [response]]
-            [bunsen.provisioner.helper.route :as route]
-            [bunsen.provisioner.route :as api-route]
-            [bunsen.provisioner.resource :as api-resource]))
+            [clojure.algo.generic.functor :refer [fmap]]
+            [com.stuartsierra.component :as component :refer [start stop]]
+            [bunsen.provisioner.route :refer [routes]]
+            [bunsen.provisioner.resource :refer [resources]]))
 
-(def routes
-  (route/with-default
-    :default api-route/routes))
+(def not-found
+  (constantly
+    (-> "" response (status 404))))
 
-(def resources
-  {:status api-resource/status
-   :instance api-resource/instance
-   :instances api-resource/instances
-   :default api-resource/default})
+(defn with-default-route
+  "Add a route pattern that will match anything. This way, we can handle the 404 (not Jetty)."
+  [routes default]
+  [""
+   [routes
+    [#".*" default]]])
 
 (defrecord Server [config]
   component/Lifecycle
@@ -24,14 +26,19 @@
   (start [server]
     (if (:jetty server)
       server
-      (let [handler (route/make-handler
-                      #(let [resource (% resources)]
-                         (fn [request]
-                           ((resource server (:route-params request)) request)))
-                      routes)]
+      (let [port (:server-port config)
+            salt (:cookie-salt config)
+            handler (-> (compile-route
+                          (with-default-route routes ::not-found))
+                        (make-handler
+                          ;; defresource returns a function that returns a handler... call it here to pass config
+                          (-> (fmap #(% config) resources)
+                              (assoc ::not-found not-found)))
+                        wrap-json-params)]
         (assoc server
-               :jetty (run-jetty (wrap-json-params handler) {:join? false
-                                                             :port (:server-port config)})))))
+               :jetty (run-jetty
+                        handler {:port port
+                                 :join? false})))))
 
   (stop [server]
     (when-let [jetty (:jetty server)]
