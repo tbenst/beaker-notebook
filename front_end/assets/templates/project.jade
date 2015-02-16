@@ -12,6 +12,15 @@
         a.btn.btn-light.update-project.left(ng-show="editMode", ng-click="updateProject()") Save
         h4.char-count(ng-show="editMode") ({{ 1500 - newAttributes.description.length}} characters remaining)
       .cl
+  .sidebar-box.light
+    h3 Disk Space
+    .content
+      .btn-group.file-actions
+        h4 Scratch space utilization
+        disk-usage
+        .message {{fileUploadMessage}}
+        file-uploader
+        file-upload-list
 
 .two-sidebars
   .main-content.project-detail
