@@ -19,7 +19,7 @@
         h4 Scratch space utilization
         disk-usage
         .message {{fileUploadMessage}}
-        file-uploader
+        file-uploader(message="fileUploadMessage" on-uploaded="updateUsage()")
         file-upload-list
 
 .two-sidebars
