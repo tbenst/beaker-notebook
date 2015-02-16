@@ -1,0 +1,7 @@
+.disk-usage
+  h4 Scratch space utilization
+  .bar
+    .progress(style="{{'width:' + diskUsage.percent}}%")
+  p
+    span.gigabytes {{diskUsage.quota - diskUsage.total | humanizeFilesize}}
+    | &nbsp; of {{diskUsage.quota | humanizeFilesize}} available
