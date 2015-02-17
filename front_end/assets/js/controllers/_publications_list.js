@@ -3,7 +3,11 @@
     '$scope',
     '$stateParams',
     'Factories',
-    function($scope, $stateParams, Factories) {
+    function(
+      $scope,
+      $stateParams,
+      Factories) {
+
       var F = Factories;
       var categoryID = $stateParams.category_id;
 
