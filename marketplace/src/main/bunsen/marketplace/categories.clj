@@ -39,7 +39,7 @@
   in place"
   [id es-conn index-name mapping-type count]
   (doc/update-with-partial-doc es-conn index-name mapping-type id
-                               {:doc {:count count}}))
+                               {:count count}))
 
 (defn cache-subtree-count!
   [es-conn index-name id path]
