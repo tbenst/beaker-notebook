@@ -32,8 +32,8 @@ As a researcher, I want to be able to browse the market place.
     And I should see the "Crime Rates, Canada" market item on the market list page
 
   Scenario: Category item count
-	Given I have the following market items:
-	    | title                      | categories |
+    Given I have the following market items:
+      | title                      | categories |
       | Credit Card Complaints     | finance    |
       | World Bank Contract Awards | finance    |
       | Crime Rates, Canada        | canada     |
