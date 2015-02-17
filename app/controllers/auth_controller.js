@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var PasswordResetException = require('../lib/password_reset_exception');
+var RecordNotUniqueError = require('../lib/record_not_unique_error');
 
 module.exports = function(app) {
   var User = app.Models.User;
@@ -51,15 +52,20 @@ module.exports = function(app) {
       var expDate = new Date();
       expDate.setDate(expDate.getDate() + 31);
 
-      User.signUp(req.body)
-        .then(function(user) {
-          if(user) {
-            sendUser(res, user, expDate);
-          } else {
-            res.statusCode = 422;
-          }
-        })
-        .catch(next);
+      User.forge(_.pick(req.body, 'name', 'email', 'password'))
+      .save()
+      .then(function(user) {
+        if(user) {
+          sendUser(res, user, expDate);
+        }
+      })
+      .catch(function(err) {
+        if (err.name == "RecordNotUniqueError") {
+          return res.status(409).send(err);
+        }
+
+        next(err);
+      });
     },
 
     forgotPassword: function(req, res, next) {
@@ -68,7 +74,7 @@ module.exports = function(app) {
           res.status(200).end();
         })
         .catch(function(err) {
-          if (err instanceof PasswordResetException) {
+          if (err.name == "PasswordResetException") {
             res.status(404).send(err.message);
           } else {
             res.status(500).send(err);
@@ -82,7 +88,7 @@ module.exports = function(app) {
           res.status(200).end();
         })
         .catch(function(err) {
-          if (err instanceof PasswordResetException){
+          if (err.name == "PasswordResetException"){
             res.status(403).send(err.message);
           } else {
             res.status(500).send(err.message);

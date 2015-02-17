@@ -56,7 +56,11 @@
           .then(signIn)
           .catch(function(err) {
             $scope.loading = false;
-            $scope.message = 'Error: Invalid user or password';
+            if(err.status === 409) {
+              $scope.message = 'Error: Email is already registered';
+            } else {
+              $scope.message = 'Error: Invalid user or password';
+            }
           });
         } else {
           $scope.message = 'Error: Please fill in form completely'

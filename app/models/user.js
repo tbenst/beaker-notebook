@@ -5,6 +5,7 @@ var Checkit               = require('checkit');
 var Crypto                = require('crypto');
 var moment                = require('moment');
 var PasswordResetException = require('../lib/password_reset_exception');
+var RecordNotUniqueError = require('../lib/record_not_unique_error');
 var path = require('path');
 var fileTree = require('../lib/file_tree_generator');
 var fs = Promise.promisifyAll(require('fs-extra'))
@@ -35,9 +36,21 @@ module.exports = function(Bookshelf, app) {
     },
 
     initialize: function () {
+      this.on("creating", this.ensureValidationCreation, this);
       this.on("created", this.createDefaultProject);
       this.on('saving', this.validate, this);
       this.on('saving', this.hashPassword, this);
+    },
+
+    ensureValidationCreation: function(model, attrs, options) {
+      new Checkit(this.validations).run(model.attributes);
+
+      return User.forge(_.pick(model.attributes, 'email'))
+      .fetch(function(u) {
+        if(user) {
+          throw new RecordNotUniqueError('The entered email is already registered');
+        }
+      });
     },
 
     createDefaultProject: function() {
@@ -239,10 +252,6 @@ module.exports = function(Bookshelf, app) {
   });
 
   User = _.extend(User, {
-    signUp: function(attrs) {
-      return new User(attrs).save()
-    },
-
     signIn: function(attrs) {
       var userEmail = _.pick(attrs, "email");
 

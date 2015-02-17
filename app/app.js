@@ -33,7 +33,7 @@ when(app)
   .then(app.Routes.init)
   .then(appStart)
   .catch(function(err) {
-    console.log(err.stack);
+    console.error(err.stack);
   });
 
 function appConfig(app) {
@@ -75,8 +75,6 @@ function appConfig(app) {
     });
   }
 
-  app.use(express.errorHandler());
-
   app.useMiddleware(AuthController, 'authorize', {except: [
     '/api/status',
     '/api/session',
@@ -87,6 +85,13 @@ function appConfig(app) {
   ]});
 
   app.use(app.router);
+
+  app.use(function(err, req, res, next) {
+    console.error("---------\n", err, "---------\n");
+    next(err);
+  });
+
+  app.use(express.errorHandler());
 
   return app;
 }
