@@ -1,6 +1,6 @@
-(ns bunsen.indexer.two-sigma.datasets
-  (:require [bunsen.indexer.base :as base]
-            [bunsen.indexer.datasets :as sets]
+(ns bunsen.marketplace.two-sigma.datasets
+  (:require [bunsen.marketplace.base :as base]
+            [bunsen.marketplace.datasets :as sets]
             [clj-http.client :as http]
             ))
 

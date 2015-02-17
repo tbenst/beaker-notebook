@@ -1,6 +1,6 @@
-(ns bunsen.indexer.mappings
-  (:require [bunsen.indexer.base :as base]
-            [bunsen.indexer.pipeline :as pipe]
+(ns bunsen.marketplace.mappings
+  (:require [bunsen.marketplace.base :as base]
+            [bunsen.marketplace.pipeline :as pipe]
             [clojurewerkz.elastisch.rest.index :as ind]
             ))
 

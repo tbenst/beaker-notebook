@@ -1,8 +1,8 @@
-(ns bunsen.indexer.test.two-sigma
-  (:require [bunsen.indexer.base :as base]
-            [bunsen.indexer.main :as main]
-            [bunsen.indexer.two-sigma.categories :as ts-cats]
-            [bunsen.indexer.two-sigma.datasets :as ts-sets]
+(ns bunsen.marketplace.test.two-sigma
+  (:require [bunsen.marketplace.base :as base]
+            [bunsen.marketplace.main :as main]
+            [bunsen.marketplace.two-sigma.categories :as ts-cats]
+            [bunsen.marketplace.two-sigma.datasets :as ts-sets]
             [clojurewerkz.elastisch.rest :as rest]
             [clojurewerkz.elastisch.rest.index :as ind]
             [clojure.test :refer :all]

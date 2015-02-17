@@ -1,7 +1,7 @@
-(ns bunsen.indexer.main
-  (:require [bunsen.indexer.base :as base]
-            [bunsen.indexer.categories :as cats]
-            [bunsen.indexer.mappings :as mappings]
+(ns bunsen.marketplace.main
+  (:require [bunsen.marketplace.base :as base]
+            [bunsen.marketplace.categories :as cats]
+            [bunsen.marketplace.mappings :as mappings]
             [clojurewerkz.elastisch.rest.index :as ind]
             [clojurewerkz.elastisch.rest :as rest]
             ))

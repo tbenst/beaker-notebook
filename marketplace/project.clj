@@ -7,7 +7,7 @@
                  [com.taoensso/timbre "3.3.0"]
                  [clojurewerkz/elastisch "2.1.0-beta6"]
                  [wkf/clj-http "1.0.1-SNAPSHOT-MOJO"]
-                 [com.taoensso/timbre "3.3.0"]])
+                 [com.taoensso/timbre "3.3.0"]]
   :source-paths ["src/main"]
   :test-paths ["src/test"]
   :resource-paths ["resources"]

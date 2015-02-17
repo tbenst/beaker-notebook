@@ -1,9 +1,9 @@
-(ns bunsen.indexer.simple.simple
-  (:require [bunsen.indexer.base :as base]
-            [bunsen.indexer.categories :as cats]
-            [bunsen.indexer.mappings :as mappings]
-            [bunsen.indexer.two-sigma.categories :as ts-cats]
-            [bunsen.indexer.datasets :as datasets]
+(ns bunsen.marketplace.simple.simple
+  (:require [bunsen.marketplace.base :as base]
+            [bunsen.marketplace.categories :as cats]
+            [bunsen.marketplace.mappings :as mappings]
+            [bunsen.marketplace.two-sigma.categories :as ts-cats]
+            [bunsen.marketplace.datasets :as datasets]
             [clojure.data.json :as json]
             [clojurewerkz.elastisch.rest.index :as ind]
             [clojurewerkz.elastisch.rest :as rest]

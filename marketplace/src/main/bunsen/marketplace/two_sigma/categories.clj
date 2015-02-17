@@ -1,5 +1,5 @@
-(ns bunsen.indexer.two-sigma.categories
-  (:require [bunsen.indexer.base :as base]))
+(ns bunsen.marketplace.two-sigma.categories
+  (:require [bunsen.marketplace.base :as base]))
 
 (def root-path "0.")
 

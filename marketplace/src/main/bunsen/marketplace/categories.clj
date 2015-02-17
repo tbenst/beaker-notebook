@@ -1,5 +1,5 @@
-(ns bunsen.indexer.categories
-  (:require [bunsen.indexer.base :as base]
+(ns bunsen.marketplace.categories
+  (:require [bunsen.marketplace.base :as base]
             [clojurewerkz.elastisch.rest.document :as doc]
             [clojurewerkz.elastisch.rest.response :as res]
             [clojurewerkz.elastisch.query :as q]

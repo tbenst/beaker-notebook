@@ -1,5 +1,5 @@
-(ns bunsen.indexer.base
-  (:require [bunsen.indexer.pipeline :as pipe]
+(ns bunsen.marketplace.base
+  (:require [bunsen.marketplace.pipeline :as pipe]
             [clj-http.client :as http]
             [clojure.data.json :as json]
             [clojure.java.io :as io]

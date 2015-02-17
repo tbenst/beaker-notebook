@@ -1,7 +1,7 @@
-(ns bunsen.indexer.test.simple
-  (:require [bunsen.indexer.base :as base]
-            [bunsen.indexer.main :as main]
-            [bunsen.indexer.simple.simple :as simple]
+(ns bunsen.marketplace.test.simple
+  (:require [bunsen.marketplace.base :as base]
+            [bunsen.marketplace.main :as main]
+            [bunsen.marketplace.simple.simple :as simple]
             [clojure.java.io :as io]
             [clojurewerkz.elastisch.rest :as rest]
             [clojurewerkz.elastisch.rest.index :as ind]

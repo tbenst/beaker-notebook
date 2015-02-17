@@ -1,4 +1,4 @@
-(ns bunsen.indexer.pipeline)
+(ns bunsen.marketplace.pipeline)
 
 (defn pipeline
   "Given an agent and a collection of stages (stagename, worker function),
