@@ -1,3 +1,5 @@
 h2 Scratch Space Uploads
-ul.file-list
-  li.file-list-item(ng-repeat="file in scratchSpaceFiles | orderBy: 'name'") {{file.name}}
+table.file-list
+  tr.file-list-item(ng-repeat="file in scratchSpaceFiles | orderBy: 'name'")
+    td.name {{file.name}}
+    td.size {{file.stat.size | humanizeFilesize}}

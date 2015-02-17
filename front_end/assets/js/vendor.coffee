@@ -23,3 +23,5 @@
 #= require "../../bower_components/angular-ui-grid/ui-grid.js"
 #= require "../../bower_components/katex/build/katex.min.js"
 #= require "../../bower_components/angular-cookies/angular-cookies.js"
+#= require "../../bower_components/humanize/humanize.js"
+#= require "../../bower_components/angularjs-humanize/src/angular-humanize.js"

@@ -24,4 +24,9 @@ module.exports = function() {
     return new this.Widgets.FileList().length()
     .should.eventually.eql(1);
   });
+
+  this.Then(/^I should see the uploaded file is (.*)$/, function (size) {
+    var fileList = new this.Widgets.FileList();
+    return fileList.readAt({index: 0, selector: ".size"}).should.eventually.eql(size);
+  });
 }
