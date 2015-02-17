@@ -92,6 +92,7 @@
         "PROVISIONER_PORT_3001_TCP_ADDR": "172.17.42.1",
         "PROVISIONER_PORT_3001_TCP_PORT": 3001,
         "SCRATCH_SPACE_ROOT": "/mnt/gluster0/bunsen-staging/scratch",
+        "QUOTA": 10737418240,
         "COOKIE_SALT": "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<",
         "BAMBOO_HOST": "bunsen-staging.withmojo.com",
         "BAMBOO_PATH": "/api"
