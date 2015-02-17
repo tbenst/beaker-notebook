@@ -41,4 +41,8 @@ module.exports = function() {
   this.When(/^I click yes to confirm deletion$/, function() {
     return new this.Widgets.FileList().confirmYes();
   });
+
+  this.Then(/^I should see I have (.+) of free disk space$/, function(size) {
+    return new this.Widgets.DiskUsage().getFreeSpace().should.eventually.eql(size);
+  });
 }
