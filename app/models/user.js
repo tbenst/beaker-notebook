@@ -43,13 +43,14 @@ module.exports = function(Bookshelf, app) {
     },
 
     ensureValidationCreation: function(model, attrs, options) {
-      new Checkit(this.validations).run(model.attributes);
-
-      return User.forge(_.pick(model.attributes, 'email'))
-      .fetch(function(u) {
-        if(user) {
-          throw new RecordNotUniqueError('The entered email is already registered');
-        }
+      return new Checkit(this.validations).run(model.attributes)
+      .then(function() {
+        return User.forge(_.pick(model.attributes, 'email'))
+        .fetch(function(u) {
+          if (u) {
+            throw new RecordNotUniqueError('The entered email is already registered');
+          }
+        });
       });
     },
 
