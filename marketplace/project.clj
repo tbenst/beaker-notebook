@@ -1,4 +1,4 @@
-(defproject indexer "0.1.0-SNAPSHOT"
+(defproject marketplace "0.1.0-SNAPSHOT"
   :description "Manages the Marketplace data for Bunsen."
   :url "https://github.com/twosigma/bunsen"
   :jvm-opts ["-Dsun.security.jgss.native=true"]
