@@ -60,12 +60,8 @@
       });
     };
 
-    $scope.isTagSelected = function(tag) {
-      return _.contains($scope.marketPlace.tagsScope, tag);
-    };
-
     $scope.checkRelatedSetHeight = function() {
-      var dataTags = $scope.marketPlace.tags;
+      var dataTags = $scope.marketPlace.relatedTags;
       var dataTagsToDisplay = 6;
 
       if(dataTags != undefined) {

@@ -55,6 +55,7 @@
 
       F.DataSets.getDataSets($scope.marketPlace, previousRequestsAborter).then(function(d) {
         _.extend($scope.marketPlace, d);
+        $scope.marketPlace.relatedTags = _.difference($scope.marketPlace.filters.tags, $scope.marketPlace.tagsScope);
         TrackingService.mark('MarketPlaceResults');
         TrackingService.measure('BaselineMarketPlaceSearch', 'UnfilteredMarketPlaceSearch', 'MarketPlaceResults');
         TrackingService.measure('BaselineMarketPlaceFilteredSearch', 'FilteredMarketPlaceSearch', 'MarketPlaceResults');
