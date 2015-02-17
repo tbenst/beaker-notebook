@@ -30,8 +30,14 @@
           fromParams: fromParams
         }
 
-        if (!$sessionStorage.user && !toState.skipAuth) {
+        if ($sessionStorage.user) {
+          $scope.user = $sessionStorage.user
+        }
+        else if (!toState.skipAuth) {
           AuthService.setUserIfLoggedIn()
+          .then(function() {
+            $scope.user = $sessionStorage.user;
+          })
           .catch(function() {
             if (!$sessionStorage.user) {
               $rootScope.goTo = toState;
