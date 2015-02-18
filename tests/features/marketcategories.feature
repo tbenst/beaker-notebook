@@ -79,3 +79,16 @@ As a researcher, I want to be able to browse the market place.
       | name       |
       | Federal    |
       | State      |
+
+  Scenario: Category meta-data description
+    Given I have the following categories:
+      | name   | path  | description                    |
+      | Energy | 0.1.3 | Federal energy policy datasets |
+    And I have the following market items:
+      | title                   | categories |
+      | Nuclear power in Canada | Energy     |
+    When I view the market search
+    And I browse the default catalog by category "Energy"
+    And I view the first market item
+    And I return to the list from the market item
+    Then I should see the category description "Federal energy policy datasets"
