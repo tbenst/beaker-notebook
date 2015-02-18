@@ -15,6 +15,16 @@ module.exports = function() {
 
     nameField: function() {
       return this.read('.vendor-name');
+    },
+
+    create: function(vendor) {
+      var _this = this;
+      return this.fill({
+        selector: '.vendor-name',
+        value: [vendor]
+      }).then(function() {
+        return _this.click('.submit');
+      });
     }
   });
 };
