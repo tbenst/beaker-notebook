@@ -11,7 +11,8 @@ module.exports = function() {
       beaker_password: 'bdcd4dc234eaddac4fc036c27dafa74727e756e0',
       job_title: 'Researcher',
       company: 'Two Sigma',
-      bio: 'I got data all around me'
+      bio: 'I got data all around me',
+      role: this.USER_ROLE['researcher']
     }
   };
 
