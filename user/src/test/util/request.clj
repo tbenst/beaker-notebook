@@ -5,8 +5,11 @@
     [clojure.data.json :as json]
     [clj-http.client :as client]))
 
-(def host-name (or (System/getenv "API_HOST")
-                   "http://localhost:3000"))
+(def host-name (str "http://"
+                    (or (System/getenv "API_HOST")
+                        "127.0.0.1") ":"
+                    (or (System/getenv "API_PORT")
+                        "3000")))
 
 (def default-options {
                       :throw-exceptions false

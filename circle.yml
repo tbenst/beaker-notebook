@@ -20,7 +20,7 @@ database:
 
 test:
   override:
-    - make HOST="127.0.0.1" test-integration
+    - make HOST="127.0.0.1" test-user test-integration
 
 deployment:
   staging:

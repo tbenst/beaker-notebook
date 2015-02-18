@@ -13,7 +13,8 @@ IMAGES := \
 	provisioner \
 	beaker \
 	tests \
-	riemann
+	riemann \
+	user
 
 .PHONY: \
 	$(IMAGES) \
@@ -38,9 +39,11 @@ IMAGES := \
 	start-web \
 	start-provisioner \
 	start-riemann \
+	start-tests-user \
 	start-tests-integration \
 	start-beaker \
 	test-integration \
+	test-user \
 	deploy-% \
 	bootstrap-ci \
 	bootstrap-local \
@@ -103,6 +106,13 @@ prepare-web:
 #
 #
 #
+test-user: ENV := test
+test-user: HOST := 10.10.10.10
+test-user: wait-provisioner wait-api wait-web start-tests-user
+	sleep 5
+	docker logs -f bunsen-user
+	exit $$(docker wait bunsen-user)
+
 
 test-integration: ENV := test
 test-integration: HOST := 10.10.10.10
@@ -122,6 +132,10 @@ wait-provisioner: start-provisioner
 
 start-tests-integration:
 	docker run -d -p 5900:5900 --env-file="config/$(ENV).env" --name=bunsen-tests $(REGISTRY)/bunsen-tests:$(TAG) $(COMMANDS)
+
+start-tests-user: COMMANDS := test
+start-tests-user:
+	docker run -d --env-file="config/$(ENV).env" --name=bunsen-user $(REGISTRY)/bunsen-user:$(TAG) $(COMMANDS)
 
 start-web:
 	docker run -d -p 8081:8081 --env-file="config/$(ENV).env" --name=bunsen-web $(REGISTRY)/bunsen-web:$(TAG) $(COMMANDS)
