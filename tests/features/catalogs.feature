@@ -7,7 +7,7 @@ As a researcher, I want to be able to browse different market place catalogs.
     And I have Quandl catalog
 
   Scenario: Default catalog
-    Given I have the following market items:
+    Given index "catalog_0.1" has the following market items:
       | title                  | vendor           | format  | tags         | categories |
       | Credit Card Complaints | Bank of America  | json    | bank,america | Two Sigma  |
     When I view the market search
@@ -19,12 +19,12 @@ As a researcher, I want to be able to browse different market place catalogs.
     And I should see 1 market item on the market list page
 
   Scenario: Browse different catalogs
-    Given I have the following market items:
+    Given index "catalog_0.1" has the following market items:
       | title                  | vendor           | format  | tags         | categories |
       | Credit Card Complaints | Bank of America  | json    | bank,america | Two Sigma  |
-    And I have the following market items:
-      | name              | company          | type    | categories |
-      | Crime in Canada   | World Stats Inc. | xml     | Quandl     |
+    Given index "catalog_0.2" has the following market items:
+      | name           | company          | type | categories |
+      | Crime in Canada | World Stats Inc. | xml  | Quandl     |
     When I view the market search
     And I browse "Quandl" catalog
     Then I should see the following filters:
@@ -34,13 +34,13 @@ As a researcher, I want to be able to browse different market place catalogs.
     And I should see 1 market item on the market list page
 
   Scenario: Search an alternate catalog
-    Given I have the following market items:
-      | title                  | vendor           | format  | tags         | categories |
-      | Credit Card Complaints | Bank of America  | json    | bank,america | Quandl  |
-    And I have the following market items:
-      | name                | company          | type | categories |
-      | Crime in Canada     | World Stats Inc. | xml  | Quandl     |
-      | Zebras in Captivity | Stats Inc.       | xml  | Two Sigma  |
+    And index "catalog_0.2" has the following market items:
+      | name                   | company          | type | categories |
+      | Crime in Canada        | World Stats Inc. | xml  | Quandl     |
+      | Credit Card Complaints | Bank of America. | json | Quandl     |
+    And index "catalog_0.1" has the following market items:
+      | title               | company    | type | categories |
+      | Zebras in Captivity | Stats Inc. | xml  | Two Sigma  |
     When I view the market search
     And I browse "Quandl" catalog
     And I search the top-level marketplace for "Cri"
@@ -55,9 +55,9 @@ As a researcher, I want to be able to browse different market place catalogs.
     Then I should be in "Quandl" catalog
 
   Scenario: Not showing fields not defined for the catalog
-    And I have the following market items:
-      | name              | categories |
-      | Crime in Canada   | Quandl     |
+    Given index "catalog_0.2" has the following market items:
+      | name            | categories |
+      | Crime in Canada | Quandl     |
     When I view the market search
     And I browse "Quandl" catalog
     Then I shouldn't see "Format" field listed on the market list page
