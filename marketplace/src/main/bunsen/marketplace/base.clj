@@ -43,7 +43,9 @@
   [agent description]
   (add-watch agent :log (fn [key ref old-ctx new-ctx]
                           (log/info "agent" description (hash ref)
-                                    "value change" new-ctx))))
+                                    "value change" new-ctx)))
+  (set-error-handler! agent (fn [a ex]
+                              (log/warn ex "agent" description))))
 
 (defn index!
   "Implements a pipeline which downloads and parses a data feed,
