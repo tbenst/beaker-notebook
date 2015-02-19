@@ -12,7 +12,7 @@ module.exports = function() {
       job_title: 'Admin',
       company: 'Two Sigma',
       bio: 'Keeping these parts safe',
-      role: 1
+      role: this.USER_ROLE['administrator']
     }
   };
 

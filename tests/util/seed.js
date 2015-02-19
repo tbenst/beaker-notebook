@@ -7,6 +7,10 @@ var base    = config.bunsenUrl + 'api/seed';
 var del = Promise.promisify(require('request').del);
 
 module.exports = function() {
+  this.USER_ROLE = {
+    researcher: 0,
+    administrator: 1
+  };
 
   this.seed = {
     populate: function(models) {
