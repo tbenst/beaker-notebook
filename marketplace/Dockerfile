@@ -22,11 +22,11 @@ ADD . /opt/marketplace
 ENV LEIN_ROOT 1
 ENV USE_KERBEROS 0
 
-# find out where maven is caching things and use a volume?
-# create a user account with a specific uid?
-# bind mount the role account's keytab?
+# as an optimization, only re`make` if project.clj or the Makefile changes
+ADD Makefile project.clj /opt/marketplace/
+RUN make
 
 EXPOSE 8444
 
-ENTRYPOINT ["lein"]
+ENTRYPOINT ["make"]
 CMD ["run"]
