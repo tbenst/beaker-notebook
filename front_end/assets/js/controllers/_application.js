@@ -27,7 +27,7 @@
 
       $scope.$state = $state;
       $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
-        TrackingService.manageNotebookMarks(toState);
+        TrackingService.manageNotebookMarks(toState, toParams);
 
         $rootScope.referrer = {
           fromState: fromState,
