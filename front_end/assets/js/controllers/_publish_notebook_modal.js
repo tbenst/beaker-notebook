@@ -1,5 +1,13 @@
 ;(function(angular, app) {
-  app.controller('publishNotebook', ['$timeout', '$scope', 'Factories', function($timeout, $scope, F) {
+  app.controller('publishNotebook', [
+    '$timeout',
+    '$scope',
+    'Factories',
+    function(
+      $timeout,
+      $scope,
+      F) {
+
     var publishType;
     $scope.showButtons = true;
 
