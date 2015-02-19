@@ -22,9 +22,26 @@
   }
 
   app.service('TrackingService', [
+    'Beaker',
     'Factories',
-    function(F) {
+    function(
+      Beaker,
+      F) {
+
     return {
+      manageNotebookMarks: function(toState) {
+        var _this = this;
+        if (toState.name == 'projects.items.item.notebook' && !creatingNotebook) {
+          Beaker.getBeakerInstance().then(function(instance) {
+            var markName = instance !== 'null' ? 'LoadProvisionedNotebook' : 'LoadUnprovisionedNotebook';
+            _this.mark(markName);
+          });
+        }
+        else {
+          _this.setNotebookState(false);
+        }
+      },
+
       mark: function(name) {
         performance.clearMarks(name);
         performance.mark(name);
@@ -42,10 +59,6 @@
 
       setNotebookState: function(bool) {
         creatingNotebook = bool;
-      },
-
-      getNotebookState: function() {
-        return creatingNotebook;
       }
     };
   }]);

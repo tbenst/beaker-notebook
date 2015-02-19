@@ -10,7 +10,6 @@
     'AuthService',
     'Factories',
     'BeakerNotebookService',
-    'Beaker',
     'TrackingService',
     function(
       $rootScope,
@@ -23,20 +22,12 @@
       AuthService,
       F,
       BeakerNotebookService,
-      Beaker,
       TrackingService) {
       $rootScope.$session = $sessionStorage;
 
       $scope.$state = $state;
       $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
-        if (toState.name == 'projects.items.item.notebook' && !TrackingService.getNotebookState()) {
-          Beaker.getBeakerInstance().then(function(instance) {
-            var markName = instance !== 'null' ? 'LoadProvisionedNotebook' : 'LoadUnprovisionedNotebook';
-            TrackingService.mark(markName);
-          });
-        } else {
-          TrackingService.setNotebookState(false);
-        }
+        TrackingService.manageNotebookMarks(toState);
 
         $rootScope.referrer = {
           fromState: fromState,
