@@ -1,5 +1,5 @@
 (defproject indexer "0.1.0-SNAPSHOT"
-  :description "I index the TwoSigma dataset metadata."
+  :description "Manages the Marketplace data for Bunsen."
   :resource-paths ["resources"]
   :jvm-opts ["-Dsun.security.jgss.native=true"]
   :dependencies [[org.clojure/clojure "1.6.0"]
