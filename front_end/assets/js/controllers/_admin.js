@@ -2,6 +2,6 @@
   app.controller('admin', [
     'AuthService',
     function(AuthService) {
-      AuthService.isUserAdmin();
+      AuthService.researcherRedirect();
   }]);
 })(angular, window.bunsen);

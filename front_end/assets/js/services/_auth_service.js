@@ -15,8 +15,8 @@
             $sessionStorage.user = _.pick(user, 'name', 'id', 'role');
           })
         },
-        isUserAdmin: function() {
-          if($sessionStorage.user.role < 1) {
+        researcherRedirect: function() {
+          if(!_.has($sessionStorage.user, 'role') || $sessionStorage.user.role == 0) {
             $state.go('projects.items');
           }
         }
