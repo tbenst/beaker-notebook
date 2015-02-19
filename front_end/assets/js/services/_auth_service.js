@@ -16,9 +16,12 @@
           })
         },
         researcherRedirect: function() {
-          if(!_.has($sessionStorage.user, 'role') || $sessionStorage.user.role == 0) {
+          if(!this.isUserAdmin()) {
             $state.go('projects.items');
           }
+        },
+        isUserAdmin: function() {
+          return _.has($sessionStorage.user, 'role') && $sessionStorage.user.role >= 1;
         }
       }
   }]);
