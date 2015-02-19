@@ -13,9 +13,7 @@
   [es-conn index-name filename]
   (base/index! es-conn index-name "categories" filename
                slurp
-               (fn [result]
-                 (map (fn [cat] (assoc cat :_id (:id cat)))
-                      (json/read-str result :key-fn keyword)))
+               cats/->json-for-elastisch
                base/bulk-to-es!))
 
 (defn prepare-dataset

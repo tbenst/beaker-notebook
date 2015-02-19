@@ -1,9 +1,18 @@
 (ns bunsen.marketplace.categories
   (:require [bunsen.marketplace.base :as base]
+            [clojure.data.json :as json]
             [clojurewerkz.elastisch.rest.document :as doc]
             [clojurewerkz.elastisch.rest.response :as res]
             [clojurewerkz.elastisch.query :as q]
             ))
+
+(defn ->json-for-elastisch
+  "Reads a JSON array of preformatted categories data from a string,
+  and copies the the id attribute of each element over to _id for
+  digestion by elastisch"
+  [raw]
+  (map (fn [cat] (assoc cat :_id (:id cat)))
+       (json/read-str raw :key-fn keyword)))
 
 (defn fetch-count
   "Isses an ES query for the count for the datasets belonging
