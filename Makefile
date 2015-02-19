@@ -11,6 +11,7 @@ IMAGES := \
 	web \
 	api \
 	provisioner \
+	marketplace \
 	beaker \
 	tests \
 	riemann \
@@ -35,9 +36,11 @@ IMAGES := \
 	wait-api \
 	wait-web \
 	wait-provisioner \
+	wait-marketplace \
 	start-api \
 	start-web \
 	start-provisioner \
+	start-marketplace \
 	start-riemann \
 	start-tests-user \
 	start-tests-integration \
@@ -114,9 +117,10 @@ test-user: wait-provisioner wait-api wait-web start-tests-user
 	exit $$(docker wait bunsen-user)
 
 
+
 test-integration: ENV := test
 test-integration: HOST := 10.10.10.10
-test-integration: wait-provisioner wait-api wait-web start-tests-integration
+test-integration: wait-provisioner wait-marketplace wait-api wait-web start-tests-integration
 	sleep 5
 	docker logs -f bunsen-tests
 	exit $$(docker wait bunsen-tests)
@@ -129,6 +133,9 @@ wait-api: start-api
 
 wait-provisioner: start-provisioner
 	wget -qO- --retry-connrefused --tries=20 "$(HOST):3001/api/v1/status"
+
+wait-marketplace: start-marketplace
+	wget -qO- --retry-connrefused --tries=20 "$(HOST):8444/api/v1/status"
 
 start-tests-integration:
 	docker run -d -p 5900:5900 --env-file="config/$(ENV).env" --name=bunsen-tests $(REGISTRY)/bunsen-tests:$(TAG) $(COMMANDS)
@@ -146,6 +153,9 @@ start-api:
 start-provisioner:
 	docker run -d -p 3001:3001 --env-file="config/$(ENV).env" --name=bunsen-provisioner \
 		-e PROVISIONER_DEFAULT_CONTAINER_IMAGE=$(REGISTRY)/bunsen-beaker:$(TAG) $(REGISTRY)/bunsen-provisioner:$(TAG) $(COMMANDS)
+
+start-marketplace:
+	docker run -d -p 8444:8444 --env-file="config/$(ENV).env" --name=bunsen-marketplace $(REGISTRY)/bunsen-marketplace:$(TAG) $(COMMANDS)
 
 start-beaker:
 	docker run -d -p 8801:8801 --env-file="config/$(ENV).env" --name=bunsen-beaker $(REGISTRY)/bunsen-beaker:$(TAG) $(COMMANDS)
