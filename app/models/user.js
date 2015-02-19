@@ -193,6 +193,14 @@ module.exports = function(Bookshelf, app) {
       });
     },
 
+    deleteFiles: function(files) {
+      var _this = this;
+      return Promise.each(files, function(file) {
+        var filePath = file.replace(process.env.SCRATCH_SPACE_ROOT, '');
+        return fs.unlinkAsync(_this.getScratchSpacePath() + filePath);
+      });
+    },
+
     beakerConfig: function() {
       var user = this;
 

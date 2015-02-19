@@ -20,13 +20,25 @@ module.exports = function() {
     .upload(path.resolve("fixtures/", "doge.jpg"));
   });
 
-  this.Then(/^I should see uploaded files$/, function() {
+  this.Then(/^I should see (\d+) uploaded file(s*)$/, function(fileCount) {
     return new this.Widgets.FileList().length()
-    .should.eventually.eql(1);
+    .should.eventually.eql(parseInt(fileCount));
   });
 
   this.Then(/^I should see the uploaded file is (.*)$/, function (size) {
     var fileList = new this.Widgets.FileList();
     return fileList.readAt({index: 0, selector: ".size"}).should.eventually.eql(size);
+  });
+
+  this.When(/^I select the file "([^"]*)"$/, function(fileName) {
+    return new this.Widgets.FileList().selectFile(fileName);
+  });
+
+  this.When(/^I delete the selected files$/, function() {
+    return new this.Widgets.FileList().clickDelete();
+  });
+
+  this.When(/^I click yes to confirm deletion$/, function() {
+    return new this.Widgets.FileList().confirmYes();
   });
 }
