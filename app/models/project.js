@@ -8,33 +8,20 @@ module.exports = function(Bookshelf, app) {
   var models = app.Models;
   var query   = Bookshelf.knex;
 
-  function notebooks(userId, projectId) {
-    return models.Notebook.list({userId: userId, projectId: projectId})
-      .then(function(notebooks) {
-        var updates = _.map(notebooks, function(notebook) {
-          return new Date(notebook.updated_at);
-        });
-
-        var numCommits = _.reduce(notebooks, function(sum, notebook) {
-          return sum + notebook.numCommits;
-        }, 0);
-
-        return {
-          notebooks: notebooks,
-          numCommits: numCommits,
-          lastUpdated: Math.max.apply(null, updates)
-        };
-      });
-  }
-
-  function maxDate(a, b) {
-    return new Date(Math.max(a, b));
-  }
-
   var Project = Bookshelf.Model.extend({
     tableName: "projects",
     hasTimestamps: true,
     idAttrs: ["name"],
+
+    virtuals: {
+      lastUpdatedAt: function() {
+        var dates = _.map(this.related('notebooks').models, function(i) {
+          return new Date(i.get('updatedAt'));
+        });
+        dates.push(new Date(this.get('updatedAt')));
+        return new Date(Math.max.apply(null, dates));
+      }
+    },
 
     initialize: function() {
       this.on("saving", this.validateName);
@@ -62,13 +49,23 @@ module.exports = function(Bookshelf, app) {
         }.bind(this));
     },
 
+    countCommits: function() {
+      return bluebird.reduce(this.related('notebooks').models, function(sum, notebook) {
+        return notebook.numCommits().then(function(n) {
+          return sum + n;
+        })
+      }, 0);
+    },
+
     withNotebooks: function() {
-      var _this = this;
-      return notebooks(this.get('ownerId'), this.id)
-        .then(function(n) {
-          _this.attributes.lastUpdatedAt = maxDate(new Date(_this.get('updated_at')), n.lastUpdated);
-          return _.extend(_this.attributes, n);
-        });
+      return this.load('notebooks')
+      .then(function(project) {
+        return project.countCommits()
+        .then(function(count) {
+          project.attributes.numCommits = count;
+          return project;
+        })
+      });
     },
 
     notebooks: function() {
@@ -98,18 +95,10 @@ module.exports = function(Bookshelf, app) {
         .then(function(q) {
           return query.raw(q.join("\nINTERSECT\n"));
         })
-        .then(function(result) {
-          return bluebird.map(result.rows, function(row) {
-            return notebooks(row.ownerId, row.id)
-              .then(function(n) {
-                row.lastUpdatedAt = maxDate(new Date(row.updated_at), n.lastUpdated);
-                return _.extend(row, n);
-              })
-          });
-        })
-        .then(function (models) {
-          return models.map( function (attr) {
-            return new Project(attr, {parse: true});
+        .then(function (result) {
+          return bluebird.map(result.rows, function (attr) {
+            var project = new Project(attr, {parse: true});
+            return project.withNotebooks();
           })
         })
     },

@@ -38,21 +38,6 @@ function getGitPath() {
   return Path.join(__dirname, "../", ".repos", ""+ this.get("id") + "/.git");
 }
 
-function addCommitCount(notebook) {
-  var git = new Git(Path.dirname(generateNotebookFilePath.call(notebook)));
-
-  return git.open()
-  .then(function(repo) {
-    return git.numCommits(repo).then(function(count) {
-      notebook.set('numCommits', count);
-      return notebook.attributes;
-    });
-  })
-  .catch(function(e) {
-    return handleGitError(e, notebook);
-  });
-}
-
 function readFile(filePath) {
   return nodefn.call(fs.readFile, filePath).then(JSON.parse);
 }
@@ -115,6 +100,19 @@ function Notebook(Bookshelf, app) {
           .then(function(parent) {
             return git.commit(oid, [parent]);
           });
+      });
+    },
+
+    numCommits: function() {
+      var _this = this;
+      var git = new Git(Path.dirname(generateNotebookFilePath.call(this)));
+
+      return git.open()
+      .then(function(repo) {
+        return git.numCommits(repo);
+      })
+      .catch(function(e) {
+        return handleGitError(e, _this);
       });
     },
 
@@ -222,20 +220,6 @@ function Notebook(Bookshelf, app) {
       return fsx.remove(getGitPath.call(this));
     }
   });
-
-  Notebook.list = function(opts) {
-    return Notebook
-      .query(function (q) {
-        q.where("project_id", opts.projectId)
-        q.orderBy('name', 'ASC')
-      })
-      .fetchAll()
-      .then(function(notebooks) {
-        return when.map(notebooks.models, function(notebook) {
-          return addCommitCount(Notebook.forge(notebook.attributes))
-        });
-      });
-  };
 
   Notebook.load = function(opts) {
     return Notebook.forge(opts).fetch().then(function(notebook) {
