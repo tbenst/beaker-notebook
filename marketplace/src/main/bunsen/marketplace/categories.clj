@@ -2,17 +2,23 @@
   (:require [bunsen.marketplace.base :as base]
             [clojure.data.json :as json]
             [clojurewerkz.elastisch.rest.document :as doc]
+            [clojurewerkz.elastisch.rest.index :as ind]
             [clojurewerkz.elastisch.rest.response :as res]
             [clojurewerkz.elastisch.query :as q]
             ))
+
+(defn add-id-for-elastisch
+  "Adds the _id element (copied from existing 'id') to each category"
+  [categories]
+  (map (fn [cat] (assoc cat :_id (:id cat)))
+       categories))
 
 (defn ->json-for-elastisch
   "Reads a JSON array of preformatted categories data from a string,
   and copies the the id attribute of each element over to _id for
   digestion by elastisch"
   [raw]
-  (map (fn [cat] (assoc cat :_id (:id cat)))
-       (json/read-str raw :key-fn keyword)))
+  (add-id-for-elastisch (json/read-str raw :key-fn keyword)))
 
 (defn fetch-count
   "Isses an ES query for the count for the datasets belonging
@@ -50,3 +56,24 @@
   (doseq [category categories]
     (let [[id {:keys [path] :as attrs}] category]
       (await-for 5000 (cache-subtree-count! es-conn index-name id path)))))
+
+
+(defn update-mappings!
+  "Updates mappings to avoid indexing filter fields for the index's catalogs."
+  [es-conn index-name categories]
+  (let [metas (->> (vals categories)
+                   (map :metadata)
+                   (keep identity))
+        filter-fields (mapcat (fn [meta]
+                                (filter (fn [[k v]] (contains?
+                                                     (set (:indexes v))
+                                                     "filter"))
+                                        meta)) metas)
+        filter-names (map first filter-fields)
+        mappings (into {} (map
+                           (fn [f] [f {:type "string" :index "not_analyzed"}])
+                           filter-names))
+        req {:datasets {:properties mappings}}]
+    (println "filter-fields" filter-fields)
+    (ind/update-mapping es-conn index-name "datasets" :mapping req)
+    ))
