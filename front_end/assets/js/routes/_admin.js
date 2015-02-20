@@ -6,7 +6,7 @@
         abstract: true,
         views: {
           root: {
-            controller: function() {},
+            controller: 'admin',
             template: templates['admin/root']
           }
         }
@@ -15,7 +15,6 @@
         url: '/admin',
         views: {
           "app@admin": {
-            controller: 'admin',
             template: templates['admin/index']
           }
         }

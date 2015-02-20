@@ -48,8 +48,8 @@ module.exports = function(app) {
 
     destroy: function(req, res, next) {
       if (!req.vendor) {
-         res.status(404);
-         throw new Error("Unable to find Vendor to delete");
+        res.status(404);
+        throw new Error("Unable to find Vendor to delete");
       }
 
       req.vendor.destroy()

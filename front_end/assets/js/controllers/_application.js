@@ -50,6 +50,7 @@
         return $cookies.user;
       }, function() {
         if ($cookies.user && $sessionStorage.user) {
+          $scope.isUserAdmin = AuthService.isUserAdmin();
           F.Notebooks.getOpened().then(function(notebooks) {
             if (notebooks.length) {
               return BeakerNotebookService.loadOpened(notebooks);

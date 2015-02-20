@@ -21,6 +21,10 @@ module.exports = function(Bookshelf, app) {
     hasTimestamps: true,
     idAttrs: ["email"],
 
+    defaults: {
+      role: 0
+    },
+
     validations: {
       email: ['required', 'email', function(email) {
         var _this = this.target;
@@ -257,6 +261,10 @@ module.exports = function(Bookshelf, app) {
       return {
         url: 'beaker:' + this.get('beakerPassword') + '@' + process.env['HOSTNAME'] + '/beaker/' + this.id + '/beaker/'
       };
+    },
+
+    isAdmin: function() {
+      return this.get('role') == 1;
     }
   });
 

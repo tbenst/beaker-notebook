@@ -1,9 +1,9 @@
 module.exports = function() {
   return this.Widgets.Admin = this.Widget.extend({
-    root: '.roots .admin',
+    root: '.admin-container',
 
     getHeader: function() {
-      return this.read('h1');
+      return this.read('h2');
     }
   });
 };
