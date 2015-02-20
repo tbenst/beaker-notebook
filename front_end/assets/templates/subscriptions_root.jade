@@ -30,7 +30,7 @@
         .col-half
           h4 Recently used datasets
           ul.link-list.recently-used
-            li(ng-repeat="subscription in subscriptions | orderBy:createdAt:true | limitTo:4")
+            li(ng-repeat="subscription in subscriptions | orderBy:'createdAt':true | limitTo:4")
               a(ui-sref="marketPlace.items.item({index: subscription.dataSet.index, id: subscription.dataSet.id})") {{subscription.dataSet.title}}
 
       ul.subscription-list.bunsen-list

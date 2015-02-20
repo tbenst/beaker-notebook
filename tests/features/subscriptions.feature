@@ -17,8 +17,8 @@ Feature: Subscriptions
     And I should see a total cost of $0 in the overview
     And I should see the following subscriptions in the overview:
       | title               | remoteFile | description  |
-      | Crime Rates, Canada | CRIME.xml  | pretty bad   |
       | Population, Canada  | POP.xml    | somewhat low |
+      | Crime Rates, Canada | CRIME.xml  | pretty bad   |
 
   Scenario: Seeing subscribed datasets
     When I view My Datasets
