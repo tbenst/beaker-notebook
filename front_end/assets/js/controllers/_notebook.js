@@ -62,6 +62,9 @@
       Notebooks.update({id: notebook.id, open: true});
       $scope.notebook = {current: notebook};
       $rootScope.cachedNotebooks[notebook.id] = notebook;
+      TrackingService.mark('CachedNotebookLoaded');
+      TrackingService.measure('BaselineCachedProvisionedNotebookLoad', 'LoadCachedProvisionedNotebook', 'CachedNotebookLoaded');
+      TrackingService.measure('BaselineCachedUnprovisionedNotebookLoad', 'LoadCachedUnprovisionedNotebook', 'CachedNotebookLoaded');
     }
 
     if (cached = $rootScope.cachedNotebooks[$state.params.notebook_id]) {

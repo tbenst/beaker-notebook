@@ -22,9 +22,33 @@
   }
 
   app.service('TrackingService', [
+    '$rootScope',
+    'Beaker',
     'Factories',
-    function(F) {
+    function(
+      $rootScope,
+      Beaker,
+      F) {
+
     return {
+      manageNotebookMarks: function(toState, toParams) {
+        var _this = this;
+        if (toState.name == 'projects.items.item.notebook' && !creatingNotebook) {
+          Beaker.getBeakerInstance().then(function(instance) {
+            if ( _($rootScope.cachedNotebooks).pluck('id').contains(parseInt(toParams.notebook_id)) ) {
+              var markName = instance !== 'null' ? 'LoadCachedProvisionedNotebook' : 'LoadCachedUnprovisionedNotebook';
+            }
+            else {
+              var markName = instance !== 'null' ? 'LoadProvisionedNotebook' : 'LoadUnprovisionedNotebook';
+            }
+            _this.mark(markName);
+          });
+        }
+        else {
+          _this.setNotebookState(false);
+        }
+      },
+
       mark: function(name) {
         performance.clearMarks(name);
         performance.mark(name);
@@ -42,10 +66,6 @@
 
       setNotebookState: function(bool) {
         creatingNotebook = bool;
-      },
-
-      getNotebookState: function() {
-        return creatingNotebook;
       }
     };
   }]);

@@ -3,11 +3,18 @@
     '$scope',
     '$stateParams',
     'Factories',
-    function($scope, $stateParams, Factories) {
+    'TrackingService',
+    function(
+      $scope,
+      $stateParams,
+      Factories,
+      TrackingService) {
+
       var F = Factories;
       var categoryID = $stateParams.category_id;
 
       function loadPublications() {
+        TrackingService.mark('PublicationListLoad');
         var query = {
               limit: $scope.publications.itemsPerPage,
               category_id: categoryID,
@@ -24,6 +31,8 @@
 
         return F.Publications.getPublications(query).then(function(publications) {
           $scope.publications.list = publications;
+          TrackingService.mark('PublicationListLoaded');
+          TrackingService.measure('BaselinePublicationListLoad', 'PublicationListLoad', 'PublicationListLoaded');
         });
       }
 
