@@ -10,9 +10,11 @@ module.exports = function(Bookshelf, app) {
       this.on("saving", this.validate, this);
     },
     validate: function (model, attrs, options) {
-      Vendor.forge({name: attrs.name}).fetch()
+      return Vendor.forge({name: model.attributes.name}).fetch()
       .then(function(vendor) {
-        if(vendor) throw new RecordNotUniqueError('Vendor name already taken');
+        if(vendor && vendor.id != model.id) {
+          throw new RecordNotUniqueError('Vendor name already taken');
+        }
       });
     }
   });
