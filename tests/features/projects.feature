@@ -199,7 +199,21 @@ As a researcher, I want to manage my projects.
     And I update the project as follows:
       | description                               |
       | Researching a new theory on stock prices  |
-    Then I should see last updated as today's date
+    Then I should see project's last updated as today's date
+
+  Scenario: Project with notebooks updated date
+    Given I have the following Projects:
+      | name              | description                          | updatedAt                 |
+      | Finance Research  | Researching a theory on stock prices | 2014-04-29 09:45:18.697   |
+    And I have the following notebooks:
+      | name              | projectName      | updatedAt               |
+      | Data preparation  | Finance Research | 2014-04-29 09:45:18.697 |
+      | Hadoop map-reduce | Finance Research | 2014-12-30 09:45:18.697 |
+    And I view my projects
+    When I open the "Finance Research" project
+    When I view the notebook "Data preparation"
+    And I close the notebook
+    Then I should see project's last updated as today's date
 
   Scenario: Recently Used Notebooks
     Given I have the following Projects:
