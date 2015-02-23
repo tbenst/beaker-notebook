@@ -270,6 +270,15 @@ As a researcher, I want to be able to use the market place.
     And I should see the "Crime Rates, Canada" market item on the market list page
     And I should see the "Population in Canada" market item on the market list page
 
+  Scenario: Skipping current tag in related tags
+    Given I have the following market items:
+      | title                      | tags               |
+      | Crime Rates, Canada        | crime,stats,canada |
+      | Population in Canada       | census,canada      |
+    When I view the market search
+    And I filter by search by selecting the "canada" tags
+    Then I should see the related tags "census,stats,crime"
+
   Scenario: Market item description in list
     Given I have the following market items:
       | title                     | description                               | format | vendor |
