@@ -50,5 +50,9 @@ module.exports = function(app) {
         res.status(200).end();
       });
     },
+
+    quota: function(req, res, next) {
+      res.send(process.env.QUOTA);
+    }
   }
 }

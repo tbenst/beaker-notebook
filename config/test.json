@@ -108,7 +108,8 @@
         "ELASTICSEARCH_PORT_9200_TCP_PORT": "19200",
         "PROVISIONER_PORT_3001_TCP_ADDR": "172.17.42.1",
         "PROVISIONER_PORT_3001_TCP_PORT": "13001",
-        "SCRATCH_SPACE_ROOT": "/var/bunsen/test/beaker"
+        "SCRATCH_SPACE_ROOT": "/var/bunsen/test/beaker",
+        "QUOTA": 102400
       },
       "healthChecks": [
         {

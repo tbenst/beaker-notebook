@@ -59,6 +59,10 @@
     return {
       restrict: "E",
       template: templates['directives/file_uploader'],
+      scope: {
+        message: '=',
+        onUploaded: '&'
+      },
       controller: ['$scope', function($scope) {
         var timeout;
 
@@ -79,10 +83,10 @@
             if (timeout) {$timeout.cancel(timeout)}
             if (seconds) {
               timeout = $timeout(function() {
-                delete $scope.fileUploadMessage;
+                delete $scope.message;
               }, seconds * 1000);
             }
-            $scope.fileUploadMessage = msg;
+            $scope.message = msg;
           }
 
           $scope.$apply(function() {
@@ -93,6 +97,7 @@
           .on("end", function() {
             $scope.$apply(function() {
               showMessage(formatMessage("uploaded"), 5);
+              $scope.onUploaded();
             });
           })
           .on("error", function(err) {
