@@ -1,14 +1,15 @@
-(ns bunsen.marketplace.component.config
-  (:require [clojure.java.io :as io]
-            [clojure.data.json :as json]
-            [clojure.string :refer [join]]))
+(ns bunsen.marketplace.component.config)
 
 (defn config
-  "
-  :server-port e.g. 8444
-  :elasticsearch-url, e.g. http://10.10.10.10:9200
-  "
+  ":server-port e.g. 8444
+   :elasticsearch-url, e.g. http://10.10.10.10:9200"
   [env]
   {:server-port (Integer. (:marketplace-port env))
-   :elasticsearch-url (join "" ["http://" (:elasticsearch-host env) ":"
-                                (:elasticsearch-port env)])})
+   :elasticsearch-url (format "http://%s:%s"
+                              (:elasticsearch-host env)
+                              (:elasticsearch-port env))
+   :elasticsearch-options (let [user (:elasticsearch-user env)
+                                pass (:elasticsearch-pass env)]
+                            (if-not (and user pass)
+                              {}
+                              {:basic-auth [user pass]}))})

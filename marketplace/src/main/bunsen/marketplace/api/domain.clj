@@ -16,8 +16,9 @@
   body = string representation of request body
   biz-fn = business task that we intend to perform"
   [config body biz-fn]
-  (let [es-url (:elasticsearch-url config)
-        es-conn (rest/connect es-url)
+  (let [es-conn (rest/connect
+                  (:elasticsearch-url config)
+                  (:elasticsearch-options config))
         payload (json/read-str body :key-fn keyword)
         index-name (:indexName payload)]
     (biz-fn es-conn index-name payload)))
