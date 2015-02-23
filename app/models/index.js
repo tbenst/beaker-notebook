@@ -18,6 +18,7 @@ module.exports.init = function(app, configPath) {
   }
 
   var DB = app.DB || Bookshelf.initialize(knex(config));
+  DB.plugin('virtuals');
 
   //When creating relationships bookshelf adds pivot keys
   //The pivot keys return incorrectly after being formatted and parsed so we should just ignore them
