@@ -216,7 +216,11 @@
         8444
       ],
       "env": {
-        "MARKETPLACE_PORT": 8444
+        "MARKETPLACE_PORT": 8444,
+        "ELASTICSEARCH_HOST": "172.17.42.1",
+        "ELASTICSEARCH_PORT": 9200,
+        "ELASTICSEARCH_USER": "bunsen",
+        "ELASTICSEARCH_PASS": "s6nFTwtbZP3wHh"
       },
       "healthChecks": [
         {
