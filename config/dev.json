@@ -24,14 +24,7 @@
               "protocol": "tcp"
             }
           ]
-        },
-        "volumes": [
-          {
-            "hostPath": "/var/bunsen/postgres",
-            "containerPath": "/var/lib/postgresql/9.3/main",
-            "mode": "RW"
-          }
-        ]
+        }
       },
       "healthChecks": [
         {
@@ -147,6 +140,54 @@
         },
         "SERVICE_HOST": "",
         "SERVICE_PATH": "/beaker"
+      },
+      "healthChecks": [
+        {
+          "protocol": "HTTP",
+          "path": "/api/v1/status",
+          "gracePeriodSeconds": 60,
+          "intervalSeconds": 10,
+          "portIndex": 0,
+          "timeoutSeconds": 5,
+          "maxConsecutiveFailures": 5
+        }
+      ],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0
+      }
+    },
+    {
+      "id": "marketplace",
+      "cmd": "",
+      "cpus": 0.1,
+      "mem": 100,
+      "ports": [
+        ""
+      ],
+      "instances": 1,
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "network": "BRIDGE",
+          "image": "marketplace",
+          "portMappings": [
+            {
+              "containerPort": 8444,
+              "servicePort": "",
+              "protocol": "tcp"
+            }
+          ]
+        },
+        "volumes": [
+          {
+            "hostPath": "/vagrant/marketplace",
+            "containerPath": "/opt/marketplace",
+            "mode": "RW"
+          }
+        ]
+      },
+      "env": {
+        "SERVER_PORT": 8444
       },
       "healthChecks": [
         {

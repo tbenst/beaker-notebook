@@ -65,6 +65,48 @@
       }
     },
     {
+      "id": "/bunsen-test/marketplace",
+      "cmd": "",
+      "cpus": 0.1,
+      "mem": 100,
+      "ports": [
+        "8444"
+      ],
+      "instances": 1,
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "network": "BRIDGE",
+          "image": "provisioner",
+          "portMappings": [
+            {
+              "containerPort": 8444,
+              "servicePort": "",
+              "protocol": "tcp"
+            }
+          ]
+        }
+      },
+      "env": {
+        "SERVER_PORT": 8444,
+        "APP_GROUP": "/bunsen-test/beaker"
+      },
+      "healthChecks": [
+        {
+          "protocol": "HTTP",
+          "path": "/api/v1/status",
+          "gracePeriodSeconds": 10,
+          "intervalSeconds": 10,
+          "portIndex": 0,
+          "timeoutSeconds": 5,
+          "maxConsecutiveFailures": 3
+        }
+      ],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0
+      }
+    },
+    {
       "id": "/bunsen-test/api",
       "args": [
         "--migrate"
@@ -108,6 +150,8 @@
         "ELASTICSEARCH_PORT_9200_TCP_PORT": "19200",
         "PROVISIONER_PORT_3001_TCP_ADDR": "172.17.42.1",
         "PROVISIONER_PORT_3001_TCP_PORT": "13001",
+        "MARKETPLACE_HOST": "172.17.42.1",
+        "MARKETPLACE_PORT": "18444",
         "SCRATCH_SPACE_ROOT": "/var/bunsen/test/beaker",
         "QUOTA": 102400
       },
