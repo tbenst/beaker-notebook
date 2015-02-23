@@ -22,32 +22,41 @@
 
     $scope.item = {};
 
-    $scope.ratingAttrs = {
-      rateableId: 'data_sets' + $state.params.index + $state.params.id.toString(),
-      userId: $sessionStorage.user.id
-    };
-
-    F.DataSets.getDataSet($state.params.index, $state.params.id).then(function(d) {
-      $scope.item = Restangular.stripRestangular(d);
-      $scope.subscribed = _.contains(d.subscriberIds, $sessionStorage.user.id);
-      if ($scope.item.csvPreview) {
-        $scope.item.tabView = 'table';
-        $scope.tableDataPreview = DFS.buildTable($scope.item);
+    var unbindWatcher = $scope.$watch('user', function(v) {
+      if (v) {
+        getItemWithRatings();
+        unbindWatcher();
       }
-      else if ($scope.item.dataPreviews !== undefined ) {
-        $scope.item.tabView = 'thumbnail';
-      }
-
-      F.Ratings.averageRating($scope.ratingAttrs)
-      .then(function(count) {
-        _.extend($scope.item, {averageRating: parseFloat(count)});
-      });
-
-      F.Ratings.userRating($scope.ratingAttrs)
-      .then(function(rate) {
-        _.extend($scope.item, {userRating: rate});
-      });
     });
+
+    function getItemWithRatings() {
+      $scope.ratingAttrs = {
+        rateableId: 'data_sets' + $state.params.index + $state.params.id.toString(),
+        userId: $sessionStorage.user.id
+      };
+
+      F.DataSets.getDataSet($state.params.index, $state.params.id).then(function(d) {
+        $scope.item = Restangular.stripRestangular(d);
+        $scope.subscribed = _.contains(d.subscriberIds, $sessionStorage.user.id);
+        if ($scope.item.csvPreview) {
+          $scope.item.tabView = 'table';
+          $scope.tableDataPreview = DFS.buildTable($scope.item);
+        }
+        else if ($scope.item.dataPreviews !== undefined ) {
+          $scope.item.tabView = 'thumbnail';
+        }
+
+        F.Ratings.averageRating($scope.ratingAttrs)
+        .then(function(count) {
+          _.extend($scope.item, {averageRating: parseFloat(count)});
+        });
+
+        F.Ratings.userRating($scope.ratingAttrs)
+        .then(function(rate) {
+          _.extend($scope.item, {userRating: rate});
+        });
+      });
+    }
 
     if (_.contains($rootScope.referrer.fromState.name, 'subscriptions')) {
       $scope.referrerList = 'subscriptions.items';
