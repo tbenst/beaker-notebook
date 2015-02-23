@@ -1,7 +1,7 @@
 (ns vendor.api-test
   (:require [clojure.test :refer :all]
             [clojure.data.json :as json]
-            [util.request :refer :all]))
+            [bunsen.common.helper.request :refer :all]))
 
 (deftest finding-a-vendor-by-id
   (testing "looking up a vendor by id"

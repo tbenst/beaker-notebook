@@ -1,4 +1,4 @@
-(ns util.request
+(ns bunsen.common.helper.request
   (:require
     [clj-http.cookies :as cookies]
     [clojure.string :as str]
@@ -46,22 +46,26 @@
 (defn drop-all
   ([] (drop-all (constantly nil)))
   ([f]
-    (post "/api/seed/drop-all")
-    (f)))
+   (post "/api/seed/drop-all")
+   (f)))
 
 (defn seed [data]
   (post "/api/seed/data"
         {:body (json/write-str data)
          :content-type :json}))
 
-(defn sign-in []
-  (let [cookie (cookies/cookie-store)]
-    (post "/api/seed/sign-up" {
-                               :form-params {
-                                             :name "Bob Jones"
-                                             :email "bob@bob.com"
-                                             :password "bob1234"
-                                             }
-                               :cookie-store cookie
-                               })
-    cookie))
+(defn sign-in
+  ([] (sign-in 0))
+  ([role]
+   (let [cookie (cookies/cookie-store)]
+     (post "/api/seed/sign-up" {
+                                :form-params {
+                                              :data {
+                                                     :name "Bob Jones"
+                                                     :email "bob@bob.com"
+                                                     :password "bob1234"
+                                                     :role role
+                                                     }}
+                                :cookie-store cookie
+                                })
+     cookie)))

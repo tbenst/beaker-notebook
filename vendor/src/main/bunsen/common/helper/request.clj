@@ -1,4 +1,4 @@
-(ns util.request
+(ns bunsen.common.helper.request
   (:require
     [clj-http.cookies :as cookies]
     [clojure.string :as str]
