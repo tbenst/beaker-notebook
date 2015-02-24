@@ -5,19 +5,14 @@
 
 (deftest finding-a-vendor-by-id
   (testing "looking up a vendor by id"
-    (let [vendor-id
-          (get
-            (first
-              (json/read-str
-                (:body
-                  (seed {:model "Vendor"}))))
-            "id")]
+    (let [admin-cs (sign-in 1)
+          research-cs (sign-in 0)
+          vendor-id (get (first (json/read-str (:body (seed {:model "Vendor"})))) "id")]
+      (seed {:model "Vendor"})
 
-      (let [my-cs (sign-in 1)]
-        (is
-          (= 200
-             (:status
-               (fetch (str "/api/vendors/" vendor-id) {:cookie-store my-cs}))))))))
+    (are [code store] (= code (:status (fetch (str "/api/vendors/" vendor-id) {:cookie-store store})))
+         200 admin-cs
+         403 research-cs ))))
 
 (deftest find-all-vendors
   (testing "finding all vendors"
@@ -26,78 +21,94 @@
            {:model "Vendor"}])
 
     (let [my-cs (sign-in 1)]
-      (is
-        (= 3
-           (count
-             (json/read-str
-               (:body
-                 (fetch "/api/vendors" {:cookie-store my-cs})))))))))
+      (is (= 3 (count (json/read-str (:body (fetch "/api/vendors" {:cookie-store my-cs})))))))))
 
 (deftest creating-a-vendor
   (testing "creating a vendor"
     (let [my-cs (sign-in 1)
           res (post "/api/vendors" {:form-params {:name "tom"} :cookie-store my-cs})]
 
-      (is
-        (= 200
-           (:status res)))
-      (is
-        (= "tom"
-           (get
-             (json/read-str
-               (:body res))
-             "name"))))))
+    (testing "as an admin"
+      (seed [{:model "Vendor"}
+             {:model "Vendor"}
+             {:model "Vendor"}])
+
+      (let [my-cs (sign-in 1)]
+        (is (= 3 (count (json/read-str (:body (fetch "/api/vendors" {:cookie-store my-cs}))))))))
+
+    (testing "as a researcher"
+      (seed [{:model "Vendor"}
+             {:model "Vendor"}
+             {:model "Vendor"}])
+
+      (let [my-cs (sign-in 0)]
+        (is (= 403 (:status (fetch "/api/vendors" {:cookie-store my-cs}))))))))
+
+(deftest creating-a-vendor
+  (testing "creating a vendor"
+    (testing "as an admin"
+      (let [my-cs (sign-in 1)
+            res (post "/api/vendors" {:form-params {:name "tom"} :cookie-store my-cs})]
+
+          (is (= 200 (:status res))) (is (= "tom" (get (json/read-str (:body res)) "name"))))))
+
+    (testing "as a researcher"
+      (let [my-cs (sign-in 0)
+            res (post "/api/vendors" {:form-params {:name "tom"} :cookie-store my-cs})]
+
+          (is (= 403 (:status res))))))
 
 (deftest creating-a-duplicate-vendor
-  (testing "creating a duplicate vendor"
-    (let [my-cs (sign-in 1)]
-      (post "/api/vendors" {:form-params {:name "tom"} :cookie-store my-cs})
+  (let [admin-cs (sign-in 1)
+        research-cs (sign-in 0)]
+    (seed {:model "Vendor"})
 
-      (is
-        (= 409
-           (:status
-             (post "/api/vendors" {:form-params {:name "tom"} :cookie-store my-cs})))))))
+    (testing "creating a duplicate vendor"
+      (are [code store] (= code (:status (post "/api/vendors" {:form-params {:name "tom"} :cookie-store store})))
+           200 admin-cs
+           409 admin-cs
+           403 research-cs))))
 
 (deftest finding-a-vendor
-  (testing "finding a vendor that does not exist"
-    (let [my-cs (sign-in 1)]
-      (is
-        (= 404
-          (:status
-            (fetch "/api/vendors/12" {:cookie-store my-cs})))))))
+  (let [admin-cs (sign-in 1)
+        research-cs (sign-in 0)]
+    (seed {:model "Vendor"})
+
+    (testing "finding a vendor that does not exist"
+      (are [code store] (= code (:status (fetch "/api/vendors/12" {:cookie-store store})))
+           404 admin-cs
+           403 research-cs))))
 
 (deftest updating-an-invalid-vendor
-  (testing "updating a vendor that is not present"
-    (let [my-cs (sign-in 1)]
-      (is
-        (= 404
-           (:status
-             (put "/api/vendors/1222" {:cookie-store my-cs})))))))
+  (let [admin-cs (sign-in 1)
+        research-cs (sign-in 0)]
+    (seed {:model "Vendor"})
+
+    (testing "updating a vendor that is not present"
+      (are [code store] (= code (:status (put "/api/vendors/1222" {:cookie-store store})))
+           404 admin-cs
+           403 research-cs))))
 
 (deftest updating-a-vendor
-  (let [my-cs (sign-in 1)]
+  (let [admin-cs (sign-in 1)
+        research-cs (sign-in 0)]
     (seed {:model "Vendor"})
 
     (testing "updating an existing vendor"
-      (is
-        (= 200
-           (:status
-             (put "/api/vendors/1" {:cookie-store my-cs})))))))
-
+      (are [code store] (= code (:status (put "/api/vendors/1" {:cookie-store store})))
+           200 admin-cs
+           403 research-cs))))
 
 (deftest deleting-a-vendor
-  (let [my-cs (sign-in 1)]
+  (let [admin-cs (sign-in 1)
+        research-cs (sign-in 0)]
     (seed {:model "Vendor"})
 
     (testing "deleting an existing vendor"
-      (is
-        (= 200
-           (:status
-             (delete "/api/vendors/1" {:cookie-store my-cs})))))
-     (testing "deleting a non-existant vendor"
-      (is
-        (= 404
-           (:status
-             (delete "/api/vendors/1" {:cookie-store my-cs})))))))
+      (are [code store] (= code (:status (delete "/api/vendors/1" {:cookie-store store})))
+           200 admin-cs
+           403 research-cs
+           404 admin-cs
+           403 research-cs))))
 
 (use-fixtures :each drop-all)
