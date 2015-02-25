@@ -61,6 +61,9 @@
       .cl
 
   .pagination-contain
-    pagination(page="marketPlace.currentPage" max-size="marketPlace.maxSize" items-per-page="marketPlace.itemsPerPage" total-items="marketPlace.totalItems")
+    pagination(ng-model="marketPlace.currentPage"
+        max-size="marketPlace.maxSize"
+        items-per-page="marketPlace.itemsPerPage"
+        total-items="marketPlace.totalItems")
 
 .cl
