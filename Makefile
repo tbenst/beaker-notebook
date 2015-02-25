@@ -181,7 +181,7 @@ endef
 
 deploy-%: export tag_images := $(tag_images)
 deploy-%:
-	jq "$$tag_images" config/$*.json  | bin/marathon group update - /bunsen-$*
+	jq "$$tag_images" config/$*.json  | bin/marathon group update -f - /bunsen-$*
 
 #
 #

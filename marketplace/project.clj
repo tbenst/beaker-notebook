@@ -1,7 +1,7 @@
 (defproject marketplace "0.1.0-SNAPSHOT"
   :description "Manages the Marketplace data for Bunsen."
   :url "https://github.com/twosigma/bunsen"
-  :jvm-opts ["-Dsun.security.jgss.native=true"]
+  :jvm-opts ["-Dsun.security.jgss.native=true" "-Xmx256M"]
   :main bunsen.marketplace.service
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/tools.cli "0.3.1"]
