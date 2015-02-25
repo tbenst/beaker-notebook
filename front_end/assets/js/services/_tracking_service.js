@@ -57,6 +57,7 @@
 
       measure: function(name, from, to) {
         if(performance.getEntriesByName(from).length && performance.getEntriesByName(to).length) {
+          performance.clearMeasures(name);
           performance.measure(name, from, to);
           var measurement = performance.getEntriesByName(name)[0];
 
