@@ -33,8 +33,9 @@ module.exports = function(data, configPath) {
         })
         .then (function (obj) {
           if (obj.model === null){
-            return models[obj.fields.model].forge(obj.fields.data)
-              .save()
+            var m = models[obj.fields.model].forge(obj.fields.data)
+            if (obj.fields.data.createdAt || obj.fields.data.updatedAt) {m.hasTimestamps = false}
+            return m.save()
               .then(function(model) {
                 return setAssociations(model, obj.fields.model, obj.fields.associations, models);
               })
