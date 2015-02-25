@@ -1,0 +1,8 @@
+.sidebar-left
+  .sidebar-box.list
+    h3 Help Topics
+    ul.sidebar-box-list.help
+      li
+        a.sidebar-box-list-link.help#home(ui-sref='help.main.home') Home
+      li(ng-repeat="topic in topics")
+        a.sidebar-box-list-link.help(ui-sref='{{topic.state}}') {{ topic.title }}

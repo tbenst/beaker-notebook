@@ -1,0 +1,12 @@
+.help-main
+  .home-view(ui-view="home")
+  .topic-display-view(ui-view="topic_display")
+
+  .footer(ng-if="helpState.currentTopic.sections")
+    .divider
+
+    .help-nav-bottom
+      .section-nav.left(ng-click="changeSection(previousSection())")
+        a.link-left {{ previousSection().title }}
+      .section-nav.right(ng-click="changeSection(nextSection())")
+        a.link-right {{ nextSection().title }}

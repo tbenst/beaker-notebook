@@ -71,6 +71,10 @@
 
       $rootScope.cachedNotebooks = $rootScope.cachedNotebooks || {};
 
+      $scope.help = function() {
+        return $state.includes('help');
+      }
+
       $rootScope.signOut = function() {
         delete $sessionStorage.user;
         return Restangular.all('session').remove()

@@ -1,0 +1,114 @@
+@css {
+  .help-main {
+    width: calc(100% - 560px);
+  }
+}
+
+.help-main
+  float left
+  a
+    color action-blue
+  .emphasis
+    color action-strong-green
+  h3
+    margin spacing-block 0
+  ul, li, .help-block, .help-note, .code
+    margin spacing-block-small  0
+
+button.action
+  background-color action-blue
+
+.code
+  background-color white
+  padding 20px
+  border 1px solid base-step5
+  margin-bottom spacing-block-small
+
+.command
+  background-color base-step5
+  margin 0 0.3em
+  padding 0 5px
+
+.divider
+  border-top 1px solid base-step5
+  margin 30px 0
+
+.help-block
+  background-color white
+  border 1px solid base-step5
+  padding list-item-padding list-item-padding - 2px list-item-padding - 3px
+  display table
+  &.tip
+    border-left 4px solid action-strong-green
+    .prefix
+      color action-strong-green
+  &.warn
+    border-left 4px solid action-strong-red
+    .prefix
+      color action-strong-red
+
+  .prefix
+    font-size font-size-base + 2px
+    font-weight bold
+    text-transform capitalize
+    display table-cell
+
+  .content
+    display table-dell
+    vertical-align top
+    margin-left 20px
+
+.link-right
+  &:after
+    color action-blue
+    margin-left 0.3em
+    content "\00bb"
+.link-left
+  &:before
+    color action-blue
+    margin-right 0.3em
+    content "\00ab"
+
+.help-link-list
+  li
+    margin-bottom spacing-block-small
+
+.help-note
+  font-style italic
+
+.help-nav-bottom
+  padding-bottom 40px
+
+.labels-data
+  display table
+  .help-label
+    display table-cell
+    color base-step4
+  .help-data
+    display table cell
+    margin-left 10px
+
+.method-library
+  font-weight bold
+
+.sidebar-box-list.help
+  border 1px solid base-step5
+  .sidebar-box-list-link
+    background-color white
+    border none
+    color black
+    &:hover
+      background-color action-blue
+      border-color action-blue
+      cursor pointer
+      color white
+    &#home
+      color action-strong-green
+      &:hover
+        color white
+
+
+ul.help-list
+  margin spacing-block spacing-block
+  li
+    list-style-type disc
