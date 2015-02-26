@@ -27,6 +27,6 @@
     [{:paths ["src"]
       :filter hawk/file?
       :handler (fn [_ {:keys [file]}]
-                 (let [ns-sym (-> file read-file-ns-decl second)]
+                 (when-let [ns-sym (-> file read-file-ns-decl second)]
                    (require ns-sym :reload)
                    (println "reloaded namespace: " ns-sym)))}]))
