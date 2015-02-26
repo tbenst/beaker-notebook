@@ -21,7 +21,7 @@
           }
         },
         isUserAdmin: function() {
-          return _.has($sessionStorage.user, 'role') && $sessionStorage.user.role >= 1;
+          return _.has($sessionStorage.user, 'role') && $sessionStorage.user.role == 1;
         }
       }
   }]);
