@@ -16,6 +16,9 @@ To setup the new bunsen dev environment:
     # install and update local "global" dependencies, including java, vagrant, virtualbox, docker, etc.
     ansible-playbook -K -i ansible/inventory.ini ansible/playbooks/local.yml
 
+    # enable and update postgres and elastic search
+    ansible-playbook -i ansible/inventory.ini ansible/playbooks/local_services.yml
+
     # install all the service dependencies (this will run npm install, gradle build, etc)
     make prepare-all
 
@@ -59,4 +62,3 @@ Tests can be run locally, or within the vagrant box using docker containers. Usi
 
     # actually run the tests
     make test
-
