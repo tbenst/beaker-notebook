@@ -23,8 +23,7 @@
 
     function getPublicationWithRatings() {
       $scope.ratingAttrs = {
-        rateableId: 'publications' + '-' + $state.params.id.toString(),
-        userId: $sessionStorage.user.id
+        rateableId: 'publications' + '-' + $state.params.id.toString()
       };
 
       F.Publications.getPublication($state.params.id).then(function(publication) {
