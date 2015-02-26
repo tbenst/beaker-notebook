@@ -13,10 +13,11 @@
     input.btn.submit(type="submit", value="Save")
 
   i.delete(confirm="Are you sure you want to delete these vendors?" on-confirm="deleteVendors()")
+  input.vendor-search(ng-model="query", placeholder="Search...")
 
   ul.vendor-list.bunsen-list
-    li(ng-if="vendors.length === 0") It looks like we don't have any vendors.
-    li.skinny.bunsen-list-item(ng-repeat="vendor in vendors | orderBy:'name'")
+    li(ng-if="filteredVendors.length === 0") It looks like we don't have any vendors.
+    li.skinny.bunsen-list-item(ng-repeat="vendor in filteredVendors = (vendors | orderBy:'name' | filter: search)")
       .vendor-delete
         input(type="checkbox", ng-model="vendor.delete")
       .col-half.padding-reset

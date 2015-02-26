@@ -25,3 +25,8 @@ Feature: Vendor Panel
   Scenario: Updating a vendor
     When I rename the vendor "RC Cola" to "Pepsi"
     Then the vendor should now be named "Pepsi"
+
+  Scenario: Searching for a vendor
+    When I search for the vendor "RC Cola"
+    Then I should only see the vendor "RC Cola"
+    And I should see 1 vendor in the vendor list

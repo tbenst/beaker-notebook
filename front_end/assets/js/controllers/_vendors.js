@@ -11,11 +11,16 @@
       $q) {
         $scope.vendors = {};
         $scope.loading = false;
+        $scope.query   = null;
 
         getVendors();
 
         $scope.clear = function(form) {
           form.$setPristine();
+        };
+
+        $scope.search = function(vendor) {
+          return !$scope.query || vendor.name.toLowerCase().indexOf($scope.query.toLowerCase()) > -1;
         };
 
         $scope.createVendor = function(isValid) {

@@ -45,4 +45,12 @@ module.exports = function() {
     return new this.Widgets.Vendors().nameField().should.eventually.equal('')
   });
 
+  this.When(/^I search for the vendor "([^"]*)"$/, function(vendor) {
+    return new this.Widgets.Vendors().search(vendor);
+  });
+
+  this.Then(/^I should only see the vendor "([^"]*)"$/, function(vendor) {
+    return new this.Widgets.VendorsList().contains(vendor).should.eventually.eql(true);
+  });
+
 };

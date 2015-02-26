@@ -25,6 +25,13 @@ module.exports = function() {
       }).then(function() {
         return _this.click('.submit');
       });
+    },
+
+    search: function(vendor) {
+      return this.fill({
+        selector: '.vendor-search',
+        value: [vendor]
+      });
     }
   });
 };
