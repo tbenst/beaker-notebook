@@ -57,18 +57,19 @@
       window.scrollTo(window.pageXOffset, height);
     };
 
-    function openNotebook(notebook) {
+    function openNotebook(notebook, cached) {
       if (notebook.unavailable) return $state.go('projects.items.item',{id: notebook.projectId});
       Notebooks.update({id: notebook.id, open: true});
       $scope.notebook = {current: notebook};
       $rootScope.cachedNotebooks[notebook.id] = notebook;
+      if (!cached) return;
       TrackingService.mark('CachedNotebookLoaded');
       TrackingService.measure('BaselineCachedProvisionedNotebookLoad', 'LoadCachedProvisionedNotebook', 'CachedNotebookLoaded');
       TrackingService.measure('BaselineCachedUnprovisionedNotebookLoad', 'LoadCachedUnprovisionedNotebook', 'CachedNotebookLoaded');
     }
 
     if (cached = $rootScope.cachedNotebooks[$state.params.notebook_id]) {
-      openNotebook(cached);
+      openNotebook(cached, true);
     } else {
       $scope.loading = true;
       F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
