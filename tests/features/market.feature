@@ -358,6 +358,15 @@ As a researcher, I want to be able to use the market place.
       | Rate Me         | Ratings R Us     |
     And I view the market search
     And I view the "Rate Me" market item
+    And I subscribe to the market item
     When I give the market item a rating of 4
     Then I should see 4 stars highlighted in my rate
     And I should see 4 stars highlighted in the average
+
+  Scenario: Hiding user rating when unsubscribed
+    Given I have the following market items:
+      | title            | vendor       |
+      | Unrateable       | Ratings R Us |
+    And I view the market search
+    And I view the "Unrateable" market item
+    Then I should not see the user rating
