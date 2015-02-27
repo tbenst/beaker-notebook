@@ -94,6 +94,6 @@ module.exports = function() {
   this.Then(/^I should see the current date as the publish date$/, function() {
     var d = new Date();
     var currentDate = d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear().toString().substr(2,2);
-    return new this.Widgets.PublicationNotebookHero().publishDate().should.eventually.eql("Published: "+ currentDate);
+    return new this.Widgets.PublicationNotebookHero().publishDate().should.eventually.eql(currentDate);
   });
 }
