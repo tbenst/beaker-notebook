@@ -1,7 +1,11 @@
 .rating
-  | My Rating:
-  a(ng-repeat="star in stars" ng-click="setRating($index)" ng-mouseover="hover($index)" ng-mouseleave="stopHover()" ng-class="starClass(star, $index)")
+  .col-half.col-outside
+    span My Rating
+  .col-half.col-outside
+    a(ng-repeat="star in stars" ng-click="setRating($index)" ng-mouseover="hover($index)" ng-mouseleave="stopHover()" ng-class="starClass(star, $index)")
 
 .average
-  | Average Rating:
-  a(ng-repeat="star in avgStars" ng-class="starClass(star)")
+  .col-half.col-outside
+    span Average Rating
+  .col-half.col-outside
+    a(ng-repeat="star in avgStars" ng-class="starClass(star)")
