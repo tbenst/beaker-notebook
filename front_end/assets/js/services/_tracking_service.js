@@ -19,6 +19,12 @@
     };
   }
 
+  function clearMarks(name, from, to) {
+    performance.clearMeasures(name);
+    performance.clearMarks(from);
+    performance.clearMarks(to);
+  }
+
   app.service('TrackingService', [
     '$rootScope',
     'Beaker',
@@ -53,6 +59,7 @@
           var measurement = performance.getEntriesByName(name)[0];
 
           F.Events.one('events').customPOST(buildPostData(measurement, name));
+          clearMarks(name, from, to);
         }
       },
 
