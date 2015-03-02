@@ -45,7 +45,6 @@
     $scope.createNotebook = function() {
       Beaker.getBeakerInstance().then(function(instance) {
         var markName = instance !== 'null' ? 'CreateProvisionedNotebook' : 'CreateUnprovisionedNotebook';
-        TrackingService.setNotebookState(true);
         TrackingService.mark(markName);
       });
 

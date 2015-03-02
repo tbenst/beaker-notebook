@@ -1,7 +1,5 @@
 ;(function(app) {
 
-  var creatingNotebook;
-
   function beautifyName(name) {
     return name.match(/[A-Z][a-z]+/g).join(" ");
   }
@@ -31,22 +29,15 @@
       F) {
 
     return {
-      manageNotebookMarks: function(toState, toParams) {
+      manageNotebookMarks: function(notebook) {
         var _this = this;
-        if (toState.name == 'projects.items.item.notebook' && !creatingNotebook) {
-          Beaker.getBeakerInstance().then(function(instance) {
-            if ( _($rootScope.cachedNotebooks).pluck('id').contains(parseInt(toParams.notebook_id)) ) {
-              var markName = instance !== 'null' ? 'LoadCachedProvisionedNotebook' : 'LoadCachedUnprovisionedNotebook';
-            }
-            else {
-              var markName = instance !== 'null' ? 'LoadProvisionedNotebook' : 'LoadUnprovisionedNotebook';
-            }
-            _this.mark(markName);
-          });
-        }
-        else {
-          _this.setNotebookState(false);
-        }
+        return Beaker.getBeakerInstance().then(function(instance) {
+          var markName = 'Load';
+          if ( _($rootScope.cachedNotebooks).pluck('id').contains(notebook.id) ) markName += 'Cached';
+          markName += instance === 'null' ? 'Unprovisioned' : 'Provisioned';
+          markName += 'Notebook';
+          _this.mark(markName);
+        });
       },
 
       mark: function(name) {
