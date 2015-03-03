@@ -10,7 +10,6 @@
     'AuthService',
     'Factories',
     'BeakerNotebookService',
-    'TrackingService',
     function(
       $rootScope,
       $scope,
@@ -21,14 +20,11 @@
       $sessionStorage,
       AuthService,
       F,
-      BeakerNotebookService,
-      TrackingService) {
+      BeakerNotebookService) {
       $rootScope.$session = $sessionStorage;
 
       $scope.$state = $state;
       $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
-        TrackingService.manageNotebookMarks(toState, toParams);
-
         $rootScope.referrer = {
           fromState: fromState,
           fromParams: fromParams

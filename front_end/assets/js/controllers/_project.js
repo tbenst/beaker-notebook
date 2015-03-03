@@ -45,13 +45,13 @@
     $scope.createNotebook = function() {
       Beaker.getBeakerInstance().then(function(instance) {
         var markName = instance !== 'null' ? 'CreateProvisionedNotebook' : 'CreateUnprovisionedNotebook';
-        TrackingService.setNotebookState(true);
         TrackingService.mark(markName);
-      });
-
-      Restangular.one('projects', $scope.project.id)
-      .all('notebooks')
-      .post()
+      })
+      .then(function() {
+        return Restangular.one('projects', $scope.project.id)
+        .all('notebooks')
+        .post();
+      })
       .then(function(notebook) {
         $state.go('projects.items.item.notebook', {
           notebook_id: notebook.id

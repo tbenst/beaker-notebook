@@ -1,7 +1,5 @@
 ;(function(app) {
 
-  var creatingNotebook;
-
   function beautifyName(name) {
     return name.match(/[A-Z][a-z]+/g).join(" ");
   }
@@ -21,6 +19,12 @@
     };
   }
 
+  function clearMarks(name, from, to) {
+    performance.clearMeasures(name);
+    performance.clearMarks(from);
+    performance.clearMarks(to);
+  }
+
   app.service('TrackingService', [
     '$rootScope',
     'Beaker',
@@ -31,22 +35,15 @@
       F) {
 
     return {
-      manageNotebookMarks: function(toState, toParams) {
+      manageNotebookMarks: function(notebook) {
         var _this = this;
-        if (toState.name == 'projects.items.item.notebook' && !creatingNotebook) {
-          Beaker.getBeakerInstance().then(function(instance) {
-            if ( _($rootScope.cachedNotebooks).pluck('id').contains(parseInt(toParams.notebook_id)) ) {
-              var markName = instance !== 'null' ? 'LoadCachedProvisionedNotebook' : 'LoadCachedUnprovisionedNotebook';
-            }
-            else {
-              var markName = instance !== 'null' ? 'LoadProvisionedNotebook' : 'LoadUnprovisionedNotebook';
-            }
-            _this.mark(markName);
-          });
-        }
-        else {
-          _this.setNotebookState(false);
-        }
+        return Beaker.getBeakerInstance().then(function(instance) {
+          var markName = 'Load';
+          if ( _($rootScope.cachedNotebooks).pluck('id').contains(notebook.id) ) markName += 'Cached';
+          markName += instance === 'null' ? 'Unprovisioned' : 'Provisioned';
+          markName += 'Notebook';
+          _this.mark(markName);
+        });
       },
 
       mark: function(name) {
@@ -62,6 +59,7 @@
           var measurement = performance.getEntriesByName(name)[0];
 
           F.Events.one('events').customPOST(buildPostData(measurement, name));
+          clearMarks(name, from, to);
         }
       },
 
