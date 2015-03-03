@@ -12,7 +12,8 @@ html(ng-app="bunsen")
   body
     .application(ng-controller="application" ng-class="$state.current.name")
       include _app_header
-      nav.main-nav
+      nav.main-nav(ng-show="help()")
+      nav.main-nav(ng-show="!help()")
         .contain(ng-show='$session.user')
           ul.main-nav-list.list-inline
             li

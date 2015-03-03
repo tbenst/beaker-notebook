@@ -1,0 +1,171 @@
+.header
+  h1 Using Beaker for parallel computing
+
+.labels-data
+  ul.help-label
+    li Page updated
+    li Supported versions
+  ul.help-data
+    li 6/1/2014
+    li v1.0
+
+h2.section-heading Examples
+
+p
+  |We have various example scripts and noteboks for using IPython.  parallell in our <span class='emphasis'>examples/parallel</span>
+  |directory,  or they can be found on <a>GitHub</a>.  Some of these are covered in more detail in the <a>examples</a> section.
+
+h2.section-heading Introduction
+
+p
+  |This section gives an overview of Ipython's sophisticated and powerful architecture for parallel and distributed computing.
+  |This architecture abstracts out parallelism in a very general way, which enables Ipython to support many different styles of
+  |parallelism including:
+
+ul.help-list
+  li
+    |Single program, multiple data (SPMD) parallelism
+  li
+    |Multiple program, multiple data (MPMD) prallelism
+  li
+    |Message passing using MPI
+  li
+    |Task farming
+  li
+    |Data parallel
+  li
+    |Combinations of these approaches
+  li
+    |Custom user defined approaches
+
+p
+  |Most importantly, IPython enables all types of parallel applications to be developed, executed, debugged and monitored
+  |interactively.  Hence, the I in Ipython. The following are some example usage cases for IPython:
+
+ul.help-list
+  li
+    |Quickly parallelize algorithms that are embarrassingly parallel using a number of simple approaches. Many simple things can be
+    |parallelized interactively in one or two lines of code.
+  li
+    |Steer traditional MPI applications on a supercomputer from an IPython session on your laptop.
+  li
+    |Analyze and visualize large datasets (that could be remote and/or distributed) interactively using IPython and tools like
+    |matplotlib/TVTK.
+  li
+    |Develop, test and debug new parallel algorithms (that may use MPI) interactively.
+  li
+    |Tie together multiple MPI jobs running on different systems into one giant distributed and parallel system.
+  li
+    |Start a parallel job on your cluster and then have a remote collaborator connect to it and pull back data into their local
+    |IPython session for plotting and analysis.
+  li
+    |Run a set of tasks on a set of CPUs using dynamic load balancing.
+
+.help-block.tip
+  .prefix Tip
+  .content
+    |At the SciPy 2011 conference in Austin, Min Regan-Kelley presented a complete 4-hour tutorial on the use of these features,
+    |and all the materials for the tutorial are now available online. That tutorial provides an excellent, hands-on oriented
+    |complement to the reference documentation presented here.
+
+p
+  |The Ipython architecture consists of four components:
+
+ul.help-list
+  li
+    |The Ipython engine
+  li
+    |The Ipython hub
+  li
+    |The Ipython  schedulers
+  li
+    |The controller client
+
+p
+  |These components live in the <span class='method-library'>Ipython.parallel</span> package and are installed with Ipython.  They do,
+  |however, have additional dependencies that must be installed.  For more information,  see our
+  |<a href="#">installation documentation</a>.
+
+h2.section-heading Ipython Engine
+
+p
+  |The IPython engine is a Python instance that takes Python commands over a network connection.  Eventually, the IPython engine will
+  |be a full Ipython interpreter, but for now, it is a regular Python interpreter.  The engine can also handle incoming and outgoing
+  |Python objects sent over a network connection.  When multiple engines are started, parallel and distributed computing becomes
+  |possible. An important feature of an Ipython engine is that it blocks while user code is being executed.  Read on for how the IPython
+  |controller solves this problem to expose a clean asynchronous API to the user.
+
+h2.section-heading IPython controller
+
+p
+  |The IPython controlelr processes provide an interface for working with a set of engines. At a general level, the controller is a
+  |collection of processes to which IPython engines and clients can connect.  The controller is composed of a Hub and a collection of
+  |Schedulers.  These Sechedulers are typically run in separate processes but on the same machine as the Hub, but can be run anywyere from
+  |local threads or on remote machines.
+
+p
+  |The controller also provides a single point of contact for users who wish to utilize the engines connected to the controller.  There are
+  |different ways of working with a controller.  In IPython, all of these models are implemented via the
+  |<a class='method-library'>View.apply()</a> method, aftercontructing<a class='method-library'> View</a>
+  |objects to represent subjects of engines.  The two primary models for interacting with engines are:
+
+.help-note
+  |Note: A single controller and set of engines can be used with multiple models simultaneously.  This opens the door for lots of intersting
+  |things.
+
+h2.section-heading IPython controller
+
+p
+  |To use IPython for parallel computing, you need to start one instance of the controller and one or more instances of
+  |the engine. Initially, it is best to simply start a controller and engines on a single host using the ipcluster command.
+  |To start a controller and 4 engines on your localhost, just do:
+
+pre.code $ ipcluster start -n 4
+
+p
+  |More details about starting the IPython controller and engines can be found <a>here</a>.
+
+p
+  |Once you have started the IPython controller and one or more engines, you are ready to use the engines to do
+  |something useful To make sure everything is working correctly, try the following commands:
+
+pre.code
+  |In  [1]: from Ipython.parallel import Client
+  |In  [2]: c = Client()
+  |In  [4]: c.ids
+  |Out [4]: set([0,1,2,3])
+  |In  [5]: c[:].apply_sync(lambda : "Hello, World")
+  |Out [5]: ['Hello, World', 'Hello, World', 'Hello, World', 'Hello, World' ]
+
+p
+  |When a client is created with no arguments, the client tries to find the corresponding JSON file in the local
+  |<span class='emphasis'>~/.ipython/proﬁle_default/security</span> directory.  Or if you speciﬁed a proﬁle, you can
+  |use that with the Client.  This should cover most cases:
+
+pre.code
+  |In  [2]: c = Client(profile='myprofile')
+
+p
+  |If you have put the json file in a different location or it has a different name, create the client like this:
+
+pre.code
+  |In  [2]: c = Client('/path/to/my/ipcontroller-client.json')
+
+p
+  |Remember a client needs to be able to see the Hub's ports to connect.  So if they are on a different machine, you may need to use an ssh
+  |server totunnel accessto that machine, then you would connect to it with:
+
+pre.code
+  |In  [2]: c = Client('/path/to/my/ipcontroller-client.json', sshserver='me@myhub.example.com')
+
+p
+  |Where 'myub.example.com' is the url or IP address of the machine on which the Hub process is running (or another machine that has direct
+  |access to the Hub's ports)
+
+p
+  |The SSH server may already be specified in ipcountroller-client.json, if the controller was intructed at its
+  |launchtime.
+
+p
+  |You are now ready to learn more about the <a class='method-library'> Direct</a>
+  |and <a class='method-library'> LoadBalanced</a> interfaces to the controller.

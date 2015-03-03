@@ -1,0 +1,7 @@
+.sidebar-right
+  .sidebar-box.light(ng-if="helpState.currentTopic.sections")
+    h3 Also in this section
+    .content
+      ul.help-link-list
+        li.link-right(ng-repeat="section in helpState.currentTopic.sections")
+          a(ng-click="changeSection(section)") {{ section.title }}
