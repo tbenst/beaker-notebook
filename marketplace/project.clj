@@ -7,12 +7,14 @@
                  [org.clojure/tools.cli "0.3.1"]
                  [com.stuartsierra/component "0.2.2"]
                  [ring "1.3.2"]
+                 [org.clojure/data.codec "0.1.0"]
                  [bidi "1.15.0" :exclusions [org.clojure/clojure]]
                  [liberator "0.12.2"]
                  [org.clojure/data.json "0.2.5"]
                  [com.taoensso/timbre "3.3.1"]
                  [clojurewerkz/elastisch "2.1.0"]
                  [wkf/clj-http "1.0.1-SNAPSHOT-MOJO"]
+                 [pandect "0.5.1"]
                  [ring/ring-json "0.3.1"]
                  [environ "1.0.0"]]
   :plugins [[lein-environ "1.0.0"]]
@@ -22,6 +24,8 @@
   :profiles {:uberjar {:aot [bunsen.marketplace.service]}
              :dev {:env {:marketplace-port 8444
                          :elasticsearch-host "localhost"
+                         :cookie-salt "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<"
+                         :allow-seed "true"
                          :elasticsearch-port 9200}
                    :repl-options {:init (user/watch)}
                    :source-paths ["src/dev"]

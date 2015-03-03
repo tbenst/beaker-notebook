@@ -3,8 +3,11 @@
             [com.stuartsierra.component :as component :refer [start stop]]
 
             [ring.middleware.json :refer [wrap-json-params]]
+            [ring.middleware.cookies :refer [wrap-cookies]]
+            [ring.middleware.session :refer [wrap-session]]
             [ring.util.response :refer [response]]
             [bidi.ring :refer (make-handler)]
+            [bunsen.marketplace.component.bunsen-cookie-store :refer [bunsen-cookie-store]]
             [bunsen.marketplace.api.resource :as api-resource]
             [bunsen.marketplace.api.route :as api-route]))
 
@@ -20,7 +23,6 @@
 
 (defrecord Server [config]
   component/Lifecycle
-
   (start [server]
     (if (:jetty server)
       server
@@ -31,8 +33,11 @@
                           ((resource config (:route-params request)) request))))]
 
         (assoc server
-               :jetty (run-jetty (wrap-json-params handler) {:join? false
-                                                             :port (:server-port config)})))))
+               :jetty (run-jetty (-> (wrap-session handler
+                                                   {:store (bunsen-cookie-store (:cookie-salt config))
+                                                    :cookie-name "session"})
+                                     wrap-json-params wrap-cookies)  {:join? false
+                                                                      :port (:server-port config)})))))
 
   (stop [server]
     (when-let [jetty (:jetty server)]
