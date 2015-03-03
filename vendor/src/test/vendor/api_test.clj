@@ -42,7 +42,7 @@
              {:model "Vendor"}])
 
       (let [my-cs (sign-in 0)]
-        (is (= 403 (:status (fetch "/api/vendors" {:cookie-store my-cs}))))))))
+        (is (= 403 (:status (fetch "/api/vendors" {:cookie-store my-cs})))))))))
 
 (deftest creating-a-vendor
   (testing "creating a vendor"
