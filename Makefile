@@ -15,7 +15,8 @@ IMAGES := \
 	beaker \
 	tests \
 	riemann \
-	user
+	user \
+	vendor
 
 .PHONY: \
 	$(IMAGES) \
@@ -43,9 +44,11 @@ IMAGES := \
 	start-marketplace \
 	start-riemann \
 	start-tests-user \
+	start-tests-vendor \
 	start-tests-integration \
 	start-beaker \
 	test-integration \
+	test-vendor \
 	test-user \
 	deploy-% \
 	bootstrap-ci \
@@ -116,7 +119,12 @@ test-user: wait-provisioner wait-api wait-web start-tests-user
 	docker logs -f bunsen-user
 	exit $$(docker wait bunsen-user)
 
-
+test-vendor: ENV := test
+test-vendor: HOST := 10.10.10.10
+test-vendor: wait-provisioner wait-api wait-web start-tests-vendor
+	sleep 5
+	docker logs -f bunsen-vendor
+	exit $$(docker wait bunsen-vendor)
 
 test-integration: ENV := test
 test-integration: HOST := 10.10.10.10
@@ -139,6 +147,10 @@ wait-marketplace: start-marketplace
 
 start-tests-integration:
 	docker run -d -p 5900:5900 --env-file="config/$(ENV).env" --name=bunsen-tests $(REGISTRY)/bunsen-tests:$(TAG) $(COMMANDS)
+
+start-tests-vendor: COMMANDS := test
+start-tests-vendor:
+	docker run -d --env-file="config/$(ENV).env" --name=bunsen-vendor $(REGISTRY)/bunsen-vendor:$(TAG) $(COMMANDS)
 
 start-tests-user: COMMANDS := test
 start-tests-user:
