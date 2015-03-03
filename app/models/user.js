@@ -188,7 +188,7 @@ module.exports = function(Bookshelf, app) {
     },
 
     getScratchSpaceContents: function() {
-      return fileTree(this.ensureScratchSpace(), process.env.SCRATCH_SPACE_ROOT);
+      return fileTree(this.ensureScratchSpace(), process.env.SCRATCH_SPACE_PRESENTATION_DIR);
     },
 
     emptyScratchSpace: function() {
@@ -201,7 +201,7 @@ module.exports = function(Bookshelf, app) {
     deleteFiles: function(files) {
       var _this = this;
       return Promise.each(files, function(file) {
-        var filePath = file.replace(process.env.SCRATCH_SPACE_ROOT, '');
+        var filePath = file.replace(process.env.SCRATCH_SPACE_PRESENTATION_DIR, '');
         return fs.unlinkAsync(_this.getScratchSpacePath() + filePath);
       });
     },
