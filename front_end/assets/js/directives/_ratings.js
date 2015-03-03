@@ -7,7 +7,8 @@
         average: "=",
         max: "=",
         ratingAttrs: "=",
-        score: "="
+        score: "=",
+        subscribed: "="
       },
       controller: ['$scope', function($scope) {
         $scope.stars = [];
@@ -21,6 +22,11 @@
 
         $scope.hover = function(index) {
           $scope.hoverIndex = index;
+        };
+
+        $scope.canShowRating = function() {
+          var rateableType = $scope.ratingAttrs.rateableId.split('-')[0];
+          return $scope.subscribed || rateableType !== 'data_sets';
         };
 
         $scope.stopHover = function() {

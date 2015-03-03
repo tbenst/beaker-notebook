@@ -458,4 +458,8 @@ module.exports = function() {
   this.Then(/^I should see (\d+) stars highlighted in the average$/, function(count) {
     return new this.Widgets.UserRating({root: '.average'}).currentRating().should.eventually.have.length(count);
   });
+
+  this.Then(/^I should not see the user rating$/, function() {
+    return new this.Widgets.UserRating({root: '.rating'}).isPresent().should.eventually.equal(false);
+  });
 }

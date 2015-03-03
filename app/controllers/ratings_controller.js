@@ -1,9 +1,22 @@
 var _ = require('lodash');
 
 module.exports = function(app) {
-  var Rating = app.Models.Rating;
+  var DataSet = app.Models.DataSet,
+      Rating = app.Models.Rating;
 
   return {
+    authorize: function(req, res, next) {
+      var rateableIdArr = req.body.rateableId.split('-');
+
+      if (rateableIdArr[0] !== 'data_sets') return next();
+      return new DataSet({index: rateableIdArr[1], id: rateableIdArr[2]})
+      .fetchFromElastic()
+      .then(function(d) {
+        if ( !_.contains(d.subscriberIds, req.user.id)) return res.send(403);
+        next();
+      })
+    },
+
     createOrUpdate: function(req, res, next) {
       var rating = Rating.forge({
         userId: req.user.id,

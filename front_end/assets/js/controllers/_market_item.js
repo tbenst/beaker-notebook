@@ -31,8 +31,7 @@
 
     function getItemWithRatings() {
       $scope.ratingAttrs = {
-        rateableId: 'data_sets' + '-' + $state.params.index + '-' + $state.params.id.toString(),
-        userId: $sessionStorage.user.id
+        rateableId: 'data_sets' + '-' + $state.params.index + '-' + $state.params.id.toString()
       };
 
       F.DataSets.getDataSet($state.params.index, $state.params.id).then(function(d) {
