@@ -15,6 +15,7 @@ module.exports = function(app) {
         if ( !_.contains(d.subscriberIds, req.user.id)) return res.send(403);
         next();
       })
+      .catch(next);
     },
 
     createOrUpdate: function(req, res, next) {
