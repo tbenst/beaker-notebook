@@ -31,4 +31,4 @@ so that I can use files within my cells that I might not want shared on the inte
 
   Scenario: Displaying disk usage
     When I upload a file
-    Then I should see I have 78.93 KB of free disk space
+    Then I should see I have used 21.07 KB of disk space

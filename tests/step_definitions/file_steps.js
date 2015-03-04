@@ -42,7 +42,7 @@ module.exports = function() {
     return new this.Widgets.FileList().confirmYes();
   });
 
-  this.Then(/^I should see I have (.+) of free disk space$/, function(size) {
-    return new this.Widgets.DiskUsage().getFreeSpace().should.eventually.eql(size);
+  this.Then(/^I should see I have used (.+) of disk space$/, function(size) {
+    return new this.Widgets.DiskUsage().getSpaceUsed().should.eventually.eql(size);
   });
 }
