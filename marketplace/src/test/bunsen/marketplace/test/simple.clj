@@ -12,7 +12,7 @@
 (def categories-file (io/resource "simple/categories.json"))
 (def index-name "catalog_simple")
 (def mapping-file "simple/mappings.json")
-(def elasticsearch-url "http://10.10.10.10:9200")
+(def elasticsearch-url "http://127.0.0.1:9200")
 (def docker-es-url (str "http://"
                         (System/getenv "ELASTICSEARCH_PORT_9200_TCP_ADDR")
                         ":"
