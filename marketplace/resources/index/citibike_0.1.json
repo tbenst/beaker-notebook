@@ -1,0 +1,236 @@
+[
+  {
+    "id": 4,
+    "title": "Citi Bike trip data, 2013-07",
+    "description": "Citi Bike trip data for 2013-07. Includes where Citi Bikers ride, when they ride, how far they go, which stations are most popular, and what days of the week are most rides taken on.",
+    "remoteFile": "2013-07_Citi_Bike_trip_data.csv",
+    "rows": 843416,
+    "format": "CSV",
+    "updateFrequency": "Monthly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  },
+  {
+    "id": 5,
+    "title": "Citi Bike trip data, 2013-08",
+    "description": "Citi Bike trip data for 2013-08. Includes where Citi Bikers ride, when they ride, how far they go, which stations are most popular, and what days of the week are most rides taken on.",
+    "remoteFile": "2013-08_Citi_Bike_trip_data.csv",
+    "rows": 1001958,
+    "format": "CSV",
+    "updateFrequency": "Monthly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  },
+  {
+    "id": 6,
+    "title": "Citi Bike trip data, 2013-09",
+    "description": "Citi Bike trip data for 2013-09. Includes where Citi Bikers ride, when they ride, how far they go, which stations are most popular, and what days of the week are most rides taken on.",
+    "remoteFile": "2013-09_Citi_Bike_trip_data.csv",
+    "rows": 1034359,
+    "format": "CSV",
+    "updateFrequency": "Monthly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  },
+  {
+    "id": 7,
+    "title": "Citi Bike trip data, 2013-10",
+    "description": "Citi Bike trip data for 2013-10. Includes where Citi Bikers ride, when they ride, how far they go, which stations are most popular, and what days of the week are most rides taken on.",
+    "remoteFile": "2013-10_Citi_Bike_trip_data.csv",
+    "rows": 1037712,
+    "format": "CSV",
+    "updateFrequency": "Monthly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  },
+  {
+    "id": 8,
+    "title": "Citi Bike trip data, 2013-11",
+    "description": "Citi Bike trip data for 2013-11. Includes where Citi Bikers ride, when they ride, how far they go, which stations are most popular, and what days of the week are most rides taken on.",
+    "remoteFile": "2013-11_Citi_Bike_trip_data.csv",
+    "rows": 675774,
+    "format": "CSV",
+    "updateFrequency": "Monthly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  },
+  {
+    "id": 9,
+    "title": "Citi Bike trip data, 2013-12",
+    "description": "Citi Bike trip data for 2013-12. Includes where Citi Bikers ride, when they ride, how far they go, which stations are most popular, and what days of the week are most rides taken on.",
+    "remoteFile": "2013-12_Citi_Bike_trip_data.csv",
+    "rows": 443966,
+    "format": "CSV",
+    "updateFrequency": "Monthly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  },
+  {
+    "id": 10,
+    "title": "Citi Bike trip data, 2014-01",
+    "description": "Citi Bike trip data for 2014-01. Includes where Citi Bikers ride, when they ride, how far they go, which stations are most popular, and what days of the week are most rides taken on.",
+    "remoteFile": "2014-01_Citi_Bike_trip_data.csv",
+    "rows": 300400,
+    "format": "CSV",
+    "updateFrequency": "Monthly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  },
+  {
+    "id": 11,
+    "title": "Citi Bike trip data, 2014-02",
+    "description": "Citi Bike trip data for 2014-02. Includes where Citi Bikers ride, when they ride, how far they go, which stations are most popular, and what days of the week are most rides taken on.",
+    "remoteFile": "2014-02_Citi_Bike_trip_data.csv",
+    "rows": 224736,
+    "format": "CSV",
+    "updateFrequency": "Monthly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  },
+  {
+    "id": 12,
+    "title": "Citi Bike trip data, 2014-03",
+    "description": "Citi Bike trip data for 2014-03. Includes where Citi Bikers ride, when they ride, how far they go, which stations are most popular, and what days of the week are most rides taken on.",
+    "remoteFile": "2014-03_Citi_Bike_trip_data.csv",
+    "rows": 439117,
+    "format": "CSV",
+    "updateFrequency": "Monthly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  },
+  {
+    "id": 13,
+    "title": "Citi Bike trip data, 2014-04",
+    "description": "Citi Bike trip data for 2014-04. Includes where Citi Bikers ride, when they ride, how far they go, which stations are most popular, and what days of the week are most rides taken on.",
+    "remoteFile": "2014-04_Citi_Bike_trip_data.csv",
+    "rows": 670780,
+    "format": "CSV",
+    "updateFrequency": "Monthly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  },
+  {
+    "id": 14,
+    "title": "Citi Bike trip data, 2014-05",
+    "description": "Citi Bike trip data for 2014-05. Includes where Citi Bikers ride, when they ride, how far they go, which stations are most popular, and what days of the week are most rides taken on.",
+    "remoteFile": "2014-05_Citi_Bike_trip_data.csv",
+    "rows": 866117,
+    "format": "CSV",
+    "updateFrequency": "Monthly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  },
+  {
+    "id": 15,
+    "title": "Citi Bike trip data, 2014-06",
+    "description": "Citi Bike trip data for 2014-06. Includes where Citi Bikers ride, when they ride, how far they go, which stations are most popular, and what days of the week are most rides taken on.",
+    "remoteFile": "2014-06_Citi_Bike_trip_data.csv",
+    "rows": 936880,
+    "format": "CSV",
+    "updateFrequency": "Monthly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  },
+  {
+    "id": 16,
+    "title": "Citi Bike trip data, 2014-07",
+    "description": "Citi Bike trip data for 2014-07. Includes where Citi Bikers ride, when they ride, how far they go, which stations are most popular, and what days of the week are most rides taken on.",
+    "remoteFile": "2014-07_Citi_Bike_trip_data.csv",
+    "rows": 968842,
+    "format": "CSV",
+    "updateFrequency": "Monthly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  },
+  {
+    "id": 17,
+    "title": "Citi Bike trip data, 2014-08",
+    "description": "Citi Bike trip data for 2014-08. Includes where Citi Bikers ride, when they ride, how far they go, which stations are most popular, and what days of the week are most rides taken on.",
+    "remoteFile": "2014-08_Citi_Bike_trip_data.csv",
+    "rows": 963489,
+    "format": "CSV",
+    "updateFrequency": "Monthly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  },
+  {
+    "id": 18,
+    "title": "Citi Bike Daily Ridership and Membership Data Launch - Sept 2013",
+    "description": "Citi Bike Daily Ridership and Membership Data. Info includes the number of trips over the last 24 hours, cumulative trips, miles traveled , total memberships sold and more.",
+    "remoteFile": "Citi_Bike_Ridership_and_Membership_Data_Launch-Sept2013.csv",
+    "rows": 127,
+    "format": "CSV",
+    "updateFrequency": "Quarterly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  },
+  {
+    "id": 19,
+    "title": "Citi Bike Daily Ridership and Membership Data Oct - Dec 2013",
+    "description": "Citi Bike Daily Ridership and Membership Data. Info includes the number of trips over the last 24 hours, cumulative trips, miles traveled , total memberships sold and more.",
+    "remoteFile": "Citi_Bike_Ridership_and_Membership_Data_Oct-Dec2013.csv",
+    "rows": 92,
+    "format": "CSV",
+    "updateFrequency": "Quarterly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  },
+  {
+    "id": 20,
+    "title": "Citi Bike Daily Ridership and Membership Data Jan - Mar 2014",
+    "description": "Citi Bike Daily Ridership and Membership Data. Info includes the number of trips over the last 24 hours, cumulative trips, miles traveled , total memberships sold and more.",
+    "remoteFile": "Citi_Bike_Ridership_and_Membership_Data_Jan-Mar2014.csv",
+    "rows": 90,
+    "format": "CSV",
+    "updateFrequency": "Quarterly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  },
+  {
+    "id": 21,
+    "title": "Citi Bike Daily Ridership and Membership Data Apr - June 2014",
+    "description": "Citi Bike Daily Ridership and Membership Data. Info includes the number of trips over the last 24 hours, cumulative trips, miles traveled , total memberships sold and more.",
+    "remoteFile": "Citi_Bike_Ridership_and_Membership_Data_Apr-June2014.csv",
+    "rows": 91,
+    "format": "CSV",
+    "updateFrequency": "Quarterly",
+    "categoryIds": [
+      2767
+    ],
+    "path": "0.1.3.2.3"
+  }
+]
