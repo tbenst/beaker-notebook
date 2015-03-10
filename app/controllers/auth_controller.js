@@ -10,6 +10,11 @@ module.exports = function(app) {
     var defaultDate = new Date();
     defaultDate.setDate(defaultDate.getDate() + 31);
 
+    // composite session store with for the user id and the user role
+    // allowing for all of the services to access this info with the shared secret.
+    res.cookie('session', {id: user.id, role: user.get('role')}, {signed: true, expires: expDate||defaultDate});
+
+    //TODO remove the user cookie
     res.cookie('user', user.id, {signed: true, expires: expDate||defaultDate});
     res.json(user);
   }
