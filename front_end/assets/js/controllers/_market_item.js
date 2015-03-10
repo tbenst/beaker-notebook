@@ -1,4 +1,4 @@
-!(function(angular, app) {
+;(function(angular, app) {
   app.controller('marketItem', [
     '$scope',
     '$rootScope',
@@ -75,12 +75,12 @@
       restangularSubscription().remove().then(function(d) {
         $scope.subscribed = false;
       });
-    }
+    };
 
     $scope.subscribe = function() {
       restangularSubscription().put().then(function(d) {
         $scope.subscribed = true;
       });
-    }
+    };
   }]);
 })(angular, window.bunsen);

@@ -38,8 +38,8 @@
         }
 
         var dateFields = _.filter(_.keys($scope.item.catalog.metadata), function(key) {
-          return $scope.item.catalog.metadata[key].type == 'date'
-        })
+          return $scope.item.catalog.metadata[key].type == 'date';
+        });
 
         $scope.item.filteredMeta = _.omit($scope.item, omitAttrs);
 
@@ -47,9 +47,9 @@
           if ($scope.item[dateField]) {
             parseDate(dateField);
           }
-        })
+        });
 
       }]
-    }
+    };
   });
 })(angular, window.bunsen);

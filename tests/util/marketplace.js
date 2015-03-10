@@ -78,7 +78,7 @@ module.exports = function() {
           return updateCounts(indexName);
         });
     }
-  }
+  };
 
   return this.marketplace;
 };
