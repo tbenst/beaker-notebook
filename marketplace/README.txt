@@ -33,3 +33,14 @@ String description; // unlimited-length text description…in practice we will p
 String businessOwner; // userid of two sigma employee who is the “business owner”
 Integer categoryId; // internal category ID, so we need to expose the categoryTree as well (which I have done)
 boolean public; // true if this dataset is “public” inside of Two Sigma
+
+
+-----------
+
+How to import the Two Sigma feed:
+
+* cd marketplace (directory containing this file)
+* lein repl
+* (require 'bunsen.marketplace.test.two-sigma)
+* (in-ns 'bunsen.marketplace.test.two-sigma)
+* (main/reindex-catalog! mapping-file "https://wherever.the.base/url/for/ts/data/sets/is?" "https://wherever.the.base/url/for/ts/categories.is.json" "https://where.elasticsearch.is/" "desired_elasticsearch_index_name" ts-cats/index-categories! ts-sets/index-datasets!)
