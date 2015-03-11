@@ -1,4 +1,4 @@
-!(function(app) {
+;(function(app) {
 
   app.controller('marketPlaceRoot', ['$scope', '$state', function($scope, $state) {
     $scope.marketPlace  = {};
@@ -11,7 +11,7 @@
     function clearSearch() {
       var filterScopes = _($scope.marketPlace.filters).keys().map(function(f) {
         return f + 'Scope';
-      }).value()
+      }).value();
 
       var deleteList = _.union(['categoryPath', 'searchTerm', 'searchScope'], filterScopes);
       _.each(deleteList, function(i) {
@@ -30,7 +30,7 @@
       $scope.marketPlace.currentPage = 1;
       delete $scope.marketPlace.data;
       $state.go('marketPlace.items');
-    }
+    };
   }]);
 
 })(window.bunsen);

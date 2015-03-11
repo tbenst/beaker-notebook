@@ -1,4 +1,4 @@
-!(function(angular, app) {
+;(function(angular, app) {
 
   app.controller('marketPlace', [
     '$q',
@@ -28,7 +28,7 @@
       });
 
       getDataSets();
-    }
+    };
 
     function getSelectedFilters() {
       var TS = TagNormalizeService;
@@ -36,7 +36,7 @@
       // condense all search filters into a flat list
       var scopes = _($scope.marketPlace.filters).keys().map(function(f) {
         var filterScope = f + 'Scope';
-        return TS.normalizeFilter($scope.marketPlace[filterScope], 'marketPlace.' + filterScope, $scope)
+        return TS.normalizeFilter($scope.marketPlace[filterScope], 'marketPlace.' + filterScope, $scope);
       })
       .value();
 
@@ -52,7 +52,7 @@
     var previousRequestsAborter;
 
     function getDataSets() {
-      if (previousRequestsAborter) {previousRequestsAborter.resolve()}
+      if (previousRequestsAborter) {previousRequestsAborter.resolve();}
       previousRequestsAborter = $q.defer();
 
       F.DataSets.getDataSets($scope.marketPlace, previousRequestsAborter).then(function(d) {
@@ -114,7 +114,7 @@
       unbindWatchers();
       _($scope.marketPlace.filters).keys().each(function(f) {
         watchers.push($scope.$watchCollection('marketPlace.' + f + 'Scope', resetDataSets));
-      })
+      });
     }
   }]);
 

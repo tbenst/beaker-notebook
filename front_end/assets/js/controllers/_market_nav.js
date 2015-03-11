@@ -1,4 +1,4 @@
-!(function(angular, app) {
+;(function(angular, app) {
 
   app.controller('marketNav', [
     '$scope',
@@ -28,7 +28,7 @@
       nodeChildren: "children",
       onLabelClick: "both",
       allowMultiple: false
-    }
+    };
 
     $scope.onTreeExpansion = function (node, expanded) {
       if(expanded) {
@@ -36,14 +36,14 @@
           _.each(node.children, function(category){
             var child = _.find(categories[0].children, {id: category.id});
             category.children = child.children ;
-          })
-        })
+          });
+        });
       } else{
         _.each(node.children, function (category) {
-          delete category.children
-        })
+          delete category.children;
+        });
       }
-    }
+    };
 
     $scope.onTreeSelection = function(node) {
       if (node) {
@@ -51,7 +51,7 @@
         $localStorage.lastIndex = node.index;
         $scope.newSearch({categoryPath: node.path});
       }
-    }
+    };
 
     $scope.searchByTag = function(tag) {
       $scope.newSearch({
@@ -64,10 +64,10 @@
       var dataTags = $scope.marketPlace.relatedTags;
       var dataTagsToDisplay = 6;
 
-      if(dataTags != undefined) {
+      if(dataTags !== undefined) {
         return dataTags.length >= dataTagsToDisplay;
       }
-    }
+    };
 
     F.Categories.getCategories({limit: 3}).then(function(treeData) {
       $scope.treeData = treeData;
