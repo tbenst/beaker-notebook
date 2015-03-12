@@ -46,10 +46,12 @@ IMAGES := \
 	start-tests-user \
 	start-tests-vendor \
 	start-tests-integration \
+	start-tests-marketplace \
 	start-beaker \
 	test-integration \
 	test-vendor \
 	test-user \
+	test-marketplace \
 	deploy-% \
 	bootstrap-ci \
 	bootstrap-local \
@@ -119,6 +121,13 @@ test-user: wait-provisioner wait-api wait-web start-tests-user
 	docker logs -f bunsen-user
 	exit $$(docker wait bunsen-user)
 
+test-marketplace: ENV := test
+test-marketplace: HOST := 10.10.10.10
+text-marketplace: wait-provisioner start-tests-marketplace
+	sleep 5
+	docker logs -f bunsen-marketplace
+	exit $$(docker wait bunsen-marketplace)
+
 test-vendor: ENV := test
 test-vendor: HOST := 10.10.10.10
 test-vendor: wait-provisioner wait-api wait-web start-tests-vendor
@@ -147,6 +156,10 @@ wait-marketplace: start-marketplace
 
 start-tests-integration:
 	docker run -d -p 5900:5900 --env-file="config/$(ENV).env" --name=bunsen-tests $(REGISTRY)/bunsen-tests:$(TAG) $(COMMANDS)
+
+start-tests-marketplace: COMMANDS := test
+start-tests-marketplace:
+	docker run -d --env-file="config/$(ENV).env" --name=bunsen-marketplace $(REGISTRY)/bunsen-marketplace:$(TAG) $(COMMANDS)
 
 start-tests-vendor: COMMANDS := test
 start-tests-vendor:
