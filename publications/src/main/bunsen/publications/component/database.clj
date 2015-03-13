@@ -16,6 +16,11 @@
 (defn migrate [conn file]
   (c/ensure-conforms conn (migrations file)))
 
+(defn seed-data [file]
+  (->> file
+       read-resource-file
+       (edn/read-string {:readers (merge *data-readers* {'file read-resource-file})})))
+
 (defrecord Database [config]
   component/Lifecycle
 
@@ -24,8 +29,10 @@
            database
            (let [uri (:database-uri config)]
              (d/create-database uri)
-             (let [conn (d/connect uri)]
+             (let [conn (d/connect uri)
+                   seed (:seed-file config)]
                (migrate conn "migrations.edn")
+               (if seed (d/transact conn (seed-data seed)))
                (assoc database :conn conn)))))
 
   (stop [database]

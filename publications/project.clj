@@ -19,7 +19,8 @@
   :profiles {:uberjar {:aot [bunsen.publications.service]}
              :dev {:env {
                          :server-port 3003
-                         :database-uri "datomic:mem://publications"}
+                         :database-uri "datomic:mem://publications"
+                         :seed-file "seed.edn"}
                    :repl-options {:init (user/watch)}
                    :source-paths ["src/dev"]
                    :dependencies [[hawk "0.1.1"]
