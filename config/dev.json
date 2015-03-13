@@ -257,6 +257,7 @@
         "PROVISIONER_PORT_3001_TCP_ADDR": "172.17.42.1",
         "PROVISIONER_PORT_3001_TCP_PORT": "",
         "SCRATCH_SPACE_ROOT": "/mnt/lustre/bunsen-dev/beaker",
+        "SCRATCH_SPACE_PRESENTATION_DIR":"/tmp/bunsen/scratch",
         "QUOTA": 10485760
       },
       "healthChecks": [

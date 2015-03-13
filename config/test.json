@@ -153,6 +153,7 @@
         "MARKETPLACE_HOST": "172.17.42.1",
         "MARKETPLACE_PORT": "18444",
         "SCRATCH_SPACE_ROOT": "/var/bunsen/test/beaker",
+        "SCRATCH_SPACE_PRESENTATION_DIR": "/tmp/bunsen/scratch",
         "QUOTA": 102400
       },
       "healthChecks": [
