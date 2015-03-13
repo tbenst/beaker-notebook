@@ -11,6 +11,7 @@
                  [bidi "1.10.4"]
                  [liberator "0.12.1"]
                  [ring/ring-json "0.3.1"]
+                 [io.rkn/conformity "0.3.3"]
                  [environ "1.0.0"]]
   :plugins [[lein-environ "1.0.0"]]
   :test-paths ["src/test"]
