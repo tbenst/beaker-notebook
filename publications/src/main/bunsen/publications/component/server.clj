@@ -7,7 +7,8 @@
             [bunsen.publications.helper.route :as route]
             [bunsen.publications.route :as api-route]
             [bunsen.publications.resource.default :refer [default]]
-            [bunsen.publications.resource.status :refer [status]]))
+            [bunsen.publications.resource.status :refer [status]]
+            [datomic.api :as d]))
 
 (def routes
   (route/with-default
@@ -16,6 +17,13 @@
 (def resources
   {:status status
    :default default})
+
+(defn wrap-database [handler database]
+  (fn [req]
+    (let [request (assoc req
+                    :db (d/db (:conn database))
+                    :conn (:conn database))]
+      (handler request))))
 
 (defrecord Server [config database]
   component/Lifecycle
@@ -30,7 +38,8 @@
                            routes)
                  wrapped-handler (-> handler
                                      wrap-json-params
-                                     wrap-params)]
+                                     wrap-params
+                                     (wrap-database database))]
              (assoc server
                :jetty (run-jetty wrapped-handler {:join? false
                                                   :port (:server-port config)})))))
