@@ -22,7 +22,7 @@ config[env] = {
   elasticsearch: {
     host: process.env.ELASTICSEARCH_HOST || process.env.ELASTICSEARCH_PORT_9200_TCP_ADDR || '127.0.0.1',
     port: process.env.ELASTICSEARCH_PORT || process.env.ELASTICSEARCH_PORT_9200_TCP_PORT || 9200,
-    apiVersion: process.env.ELASTICSEARCH_VERSION || '1.4'
+    apiVersion: process.env.ELASTICSEARCH_VERSION || '1.3'
   },
   beakerHost: "localhost"
 };
