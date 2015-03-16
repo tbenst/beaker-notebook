@@ -74,6 +74,5 @@
                            (fn [f] [f {:type "string" :index "not_analyzed"}])
                            filter-names))
         req {:datasets {:properties mappings}}]
-    (println "filter-fields" filter-fields)
     (ind/update-mapping es-conn index-name "datasets" :mapping req)
     ))

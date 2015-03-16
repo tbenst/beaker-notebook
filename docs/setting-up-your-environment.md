@@ -50,6 +50,27 @@ Bunsen uses postgres and elasticsearch. To make managing theses services easier,
     # to limit to a subset of services, pass a more complicated set of variables including a services array
     ansible-playbook -e '{"state":"restarted", "services":["postgresql"]}' -i ansible/inventory.ini ansible/playbooks/vagrant_services.yml
 
+## Elasticsearch
+
+    # elasticsearch was installed above, but we need to seed it with marketplace data
+    forego run make -C marketplace seed
+
+    # the seeder accepts a few options
+    # -h --help       - Print options
+    # -d --datasets   - Datasets file location
+    # -c --categories - Categories file location
+    # -i --index-name - Index name
+
+
+    # want to add your own dataset?
+    forego run make -C marketplace seed -d /path/to/your/json/file.json
+
+    # you've added your own dataset, but you want a different index name?
+    forego run make -C marketplace seed -d /path/to/your/json/file.json -i index_name
+
+    # how about adding your own categories?
+    forego run make -C marketplace seed -c /path/to/your/json/file.json
+
 ## Tests
 
 Tests can be run locally, or within the vagrant box using docker containers. Using docker is preferred, especially when troubleshooting CI issues.

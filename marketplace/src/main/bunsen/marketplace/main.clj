@@ -19,5 +19,6 @@
     (let [categories (base/read-indexed-results es-conn index-name "categories")]
       (datasets-fn es-conn index-name datasets-url categories)
       (ind/refresh es-conn index-name)
-      (cats/update-counts! es-conn index-name categories))
+      (cats/update-counts! es-conn index-name categories)
+      (cats/update-mappings! es-conn index-name categories))
     ))

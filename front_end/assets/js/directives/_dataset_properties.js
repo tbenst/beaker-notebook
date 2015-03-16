@@ -28,7 +28,8 @@
           'tabView',
           'related',
           'catalog',
-          'index'
+          'index',
+          'categoryIds'
         ];
 
         var omitAttrs = specialUiAttrs.concat(ignoreAttrs);

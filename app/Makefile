@@ -12,9 +12,6 @@ watch:
 seed:
 	node app_seed.js $(if $(FILE),-f $(FILE))
 
-index:
-	BULK_INDEX=true node reindex.js
-
 migrate:
 	node_modules/.bin/knex migrate:latest --knexfile=config.js
 
