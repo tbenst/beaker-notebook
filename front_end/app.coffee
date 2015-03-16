@@ -6,5 +6,6 @@ watcher_ignore_folders: ['.git', 'bower_components', 'bower.json', 'node_modules
 
 layouts:
   default: 'layout.jade'
+  'publications.jade': 'publications_layout.jade'
 
 templates: 'assets/templates'
