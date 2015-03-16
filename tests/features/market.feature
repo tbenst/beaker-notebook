@@ -30,11 +30,11 @@ As a researcher, I want to be able to use the market place.
     Then I should see 1 market item on the market list page
 
   Scenario: Filtering market items by multiple tags
-    When there is a market item with the tags "cat,dog,human"
-    And there is a market item with the tags "cat"
+    When there is a market item with the tags "cat man carson,dog,human"
+    And there is a market item with the tags "cat man carson"
     And there is a market item with the tags "dog"
     And I view the market search
-    And I filter by search by selecting the "cat,dog" tags
+    And I filter by search by selecting the "cat man carson,dog" tags
     Then I should see 1 market item on the market list page
 
   Scenario: Filtering market items by vendor
