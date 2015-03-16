@@ -12,9 +12,9 @@ reconfigure_docker() {
 
 reconfigure_postgres() {
   # since postgres listens on localhost by default, change config to listen on all interfaces so docker containers can connect
-  echo "listen_addresses = '*'" | sudo tee -a /etc/postgresql/9.3/main/postgresql.conf
+  echo "listen_addresses = '*'" | sudo tee -a /etc/postgresql/9.4/main/postgresql.conf
   # since postgres only allows local connections by default, allow access to everyone so docker containers can connect
-  echo "host  all  all  0.0.0.0/0   trust" | sudo tee -a /etc/postgresql/9.3/main/pg_hba.conf
+  echo "host  all  all  0.0.0.0/0   trust" | sudo tee -a /etc/postgresql/9.4/main/pg_hba.conf
   sudo service postgresql restart
 }
 
