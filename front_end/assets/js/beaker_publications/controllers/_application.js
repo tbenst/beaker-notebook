@@ -5,5 +5,6 @@
     function(
       $scope,
       $state) {
+      $state.go('publications.items');
   }]);
 })(window.bunsen);
