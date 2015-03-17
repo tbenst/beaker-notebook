@@ -5,6 +5,8 @@
    :elasticsearch-url, e.g. http://10.10.10.10:9200"
   [env]
   {:server-port (Integer. (:marketplace-port env))
+   :cookie-salt (:cookie-salt env)
+   :allow-seed (:allow-seed env)
    :elasticsearch-url (format "http://%s:%s"
                               (:elasticsearch-host env)
                               (:elasticsearch-port env))
