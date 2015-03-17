@@ -108,4 +108,11 @@ the @failed tag above the scenario or feature you want to run, then run
     npm run-script failures
 
 
+## Gotchas
+
+* You must point your browser to the the host and port defined in HOSTNAME in
+  your .env file.  You CANNOT use "localhost" unless that matches the HOSTNAME.
+  If you do, some parts of Bunsen will likely work, but CORS will prevent
+  other things from working, when Bunsen attempts to load Ajax requests
+  and Websockets connections from the host you have defined in HOSTNAME.
 
