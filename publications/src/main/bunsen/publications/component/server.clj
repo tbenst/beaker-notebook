@@ -8,6 +8,7 @@
             [bunsen.publications.route :as api-route]
             [bunsen.publications.resource.default :refer [default]]
             [bunsen.publications.resource.status :refer [status]]
+            [bunsen.publications.resource.publication :refer [publication]]
             [datomic.api :as d]))
 
 (def routes
@@ -16,6 +17,7 @@
 
 (def resources
   {:status status
+   :publication publication
    :default default})
 
 (defn wrap-database [handler database]
