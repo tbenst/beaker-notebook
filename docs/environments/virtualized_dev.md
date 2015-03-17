@@ -1,4 +1,7 @@
-# Quick start guide to local development
+# Virtualized development environment.
+
+# THIS DOCUMENT IS INCOMPLETE AND PROBABLY INACCURATE.  INHERITED FROM OLD DOCS
+AND NEEDS EDITING.
 
 ## To run the application locally
   * Ensure that your vagrant is running and provisioned.
@@ -27,5 +30,15 @@ make run-index
 ```
 
 ## Running tests
+
+    # make sure vagrant is running
+    vagrant up
+
+    # build all docker images
+    make
+
+    # actually run the tests
+    make test
+
 
 Check the docs for the [Test service](services/test.md)

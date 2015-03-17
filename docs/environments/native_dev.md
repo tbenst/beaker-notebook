@@ -1,8 +1,23 @@
-# Bunsen Local Dev
+# Bunsen Native Development
+
+This is the way you'll usually be running Bunsen locally while you're developing
+features.  In this environment, [Forego](https://github.com/ddollar/forego) runs
+and manages most of the services using native processes.
+
+The disadvantage of doing it this way, as opposed to running the services in
+Docker, is that development environment less closely resembles Staging and CI,
+which makes it more likely that problems will occur in those other environments
+that will be invisible in Native-Dev.
+
+The advantage is that you'll be able to see the results of your functional
+changes more quickly using native processes, and will be able to make faster
+progress on features that don't depend on running in Docker (which is most
+features).
+
 
 ## Setup
 
-To setup the new bunsen dev environment:
+To set up the Native Development environment:
 
     # bootstrapping makes sure brew and ansible are installed
     make bootstrap-local
@@ -28,16 +43,7 @@ To setup the new bunsen dev environment:
     # forego is a go version of foreman, use it to start the app
     forego start
 
-## Database
-
-    # the database was installed above, but we need to create the dev db
-    createdb bunsen_dev
-
-    # running migrations (or any task)
-    forego run make -C app migrate
-
-    # seeding
-    forego run make -C app seed
+## Managing System-level services
 
 Bunsen uses postgres and elasticsearch. To make managing theses services easier, there are some ansible playbooks to enable/start/stop/restart them.
 
@@ -50,7 +56,19 @@ Bunsen uses postgres and elasticsearch. To make managing theses services easier,
     # to limit to a subset of services, pass a more complicated set of variables including a services array
     ansible-playbook -e '{"state":"restarted", "services":["postgresql"]}' -i ansible/inventory.ini ansible/playbooks/vagrant_services.yml
 
-## Elasticsearch
+### Postgres tasks
+
+    # the database was installed above, but we need to create the dev db
+    createdb bunsen_dev
+
+    # running migrations (or any task)
+    forego run make -C app migrate
+
+    # seeding
+    forego run make -C app seed
+
+
+### Elasticsearch
 
     # elasticsearch was installed above, but we need to seed it with marketplace data
     forego run make -C marketplace seed
@@ -71,15 +89,23 @@ Bunsen uses postgres and elasticsearch. To make managing theses services easier,
     # how about adding your own categories?
     forego run make -C marketplace seed -c /path/to/your/json/file.json
 
+
 ## Tests
 
-Tests can be run locally, or within the vagrant box using docker containers. Using docker is preferred, especially when troubleshooting CI issues.
+Running integration tests: (WARNING:  this will blow away your development
+Postgres database):
 
-    # make sure vagrant is running
-    vagrant up
+    cd tests/
+    export HOST=127.0.0.1:9000
 
-    # build all docker images
-    make
+Now, to run all tests:
 
-    # actually run the tests
-    make test
+    npm start
+
+To run only specific scenario (maybe just the 1 you are working on), first add
+the @failed tag above the scenario or feature you want to run, then run
+
+    npm run-script failures
+
+
+
