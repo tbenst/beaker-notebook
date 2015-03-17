@@ -195,6 +195,53 @@
       ]
     },
     {
+      "id": "/bunsen-staging/publications",
+      "cmd": "",
+      "cpus": 1,
+      "mem": 512,
+      "ports": [
+        ""
+      ],
+      "instances": 1,
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "network": "BRIDGE",
+          "image": "quay.io/mojotech/bunsen-publications",
+          "portMappings": [
+            {
+              "containerPort": 3003,
+              "servicePort": 3003,
+              "protocol": "tcp"
+            }
+          ]
+        }
+      },
+      "env": {
+        "PUBLICATIONS_PORT": 3003,
+        "PUBLICATIONS_DATABASE_URI": "datomic:mem://publications",
+        "BAMBOO_HOST": "bunsen-staging.withmojo.com",
+        "BAMBOO_PATH": "/publications/"
+      },
+      "healthChecks": [
+        {
+          "protocol": "HTTP",
+          "path": "/publications/v1/status",
+          "gracePeriodSeconds": 10,
+          "intervalSeconds": 10,
+          "portIndex": 0,
+          "timeoutSeconds": 5,
+          "maxConsecutiveFailures": 3
+        }
+      ],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0
+      },
+      "uris": [
+        "file:///etc/.dockercfg"
+      ]
+    },
+    {
       "id": "/bunsen-staging/marketplace",
       "cmd": "",
       "cpus": 1,
