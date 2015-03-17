@@ -11,6 +11,8 @@
             [bunsen.publications.resource.publication :refer [publication]]
             [bunsen.publications.resource.publications :refer [publications]]
             [bunsen.publications.resource.publications-count :refer [publications-count]]
+            [bunsen.publications.resource.category :refer [category]]
+            [bunsen.publications.resource.categories :refer [categories]]
             [datomic.api :as d]))
 
 (def routes
@@ -22,6 +24,8 @@
    :publication publication
    :publications publications
    :publications-count publications-count
+   :category category
+   :categories categories
    :default default})
 
 (defn wrap-database [handler database]
