@@ -2,4 +2,6 @@
 
 (def routes
   {"/publications/v1" {"/status" :status
-                       "/publications" {["/" :id] :publication}}})
+                       "/publications" {"" :publications
+                                        ["/" :id] :publication
+                                        "_count" :publications-count}}})
