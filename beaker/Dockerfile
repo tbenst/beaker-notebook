@@ -12,6 +12,8 @@ RUN apt-get install -y --no-install-recommends -t local \
 RUN apt-get install -y --no-install-recommends -t local \
       python \
       python-dev \
+      python-ipython \
+      python-tornado \
       python-pip \
       python-virtualenv
 
