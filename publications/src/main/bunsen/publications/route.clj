@@ -6,4 +6,5 @@
                                         ["/" :id] :publication
                                         "_count" :publications-count}
                        "/categories" {"" :categories
-                                      ["/" :id] :category}}})
+                                      ["/" :id] :category}
+                       "/seed" :seed}})

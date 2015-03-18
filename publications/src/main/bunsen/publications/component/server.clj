@@ -8,6 +8,7 @@
             [bunsen.publications.route :as api-route]
             [bunsen.publications.resource.default :refer [default]]
             [bunsen.publications.resource.status :refer [status]]
+            [bunsen.publications.resource.seed :refer [seed]]
             [bunsen.publications.resource.publication :refer [publication]]
             [bunsen.publications.resource.publications :refer [publications]]
             [bunsen.publications.resource.publications-count :refer [publications-count]]
@@ -26,6 +27,7 @@
    :publications-count publications-count
    :category category
    :categories categories
+   :seed seed
    :default default})
 
 (defn wrap-database [handler database]
