@@ -31,7 +31,7 @@ install_jq() {
 
 install_elasticsearch() {
   # the version of elasticsearch in ubuntu 12.04 is too old, so install a newer one
-  wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.4.tar.gz \
+  wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.3.4.tar.gz \
     && tar -xvf elasticsearch-1.3.4.tar.gz
 }
 
