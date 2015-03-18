@@ -6,8 +6,7 @@
             [bunsen.marketplace.simple.simple :as simple]
             [clojure.data.json :as json]
             [clojurewerkz.elastisch.rest :as rest]
-            [clojurewerkz.elastisch.rest.index :as ind]
-            ))
+            [clojurewerkz.elastisch.rest.index :as ind]))
 
 (defn update-marketplace
   "Performs some common pre-processing tasks before kicking off the
@@ -44,11 +43,11 @@
   (let [datasets (:datasets payload)
         categories (base/read-indexed-results es-conn index-name "categories")
         indexer (base/index! es-conn index-name "datasets" datasets
-                   identity ; json already parsed
-                   (fn [result]
-                     (map (partial simple/prepare-dataset categories)
-                          result))
-                   base/bulk-to-es!)]
+                             identity ; json already parsed
+                             (fn [result]
+                               (map (partial simple/prepare-dataset categories)
+                                    result))
+                             base/bulk-to-es!)]
     (await-for 5000 indexer)
     (= (:stage @indexer) :indexed)))
 
