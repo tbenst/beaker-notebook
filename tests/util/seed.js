@@ -5,6 +5,7 @@ var util = require('util');
 var post    = Promise.promisify(require('request').post);
 var base    = config.bunsenUrl + 'api/seed';
 var del = Promise.promisify(require('request').del);
+var dropPublications = require('./beaker_publications')().deleteSeed;
 
 module.exports = function() {
   this.USER_ROLE = {
@@ -106,6 +107,9 @@ module.exports = function() {
     }.bind(this))
     .then(function() {
       return this.seed.dropIndex();
+    }.bind(this))
+    .then(function() {
+      return dropPublications();
     }.bind(this))
     .catch(function(e) {
       console.log(e);
