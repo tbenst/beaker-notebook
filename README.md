@@ -24,10 +24,11 @@ describes each of them and how they interrelate.
 Bunsen runs in a variety of places, with different configurations and sets of
 involved services.
 
-* development (usually on your workstation)
+* [native development](docs/environments/native_dev.md) (on your workstation)
+* [virtualized development](docs/environments/virtualized_dev.md) (on Vagrant on your workstation)
 * test (usually on your workstation)
-* ci (usually on mojo-cloud)
-* [staging](environments/staging.md) (on mojo-cloud)
+* [ci](docs/environments/ci.md) (on Circle CI)
+* [staging](docs/environments/staging.md) (on mojo-cloud)
 
 The configuration for each environment is located in the "config" directory.
 The Makefile relies on the appropriate configuration file when running
