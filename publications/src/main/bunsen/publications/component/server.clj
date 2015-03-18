@@ -32,9 +32,13 @@
 
 (defn wrap-database [handler database]
   (fn [req]
-    (let [request (assoc req
-                    :db (d/db (:conn database))
-                    :conn (:conn database))]
+    (let [uri (:uri database)
+          conn (d/connect uri)
+          db (d/db conn)
+          request (assoc req
+                    :db db
+                    :conn conn
+                    :db-uri uri)]
       (handler request))))
 
 (defrecord Server [config database]

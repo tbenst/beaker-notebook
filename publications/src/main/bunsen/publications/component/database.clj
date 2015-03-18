@@ -33,7 +33,7 @@
                    seed (:seed-file config)]
                (migrate conn "migrations.edn")
                (if seed (d/transact conn (seed-data seed)))
-               (assoc database :conn conn)))))
+               (assoc database :uri uri)))))
 
   (stop [database]
         (when-let [conn (:conn database)]
