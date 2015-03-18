@@ -26,7 +26,7 @@ involved services.
 
 * development (usually on your workstation)
 * test (usually on your workstation)
-* ci (usually on mojo-cloud)
+* [ci](docs/environments/ci.md) (on Circle CI)
 * [staging](docs/environments/staging.md) (on mojo-cloud)
 
 The configuration for each environment is located in the "config" directory.
