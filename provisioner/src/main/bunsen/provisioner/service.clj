@@ -20,6 +20,5 @@
        :container-port (:provisioner-default-container-port env)
        :container-image (:provisioner-default-container-image env)
        :container-prefix (:provisioner-default-container-prefix env)
-       :local-username (:provisioner-local-username env)
-       :local-password-path (:provisioner-local-password-path env)
+       :local-cookie-path (:provisioner-local-cookie-path env)
        :lifecycle-strategy (keyword (:provisioner-lifecycle-strategy env))})))

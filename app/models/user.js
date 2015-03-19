@@ -248,7 +248,7 @@ module.exports = function(Bookshelf, app) {
               }]
             },
             "env": {
-              "BEAKER_PASSWORD": password,
+              "BEAKER_COOKIE": password,
               "BAMBOO_HOST": process.env.BAMBOO_HOST || process.env.HOSTNAME,
               "BAMBOO_PATH": "/beaker/" + user.id + "/"
             }
@@ -259,7 +259,7 @@ module.exports = function(Bookshelf, app) {
 
     beakerUrl: function() {
       return {
-        url: 'beaker:' + this.get('beakerPassword') + '@' + process.env['HOSTNAME'] + '/beaker/' + this.id + '/beaker/'
+        url: process.env['HOSTNAME'] + '/beaker/' + this.id + '/beaker/'
       };
     },
 

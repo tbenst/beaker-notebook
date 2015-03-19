@@ -36,8 +36,9 @@ http {
   scgi_temp_path "client_temp";
 
   server {
-    auth_basic "Restricted";
-    auth_basic_user_file /etc/nginx/.htpasswd;
+    if (!-f /etc/nginx/cookies/$cookie_beakerauth) {
+        return 403;
+    }
 
     %(listen_section)s
 

@@ -22,8 +22,7 @@
    :container-port 8801
    :container-image "mojotech/bunsen-beaker"
    :container-prefix "bunsen-dev-beaker"
-   :local-username "beaker"
-   :local-password-path "/etc/nginx/.htpasswd"
+   :local-cookie-path "/etc/nginx/cookies"
    :lifecycle-strategy :local})
 
 (defn start []

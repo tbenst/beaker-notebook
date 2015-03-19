@@ -40,6 +40,10 @@ To set up the Native Development environment:
     # copy over dev.env so you can have some local config
     cp config/dev.env .env
 
+    # make directory for auth cookies for beaker
+    sudo mkdir /etc/nginx/cookies
+    sudo chmod 777 /etc/nginx/cookies
+    
     # forego is a go version of foreman, use it to start the app
     forego start
 
