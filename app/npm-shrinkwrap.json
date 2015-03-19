@@ -79,13 +79,13 @@
       "resolved": "https://registry.npmjs.org/crypto/-/crypto-0.0.3.tgz"
     },
     "elasticsearch": {
-      "version": "2.4.0",
-      "from": "https://registry.npmjs.org/elasticsearch/-/elasticsearch-2.4.0.tgz",
-      "resolved": "https://registry.npmjs.org/elasticsearch/-/elasticsearch-2.4.0.tgz",
+      "version": "3.1.1",
+      "from": "elasticsearch@3.1.1",
+      "resolved": "https://registry.npmjs.org/elasticsearch/-/elasticsearch-3.1.1.tgz",
       "dependencies": {
         "bluebird": {
           "version": "2.2.2",
-          "from": "bluebird@>=2.2.1 <2.3.0",
+          "from": "bluebird@>=2.2.2 <2.3.0",
           "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-2.2.2.tgz"
         },
         "chalk": {
@@ -299,9 +299,9 @@
       }
     },
     "fs-extra": {
-      "version": "0.13.0",
-      "from": "https://registry.npmjs.org/fs-extra/-/fs-extra-0.13.0.tgz",
-      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-0.13.0.tgz",
+      "version": "0.14.0",
+      "from": "fs-extra@0.14.0",
+      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-0.14.0.tgz",
       "dependencies": {
         "ncp": {
           "version": "1.0.1",
