@@ -10,12 +10,7 @@ else {
   data = Array.prototype.concat(
     require('./seed_files/users'),
     require('./seed_files/projects'),
-    require('./seed_files/vendors'),
-    require('./seed_files/data_previews'),
-    require('./seed_files/data_tags'),
-    require('./seed_files/categories'),
     require('./seed_files/publication_categories'),
-    require('./seed_files/data_sets'),
     require('./seed_files/notebooks')
   );
 }
