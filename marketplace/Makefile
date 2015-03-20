@@ -1,3 +1,4 @@
+SHELL := /usr/bin/env bash
 
 .PHONY: all watch run test
 
@@ -8,9 +9,8 @@ all:
 watch:
 	lein repl :headless
 
-# remove the dev profile to run in production mode
-run:
-	lein with-profile -dev run
+build:
+	lein do clean, uberjar
 
 seed:
 	lein run -m bunsen.marketplace.seeder
@@ -18,3 +18,9 @@ seed:
 
 test:
 	lein with-profiles -dev test bunsen.marketplace.test.cookie
+
+run:
+	java \
+		-Xmx256M \
+		-Dsun.security.jgss.native=true \
+		-jar target/marketplace-*-standalone.jar
