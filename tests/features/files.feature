@@ -28,6 +28,7 @@ so that I can use files within my cells that I might not want shared on the inte
     And I delete the selected files
     When I click yes to confirm deletion
     Then I should see 0 uploaded files
+    Then I should see I have used 0 bytes of disk space
 
   Scenario: Displaying disk usage
     When I upload a file
