@@ -2,6 +2,9 @@
   app.directive("fileUploadList", function() {
     return {
       restrict: "E",
+      scope: {
+        updateUsage: '&'
+      },
       template: templates['directives/file_upload_list'],
       controller: [
         '$compile',
@@ -34,6 +37,7 @@
             $scope.hideConfirmation();
             $scope.masterCheck = false;
             fetchScratchSpaceFiles();
+            $scope.updateUsage();
           })
         }
 
