@@ -43,22 +43,7 @@
 
   ul.market-list.bunsen-list
     li.bunsen-list-item(ng-repeat="item in marketPlace.data")
-      .col-three-quarters
-        h2
-          a.title(ui-sref="marketPlace.items.item({index: item.index, id: item.id})") {{item.title}}
-        p.description {{item.description | limitTo:100}} {{item.description.length > 100 ? "..." : ""}}
-        .vendor
-          | Vendor:&nbsp;
-          span.vendors {{item.vendor}}
-      .col-quarter
-        ul.attributes
-          li(ng-if="item.format")
-            span.label Format:&nbsp
-            span.value.format {{item.format}}
-          li(ng-if="item.lastUpdated")
-            span.label Updated:&nbsp
-            span.value.last-updated {{item.lastUpdated | date: 'shortDate'}}
-      .cl
+      marketplace-item(item="item")
 
   .pagination-contain
     pagination(ng-model="marketPlace.currentPage"
