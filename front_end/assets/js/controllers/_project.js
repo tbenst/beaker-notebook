@@ -34,6 +34,23 @@
 
     $scope.loadProject();
 
+    $scope.updateUsage = function() {
+      F.Files.quota()
+      .then(function(quota) {
+        F.Files.getScratchSpaceFiles()
+        .then(function(files) {
+          var total = _.reduce(files, function(memo, file) {return memo + file.stat.size}, 0);
+          $scope.diskUsage = {
+            quota: quota,
+            total: total,
+            percent: total * 100 / quota
+          };
+        });
+      });
+    };
+
+    $scope.updateUsage();
+
     $rootScope.$on('window-message-notebook-create', function(event, notebook) {
       $state.go('projects.items.item.notebook', { notebook_id: notebook.id });
     });

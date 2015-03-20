@@ -17,7 +17,13 @@
     .content
       .btn-group.file-actions
         h4 Scratch space utilization
-        disk-usage
+        .disk-usage
+          .bar
+            .progress(style="{{'width:' + diskUsage.percent}}%")
+          p
+            span.gigabytes {{diskUsage.total | humanizeFilesize}}
+            | &nbsp; of {{diskUsage.quota | humanizeFilesize}} used
+
         .message {{fileUploadMessage}}
         file-uploader(message="fileUploadMessage" on-uploaded="updateUsage()")
         file-upload-list
