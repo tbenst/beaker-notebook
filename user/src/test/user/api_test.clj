@@ -1,6 +1,6 @@
 (ns user.api-test
   (:require [clojure.test :refer :all]
-            [bunsen.common.helper.request :refer :all]))
+            [bunsen.common.test-helper.request :refer :all]))
 
 ; when a user signs up without any form info
 ; we need to reject the request and not create a new user
