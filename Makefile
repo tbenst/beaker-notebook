@@ -57,9 +57,9 @@ IMAGES := \
 	bootstrap-local \
 	provision-local
 
-all: $(IMAGES)
+all: install $(IMAGES)
 
-$(filter-out web api,$(IMAGES)):
+$(filter-out web api provisioner marketplace,$(IMAGES)):
 	docker build --force-rm -t $(REGISTRY)/bunsen-$@:$(TAG) $@
 
 web:
@@ -67,6 +67,13 @@ web:
 
 api:
 	docker build --force-rm -t $(REGISTRY)/bunsen-api:$(TAG) app
+
+provisioner marketplace: install
+	make -C $@ build
+	docker build --force-rm -t $(REGISTRY)/bunsen-$@:$(TAG) $@
+
+install:
+	lein modules install
 
 push-all: $(IMAGES:%=push-%)
 push-%:
@@ -114,6 +121,7 @@ prepare-web:
 #
 #
 #
+
 test-user: ENV := test
 test-user: HOST := 10.10.10.10
 test-user: wait-provisioner wait-api wait-web start-tests-user
