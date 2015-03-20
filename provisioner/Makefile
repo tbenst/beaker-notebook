@@ -1,3 +1,4 @@
+SHELL := /usr/bin/env bash
 
 .PHONY: all watch run
 
@@ -8,6 +9,11 @@ all:
 watch:
 	lein repl :headless
 
-# remove the dev profile to run in production mode
+build:
+	lein do clean, uberjar
+
 run:
-	lein with-profile -dev run
+	java \
+		-Xmx256M \
+		-Dsun.security.jgss.native=true \
+		-jar target/provisioner-*-standalone.jar
