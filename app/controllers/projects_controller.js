@@ -33,7 +33,9 @@ module.exports = function(app) {
       Project.forge(
         _.extend({},
           _.pick(req.body, "name", "description"),
-          {"ownerId": req.user.get('id')}
+          {"ownerId": req.user.get('id'),
+           "createdAt": new Date(),
+           "updatedAt": new Date()}
         )
       )
       .save()
@@ -55,7 +57,7 @@ module.exports = function(app) {
     },
 
     update: function(req, res, next) {
-      var attrs = _.pick(req.body, 'name', 'description')
+      var attrs = _(req.body).pick('name', 'description').extend({updatedAt: new Date()}).value();
       if (req.body.open) {attrs.openedAt = new Date(); }
 
       return req.project.save(attrs, {patch: true})

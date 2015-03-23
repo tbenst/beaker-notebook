@@ -223,6 +223,11 @@ module.exports = function() {
     return projectDetail.updatedAt().should.eventually.contain(moment().format("M/D/YY h:mm A"));
   });
 
+  this.Then(/^I should see the project's last updated date as "([^"]*)"$/, function(date) {
+    var projectDetail = new this.Widgets.ProjectDetail();
+    return projectDetail.updatedAt().should.eventually.equal(date);
+  });
+
   this.Then(/^I should see the following project results$/, function(table) {
     return new this.Widgets.ProjectSearchList().contents().then(function(contents) {
       return expect(contents).to.eql(table.hashes());

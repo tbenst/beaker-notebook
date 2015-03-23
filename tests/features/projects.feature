@@ -201,6 +201,14 @@ As a researcher, I want to manage my projects.
       | Researching a new theory on stock prices  |
     Then I should see project's last updated as today's date
 
+  Scenario: Opening a project should not change its updated date
+    Given I have the following Projects:
+      | name              | description                          | updated_at                |
+      | Finance Research  | Researching a theory on stock prices | 2014-04-29 09:45:18.697   |
+    And I view my projects
+    And I open the "Finance Research" project
+    Then I should see the project's last updated date as "4/29/14 9:45 AM"
+
   Scenario: Project with notebooks updated date
     Given I have the following Projects:
       | name              | description                          | updatedAt                 |
