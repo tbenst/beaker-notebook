@@ -1,6 +1,0 @@
-.disk-usage
-  .bar
-    .progress(style="{{'width:' + diskUsage.percent}}%")
-  p
-    span.gigabytes {{diskUsage.total | humanizeFilesize}}
-    | &nbsp; of {{diskUsage.quota | humanizeFilesize}} used

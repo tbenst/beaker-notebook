@@ -51,10 +51,10 @@ function appConfig(app) {
     }
     express.logger('dev').apply(this, arguments);
   });
+  app.use(express.bodyParser({limit: '105mb'}));
   app.use(express.json());
   app.use(express.urlencoded());
   app.use(express.methodOverride());
-  app.use(express.bodyParser());
   app.use(express.cookieParser(process.env.COOKIE_SALT));
   app.use(express.session());
   app.use(express.static(path.join(__dirname, 'public')));
