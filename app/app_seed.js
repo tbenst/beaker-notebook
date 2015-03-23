@@ -4,18 +4,13 @@ var argv = require('minimist')(process.argv);
 var data;
 
 if (argv.f) {
-  data = require(argv.f)
+  data = require(argv.f);
 }
 else {
   data = Array.prototype.concat(
     require('./seed_files/users'),
     require('./seed_files/projects'),
-    require('./seed_files/vendors'),
-    require('./seed_files/data_previews'),
-    require('./seed_files/data_tags'),
-    require('./seed_files/categories'),
     require('./seed_files/publication_categories'),
-    require('./seed_files/data_sets'),
     require('./seed_files/notebooks')
   );
 }
@@ -26,6 +21,6 @@ Seed(data)
   process.exit(1);
 })
 .done(function() {
-  console.log("DB seeded.")
+  console.log("DB seeded.");
   process.exit(0);
 });
