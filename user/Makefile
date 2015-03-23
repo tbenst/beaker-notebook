@@ -3,7 +3,7 @@ SHELL := /usr/bin/env bash
 .PHONY: test all
 
 all:
-		lein deps
+	lein do clean, uberjar
 
 test:
-		lein test
+	lein test
