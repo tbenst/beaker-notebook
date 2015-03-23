@@ -4,7 +4,7 @@ var argv = require('minimist')(process.argv);
 var data;
 
 if (argv.f) {
-  data = require(argv.f)
+  data = require(argv.f);
 }
 else {
   data = Array.prototype.concat(
@@ -26,6 +26,6 @@ Seed(data)
   process.exit(1);
 })
 .done(function() {
-  console.log("DB seeded.")
+  console.log("DB seeded.");
   process.exit(0);
 });

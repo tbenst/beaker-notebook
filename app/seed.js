@@ -2,7 +2,7 @@ var _         = require('lodash'),
 when          = require('when'),
 sequence      = require('when/sequence'),
 inflection    = require('inflection'),
-app           = undefined;
+app;
 
 module.exports = function(data, configPath) {
   // load the app models
@@ -15,7 +15,7 @@ module.exports = function(data, configPath) {
   return sequence(_(data).flatten().map(function(d) {
     return _.partial(function(d) {
       function fetchModel() {
-        var attrs = _.pick(d.data, models[d.model].prototype.idAttrs)
+        var attrs = _.pick(d.data, models[d.model].prototype.idAttrs);
         if (!_.isEmpty(attrs)) {
           return models[d.model].forge(_.pick(d.data, models[d.model].prototype.idAttrs))
           .fetch();
@@ -33,7 +33,7 @@ module.exports = function(data, configPath) {
         })
         .then (function (obj) {
           if (obj.model === null){
-            var m = models[obj.fields.model].forge(obj.fields.data)
+            var m = models[obj.fields.model].forge(obj.fields.data);
             if (_.has(obj.fields.data, 'createdAt') || _.has(obj.fields.data, 'updatedAt')) m.hasTimestamps = false;
             return m.save()
               .then(function(model) {
@@ -47,14 +47,14 @@ module.exports = function(data, configPath) {
             if ( isEqual( _.omit(obj.model.attributes, ['id', 'created_at', 'updated_at']), obj.fields.data) ) return;
             return obj.model.set(obj.fields.data).save();
           }
-        })
+        });
       }, d);
   }).value()).then(function(models) {
     // after we are done return the models array
     // to allow people to do things after the seed is done
     return models;
   });
-}
+};
 
 module.exports.dropAll = function(configPath) {
   app         = app || (require('./models').init({}, configPath));
@@ -70,13 +70,13 @@ module.exports.dropAll = function(configPath) {
   return findAllTables()
     .then(function(names) {
       truncateAll = _.map(names, function(n) {
-        return "TRUNCATE \"" + n.table_name + "\" RESTART IDENTITY"
+        return "TRUNCATE \"" + n.table_name + "\" RESTART IDENTITY";
       }).join(";");
-      return app.DB.knex.raw(truncateAll)
+      return app.DB.knex.raw(truncateAll);
     }).then(function() {
       return models;
     });
-}
+};
 
 function setAssociations(model, modelName, associations, models) {
   var args = Array.prototype.slice.call(arguments, 0);
@@ -86,7 +86,7 @@ function setAssociations(model, modelName, associations, models) {
   }
 
   return when.map(associations, function(association) {
-    return setAssociation.apply(this, args.concat(association))
+    return setAssociation.apply(this, args.concat(association));
   })
   .then(function() {
     return model;
@@ -94,22 +94,22 @@ function setAssociations(model, modelName, associations, models) {
 }
 
 function setAssociation(model, modelName, associations, models, assoc) {
-  var lookupModelKey = _.keys(assoc['lookup'])[0];
+  var lookupModelKey = _.keys(assoc.lookup)[0];
 
   // lookup data can be an array or single value
   // normalize to an array to map over it
-  var lookupData = Array.prototype.concat(assoc['lookup'][lookupModelKey]);
+  var lookupData = Array.prototype.concat(assoc.lookup[lookupModelKey]);
 
   return when.all(_.map(lookupData, function(data) {
     return models[lookupModelKey]
     .forge(data)
     .fetch()
     .then(function(lookupModel) {
-      if (lookupModel == null) {
-        throw(new Error("Association Model "+ lookupModelKey +" Lookup not found with attributes " + JSON.stringify(data, null, 4)))
+      if (lookupModel === null) {
+        throw(new Error("Association Model "+ lookupModelKey +" Lookup not found with attributes " + JSON.stringify(data, null, 4)));
       } else {
-        return setRelationshipStore(assoc['joinTable'], lookupModelKey,
-                                    lookupModel, modelName, model, assoc)
+        return setRelationshipStore(assoc.joinTable, lookupModelKey,
+                                    lookupModel, modelName, model, assoc);
       }
     });
   }));
@@ -144,7 +144,7 @@ function setJoinedRelationship(joinTable, attrs) {
     tableName: joinTable
   });
 
-  return (new JoinModel(attrs)).save()
+  return (new JoinModel(attrs)).save();
 }
 
 //Similar to _.isEqual but also accounts for the case when a model has a null value
@@ -152,6 +152,6 @@ function isEqual (model, seedData) {
   var truthyArr = _.map(Object.keys(model), function (attr) {
     if (model[attr] === null) return true;
     if (model[attr] === seedData[attr]) return true;
-  })
+  });
   return _.every(truthyArr);
 }
