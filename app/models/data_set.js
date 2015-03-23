@@ -3,7 +3,7 @@ var _         = require('lodash'),
     Pipeline  = require('when/pipeline');
 
 var elasticsearch = require('elasticsearch');
-var config = require('../config.js')[process.env["NODE_ENV"]];
+var config = require('../config.js')[process.env.NODE_ENV];
 
 var QUERY_KEYS = ['searchTerm', 'searchScope'];
 
@@ -28,12 +28,12 @@ module.exports = function(Bookshelf, app) {
     touchCategories: function() {
       return this.categories().fetch()
         .then(function(categories) {
-          return Bluebird.map(categories.models, function(c) {return c.save()});
+          return Bluebird.map(categories.models, function(c) {return c.save();});
         });
     },
 
     vendor: function() {
-      return this.belongsTo(models.Vendor)
+      return this.belongsTo(models.Vendor);
     },
 
     users: function() {
@@ -70,16 +70,17 @@ module.exports = function(Bookshelf, app) {
     },
 
     catalogPath: function() {
+      var category;
       function catalog(path) {
         var p = path.split('.');
         return p[0] + '.' + p[1];
       }
 
       if (this.get('categories')) {
-        var category = this.get('categories')[0];
+        category = this.get('categories')[0];
         return catalog(category.path);
       } else if (this.related('categories')) {
-        var category = this.related('categories').models[0];
+        category = this.related('categories').models[0];
         return catalog(category.get('path'));
       }
     },
@@ -111,15 +112,15 @@ module.exports = function(Bookshelf, app) {
         })
         .then(function(related) {
           return _.extend(dataset, {related: related.data});
-        })
+        });
       })
       .then(function(dataset) {
         return new models.Category({path: _this.catalogPath(), index: dataset.index})
         .fetchFromElastic()
         .then(function(catalog) {
-          return _.extend(dataset, {catalog: catalog})
-        })
-      })
+          return _.extend(dataset, {catalog: catalog});
+        });
+      });
     },
 
     elasticJSON: function() {
@@ -138,7 +139,7 @@ module.exports = function(Bookshelf, app) {
       return query('data_sets')
         .distinct('format')
         .select()
-        .orderBy('format', 'ASC')
+        .orderBy('format', 'ASC');
     },
 
     queryBuilder: function(catalog, params) {
@@ -168,7 +169,8 @@ module.exports = function(Bookshelf, app) {
       var _this = this, v;
       var filters = [_this.categoryPathFilter(params.categoryPath || '0')];
       fields.forEach(function(key) {
-        if (v = params[key]) {
+        v = params[key];
+        if (v) {
           if (_.isArray(v)) {
             filters.push(_this.filterTerms(key, v));
           } else {
@@ -200,7 +202,7 @@ module.exports = function(Bookshelf, app) {
         }
       });
       if (_.isEmpty(queries)) {
-        queries.push({match_all: {}})
+        queries.push({match_all: {}});
       }
       return queries;
     },
@@ -211,7 +213,7 @@ module.exports = function(Bookshelf, app) {
 
     aggs: function(fields) {
       var _this = this;
-      var aggs = {}
+      var aggs = {};
       fields.forEach(function(key) {
         aggs[key] = _this.aggsTerm(key);
       });
@@ -270,7 +272,7 @@ module.exports = function(Bookshelf, app) {
         data: _.map(d.hits.hits, app.Models.DataSet.attributesWithIndex),
         totalItems: d.hits.total
       };
-      res.filters = {}
+      res.filters = {};
       catalog.filters().forEach(function(key) {
         res.filters[key] = _.pluck(d.aggregations[key].buckets, 'key');
       });
@@ -295,15 +297,15 @@ module.exports = function(Bookshelf, app) {
         })
         .then(function(results) {
           return _this.transformResults(catalog, results);
-        })
-      })
+        });
+      });
     },
 
     numIds: function(s) {
       // ids is a string of numbers seperated by commas
       // to normalize the data we must split on commas and then
       // convert the string numbers to ints
-      return _(s.split(",")).map(function(i) {return +i}).value();
+      return _(s.split(",")).map(function(i) {return +i;}).value();
     },
 
     findByIds: function(options) {
@@ -339,5 +341,5 @@ module.exports = function(Bookshelf, app) {
   return {
     name: "DataSet",
     model: DataSet
-  }
+  };
 };
