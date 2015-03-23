@@ -3,14 +3,11 @@ SHELL := /usr/bin/env bash
 .PHONY: all watch run test
 
 all:
-	lein deps
+	lein do clean, uberjar
 
 # the repl is configured to run `(user/watch)` on startup
 watch:
 	lein repl :headless
-
-build:
-	lein do clean, uberjar
 
 seed:
 	lein run -m bunsen.marketplace.seeder
@@ -23,4 +20,4 @@ run:
 	java \
 		-Xmx256M \
 		-Dsun.security.jgss.native=true \
-		-jar target/marketplace-*-standalone.jar
+		-jar $(wildcard target/marketplace-*-standalone.jar)
