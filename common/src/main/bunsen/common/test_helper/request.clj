@@ -11,9 +11,10 @@
                   researcher-role "research@mojotech.com"})
 
 (def host-name (str "http://"
-                    (or (System/getenv "API_HOST")
-                        "127.0.0.1") ":"
-                    (or (System/getenv "API_PORT")
+                    (or (System/getenv "HOST")
+                        "127.0.0.1")
+                    ":"
+                    (or (System/getenv "PORT")
                         "3000")))
 
 (def default-options {:throw-exceptions false
