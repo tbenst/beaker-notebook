@@ -14,6 +14,8 @@
             [bunsen.publications.resource.publications-count :refer [publications-count]]
             [bunsen.publications.resource.category :refer [category]]
             [bunsen.publications.resource.categories :refer [categories]]
+            [bunsen.publications.resource.rating :refer [rating]]
+            [bunsen.publications.resource.ratings :refer [ratings]]
             [datomic.api :as d]))
 
 (def routes
@@ -27,6 +29,8 @@
    :publications-count publications-count
    :category category
    :categories categories
+   :rating rating
+   :ratings ratings
    :seed seed
    :default default})
 
