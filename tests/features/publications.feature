@@ -237,3 +237,10 @@ Feature: Publications
     And I give the publication a rating of 3
     Then I should see 3 stars highlighted in my rate
     And I should see 3 stars highlighted in the average
+
+  Scenario: Publication rating in publication list
+    Given I have a publication
+    When I view the publication
+    And I give the publication a rating of 3
+    When I view the publications page
+    Then I should see an average rating of 3 in the first publication
