@@ -105,7 +105,9 @@
   :publication/author 1
   :publication/notebook-id "1237abc"
   :publication/contents #file "notebooks/ipython.bkr"
-  :publication/category #db/id[:db.part/user -4]}
+  :publication/category #db/id[:db.part/user -4]
+  :publication/ratings [{:rating/user 1 :rating/score 3}
+                        {:rating/user 2 :rating/score 4}]}
 
  {:db/id #db/id[:db.part/user]
   :publication/name "Comparing different approaches to evolutionary simulations"
@@ -113,5 +115,7 @@
   :publication/author 1
   :publication/notebook-id "1238abc"
   :publication/contents #file "notebooks/hello_world.bkr"
-  :publication/category #db/id[:db.part/user -1]}
+  :publication/category #db/id[:db.part/user -1]
+  :publication/ratings [{:rating/user 2 :rating/score 2}
+                        {:rating/user 1 :rating/score 5}]}
  ]
