@@ -65,4 +65,29 @@
            :db/cardinality :db.cardinality/one
            :db.install/_attribute :db.part/db}
           ]]}
+
+ :publications/add-ratings-schema
+ {:txes [[
+          {:db/id #db/id[:db.part/db]
+           :db/ident :rating/user
+           :db/valueType :db.type/long
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :rating/score
+           :db/valueType :db.type/long
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+          ]]}
+
+ :publications/add-ratings-to-publications
+ {:txes [[
+          {:db/id #db/id[:db.part/db]
+           :db/ident :publication/ratings
+           :db/valueType :db.type/ref
+           :db/cardinality :db.cardinality/many
+           :db/isComponent true
+           :db.install/_attribute :db.part/db}
+          ]]}
  }
