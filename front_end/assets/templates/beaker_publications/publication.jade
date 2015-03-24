@@ -4,7 +4,7 @@
       h1.name {{publication.name}}
       p.publish-date Published: {{publication.createdAt | date : 'M/d/yy' : 'UTC'}}
       p.description {{publication.description}}
-      ratings(score="publication.userRating" average="publication.averageRating" max="5" rating-attrs="ratingAttrs")
+      ratings(score="publication.userRating" average="publication.averageRating" max="5" publication-id="publication.id")
       .details.cl
         div.publication-control
           .btn.btn-primary.right.copy-notebook(ng-click="") Download Notebook

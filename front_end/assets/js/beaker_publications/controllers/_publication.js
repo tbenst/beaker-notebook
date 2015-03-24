@@ -16,6 +16,17 @@
 
     F.Publications.getPublication($state.params.id).then(function(publication) {
       $scope.publication = publication;
+
+      F.Ratings.averageRating(publication.id)
+      .then(function(count) {
+        _.extend($scope.publication, {averageRating: parseFloat(count.rating)});
+      });
+
+      F.Ratings.userRating(publication.id)
+      .then(function(rate) {
+        score = rate ? rate.score : 0;
+        _.extend($scope.publication, {userRating: score});
+      });
     });
 
     $scope.commaNeeded = function() {

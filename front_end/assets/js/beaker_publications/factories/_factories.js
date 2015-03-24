@@ -2,7 +2,8 @@
 
   var factories = [
     'PublicationCategoriesFactory',
-    'PublicationsFactory'
+    'PublicationsFactory',
+    'RatingsFactory'
   ]
 
   // Build a function defining the master factory:
