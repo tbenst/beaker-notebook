@@ -13,4 +13,6 @@
     li(ng-if="item.lastUpdated")
       span.label Updated:&nbsp
       span.value.last-updated {{item.lastUpdated | date: 'shortDate'}}
+    li
+      ratings(average="item.averageRating" score=0 max=5)
 .cl
