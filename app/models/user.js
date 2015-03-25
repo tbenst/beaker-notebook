@@ -232,63 +232,6 @@ module.exports = function(Bookshelf, app) {
       }
     },
 
-    beakerConfig: function() {
-      var user = this;
-
-      function randomInt(low, high) {
-        return Math.floor(Math.random() * (high - low + 1) + low);
-      }
-
-      function randomSecure() {
-        return Crypto.createHmac('sha1', Date.now().toString())
-          .update(randomInt(0, 9999).toString())
-          .digest('hex');
-      }
-
-      function currentBeakerPassword() {
-        if (user.get('beakerPassword')) {
-          return Promise.resolve(user.get('beakerPassword'));
-        } else {
-          var password = randomSecure();
-
-          return user.save({beakerPassword: password}, {
-            patch: true
-          })
-          .then(function() {
-            user.set({beakerPassword: password});
-            return password;
-          });
-        }
-      }
-
-      return currentBeakerPassword()
-      .then(function(password) {
-        return {
-          "id": user.id,
-          "config": {
-            "container": {
-              "volumes": [{
-                "hostPath": path.join(process.env.SCRATCH_SPACE_ROOT, user.id.toString()),
-                "containerPath": "/mnt/scratch",
-                "mode": "RW"
-              }]
-            },
-            "env": {
-              "BEAKER_COOKIE": password,
-              "BAMBOO_HOST": process.env.BAMBOO_HOST || process.env.HOSTNAME,
-              "BAMBOO_PATH": "/beaker/" + user.id + "/"
-            }
-          }
-        };
-      });
-    },
-
-    beakerUrl: function() {
-      return {
-        url: process.env['HOSTNAME'] + '/beaker/' + this.id + '/beaker/'
-      };
-    },
-
     isAdmin: function() {
       return this.get('role') == 1;
     }

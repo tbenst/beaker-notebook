@@ -15,10 +15,6 @@ config[env] = {
   directory: './migrations',
   tableName: 'migrations',
 
-  provisioner: {
-    host : process.env.PROVISIONER_HOST || process.env.PROVISIONER_PORT_3001_TCP_ADDR || '127.0.0.1',
-    port : process.env.PROVISIONER_PORT || process.env.PROVISIONER_PORT_3001_TCP_PORT || 3001
-  },
   elasticsearch: {
     host: process.env.ELASTICSEARCH_HOST || process.env.ELASTICSEARCH_PORT_9200_TCP_ADDR || '127.0.0.1',
     port: process.env.ELASTICSEARCH_PORT || process.env.ELASTICSEARCH_PORT_9200_TCP_PORT || 9200,
