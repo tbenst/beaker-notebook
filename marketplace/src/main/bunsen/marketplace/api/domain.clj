@@ -9,6 +9,12 @@
             [clojurewerkz.elastisch.rest.index :as ind]
             [clojurewerkz.elastisch.rest.document :as doc]))
 
+(defn connect-to-es
+  [config]
+  (rest/connect
+    (:elasticsearch-url config)
+    (:elasticsearch-options config)))
+
 (defn update-marketplace
   "Performs some common pre-processing tasks before kicking off the
   specified marketplace work.
@@ -16,9 +22,7 @@
   body = string representation of request body
   biz-fn = business task that we intend to perform"
   [config body biz-fn]
-  (let [es-conn (rest/connect
-                  (:elasticsearch-url config)
-                  (:elasticsearch-options config))
+  (let [es-conn (connect-to-es config)
         payload (json/read-str body :key-fn keyword)
         index-name (:indexName payload)]
     (biz-fn es-conn index-name payload)))
