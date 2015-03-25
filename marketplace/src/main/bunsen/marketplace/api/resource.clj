@@ -34,7 +34,8 @@
 (defresource dataset [config  {:keys  [index-name id]}] resource/defaults
   :allowed? (partial is-admin? config)
   :allowed-methods #{:put}
-  :put! (partial pass-body domain/update-dataset config))
+  :put! (fn [ctx]
+          (domain/update-dataset config index-name id (get-body ctx))))
 
 (defresource refresh [config _] resource/defaults
   :allowed? (partial is-admin? config)

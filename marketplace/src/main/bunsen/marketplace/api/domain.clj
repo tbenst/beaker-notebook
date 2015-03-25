@@ -56,9 +56,8 @@
 
 (defn update-dataset
   "Updates dataset with given payload"
-  [es-conn index-name payload]
-  (let [id (-> payload :document :id str)
-        document (-> payload :document)]
+  [config index-name id document]
+  (let [es-conn (connect-to-es config)]
     (doc/put es-conn index-name "datasets" id document)))
 
 (defn update-counts
