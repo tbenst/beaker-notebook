@@ -1,4 +1,4 @@
-(defproject tests "0.1.0-SNAPSHOT"
+(defproject bunsen/user "0.1.0-SNAPSHOT"
   :description "Manage Bunsen users."
   :test-paths ["src/test"]
   :source-paths ["src/main"]
