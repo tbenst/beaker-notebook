@@ -1,5 +1,8 @@
 ;(function(app) {
-  app.service('Beaker', ['$q', 'Restangular', '$location', function($q, Restangular, $location) {
+  app.service('Beaker',
+    ['$q', 'Restangular', 'ProvisionerRestangular', '$location', '$sessionStorage',
+    function($q, Restangular, Provisioner, $location, $sessionStorage) {
+
     var waitInterval = 3000;
 
     return {
@@ -10,7 +13,7 @@
       },
 
       beaker: function() {
-        return Restangular.one('beaker');
+        return Provisioner.one('instance');
       },
 
       getBeakerInstance: function() {
@@ -27,7 +30,7 @@
       provision: function() {
         return this.beaker().post()
         .then(function(res) {
-          return $location.protocol() + "://" + res.url;
+          return '/beaker/' + $sessionStorage.user.id + '/beaker/';
         });
       },
 
