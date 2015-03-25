@@ -154,7 +154,7 @@ wait-api: start-api
 	wget -qO- --retry-connrefused --tries=20 "$(HOST):3000/api/status"
 
 wait-provisioner: start-provisioner
-	wget -qO- --retry-connrefused --tries=20 "$(HOST):3001/api/v1/status"
+	wget -qO- --retry-connrefused --tries=20 "$(HOST):3001/provisioner/v1/status"
 
 wait-marketplace: start-marketplace
 	wget -qO- --retry-connrefused --tries=20 "$(HOST):8444/marketplace/v1/status"
