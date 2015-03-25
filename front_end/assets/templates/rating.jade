@@ -1,11 +1,15 @@
 .rating(ng-if="canShowRating()")
   .col-half.col-outside
-    span My Rating
+    .label
+      span My Rating
   .col-half.col-outside
-    a(ng-repeat="star in stars" ng-click="setRating($index)" ng-mouseover="hover($index)" ng-mouseleave="stopHover()" ng-class="starClass(star, $index)")
+    .stars
+      a(ng-repeat="star in stars" ng-click="setRating($index)" ng-mouseover="hover($index)" ng-mouseleave="stopHover()" ng-class="starClass(star, $index)")
 
 .average
   .col-half.col-outside
-    span Average Rating
+    .label
+      span Average Rating
   .col-half.col-outside
-    a(ng-repeat="star in avgStars" ng-class="starClass(star)")
+    .stars
+      a(ng-repeat="star in avgStars" ng-class="starClass(star)")

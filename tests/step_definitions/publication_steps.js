@@ -304,6 +304,10 @@ module.exports = function() {
     });
   });
 
+  this.Then(/^I should see an average rating of (\d+) in the first publication$/, function(avg) {
+    return new this.Widgets.UserRating({root: '.average'}).currentRating().should.eventually.have.length(avg);
+  });
+
   this.Then(/^I should see the following top contributors:$/, function(table) {
     var expectedValues = _.map(table.hashes(), function(row) {
       var hash = require('crypto').createHash('md5').update(row.gravatar_email).digest('hex');

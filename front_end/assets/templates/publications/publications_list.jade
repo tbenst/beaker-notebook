@@ -12,13 +12,16 @@
         .publication-meta
           h2
             a.title(ui-sref="publications.items.item({id: publication.id})") {{publication.name}}
-          .author(ng-if="publication.author.name")
-            .name
-              strong {{publication.author.name}}
-            .info
-              span.job-title(ng-if="publication.author.jobTitle") {{publication.author.jobTitle}},
-              span.company {{publication.author.company}}
-          p.description {{publication.description | words : 30 }}
+          .left
+            .author(ng-if="publication.author.name")
+              .name
+                strong {{publication.author.name}}
+              .info
+                span.job-title(ng-if="publication.author.jobTitle") {{publication.author.jobTitle}},
+                span.company {{publication.author.company}}
+          .right
+            ratings(average="publication.averageRating" score=0 max=5)
+          p.description.cl {{publication.description | words : 30 }}
           ul.language-icons
             language-icon(ng-repeat="language in publication.languages" lang="language")
 

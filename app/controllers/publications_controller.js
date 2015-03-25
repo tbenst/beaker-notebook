@@ -3,7 +3,8 @@ var RecordNotUniqueError = require("../lib/record_not_unique_error"),
 
 module.exports = function(app) {
   var Publication = app.Models.Publication,
-      Notebook = app.Models.Notebook;
+      Notebook = app.Models.Notebook,
+      Rating = app.Models.Rating;
 
   function querySearchTerm(req, query) {
     if (req.query.searchTerm) {
@@ -35,11 +36,15 @@ module.exports = function(app) {
       publicationList
       .fetchAll({ withRelated: ['author', 'category'] })
       .then(function(publications) {
-        _.each(publications.models, function(publication) {
+        return Promise.each(publications.models, function(publication) {
           publication.set('languages', Publication.languages(publication.get('contents')));
+          return Rating.getAverage({rateableId: 'publications-' + publication.id })
+          .then(function(avg) {
+            return publication.set('averageRating', avg);
+          });
         });
-        res.json(publications);
       })
+      .then(res.json.bind(res))
       .catch(next);
     },
 
