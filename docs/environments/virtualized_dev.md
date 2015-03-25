@@ -1,44 +1,28 @@
 # Virtualized development environment.
 
-# THIS DOCUMENT IS INCOMPLETE AND PROBABLY INACCURATE.  INHERITED FROM OLD DOCS
-AND NEEDS EDITING.
-
 ## To run the application locally
   * Ensure that your vagrant is running and provisioned.
     * `$ vagrant up`
-  * Ensure your docker client is using the docker server running inside vagrant.
-    * e.g. `export DOCKER_HOST=tcp://127.0.0.1:4243`
   * Build your docker images.
     * `$ make -j8` (or specify image, ex: `$ make beaker`)
-  * Run your services and add to marathon
-    * `$ make start`
-  * Configure Bamboo for wiring
-    * `$ make wire`
   * Add the following lines to your host machine's `/etc/hosts`
     * `10.10.10.10    bunsen-dev`
     * `10.10.10.10    bunsen-test`
+  * Ensure your docker client is using the docker server running inside vagrant.
+    * e.g. `export MARATHON_HOST=10.10.10.10:8080`
+  * Run your services and add to marathon
+    * `$ make deploy-dev`
   * Browse to http://bunsen-dev/
-
-## Seeding your development env
-
-* First ensure that your containers are all running.
-* Then run the following:
-
-```bash
-make run-seed
-make run-index
-```
 
 ## Running tests
 
-    # make sure vagrant is running
-    vagrant up
+  * Make sure vagrant is running
+    * `vagrant up`
 
-    # build all docker images
-    make
+  * Build all docker images
+    * `make`
 
-    # actually run the tests
-    make test
+  * There are a few integration and unit tests.  The commands to run each can be found in the [Makefile](../../Makefile)
 
 
-Check the docs for the [Test service](services/test.md)
+Check the docs for the [Test service](../services/tests.md)
