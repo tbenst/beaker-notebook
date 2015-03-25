@@ -95,16 +95,15 @@ Bunsen uses postgres and elasticsearch. To make managing theses services easier,
 Running integration tests: (WARNING:  this will blow away your development
 Postgres database):
 
-    cd tests/
-    export HOST=127.0.0.1:9000
+To run all tests:
 
-Now, to run all tests:
-
-    npm start
+    forego run make -C tests run
 
 To run only specific scenario (maybe just the 1 you are working on), first add
-the @failed tag above the scenario or feature you want to run, then run
+the @failed tag above the scenario or feature you want to run, then
 
+    cd tests/
+    export HOST=127.0.0.1:9000
     npm run-script failures
 
 
