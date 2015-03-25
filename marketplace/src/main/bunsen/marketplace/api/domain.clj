@@ -4,7 +4,6 @@
             [bunsen.marketplace.datasets :as datasets]
             [bunsen.marketplace.mappings :as mappings]
             [bunsen.marketplace.simple.simple :as simple]
-            [clojure.data.json :as json]
             [clojurewerkz.elastisch.rest :as rest]
             [clojurewerkz.elastisch.rest.index :as ind]
             [clojurewerkz.elastisch.rest.document :as doc]))
@@ -23,9 +22,8 @@
   biz-fn = business task that we intend to perform"
   [config body biz-fn]
   (let [es-conn (connect-to-es config)
-        payload (json/read-str body :key-fn keyword)
-        index-name (:indexName payload)]
-    (biz-fn es-conn index-name payload)))
+        index-name (:indexName body)]
+    (biz-fn es-conn index-name body)))
 
 (defn get-status [ctx] "ok")
 
