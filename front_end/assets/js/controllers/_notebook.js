@@ -85,7 +85,7 @@
           TrackingService.mark('NotebookLoaded');
           TrackingService.measure('BaselineUnprovisionedNotebookLoad', 'LoadUnprovisionedNotebook', 'NotebookLoaded');
           TrackingService.measure('BaselineProvisionedNotebookLoad', 'LoadProvisionedNotebook', 'NotebookLoaded');
-          TrackingService.measure('BaselineUProvisionedNotebookCreate', 'CreateUProvisionedNotebook', 'NotebookLoaded');
+          TrackingService.measure('BaselineUnProvisionedNotebookCreate', 'CreateUnProvisionedNotebook', 'NotebookLoaded');
           TrackingService.measure('BaselineProvisionedNotebookCreate', 'CreateProvisionedNotebook', 'NotebookLoaded');
         });
       });
