@@ -206,6 +206,32 @@ module.exports = function(Bookshelf, app) {
       });
     },
 
+    getOrCreateBeakerToken: function() {
+      var user = this;
+
+      function randomInt(low, high) {
+        return Math.floor(Math.random() * (high - low + 1) + low);
+      }
+
+      function randomSecure() {
+        return Crypto.createHmac('sha1', Date.now().toString())
+          .update(randomInt(0, 9999).toString())
+          .digest('hex');
+      }
+
+      if (user.get('beakerPassword')) {
+        return Promise.resolve(user.get('beakerPassword'));
+      } else {
+        var password = randomSecure();
+
+        return user.save({beakerPassword: password}, {patch: true})
+        .then(function() {
+          user.set({beakerPassword: password});
+          return password;
+        });
+      }
+    },
+
     beakerConfig: function() {
       var user = this;
 

@@ -16,6 +16,7 @@ module.exports = function(app) {
 
     //TODO remove the user cookie
     res.cookie('user', user.id, {signed: true, expires: expDate||defaultDate});
+    res.cookie('beakerauth', user.get('beakerPassword'), {expires: defaultDate});
     res.json(user);
   }
 
@@ -24,11 +25,14 @@ module.exports = function(app) {
     authenticate: function (req, res, next) {
      User.signIn(req.body)
         .then(function(user) {
-          if(user) {
-            sendUser(res, user);
-          } else {
-            res.statusCode = 403;
-          }
+          return user.getOrCreateBeakerToken()
+          .then(function() {
+            if(user) {
+              sendUser(res, user);
+            } else {
+              res.statusCode = 403;
+            }
+          })
         })
         .catch(next);
     },
@@ -60,9 +64,12 @@ module.exports = function(app) {
       User.forge(_.pick(req.body, 'name', 'email', 'password'))
       .save()
       .then(function(user) {
-        if(user) {
-          sendUser(res, user, expDate);
-        }
+        return user.getOrCreateBeakerToken()
+        .then(function() {
+          if(user) {
+            sendUser(res, user, expDate);
+          }
+        })
       })
       .catch(function(err) {
         if (err.name == "RecordNotUniqueError") {
