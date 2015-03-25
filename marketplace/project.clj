@@ -1,36 +1,27 @@
-(defproject marketplace "0.1.0-SNAPSHOT"
-  :description "Manages the Marketplace data for Bunsen."
-  :url "https://github.com/twosigma/bunsen"
-  :jvm-opts ["-Dsun.security.jgss.native=true" "-Xmx256M"]
+(defproject bunsen/marketplace "0.1.0-SNAPSHOT"
+  :description "Manages the marketplace data for Bunsen."
   :main bunsen.marketplace.service
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/tools.cli "0.3.1"]
-                 [com.stuartsierra/component "0.2.2"]
-                 [ring "1.3.2"]
-                 [org.clojure/data.codec "0.1.0"]
-                 [bidi "1.15.0" :exclusions [org.clojure/clojure]]
-                 [liberator "0.12.2"]
-                 [org.clojure/data.json "0.2.5"]
-                 [com.taoensso/timbre "3.3.1"]
-                 [clojurewerkz/elastisch "2.1.0"]
-                 [wkf/clj-http "1.0.1-SNAPSHOT-MOJO"]
-                 [pandect "0.5.1"]
-                 [ring/ring-json "0.3.1"]
-                 [environ "1.0.0"]]
-  :plugins [[lein-environ "1.0.0"]]
-  :source-paths ["src/main"]
   :test-paths ["src/test"]
-  :resource-paths ["resources"]
+  :source-paths ["src/main"]
+  :dependencies [[org.clojure/clojure _]
+                 [org.clojure/data.json _]
+                 [org.clojure/tools.cli "0.3.1"]
+                 [org.clojure/data.codec "0.1.0"]
+                 [com.stuartsierra/component _]
+                 [ring _]
+                 [ring/ring-json _]
+                 [bidi _ :exclusions [org.clojure/clojure]]
+                 [environ _]
+                 [pandect "0.5.1"]
+                 [liberator _]
+                 [wkf/clj-http _]
+                 [com.taoensso/timbre "3.3.1"]
+                 [clojurewerkz/elastisch "2.1.0"]]
+  :plugins [[lein-modules "0.3.10"]]
   :profiles {:uberjar {:aot [bunsen.marketplace.service]}
-             :dev {:env {:marketplace-port 8444
-                         :elasticsearch-host "localhost"
-                         :cookie-salt "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<"
-                         :allow-seed "true"
-                         :elasticsearch-port 9200}
-                   :repl-options {:init (user/watch)}
-                   :source-paths ["src/dev"]
+             :dev {:source-paths ["src/dev"]
+                   :repl-options {:init (user/watch)
+                                  :init-ns user}
                    :dependencies [[hawk "0.1.1"]
                                   [ring-mock "0.1.5"]
-                                  [org.clojure/tools.namespace "0.2.7"]]}
-             :test {:env {:server-port 6444}}}
-  :aliases {"build" ["do" ["clean"] ["uberjar"]]})
+                                  [org.clojure/tools.namespace "0.2.10"]]}})

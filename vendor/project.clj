@@ -1,11 +1,10 @@
-(defproject tests "0.1.0-SNAPSHOT"
-  :description ""
-  :url ""
-  :license {}
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/data.json "0.2.5"]
-                 [wkf/clj-http "1.0.1-SNAPSHOT-MOJO"]]
-  :target-path "target/%s"
+(defproject bunsen/vendor "0.1.0-SNAPSHOT"
+  :description "Manages Bunsen vendors."
   :test-paths ["src/test"]
   :source-paths ["src/main"]
+  :dependencies [[bunsen/common _]
+                 [org.clojure/clojure _]
+                 [org.clojure/data.json _]
+                 [wkf/clj-http _]]
+  :plugins [[lein-modules "0.3.10"]]
   :profiles {:uberjar {:aot :all}})

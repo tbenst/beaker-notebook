@@ -2,7 +2,6 @@
   (:gen-class)
   (:require [environ.core :refer [env]]
             [com.stuartsierra.component :as component]
-            [bunsen.marketplace.helper.cli :refer [parse-args]]
             (bunsen.marketplace.component [config :refer [config]]
                                       [server :refer [server]])))
 
@@ -14,5 +13,4 @@
         {:server [:config]})))
 
 (defn -main [& args]
-  (when-let [args (parse-args args)]
-    (component/start (service (merge env args)))))
+  (component/start (service env)))

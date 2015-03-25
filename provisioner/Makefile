@@ -1,13 +1,16 @@
+SHELL := /usr/bin/env bash
 
 .PHONY: all watch run
 
 all:
-	lein deps
+	lein do clean, uberjar
 
 # the repl is configured to run `(user/watch)` on startup
 watch:
 	lein repl :headless
 
-# remove the dev profile to run in production mode
 run:
-	lein with-profile -dev run
+	java \
+		-Xmx256M \
+		-Dsun.security.jgss.native=true \
+		-jar $(wildcard target/provisioner-*-standalone.jar)

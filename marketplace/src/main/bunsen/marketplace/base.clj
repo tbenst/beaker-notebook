@@ -11,7 +11,7 @@
 
 (defn json-resource
   [path]
-  (json/read-str (-> path io/resource io/file slurp) :key-fn keyword))
+  (json/read-str (-> path io/resource slurp) :key-fn keyword))
 
 (defn get-with-auth
   [url]

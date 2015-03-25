@@ -7,16 +7,19 @@ REGISTRY ?= mojotech
 ENV ?= dev
 HOST ?= localhost
 
+CLOJURE_IMAGES := \
+	provisioner \
+	marketplace \
+	user \
+	vendor
+
 IMAGES := \
 	web \
 	api \
-	provisioner \
-	marketplace \
 	beaker \
 	tests \
 	riemann \
-	user \
-	vendor
+	$(CLOJURE_IMAGES)
 
 .PHONY: \
 	$(IMAGES) \
@@ -48,10 +51,8 @@ IMAGES := \
 	start-tests-integration \
 	start-tests-marketplace \
 	start-beaker \
+	test-% \
 	test-integration \
-	test-vendor \
-	test-user \
-	test-marketplace \
 	deploy-% \
 	bootstrap-ci \
 	bootstrap-local \
@@ -59,7 +60,11 @@ IMAGES := \
 
 all: $(IMAGES)
 
-$(filter-out web api,$(IMAGES)):
+$(filter-out $(CLOJURE_IMAGES) web api,$(IMAGES)):
+	docker build --force-rm -t $(REGISTRY)/bunsen-$@:$(TAG) $@
+
+$(CLOJURE_IMAGES): install
+	lein modules :dirs $@ do clean, uberjar
 	docker build --force-rm -t $(REGISTRY)/bunsen-$@:$(TAG) $@
 
 web:
@@ -67,6 +72,9 @@ web:
 
 api:
 	docker build --force-rm -t $(REGISTRY)/bunsen-api:$(TAG) app
+
+install:
+	lein modules install
 
 push-all: $(IMAGES:%=push-%)
 push-%:
@@ -102,8 +110,9 @@ clean-%: remove-%
 #
 
 prepare-all: $(IMAGES:%=prepare-%)
+
 prepare-%:
-	make -C $*
+	lein modules :dirs $* deps
 
 prepare-api:
 	make -C app
@@ -111,36 +120,32 @@ prepare-api:
 prepare-web:
 	make -C front_end
 
-#
-#
-#
-test-user: ENV := test
-test-user: HOST := 10.10.10.10
-test-user: wait-provisioner wait-api wait-web start-tests-user
-	sleep 5
-	docker logs -f bunsen-user
-	exit $$(docker wait bunsen-user)
+prepare-riemann:
+	make -C riemann
 
-test-marketplace: ENV := test
-test-marketplace: HOST := 10.10.10.10
-text-marketplace: wait-provisioner start-tests-marketplace
-	sleep 5
-	docker logs -f bunsen-marketplace
-	exit $$(docker wait bunsen-marketplace)
+prepare-tests:
+	make -C tests
 
-test-vendor: ENV := test
-test-vendor: HOST := 10.10.10.10
-test-vendor: wait-provisioner wait-api wait-web start-tests-vendor
-	sleep 5
-	docker logs -f bunsen-vendor
-	exit $$(docker wait bunsen-vendor)
+#
+#
+#
+
+test test-all: test-vendor test-user test-integration
+
+test-%: ENV := test
+test-%: HOST := 10.10.10.10
+test-%: PORT := 3000
+test-%: wait-all
+	source config/$(ENV).env && HOST=$(HOST) PORT=$(PORT) lein modules :dirs $* test
 
 test-integration: ENV := test
 test-integration: HOST := 10.10.10.10
-test-integration: wait-provisioner wait-marketplace wait-api wait-web start-tests-integration
+test-integration: wait-all start-tests
 	sleep 5
 	docker logs -f bunsen-tests
 	exit $$(docker wait bunsen-tests)
+
+wait-all: wait-web wait-api wait-provisioner wait-marketplace
 
 wait-web: start-web
 	wget -qO- --retry-connrefused --tries=20 "$(HOST):8081"
@@ -154,20 +159,8 @@ wait-provisioner: start-provisioner
 wait-marketplace: start-marketplace
 	wget -qO- --retry-connrefused --tries=20 "$(HOST):8444/api/v1/status"
 
-start-tests-integration:
+start-tests:
 	docker run -d -p 5900:5900 --env-file="config/$(ENV).env" --name=bunsen-tests $(REGISTRY)/bunsen-tests:$(TAG) $(COMMANDS)
-
-start-tests-marketplace: COMMANDS := test
-start-tests-marketplace:
-	docker run -d --env-file="config/$(ENV).env" --name=bunsen-marketplace $(REGISTRY)/bunsen-marketplace:$(TAG) $(COMMANDS)
-
-start-tests-vendor: COMMANDS := test
-start-tests-vendor:
-	docker run -d --env-file="config/$(ENV).env" --name=bunsen-vendor $(REGISTRY)/bunsen-vendor:$(TAG) $(COMMANDS)
-
-start-tests-user: COMMANDS := test
-start-tests-user:
-	docker run -d --env-file="config/$(ENV).env" --name=bunsen-user $(REGISTRY)/bunsen-user:$(TAG) $(COMMANDS)
 
 start-web:
 	docker run -d -p 8081:8081 --env-file="config/$(ENV).env" --name=bunsen-web $(REGISTRY)/bunsen-web:$(TAG) $(COMMANDS)

@@ -1,23 +1,27 @@
 (ns bunsen.provisioner.resource
   (:require [liberator.core :refer [defresource]]
-            [bunsen.provisioner.helper.resource :as resource]
             [bunsen.provisioner.lifecycle :refer [lifecycle] :as lifecycle]
             [bunsen.provisioner.lifecycle.local]
             [bunsen.provisioner.lifecycle.docker]
             [bunsen.provisioner.lifecycle.marathon]))
 
-(defresource status [_ _] resource/defaults
+(def defaults
+  {:allowed-methods #{:get}
+   :available-media-types #{"text/plain" "application/json"}
+   :handle-exception (fn [ctx]
+                       (-> ctx :exception throw))})
+
+(defresource status [_] defaults
   :handle-ok (constantly "ok"))
 
-(defresource default [_ _] resource/defaults
-  :exists? (constantly false))
-
-(defresource instance [{:keys [config]} {:keys [id]}] resource/defaults
-  :exists? (fn [_] {::instance
-                    (lifecycle/inspect (lifecycle config) id)})
+(defresource instance [config] defaults
+  :exists? (fn [ctx] {::instance
+                      (lifecycle/inspect
+                        (lifecycle config)
+                        (get-in ctx [:request :route-params :id]))})
   :handle-ok ::instance)
 
-(defresource instances [{:keys [config]} _] resource/defaults
+(defresource instances [config] defaults
   :allowed-methods #{:post}
   :post! (fn [ctx]
            (when-let [i (lifecycle/create!
@@ -26,3 +30,8 @@
              {::instance i}))
   :handle-created ::instance
   :available-media-types ["application/json"])
+
+(def resources
+  {:status status
+   :instance instance
+   :instances instances})

@@ -1,6 +1,3 @@
-.vagrant/
-.dockercfg
-.env
 /target
 /lib
 /classes
