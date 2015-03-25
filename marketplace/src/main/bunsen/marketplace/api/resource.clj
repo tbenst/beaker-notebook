@@ -26,6 +26,11 @@
   :allowed-methods #{:post}
   :processable? (partial pass-body domain/create-datasets config))
 
+(defresource dataset [config  {:keys  [index-name id]}] resource/defaults
+  :allowed? (partial is-admin? config)
+  :allowed-methods #{:put}
+  :put! (partial pass-body domain/update-dataset config))
+
 (defresource refresh [config _] resource/defaults
   :allowed? (partial is-admin? config)
   :allowed-methods #{:put}

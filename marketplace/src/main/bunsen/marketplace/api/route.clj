@@ -6,6 +6,7 @@
               "/datasets" :datasets
               "/refresh" :refresh
               "/counts" :counts
-              "/indices" :indices
+              "/indices" {"" :indices
+                          ["/" :index-name  "/datasets/" :id] :dataset}
               "/mappings" :mappings
               }])

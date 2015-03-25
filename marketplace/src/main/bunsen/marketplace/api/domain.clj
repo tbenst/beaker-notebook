@@ -7,7 +7,7 @@
             [clojure.data.json :as json]
             [clojurewerkz.elastisch.rest :as rest]
             [clojurewerkz.elastisch.rest.index :as ind]
-            ))
+            [clojurewerkz.elastisch.rest.document :as doc]))
 
 (defn update-marketplace
   "Performs some common pre-processing tasks before kicking off the
@@ -44,13 +44,20 @@
   (let [datasets (:datasets payload)
         categories (base/read-indexed-results es-conn index-name "categories")
         indexer (base/index! es-conn index-name "datasets" datasets
-                   identity ; json already parsed
-                   (fn [result]
-                     (map (partial simple/prepare-dataset categories)
-                          result))
-                   base/bulk-to-es!)]
+                             identity ; json already parsed
+                             (fn [result]
+                               (map (partial simple/prepare-dataset categories)
+                                    result))
+                             base/bulk-to-es!)]
     (await-for 5000 indexer)
     (= (:stage @indexer) :indexed)))
+
+(defn update-dataset
+  "Updates dataset with given payload"
+  [es-conn index-name payload]
+  (let [id (-> payload :document :id str)
+        document (-> payload :document)]
+    (doc/put es-conn index-name "datasets" id document)))
 
 (defn update-counts
   [es-conn index-name payload]
