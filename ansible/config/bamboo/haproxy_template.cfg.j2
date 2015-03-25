@@ -54,6 +54,7 @@ frontend http
   use_backend api if { path_beg -i /api }
   use_backend riemann if { path_beg -i /events }
   use_backend beaker if { path_beg -i /beaker }
+  use_backend provisioner if { path_beg -i /provisioner }
   default_backend web
 
 backend marketplace
@@ -75,6 +76,10 @@ backend riemann
 backend beaker
   balance roundrobin
   server beaker-server localhost:8801
+
+backend provisioner
+  balance roundrobin
+  server provisioner-server localhost:3001
 
 {{ $services := .Services }}
 frontend http-in
