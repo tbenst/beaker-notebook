@@ -1,4 +1,4 @@
-(defproject tests "0.1.0-SNAPSHOT"
+(defproject bunsen/vendor "0.1.0-SNAPSHOT"
   :description "Manages Bunsen vendors."
   :test-paths ["src/test"]
   :source-paths ["src/main"]
