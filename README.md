@@ -3,10 +3,7 @@
 
 ## How to contribute
 
-[Setting up your environment](docs/setting-up-your-environment.md)
-
-[Quick start guide to local development](docs/local_quickstart.md)
-
+[Setting up your environment](docs/environments/native_dev.md)
 
 ## Microservices
 
