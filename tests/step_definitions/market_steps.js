@@ -462,4 +462,8 @@ module.exports = function() {
   this.Then(/^I should not see the user rating$/, function() {
     return new this.Widgets.UserRating({root: '.rating'}).isPresent().should.eventually.equal(false);
   });
+
+  this.Then(/^I should see an average rating of (\d+) for the first market item$/, function(avg) {
+    return new this.Widgets.UserRating({root: '.average'}).currentRating().should.eventually.have.length(avg);
+  });
 }

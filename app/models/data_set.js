@@ -279,6 +279,18 @@ module.exports = function(Bookshelf, app) {
       return res;
     },
 
+    addAverageRatings: function(results) {
+      return Bluebird.map(results.data, function(d) {
+        return app.Models.Rating.getAverage({rateableId: 'data_sets-' + d.index + '-' + d.id})
+        .then(function(avg) {
+          return _.extend(d, {averageRating: avg});
+        });
+      })
+      .then(function() {
+        return results;
+      });
+    },
+
     findMatching: function(params, options) {
       var _this = this;
       var categoryPath = params.categoryPath;
@@ -297,6 +309,9 @@ module.exports = function(Bookshelf, app) {
         })
         .then(function(results) {
           return _this.transformResults(catalog, results);
+        })
+        .then(function(results) {
+          return _this.addAverageRatings(results);
         });
       });
     },
