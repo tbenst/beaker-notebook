@@ -41,7 +41,7 @@
           .catch(function() {
             if (!$sessionStorage.user) {
               $rootScope.goTo = toState;
-              $state.go("signIn");
+              $state.go("landing");
               event.preventDefault();
             }
           })
