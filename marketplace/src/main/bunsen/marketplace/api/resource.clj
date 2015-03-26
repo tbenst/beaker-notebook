@@ -2,16 +2,21 @@
   (:require [liberator.core :refer [defresource]]
             [bunsen.marketplace.helper.resource :as resource]
             [bunsen.marketplace.api.domain :as domain]
-            ))
+            [clojure.data.json :as json]))
 
 (defn is-admin? [config ctx]
   (if (= "true" (:allow-seed config))
     true
     (= "1" (-> ctx :request :session :role))))
 
+(defn get-body
+  [ctx]
+  (let [body (-> ctx :request :body slurp)]
+        (json/read-str body :key-fn keyword)))
+
 (defn pass-body
   [biz-fn config ctx]
-  (domain/update-marketplace config (-> ctx :request :body slurp) biz-fn))
+  (domain/update-marketplace config (get-body ctx) biz-fn))
 
 (defresource status [_ _] resource/defaults
   :handle-ok domain/get-status)
@@ -29,7 +34,8 @@
 (defresource dataset [config  {:keys  [index-name id]}] resource/defaults
   :allowed? (partial is-admin? config)
   :allowed-methods #{:put}
-  :put! (partial pass-body domain/update-dataset config))
+  :put! (fn [ctx]
+          (domain/update-dataset config index-name id (get-body ctx))))
 
 (defresource refresh [config _] resource/defaults
   :allowed? (partial is-admin? config)

@@ -4,10 +4,15 @@
             [bunsen.marketplace.datasets :as datasets]
             [bunsen.marketplace.mappings :as mappings]
             [bunsen.marketplace.simple.simple :as simple]
-            [clojure.data.json :as json]
             [clojurewerkz.elastisch.rest :as rest]
             [clojurewerkz.elastisch.rest.index :as ind]
             [clojurewerkz.elastisch.rest.document :as doc]))
+
+(defn connect-to-es
+  [config]
+  (rest/connect
+    (:elasticsearch-url config)
+    (:elasticsearch-options config)))
 
 (defn update-marketplace
   "Performs some common pre-processing tasks before kicking off the
@@ -16,12 +21,9 @@
   body = string representation of request body
   biz-fn = business task that we intend to perform"
   [config body biz-fn]
-  (let [es-conn (rest/connect
-                  (:elasticsearch-url config)
-                  (:elasticsearch-options config))
-        payload (json/read-str body :key-fn keyword)
-        index-name (:indexName payload)]
-    (biz-fn es-conn index-name payload)))
+  (let [es-conn (connect-to-es config)
+        index-name (:indexName body)]
+    (biz-fn es-conn index-name body)))
 
 (defn get-status [ctx] "ok")
 
@@ -54,9 +56,8 @@
 
 (defn update-dataset
   "Updates dataset with given payload"
-  [es-conn index-name payload]
-  (let [id (-> payload :document :id str)
-        document (-> payload :document)]
+  [config index-name id document]
+  (let [es-conn (connect-to-es config)]
     (doc/put es-conn index-name "datasets" id document)))
 
 (defn update-counts
