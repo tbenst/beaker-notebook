@@ -1,6 +1,6 @@
-var _         = require("lodash");
-var bluebird  = require("bluebird");
-var assert    = require("assert");
+var _         = require('lodash');
+var bluebird  = require('bluebird');
+var assert    = require('assert');
 var config    = require('../util/_config');
 var base      = config.bunsenUrl + 'api/seed';
 
@@ -8,17 +8,19 @@ var DEFAULT_INDEX = 'catalog_0.1';
 
 var marketItemBase = function() {
   var base = _.cloneDeep({
-    description: "We don’t verify all the facts alleged in these complaints but we do take steps to confirm a commercial relationship between the consumer and company. Complaints are listed here after the company responds or after they have had the complaint for 15 calendar days, whichever comes first. We remove complaints if they don’t meet all of the publication criteria. Data is refreshed nightly.",
-    remoteFile: "Credit_card_complaints.csv",
+    //jscs:disable
+    description: 'We don’t verify all the facts alleged in these complaints but we do take steps to confirm a commercial relationship between the consumer and company. Complaints are listed here after the company responds or after they have had the complaint for 15 calendar days, whichever comes first. We remove complaints if they don’t meet all of the publication criteria. Data is refreshed nightly.',
+    //jscs:enable
+    remoteFile: 'Credit_card_complaints.csv',
     rows: 350,
-    updateFrequency: "Weekly",
+    updateFrequency: 'Weekly',
     vendor: 'Two Sigma',
     tags: ['one'],
     categoryIds: ['categories_default']
   });
-  base.title = "Credit Card Complaints " + Math.random();
+  base.title = 'Credit Card Complaints ' + Math.random();
   return base;
-}
+};
 
 var twoSigmaCatalog = {
   title: {type: 'string', indexes: ['text']},
@@ -41,14 +43,13 @@ var quandlCatalog = {
   company: {type: 'string', indexes: ['filter']},
 };
 
-
 module.exports = function() {
 
   this.createCatalog = function(indexName, attrs) {
     return this.marketplace.createIndex(indexName).then(function() {
       return this.marketplace.createCategories(indexName, [attrs]);
     }.bind(this));
-  }
+  };
 
   this.Given(/^I have a catalog with a duplicate path$/, function() {
     return this.createCatalog('index_dupe', {
@@ -56,13 +57,15 @@ module.exports = function() {
       path: '0.1',
       metadata: twoSigmaCatalog
     });
-  })
+  });
 
   this.Given(/^I have a default catalog$/, function() {
     return this.createCatalog(DEFAULT_INDEX, {
       name: 'default',
       path: '0.1',
+      //jscs:disable
       base_path: '/var/s3/',
+      //jscs:enable
       metadata: twoSigmaCatalog
     });
   });
@@ -87,10 +90,9 @@ module.exports = function() {
     return seedDataSets.call(this, [{}]);
   });
 
-
   this.When(/^there is (\d+) market items$/, function(count, callback) {
     var itemSaves = [];
-    for(var i = 0; i < +count; ++i) {
+    for (var i = 0; i < +count; ++i) {
       var item = {title: marketItemBase().title + i};
       itemSaves.push(item);
     }
@@ -102,7 +104,7 @@ module.exports = function() {
       var transformed = _.omit(set, ['categories', 'tags']);
       if (set.categories) {
         transformed.categoryIds = _.map(set.categories.split(','), function(catName) {
-          return "categories_" + catName;
+          return 'categories_' + catName;
         });
       }
       if (set.tags) {
@@ -153,15 +155,15 @@ module.exports = function() {
   });
 
   this.When(/^I have a market item with only a thumbnail$/, function() {
-    return seedDataSets.call(this, [{dataPreviews: "http://placehold.it/100x101", title: "Thumbnail Preview"}]);
+    return seedDataSets.call(this, [{dataPreviews: 'http://placehold.it/100x101', title: 'Thumbnail Preview'}]);
   });
 
   this.When(/^I have a market item with a csv preview and a thumbnail$/, function() {
-    return seedDataSets.call(this, [{dataPreviews: "http://placehold.it/100x101", title: "Thumbnail and CSV", numColumns: 5, csvPreview: "one,two,three\n1,2,3"}]);
+    return seedDataSets.call(this, [{dataPreviews: 'http://placehold.it/100x101', title: 'Thumbnail and CSV', numColumns: 5, csvPreview: 'one,two,three\n1,2,3'}]);
   });
 
   this.When(/^I have a market item with no csv preview and no thumbnail$/, function() {
-    return seedDataSets.call(this, [{title: "Sans Previews"}]);
+    return seedDataSets.call(this, [{title: 'Sans Previews'}]);
   });
 
   this.Then(/^I should see the following market results$/, function(table) {
@@ -171,7 +173,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the tags "([^"]*)"$/, function(tags) {
-    return bluebird.map([].concat(tags.split(",")), _.bind(function(tag) {
+    return bluebird.map([].concat(tags.split(',')), _.bind(function(tag) {
       return (new this.Widgets.MarketItem()).tags().should.eventually.contain(tag);
     }, this));
   });
@@ -194,7 +196,7 @@ module.exports = function() {
 
   this.Then(/^I should see the related tags "([^"]*)"$/, function(tags) {
     return bluebird.delay(100).then(function() {
-      return (new this.Widgets.MarketRelatedTags()).is([].concat(tags.split(",")));
+      return (new this.Widgets.MarketRelatedTags()).is([].concat(tags.split(',')));
     }.bind(this));
   });
   this.When(/^I view the market search$/, function(callback) {
@@ -206,28 +208,28 @@ module.exports = function() {
   });
 
   this.Then(/^I should see (\d+) market items? on the market list page$/, function(count) {
-    var marketList = new this.Widgets.MarketList()
+    var marketList = new this.Widgets.MarketList();
 
     return marketList.items().should.eventually.have.length(+count);
   });
 
   this.When(/^I filter by search by selecting the "([^"]*)" formats$/, function(formats, callback) {
-    var marketTagFilter = new this.Widgets.MarketFormatFilter;
+    var marketTagFilter = new this.Widgets.MarketFormatFilter();
 
-    return marketTagFilter.selectMatching(formats.split(","));
+    return marketTagFilter.selectMatching(formats.split(','));
   });
 
   this.When(/^I filter by search by selecting the "([^"]*)" tags$/, function(tags) {
-    var marketTagFilter = new this.Widgets.MarketTagFilter;
+    var marketTagFilter = new this.Widgets.MarketTagFilter();
 
-    return marketTagFilter.selectMatching(tags.split(","));
+    return marketTagFilter.selectMatching(tags.split(','));
   });
 
   this.Then(/^I should see (\d+) total results$/, function(count) {
     var marketSearchPage = new this.Widgets.MarketSearchPage();
 
     return marketSearchPage.getTotalResults().then(function(v) {
-      return assert.equal(+count, v, "Total market page search does not match. \n expected: "+count+"\n got: "+v);
+      return assert.equal(+count, v, 'Total market page search does not match. \n expected: ' + count + '\n got: ' + v);
     });
   });
 
@@ -243,19 +245,19 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the "([^"]*)" tags selected$/, function(tags, callback) {
-    var expected = tags.split(",")
+    var expected = tags.split(',');
     return new this.Widgets.MarketTagFilter().getSelected().should.eventually.eql(expected);
   });
 
   this.Then(/^I should see that no tags are selected$/, function() {
-    var marketTagFilter = new this.Widgets.MarketTagFilter;
+    var marketTagFilter = new this.Widgets.MarketTagFilter();
     return marketTagFilter.getSelected().should.eventually.be.empty;
   });
 
   this.When(/^I filter by search by selecting the "([^"]*)" vendors$/, function(vendors, callback) {
-    var marketVendorFilter = new this.Widgets.MarketVendorFilter;
+    var marketVendorFilter = new this.Widgets.MarketVendorFilter();
 
-    return marketVendorFilter.selectMatching(vendors.split(","));
+    return marketVendorFilter.selectMatching(vendors.split(','));
   });
 
   this.When(/^I search the top-level marketplace for "([^"]*)"$/, function(term) {
@@ -263,7 +265,7 @@ module.exports = function() {
   });
 
   this.When(/^I search the marketplace in the filters for "([^"]*)"$/, function(term) {
-    var marketTextSearch = new this.Widgets.MarketTextSearch;
+    var marketTextSearch = new this.Widgets.MarketTextSearch();
     return marketTextSearch.setTerm(term);
   });
 
@@ -276,7 +278,7 @@ module.exports = function() {
   });
 
   this.When(/^I follow the related tag "([^"]*)"$/, function(tag) {
-    return new this.Widgets.MarketRelatedTags().click({ text: tag });
+    return new this.Widgets.MarketRelatedTags().click({text: tag});
   });
 
   this.When(/^I view the "([^"]*)" market item$/, function(title) {
@@ -288,12 +290,12 @@ module.exports = function() {
   });
 
   this.Then(/^I should see "([^"]*)" is related$/, function(title) {
-    var relatedItems = new this.Widgets.RelatedItems;
+    var relatedItems = new this.Widgets.RelatedItems();
     return relatedItems.itemTitle(0).should.eventually.equal(title);
   });
 
   this.When(/^I view the "([^"]*)" related item$/, function(title) {
-    var relatedItems = new this.Widgets.RelatedItems;
+    var relatedItems = new this.Widgets.RelatedItems();
     return relatedItems.clickItem(title);
   });
 
@@ -311,7 +313,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the file path "([^"]*)"$/, function(path) {
-    return (new this.Widgets.MarketItem()).filePath().should.eventually.equal(path)
+    return (new this.Widgets.MarketItem()).filePath().should.eventually.equal(path);
   });
 
   this.Given(/^I have the following categories:$/, function(table) {
@@ -339,24 +341,24 @@ module.exports = function() {
   });
 
   this.Then(/^I should see "([^"]*)" format(s)?$/, function(formats) {
-    var filter = new this.Widgets.MarketFormatFilter;
-    var expected = formats.split(",");
+    var filter = new this.Widgets.MarketFormatFilter();
+    var expected = formats.split(',');
     return filter.getItemNames().should.eventually.deep.equal(expected);
   });
 
   this.Then(/^I should see "([^"]*)" vendor(s)?$/, function(vendors) {
-    var filter = new this.Widgets.MarketVendorFilter;
-    var expected = vendors.split(",");
+    var filter = new this.Widgets.MarketVendorFilter();
+    var expected = vendors.split(',');
     return filter.getItemNames().should.eventually.deep.equal(expected);
   });
 
   this.Then(/^I should see an active tab of "([^"]*)"$/, function(tabName) {
-    return (new this.Widgets.MarketItem()).activeTab().should.eventually.equal(tabName)
+    return (new this.Widgets.MarketItem()).activeTab().should.eventually.equal(tabName);
   });
 
   this.Then(/^I should see (\d+) tab(s*)$/, function(tabCount) {
-    var tabList = new this.Widgets.TabList()
-    return  tabList.items().should.eventually.have.length(tabCount);
+    var tabList = new this.Widgets.TabList();
+    return tabList.items().should.eventually.have.length(tabCount);
   });
 
   this.When(/^I click the "([^"]*)" tab$/, function(tab) {
@@ -388,7 +390,7 @@ module.exports = function() {
     return bluebird.delay(1500)
     .then(function() {
       return marketCategory.clickCategory(catalog);
-    })
+    });
   });
 
   this.Then(/^I should be in "([^"]*)" catalog$/, function(catalog) {
@@ -414,7 +416,7 @@ module.exports = function() {
   });
 
   this.When(/^I filter marketplace by vendor "([^"]*)"$/, function(vendor) {
-    return new this.Widgets.MarketVendorFilter().selectMatching(vendor.split(","));
+    return new this.Widgets.MarketVendorFilter().selectMatching(vendor.split(','));
   });
 
   this.Then(/^I should see (\d+) items in the "([^"]*)" category count$/, function(count, category) {
@@ -423,10 +425,10 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the following categories in the navigation:$/, function(table) {
-    return new this.Widgets.MarketCategory().allCategories().then(function (categories) {
+    return new this.Widgets.MarketCategory().allCategories().then(function(categories) {
       var intersection = _.intersection(categories, _.pluck(table.hashes(), 'name'));
-      return intersection.length.should.equal(table.hashes().length)
-    })
+      return intersection.length.should.equal(table.hashes().length);
+    });
   });
 
   this.Then(/^I should see the category "([^"]*)"$/, function(category) {
@@ -444,7 +446,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the start date "([^"]*)"$/, function(date) {
-    return (new this.Widgets.MarketItem()).startDate().should.eventually.equal(date)
+    return (new this.Widgets.MarketItem()).startDate().should.eventually.equal(date);
   });
 
   this.Then(/^I give the market item a rating of (\d+)$/, function(index) {
@@ -466,4 +468,4 @@ module.exports = function() {
   this.Then(/^I should see an average rating of (\d+) for the first market item$/, function(avg) {
     return new this.Widgets.UserRating({root: '.average'}).currentRating().should.eventually.have.length(avg);
   });
-}
+};

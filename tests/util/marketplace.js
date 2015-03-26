@@ -14,7 +14,7 @@ module.exports = function() {
   function ensureSuccess(response, indexName) {
     if (response[0].statusCode != 201) {
       throw new Error(util.format(
-        "Marketplace error: \r\nhttpCode: %s\nresponse: %s",
+        'Marketplace error: \r\nhttpCode: %s\nresponse: %s',
         response[0].statusCode, response[1]));
     }
     return refresh(indexName);
@@ -94,7 +94,7 @@ module.exports = function() {
       _.each(categories, function(cat) {
         cat.id = cat.id || ('categories_' + cat.name);
       });
-      return createRecords(indexName, "categories", categories)
+      return createRecords(indexName, 'categories', categories)
         .then(function() {
           return updateMappings(indexName);
         });
@@ -105,7 +105,7 @@ module.exports = function() {
         set.id = set.id || currentDatasetId;
         currentDatasetId += 1;
       });
-      return createRecords(indexName, "datasets", datasets)
+      return createRecords(indexName, 'datasets', datasets)
         .then(function() {
           return updateCounts(indexName);
         });
