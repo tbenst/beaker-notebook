@@ -11,6 +11,16 @@ As a researcher, I need to provide my user identity.
     Then I should see the header greeting "Hi, joe research"
     And I should see navigation
 
+  Scenario: Case insensitive sign in
+    Given I signed up as a researcher
+    And I'm not signed in
+    When I go to the sign in page
+    And I fill in the sign in form with:
+      | email           | password |
+      | U@R.edu         | password |
+    Then I should see the header greeting "Hi, joe research"
+    And I should see navigation
+
   Scenario: Sign out
     Given I'm signed in as a researcher
     When I click the sign out link
