@@ -4,6 +4,8 @@
             [ring.middleware.json :refer [wrap-json-body]]
             [ring.middleware.cookies :refer [wrap-cookies]]
             [ring.middleware.session :refer [wrap-session]]
+            [ring.middleware.params :refer [wrap-params]]
+            [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.util.response :refer [response]]
             [bidi.ring :refer (make-handler)]
             [bunsen.marketplace.component.bunsen-cookie-store :refer [bunsen-cookie-store]]
@@ -37,9 +39,12 @@
                                      (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
                                                     :cookie-name "session"})
                                       wrap-cookies
+                                      wrap-keyword-params
+                                      wrap-params
                                       (wrap-json-body {:keywords? true}))
                                  {:join? false
                                   :port (:server-port config)})))))
+
   (stop [server]
     (when-let [jetty (:jetty server)]
       (.stop jetty))
