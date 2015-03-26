@@ -2,5 +2,4 @@
 
 (def routes
   ["/" {"provisioner/v1" {"/status" :status
-                          "/instance" {"" :instances
-                                       ["/" :id] :instance}}}])
+                          "/instance" :instance}}])

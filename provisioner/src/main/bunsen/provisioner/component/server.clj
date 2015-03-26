@@ -4,6 +4,7 @@
             [ring.util.response :refer [response status]]
             [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.json :refer [wrap-json-params]]
+            [ring.middleware.cookies :refer [wrap-cookies]]
             [clojure.algo.generic.functor :refer [fmap]]
             [com.stuartsierra.component :as component :refer [start stop]]
             [bunsen.provisioner.route :refer [routes]]
@@ -34,7 +35,8 @@
                           ;; defresource returns a function that returns a handler... call it here to pass config
                           (-> (fmap #(% config) resources)
                               (assoc ::not-found not-found)))
-                        wrap-json-params)]
+                        wrap-json-params
+                        wrap-cookies)]
         (assoc server
                :jetty (run-jetty
                         handler {:port port

@@ -12,9 +12,8 @@
     (lifecycle/inspect [_ id]
       {:id id})
 
-    (lifecycle/create! [_ {config "config"}]
+    (lifecycle/create! [_ {token :token}]
       (spit
-        (str local-cookie-path "/" (get-in config ["env" "BEAKER_COOKIE"]))
+        (str local-cookie-path "/" token)
         "allowed"))
     ))
-        

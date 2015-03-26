@@ -22,7 +22,9 @@
    :container-port 8801
    :container-image "mojotech/bunsen-beaker"
    :container-prefix "bunsen-dev-beaker"
+   :container-path "/mnt/scratch"
    :local-cookie-path "/etc/nginx/cookies"
+   :scratch-space-root "/tmp/bunsen/scratch"
    :lifecycle-strategy :local})
 
 (defn start []

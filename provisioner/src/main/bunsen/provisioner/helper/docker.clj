@@ -22,23 +22,12 @@
 (defn remove-container [url id]
   (rest/delete url (str "containers/" id)))
 
-(defn container [{:keys [id config defaults]}]
-  ;; TODO this seems complicated... simplify the data
-  (let [volumes (get-in config ["container" "volumes"])]
-    {"Id" id
-     "Env" (->> (get config "env")
-                (mapv (fn [[k v]] (str k "=" v))))
-     "Cmd" (get defaults "cmd")
-     "Image" (get defaults "image")
-     "Volumes" (mapv (fn [v]
-                       {(get v "containerPath") {}})
-                     volumes)
-     "ExposedPorts" {(str (get defaults "port") "/tcp") {}}
-     "HostConfig" {"Binds" (mapv
-                             #(str
-                                (get % "hostPath")
-                                ":"
-                                (get % "containerPath"))
-                             volumes)
-                   "PortBindings" {(str (get defaults "port") "/tcp")
-                                   [{"HostPort" (str (get defaults "port"))}]}}}))
+(defn container [{:keys [id token port image host-path container-path]}]
+  {"Id" id
+   "Env" [(str "BEAKER_COOKIE=" token)]
+   "Image" image
+   "Volumes" [{container-path {}}]
+   "ExposedPorts" {(str port "/tcp") {}}
+   "HostConfig" {"Binds" [(str host-path ":" container-path)]
+                 "PortBindings" {(str port "/tcp")
+                                 [{"HostPort" (str port)}]}}})
