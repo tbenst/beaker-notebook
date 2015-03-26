@@ -8,6 +8,10 @@
     true
     (= 1 (-> ctx :request :session :role))))
 
+(defn get-params
+  [ctx]
+  (-> ctx :request :params))
+
 (defn get-body
   [ctx]
   (-> ctx :request :body))
@@ -21,8 +25,9 @@
 
 (defresource categories [config _] resource/defaults
   :allowed? (partial is-admin? config)
-  :allowed-methods #{:post}
-  :processable? (partial pass-body domain/create-categories config))
+  :allowed-methods #{:get :post}
+  :handle-ok #(domain/get-categories config (get-params %))
+  :post! (partial pass-body domain/create-categories config))
 
 (defresource datasets [config _] resource/defaults
   :allowed? (partial is-admin? config)

@@ -27,6 +27,18 @@
 
 (defn get-status [ctx] "ok")
 
+(defn get-categories
+  "Returns all categories from specified index by search-term
+  index-name = index which category belongs to
+  search-term = three or more characters which will search against category name"
+  [config params]
+  (let [categories (doc/search (connect-to-es config)
+                               (:index-name params)
+                               "categories"
+                               :query {:fuzzy_like_this_field {"name" {:like_text (:search-term params)}}})]
+
+    (map #(select-keys (:_source %) [:id :name]) (-> categories :hits :hits))))
+
 (defn create-categories
   "Returns true if categories payload was succesfully sent to
   ElasticSearch, false otherwise."
