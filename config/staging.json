@@ -89,8 +89,6 @@
         "MAIL_FROM": "ops+bunsen@mojotech.com",
         "ELASTICSEARCH_PORT_9200_TCP_ADDR": "bunsen:s6nFTwtbZP3wHh@172.17.42.1",
         "ELASTICSEARCH_PORT_9200_TCP_PORT": 9200,
-        "PROVISIONER_PORT_3001_TCP_ADDR": "172.17.42.1",
-        "PROVISIONER_PORT_3001_TCP_PORT": 3001,
         "SCRATCH_SPACE_ROOT": "/mnt/gluster0/bunsen-staging/scratch",
         "SCRATCH_SPACE_PRESENTATION_DIR": "/mnt/scratch",
         "QUOTA": 10737418240,
@@ -142,6 +140,9 @@
       "env": {
         "PROVISIONER_PORT": 3001,
         "PROVISIONER_LIFECYCLE_STRATEGY": "marathon",
+        "SCRATCH_SPACE_ROOT": "/mnt/gluster0/bunsen-staging/scratch",
+        "BAMBOO_PATH": "/provisioner",
+        "BAMBOO_HOST": "bunsen-staging.withmojo.com",
         "BAMBOO_URL": "http://cluster-slave.withmojo.com:8000",
         "MARATHON_URL": "http://cluster-master.withmojo.com:8080",
         "APP_GROUP": "/bunsen-staging/beaker",

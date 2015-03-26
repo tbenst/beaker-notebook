@@ -29,6 +29,9 @@
         "PROVISIONER_LIFECYCLE_STRATEGY": "marathon",
         "BAMBOO_URL": "http://172.17.42.1:8000",
         "MARATHON_URL": "http://172.17.42.1:8080",
+        "BAMBOO_HOST": "bunsen-dev",
+        "SCRATCH_SPACE_ROOT": "/mnt/lustre/bunsen-dev/beaker",
+        "BAMBOO_PATH": "/provisioner",
         "APP_GROUP": "/bunsen-dev/beaker",
         "APP_DEFAULTS": {
           "container": {
@@ -53,7 +56,7 @@
       "healthChecks": [
         {
           "protocol": "HTTP",
-          "path": "/api/v1/status",
+          "path": "/provisioner/v1/status",
           "gracePeriodSeconds": 60,
           "intervalSeconds": 10,
           "portIndex": 0,
@@ -160,8 +163,6 @@
         "ELASTICSEARCH_PORT_9200_TCP_ADDR": "172.17.42.1",
         "ELASTICSEARCH_PORT_9200_TCP_PORT": 9200,
         "ELASTICSEARCH_VERSION": 1.3,
-        "PROVISIONER_PORT_3001_TCP_ADDR": "172.17.42.1",
-        "PROVISIONER_PORT_3001_TCP_PORT": 3001,
         "SCRATCH_SPACE_ROOT": "/mnt/lustre/bunsen-dev/beaker",
         "SCRATCH_SPACE_PRESENTATION_DIR":"/tmp/bunsen/scratch",
         "QUOTA": 10485760,
