@@ -22,19 +22,39 @@ module.exports = function() {
 
   function refresh(indexName) {
     var payload = JSON.stringify({indexName: indexName});
-    return put(config.marketplaceUrl + '/refresh', {body: payload});
+    return put({
+      url: config.marketplaceUrl + '/refresh',
+      body: payload,
+      headers: {
+        'content-type': 'application/json'
+      }
+    });
   }
 
   function updateCounts(indexName) {
     var payload = JSON.stringify({indexName: indexName});
-    return put(config.marketplaceUrl + '/counts', {body: payload}).then(function(response) {
+    return put({
+      url: config.marketplaceUrl + '/counts',
+      body: payload,
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+    .then(function(response) {
       return ensureSuccess(response, indexName);
     });
   }
 
   function updateMappings(indexName) {
     var payload = JSON.stringify({indexName: indexName});
-    return put(config.marketplaceUrl + '/mappings', {body: payload}).then(function(response) {
+    return put({
+      url: config.marketplaceUrl + '/mappings',
+      body: payload,
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+    .then(function(response) {
       return ensureSuccess(response, indexName);
     });
   }
@@ -43,19 +63,31 @@ module.exports = function() {
     var payloadObj = {indexName: indexName};
     payloadObj[recordType] = Array.prototype.concat(records);
     var payload = JSON.stringify(payloadObj);
-    return post(config.marketplaceUrl + '/' + recordType, {body: payload})
-      .then(function(response) {
-        return ensureSuccess(response, indexName);
-      }).then(function() {
-        return updateCounts(indexName);
-      });
+    return post({
+      url: config.marketplaceUrl + '/' + recordType,
+      body: payload,
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+    .then(function(response) {
+      return ensureSuccess(response, indexName);
+    }).then(function() {
+      return updateCounts(indexName);
+    });
   }
 
   this.marketplace = {
 
     createIndex: function(indexName) {
       var payload = JSON.stringify({indexName: indexName});
-      return post(config.marketplaceUrl + '/indices', {body: payload});
+      return post({
+        url: config.marketplaceUrl + '/indices',
+        body: payload,
+        headers: {
+          'content-type': 'application/json'
+        }
+      });
     },
 
     createCategories: function(indexName, categories) {
