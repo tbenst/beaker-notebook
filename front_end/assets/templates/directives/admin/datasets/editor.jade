@@ -18,7 +18,7 @@
   label File Location
   input(placeholder="Location" ng-model="dataset.location")
   p {{creating}}
-  .btn(ng-click="onEdit()") {{creating ? 'Create' : 'Update'}}
+  .btn.submit-dataset-edit(ng-click="onEdit()") {{creating ? 'Create' : 'Update'}}
 
 .col-half
   h4 Previews
