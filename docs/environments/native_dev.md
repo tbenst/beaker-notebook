@@ -64,6 +64,9 @@ Bunsen uses postgres and elasticsearch. To make managing theses services easier,
     # running migrations (or any task)
     forego run make -C app migrate
 
+    # creating a migration
+    forego run make -C app new-migration name="migration_name"
+
     # seeding
     forego run make -C app seed
 
