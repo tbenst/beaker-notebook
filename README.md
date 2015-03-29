@@ -72,5 +72,3 @@ plugins](https://github.com/twosigma/beaker-notebook/wiki/OutputDisplay-spec)
 Beaker's full source code and documentation is available under the
 Apache 2.0 license.  Beaker's sharing feature uses a server with its
 own [repository](https://github.com/twosigma/beaker-sharing-server).
-
-
