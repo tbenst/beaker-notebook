@@ -289,9 +289,14 @@ define(function(require, exports, module) {
           kernel.complete(code, cpos, {'complete_reply': function(reply) {
             cb(reply.matches, reply.matched_text);
           }});
-        } else {
+        } else if (ipyVersion == '2')  {
           kernel.complete(code, cpos, function(reply) {
             cb(reply.content.matches, reply.content.matched_text);
+          });
+        } else {
+          kernel.complete(code, cpos, function(reply) {
+            cb(reply.content.matches, code.substring(reply.content.cursor_start,
+                                                     reply.content.cursor_end));
           });
         }
       },
