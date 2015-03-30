@@ -1,4 +1,4 @@
-ipython==2.3.0
+ipython[all]==2.3.0
 pyzmq
 jinja2
 certifi
