@@ -53,3 +53,11 @@
       pip: name={{ item }} state=present
       with_items:
         - virtualenv
+
+    - name: create nginx directory
+      sudo: yes
+      file: path=/etc/nginx/ state=directory mode=0777
+
+    - name: create .htpasswd file
+      sudo: yes
+      file: path=/etc/nginx/.htpasswd state=touch mode=0777
