@@ -111,7 +111,7 @@ clean-%: remove-%
 
 prepare-all: $(IMAGES:%=prepare-%)
 
-prepare-%:
+prepare-%: install
 	lein modules :dirs $* deps
 
 prepare-api:
