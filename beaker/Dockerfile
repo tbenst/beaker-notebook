@@ -12,8 +12,6 @@ RUN apt-get install -y --no-install-recommends -t local \
 RUN apt-get install -y --no-install-recommends -t local \
       python \
       python-dev \
-      python-ipython \
-      python-tornado \
       python-pip \
       python-virtualenv
 
@@ -36,8 +34,8 @@ RUN apt-get install -y --no-install-recommends -t local \
       python-matplotlib \
       python-numpy \
       python-pandas \
-      python-pyzmq \
       python-scipy \
+      python-tornado \
       python-yaml
 
 RUN useradd beaker -d /opt/beaker --create-home
