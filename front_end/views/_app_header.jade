@@ -8,9 +8,6 @@
       li
         span.dropdown-toggle.settings
           .dropdown-wrapper.settings-dropdown
-            ul.dropdown(ng-show='!$session.user')
-              li
-                a.help(ui-sref="help.main.home" target="_blank") Help
             ul.dropdown(ng-show='$session.user')
               li
                 a.edit-info(ui-sref="userEdit") Edit Information

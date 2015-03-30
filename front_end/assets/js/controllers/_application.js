@@ -41,7 +41,7 @@
           .catch(function() {
             if (!$sessionStorage.user) {
               $rootScope.goTo = toState;
-              $state.go("signIn");
+              $state.go("landing");
               event.preventDefault();
             }
           })
@@ -66,10 +66,6 @@
       })
 
       $rootScope.cachedNotebooks = $rootScope.cachedNotebooks || {};
-
-      $scope.help = function() {
-        return $state.includes('help');
-      }
 
       $rootScope.signOut = function() {
         delete $sessionStorage.user;
