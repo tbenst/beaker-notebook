@@ -32,12 +32,18 @@
     return query;
   }
 
-  app.factory('DataSetsFactory', ['TimeoutRestangular', function(TimeoutRestangular) {
+  app.factory('DataSetsFactory', ['TimeoutRestangular', 'MarketplaceRestangular', function(TimeoutRestangular, MarketplaceRestangular) {
     return {
       getDataSet: function(index, id) {
         return TimeoutRestangular().all('data_sets').one(index, id).get();
       },
-
+      updateDataSet: function(dataset) {
+        return MarketplaceRestangular
+        .one('indices', dataset.index)
+        .customPUT(
+            MarketplaceRestangular.stripRestangular(dataset),
+            'datasets/'+dataset.id);
+      },
       getDataSets: function(scope, abort) {
         return TimeoutRestangular(abort).one('data_sets')
         .get(buildQuery(scope));

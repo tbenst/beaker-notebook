@@ -1,8 +1,7 @@
 (ns bunsen.marketplace.component.server
   (:require [ring.adapter.jetty :refer [run-jetty]]
             [com.stuartsierra.component :as component :refer [start stop]]
-
-            [ring.middleware.json :refer [wrap-json-params]]
+            [ring.middleware.json :refer [wrap-json-body]]
             [ring.middleware.cookies :refer [wrap-cookies]]
             [ring.middleware.session :refer [wrap-session]]
             [ring.util.response :refer [response]]
@@ -34,12 +33,13 @@
                           ((resource config (:route-params request)) request))))]
 
         (assoc server
-               :jetty (run-jetty (-> (wrap-session handler
-                                                   {:store (bunsen-cookie-store (:cookie-salt config))
+               :jetty (run-jetty (-> handler
+                                     (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
                                                     :cookie-name "session"})
-                                     wrap-json-params wrap-cookies)  {:join? false
-                                                                      :port (:server-port config)})))))
-
+                                      wrap-cookies
+                                      (wrap-json-body {:keywords? true}))
+                                 {:join? false
+                                  :port (:server-port config)})))))
   (stop [server]
     (when-let [jetty (:jetty server)]
       (.stop jetty))

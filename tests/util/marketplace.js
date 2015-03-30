@@ -14,7 +14,7 @@ module.exports = function() {
   function ensureSuccess(response, indexName) {
     if (response[0].statusCode != 201) {
       throw new Error(util.format(
-        "Marketplace error: \r\nhttpCode: %s\nresponse: %s",
+        'Marketplace error: \r\nhttpCode: %s\nresponse: %s',
         response[0].statusCode, response[1]));
     }
     return refresh(indexName);
@@ -22,19 +22,39 @@ module.exports = function() {
 
   function refresh(indexName) {
     var payload = JSON.stringify({indexName: indexName});
-    return put(config.marketplaceUrl + '/refresh', {body: payload});
+    return put({
+      url: config.marketplaceUrl + '/refresh',
+      body: payload,
+      headers: {
+        'content-type': 'application/json'
+      }
+    });
   }
 
   function updateCounts(indexName) {
     var payload = JSON.stringify({indexName: indexName});
-    return put(config.marketplaceUrl + '/counts', {body: payload}).then(function(response) {
+    return put({
+      url: config.marketplaceUrl + '/counts',
+      body: payload,
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+    .then(function(response) {
       return ensureSuccess(response, indexName);
     });
   }
 
   function updateMappings(indexName) {
     var payload = JSON.stringify({indexName: indexName});
-    return put(config.marketplaceUrl + '/mappings', {body: payload}).then(function(response) {
+    return put({
+      url: config.marketplaceUrl + '/mappings',
+      body: payload,
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+    .then(function(response) {
       return ensureSuccess(response, indexName);
     });
   }
@@ -43,26 +63,38 @@ module.exports = function() {
     var payloadObj = {indexName: indexName};
     payloadObj[recordType] = Array.prototype.concat(records);
     var payload = JSON.stringify(payloadObj);
-    return post(config.marketplaceUrl + '/' + recordType, {body: payload})
-      .then(function(response) {
-        return ensureSuccess(response, indexName);
-      }).then(function() {
-        return updateCounts(indexName);
-      });
+    return post({
+      url: config.marketplaceUrl + '/' + recordType,
+      body: payload,
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+    .then(function(response) {
+      return ensureSuccess(response, indexName);
+    }).then(function() {
+      return updateCounts(indexName);
+    });
   }
 
   this.marketplace = {
 
     createIndex: function(indexName) {
       var payload = JSON.stringify({indexName: indexName});
-      return post(config.marketplaceUrl + '/indices', {body: payload});
+      return post({
+        url: config.marketplaceUrl + '/indices',
+        body: payload,
+        headers: {
+          'content-type': 'application/json'
+        }
+      });
     },
 
     createCategories: function(indexName, categories) {
       _.each(categories, function(cat) {
         cat.id = cat.id || ('categories_' + cat.name);
       });
-      return createRecords(indexName, "categories", categories)
+      return createRecords(indexName, 'categories', categories)
         .then(function() {
           return updateMappings(indexName);
         });
@@ -73,7 +105,7 @@ module.exports = function() {
         set.id = set.id || currentDatasetId;
         currentDatasetId += 1;
       });
-      return createRecords(indexName, "datasets", datasets)
+      return createRecords(indexName, 'datasets', datasets)
         .then(function() {
           return updateCounts(indexName);
         });

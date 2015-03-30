@@ -28,6 +28,17 @@
           }
         }
       })
-
+      .state('admin.datasets', {
+        abstract: true
+      })
+      .state('admin.datasets.edit', {
+        url: '/admin/datasets/edit/:index/:id',
+        views: {
+          'app@admin': {
+            controller: 'datasetsEdit',
+            template: templates['admin/datasets/edit']
+          }
+        }
+      });
   }]);
 })(angular, window.bunsen, templates);

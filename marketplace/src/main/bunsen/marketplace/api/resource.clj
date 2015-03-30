@@ -1,8 +1,7 @@
 (ns bunsen.marketplace.api.resource
   (:require [liberator.core :refer [defresource]]
             [bunsen.marketplace.helper.resource :as resource]
-            [bunsen.marketplace.api.domain :as domain]
-            [clojure.data.json :as json]))
+            [bunsen.marketplace.api.domain :as domain]))
 
 (defn is-admin? [config ctx]
   (if (= "true" (:allow-seed config))
@@ -11,8 +10,7 @@
 
 (defn get-body
   [ctx]
-  (let [body (-> ctx :request :body slurp)]
-        (json/read-str body :key-fn keyword)))
+  (-> ctx :request :body))
 
 (defn pass-body
   [biz-fn config ctx]

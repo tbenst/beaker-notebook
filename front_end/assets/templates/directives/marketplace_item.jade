@@ -15,4 +15,6 @@
       span.value.last-updated {{item.lastUpdated | date: 'shortDate'}}
     li
       ratings(average="item.averageRating" score=0 max=5)
+    li(ng-if="isAdmin")
+      a.edit.admin-action(ui-sref="admin.datasets.edit({index: item.index, id: item.id})") Edit Marketplace Item
 .cl
