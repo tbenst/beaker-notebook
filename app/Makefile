@@ -15,5 +15,8 @@ seed:
 migrate:
 	node_modules/.bin/knex migrate:latest --knexfile=config.js
 
+new-migration:
+	node_modules/.bin/knex migrate:make  $(name) --knexfile=config.js
+
 run:
 	node app.js
