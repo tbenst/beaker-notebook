@@ -44,6 +44,10 @@
 
     req.open("POST", "/api/files", true);
 
+    req.upload.onprogress = function(e) {
+      return emitter.emit("progress", e);
+    };
+
     req.send(data);
 
     return emitter;
@@ -51,7 +55,6 @@
 
   app.directive('fileUploader', ['$timeout', function($timeout) {
     var messages = {
-      uploading: function() {return "Uploading..."},
       uploaded: function(i) {return i > 1 ? "Files have been uploaded" : "File has been uploaded"},
       failed: function(i) {return i > 1 ? "Files haven't been uploaded correctly" : "File hasn't been uploaded correctly"}
     }
@@ -61,7 +64,8 @@
       template: templates['directives/file_uploader'],
       scope: {
         message: '=',
-        onUploaded: '&'
+        onUploaded: '&',
+        uploadPercentage: '='
       },
       controller: ['$scope', function($scope) {
         var timeout;
@@ -89,15 +93,12 @@
             $scope.message = msg;
           }
 
-          $scope.$apply(function() {
-            showMessage(formatMessage("uploading"));
-          });
-
           upload(files)
           .on("end", function() {
             $scope.$apply(function() {
               showMessage(formatMessage("uploaded"), 5);
               $scope.onUploaded();
+              $scope.uploadPercentage = undefined;
             });
           })
           .on("error", function(err) {
@@ -107,6 +108,13 @@
               showMessage(errorMessage, 30);
             });
           })
+          .on("progress", function(e) {
+            if (e[1].lengthComputable) {
+              $scope.$apply(function() {
+                $scope.uploadPercentage = (e[1].loaded / e[1].total) * 100;
+              });
+            }
+          });
         }
       }]
     }

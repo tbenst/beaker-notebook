@@ -24,8 +24,11 @@
             span.gigabytes {{diskUsage.total | humanizeFilesize}}
             | &nbsp; of {{diskUsage.quota | humanizeFilesize}} used
 
+        .upload-progress(ng-show='uploadPercentage')
+          .bar
+            .progress(style="{{'width:' + uploadPercentage}}%")
         .message {{fileUploadMessage}}
-        file-uploader(message="fileUploadMessage" on-uploaded="updateUsage()")
+        file-uploader(message="fileUploadMessage" upload-percentage="uploadPercentage" on-uploaded="updateUsage()")
         file-upload-list(update-usage="updateUsage()")
 
 .two-sidebars
