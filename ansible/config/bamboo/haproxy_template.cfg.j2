@@ -50,7 +50,7 @@ listen stats
 
 frontend http
   bind *:9000
-  use_backend marketplace if { path_beg -i /api/v1/indices }
+  use_backend marketplace if { path_beg -i /marketplace }
   use_backend api if { path_beg -i /api }
   use_backend riemann if { path_beg -i /events }
   use_backend beaker if { path_beg -i /beaker }

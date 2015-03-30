@@ -3,7 +3,7 @@
     'Restangular',
     function(R) {
       return R.withConfig(function(config) {
-        config.setBaseUrl('api/v1');
+        config.setBaseUrl('marketplace/v1');
       });
     }]);
 })(window.bunsen);

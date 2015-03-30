@@ -157,7 +157,7 @@ wait-provisioner: start-provisioner
 	wget -qO- --retry-connrefused --tries=20 "$(HOST):3001/api/v1/status"
 
 wait-marketplace: start-marketplace
-	wget -qO- --retry-connrefused --tries=20 "$(HOST):8444/api/v1/status"
+	wget -qO- --retry-connrefused --tries=20 "$(HOST):8444/marketplace/v1/status"
 
 start-tests:
 	docker run -d -p 5900:5900 --env-file="config/$(ENV).env" --name=bunsen-tests $(REGISTRY)/bunsen-tests:$(TAG) $(COMMANDS)

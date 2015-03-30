@@ -217,6 +217,8 @@
         8444
       ],
       "env": {
+        "BAMBOO_PATH": "/marketplace",
+        "BAMBOO_HOST": "bunsen-staging.withmojo.com",
         "MARKETPLACE_PORT": 8444,
         "ELASTICSEARCH_HOST": "172.17.42.1",
         "ELASTICSEARCH_PORT": 9200,
@@ -226,7 +228,7 @@
       "healthChecks": [
         {
           "protocol": "HTTP",
-          "path": "/api/v1/status",
+          "path": "/marketplace/v1/status",
           "gracePeriodSeconds": 10,
           "intervalSeconds": 10,
           "portIndex": 0,
