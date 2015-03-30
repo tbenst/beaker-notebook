@@ -61,5 +61,9 @@
   :allowed-methods #{:post}
   :post! (partial pass-body domain/create-index config))
 
+(defresource formats [config _] resource/defaults
+  :allowed? (partial is-admin? config)
+  :handle-ok (domain/get-formats config))
+
 (defresource default [_ _] resource/defaults
   :exists? (constantly false))

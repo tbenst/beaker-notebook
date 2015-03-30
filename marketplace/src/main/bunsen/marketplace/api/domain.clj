@@ -6,7 +6,10 @@
             [bunsen.marketplace.simple.simple :as simple]
             [clojurewerkz.elastisch.rest :as rest]
             [clojurewerkz.elastisch.rest.index :as ind]
-            [clojurewerkz.elastisch.rest.document :as doc]))
+            [clojurewerkz.elastisch.rest.document :as doc]
+            [clojurewerkz.elastisch.query :as query]
+            [clojurewerkz.elastisch.aggregation :as agg]
+            [clojurewerkz.elastisch.rest.response :refer :all]))
 
 (defn connect-to-es
   [config]
@@ -26,6 +29,17 @@
     (biz-fn es-conn index-name body)))
 
 (defn get-status [ctx] "ok")
+
+(defn get-formats
+  "Aggregates all unique formats used within datasets.
+  However we do not pass an index since we want all indices' formats"
+  [config]
+  (let [es-conn (connect-to-es config)
+        response (doc/search es-conn "*" "datasets"
+                             :query (query/match-all)
+                             :aggregations  {:title_terms  (agg/terms  "format")})
+        aggregation (aggregation-from response :title_terms)]
+    (map :key (:buckets aggregation))))
 
 (defn get-categories
   "Returns all categories from specified index by search-term

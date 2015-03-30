@@ -21,6 +21,7 @@
    :counts api-resource/counts
    :indices api-resource/indices
    :mappings api-resource/mappings
+   :formats api-resource/formats
    :default api-resource/default})
 
 (defrecord Server [config]
