@@ -1,10 +1,6 @@
 module.exports = function() {
-  this.Then(/^I should see the marketplace menu item active$/, function() {
-    return new this.Widgets.ActivePage().isMarketPlaceActive();
-  });
-
-  this.Then(/^I should see the projects menu item active$/, function() {
-    return new this.Widgets.ActivePage().isProjectActive();
+  this.Then(/^I should see the "([^"]*)" menu item active$/, function(tabName) {
+    return new this.Widgets.ActivePage().isTabActive(tabName);
   });
 
   this.Then(/^I click the header logo$/, function() {
