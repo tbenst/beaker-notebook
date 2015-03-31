@@ -2,6 +2,14 @@ dataset-editor
   display: block
   overflow: hidden
 
+  // override date polyfill to show
+  // default input contents always
+  .btr-dateinput-value[style]
+    color: transparent !important
+
+  input[type="date"]
+    color: initial !important
+
   .btn
     padding: 12px 20px
     margin: 10px 0

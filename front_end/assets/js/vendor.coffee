@@ -25,3 +25,6 @@
 #= require "../../bower_components/angular-cookies/angular-cookies.js"
 #= require "../../bower_components/humanize/humanize.js"
 #= require "../../bower_components/angularjs-humanize/src/angular-humanize.js"
+#= require "../../bower_components/better-dom/dist/better-dom.js"
+#= require "../../bower_components/better-i18n-plugin/dist/better-i18n-plugin.js"
+#= require "../../bower_components/better-dateinput-polyfill/dist/better-dateinput-polyfill.js"
