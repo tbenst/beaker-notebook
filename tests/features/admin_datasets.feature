@@ -8,6 +8,14 @@ Feature: Admin Datasets
     When I view the market search
     Then I should see the edit indicator
 
+  Scenario: Deleting a dataset
+    When I view the market search
+    And I edit a dataset
+    And I delete the dataset
+    Then I should see the Admin Panel heading
+    When I view the market search
+    Then I should see 0 market item on the market list page
+
   Scenario: Editing a dataset
     When I view the market search
     And I edit a dataset
