@@ -54,6 +54,11 @@
     (await-for 5000 indexer)
     (= (:stage @indexer) :indexed)))
 
+(defn delete-dataset
+  [config index-name id]
+  (let [es-conn (connect-to-es config)]
+    (doc/delete es-conn index-name "datasets" id)))
+
 (defn update-dataset
   "Updates dataset with given payload"
   [config index-name id document]
