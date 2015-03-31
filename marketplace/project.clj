@@ -3,7 +3,8 @@
   :main bunsen.marketplace.service
   :test-paths ["src/test"]
   :source-paths ["src/main"]
-  :dependencies [[org.clojure/clojure _]
+  :dependencies [[bunsen/common _]
+                 [org.clojure/clojure _]
                  [org.clojure/data.json _]
                  [org.clojure/tools.cli "0.3.1"]
                  [org.clojure/data.codec "0.1.0"]

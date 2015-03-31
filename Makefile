@@ -145,6 +145,8 @@ test-integration: wait-all start-tests
 	docker logs -f bunsen-tests
 	exit $$(docker wait bunsen-tests)
 
+test-marketplace: PORT := 8444
+
 wait-all: wait-web wait-api wait-provisioner wait-marketplace
 
 wait-web: start-web
