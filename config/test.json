@@ -88,6 +88,7 @@
         }
       },
       "env": {
+        "COOKIE_SALT": "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<",
         "SERVER_PORT": 8444,
         "APP_GROUP": "/bunsen-test/beaker"
       },
@@ -138,6 +139,7 @@
         "NODE_ENV": "test",
         "ALLOW_SEED": true,
         "ALLOW_CROSS_ORIGIN": true,
+        "COOKIE_SALT": "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<",
         "ENABLE_COVERAGE": true,
         "DB_PORT_5432_TCP_ADDR": "172.17.42.1",
         "DB_PORT_5432_TCP_PORT": "15432",
