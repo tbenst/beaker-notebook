@@ -14,7 +14,7 @@ seed:
 	lein run -m bunsen.marketplace.seeder -d resources/index/datasets_0.2.json -c resources/index/categories_0.2.json -i catalog_0.2
 
 test:
-	lein with-profiles -dev test bunsen.marketplace.test.cookie
+	lein with-profiles -dev test bunsen.marketplace.test.cookie bunsen.marketplace.test.auth_check
 
 run:
 	java \
