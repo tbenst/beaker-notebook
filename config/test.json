@@ -80,9 +80,7 @@
           "image": "provisioner",
           "portMappings": [
             {
-              "containerPort": 8444,
-              "servicePort": "",
-              "protocol": "tcp"
+              "containerPort": 8444
             }
           ]
         }

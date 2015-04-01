@@ -70,9 +70,6 @@
       "cmd": "",
       "cpus": 0.1,
       "mem": 100,
-      "ports": [
-        84444
-      ],
       "instances": 1,
       "container": {
         "type": "DOCKER",
@@ -81,9 +78,7 @@
           "image": "mojotech/bunsen-marketplace",
           "portMappings": [
             {
-              "containerPort": 8444,
-              "servicePort": "",
-              "protocol": "tcp"
+              "containerPort": 8444
             }
           ]
         }
@@ -214,7 +209,7 @@
       "env": {
         "WEB_ROOT": "public",
         "BAMBOO_HOST": "bunsen-dev",
-        "BAMBOO_ACLS": "!{ path_beg -i /api } !{ path_beg -i /beaker } !{ path_beg -i /events }"
+        "BAMBOO_ACLS": "!{ path_beg -i /api } !{ path_beg -i /beaker } !{ path_beg -i /events } !{ path_beg -i /marketplace }"
       },
       "healthChecks": [
         {
