@@ -56,14 +56,12 @@
 
 (defn delete-dataset
   [config index-name id]
-  (let [es-conn (connect-to-es config)]
-    (doc/delete es-conn index-name "datasets" id)))
+  (-> (connect-to-es config) (doc/delete index-name "datasets" id)))
 
 (defn update-dataset
   "Updates dataset with given payload"
   [config index-name id document]
-  (let [es-conn (connect-to-es config)]
-    (doc/put es-conn index-name "datasets" id document)))
+  (-> (connect-to-es config) (doc/put index-name "datasets" id document)))
 
 (defn update-counts
   [es-conn index-name payload]
