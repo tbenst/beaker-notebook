@@ -25,7 +25,7 @@
       "env": {
         "WEB_ROOT": "/var/www/public",
         "BAMBOO_HOST": "bunsen-staging.withmojo.com",
-        "BAMBOO_ACLS": "!{ path_beg -i /api } !{ path_beg -i /beaker } !{ path_beg -i /events }"
+        "BAMBOO_ACLS": "!{ path_beg -i /api } !{ path_beg -i /beaker } !{ path_beg -i /events } !{ path_beg -i /marketplace }"
       },
       "healthChecks": [
         {
