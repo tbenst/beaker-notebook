@@ -14,6 +14,7 @@
                  [liberator _]
                  [wkf/clj-http _]
                  [pandect "0.5.1"]
+                 [bunsen/common _]
                  [com.cemerick/url "0.1.1"]]
   :plugins [[lein-modules "0.3.10"]]
   :profiles {:uberjar {:aot [bunsen.provisioner.service]}

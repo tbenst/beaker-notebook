@@ -13,6 +13,7 @@
   (component/start
     (service
       {:server-port (Integer. (:provisioner-port env))
+       :cookie-salt (:cookie-salt env)
        :docker-url (:docker-url env)
        :marathon-url (:marathon-url env)
        :bamboo-host (:bamboo-host env)

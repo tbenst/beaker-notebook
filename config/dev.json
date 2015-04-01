@@ -31,6 +31,7 @@
         "MARATHON_URL": "http://172.17.42.1:8080",
         "BAMBOO_HOST": "bunsen-dev",
         "SCRATCH_SPACE_ROOT": "/mnt/lustre/bunsen-dev/beaker",
+        "COOKIE_SALT": "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<",
         "BAMBOO_PATH": "/provisioner",
         "APP_GROUP": "/bunsen-dev/beaker",
         "APP_DEFAULTS": {
