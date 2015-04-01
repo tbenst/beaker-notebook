@@ -22,8 +22,9 @@
 
 .col-half
   h4 Previews
-  label Upload a file
-  input(disabled type="file")
+  ul
+    li(ng-repeat="preview in dataset.dataPreviews")
+      img(ng-if="preview.smallPreviewUrl" ng-src="{{preview.smallPreviewUrl}}")
   label Table preview entry
   textarea(disabled placeholder="Table preview entry") {{dataset['table-preview']}}
 
