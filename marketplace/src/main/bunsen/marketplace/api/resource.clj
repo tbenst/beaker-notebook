@@ -6,7 +6,7 @@
 (defn is-admin? [config ctx]
   (if (= "true" (:allow-seed config))
     true
-    (= "1" (-> ctx :request :session :role))))
+    (= 1 (-> ctx :request :session :role))))
 
 (defn get-body
   [ctx]
