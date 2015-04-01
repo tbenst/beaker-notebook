@@ -206,16 +206,11 @@
           "image": "quay.io/mojotech/bunsen-marketplace",
           "portMappings": [
             {
-              "containerPort": 8444,
-              "servicePort": "",
-              "protocol": "tcp"
+              "containerPort": 8444
             }
           ]
         }
       },
-      "ports": [
-        8444
-      ],
       "env": {
         "BAMBOO_PATH": "/marketplace",
         "BAMBOO_HOST": "bunsen-staging.withmojo.com",
