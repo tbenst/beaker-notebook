@@ -136,7 +136,7 @@ test-%: ENV := test
 test-%: HOST := 10.10.10.10
 test-%: PORT := 3000
 test-%: wait-all
-	source config/$(ENV).env && HOST=$(HOST) PORT=$(PORT) lein modules :dirs $* test
+	source config/$(ENV).env && HOST=$(HOST) PORT=$(PORT) lein modules :dirs $* with-profiles -dev test
 
 test-integration: ENV := test
 test-integration: HOST := 10.10.10.10
