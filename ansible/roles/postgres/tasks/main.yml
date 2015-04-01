@@ -20,7 +20,7 @@
 
 - name: start and enable postgres service
   sudo: yes
-  service: name=postgresql enabled=yes state=started
+  service: name=postgresql enabled=yes state=restarted
   tags:
     - start
     - postgres
