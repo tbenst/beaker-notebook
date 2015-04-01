@@ -209,7 +209,7 @@
       "env": {
         "WEB_ROOT": "public",
         "BAMBOO_HOST": "bunsen-dev",
-        "BAMBOO_ACLS": "!{ path_beg -i /api } !{ path_beg -i /beaker } !{ path_beg -i /events }"
+        "BAMBOO_ACLS": "!{ path_beg -i /api } !{ path_beg -i /beaker } !{ path_beg -i /events } !{ path_beg -i /marketplace }"
       },
       "healthChecks": [
         {
