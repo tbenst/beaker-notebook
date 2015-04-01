@@ -1,34 +1,34 @@
-.col-half
-  label Title
-  input(placeholder="title" ng-model="dataset.title")
-  label Catalog
-  input(disabled placeholder="catalog" ng-model="dataset.catalog.index")
-  label Vendor
-  input(disabled placeholder="vendor" ng-model="dataset.vendor")
-  label Format
-  input(disabled placeholder="format" ng-model="dataset.format")
-  label Release Date
-  input(type="date" placeholder="released" ng-model="dataset.releaseDate")
-  label Start Date
-  input(type="date" placeholder="start date" ng-model="dataset.startDate")
-  label Update Frequency
-  input(placeholder="Update Frequency" ng-model="dataset.updateFrequency")
-  label Tags
-  input(placeholder="Tags" ng-model="dataset.tags")
-  label Category
-  input(disabled placeholder="Category" ng-model="dataset.category")
-  label File Location
-  input(placeholder="Location" ng-model="dataset.location")
-  p {{creating}}
-  .btn-group
-    .btn.submit-dataset-edit.alt(ng-click="onEdit()") {{creating ? 'Create' : 'Update'}}
-    .btn.delete-dataset(ng-click="deleteEntity(dataset)" ng-if="!creating") Delete
+form.dataset-edit(name="datasetEditForm")
+  .col-half
+    label Title
+    input(placeholder="title" ng-model="dataset.title")
+    label Catalog
+    input(disabled placeholder="catalog" ng-model="dataset.catalog.index")
+    label Vendor
+    input(disabled placeholder="vendor" ng-model="dataset.vendor")
+    label Format
+    input(disabled placeholder="format" ng-model="dataset.format")
+    label Release Date
+    input(type="date" placeholder="released" ng-model="dataset.releaseDate")
+    label Start Date
+    input(type="date" placeholder="start date" ng-model="dataset.startDate")
+    label Update Frequency
+    input(placeholder="Update Frequency" ng-model="dataset.updateFrequency")
+    label Tags
+    input(placeholder="Tags" ng-model="dataset.tags")
+    label Category
+    input(disabled placeholder="Category" ng-model="dataset.category")
+    label File Location
+    input(placeholder="Location" ng-model="dataset.location")
+    p {{creating}}
+    .btn-group
+      .btn.submit-dataset-edit.alt(ng-click="onEdit()" ) {{creating ? 'Create' : 'Update'}}
+      .btn.delete-dataset(ng-click="deleteEntity(dataset)" ng-if="!creating") Delete
 
-.col-half
-  h4 Previews
-  ul
-    li(ng-repeat="preview in dataset.dataPreviews")
-      img(ng-if="preview.smallPreviewUrl" ng-src="{{preview.smallPreviewUrl}}")
-  label Table preview entry
-  textarea(disabled placeholder="Table preview entry") {{dataset['table-preview']}}
-
+  .col-half
+    h4 Previews
+    ul
+      li(ng-repeat="preview in dataset.dataPreviews")
+        img(ng-if="preview.smallPreviewUrl" ng-src="{{preview.smallPreviewUrl}}")
+    label Table preview entry
+    textarea(disabled placeholder="Table preview entry") {{dataset['table-preview']}}
