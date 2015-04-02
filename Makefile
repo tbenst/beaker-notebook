@@ -130,7 +130,7 @@ prepare-tests:
 #
 #
 
-test test-all: test-vendor test-user test-integration
+test test-all: test-vendor test-marketplace test-user test-integration
 
 test-%: ENV := test
 test-%: HOST := 10.10.10.10
