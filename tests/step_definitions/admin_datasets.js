@@ -41,6 +41,32 @@ module.exports = function() {
     }.bind(this));
   });
 
+  this.When(/^I enter "([^"]*)" into the category field$/, function(category) {
+    return this.W.fill({
+      selector: '.dataset-category',
+      value: category
+    });
+  });
+
+  this.Then(/^I should see an autocomplete dropdown with "([^"]*)"$/, function(entry) {
+    var list = this.Widget.List.extend({root: '.dropdown-menu'});
+    return new list().readAt(0).should.eventually.eql(entry);
+  });
+
+  this.Then(/^I should see that the category is invalid$/, function() {
+    return new this.Widgets.CategoryField()
+    .find()
+    .then(function(elm) {
+      return elm.getAttribute('class').should.eventually.contain('ng-invalid');
+    });
+  });
+
+  this.Then(/^I should see the category field is empty$/, function() {
+    return new this.Widgets.CategoryField()
+    .read()
+    .should.eventually.equal('');
+  });
+
   this.Then(/^I should see a dataset with the name "([^"]*)"$/, function(newName) {
     return new this.Widgets.MarketList().invoke({
       method: 'getText',
