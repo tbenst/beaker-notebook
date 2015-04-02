@@ -21,7 +21,6 @@ RUN apt-get install -y --no-install-recommends -t local \
       mime-support \
       nginx \
       apache2-utils
-RUN touch /etc/nginx/.htpasswd && chmod 777 /etc/nginx/.htpasswd
 
 # setup beaker python plugin dependencies
 #   - installing these packages here is an *optimization only*
@@ -61,4 +60,4 @@ VOLUME ["/mnt/data"]
 VOLUME ["/mnt/scratch"]
 
 ENTRYPOINT ["make"]
-CMD ["password", "run"]
+CMD ["cookie", "run"]

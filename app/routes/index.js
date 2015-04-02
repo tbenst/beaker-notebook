@@ -13,7 +13,6 @@ module.exports.init = function(app) {
   require('./users_routes.js')(app);
   require('./notebook_routes.js')(app);
   require('./tag_routes.js')(app);
-  require('./beaker_instances_routes.js')(app);
   require('./ratings_routes.js')(app);
   require('./vendor_routes')(app);
   require('./files_routes')(app);

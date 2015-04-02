@@ -31,8 +31,13 @@
 (defn merge-strategy [& data]
   (if (sequential? (first data)) (apply concat data) (last data)))
 
-(defn app [{:keys [id config defaults]}]
-  (deep-merge-with merge-strategy defaults (assoc config "id" id)))
+(defn app [{:keys [id host-path env defaults]}]
+  (let [config {"id" id
+                "container" {"volumes" [{"hostPath" host-path
+                                         "containerPath" "/mnt/scratch"
+                                         "mode" "RW"}]}
+                "env" env}]
+    (deep-merge-with merge-strategy defaults config)))
 
 ;; Copied verbatim from the defunct clojure-contrib (http://bit.ly/deep-merge-with)
 (defn deep-merge-with [f & maps]

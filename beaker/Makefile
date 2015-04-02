@@ -18,6 +18,7 @@ watch: run
 run:
 	source env/bin/activate && cd beaker-notebook/core && ./build/install/core/bin/core --open-browser=false
 
-# generate a password file to secure beaker at runtime
-password:
-	htpasswd -bc /etc/nginx/.htpasswd beaker $(BEAKER_PASSWORD)
+# generate a cookie file to secure beaker at runtime
+cookie:
+	touch cookies/$(BEAKER_COOKIE)
+

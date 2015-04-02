@@ -27,6 +27,7 @@
       "env": {
         "SERVER_PORT": 3001,
         "PROVISIONER_STRATEGY": "docker",
+        "SCRATCH_SPACE_ROOT": "/var/bunsen/test/beaker",
         "MARATHON_URL": "http://172.17.42.1:8080",
         "APP_GROUP": "/bunsen-test/beaker",
         "APP_TEMPLATE": {

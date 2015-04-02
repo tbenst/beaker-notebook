@@ -6,18 +6,14 @@
 (defn encode-password [p]
   (String. (base64/encode (sha1-bytes p)) "UTF-8"))
 
-(defmethod lifecycle :local [{:keys [local-password-path local-username]}]
+(defmethod lifecycle :local [{:keys [local-cookie-path]}]
   (reify Lifecycle
 
     (lifecycle/inspect [_ id]
       {:id id})
 
-    (lifecycle/create! [_ {config "config"}]
+    (lifecycle/create! [_ {token :token}]
       (spit
-        local-password-path
-        (str
-          local-username
-          ":{SHA}"
-          (encode-password
-            (str
-              (get-in config ["env" "BEAKER_PASSWORD"]))))))))
+        (str local-cookie-path "/" token)
+        "allowed"))
+    ))
