@@ -105,6 +105,10 @@
   [es-conn index-name payload]
   (ind/refresh es-conn index-name))
 
+(defn get-indicies
+  [config _]
+  (keys (ind/get-aliases (connect-to-es config) "*")))
+
 (defn create-index
   [es-conn index-name payload]
   (ind/delete es-conn index-name)

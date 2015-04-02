@@ -58,7 +58,8 @@
 
 (defresource indices [config _] resource/defaults
   :allowed? (partial is-admin? config)
-  :allowed-methods #{:post}
+  :allowed-methods #{:post :get}
+  :handle-ok (partial domain/get-indicies config)
   :post! (partial pass-body domain/create-index config))
 
 (defresource formats [config _] resource/defaults
