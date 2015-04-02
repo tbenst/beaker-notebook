@@ -1,13 +1,9 @@
 ;(function(angular, app) {
   app.directive('datasetEditor', [
     'Notebooks',
-    '$rootScope',
-    '$compile',
     'MarketplaceRestangular',
     function(
       Notebooks,
-      $rootScope,
-      $compile,
       MarketplaceRestangular) {
 
       return {
