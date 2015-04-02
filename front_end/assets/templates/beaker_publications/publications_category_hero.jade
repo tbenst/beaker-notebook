@@ -1,0 +1,11 @@
+.category-hero(ng-if='publications.category')
+  .category-icon-wrapper
+    .category-icon(data-icon="{{publications.category.name}}")
+  .category
+    h2 {{publications.category.name}}
+    .category-information
+      p.description {{publications.category.description}}
+      .notebooks
+        .title Notebooks
+        .quantity {{publications.quantity}}
+  .cl

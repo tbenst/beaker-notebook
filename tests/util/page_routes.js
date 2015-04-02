@@ -10,6 +10,7 @@ module.exports = function() {
     market: base+"#/market_place",
     subscriptions: base+"#/subscriptions",
     publications: base+"#/publications",
+    beakerPublications: base+"/publications.html#/publications",
     projectDashboard: base + "#/projects",
     userEdit: base + "#/user_edit",
     admin: base + "#/admin",
