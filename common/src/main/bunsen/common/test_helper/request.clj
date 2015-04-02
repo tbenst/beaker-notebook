@@ -10,7 +10,7 @@
 (def seed-emails {admin-role "admin@mojotech.com"
                   researcher-role "research@mojotech.com"})
 
-(def service-url (str "http://"
+(def host-name (str "http://"
                     (or (System/getenv "HOST")
                         "127.0.0.1")
                     ":"
@@ -24,28 +24,28 @@
   ([route] (fetch {}))
   ([route opts]
    (client/get
-     (str service-url route)
+     (str (or (:uri opts) host-name) route)
      (merge default-options opts))))
 
 (defn delete
   ([route] (delete route {}))
   ([route opts]
    (client/delete
-     (str service-url route)
+     (str (or (:uri opts) host-name) route)
      (merge default-options opts))))
 
 (defn put
   ([route] (put route {}))
   ([route opts]
    (client/put
-     (str service-url route)
+     (str (or (:uri opts) host-name) route)
      (merge default-options opts))))
 
 (defn post
   ([route] (post route {}))
   ([route opts]
    (client/post
-     (str service-url route)
+     (str (or (:uri opts) host-name) route)
      (merge default-options opts))))
 
 (defn drop-all
