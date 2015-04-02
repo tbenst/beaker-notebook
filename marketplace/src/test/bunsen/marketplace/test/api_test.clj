@@ -29,6 +29,10 @@
                                                                             :search-term "fun"}}))
                  :key-fn keyword))
 
+(deftest read-indices
+  (testing "getting all indicies"
+    (is (= ["catalog_simple"] (json/read-str (:body (fetch "/marketplace/v1/indices" {:cookie-store (sign-in 1)})))))))
+
 (deftest read-categories
   (testing "reading categories by search term"
     (is (= 2 (count (search-categories))))))
