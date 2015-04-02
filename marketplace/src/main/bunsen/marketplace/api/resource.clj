@@ -31,7 +31,8 @@
 
 (defresource dataset [config  {:keys  [index-name id]}] resource/defaults
   :allowed? (partial is-admin? config)
-  :allowed-methods #{:put}
+  :allowed-methods #{:put :delete}
+  :delete! (fn [_] (domain/delete-dataset config index-name id))
   :put! (fn [ctx]
           (domain/update-dataset config index-name id (get-body ctx))))
 
