@@ -21,7 +21,6 @@ RUN apt-get install -y --no-install-recommends -t local \
       mime-support \
       nginx \
       apache2-utils
-RUN mkdir /etc/nginx/cookies && chmod 777 /etc/nginx/cookies
 
 # setup beaker python plugin dependencies
 #   - installing these packages here is an *optimization only*

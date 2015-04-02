@@ -20,5 +20,5 @@ run:
 
 # generate a cookie file to secure beaker at runtime
 cookie:
-	touch /etc/nginx/cookies/$(BEAKER_COOKIE)
+	touch cookies/$(BEAKER_COOKIE)
 

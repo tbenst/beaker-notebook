@@ -36,7 +36,7 @@ http {
   scgi_temp_path "client_temp";
 
   server {
-    if (!-f /etc/nginx/cookies/$cookie_beakerauth) {
+    if (!-f ../../cookies/$cookie_beakerauth) {
         return 403;
     }
 
