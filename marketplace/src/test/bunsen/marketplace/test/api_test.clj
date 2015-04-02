@@ -41,4 +41,9 @@
            first-category :id
            first-category :name))))
 
+(deftest get-formats
+  (testing "finding all formats"
+    (is (= 3 (count (json/read-str (:body (fetch "/marketplace/v1/formats" {:cookie-store (sign-in 1)
+                                                                            :content-type :json}))))))))
+
 (use-fixtures :each seed-marketplace)
