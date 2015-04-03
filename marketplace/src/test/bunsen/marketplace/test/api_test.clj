@@ -13,14 +13,18 @@
 
 (def index-name "catalog_simple")
 
-(defn seed-marketplace [f]
+(defn seed-marketplace []
   (main/reindex-catalog! "simple/mappings.json"
                          (io/resource "simple/datasets.json")
                          (io/resource "simple/categories.json")
                          elasticsearch-url
                          index-name
                          simple/index-categories!
-                         simple/index-datasets!)
+                         simple/index-datasets!))
+
+(defn setup-market-tests [f]
+  (drop-all)
+  (seed-marketplace)
   (f))
 
 (defn search-categories []
@@ -49,4 +53,4 @@
     (is (= 3 (count (json/read-str (:body (fetch "/marketplace/v1/formats" {:cookie-store (sign-in 1)
                                                                             :content-type :json}))))))))
 
-(use-fixtures :each seed-marketplace)
+(use-fixtures :each setup-market-tests)
