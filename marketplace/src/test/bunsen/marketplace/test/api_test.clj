@@ -23,8 +23,7 @@
                          simple/index-datasets!)
   (f))
 
-(defn search-categories
-  []
+(defn search-categories []
   (json/read-str (:body (fetch "/marketplace/v1/categories" {:cookie-store (sign-in 1)
                                                              :query-params {:index-name "catalog_simple"
                                                                             :search-term "fun"}}))
