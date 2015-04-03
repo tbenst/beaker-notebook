@@ -276,10 +276,6 @@
     requirejs.config({
       enforceDefine: true
     });
-
-    angular.element(document).ready(function() {
-      angular.bootstrap(document, ["beaker"]);
-    });
   };
   initOutputDisplay();
   setupBeakerConfigAndRun();
