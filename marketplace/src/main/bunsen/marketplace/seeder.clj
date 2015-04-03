@@ -30,11 +30,11 @@
             categories (or (:categories options) categories-file)
             index-name (or (:index-name options) index-name)]
 
-        (await (main/reindex-catalog! mapping-file
-                                      datasets
-                                      categories
-                                      elasticsearch-url
-                                      index-name
-                                      simple/index-categories!
-                                      simple/index-datasets!)
-               (System/exit 0))))))
+        (main/reindex-catalog! mapping-file
+                               datasets
+                               categories
+                               elasticsearch-url
+                               index-name
+                               simple/index-categories!
+                               simple/index-datasets!)
+        (System/exit 0)))))
