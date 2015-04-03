@@ -66,7 +66,7 @@
                                "categories"
                                :query {:fuzzy_like_this_field {"name" {:like_text (:search-term params)}}})]
 
-    (map #(select-keys (:_source %) [:id :name]) (-> categories :hits :hits))))
+    (map #(select-keys (:_source %) [:id :name :path]) (-> categories :hits :hits))))
 
 (defn create-categories
   "Returns true if categories payload was succesfully sent to
