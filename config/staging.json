@@ -199,9 +199,6 @@
       "cmd": "",
       "cpus": 1,
       "mem": 512,
-      "ports": [
-        ""
-      ],
       "instances": 1,
       "container": {
         "type": "DOCKER",
