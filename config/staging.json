@@ -179,7 +179,7 @@
       "healthChecks": [
         {
           "protocol": "HTTP",
-          "path": "/api/v1/status",
+          "path": "/provisioner/v1/status",
           "gracePeriodSeconds": 10,
           "intervalSeconds": 10,
           "portIndex": 0,
