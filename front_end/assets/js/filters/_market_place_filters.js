@@ -1,4 +1,4 @@
-!(function(angular, app) {
+;(function(angular, app) {
 
   angular.module('marketPlaceFilters', [])
     .filter('names', function() {
