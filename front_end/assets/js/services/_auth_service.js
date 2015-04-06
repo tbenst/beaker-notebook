@@ -16,7 +16,7 @@
           });
         },
         researcherRedirect: function() {
-          if(!this.isUserAdmin()) {
+          if (!this.isUserAdmin()) {
             $state.go('projects.items');
           }
         },
