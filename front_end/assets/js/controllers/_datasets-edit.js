@@ -14,7 +14,7 @@
         Factories.DataSets.updateDataSet(dataset);
       };
 
-      Factories.DataSets.getDataSet(state.params.index,state.params.id)
+      Factories.DataSets.getDataSet(state.params.index, state.params.id)
       .then(function(v) {
         v.startDate = moment(v.startDate).format('YYYY-MM-DD');
         v.releaseDate = moment(v.releaseDate).format('YYYY-MM-DD');

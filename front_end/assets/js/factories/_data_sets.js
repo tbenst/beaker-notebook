@@ -42,7 +42,7 @@
         .one('indices', dataset.index)
         .customPUT(
             MarketplaceRestangular.stripRestangular(dataset),
-            'datasets/'+dataset.id);
+            'datasets/' + dataset.id);
       },
       getDataSets: function(scope, abort) {
         return TimeoutRestangular(abort).one('data_sets')
