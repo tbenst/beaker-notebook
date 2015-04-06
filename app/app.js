@@ -68,8 +68,7 @@ function appConfig(app) {
       // intercept OPTIONS method
       if ('OPTIONS' == req.method) {
         res.send(200);
-      }
-      else {
+      } else {
         next();
       }
     });
