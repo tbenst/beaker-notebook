@@ -68,16 +68,20 @@
       }
 
       function changePage(newValue, oldValue) {
-        if (newValue === oldValue) return;
+        if (newValue === oldValue) {
+          return;
+        }
 
         F.DataSets.getDataSets($scope.marketPlace).then(function(d) {
           _.extend($scope.marketPlace, d);
-          window.scrollTo(0,0);
+          window.scrollTo(0, 0);
         });
       }
 
       function resetDataSets(observedChange) {
-        if (observedChange === undefined) return;
+        if (observedChange === undefined) {
+          return;
+        }
         $scope.marketPlace.currentPage = 1;
         getDataSets();
       }
