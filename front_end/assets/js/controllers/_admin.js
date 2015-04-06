@@ -3,5 +3,5 @@
     'AuthService',
     function(AuthService) {
       AuthService.researcherRedirect();
-  }]);
+    }]);
 })(angular, window.bunsen);
