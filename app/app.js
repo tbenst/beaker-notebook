@@ -99,5 +99,5 @@ function appConfig(app) {
 function appStart() {
   http.createServer(app).listen(app.get('port'), function() {
     console.log('Bunsen server listening on port ' + app.get('port'));
-  })
-};
+  });
+}
