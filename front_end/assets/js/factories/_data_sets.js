@@ -1,4 +1,4 @@
-!(function(app) {
+;(function(app) {
 
   function buildQuery(scope) {
     var query = {
@@ -27,26 +27,40 @@
       if (s !== void(0) && s.length > 0) {
         query[f] = s;
       }
-    })
+    });
 
     return query;
+  }
+
+  function formatDataset(set) {
+    return _.extend(set, {
+      startDate: moment(set.startDate).format('YYYY-MM-DD'),
+      releaseDate: moment(set.releaseDate).format('YYYY-MM-DD')
+    });
   }
 
   app.factory('DataSetsFactory', ['TimeoutRestangular', 'MarketplaceRestangular', function(TimeoutRestangular, MarketplaceRestangular) {
     return {
       getDataSet: function(index, id) {
-        return TimeoutRestangular().all('data_sets').one(index, id).get();
+        return TimeoutRestangular().all('data_sets')
+        .one(index, id).get()
+        .then(formatDataset);
       },
       updateDataSet: function(dataset) {
         return MarketplaceRestangular
         .one('indices', dataset.index)
         .customPUT(
             MarketplaceRestangular.stripRestangular(dataset),
-            'datasets/'+dataset.id);
+            'datasets/' + dataset.id);
       },
       getDataSets: function(scope, abort) {
         return TimeoutRestangular(abort).one('data_sets')
-        .get(buildQuery(scope));
+        .get(buildQuery(scope))
+        .then(function(datasets) {
+          return _.extend(datasets, {
+            data: _.map(datasets.data, formatDataset)
+          });
+        });
       }
     };
   }]);
