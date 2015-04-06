@@ -46,8 +46,7 @@
           if ($scope.item.csvPreview) {
             $scope.item.tabView = 'table';
             $scope.tableDataPreview = DFS.buildTable($scope.item);
-          }
-          else if ($scope.item.dataPreviews !== undefined ) {
+          } else if ($scope.item.dataPreviews !== undefined ) {
             $scope.item.tabView = 'thumbnail';
           }
 
