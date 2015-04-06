@@ -37,7 +37,7 @@
   (let [es-conn (connect-to-es config)
         response (doc/search es-conn "*" "datasets"
                              :query (query/match-all)
-                             :aggregations  {:title_terms  (agg/terms  "format")})
+                             :aggregations {:title_terms (agg/terms "format")})
         aggregation (aggregation-from response :title_terms)]
     (map :key (:buckets aggregation))))
 
