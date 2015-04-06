@@ -6,8 +6,7 @@
             [bunsen.marketplace.datasets :as datasets]
             [clojure.data.json :as json]
             [clojurewerkz.elastisch.rest.index :as ind]
-            [clojurewerkz.elastisch.rest :as rest]
-            ))
+            [clojurewerkz.elastisch.rest :as rest]))
 
 (defn index-categories!
   [es-conn index-name filename]
@@ -23,10 +22,9 @@
 
 (defn index-datasets!
   [es-conn index-name filename categories]
-  (await-for 60000
-             (base/index! es-conn index-name "datasets" filename
-                          slurp
-                          (fn [result]
-                            (map (partial prepare-dataset categories)
-                                 (json/read-str result :key-fn keyword)))
-                          base/bulk-to-es!)))
+  (await-for 60000 (base/index! es-conn index-name "datasets" filename
+                                slurp
+                                (fn [result]
+                                  (map (partial prepare-dataset categories)
+                                       (json/read-str result :key-fn keyword)))
+                                base/bulk-to-es!)))
