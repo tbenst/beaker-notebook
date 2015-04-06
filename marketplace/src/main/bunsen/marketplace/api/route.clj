@@ -10,4 +10,5 @@
                                   ["/" :index-name  "/datasets/" :id] :dataset}
                       "/mappings" :mappings
                       "/formats" :formats
+                      "/tags" :tags
                       }])

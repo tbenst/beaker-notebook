@@ -22,6 +22,7 @@
    :indices api-resource/indices
    :mappings api-resource/mappings
    :formats api-resource/formats
+   :tags api-resource/tags
    :default api-resource/default})
 
 (defrecord Server [config]

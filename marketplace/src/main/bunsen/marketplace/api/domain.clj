@@ -41,6 +41,18 @@
         aggregation (aggregation-from response :title_terms)]
     (map :key (:buckets aggregation))))
 
+(defn get-tags
+  "Aggregates all unique tags used within datasets.
+  However we do not pass an index since we want all indices' formats"
+  [config]
+  (let [es-conn (connect-to-es config)
+        response (doc/search es-conn "*" "datasets"
+                             :query (query/match-all)
+                             :aggregations {:title_terms (agg/terms "tags"
+                                                                    {:size 0})})
+        aggregation (aggregation-from response :title_terms)]
+    (map :key (:buckets aggregation))))
+
 (defn get-categories
   "Returns all categories from specified index by search-term
   index-name = index which category belongs to
