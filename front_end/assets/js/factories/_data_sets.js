@@ -1,4 +1,4 @@
-!(function(app) {
+;(function(app) {
 
   function buildQuery(scope) {
     var query = {

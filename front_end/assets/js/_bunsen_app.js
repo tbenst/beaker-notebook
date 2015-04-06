@@ -1,4 +1,4 @@
-!(function(angular) {
+;(function(angular) {
   window.bunsen = angular.module('bunsen',
     ['ui.router',
      'ui.bootstrap',
