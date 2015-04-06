@@ -16,10 +16,10 @@ app.set('enable coverage', !!process.env.ENABLE_COVERAGE);
 if (app.get('enable coverage')) {
   var im = require('istanbul-middleware');
   im.hookLoader(__dirname);
-  app.use('/api/coverage', im.createHandler({ verbose: true, resetOnGet: false }));
+  app.use('/api/coverage', im.createHandler({verbose: true, resetOnGet: false}));
 }
 
-var skipMiddleware = require("./lib/skip_middleware");
+var skipMiddleware = require('./lib/skip_middleware');
 
 app.Models = require('./models');
 app.Controllers = require('./controllers');
@@ -46,7 +46,7 @@ function appConfig(app) {
   app.use(express.compress());
   app.use(express.favicon());
   app.use(function(req, res, next) {
-    if (req.url == "/api/status") {
+    if (req.url == '/api/status') {
       return next();
     }
     express.logger('dev').apply(this, arguments);
@@ -68,8 +68,7 @@ function appConfig(app) {
       // intercept OPTIONS method
       if ('OPTIONS' == req.method) {
         res.send(200);
-      }
-      else {
+      } else {
         next();
       }
     });
@@ -87,7 +86,7 @@ function appConfig(app) {
   app.use(app.router);
 
   app.use(function(err, req, res, next) {
-    console.error("---------\n", err, "---------\n");
+    console.error('---------\n', err, '---------\n');
     next(err);
   });
 
@@ -99,5 +98,5 @@ function appConfig(app) {
 function appStart() {
   http.createServer(app).listen(app.get('port'), function() {
     console.log('Bunsen server listening on port ' + app.get('port'));
-  })
-};
+  });
+}
