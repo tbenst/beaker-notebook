@@ -17,6 +17,11 @@
           onEdit: '&'
         },
         controller: ['$scope', '$state', function($scope, $state) {
+          Factories.Formats.getFormats()
+          .then(function(formats) {
+            $scope.formats = formats;
+          });
+
           $scope.deleteEntity = function(dataset) {
             if (!confirm('Are you sure you want to delete this dataset?')) {
               return;

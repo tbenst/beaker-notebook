@@ -6,8 +6,12 @@ form.dataset-edit(name="datasetEditForm")
     input(disabled placeholder="catalog" ng-model="dataset.catalog.index")
     label Vendor
     input(disabled placeholder="vendor" ng-model="dataset.vendor")
-    label Format
-    input(disabled placeholder="format" ng-model="dataset.format")
+    .dataset-format
+      label Format
+      input.dataset-format-field(placeholder="format"
+            ng-model="dataset.format"
+            typeahead="format for format in formats | filter:$viewValue"
+            typeahead-min-length=1)
     label Release Date
     input(type="date" placeholder="released" ng-model="dataset.releaseDate")
     label Start Date
