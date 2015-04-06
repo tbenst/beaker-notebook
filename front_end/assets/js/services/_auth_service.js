@@ -23,6 +23,6 @@
         isUserAdmin: function() {
           return _.has($sessionStorage.user, 'role') && $sessionStorage.user.role == 1;
         }
-  }]);
       };
+    }]);
 })(window.bunsen);
