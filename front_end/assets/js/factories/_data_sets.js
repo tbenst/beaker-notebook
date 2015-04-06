@@ -27,7 +27,7 @@
       if (s !== void(0) && s.length > 0) {
         query[f] = s;
       }
-    })
+    });
 
     return query;
   }
