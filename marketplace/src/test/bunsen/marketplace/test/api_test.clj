@@ -23,8 +23,7 @@
                          simple/index-datasets!)
   (f))
 
-(defn search-categories
-  []
+(defn search-categories []
   (json/read-str (:body (fetch "/marketplace/v1/categories" {:cookie-store (sign-in 1)
                                                              :query-params {:index-name "catalog_simple"
                                                                             :search-term "fun"}}))
@@ -40,5 +39,10 @@
       (are [data needle] (contains? data needle)
            first-category :id
            first-category :name))))
+
+(deftest get-formats
+  (testing "finding all formats"
+    (is (= 3 (count (json/read-str (:body (fetch "/marketplace/v1/formats" {:cookie-store (sign-in 1)
+                                                                            :content-type :json}))))))))
 
 (use-fixtures :each seed-marketplace)
