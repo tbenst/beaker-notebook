@@ -7,6 +7,7 @@
     'Restangular',
     '$sessionStorage',
     'DataFormatService',
+    'AuthService',
     function(
       $scope,
       $rootScope,
@@ -14,13 +15,18 @@
       Factories,
       Restangular,
       $sessionStorage,
-      DataFormatService) {
+      DataFormatService,
+      AuthService) {
 
     var R = Restangular;
     var F = Factories;
     var DFS = DataFormatService;
 
     $scope.item = {};
+
+    if (AuthService.isUserAdmin()) {
+      $scope.isAdmin = true;
+    }
 
     var unbindWatcher = $scope.$watch('user', function(v) {
       if (v) {
