@@ -5,7 +5,7 @@
       return function(inputArray) {
         return _.map(inputArray, function(i) {
           return i.name;
-        }).join(", ");
+        }).join(', ');
       };
     });
 
