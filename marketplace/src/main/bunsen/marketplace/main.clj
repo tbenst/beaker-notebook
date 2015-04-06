@@ -14,7 +14,7 @@
     (ind/delete es-conn index-name)
     (ind/create es-conn index-name)
     (await-for 5000 (mappings/apply-mappings! es-conn index-name mapping-file))
-    (await-for 5000 (categories-fn es-conn index-name categories-url))
+    (await-for 30000 (categories-fn es-conn index-name categories-url))
     (ind/refresh es-conn index-name)
     (let [categories (base/read-indexed-results es-conn index-name "categories")]
       (datasets-fn es-conn index-name datasets-url categories)
