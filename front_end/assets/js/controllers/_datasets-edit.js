@@ -16,8 +16,6 @@
 
       Factories.DataSets.getDataSet(state.params.index, state.params.id)
       .then(function(v) {
-        v.startDate = moment(v.startDate).format('YYYY-MM-DD');
-        v.releaseDate = moment(v.releaseDate).format('YYYY-MM-DD');
         $scope.dataset = v;
       });
     }
