@@ -6,6 +6,14 @@ module.exports = function() {
       return this.read('h1');
     },
 
+    canEdit: function() {
+      return this.isPresent('.edit.admin-action');
+    },
+
+    edit: function() {
+      return this.click('.edit.admin-action');
+    },
+
     description: function() {
       return this.read('.description');
     },
