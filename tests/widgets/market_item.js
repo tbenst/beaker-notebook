@@ -6,6 +6,14 @@ module.exports = function() {
       return this.read('h1');
     },
 
+    canEdit: function() {
+      return this.isPresent('.edit.admin-action');
+    },
+
+    edit: function() {
+      return this.click('.edit.admin-action');
+    },
+
     description: function() {
       return this.read('.description');
     },
@@ -17,7 +25,7 @@ module.exports = function() {
     },
 
     clickVendor: function() {
-      return this.click(".vendor")
+      return this.click(".vendor");
     },
 
     frequency: function() {
@@ -41,7 +49,7 @@ module.exports = function() {
     },
 
     subscribe: function() {
-      return this.click(".subscribe")
+      return this.click(".subscribe");
     },
 
     unsubscribe: function() {

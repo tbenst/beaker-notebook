@@ -1,7 +1,9 @@
 .main-content.market-item(ng-if="item.title")
   .btn.btn-light.return-to-market-search(ui-sref="{{referrerList}}") Back to List
   .item-hero
-    h1 {{item.title}}
+    h1
+      | {{item.title}}
+      a.right.edit.admin-action(ng-if="isAdmin" ui-sref="admin.datasets.edit({index: item.index, id: item.id})") Edit Marketplace Item
     p.description {{item.description}}
     ratings(score="item.userRating" average="item.averageRating" max="5" rating-attrs="ratingAttrs" subscribed="subscribed")
 

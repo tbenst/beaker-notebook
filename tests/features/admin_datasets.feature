@@ -22,3 +22,10 @@ Feature: Admin Datasets
     And I update the dataset name to "wow"
     And I view the market search
     Then I should see a dataset with the name "wow"
+
+  Scenario: Editing a dataset from the detail
+    When I view the market search
+    And I view the first market item
+    Then I should see the edit the market item indicator
+    When I edit the market item from the detail view
+    Then I should see the dataset editor.

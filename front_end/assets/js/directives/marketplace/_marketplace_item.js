@@ -4,10 +4,10 @@
       scope: {
         item: '='
       },
-      restrict: "E",
+      restrict: 'E',
       template: templates['directives/marketplace_item'],
-      controller: ['$scope', '$sessionStorage', function($scope, $sessionStorage) {
-        if ($sessionStorage.user && $sessionStorage.user.role == 1) {
+      controller: ['$scope', 'AuthService', function($scope, AuthService) {
+        if (AuthService.isUserAdmin()) {
           $scope.isAdmin = true;
         }
       }]

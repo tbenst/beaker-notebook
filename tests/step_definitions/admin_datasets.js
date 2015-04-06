@@ -49,4 +49,21 @@ module.exports = function() {
     })
     .should.eventually.eql([newName]);
   })
-;};
+;
+
+  this.Then(/^I should see the edit the market item indicator$/, function() {
+    return (new this.Widgets.MarketItem())
+    .canEdit()
+    .should.eventually.eql(true);
+  });
+
+  this.When(/^I edit the market item from the detail view$/, function() {
+    return (new this.Widgets.MarketItem())
+    .edit();
+  });
+
+  this.Then(/^I should see the dataset editor\.$/, function() {
+    return this.W.isPresent('dataset-editor')
+    .should.eventually.eql(true);
+  });
+};
