@@ -27,7 +27,7 @@
       RestangularProvider.setBaseUrl('/api');
     }]);
 
-  window.bunsen.run(['$templateCache', function($templateCache){
+  window.bunsen.run(['$templateCache', function($templateCache) {
     $templateCache.put('publication_cell_markdown', templates['publications/publication_cell_markdown']());
     $templateCache.put('publication_cell_code',     templates['publications/publication_cell_code']());
     $templateCache.put('publication_cell_text',     templates['publications/publication_cell_text']());
