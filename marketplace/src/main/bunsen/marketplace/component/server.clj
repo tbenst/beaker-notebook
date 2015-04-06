@@ -8,7 +8,7 @@
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.util.response :refer [response]]
             [bidi.ring :refer (make-handler)]
-            [bunsen.marketplace.component.bunsen-cookie-store :refer [bunsen-cookie-store]]
+            [bunsen.common.helper.session.store :refer [bunsen-cookie-store]]
             [bunsen.marketplace.api.resource :as api-resource]
             [bunsen.marketplace.api.route :as api-route]))
 

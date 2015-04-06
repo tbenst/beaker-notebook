@@ -1,5 +1,5 @@
-(ns bunsen.marketplace.test.cookie
-  (:require [bunsen.marketplace.helper.cookie.util :as cookie]
+(ns bunsen.common.test.cookie
+  (:require [bunsen.common.helper.session.store :as cookie]
             [clojure.test :refer :all]))
 
 (deftest cookie-decoding

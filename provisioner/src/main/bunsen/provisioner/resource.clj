@@ -15,28 +15,16 @@
 (defresource status [_] defaults
   :handle-ok (constantly "ok"))
 
-
-;; TODO remove this function and use bunsen_cookie_store.clj instead.
-;; Reads user-id directly from cookie session but doesn't verify
-;; the session signature.
-(defn extract-user-id [req]
-  (let [session (get-in req [:cookies "session" :value])
-        stripped-signed (subs session 4)
-        raw-val (subs stripped-signed 0 (.lastIndexOf stripped-signed "."))
-        user (json/read-str raw-val :key-fn keyword)
-        user-id (:id user)]
-    user-id))
-
 (defresource instance [config] defaults
   :allowed-methods #{:get :post}
   :exists? (fn [_]
-             (let [id (extract-user-id request)]
+             (let [id (get-in request [:session :id])]
                {::instance
                 (lifecycle/inspect (lifecycle config) id)}))
   :handle-ok ::instance
   :post! (fn [_]
            (let [token (get-in request [:cookies "beakerauth" :value])
-                 id (extract-user-id request)]
+                 id (get-in request [:session :id])]
              (when-let [i (lifecycle/create!
                             (lifecycle config)
                             {:id id :token token})]
