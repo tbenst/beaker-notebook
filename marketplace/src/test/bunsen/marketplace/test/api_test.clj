@@ -55,7 +55,7 @@
 
 (deftest get-tags
   (testing "finding all tags"
-    (is (= 14 (count (json/read-str (:body (fetch "/marketplace/v1/tags" {:cookie-store (sign-in 1)
+    (is (= 11 (count (json/read-str (:body (fetch "/marketplace/v1/tags" {:cookie-store (sign-in 1)
                                                                           :content-type :json}))))))))
 
 (use-fixtures :each setup-market-tests)
