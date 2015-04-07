@@ -30,6 +30,10 @@
   [config]
   (helper/aggregate-term "tags" (helper/connect-to-es config)))
 
+(defn get-vendors
+  [config]
+  (helper/aggregate-term "vendor" (helper/connect-to-es config)))
+
 (defn get-categories
   "Returns all categories from specified index by search-term
   index-name = index which category belongs to
