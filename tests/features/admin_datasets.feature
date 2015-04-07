@@ -52,3 +52,11 @@ Feature: Admin Datasets
     When I update the dataset
     And I refresh the page
     Then I should see the category field is empty
+
+  Scenario: Dataset format dropdown
+    When there is a market item with the title "Item 1" and the format "MAGIC"
+    And there is a market item with the title "Item 2" and the format "CSV"
+    When I view the market search
+    And I edit a dataset
+    And I enter "csv" into the format field
+    Then I should see a format-field autocomplete dropdown with "CSV"
