@@ -1,4 +1,4 @@
-!(function(angular, app, templates) {
+;(function(angular, app, templates) {
   app.config(['$stateProvider', '$urlRouterProvider', function setRoutes($stateProvider, $urlRouterProvider) {
 
     $stateProvider
