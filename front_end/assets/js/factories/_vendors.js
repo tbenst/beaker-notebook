@@ -1,5 +1,5 @@
 ;(function(angular, app) {
-  app.factory('VendorsFactory', ["Restangular", '$window', '$location', function(Restangular, $window, $location) {
+  app.factory('VendorsFactory', ["Restangular", function(Restangular) {
     var R = Restangular;
 
     return {
