@@ -11,7 +11,7 @@ watch:
 
 seed:
 	lein run -m bunsen.marketplace.seeder
-	lein run -m bunsen.marketplace.seeder -d resources/index/datasets_0.2.json -c resources/index/categories_0.2.json -i catalog_0.2
+	lein run -m bunsen.marketplace.seeder -d resources/seed/datasets_0.2.json -c resources/seed/categories_0.2.json -i catalog_0.2
 
 test:
 	lein with-profiles -dev test bunsen.marketplace.test.auth-check bunsen.marketplace.test.api-test
