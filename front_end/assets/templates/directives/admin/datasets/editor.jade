@@ -17,7 +17,13 @@ form.dataset-edit(name="datasetEditForm")
     label Tags
     input(placeholder="Tags" ng-model="dataset.tags")
     label Category
-    input(disabled placeholder="Category" ng-model="dataset.category")
+    input.dataset-category(placeholder="Category"
+          ng-model="dataset.categories[0].name"
+          typeahead="category as label(category) for category in getCategories($viewValue)"
+          typeahead-min-length=3
+          typeahead-on-select="onSelect($item)"
+          typeahead-editable="false"
+          required)
     label File Location
     input(placeholder="Location" ng-model="dataset.location")
     p {{creating}}
