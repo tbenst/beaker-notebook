@@ -19,7 +19,7 @@
       });
 
       // angular-tree-view doesn't appear to expose a way to clear selection.
-      _.each(Sizzle('.sidebar-tree .tree-selected'), function(el) {
+      _.each($('.sidebar-tree .tree-selected'), function(el) {
         el.classList.remove('tree-selected');
       });
     }
