@@ -39,7 +39,12 @@
     });
   }
 
-  app.factory('DataSetsFactory', ['TimeoutRestangular', 'MarketplaceRestangular', function(TimeoutRestangular, MarketplaceRestangular) {
+  app.factory('DataSetsFactory', [
+      'TimeoutRestangular',
+      'MarketplaceRestangular',
+      function(
+        TimeoutRestangular,
+        MarketplaceRestangular) {
     return {
       getDataSet: function(index, id) {
         return TimeoutRestangular().all('data_sets')
