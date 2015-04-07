@@ -58,4 +58,9 @@
     (is (= 11 (count (json/read-str (:body (fetch "/marketplace/v1/tags" {:cookie-store (sign-in 1)
                                                                           :content-type :json}))))))))
 
+(deftest get-vendors
+  (testing "finding all vendors"
+    (is (= 2 (count (json/read-str (:body (fetch "/marketplace/v1/vendors" {:cookie-store (sign-in 1)
+                                                                            :content-type :json}))))))))
+
 (use-fixtures :each setup-market-tests)
