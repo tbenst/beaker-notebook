@@ -19,7 +19,8 @@ Feature: Admin Datasets
   Scenario: Editing a dataset
     When I view the market search
     And I edit a dataset
-    And I update the dataset name to "wow"
+    And I enter the dataset name as "wow"
+    And I update the dataset
     And I view the market search
     Then I should see a dataset with the name "wow"
 
