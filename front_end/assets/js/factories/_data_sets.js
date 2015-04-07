@@ -58,6 +58,11 @@
             MarketplaceRestangular.stripRestangular(dataset),
             'datasets/' + dataset.id);
       },
+      createDataSet: function(dataset) {
+        return MarketplaceRestangular
+        .one('indices', dataset.index)
+        .post('datasets', _.omit(dataset, 'index'));
+      },
       getDataSets: function(scope, abort) {
         return TimeoutRestangular(abort).one('data_sets')
         .get(buildQuery(scope))

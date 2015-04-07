@@ -14,7 +14,8 @@
         scope: {
           dataset: '=',
           creating: '=',
-          onEdit: '&'
+          onEdit: '&',
+          catalogs: '='
         },
         controller: ['$scope', '$state', function($scope, $state) {
           Factories.Formats.getFormats()
@@ -50,6 +51,10 @@
             });
           };
 
+          $scope.setNewCatalog = function(val, dataset) {
+            dataset.index = val;
+          };
+
           //This function is used for angular bootstrap typeahead
           //The first return is a guard against trying to access category if it doesn't exist
           //When no input is entered, It returns the current ng-model "category"
@@ -61,6 +66,12 @@
           };
 
           $scope.onSelect = function(category) {
+            // When creating a new dataset we need to ensure that
+            // we have the values set to an inital empty array, otherwise
+            // we get an error since we are trying to access [0] of undefined.
+            $scope.dataset.categories = $scope.dataset.categories || [];
+            $scope.dataset.categoryIds = $scope.dataset.categoryIds || [];
+
             $scope.dataset.categories[0] = _.pick(category, 'id', 'name', 'path');
             $scope.dataset.categoryIds[0] = category.id;
           };
