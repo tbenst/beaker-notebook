@@ -11,6 +11,10 @@
         "public": true,
         "remoteFile": "file://./tank_treads.csv",
         "title": "Tank tread warehouse inventory",
+        "tags": [
+          "Births and Deaths",
+          "Demography"
+        ],
         "vendor": "US Dept of Defense"
     },
     {
@@ -25,6 +29,10 @@
         "public": true,
         "remoteFile": "file://./combat_boots.csv",
         "title": "Combat boots wear statistics",
+        "tags": [
+          "Stuff and Watermelons",
+          "Demography"
+        ],
         "vendor": "US Dept of Defense"
     },
     {
@@ -39,6 +47,10 @@
         "public": false,
         "remoteFile": "file://./tropical_storms.csv",
         "title": "Tropical Storms Database",
+        "tags": [
+          "Ants",
+          "Cars"
+        ],
         "vendor": "NOAA"
     },
     {
@@ -53,6 +65,10 @@
         "public": false,
         "remoteFile": "file://./missile_strikes.xml",
         "title": "Missile strikes by accuracy",
+        "tags": [
+          "Industry in Asia",
+          "France"
+        ],
         "vendor": "US Dept of Defense"
     },
     {
@@ -67,6 +83,10 @@
         "public": true,
         "remoteFile": "file://./base_assignments.json",
         "title": "Armed Forces Base Assignments",
+        "tags": [
+          "Television",
+          "Milk"
+        ],
         "vendor": "US Dept of Defense"
     },
     {

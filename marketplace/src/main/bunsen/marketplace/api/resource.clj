@@ -66,5 +66,9 @@
   :allowed? (partial is-admin? config)
   :handle-ok (domain/get-formats config))
 
+(defresource tags [config _] resource/defaults
+  :allowed? (partial is-admin? config)
+  :handle-ok (domain/get-tags config))
+
 (defresource default [_ _] resource/defaults
   :exists? (constantly false))
