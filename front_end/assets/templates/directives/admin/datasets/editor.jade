@@ -4,8 +4,12 @@ form.dataset-edit(name="datasetEditForm")
     input(placeholder="title" ng-model="dataset.title")
     label Catalog
     input(disabled placeholder="catalog" ng-model="dataset.catalog.index")
-    label Vendor
-    input(disabled placeholder="vendor" ng-model="dataset.vendor")
+    .dataset-vendor
+      label Vendor
+      input.dataset-vendor-field(placeholder="vendor"
+            ng-model="dataset.vendor"
+            typeahead="vendor for vendor in vendors | filter:$viewValue"
+            typeahead-min-length=3)
     .dataset-format
       label Format
       input.dataset-format-field(placeholder="format"

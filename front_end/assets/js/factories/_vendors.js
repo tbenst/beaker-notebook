@@ -1,6 +1,5 @@
 ;(function(angular, app) {
-  app.factory('VendorsFactory', ['Restangular', function(Restangular) {
-    var R = Restangular;
+  app.factory('VendorsFactory', ['Restangular', 'MarketplaceRestangular', function(R, MR) {
 
     return {
       getVendor: function(vendorId) {
@@ -9,6 +8,10 @@
 
       getVendors: function() {
         return R.all('vendors').getList();
+      },
+
+      getMarketplaceVendors: function() {
+        return MR.all('vendors').getList();
       },
 
       update: function(attrs) {
