@@ -75,8 +75,7 @@ module.exports = function() {
       ]
     })
     .should.eventually.eql([newName]);
-  })
-;
+  });
 
   this.Then(/^I should see the edit the market item indicator$/, function() {
     return (new this.Widgets.MarketItem())
