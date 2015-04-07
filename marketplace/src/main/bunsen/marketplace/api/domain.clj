@@ -7,8 +7,6 @@
             [bunsen.marketplace.helper.api :as helper]
             [clojurewerkz.elastisch.rest.index :as ind]
             [clojurewerkz.elastisch.rest.document :as doc]
-            [clojurewerkz.elastisch.query :as query]
-            [clojurewerkz.elastisch.aggregation :as agg]
             [clojurewerkz.elastisch.rest.response :refer :all]))
 
 (defn update-marketplace
@@ -25,30 +23,12 @@
 (defn get-status [ctx] "ok")
 
 (defn get-formats
-  "Aggregates all unique formats used within datasets.
-  However we do not pass an index since we want all indices' formats.
-  It should also be noted that passing :size 0 to an aggregations query
-  will set the buckets size to Integer.MAX_VALUE (all results)"
   [config]
-  (let [es-conn (helper/connect-to-es config)
-        response (doc/search es-conn "*" "datasets"
-                             :query (query/match-all)
-                             :aggregations {:title_terms (agg/terms "format"
-                                                                    {:size 0})})
-        aggregation (aggregation-from response :title_terms)]
-    (map :key (:buckets aggregation))))
+  (helper/aggregate-term "format" (helper/connect-to-es config)))
 
 (defn get-tags
-  "Aggregates all unique tags used within datasets.
-  However we do not pass an index since we want all indices' formats"
   [config]
-  (let [es-conn (helper/connect-to-es config)
-        response (doc/search es-conn "*" "datasets"
-                             :query (query/match-all)
-                             :aggregations {:title_terms (agg/terms "tags"
-                                                                    {:size 0})})
-        aggregation (aggregation-from response :title_terms)]
-    (map :key (:buckets aggregation))))
+  (helper/aggregate-term "tags" (helper/connect-to-es config)))
 
 (defn get-categories
   "Returns all categories from specified index by search-term
