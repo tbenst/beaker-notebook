@@ -14,7 +14,8 @@
     'VendorsFactory',
     'FilesFactory',
     'FormatsFactory',
-    'TagsFactory'
+    'TagsFactory',
+    'MarketplaceFactory'
   ];
 
   // Build a function defining the master factory:
