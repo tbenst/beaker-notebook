@@ -6,6 +6,6 @@
           RestangularConfigurer.setDefaultHttpFields({timeout: aborter.promise});
         }
       });
-    }
+    };
   }]);
 })(window.bunsen);
