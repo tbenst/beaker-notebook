@@ -44,11 +44,13 @@ IMAGES := \
 	wait-provisioner \
 	wait-marketplace \
 	wait-publications \
+	wait-user \
 	start-api \
 	start-web \
 	start-provisioner \
 	start-marketplace \
 	start-publications \
+	start-user \
 	start-riemann \
 	start-tests-user \
 	start-tests-vendor \
@@ -155,7 +157,7 @@ test-integration: wait-all start-tests
 
 test-marketplace: PORT := 8444
 
-wait-all: wait-web wait-api wait-provisioner wait-marketplace wait-publications
+wait-all: wait-web wait-api wait-provisioner wait-marketplace wait-publications wait-user
 
 wait-web: start-web
 	wget -qO- --retry-connrefused --tries=20 "$(HOST):8081"
@@ -171,6 +173,9 @@ wait-marketplace: start-marketplace
 
 wait-publications: start-publications
 	wget -qO- --retry-connrefused --tries=20 "$(HOST):3003/publications/v1/status"
+
+wait-user: start-user
+	wget -qO- --retry-connrefused --tries=20 "$(HOST):3004/user/v1/status"
 
 start-tests:
 	docker run -d -p 5900:5900 --env-file="config/$(ENV).env" --name=bunsen-tests -e "CIRCLE_NODE_TOTAL=$(CIRCLE_NODE_TOTAL)" -e "CIRCLE_NODE_INDEX=$(CIRCLE_NODE_INDEX)" $(REGISTRY)/bunsen-tests:$(TAG) $(COMMANDS)
@@ -197,6 +202,8 @@ start-riemann:
 start-publications:
 	docker run -d -p 3003:3003 --env-file="config/$(ENV).env" --name=bunsen-publications $(REGISTRY)/bunsen-publications:$(TAG) $(COMMANDS)
 
+start-user:
+	docker run -d -p 3004:3004 --env-file="config/$(ENV).env" --name=bunsen-user $(REGISTRY)/bunsen-user:$(TAG) $(COMMANDS)
 
 #
 #
