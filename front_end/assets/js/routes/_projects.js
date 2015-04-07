@@ -58,16 +58,15 @@
       }
     })
     .state('projects.items.item.notebook', {
-        url: '/notebooks/:notebook_id',
-        views: {
-          "app@projects": {
-            controller: 'notebook',
-            template: templates.notebook
-          },
-          "nav@projects": {
-            controller: 'projectsList',
-            template: templates.project_list
-          }
+      url: '/notebooks/:notebook_id',
+      views: {
+        "app@projects": {
+          controller: 'notebook',
+          template: templates.notebook
+        },
+        "nav@projects": {
+          controller: 'projectsList',
+          template: templates.project_list
         }
       })
     .state('projects.items.item.notebook.search', {
