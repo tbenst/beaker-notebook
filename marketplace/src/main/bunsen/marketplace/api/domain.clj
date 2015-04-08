@@ -66,9 +66,7 @@
         categories (base/read-indexed-results es-conn index-name "categories")
         indexer (base/index! es-conn index-name "datasets" datasets
                              identity ; json already parsed
-                             (fn [result]
-                               (map (partial simple/prepare-dataset categories)
-                                    result))
+                             #(map (partial simple/prepare-dataset categories) %)
                              base/bulk-to-es!)]
     (await-for 5000 indexer)
     (= (:stage @indexer) :indexed)))
