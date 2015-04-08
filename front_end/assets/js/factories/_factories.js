@@ -13,7 +13,7 @@
     'RatingsFactory',
     'VendorsFactory',
     'FilesFactory'
-  ]
+  ];
 
   // Build a function defining the master factory:
   // function (NotebooksFactory, ProjectsFactory, ...) {
@@ -24,8 +24,8 @@
   // }
   var src = _.map(factories, function(f) {
     return 'this.' + f.replace(/Factory$/, '') + ' = ' + f + ';';
-  }).join('\n') + '\nreturn this;'
-  var AllFactories = new Function(factories.join(','), src);
+  }).join('\n') + '\nreturn this;';
+  var AllFactories = new Function(factories.join(','), src); // jshint ignore:line
 
   // Inject all factories
   AllFactories.$inject = factories;

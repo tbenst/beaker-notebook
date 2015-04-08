@@ -1,4 +1,4 @@
-!(function(angular, app, templates) {
+;(function(angular, app, templates) {
   app.config(['$stateProvider', '$urlRouterProvider', function setRoutes($stateProvider, $urlRouterProvider) {
 
     $stateProvider
@@ -14,7 +14,7 @@
       .state('admin.index', {
         url: '/admin',
         views: {
-          "app@admin": {
+          'app@admin': {
             template: templates['admin/index']
           }
         }
@@ -22,7 +22,7 @@
       .state('admin.vendors', {
         url: '/admin/vendors',
         views: {
-          "app@admin": {
+          'app@admin': {
             controller: 'vendors',
             template: templates['admin/vendors']
           }
