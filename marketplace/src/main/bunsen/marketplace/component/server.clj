@@ -23,6 +23,7 @@
    :mappings api-resource/mappings
    :formats api-resource/formats
    :tags api-resource/tags
+   :vendors api-resource/vendors
    :default api-resource/default})
 
 (defrecord Server [config]

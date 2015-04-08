@@ -24,6 +24,10 @@
         "tags": {
           "index": "not_analyzed",
           "type": "string"
+        },
+        "vendor": {
+          "index": "not_analyzed",
+          "type": "string"
         }
       }
     },

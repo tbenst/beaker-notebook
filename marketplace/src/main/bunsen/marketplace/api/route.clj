@@ -11,4 +11,5 @@
                       "/mappings" :mappings
                       "/formats" :formats
                       "/tags" :tags
+                      "/vendors" :vendors
                       }])

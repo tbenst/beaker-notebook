@@ -6,10 +6,10 @@
             [clojure.tools.cli :refer [cli]]))
 
 (defn -main [& args]
-  (let [dataset-file (io/resource "index/datasets_0.1.json")
-        categories-file (io/resource "index/categories_0.1.json")
+  (let [dataset-file (io/resource "seed/datasets_0.1.json")
+        categories-file (io/resource "seed/categories_0.1.json")
         index-name "catalog_0.1"
-        mapping-file "index/mappings.json"
+        mapping-file "seed/mappings.json"
         elasticsearch-url "http://127.0.0.1:9200"
         [options arguments banner] (cli args
                                         ["-h" "--help" "Print options"

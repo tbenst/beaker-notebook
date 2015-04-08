@@ -4,18 +4,10 @@
             [bunsen.marketplace.datasets :as datasets]
             [bunsen.marketplace.mappings :as mappings]
             [bunsen.marketplace.simple.simple :as simple]
-            [clojurewerkz.elastisch.rest :as rest]
+            [bunsen.marketplace.helper.api :as helper]
             [clojurewerkz.elastisch.rest.index :as ind]
             [clojurewerkz.elastisch.rest.document :as doc]
-            [clojurewerkz.elastisch.query :as query]
-            [clojurewerkz.elastisch.aggregation :as agg]
             [clojurewerkz.elastisch.rest.response :refer :all]))
-
-(defn connect-to-es
-  [config]
-  (rest/connect
-    (:elasticsearch-url config)
-    (:elasticsearch-options config)))
 
 (defn update-marketplace
   "Performs some common pre-processing tasks before kicking off the
@@ -24,44 +16,30 @@
   body = string representation of request body
   biz-fn = business task that we intend to perform"
   [config body biz-fn]
-  (let [es-conn (connect-to-es config)
+  (let [es-conn (helper/connect-to-es config)
         index-name (:indexName body)]
     (biz-fn es-conn index-name body)))
 
 (defn get-status [ctx] "ok")
 
 (defn get-formats
-  "Aggregates all unique formats used within datasets.
-  However we do not pass an index since we want all indices' formats.
-  It should also be noted that passing :size 0 to an aggregations query
-  will set the buckets size to Integer.MAX_VALUE (all results)"
   [config]
-  (let [es-conn (connect-to-es config)
-        response (doc/search es-conn "*" "datasets"
-                             :query (query/match-all)
-                             :aggregations {:title_terms (agg/terms "format"
-                                                                    {:size 0})})
-        aggregation (aggregation-from response :title_terms)]
-    (map :key (:buckets aggregation))))
+  (helper/aggregate-term "format" (helper/connect-to-es config)))
 
 (defn get-tags
-  "Aggregates all unique tags used within datasets.
-  However we do not pass an index since we want all indices' formats"
   [config]
-  (let [es-conn (connect-to-es config)
-        response (doc/search es-conn "*" "datasets"
-                             :query (query/match-all)
-                             :aggregations {:title_terms (agg/terms "tags"
-                                                                    {:size 0})})
-        aggregation (aggregation-from response :title_terms)]
-    (map :key (:buckets aggregation))))
+  (helper/aggregate-term "tags" (helper/connect-to-es config)))
+
+(defn get-vendors
+  [config]
+  (helper/aggregate-term "vendor" (helper/connect-to-es config)))
 
 (defn get-categories
   "Returns all categories from specified index by search-term
   index-name = index which category belongs to
   search-term = three or more characters which will search against category name"
   [config params]
-  (let [categories (doc/search (connect-to-es config)
+  (let [categories (doc/search (helper/connect-to-es config)
                                (:index-name params)
                                "categories"
                                :query {:fuzzy_like_this_field {"name" {:like_text (:search-term params)}}})]
@@ -97,12 +75,12 @@
 
 (defn delete-dataset
   [config index-name id]
-  (-> (connect-to-es config) (doc/delete index-name "datasets" id)))
+  (-> (helper/connect-to-es config) (doc/delete index-name "datasets" id)))
 
 (defn update-dataset
   "Updates dataset with given payload"
   [config index-name id document]
-  (-> (connect-to-es config) (doc/put index-name "datasets" id document)))
+  (-> (helper/connect-to-es config) (doc/put index-name "datasets" id document)))
 
 (defn update-counts
   [es-conn index-name payload]
@@ -122,7 +100,7 @@
 
 (defn get-indicies
   [config _]
-  (keys (ind/get-aliases (connect-to-es config) "*")))
+  (keys (ind/get-aliases (helper/connect-to-es config) "*")))
 
 (defn create-index
   [es-conn index-name payload]
