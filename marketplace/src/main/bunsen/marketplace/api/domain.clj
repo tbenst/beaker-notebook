@@ -106,4 +106,4 @@
   [es-conn index-name payload]
   (ind/delete es-conn index-name)
   (ind/create es-conn index-name)
-  (mappings/apply-mappings! es-conn index-name "simple/mappings.json"))
+  (mappings/apply-mappings! es-conn index-name "seed/mappings.json"))
