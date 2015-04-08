@@ -43,13 +43,13 @@ module.exports = function() {
 
   this.When(/^I enter "([^"]*)" into the category field$/, function(category) {
     return this.W.fill({
-      selector: '.dataset-category',
+      selector: '.dataset-category-field',
       value: category
     });
   });
 
-  this.Then(/^I should see an autocomplete dropdown with "([^"]*)"$/, function(entry) {
-    var list = this.Widget.List.extend({root: '.dropdown-menu'});
+  this.Then(/^I should see a category autocomplete dropdown with "([^"]*)"$/, function(entry) {
+    var list = this.Widget.List.extend({root: '.dataset-category .dropdown-menu'});
     return new list().readAt(0).should.eventually.eql(entry);
   });
 
