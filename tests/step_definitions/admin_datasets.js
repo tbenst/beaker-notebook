@@ -55,6 +55,13 @@ module.exports = function() {
     });
   });
 
+  this.When(/^I enter "([^"]*)" into the vendor field$/, function(vendor) {
+    return this.W.fill({
+      selector: '.dataset-vendor-field',
+      value: vendor
+    });
+  });
+
   this.Then(/^I should see a category autocomplete dropdown with "([^"]*)"$/, function(entry) {
     var list = this.Widget.List.extend({root: '.dataset-category .dropdown-menu'});
     return new list().readAt(0).should.eventually.eql(entry);
@@ -62,6 +69,11 @@ module.exports = function() {
 
   this.Then(/^I should see a format-field autocomplete dropdown with "([^"]*)"$/, function(entry) {
     var list = this.Widget.List.extend({root: '.dataset-format .dropdown-menu'});
+    return new list().readAt(0).should.eventually.eql(entry);
+  });
+
+  this.Then(/^I should see a vendor-field autocomplete dropdown with "([^"]*)"$/, function(entry) {
+    var list = this.Widget.List.extend({root: '.dataset-vendor .dropdown-menu'});
     return new list().readAt(0).should.eventually.eql(entry);
   });
 

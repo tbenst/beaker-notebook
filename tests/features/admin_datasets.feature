@@ -60,3 +60,11 @@ Feature: Admin Datasets
     And I edit a dataset
     And I enter "csv" into the format field
     Then I should see a format-field autocomplete dropdown with "CSV"
+
+  Scenario: Dataset vendor dropdown
+    When there is a market item with the vendor "George data"
+    And there is a market item with the vendor "Doge industries"
+    And I view the market search
+    And I edit a dataset
+    And I enter "Doge industries" into the vendor field
+    Then I should see a vendor-field autocomplete dropdown with "Doge industries"
