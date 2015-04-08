@@ -39,7 +39,7 @@ Feature: Admin Datasets
     When I view the market search
     And I edit a dataset
     And I enter "finance" into the category field
-    Then I should see an autocomplete dropdown with "finance (0.1.1)"
+    Then I should see a category autocomplete dropdown with "finance (0.1.1)"
 
   Scenario: Invalid entry in dataset category
     And I have the following categories:
@@ -52,3 +52,19 @@ Feature: Admin Datasets
     When I update the dataset
     And I refresh the page
     Then I should see the category field is empty
+
+  Scenario: Dataset format dropdown
+    When there is a market item with the title "Item 1" and the format "MAGIC"
+    And there is a market item with the title "Item 2" and the format "CSV"
+    When I view the market search
+    And I edit a dataset
+    And I enter "csv" into the format field
+    Then I should see a format-field autocomplete dropdown with "CSV"
+
+  Scenario: Dataset vendor dropdown
+    When there is a market item with the vendor "George data"
+    And there is a market item with the vendor "Doge industries"
+    And I view the market search
+    And I edit a dataset
+    And I enter "Doge industries" into the vendor field
+    Then I should see a vendor-field autocomplete dropdown with "Doge industries"

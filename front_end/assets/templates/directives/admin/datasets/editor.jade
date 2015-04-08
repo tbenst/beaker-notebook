@@ -4,10 +4,18 @@ form.dataset-edit(name="datasetEditForm")
     input(placeholder="title" ng-model="dataset.title")
     label Catalog
     input(disabled placeholder="catalog" ng-model="dataset.catalog.index")
-    label Vendor
-    input(disabled placeholder="vendor" ng-model="dataset.vendor")
-    label Format
-    input(disabled placeholder="format" ng-model="dataset.format")
+    .dataset-vendor
+      label Vendor
+      input.dataset-vendor-field(placeholder="vendor"
+            ng-model="dataset.vendor"
+            typeahead="vendor for vendor in vendors | filter:$viewValue"
+            typeahead-min-length=3)
+    .dataset-format
+      label Format
+      input.dataset-format-field(placeholder="format"
+            ng-model="dataset.format"
+            typeahead="format for format in formats | filter:$viewValue"
+            typeahead-min-length=1)
     label Release Date
     input(type="date" placeholder="released" ng-model="dataset.releaseDate")
     label Start Date
@@ -16,14 +24,15 @@ form.dataset-edit(name="datasetEditForm")
     input(placeholder="Update Frequency" ng-model="dataset.updateFrequency")
     label Tags
     input(placeholder="Tags" ng-model="dataset.tags")
-    label Category
-    input.dataset-category(placeholder="Category"
-          ng-model="dataset.categories[0].name"
-          typeahead="category as label(category) for category in getCategories($viewValue)"
-          typeahead-min-length=3
-          typeahead-on-select="onSelect($item)"
-          typeahead-editable="false"
-          required)
+    .dataset-category
+      label Category
+      input.dataset-category-field(placeholder="Category"
+            ng-model="dataset.categories[0].name"
+            typeahead="category as label(category) for category in getCategories($viewValue)"
+            typeahead-min-length=3
+            typeahead-on-select="onSelect($item)"
+            typeahead-editable="false"
+            required)
     label File Location
     input(placeholder="Location" ng-model="dataset.location")
     p {{creating}}

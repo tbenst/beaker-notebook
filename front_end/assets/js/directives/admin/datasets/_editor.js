@@ -17,6 +17,16 @@
           onEdit: '&'
         },
         controller: ['$scope', '$state', function($scope, $state) {
+          Factories.Formats.getFormats()
+          .then(function(formats) {
+            $scope.formats = formats;
+          });
+
+          Factories.Vendors.getMarketplaceVendors()
+          .then(function(vendors) {
+            $scope.vendors = vendors;
+          });
+
           $scope.deleteEntity = function(dataset) {
             if (!confirm('Are you sure you want to delete this dataset?')) {
               return;
