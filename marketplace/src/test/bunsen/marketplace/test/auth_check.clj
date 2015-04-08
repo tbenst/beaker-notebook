@@ -1,5 +1,5 @@
 (ns bunsen.marketplace.test.auth-check
-  (:require [bunsen.marketplace.api.resource :as resource]
+  (:require [bunsen.marketplace.helper.resource :as resource]
             [clojure.test :refer :all]))
 
 (deftest auth-check
