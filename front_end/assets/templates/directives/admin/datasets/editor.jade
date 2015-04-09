@@ -22,8 +22,9 @@ form.dataset-edit(name="datasetEditForm")
     input(type="date" placeholder="start date" ng-model="dataset.startDate")
     label Update Frequency
     input(placeholder="Update Frequency" ng-model="dataset.updateFrequency")
-    label Tags
-    input(placeholder="Tags" ng-model="dataset.tags")
+    .dataset-tags
+      label Tags
+      tags(dataset-tags="dataset.tags")
     .dataset-category
       label Category
       input.dataset-category-field(placeholder="Category"
