@@ -62,6 +62,13 @@ module.exports = function() {
     });
   });
 
+  this.When(/^I enter "([^"]*)" into the tags field$/, function(tag) {
+    return this.W.fill({
+      selector: '.dataset-tags-field',
+      value: tag
+    });
+  });
+
   this.Then(/^I should see a category autocomplete dropdown with "([^"]*)"$/, function(entry) {
     var list = this.Widget.List.extend({root: '.dataset-category .dropdown-menu'});
     return new list().readAt(0).should.eventually.eql(entry);
@@ -77,6 +84,11 @@ module.exports = function() {
     return new list().readAt(0).should.eventually.eql(entry);
   });
 
+  this.Then(/^I should see a tag-field autocomplete dropdown with "([^"]*)"$/, function(entry) {
+    var list = this.Widget.List.extend({root: '.dataset-tags .dropdown-menu'});
+    return new list().readAt(0).should.eventually.eql(entry);
+  });
+
   this.Then(/^I should see that the category is invalid$/, function() {
     return new this.Widgets.CategoryField()
     .find()
@@ -89,6 +101,23 @@ module.exports = function() {
     return new this.Widgets.CategoryField()
     .read()
     .should.eventually.equal('');
+  });
+
+  this.Then(/^I click the add button$/, function() {
+    return this.W.click('.tag-add');
+  });
+
+  this.Then(/^I click the "([^"]*)" tag$/, function(tag) {
+    return new this.Widgets.DatasetTags().clickTag(tag);
+  });
+
+  this.Then(/^I should see the "([^"]*)" tag$/, function(tag) {
+    return new this.Widgets.DatasetTags()
+    .contains(tag).should.eventually.be.true;
+  });
+
+  this.Then(/^I should not see any tags$/, function() {
+    return new this.Widgets.DatasetTags().items().should.eventually.have.length(0);
   });
 
   this.Then(/^I should see a dataset with the name "([^"]*)"$/, function(newName) {
