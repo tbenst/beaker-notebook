@@ -13,7 +13,8 @@
     'RatingsFactory',
     'VendorsFactory',
     'FilesFactory',
-    'FormatsFactory'
+    'FormatsFactory',
+    'TagsFactory'
   ];
 
   // Build a function defining the master factory:
