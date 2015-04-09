@@ -36,9 +36,6 @@ form.dataset-edit(name="datasetEditForm")
             required)
     label Remote File Location
     input(placeholder="Location" ng-model="dataset.remoteFile")
-    .btn-group
-      .btn.submit-dataset-edit.alt(ng-click="onEdit()" ) {{creating ? 'Create' : 'Update'}}
-      .btn.delete-dataset(ng-click="deleteEntity(dataset)" ng-if="!creating") Delete
 
   .col-half
     h4 Previews
@@ -47,3 +44,7 @@ form.dataset-edit(name="datasetEditForm")
         img(ng-if="preview.smallPreviewUrl" ng-src="{{preview.smallPreviewUrl}}")
     label Table preview entry
     textarea(disabled placeholder="Table preview entry") {{dataset['table-preview']}}
+    .btn-group
+      .btn.submit-dataset-edit.alt(ng-click="onEdit(dataset)" ) {{creating ? 'Create' : 'Update'}}
+      .btn.delete-dataset(ng-click="deleteEntity(dataset)" ng-if="!creating") Delete
+
