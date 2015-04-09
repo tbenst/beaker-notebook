@@ -3,7 +3,7 @@
 (def routes
   ["/marketplace/v1" {"/status" :status
                       "/categories" :categories
-                      "/datasets" :datasets
+                      "/seed/datasets" :seed-datasets
                       "/refresh" :refresh
                       "/counts" :counts
                       "/indices" {"" :indices

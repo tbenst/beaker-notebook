@@ -12,7 +12,7 @@
   :handle-ok #(domain/get-categories config (resource/get-params %))
   :post! (partial resource/pass-body domain/create-categories config))
 
-(defresource datasets [config _] resource/defaults
+(defresource seed-datasets [config _] resource/defaults
   :allowed? (partial resource/is-admin? config)
   :allowed-methods #{:post}
   :processable? (partial resource/pass-body domain/create-datasets config))

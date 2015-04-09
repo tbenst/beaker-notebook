@@ -15,7 +15,7 @@
 (def resources
   {:status api-resource/status
    :categories api-resource/categories
-   :datasets api-resource/datasets
+   :seed-datasets api-resource/seed-datasets
    :dataset api-resource/dataset
    :refresh api-resource/refresh
    :counts api-resource/counts
