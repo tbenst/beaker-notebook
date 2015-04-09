@@ -34,8 +34,8 @@ form.dataset-edit(name="datasetEditForm")
             typeahead-on-select="onSelect($item)"
             typeahead-editable="false"
             required)
-    label File Location
-    input(placeholder="Location" ng-model="dataset.location")
+    label Remote File Location
+    input(placeholder="Location" ng-model="dataset.remoteFile")
     .btn-group
       .btn.submit-dataset-edit.alt(ng-click="onEdit()" ) {{creating ? 'Create' : 'Update'}}
       .btn.delete-dataset(ng-click="deleteEntity(dataset)" ng-if="!creating") Delete
