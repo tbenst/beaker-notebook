@@ -71,6 +71,11 @@
     (await-for 5000 indexer)
     (= (:stage @indexer) :indexed)))
 
+(defn create-dataset
+  "Creates a single dataset based on the index-name provided"
+  [config index-name document]
+  (-> (helper/connect-to-es config) (doc/create index-name "datasets" document)))
+
 (defn delete-dataset
   [config index-name id]
   (-> (helper/connect-to-es config) (doc/delete index-name "datasets" id)))

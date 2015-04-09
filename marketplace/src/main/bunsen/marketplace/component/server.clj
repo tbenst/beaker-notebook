@@ -17,6 +17,7 @@
    :categories api-resource/categories
    :seed-datasets api-resource/seed-datasets
    :dataset api-resource/dataset
+   :datasets api-resource/datasets
    :refresh api-resource/refresh
    :counts api-resource/counts
    :indices api-resource/indices

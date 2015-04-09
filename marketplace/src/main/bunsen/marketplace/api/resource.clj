@@ -17,6 +17,10 @@
   :allowed-methods #{:post}
   :processable? (partial resource/pass-body domain/create-datasets config))
 
+(defresource datasets [config {:keys [index-name]}] resource/defaults
+  :allowed-methods #{:post}
+  :post! #(domain/create-dataset config index-name (resource/get-body %)))
+
 (defresource dataset [config  {:keys  [index-name id]}] resource/defaults
   :allowed? (partial resource/is-admin? config)
   :allowed-methods #{:put :delete}
