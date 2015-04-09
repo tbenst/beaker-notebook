@@ -3,7 +3,7 @@
   (:require [environ.core :refer [env]]
             [com.stuartsierra.component :as component]
             (bunsen.marketplace.component [config :refer [config]]
-                                      [server :refer [server]])))
+                                          [server :refer [server]])))
 
 (defn service [env]
   (-> (component/system-map
