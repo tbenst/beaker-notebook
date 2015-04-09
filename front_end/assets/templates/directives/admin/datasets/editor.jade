@@ -3,7 +3,12 @@ form.dataset-edit(name="datasetEditForm")
     label Title
     input(placeholder="title" ng-model="dataset.title")
     label Catalog
-    input(disabled placeholder="catalog" ng-model="dataset.catalog.index")
+    input(disabled ng-if="!creating" placeholder="catalog" ng-model="dataset.catalog.index")
+    select(ng-if="creating" ng-model="tmpCatalog" ng-change="setNewCatalog(tmpCatalog, dataset)")
+      option(disabled selected="selected") Select a catalog
+      option(ng-repeat="catalog in catalogs" ng-value="catalog") {{catalog}}
+    label Description
+    textarea(ng-model="dataset.description", placeholder="Enter a description")
     .dataset-vendor
       label Vendor
       input.dataset-vendor-field(placeholder="vendor"
