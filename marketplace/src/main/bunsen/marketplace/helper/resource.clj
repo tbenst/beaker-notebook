@@ -7,5 +7,4 @@
 (def defaults
   {:allowed-methods #{:get}
    :available-media-types #{"text/plain" "application/json"}
-   :handle-exception (fn [ctx]
-                       (-> ctx :exception throw))})
+   :handle-exception #(-> % :exception throw)})
