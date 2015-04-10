@@ -139,6 +139,9 @@ module.exports = function(Bookshelf, app) {
             .fetchFromElastic()
             .then(function(catalog) {
               dataset.set('catalog', catalog);
+              // Cast dataset ID to a string so that
+              // we can find it given a string ID on the subscription model.
+              dataset.set('id', String(dataset.get('id')));
               return dataset.toJSON()
             })
           });
