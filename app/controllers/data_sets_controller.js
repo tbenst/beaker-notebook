@@ -29,7 +29,9 @@ module.exports = function(app) {
     },
 
     get: function(req, res, next) {
+      //jscs:disable
       new DataSet({index: req.params.index, id: req.params.data_set_id})
+      //jscs:enable
       .fetchFromElastic()
       .then(res.json.bind(res))
       .catch(next);
