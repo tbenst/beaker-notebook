@@ -66,12 +66,15 @@
         categories (base/read-indexed-results es-conn index-name "categories")
         indexer (base/index! es-conn index-name "datasets" datasets
                              identity ; json already parsed
-                             (fn [result]
-                               (map (partial simple/prepare-dataset categories)
-                                    result))
+                             #(map (partial simple/prepare-dataset categories) %)
                              base/bulk-to-es!)]
     (await-for 5000 indexer)
     (= (:stage @indexer) :indexed)))
+
+(defn create-dataset
+  "Creates a single dataset based on the index-name provided"
+  [config index-name document]
+  (-> (helper/connect-to-es config) (doc/create index-name "datasets" document)))
 
 (defn delete-dataset
   [config index-name id]
@@ -106,4 +109,4 @@
   [es-conn index-name payload]
   (ind/delete es-conn index-name)
   (ind/create es-conn index-name)
-  (mappings/apply-mappings! es-conn index-name "simple/mappings.json"))
+  (mappings/apply-mappings! es-conn index-name "seed/mappings.json"))

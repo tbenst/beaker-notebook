@@ -63,4 +63,23 @@
     (is (= 2 (count (json/read-str (:body (fetch "/marketplace/v1/vendors" {:cookie-store (sign-in 1)
                                                                             :content-type :json}))))))))
 
+(deftest create-dataset
+  (testing "creating a dataset"
+    (is (= 201 (:status (post "/marketplace/v1/indices/catalog_simple/datasets" {:body (json/write-str
+                                                                                         {:description "Very descriptive"
+                                                                                          :vendor "See spot run"
+                                                                                          :metaDataChanged "2012-10-05T18:15:30-05:00"
+                                                                                          :public true
+                                                                                          :createdAt "1993-10-05T18:15:30-05:00"
+                                                                                          :title "Fuzzy Wozzy tread warehouse inventory"
+                                                                                          :categories [{:path "0.0.0"
+                                                                                                        :name "Market Data"
+                                                                                                        :id"32"}]
+                                                                                          :categoryIds [32]
+                                                                                          :lastUpdated "2013-07-05T18:15:30-05:00"
+                                                                                          :remoteFile "file://./tank_treads.csv"
+                                                                                          :businessOwner "882-HU-BBT"})
+                                                                                 :cookie-store (sign-in 1)
+                                                                                 :content-type :json}))))))
+
 (use-fixtures :each setup-market-tests)

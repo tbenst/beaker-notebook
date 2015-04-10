@@ -3,8 +3,7 @@
             [bunsen.marketplace.categories :as cats]
             [bunsen.marketplace.mappings :as mappings]
             [clojurewerkz.elastisch.rest.index :as ind]
-            [clojurewerkz.elastisch.rest :as rest]
-            ))
+            [clojurewerkz.elastisch.rest :as rest]))
 
 (defn reindex-catalog!
   "Given catalog urls, elasticsearch url, and index name, completely recreates the search index for the catalog"
@@ -20,5 +19,4 @@
       (datasets-fn es-conn index-name datasets-url categories)
       (ind/refresh es-conn index-name)
       (cats/update-counts! es-conn index-name categories)
-      (cats/update-mappings! es-conn index-name categories))
-    ))
+      (cats/update-mappings! es-conn index-name categories))))
