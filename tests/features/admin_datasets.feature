@@ -24,6 +24,16 @@ Feature: Admin Datasets
     And I view the market search
     Then I should see a dataset with the name "wow"
 
+  Scenario: Creating a dataset
+    When I have the following categories:
+      | name       | path  |
+      | finance    | 0.1.1 |
+    When I create a new dataset with
+      | name   | category |
+      | stacy  | finance  |
+    And I view the market search
+    Then I should see 2 market items on the market list page
+
   Scenario: Editing a dataset from the detail
     When I view the market search
     And I view the first market item
@@ -38,7 +48,7 @@ Feature: Admin Datasets
       | canada     | 0.1.2 |
     When I view the market search
     And I edit a dataset
-    And I enter "finance" into the category field
+    And type "finance" into the category field
     Then I should see a category autocomplete dropdown with "finance (0.1.1)"
 
   Scenario: Invalid entry in dataset category
