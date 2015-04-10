@@ -16,7 +16,7 @@ module.exports = function(app) {
         from: 0,
         size: 10
       });
-  };
+  }
 
   return {
     index: function(req, res, next) {
