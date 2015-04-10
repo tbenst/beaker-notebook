@@ -12,7 +12,7 @@ module.exports = function(app) {
     return _.defaults({
         from: req.query.offset,
         size: req.query.limit
-      },{
+      }, {
         from: 0,
         size: 10
       });
