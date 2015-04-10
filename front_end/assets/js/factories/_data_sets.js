@@ -59,6 +59,8 @@
                 'datasets/' + dataset.id);
           },
           createDataSet: function(dataset) {
+            dataset.categories = dataset.categories.slice(0, 1);
+
             return MarketplaceRestangular
             .one('indices', dataset.index)
             .post('datasets', _.omit(dataset, 'index'));
