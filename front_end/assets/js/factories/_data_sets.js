@@ -45,33 +45,34 @@
       function(
         TimeoutRestangular,
         MarketplaceRestangular) {
-    return {
-      getDataSet: function(index, id) {
-        return TimeoutRestangular().all('data_sets')
-        .one(index, id).get()
-        .then(formatDataset);
-      },
-      updateDataSet: function(dataset) {
-        return MarketplaceRestangular
-        .one('indices', dataset.index)
-        .customPUT(
-            MarketplaceRestangular.stripRestangular(dataset),
-            'datasets/' + dataset.id);
-      },
-      createDataSet: function(dataset) {
-        return MarketplaceRestangular
-        .one('indices', dataset.index)
-        .post('datasets', _.omit(dataset, 'index'));
-      },
-      getDataSets: function(scope, abort) {
-        return TimeoutRestangular(abort).one('data_sets')
-        .get(buildQuery(scope))
-        .then(function(datasets) {
-          return _.extend(datasets, {
-            data: _.map(datasets.data, formatDataset)
-          });
-        });
+        return {
+          getDataSet: function(index, id) {
+            return TimeoutRestangular().all('data_sets')
+            .one(index, id).get()
+            .then(formatDataset);
+          },
+          updateDataSet: function(dataset) {
+            return MarketplaceRestangular
+            .one('indices', dataset.index)
+            .customPUT(
+                MarketplaceRestangular.stripRestangular(dataset),
+                'datasets/' + dataset.id);
+          },
+          createDataSet: function(dataset) {
+            return MarketplaceRestangular
+            .one('indices', dataset.index)
+            .post('datasets', _.omit(dataset, 'index'));
+          },
+          getDataSets: function(scope, abort) {
+            return TimeoutRestangular(abort).one('data_sets')
+            .get(buildQuery(scope))
+            .then(function(datasets) {
+              return _.extend(datasets, {
+                data: _.map(datasets.data, formatDataset)
+              });
+            });
+          }
+        };
       }
-    };
-  }]);
+  ]);
 })(window.bunsen);
