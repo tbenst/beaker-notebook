@@ -3,10 +3,10 @@ var url = require('url');
 var Qs = require('qs');
 
 module.exports = function(app) {
-  var DataSet = app.Models.DataSet,
-      Category = app.Models.Category,
-      DataPreview = app.Models.DataPreview,
-      DataTag = app.Models.DataTag;
+  var DataSet = app.Models.DataSet;
+  var Category = app.Models.Category;
+  var DataPreview = app.Models.DataPreview;
+  var DataTag = app.Models.DataTag;
 
   function getOptions(req) {
     return _.defaults({
