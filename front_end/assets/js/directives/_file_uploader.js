@@ -106,6 +106,7 @@
             $scope.$apply(function() {
               var errorMessage = formatMessage("failed", req.status == 422 && req.responseText);
               showMessage(errorMessage, 30);
+              $scope.uploadPercentage = undefined;
             });
           })
           .on("progress", function(e) {
