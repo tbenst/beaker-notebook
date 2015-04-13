@@ -42,7 +42,10 @@
           };
 
           $scope.getCategories = function(searchTerm) {
-            return Factories.Categories.getMarketPlaceCategories({'index-name': $scope.dataset.index, 'search-term': searchTerm});
+            return Factories.Categories.getMarketPlaceCategories({
+              'index-name': $scope.dataset.index,
+              'search-term': searchTerm
+            });
           };
 
           //This function is used for angular bootstrap typeahead
