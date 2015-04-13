@@ -75,7 +75,7 @@
           // (from the DOM node onchange)
           // we need to manually apply changes to the state when we make them.
 
-          if (!files || files.length == 0) {
+          if (!files || files.length === 0) {
             return;
           }
 
