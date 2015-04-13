@@ -25,8 +25,7 @@
   :allowed? (partial resource/is-admin? config)
   :allowed-methods #{:put :delete}
   :delete! (fn [_] (domain/delete-dataset config index-name id))
-  :put! (fn [ctx]
-          (domain/update-dataset config index-name id (resource/get-body ctx))))
+  :put! #(domain/update-dataset config index-name id (resource/get-body %)))
 
 (defresource refresh [config _] resource/defaults
   :allowed? (partial resource/is-admin? config)

@@ -9,7 +9,15 @@
       Factories) {
 
       $scope.onEdit = function(dataset) {
-        Factories.DataSets.updateDataSet(dataset);
+        Factories.DataSets.updateDataSet(dataset).then(function(res) {
+          if (res.status === 201) {
+            $scope.editMessage = 'Dataset updated.';
+            $scope.messageClass = 'success';
+          } else {
+            $scope.editMessage = 'Error updating dataset.';
+            $scope.messageClass = 'error';
+          }
+        });
       };
 
       Factories.DataSets.getDataSet(state.params.index, state.params.id)

@@ -15,13 +15,13 @@
       });
     }
     return this;
-  }
+  };
 
   Emitter.prototype.on = function(name, cb) {
-    this.listeners[name] = this.listeners["name"] || [];
+    this.listeners[name] = this.listeners.name || [];
     this.listeners[name].push(cb);
     return this;
-  }
+  };
 
   function upload(files) {
     var emitter = new Emitter();
@@ -40,7 +40,7 @@
       }
 
       return emitter.emit("end", e);
-    }
+    };
 
     req.open("POST", "/api/files", true);
 
@@ -55,9 +55,9 @@
 
   app.directive('fileUploader', ['$timeout', function($timeout) {
     var messages = {
-      uploaded: function(i) {return i > 1 ? "Files have been uploaded" : "File has been uploaded"},
-      failed: function(i) {return i > 1 ? "Files haven't been uploaded correctly" : "File hasn't been uploaded correctly"}
-    }
+      uploaded: function(i) {return i > 1 ? "Files have been uploaded" : "File has been uploaded";},
+      failed: function(i) {return i > 1 ? "Files haven't been uploaded correctly" : "File hasn't been uploaded correctly";}
+    };
 
     return {
       restrict: "E",
@@ -75,16 +75,16 @@
           // (from the DOM node onchange)
           // we need to manually apply changes to the state when we make them.
 
-          if (!files || files.length == 0) {
+          if (!files || files.length === 0) {
             return;
           }
 
           function formatMessage(type, details) {
-            return details || messages[type](files.length)
+            return details || messages[type](files.length);
           }
 
           function showMessage(msg, seconds) {
-            if (timeout) {$timeout.cancel(timeout)}
+            if (timeout) {$timeout.cancel(timeout);}
             if (seconds) {
               timeout = $timeout(function() {
                 delete $scope.message;
@@ -116,9 +116,9 @@
               });
             }
           });
-        }
+        };
       }]
-    }
+    };
   }]);
 
 })(angular, window.bunsen);
