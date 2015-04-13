@@ -18,7 +18,7 @@
   };
 
   Emitter.prototype.on = function(name, cb) {
-    this.listeners[name] = this.listeners["name"] || [];
+    this.listeners[name] = this.listeners.name || [];
     this.listeners[name].push(cb);
     return this;
   };
