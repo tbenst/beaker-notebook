@@ -3,7 +3,12 @@ form.dataset-edit(name="datasetEditForm")
     label Title
     input(placeholder="title" ng-model="dataset.title")
     label Catalog
-    input(disabled placeholder="catalog" ng-model="dataset.catalog.index")
+    input(disabled ng-if="!creating" placeholder="catalog" ng-model="dataset.catalog.name")
+    select(ng-if="creating" ng-model="tmpCatalog" ng-change="setNewCatalog(tmpCatalog, dataset)")
+      option(disabled selected="selected") Select a catalog
+      option(ng-repeat="catalog in catalogs" ng-value="catalog") {{catalog}}
+    label Description
+    textarea(ng-model="dataset.description", placeholder="Enter a description")
     .dataset-vendor
       label Vendor
       input.dataset-vendor-field(placeholder="vendor"
@@ -34,12 +39,8 @@ form.dataset-edit(name="datasetEditForm")
             typeahead-on-select="onSelect($item)"
             typeahead-editable="false"
             required)
-    label File Location
-    input(placeholder="Location" ng-model="dataset.location")
-    p {{creating}}
-    .btn-group
-      .btn.submit-dataset-edit.alt(ng-click="onEdit()" ) {{creating ? 'Create' : 'Update'}}
-      .btn.delete-dataset(ng-click="deleteEntity(dataset)" ng-if="!creating") Delete
+    label Remote File Location
+    input(placeholder="Location" ng-model="dataset.remoteFile")
 
   .col-half
     h4 Previews
@@ -48,3 +49,7 @@ form.dataset-edit(name="datasetEditForm")
         img(ng-if="preview.smallPreviewUrl" ng-src="{{preview.smallPreviewUrl}}")
     label Table preview entry
     textarea(disabled placeholder="Table preview entry") {{dataset['table-preview']}}
+    .btn-group
+      .btn.submit-dataset-edit.alt(ng-click="onEdit(dataset)" ) {{creating ? 'Create' : 'Update'}}
+      .btn.delete-dataset(ng-click="deleteEntity(dataset)" ng-if="!creating") Delete
+

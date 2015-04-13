@@ -3,12 +3,10 @@
     '$scope',
     '$state',
     'Factories',
-    '$q',
     function(
       $scope,
       state,
-      Factories,
-      q) {
+      Factories) {
 
       $scope.onEdit = function(dataset) {
         Factories.DataSets.updateDataSet(dataset);
