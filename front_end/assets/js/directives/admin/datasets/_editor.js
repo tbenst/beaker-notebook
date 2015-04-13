@@ -19,12 +19,12 @@
         controller: ['$scope', '$state', function($scope, $state) {
           Factories.Formats.getFormats()
           .then(function(formats) {
-            $scope.formats = formats;
+            $scope.formats = formats.data;
           });
 
           Factories.Vendors.getMarketplaceVendors()
           .then(function(vendors) {
-            $scope.vendors = vendors;
+            $scope.vendors = vendors.data;
           });
 
           $scope.deleteEntity = function(dataset) {
@@ -45,6 +45,8 @@
             return Factories.Categories.getMarketPlaceCategories({
               'index-name': $scope.dataset.index,
               'search-term': searchTerm
+            }).then(function(categories) {
+              return categories.data;
             });
           };
 
