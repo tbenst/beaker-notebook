@@ -1,0 +1,6 @@
+.tags
+  .tag(ng-repeat="(index, tag) in datasetTags" ng-click="remove(index)") {{tag}}
+input.dataset-tags-field(placeholder="tags"
+      ng-model="newTag"
+      typeahead="tag for tag in allTags | filter:$viewValue")
+.btn.tag-add(ng-click="add()") Add

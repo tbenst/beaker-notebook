@@ -68,3 +68,29 @@ Feature: Admin Datasets
     And I edit a dataset
     And I enter "Doge industries" into the vendor field
     Then I should see a vendor-field autocomplete dropdown with "Doge industries"
+
+  Scenario: Dataset tags dropdown
+    When there is a market item with the title "Item 2" and the format "CSV"
+    And there is a market item with the tags "cat man carson,dog,human"
+    And I view the market search
+    And I view the "Item 2" market item
+    When I edit the market item from the detail view
+    And I enter "dog" into the tags field
+    Then I should see a tag-field autocomplete dropdown with "dog"
+
+  Scenario: Saving a new dataset tag
+    When I view the market search
+    And I edit a dataset
+    And I enter "dog" into the tags field
+    And I click the add button
+    And I update the dataset
+    When I refresh the page
+    Then I should see the "dog" tag
+
+  Scenario: Deleting a datset tag
+    When I view the market search
+    And I edit a dataset
+    And I click the "one" tag
+    And I update the dataset
+    When I refresh the page
+    Then I should not see any tags

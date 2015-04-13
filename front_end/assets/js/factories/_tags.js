@@ -1,11 +1,11 @@
-!(function(app) {
-
-  app.factory('TagsFactory', ['Restangular', function(Restangular) {
-    return {
-      getTags: function() {
-        return Restangular.one('data_tags').getList();
-      }
-    }
-  }]);
-
+;(function(app) {
+  app.factory('TagsFactory', [
+    'MarketplaceRestangular',
+    function(MR) {
+      return {
+        getTags: function() {
+          return MR.all('tags').getList();
+        },
+      };
+    }]);
 })(window.bunsen);
