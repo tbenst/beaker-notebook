@@ -1,4 +1,4 @@
-FROM quay.io/mojotech/node:c5c4097
+FROM quay.io/mojotech/node:1e055ab
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
 RUN apt-get install -y --no-install-recommends -t local nginx
