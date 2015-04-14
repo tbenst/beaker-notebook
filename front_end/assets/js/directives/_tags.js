@@ -10,6 +10,7 @@
         },
         template: templates['directives/tag_display'],
         controller: ['$scope', function($scope) {
+          $scope.datasetTags = $scope.datasetTags || [];
 
           function getTags() {
             Factories.Tags.getTags()
