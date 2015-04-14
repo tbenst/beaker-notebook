@@ -7,7 +7,8 @@
             [bunsen.marketplace.helper.api :as helper]
             [clojurewerkz.elastisch.rest.index :as ind]
             [clojurewerkz.elastisch.rest.document :as doc]
-            [clojurewerkz.elastisch.rest.response :refer :all]))
+            [clojurewerkz.elastisch.rest.response :refer :all]
+            [clojurewerkz.elastisch.query :as query]))
 
 (defn update-marketplace
   "Performs some common pre-processing tasks before kicking off the
@@ -107,7 +108,10 @@
 
 (defn get-indicies
   [config _]
-  (keys (ind/get-aliases (helper/connect-to-es config) "*")))
+  (let [categories (-> (doc/search (helper/connect-to-es config) "*" "categories"
+                                   :query (query/filtered :filter {:regexp {:path {:value ".{0,3}"}}}))
+                       :hits :hits)]
+    (map (fn [m] {:index (:_index m) :name (-> m :_source :name)}) categories)))
 
 (defn create-index
   [es-conn index-name payload]
