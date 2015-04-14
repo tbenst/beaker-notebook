@@ -88,6 +88,16 @@ Feature: Admin Datasets
     And I enter "dog" into the tags field
     Then I should see a tag-field autocomplete dropdown with "dog"
 
+  Scenario: Adding tags on a new dataset
+    When I have the following categories:
+      | name       | path  |
+      | finance    | 0.1.1 |
+    When I create a new dataset with
+      | name   | category | tag  |
+      | stacy  | finance  | tank |
+    And I edit a the "stacy" dataset
+    Then I should see the "tank" tag
+
   Scenario: Saving a new dataset tag
     When I view the market search
     And I edit a dataset
