@@ -1,10 +1,12 @@
 FROM quay.io/mojotech/node:1e055ab
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
+RUN apt-get install -y --no-install-recommends -t local \
+      oracle-java7-jdk
+
 RUN apt-get install -y --no-install-recommends -t wheezy-backports \
       firefox-mozilla-build \
       fluxbox \
-      openjdk-7-jre-headless \
       unzip \
       x11vnc \
       xfonts-100dpi \
