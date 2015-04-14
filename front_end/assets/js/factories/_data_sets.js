@@ -59,7 +59,9 @@
                 'datasets/' + dataset.id);
           },
           createDataSet: function(dataset) {
-            dataset.categories = dataset.categories.slice(0, 1);
+            // we need to do this because it is an
+            // object with a key of 0, not an array.
+            dataset.categories = [dataset.categories[0]];
 
             return MarketplaceRestangular
             .one('indices', dataset.index)
