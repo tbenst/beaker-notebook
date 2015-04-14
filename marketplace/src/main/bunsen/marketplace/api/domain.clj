@@ -74,7 +74,11 @@
 (defn create-dataset
   "Creates a single dataset based on the index-name provided"
   [config index-name document]
-  (-> (helper/connect-to-es config) (doc/create index-name "datasets" document)))
+  (let [connection (helper/connect-to-es config)
+        created_id (:_id (doc/create connection index-name "datasets" document))]
+        ; set the ID attribute of a dataset to be the internal elastic search _id
+        ; since the api consumers expect their to be an ID attribute on each dataset.
+        (doc/update-with-partial-doc connection index-name "datasets" created_id {:id created_id})))
 
 (defn delete-dataset
   [config index-name id]

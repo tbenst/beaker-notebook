@@ -31,6 +31,15 @@
       .state('admin.datasets', {
         abstract: true
       })
+      .state('admin.datasets.create', {
+        url: '/admin/datasets/create',
+        views: {
+          'app@admin': {
+            controller: 'datasetsCreate',
+            template: templates['admin/datasets/create']
+          }
+        }
+      })
       .state('admin.datasets.edit', {
         url: '/admin/datasets/edit/:index/:id',
         views: {
