@@ -53,6 +53,7 @@
 
           $scope.setNewCatalog = function(val, dataset) {
             dataset.index = val;
+            delete dataset.categories;
           };
 
           //This function is used for angular bootstrap typeahead
