@@ -19,6 +19,15 @@ module.exports = function() {
         value: value
       });
     },
+    addTag: function(tag) {
+      return this.fill({
+        selector: '.dataset-tags-field',
+        value: tag
+      })
+      .then(function() {
+        return this.click('.tag-add');
+      }.bind(this));
+    },
     setCategory: function(value) {
       return this.typeIntoCategories(value)
       .then(function() {

@@ -4,6 +4,16 @@ module.exports = function() {
     .should.eventually.eql(true);
   });
 
+  this.When(/^I edit a the "([^"]*)" dataset$/, function(datasetName) {
+    return this.driver.visit(this.route.market)
+    .then(function() {
+      return new this.Widgets.MarketTextSearch().setTerm(datasetName);
+    }.bind(this))
+    .then(function() {
+      return this.W.click('.admin-action.edit');
+    }.bind(this));
+  });
+
   this.When(/^I edit a dataset$/, function() {
     return this.W.click('.admin-action.edit');
   });
@@ -140,16 +150,21 @@ module.exports = function() {
 
   this.When(/^I create a new dataset with$/, function(table) {
     var editor = new this.Widgets.DatasetEditor();
-
+    var row = table.hashes()[0];
     return this.driver.get(this.route.datasetCreate)
     .then(function() {
-      return editor.setTitle(table.hashes()[0].name);
+      return editor.setTitle(row.name);
+    })
+    .then(function() {
+      if (!row.tag) {return;}
+
+      return editor.addTag(row.tag);
     })
     .then(function() {
       return editor.setCatalog('catalog_0.1');
     })
     .then(function() {
-      return editor.setCategory(table.hashes()[0].category);
+      return editor.setCategory(row.category);
     })
     .then(function() {
       return editor.save();
