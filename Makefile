@@ -20,6 +20,7 @@ IMAGES := \
 	beaker \
 	tests \
 	riemann \
+	datomic \
 	$(CLOJURE_IMAGES)
 
 .PHONY: \
@@ -128,6 +129,10 @@ prepare-riemann:
 
 prepare-tests:
 	make -C tests
+
+# nothing to do here
+prepare-datomic:
+	true
 
 #
 #
