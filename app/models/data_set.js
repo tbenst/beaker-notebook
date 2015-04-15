@@ -281,7 +281,7 @@ module.exports = function(Bookshelf, app) {
 
     addAverageRatings: function(results) {
       return Bluebird.map(results.data, function(d) {
-        return app.Models.Rating.getAverage({rateableId: 'data_sets-' + d.index + '-' + d.id})
+        return app.Models.Rating.getAverage({rateableId: 'data_sets'+ ':' + d.index + ':' + d.id})
         .then(function(avg) {
           return _.extend(d, {averageRating: avg});
         });

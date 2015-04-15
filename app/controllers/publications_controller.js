@@ -38,7 +38,7 @@ module.exports = function(app) {
       .then(function(publications) {
         return Promise.each(publications.models, function(publication) {
           publication.set('languages', Publication.languages(publication.get('contents')));
-          return Rating.getAverage({rateableId: 'publications-' + publication.id })
+          return Rating.getAverage({rateableId: 'publications'+ ':' + publication.id })
           .then(function(avg) {
             return publication.set('averageRating', avg);
           });
