@@ -8,11 +8,14 @@
   * Add the following lines to your host machine's `/etc/hosts`
     * `10.10.10.10    bunsen-dev`
     * `10.10.10.10    bunsen-test`
+    * `10.10.10.10    beaker-dev`
+    * `10.10.10.10    beaker-test`
   * Ensure your docker client is using the docker server running inside vagrant.
     * e.g. `export MARATHON_HOST=10.10.10.10:8080`
   * Run your services and add to marathon
-    * `$ make deploy-dev`
-  * Browse to http://bunsen-dev/
+    * `$ make deploy-bunsen-dev`
+    * `$ make deploy-beaker-dev`
+  * Browse to http://bunsen-dev/ to access Bunsen web app or to http://bunsen-dev/solo/publications.html to access Publications app
 
 ## Running tests
 

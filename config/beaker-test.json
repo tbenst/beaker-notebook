@@ -1,0 +1,87 @@
+{
+  "id": "/beaker-test",
+  "apps": [
+    {
+      "id": "/beaker-test/publications",
+      "cmd": "",
+      "cpus": 0.1,
+      "mem": 100,
+      "ports": [
+        "3003"
+      ],
+      "instances": 1,
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "network": "BRIDGE",
+          "image": "publications",
+          "portMappings": [
+            {
+              "containerPort": 3003,
+              "servicePort": "3003",
+              "protocol": "tcp"
+            }
+          ]
+        }
+      },
+      "env": {
+        "PUBLICATIONS_PORT": 3003,
+        "PUBLICATIONS_DATABASE_URI": "datomic:mem://publications",
+        "BAMBOO_HOST": "beaker-test",
+        "BAMBOO_PATH": "/publications/"
+      },
+      "healthChecks": [
+        {
+          "protocol": "HTTP",
+          "path": "/publications/v1/status",
+          "gracePeriodSeconds": 10,
+          "intervalSeconds": 10,
+          "portIndex": 0,
+          "timeoutSeconds": 5,
+          "maxConsecutiveFailures": 3
+        }
+      ],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0
+      }
+    },
+    {
+      "id": "/beaker-test/web",
+      "cpus": 0.1,
+      "mem": 100,
+      "instances": 1,
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "network": "BRIDGE",
+          "image": "web",
+          "portMappings": [
+            {
+              "containerPort": 8080,
+              "protocol": "tcp"
+            }
+          ]
+        }
+      },
+      "env": {
+        "ENABLE_COVERAGE": true,
+        "BAMBOO_HOST": "beaker-test",
+        "BAMBOO_ACLS": "!{ path_beg -i /publications/ }"
+      },
+      "healthChecks": [
+        {
+          "protocol": "HTTP",
+          "path": "/",
+          "gracePeriodSeconds": 10,
+          "intervalSeconds": 10,
+          "portIndex": 0,
+          "timeoutSeconds": 5,
+          "maxConsecutiveFailures": 3
+        }
+      ],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0
+      }
+    }
+  ]
+}
