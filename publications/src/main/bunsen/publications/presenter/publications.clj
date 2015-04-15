@@ -29,5 +29,6 @@
                       term (q/constrain '(has-text ?p ?term)))]
     (q/find-all {:db db
                  :query query
-                 :pattern '[* {:publication/category [*]}]
+                 :pattern '[:db/id :publication/name :publication/description :publication/author
+                            :publication/notebook-id {:publication/category [*]}]
                  :args [rules [category-id term]]})))
