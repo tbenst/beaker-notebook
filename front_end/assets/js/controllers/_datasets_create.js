@@ -12,7 +12,15 @@
       $scope.creating = true;
       $scope.dataset = {};
       $scope.onEdit = function(dataset) {
-        factories.DataSets.createDataSet(dataset);
+        factories.DataSets.createDataSet(dataset).then(function(res) {
+          if (res.status === 201) {
+            $scope.editMessage = 'Dataset created.';
+            $scope.messageClass = 'success';
+          } else {
+            $scope.editMessage = 'Error creating dataset.';
+            $scope.messageClass = 'error';
+          }
+        });
       };
     }]);
 })(angular, window.bunsen);
