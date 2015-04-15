@@ -26,7 +26,7 @@
 
         $scope.canShowRating = function() {
           if (!$scope.ratingAttrs) return;
-          var rateableType = $scope.ratingAttrs.rateableId.split('-')[0];
+          var rateableType = $scope.ratingAttrs.rateableId.split(':')[0];
           return $scope.subscribed || rateableType !== 'data_sets';
         };
 

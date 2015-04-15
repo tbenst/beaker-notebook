@@ -23,7 +23,7 @@
 
     function getPublicationWithRatings() {
       $scope.ratingAttrs = {
-        rateableId: 'publications' + '-' + $state.params.id.toString()
+        rateableId: 'publications' + ':' + $state.params.id.toString()
       };
 
       F.Publications.getPublication($state.params.id).then(function(publication) {

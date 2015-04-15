@@ -6,7 +6,7 @@ module.exports = function(app) {
 
   return {
     authorize: function(req, res, next) {
-      var rateableIdArr = req.body.rateableId.split('-');
+      var rateableIdArr = req.body.rateableId.split(':');
 
       if (rateableIdArr[0] !== 'data_sets') return next();
       return new DataSet({index: rateableIdArr[1], id: rateableIdArr[2]})
