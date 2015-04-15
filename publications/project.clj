@@ -2,13 +2,17 @@
   :description "bunsen publications service"
   :url "https://github.com/twosigma/bunsen"
   :main bunsen.publications.service
+  :repositories {"my.datomic.com"
+                 {:url "https://my.datomic.com/repo"
+                  :username "will@mojotech.com"
+                  :password "9b571a50-cb08-48ba-bd2c-86ccf58b1ad2"}}
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/tools.cli "0.3.1"]
                  [org.clojure/data.codec "0.1.0"]
                  [com.stuartsierra/component "0.2.2"]
-                 [com.datomic/datomic-free "0.9.5130"]
+                 [com.datomic/datomic-pro "0.9.5153"]
                  [ring "1.3.1"]
-                 [bidi "1.10.4"]
+                 [bidi "1.10.4" :exclusions [org.clojure/clojure]]
                  [liberator "0.12.1"]
                  [ring/ring-json "0.3.1"]
                  [clj-time "0.9.0"]
@@ -18,8 +22,7 @@
   :test-paths ["src/test"]
   :source-paths ["src/main"]
   :profiles {:uberjar {:aot [bunsen.publications.service]}
-             :dev {:env {
-                         :server-port 3003
+             :dev {:env {:server-port 3003
                          :database-uri "datomic:mem://publications"
                          :seed-file "seed.edn"}
                    :repl-options {:init (user/watch)}

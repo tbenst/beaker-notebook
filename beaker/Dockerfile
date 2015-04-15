@@ -1,4 +1,4 @@
-FROM quay.io/mojotech/groovy:c5c4097
+FROM quay.io/mojotech/groovy:1e055ab
 MAINTAINER mojotech <ops+docker@mojotech.com>
 
 # setup node.js
