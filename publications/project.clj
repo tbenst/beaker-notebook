@@ -2,7 +2,7 @@
   :description "bunsen publications service"
   :url "https://github.com/twosigma/bunsen"
   :main bunsen.publications.service
-  :jvm-opts ["-Xmx256M"]
+  :jvm-opts ["-Xmx1536M"]
   :repositories {"my.datomic.com"
                  {:url "https://my.datomic.com/repo"
                   :username "will@mojotech.com"
