@@ -17,6 +17,10 @@
         return R.one('publications', publicationId).get();
       },
 
+      publicationNotebookUrl: function(publicationId) {
+        return R.one('publications', publicationId).one('notebook').getRequestedUrl();
+      },
+
       destroy: function(publicationId) {
         return R.one('publications', publicationId).remove();
       }

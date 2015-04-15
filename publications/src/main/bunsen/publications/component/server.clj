@@ -10,6 +10,7 @@
             [bunsen.publications.resource.status :refer [status]]
             [bunsen.publications.resource.seed :refer [seed]]
             [bunsen.publications.resource.publication :refer [publication]]
+            [bunsen.publications.resource.notebook :refer [notebook]]
             [bunsen.publications.resource.publications :refer [publications]]
             [bunsen.publications.resource.publications-count :refer [publications-count]]
             [bunsen.publications.resource.category :refer [category]]
@@ -27,6 +28,7 @@
    :publication publication
    :publications publications
    :publications-count publications-count
+   :notebook notebook
    :category category
    :categories categories
    :rating rating

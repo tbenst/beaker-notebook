@@ -40,5 +40,9 @@
         $state.go('^');
       });
     };
+
+    $scope.downloadNotebookUrl = function() {
+      return F.Publications.publicationNotebookUrl($state.params.id);
+    };
   }]);
 })(angular, window.bunsen);
