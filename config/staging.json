@@ -350,6 +350,7 @@
       "env": {
         "DATOMIC_PROTOCOL": "ddb",
         "DATOMIC_AWS_DYNAMODB_TABLE": "bunsen-staging",
+        "DATOMIC_AWS_DYNAMODB_REGION": "us-east-1",
         "DATOMIC_AWS_TRANSACTOR_ROLE": "cluster_slave_servers",
         "DATOMIC_AWS_PEER_ROLE": "cluster_slave_servers"
       },
