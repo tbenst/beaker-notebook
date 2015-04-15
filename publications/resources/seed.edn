@@ -76,6 +76,38 @@
   :category/description "Travel is the movement of people between relatively distant geographical locations, and can involve travel by foot, bicycle, automobile, train, boat, airplane, or other means, with or without luggage, and can be one way or round trip. Travel can also include relatively short stays between successive movements."}
 
  {:db/id #db/id[:db.part/user]
+  :publication/name "NYC Parking Ticket Exploration"
+  :publication/description "This notebook was created by Ben Wellington, adapted from a blog post on IQuantNY, www.iquantny.com \n You need ticket data: https://data.cityofnewyork.us/City-Government/Parking-Violations-Issued-Fiscal-Year-2014-August-/jt7v-77mi? \n This notebook provides an exploration of NYC Parking Ticket data, using basic statistics. The language of choice for this notebook is IPython, using the pandas library."
+  :publication/author 1
+  :publication/notebook-id "1239abc"
+  :publication/contents #file "notebooks/nyc_parking_ticket_exploration.bkr"
+  :publication/category #db/id[:db.part/user -9]}
+
+ {:db/id #db/id[:db.part/user]
+  :publication/name "Python, HTML, Javascript, and d3"
+  :publication/description "This notebook was created by Scott Draves. \n This notebook creates a random network with Python, and then visualizes it with an interactive forced-directed graph by using the d3 library."
+  :publication/author 1
+  :publication/notebook-id "1240abc"
+  :publication/contents #file "notebooks/python_html_js_d3.bkr"
+  :publication/category #db/id[:db.part/user -13]}
+
+ {:db/id #db/id[:db.part/user]
+  :publication/name "iPython Examples"
+  :publication/description "This notebook was created by Scott Draves. \n IPython is the Python language with extensions for interactivity.  Follow the instructions on BeakerNotebook.com for how to install IPython so Beaker can use it."
+  :publication/author 1
+  :publication/notebook-id "1241abc"
+  :publication/contents #file "notebooks/ipython_examples.bkr"
+  :publication/category #db/id[:db.part/user -13]}
+
+ {:db/id #db/id[:db.part/user]
+  :publication/name "An Exploration of Citi Bike Riders in NYC"
+  :publication/description "This notebook was created by Ben Wellington. \n In order to use this notebook, you first need to download the publicly available Citi bike data.  (Available at http://www.citibikenyc.com/system-data) \n This notebook provides an example of how to mine publicly available Citi bike data, using basic statistics to uncover interesting patterns. It uses Ipython as the language of choice (with pandas and numpy). There's also some Groovy at the end to show how data can be passed between languages."
+  :publication/author 1
+  :publication/notebook-id "1242abc"
+  :publication/contents #file "notebooks/citibike_riders_nyc.bkr"
+  :publication/category #db/id[:db.part/user -9]}
+
+ {:db/id #db/id[:db.part/user]
   :publication/name "The 1000 Genomes Project"
   :publication/description "The 1000 Genomes Project is the first project to sequence the genomes of a large number of people, to provide a comprehensive resource on human genetic variation. As with other major human genome reference projects, data from the 1000 Genomes Project will be made available quickly to the worldwide scientific community through freely accessible public databases. The goal of the 1000 Genomes Project is to find most genetic variants that have frequencies of at least 1% in the populations studied."
   :publication/author 1
@@ -118,4 +150,5 @@
   :publication/category #db/id[:db.part/user -1]
   :publication/ratings [{:rating/user 2 :rating/score 2}
                         {:rating/user 1 :rating/score 5}]}
+
  ]
