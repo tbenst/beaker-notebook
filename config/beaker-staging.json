@@ -24,6 +24,7 @@
       "env": {
         "PUBLICATIONS_PORT": 3003,
         "PUBLICATIONS_DATABASE_URI": "datomic:mem://publications",
+        "PUBLICATIONS_SEED_FILE": "seed.edn",
         "BAMBOO_HOST": "beaker-staging.withmojo.com",
         "BAMBOO_PATH": "/publications/"
       },
