@@ -46,7 +46,7 @@ update_properties_file() {
     # if the key already exists in the file...
     if grep -q "^$k=" "$file" ; then
       # ...replace the value...
-      sed -i '' "s/^$k=.*/$k=$v/" "$file"
+      sed -i "s/^$k=.*/$k=$v/" "$file"
     else
       # ...else just append the new key/value pair
       echo "$k=$v" >> "$file"
