@@ -9,7 +9,7 @@ format_key() {
   # strip off leading DATOMIC_
   key=${key#DATOMIC_*}
   # convert delimiter _ to -
-  key=${key/_/-}
+  key=${key//_/-}
   # lowercase string
   key=${key,,}
 
