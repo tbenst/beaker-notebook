@@ -35,7 +35,9 @@
 
 (deftest read-indices
   (testing "getting all indicies"
-    (is (= ["catalog_simple"] (json/read-str (:body (fetch "/marketplace/v1/indices" {:cookie-store (sign-in 1)})))))))
+    (let [catalog (json/read-str (:body (fetch "/marketplace/v1/indices" {:cookie-store (sign-in 1)}))
+                                 :key-fn keyword)]
+      (is (= "catalog_simple" (-> catalog first :index))))))
 
 (deftest read-categories
   (testing "reading categories by search term"

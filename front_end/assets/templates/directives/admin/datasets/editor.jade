@@ -6,7 +6,7 @@ form.dataset-edit(name="datasetEditForm")
     input(disabled ng-if="!creating" placeholder="catalog" ng-model="dataset.catalog.name")
     select(ng-if="creating" ng-model="tmpCatalog" ng-change="setNewCatalog(tmpCatalog, dataset)")
       option(disabled selected="selected") Select a catalog
-      option(ng-repeat="catalog in catalogs" ng-value="catalog") {{catalog}}
+      option(ng-repeat="catalog in catalogs" ng-value="catalog.index") {{catalog.name}}
     label Description
     textarea(ng-model="dataset.description", placeholder="Enter a description")
     .dataset-vendor
@@ -51,4 +51,3 @@ form.dataset-edit(name="datasetEditForm")
     .btn-group
       .btn.submit-dataset-edit.alt(ng-click="onEdit(dataset)" ) {{creating ? 'Create' : 'Update'}}
       .btn.delete-dataset(ng-click="deleteEntity(dataset)" ng-if="!creating") Delete
-
