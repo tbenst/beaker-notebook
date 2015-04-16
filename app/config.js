@@ -1,5 +1,5 @@
 var config = {};
-var env = process.env.NODE_ENV;
+var env = process.env.NODE_ENV || 'dev';
 var capitalEnv = env.charAt(0).toUpperCase() + env.slice(1);
 
 config[env] = {
