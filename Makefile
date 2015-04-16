@@ -173,7 +173,7 @@ wait-publications: start-publications
 	wget -qO- --retry-connrefused --tries=20 "$(HOST):3003/publications/v1/status"
 
 start-tests:
-	docker run -d -p 5900:5900 --env-file="config/$(ENV).env" --name=bunsen-tests $(REGISTRY)/bunsen-tests:$(TAG) $(COMMANDS)
+	docker run -d -p 5900:5900 --env-file="config/$(ENV).env" --name=bunsen-tests -e "CIRCLE_NODE_TOTAL=$(CIRCLE_NODE_TOTAL)" -e "CIRCLE_NODE_INDEX=$(CIRCLE_NODE_INDEX)" $(REGISTRY)/bunsen-tests:$(TAG) $(COMMANDS)
 
 start-web:
 	docker run -d -p 8081:8081 --env-file="config/$(ENV).env" --name=bunsen-web $(REGISTRY)/bunsen-web:$(TAG) $(COMMANDS)

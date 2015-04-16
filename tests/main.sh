@@ -37,7 +37,7 @@ Options:
   java -jar selenium.jar &
 
   # run tests
-  npm start; code=$?
+  ./get-features.sh | xargs npm start -- ; code=$?
 
   if [[ -n $ENABLE_COVERAGE ]]; then
     curl -o "coverage.json" $HOSTNAME/api/coverage/object
