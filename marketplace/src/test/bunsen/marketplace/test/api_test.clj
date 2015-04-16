@@ -4,12 +4,8 @@
             [clojure.java.io :as io]
             [clojure.data.json :as json]
             [clojure.test :refer :all]
-            [bunsen.common.test-helper.request :refer :all]))
-
-(def elasticsearch-url (str "http://"
-                            (or (System/getenv "ELASTICSEARCH_HOST") "localhost")
-                            ":"
-                            (or (System/getenv "ELASTICSEARCH_PORT") "9200")))
+            [bunsen.common.test-helper.request :refer :all]
+            [bunsen.marketplace.helper.api :refer [connect-to-es]]))
 
 (def index-name "catalog_simple")
 
@@ -17,7 +13,7 @@
   (main/reindex-catalog! "simple/mappings.json"
                          (io/resource "simple/datasets.json")
                          (io/resource "simple/categories.json")
-                         elasticsearch-url
+                         (connect-to-es)
                          index-name
                          simple/index-categories!
                          simple/index-datasets!))

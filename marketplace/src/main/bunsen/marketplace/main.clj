@@ -7,16 +7,15 @@
 
 (defn reindex-catalog!
   "Given catalog urls, elasticsearch url, and index name, completely recreates the search index for the catalog"
-  [mapping-file datasets-url categories-url elasticsearch-url index-name
+  [mapping-file datasets-url categories-url es-conn index-name
    categories-fn datasets-fn]
-  (let [es-conn (rest/connect elasticsearch-url)]
-    (ind/delete es-conn index-name)
-    (ind/create es-conn index-name)
-    (await-for 5000 (mappings/apply-mappings! es-conn index-name mapping-file))
-    (await-for 30000 (categories-fn es-conn index-name categories-url))
+  (ind/delete es-conn index-name)
+  (ind/create es-conn index-name)
+  (await-for 5000 (mappings/apply-mappings! es-conn index-name mapping-file))
+  (await-for 30000 (categories-fn es-conn index-name categories-url))
+  (ind/refresh es-conn index-name)
+  (let [categories (base/read-indexed-results es-conn index-name "categories")]
+    (datasets-fn es-conn index-name datasets-url categories)
     (ind/refresh es-conn index-name)
-    (let [categories (base/read-indexed-results es-conn index-name "categories")]
-      (datasets-fn es-conn index-name datasets-url categories)
-      (ind/refresh es-conn index-name)
-      (cats/update-counts! es-conn index-name categories)
-      (cats/update-mappings! es-conn index-name categories))))
+    (cats/update-counts! es-conn index-name categories)
+    (cats/update-mappings! es-conn index-name categories)))
