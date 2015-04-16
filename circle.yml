@@ -20,7 +20,7 @@ database:
 
 test:
   override:
-    - make HOST="127.0.0.1" test-marketplace test-vendor test-user test-integration:
+    - make TIMBRE_LOG_LEVEL="warn" HOST="127.0.0.1" test-marketplace test-vendor test-user test-integration:
         parallel: true
 
 deployment:
