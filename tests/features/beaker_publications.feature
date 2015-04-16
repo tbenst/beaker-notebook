@@ -17,6 +17,17 @@ Feature: Beaker Solo Publications
       | name       |
       | top secret |
 
+  Scenario: Searching Beaker publication in wildcard mode
+    Given there are 12 Beaker publications
+    And there is Beaker publication named "top secret"
+    When I view the Beaker publications page
+    And I search for publication "secre"
+    Then I should see 1 publication results on the page
+    And I should be on page 1 of results
+    And I should see the following publication first in the list:
+      | name       |
+      | top secret |
+
   Scenario: Beaker publication categories
     Given I have the following Beaker publication categories:
       | name       | description             |
