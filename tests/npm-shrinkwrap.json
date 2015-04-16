@@ -242,9 +242,9 @@
       "resolved": "https://registry.npmjs.org/moment/-/moment-2.9.0.tgz"
     },
     "pioneer": {
-      "version": "0.10.6-pre-4",
-      "from": "https://registry.npmjs.org/pioneer/-/pioneer-0.10.6-pre-4.tgz",
-      "resolved": "https://registry.npmjs.org/pioneer/-/pioneer-0.10.6-pre-4.tgz",
+      "version": "0.11.3",
+      "from": "pioneer@0.11.3",
+      "resolved": "https://registry.npmjs.org/pioneer/-/pioneer-0.11.3.tgz",
       "dependencies": {
         "bluebird": {
           "version": "1.2.4",
@@ -287,8 +287,8 @@
         },
         "cucumber": {
           "version": "0.3.3",
-          "from": "../../../../../../var/folders/b_/806_3h_n3c55c248zv0jjnf80000gn/T/npm-99378-81428047/git-cache-6c806ad16908/78f79263e5855dd189e4bbe792cc6a34d7efcd19",
-          "resolved": "git://github.com/joshtombs/cucumber-js#78f79263e5855dd189e4bbe792cc6a34d7efcd19",
+          "from": "../../../../../../var/folders/b_/806_3h_n3c55c248zv0jjnf80000gn/T/npm-22797-d1ffd991/git-cache-6327e97092fc/78f79263e5855dd189e4bbe792cc6a34d7efcd19",
+          "resolved": "git+https://github.com/joshtombs/cucumber-js#78f79263e5855dd189e4bbe792cc6a34d7efcd19",
           "dependencies": {
             "gherkin": {
               "version": "2.12.2",
@@ -513,6 +513,46 @@
           "from": "rimraf@2.2.8",
           "resolved": "https://registry.npmjs.org/rimraf/-/rimraf-2.2.8.tgz"
         },
+        "selenium-webdriver": {
+          "version": "2.44.0",
+          "from": "selenium-webdriver@2.44.0",
+          "resolved": "https://registry.npmjs.org/selenium-webdriver/-/selenium-webdriver-2.44.0.tgz",
+          "dependencies": {
+            "adm-zip": {
+              "version": "0.4.4",
+              "from": "adm-zip@0.4.4",
+              "resolved": "https://registry.npmjs.org/adm-zip/-/adm-zip-0.4.4.tgz"
+            },
+            "tmp": {
+              "version": "0.0.24",
+              "from": "tmp@0.0.24",
+              "resolved": "https://registry.npmjs.org/tmp/-/tmp-0.0.24.tgz"
+            },
+            "xml2js": {
+              "version": "0.4.4",
+              "from": "xml2js@0.4.4",
+              "resolved": "https://registry.npmjs.org/xml2js/-/xml2js-0.4.4.tgz",
+              "dependencies": {
+                "sax": {
+                  "version": "0.6.1",
+                  "from": "sax@>=0.6.0 <0.7.0"
+                },
+                "xmlbuilder": {
+                  "version": "2.6.2",
+                  "from": "xmlbuilder@>=1.0.0",
+                  "resolved": "https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-2.6.2.tgz",
+                  "dependencies": {
+                    "lodash": {
+                      "version": "3.5.0",
+                      "from": "lodash@>=3.5.0 <3.6.0",
+                      "resolved": "https://registry.npmjs.org/lodash/-/lodash-3.5.0.tgz"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         "update-notifier": {
           "version": "0.1.10",
           "from": "update-notifier@0.1.10",
@@ -559,9 +599,9 @@
                       "resolved": "https://registry.npmjs.org/argparse/-/argparse-1.0.2.tgz",
                       "dependencies": {
                         "lodash": {
-                          "version": "3.6.0",
+                          "version": "3.7.0",
                           "from": "lodash@>=3.2.0 <4.0.0",
-                          "resolved": "https://registry.npmjs.org/lodash/-/lodash-3.6.0.tgz"
+                          "resolved": "https://registry.npmjs.org/lodash/-/lodash-3.7.0.tgz"
                         },
                         "sprintf-js": {
                           "version": "1.0.2",
@@ -577,7 +617,7 @@
                 },
                 "mkdirp": {
                   "version": "0.5.0",
-                  "from": "mkdirp@>=0.5.0 <0.6.0",
+                  "from": "mkdirp@>=0.0.0 <1.0.0",
                   "resolved": "https://registry.npmjs.org/mkdirp/-/mkdirp-0.5.0.tgz",
                   "dependencies": {
                     "minimist": {
@@ -713,46 +753,6 @@
                   "version": "0.0.9",
                   "from": "stack-trace@>=0.0.0 <0.1.0",
                   "resolved": "https://registry.npmjs.org/stack-trace/-/stack-trace-0.0.9.tgz"
-                }
-              }
-            }
-          }
-        },
-        "selenium-webdriver": {
-          "version": "2.44.0",
-          "from": "selenium-webdriver@2.44.0",
-          "resolved": "https://registry.npmjs.org/selenium-webdriver/-/selenium-webdriver-2.44.0.tgz",
-          "dependencies": {
-            "adm-zip": {
-              "version": "0.4.4",
-              "from": "adm-zip@0.4.4",
-              "resolved": "https://registry.npmjs.org/adm-zip/-/adm-zip-0.4.4.tgz"
-            },
-            "tmp": {
-              "version": "0.0.24",
-              "from": "tmp@0.0.24",
-              "resolved": "https://registry.npmjs.org/tmp/-/tmp-0.0.24.tgz"
-            },
-            "xml2js": {
-              "version": "0.4.4",
-              "from": "xml2js@0.4.4",
-              "resolved": "https://registry.npmjs.org/xml2js/-/xml2js-0.4.4.tgz",
-              "dependencies": {
-                "sax": {
-                  "version": "0.6.1",
-                  "from": "sax@>=0.6.0 <0.7.0"
-                },
-                "xmlbuilder": {
-                  "version": "2.6.2",
-                  "from": "xmlbuilder@>=1.0.0",
-                  "resolved": "https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-2.6.2.tgz",
-                  "dependencies": {
-                    "lodash": {
-                      "version": "3.5.0",
-                      "from": "lodash@>=3.5.0 <3.6.0",
-                      "resolved": "https://registry.npmjs.org/lodash/-/lodash-3.5.0.tgz"
-                    }
-                  }
                 }
               }
             }
