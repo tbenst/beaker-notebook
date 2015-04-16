@@ -20,6 +20,7 @@
 
 (defn find-publications [db cid term]
   (let [category-id (if cid (Long. cid))
+        wildcard-term (str term "*")
         rules '[[(has-text ?p ?term) [(fulltext $ :publication/name ?term) [[?p ?text]]]]
                 [(has-text ?p ?term) [(fulltext $ :publication/description ?term) [[?p ?text]]]]]
         query (cond-> '{:find [?p]
@@ -31,4 +32,4 @@
                  :query query
                  :pattern '[:db/id :publication/name :publication/description :publication/author
                             :publication/notebook-id {:publication/category [*]}]
-                 :args [rules [category-id term]]})))
+                 :args [rules [category-id wildcard-term]]})))
