@@ -4,13 +4,7 @@
   "description": "Big data for fun and profit",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "start-test": "NODE_ENV=test istanbul cover app.js --handle-sigint",
-    "migrate": "node migrate.js",
-    "seed": "node app_seed.js",
-    "reseed": "dropdb 'bunsenDevelopment'; createdb 'bunsenDevelopment'; rm -rf .repos; npm run-script migrate; npm run-script seed;",
-    "debug": "node-debug --web-port=3999 app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
