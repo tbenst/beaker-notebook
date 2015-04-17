@@ -82,12 +82,12 @@ module.exports = function(app) {
   app.delete("/api/seed/remove-notebook-git/:id", function(req, res, next) {
     app.Models.Notebook.forge({id: req.params.id}).fetch()
     .then(function(notebook) {
-      notebook.removeGitContents()
-      .then(function() {
-        res.send(200);
-      })
-      .catch(next);
-    });
+      return notebook.removeGitContents();
+    })
+    .then(function() {
+      res.send(200);
+    })
+    .catch(next);
   });
 
   app.delete("/api/auth-seed/empty-scratchspace", function(req, res, next) {

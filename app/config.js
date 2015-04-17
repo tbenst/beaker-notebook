@@ -1,5 +1,5 @@
 var config = {};
-var env = process.env.NODE_ENV;
+var env = process.env.NODE_ENV || 'dev';
 var capitalEnv = env.charAt(0).toUpperCase() + env.slice(1);
 
 config[env] = {
@@ -10,7 +10,7 @@ config[env] = {
     port     : process.env.POSTGRES_PORT || process.env.EXTERNAL_DB_PORT || process.env.DB_PORT_5432_TCP_PORT || 5432,
     user     : process.env.POSTGRES_USER || process.env.EXTERNAL_DB_USER || 'postgres',
     password : process.env.POSTGRES_PASS || process.env.EXTERNAL_DB_PASS || null,
-    database : process.env.POSTGRES_NAME || process.env.EXTERNAL_DB_NAME || "bunsen" + capitalEnv,
+    database : process.env.POSTGRES_NAME || process.env.EXTERNAL_DB_NAME || 'bunsen' + capitalEnv,
   },
   directory: './migrations',
   tableName: 'migrations',
@@ -20,7 +20,7 @@ config[env] = {
     port: process.env.ELASTICSEARCH_PORT || process.env.ELASTICSEARCH_PORT_9200_TCP_PORT || 9200,
     apiVersion: process.env.ELASTICSEARCH_VERSION || '1.3'
   },
-  beakerHost: "localhost"
+  beakerHost: 'localhost'
 };
 
 module.exports = config;

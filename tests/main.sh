@@ -28,16 +28,16 @@ Options:
   Xvfb :99 -shmem -screen 0 1368x768x16 &
 
   # start window manager
-  fluxbox &
+  2>/dev/null 1>&2 fluxbox &
 
   # start vnc server
   x11vnc -shared -display :99 -bg -nopw -listen 0.0.0.0 -forever -logappend /var/log/x11vnc.log -xkb
 
   # start selenium
-  java -jar selenium.jar &
+  2>/dev/null 1>&2 java -jar selenium.jar &
 
   # run tests
-  npm start; code=$?
+  ./get-features.sh | xargs npm start -- ; code=$?
 
   if [[ -n $ENABLE_COVERAGE ]]; then
     curl -o "coverage.json" $HOSTNAME/api/coverage/object

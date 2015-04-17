@@ -7,8 +7,9 @@ module.exports = function() {
       return this.hover();
     },
 
-    clickItem: function(name) {
+    clickItem: function(name, retry) {
       var _this = this;
+      retry = retry || 0;
 
       return this.find({text: name})
       .then(function(filtered) {
@@ -16,7 +17,19 @@ module.exports = function() {
         .then(function() {
           return filtered.click();
         })
-      });
+      })
+      .thenCatch(function(err) {
+        var _this = this;
+        if (retry == 3) { throw err }
+
+        return this.driver.sleep(1000)
+        .then(function() {
+          return _this.showList();
+        })
+        .then(function() {
+          return _this.clickItem(name, ++retry);
+        });
+      }.bind(this))
     },
 
     getNames: function() {
