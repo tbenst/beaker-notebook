@@ -6,10 +6,13 @@
             [clojurewerkz.elastisch.rest.response :refer :all]))
 
 (defn connect-to-es
-  [config]
-  (rest/connect
-    (:elasticsearch-url config)
-    (:elasticsearch-options config)))
+  "[] - Connect to default elasticsearch url
+   [config] - Connect to elasticsearch url with options"
+  ([] (rest/connect))
+  ([config]
+   (rest/connect
+     (:elasticsearch-url config)
+     (:elasticsearch-options config))))
 
 (defn aggregate-term
   "Aggregates all unique terms used within datasets.
