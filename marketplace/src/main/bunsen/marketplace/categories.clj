@@ -25,9 +25,9 @@
   a given category path"
   [es-conn index-name path]
   (doc/count
-   es-conn index-name "datasets"
-   (q/bool {:should [(q/prefix :path (str path "."))
-                     (q/term :path path)]})))
+    es-conn index-name "datasets"
+    (q/bool {:should [(q/prefix :path (str path "."))
+                      (q/term :path path)]})))
 
 (defn parse-count
   "Given an ES response, return [:result count-from-response]"
@@ -66,13 +66,13 @@
                    (keep identity))
         filter-fields (mapcat (fn [meta]
                                 (filter (fn [[k v]] (contains?
-                                                     (set (:indexes v))
-                                                     "filter"))
+                                                      (set (:indexes v))
+                                                      "filter"))
                                         meta)) metas)
         filter-names (map first filter-fields)
         mappings (into {} (map
-                           (fn [f] [f {:type "string" :index "not_analyzed"}])
-                           filter-names))
+                            (fn [f] [f {:type "string" :index "not_analyzed"}])
+                            filter-names))
         req {:datasets {:properties mappings}}]
     (ind/update-mapping es-conn index-name "datasets" :mapping req)
     ))

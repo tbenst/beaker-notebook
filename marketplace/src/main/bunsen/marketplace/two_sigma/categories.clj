@@ -28,20 +28,20 @@
                         :id (cat-id category)} ; separate id for frontend compatibility
                        metadata)]
     (assoc acc
-      :index (inc (:index acc))
-      :list (concat (:list acc)
-                    [payload]
-                    (:list (reduce parse-category
-                                   {:index 0, :path-prefix (str path "."), :list []}
-                                   (:children category)))))))
+           :index (inc (:index acc))
+           :list (concat (:list acc)
+                         [payload]
+                         (:list (reduce parse-category
+                                        {:index 0, :path-prefix (str path "."), :list []}
+                                        (:children category)))))))
 
 (defn extract-from-source
   "Parses the source category data into a flat structure including
   dewey decimal paths"
   [json-body]
   (:list (reduce parse-category
-                          {:path-prefix root-path, :index 0, :list []}
-                          [json-body])))
+                 {:path-prefix root-path, :index 0, :list []}
+                 [json-body])))
 
 
 (defn index-categories!
@@ -50,4 +50,3 @@
                base/get-with-auth
                (partial base/parse-json-from-http extract-from-source)
                base/bulk-to-es!))
-
