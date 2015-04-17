@@ -269,7 +269,14 @@ module.exports = function() {
   });
 
   this.Then(/^I should see (\d+) publication results on the page$/, function(count) {
-    return new this.Widgets.PublicationList().items().should.eventually.have.length(count);
+    var found = -1;
+    return this.driver.wait(function() {
+      return new this.Widgets.PublicationList().length()
+      .then(function(num) {
+        found = num;
+        return num == count;
+      });
+    }.bind(this), 10000, 'Found ' + found + ' results, expected ' + count);
   });
 
   this.Then(/^I should see the "([^"]*)" icon in the first result$/, function(category) {
@@ -327,7 +334,14 @@ module.exports = function() {
   });
 
   this.Then(/^I should be on page (\d+) of results$/, function(page) {
-    return new this.Widgets.PublicationsPagination().currentPage().should.eventually.eql(page);
+    var currentPage = -1;
+    return this.driver.wait(function() {
+      return new this.Widgets.PublicationsPagination().currentPage()
+      .then(function(p) {
+        currentPage = p;
+        return p == page;
+      });
+    }.bind(this), 10000, 'expected to be on page ' + page + ', instead was on ' + currentPage);
   });
 
   this.When(/^I click page (\d+) of pagination$/, function(page) {
