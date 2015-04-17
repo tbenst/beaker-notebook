@@ -1,8 +1,7 @@
 (ns bunsen.marketplace.mappings
   (:require [bunsen.marketplace.base :as base]
             [bunsen.marketplace.pipeline :as pipe]
-            [clojurewerkz.elastisch.rest.index :as ind]
-            ))
+            [clojurewerkz.elastisch.rest.index :as ind]))
 
 (defn intended-mappings
   "Returns the mappings to be used in ElasticSearch for catalogs"

@@ -1,8 +1,7 @@
 (ns bunsen.marketplace.two-sigma.datasets
   (:require [bunsen.marketplace.base :as base]
             [bunsen.marketplace.datasets :as sets]
-            [clj-http.client :as http]
-            ))
+            [clj-http.client :as http]))
 
 
 (defn source-page-url

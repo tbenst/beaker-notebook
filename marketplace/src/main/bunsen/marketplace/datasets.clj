@@ -11,5 +11,4 @@
            {:_id id ; Required for Elastische API
             :id id
             :title title
-            :categories cats}
-           )))
+            :categories cats})))
