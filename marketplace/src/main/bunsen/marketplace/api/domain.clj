@@ -67,7 +67,7 @@
   (-> (helper/connect-to-es config) (doc/put index-name "datasets" id document)))
 
 (defn update-counts
-  [es-conn index-name payload]
+  [es-conn index-name _]
   (let [categories (base/read-indexed-results es-conn index-name "categories")]
     (cats/update-counts! es-conn index-name categories)))
 
