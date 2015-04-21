@@ -4,7 +4,7 @@
             [bunsen.marketplace.categories :as cats]
             [clojurewerkz.elastisch.rest.document :as doc]))
 
-(defn get-categories
+(defn get-with-params
   "Returns all categories from specified index by search-term
   index-name = index which category belongs to
   search-term = three or more characters which will search against category name"
@@ -16,7 +16,7 @@
 
     (map #(select-keys (:_source %) [:id :name :path]) (-> categories :hits :hits))))
 
-(defn create-categories
+(defn create-bulk
   "Returns true if categories payload was succesfully sent to
   ElasticSearch, false otherwise."
   [es-conn index-name payload]

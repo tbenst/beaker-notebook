@@ -10,8 +10,8 @@
 (defresource categories [config _] resource/defaults
   :allowed? (partial resource/is-admin? config)
   :allowed-methods #{:get :post}
-  :handle-ok #(categories/get-categories config (resource/get-params %))
-  :post! (partial resource/pass-body categories/create-categories config))
+  :handle-ok #(categories/get-with-params config (resource/get-params %))
+  :post! (partial resource/pass-body categories/create-bulk config))
 
 (defresource seed-datasets [config _] resource/defaults
   :allowed? (partial resource/is-admin? config)
