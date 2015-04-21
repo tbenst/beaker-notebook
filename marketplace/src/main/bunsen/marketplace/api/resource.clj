@@ -1,7 +1,8 @@
 (ns bunsen.marketplace.api.resource
   (:require [liberator.core :refer [defresource]]
             [bunsen.marketplace.helper.resource :as resource]
-            [bunsen.marketplace.api.domain :as domain]))
+            [bunsen.marketplace.api.domain :as domain]
+            [bunsen.marketplace.api.models.categories :as categories]))
 
 (defresource status [_ _] resource/defaults
   :handle-ok domain/get-status)
@@ -9,8 +10,8 @@
 (defresource categories [config _] resource/defaults
   :allowed? (partial resource/is-admin? config)
   :allowed-methods #{:get :post}
-  :handle-ok #(domain/get-categories config (resource/get-params %))
-  :post! (partial resource/pass-body domain/create-categories config))
+  :handle-ok #(categories/get-categories config (resource/get-params %))
+  :post! (partial resource/pass-body categories/create-categories config))
 
 (defresource seed-datasets [config _] resource/defaults
   :allowed? (partial resource/is-admin? config)
