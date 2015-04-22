@@ -4,17 +4,27 @@
             [bunsen.marketplace.categories :as cats]
             [clojurewerkz.elastisch.rest.document :as doc]))
 
-(defn get-with-params
-  "Returns all categories from specified index by search-term
-  index-name = index which category belongs to
-  search-term = three or more characters which will search against category name"
-  [config params]
-  (let [categories (doc/search (helper/connect-to-es config)
-                               (:index-name params)
-                               "categories"
-                               :query {:fuzzy_like_this_field {"name" {:like_text (:search-term params)}}})]
+(declare build-query)
 
-    (map #(select-keys (:_source %) [:id :name :path]) (-> categories :hits :hits))))
+(defn get-with-params
+  "Returns categories based on supplied parameters.
+
+  Typeahead -
+  index-name = index which category belongs to
+  search-term = three or more characters which will search against category name
+
+  Category Tree -
+  root = root of category's path
+  limit = limit length of path"
+  [config params]
+  (let [query (build-query params)
+        search (doc/search (helper/connect-to-es config)
+                           (or (:index-name params) "*")
+                           "categories"
+                           :size (or (:size params) 25)
+                           :query query)]
+    (map #(merge (:_source %) {:index (:_index %)})
+         (-> search :hits :hits))))
 
 (defn create-bulk
   "Returns true if categories payload was succesfully sent to
@@ -27,3 +37,15 @@
                              base/bulk-to-es!)]
     (await-for 5000 indexer)
     (= (:stage @indexer) :indexed)))
+
+(defn build-query [params]
+  (cond
+    ; Typeahead
+    (and (:index-name params) (:search-term params))
+    {:fuzzy_like_this_field {"name" {:like_text (:search-term params)}}}
+    ; Category tree.
+    (or (:root params) (:limit params))
+    {:regexp {:path (format "%s(\\.[0-9]*){0,%s}" (or (:root params) 0) (or (:limit params) 0))}}
+    ; Catch all
+    :else
+    {}))
