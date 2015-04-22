@@ -18,7 +18,7 @@
       // Catalogs are top-level categories, so the catalog path of any category
       // is going to be the first two segments of the dot-divided path
       function extractCatalogPath(categoryPath) {
-        return categoryPath.split('.').slice(0,2).join('.');
+        return categoryPath.split('.').slice(0, 2).join('.');
       }
 
       $scope.marketPlace.treeOptions = {
@@ -30,16 +30,16 @@
         allowMultiple: false
       };
 
-      $scope.onTreeExpansion = function (node, expanded) {
-        if(expanded) {
-          F.Categories.getCategories({root: node.path, limit: 2}).then(function (categories) {
-            _.each(node.children, function(category){
+      $scope.onTreeExpansion = function(node, expanded) {
+        if (expanded) {
+          F.Categories.getCategories({root: node.path, limit: 2}).then(function(categories) {
+            _.each(node.children, function(category) {
               var child = _.find(categories[0].children, {id: category.id});
               category.children = child.children ;
             });
           });
-        } else{
-          _.each(node.children, function (category) {
+        } else {
+          _.each(node.children, function(category) {
             delete category.children;
           });
         }
@@ -64,7 +64,7 @@
         var dataTags = $scope.marketPlace.relatedTags;
         var dataTagsToDisplay = 6;
 
-        if(dataTags !== undefined) {
+        if (dataTags !== undefined) {
           return dataTags.length >= dataTagsToDisplay;
         }
       };
