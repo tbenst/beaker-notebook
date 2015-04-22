@@ -25,8 +25,8 @@
         equality: function(a, b) {
           return a && b && a.index == b.index && a.path == b.path;
         },
-        nodeChildren: "children",
-        onLabelClick: "both",
+        nodeChildren: 'children',
+        onLabelClick: 'both',
         allowMultiple: false
       };
 
