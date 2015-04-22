@@ -1,4 +1,4 @@
-!(function(app) {
+;(function(app) {
 
   app.factory('CategoriesFactory', ['Restangular', 'MarketplaceRestangular', function(Restangular, MR) {
     return {
