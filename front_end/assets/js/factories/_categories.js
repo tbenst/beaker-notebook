@@ -5,7 +5,7 @@
       getCategories: function(queryParams) {
         return Restangular.all('categories').getList(queryParams);
       },
-      getMarketPlaceCategories: function(params) {
+      typeahead: function(params) {
         return MR.all('categories').getList(params);
       }
     };

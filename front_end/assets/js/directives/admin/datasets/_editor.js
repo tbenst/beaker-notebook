@@ -43,7 +43,7 @@
           };
 
           $scope.getCategories = function(searchTerm) {
-            return Factories.Categories.getMarketPlaceCategories({
+            return Factories.Categories.typeahead({
               'index-name': $scope.dataset.index,
               'search-term': searchTerm
             }).then(function(categories) {
