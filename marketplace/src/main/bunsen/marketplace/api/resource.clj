@@ -20,6 +20,7 @@
   :processable? (partial resource/pass-body datasets/create-datasets config))
 
 (defresource datasets [config {:keys [index-name]}] resource/defaults
+  :allowed? (partial resource/admin? config)
   :allowed-methods #{:post}
   :post! #(datasets/create-dataset config index-name (resource/get-body %)))
 
