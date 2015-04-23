@@ -20,6 +20,7 @@
                  [com.stuartsierra/component _]
                  [com.datomic/datomic-pro "0.9.5153"]
                  [crypto-password "0.1.3"]
+                 [bouncer "0.3.2"]
                  [wkf/clj-http _]]
   :plugins [[lein-modules "0.3.10"]]
   :profiles {:uberjar {:aot [bunsen.user.service]}
