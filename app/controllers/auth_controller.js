@@ -10,17 +10,9 @@ module.exports = function(app) {
     authorize: function(req, res, next) {
       if (app.shouldSkip(req.path, 'authorize')) {
         next();
-      } else if (req.signedCookies.user !== undefined) {
-        User.forge({id: req.signedCookies.user})
-          .fetch()
-          .then(function(user) {
-            if (user) {
-              req.user = user;
-            } else {
-              res.statusCode = 403;
-            }
-          })
-          .done(next, next);
+      } else if (req.signedCookies.session && req.signedCookies.session.id !== undefined) {
+        req.user = new User(_.pick(req.signedCookies.session, 'id', 'role'));
+        next();
       } else {
         res.send(403);
       }
