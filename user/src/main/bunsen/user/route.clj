@@ -2,4 +2,5 @@
 
 (def routes
   ["/" {"user/v1" {"/status" :status
-                   "/users" :users}}])
+                   "/users" :users
+                   "/sessions" :sessions}}])
