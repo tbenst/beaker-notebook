@@ -31,11 +31,15 @@
           return Math.max.apply(Math, numbers) + 1;
         }
 
-        return R.all('projects').post({
-                  name: "Project " + lastProjectNum()
-                })
+        return this.create({name: "Project " + lastProjectNum()}, projects);
+      },
+
+      create: function(attrs, projects) {
+        return R.all('projects').post(attrs)
                 .then(function(p) {
-                  projects.push(p);
+                  if (projects) {
+                    projects.push(p);
+                  }
                   return p
                 });
       },

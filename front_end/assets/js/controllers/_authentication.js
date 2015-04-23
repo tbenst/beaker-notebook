@@ -44,6 +44,10 @@
       return form.password.$invalid && !form.password.$pristine
     };
 
+    function createDefaultProject() {
+      F.Projects.create({name: 'Sandbox', description: 'Sandbox'});
+    }
+
     $scope.submit = function() {
       TrackingService.mark('SignIn');
       $scope.loading = true;
@@ -59,9 +63,9 @@
       TrackingService.mark('SignUp');
       if(isValid) {
         $scope.loading = true;
-        Restangular.all('sign_up').post($scope.user)
         UsersRestangular.all('users').post($scope.user)
           .then(signIn)
+          .then(createDefaultProject)
           .catch(function(err) {
             $scope.loading = false;
             if(err.status === 409) {
