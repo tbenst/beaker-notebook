@@ -5,12 +5,21 @@
             [bunsen.user.model.user :as u]))
 
 (defresource users [_] defaults
-  :allowed-methods #{:post}
+  :allowed-methods #{:post :get}
+
+  :exists? (fn [{{db :db {id :id} :route-params} :request}]
+             (when id
+               (when-let [user (u/load-user db id)]
+                 {::user user})))
+
+  :handle-ok ::user
 
   ; validate user params
-  :processable? (fn [{{db :db params :params} :request}]
-                  (let [errors (u/validate-user db nil params)]
-                    [(empty? errors) {::errors errors}]))
+  :processable? (fn [{{db :db params :params method :request-method} :request}]
+                  (if (= :post method)
+                    (let [errors (u/validate-user db nil params)]
+                      [(empty? errors) {::errors errors}])
+                    true))
 
   ; respond with validation errors
   :handle-unprocessable-entity ::errors

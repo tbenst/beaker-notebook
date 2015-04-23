@@ -3,6 +3,7 @@
 (def routes
   ["/" {"user/v1" {"/status" :status
                    "/user" :user
-                   "/users" :users
+                   "/users" {"" :users
+                             ["/" :id] :users}
                    "/session" :session
                    "/sessions" :sessions}}])
