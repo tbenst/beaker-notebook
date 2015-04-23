@@ -2,6 +2,8 @@ var _ = require("lodash");
 
 module.exports = function(app) {
   var User = app.Models.User,
+      Publication = app.Models.Publication,
+      knex = app.DB.knex,
       userParams = ['name', 'email', 'id', 'jobTitle', 'company', 'bio'];
 
   function setGravatar (user) {
@@ -10,42 +12,23 @@ module.exports = function(app) {
 
   return {
     contributors: function(req, res, next) {
-      User.query(function(db) {
-        db.count('publications.id as publication_count')
-        .from('users')
-        .rightJoin('publications', 'users.id', 'publications.user_id')
-        .groupBy('users.id')
+      knex.select('user_id', knex.raw('COUNT(publications.id) as publication_count'))
+        .from('publications')
+        .groupBy('user_id')
         .orderBy('publication_count', 'desc')
         .limit(5)
-      })
-      .fetchAll()
-      .then(function(contributors) {
-        return _.map(contributors.models, function(contributor) {
-          delete contributor.attributes.password;
-          return setGravatar(contributor);
-        });
-      })
       .then(res.json.bind(res))
       .catch(next);
     },
 
     contributorsByCat: function(req, res, next) {
-      User.query(function(db) {
-        db.count('publications.id as publication_count')
-        .rightJoin('publications', 'users.id', 'publications.user_id')
+      knex.select('user_id', knex.raw('COUNT(publications.id) as publication_count'))
+        .from('publications')
         .rightJoin('publication_categories', 'publications.category_id', 'publication_categories.id')
         .where('publication_categories.id', req.params.cat_id)
-        .groupBy('users.id')
+        .groupBy('user_id')
         .orderBy('publication_count', 'desc')
         .limit(5)
-      })
-      .fetchAll()
-      .then(function(contributors) {
-        return _.map(contributors.models, function(contributor) {
-          delete contributor.attributes.password;
-          return setGravatar(contributor);
-        });
-      })
       .then(res.json.bind(res))
       .catch(next);
     },
@@ -65,12 +48,7 @@ module.exports = function(app) {
     },
 
     get: function (req, res, next) {
-      User.forge({id: req.signedCookies.user})
-        .fetch()
-        .then(function(user) {
-          setGravatar(user);
-          res.json(_.pick(user.attributes, userParams.concat('gravatar', 'role')));
-        })
+      res.json(req.user);
     },
 
     update: function (req, res, next) {
