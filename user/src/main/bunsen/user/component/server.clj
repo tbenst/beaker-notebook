@@ -6,6 +6,7 @@
             [ring.middleware.json :refer [wrap-json-params]]
             [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.cookies :refer [wrap-cookies]]
+            [bunsen.common.middleware.database :refer [wrap-database]]
             [clojure.algo.generic.functor :refer [fmap]]
             [com.stuartsierra.component :as component :refer [start stop]]
             [bunsen.user.route :refer [routes]]
@@ -40,6 +41,7 @@
                         (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
                                        :cookie-name "session"})
                         wrap-json-params
+                        (wrap-database database)
                         wrap-cookies)]
         (assoc server
                :jetty (run-jetty
