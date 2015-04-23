@@ -1,15 +1,21 @@
 (ns bunsen.user.service
   (:gen-class)
   (:require [environ.core :refer [env]]
-            [clojure.data.json :as json]
             [com.stuartsierra.component :as component]
+            [crypto.password.bcrypt :as password]
+            [bunsen.common.component.database :refer [database]]
             [bunsen.user.component.server :refer [server]]))
 
 (defn service [config]
   (-> (component/system-map
-        :server (server config))))
+        :database (database (assoc config :seed-readers {'bcrypt password/encrypt}))
+        :server (component/using
+                  (server config)
+                  {:database :database}))))
 
 (defn -main [& args]
   (component/start
     (service
-      {:server-port (Integer. (:user-port env))})))
+      {:server-port (Integer. (:user-port env))
+       :database-uri (:user-database-uri env)
+       :seed-file (:user-seed-file env)})))

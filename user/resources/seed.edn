@@ -1,0 +1,20 @@
+[
+ {:db/id #db/id[:db.part/user]
+  :user/public-id #uuid "553686a5-e3bf-4d98-85ce-ec6e3ea59fa1"
+  :user/name "Bartek"
+  :user/email "bartek@mojotech.com"
+  :user/password #bcrypt "monkey"
+  :user/job-title "Dr."
+  :user/company "Mojotech"
+  :user/bio "He was born."
+  :user/role 0}
+
+ {:db/id #db/id[:db.part/user]
+  :user/public-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7"
+  :user/name "Quentin"
+  :user/email "u@r.edu"
+  :user/password #bcrypt "password"
+  :user/company "Mojotech"
+  :user/bio "Quentin was only three years old when his father became president."
+  :user/role 0}
+ ]

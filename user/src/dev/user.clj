@@ -8,7 +8,9 @@
 (def ^:dynamic *service*)
 
 (def config
-  {:server-port 3004})
+  {:server-port 3004
+   :database-uri "datomic:mem://user"
+   :seed-file "seed.edn"})
 
 (defn start []
   (alter-var-root #'*service*

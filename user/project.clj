@@ -3,6 +3,10 @@
   :description "Manage Bunsen users."
   :test-paths ["src/test"]
   :source-paths ["src/main"]
+  :repositories {"my.datomic.com"
+                 {:url "https://my.datomic.com/repo"
+                  :username "will@mojotech.com"
+                  :password "9b571a50-cb08-48ba-bd2c-86ccf58b1ad2"}}
   :dependencies [[bunsen/common _]
                  [org.clojure/clojure _]
                  [org.clojure/data.json _]
@@ -14,6 +18,8 @@
                  [environ _]
                  [liberator _]
                  [com.stuartsierra/component _]
+                 [com.datomic/datomic-pro "0.9.5153"]
+                 [crypto-password "0.1.3"]
                  [wkf/clj-http _]]
   :plugins [[lein-modules "0.3.10"]]
   :profiles {:uberjar {:aot [bunsen.user.service]}

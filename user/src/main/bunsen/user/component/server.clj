@@ -23,7 +23,7 @@
    [routes
     [#".*" default]]])
 
-(defrecord Server [config]
+(defrecord Server [config database]
   component/Lifecycle
 
   (start [server]
