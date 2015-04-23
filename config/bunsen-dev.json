@@ -27,6 +27,7 @@
       "env": {
         "PROVISIONER_PORT": 3001,
         "PROVISIONER_LIFECYCLE_STRATEGY": "marathon",
+        "PROVISIONER_DATABASE_URI": "datomic:mem://provisioner",
         "BAMBOO_URL": "http://172.17.42.1:8000",
         "MARATHON_URL": "http://172.17.42.1:8080",
         "BAMBOO_HOST": "bunsen-dev",

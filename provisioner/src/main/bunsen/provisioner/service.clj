@@ -3,17 +3,22 @@
   (:require [environ.core :refer [env]]
             [clojure.data.json :as json]
             [com.stuartsierra.component :as component]
+            [bunsen.common.component.database :refer [database]]
             [bunsen.provisioner.component.server :refer [server]]))
 
 (defn service [config]
   (-> (component/system-map
-        :server (server config))))
+        :database (database config)
+        :server (component/using
+                  (server config)
+                  {:database :database}))))
 
 (defn -main [& args]
   (component/start
     (service
       {:server-port (Integer. (:provisioner-port env))
        :cookie-salt (:cookie-salt env)
+       :database-uri (:provisioner-database-uri env)
        :docker-url (:docker-url env)
        :marathon-url (:marathon-url env)
        :bamboo-host (:bamboo-host env)
