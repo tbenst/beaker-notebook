@@ -6,6 +6,7 @@
             [ring.middleware.json :refer [wrap-json-params]]
             [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.cookies :refer [wrap-cookies]]
+            [ring.middleware.stacktrace :refer [wrap-stacktrace-log]]
             [bunsen.common.middleware.database :refer [wrap-database]]
             [clojure.algo.generic.functor :refer [fmap]]
             [com.stuartsierra.component :as component :refer [start stop]]
@@ -42,6 +43,7 @@
                                        :cookie-name "session"})
                         wrap-json-params
                         (wrap-database database)
+                        wrap-stacktrace-log
                         wrap-cookies)]
         (assoc server
                :jetty (run-jetty
