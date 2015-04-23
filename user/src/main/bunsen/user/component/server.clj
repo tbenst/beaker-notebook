@@ -41,7 +41,8 @@
                           (-> (fmap #(% config) resources)
                               (assoc ::not-found not-found)))
                         (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
-                                       :cookie-name "session"})
+                                       :cookie-name "session"
+                                       :cookie-attrs {:http-only false}})
                         wrap-keyword-params
                         wrap-json-params
                         (wrap-database database)
