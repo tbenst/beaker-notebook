@@ -22,6 +22,7 @@
      'hljs',
      'hc.marked',
      'ui.grid',
+     'ui.gravatar',
      'ui.grid.autoResize'
     ], ['RestangularProvider', function(RestangularProvider) {
       RestangularProvider.setBaseUrl('/api');

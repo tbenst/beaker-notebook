@@ -28,3 +28,4 @@
 #= require "../../bower_components/better-dom/dist/better-dom.js"
 #= require "../../bower_components/better-i18n-plugin/dist/better-i18n-plugin.js"
 #= require "../../bower_components/better-dateinput-polyfill/dist/better-dateinput-polyfill.js"
+#= require "../../bower_components/angular-gravatar/build/angular-gravatar.js"
