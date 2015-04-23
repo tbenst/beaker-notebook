@@ -4,8 +4,7 @@
             [clojurewerkz.elastisch.rest.document :as doc]
             [clojurewerkz.elastisch.rest.index :as ind]
             [clojurewerkz.elastisch.rest.response :as res]
-            [clojurewerkz.elastisch.query :as q]
-            ))
+            [clojurewerkz.elastisch.query :as q]))
 
 (defn add-id-for-elastisch
   "Adds the _id element (copied from existing 'id') to each category"
@@ -25,9 +24,9 @@
   a given category path"
   [es-conn index-name path]
   (doc/count
-   es-conn index-name "datasets"
-   (q/bool {:should [(q/prefix :path (str path "."))
-                     (q/term :path path)]})))
+    es-conn index-name "datasets"
+    (q/bool {:should [(q/prefix :path (str path "."))
+                      (q/term :path path)]})))
 
 (defn parse-count
   "Given an ES response, return [:result count-from-response]"
@@ -46,8 +45,7 @@
   (base/index! es-conn index-name "categories" path
                (partial fetch-count es-conn index-name)
                parse-count
-               (partial update-es-count! id))
-  )
+               (partial update-es-count! id)))
 
 (defn update-counts!
   "Given ES connection and category map, updates count attributes of
@@ -66,13 +64,12 @@
                    (keep identity))
         filter-fields (mapcat (fn [meta]
                                 (filter (fn [[k v]] (contains?
-                                                     (set (:indexes v))
-                                                     "filter"))
+                                                      (set (:indexes v))
+                                                      "filter"))
                                         meta)) metas)
         filter-names (map first filter-fields)
         mappings (into {} (map
-                           (fn [f] [f {:type "string" :index "not_analyzed"}])
-                           filter-names))
+                            (fn [f] [f {:type "string" :index "not_analyzed"}])
+                            filter-names))
         req {:datasets {:properties mappings}}]
-    (ind/update-mapping es-conn index-name "datasets" :mapping req)
-    ))
+    (ind/update-mapping es-conn index-name "datasets" :mapping req)))

@@ -6,8 +6,7 @@
             [clojurewerkz.elastisch.rest.bulk :as bulk]
             [clojurewerkz.elastisch.rest.document :as doc]
             [clojurewerkz.elastisch.rest.response :as res]
-            [taoensso.timbre :as log]
-            ))
+            [taoensso.timbre :as log]))
 
 (defn json-resource
   [path]
@@ -21,8 +20,7 @@
   "Given params to specify an ES mapping, reads the entire contents into memory"
   [es-conn index-name mapping-name]
   (let [es-response (doc/search es-conn index-name mapping-name :size 9999)]
-    (into {} (map (juxt :_id :_source) (res/hits-from es-response)))
-    ))
+    (into {} (map (juxt :_id :_source) (res/hits-from es-response)))))
 
 (defn bulk-to-es!
   "Indexes the parsed data feed in ElasticSearch"

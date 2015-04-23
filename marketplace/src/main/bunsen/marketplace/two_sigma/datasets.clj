@@ -1,15 +1,14 @@
 (ns bunsen.marketplace.two-sigma.datasets
   (:require [bunsen.marketplace.base :as base]
             [bunsen.marketplace.datasets :as sets]
-            [clj-http.client :as http]
-            ))
+            [clj-http.client :as http]))
 
 
 (defn source-page-url
   "Constructs the full url for a source dataset page from base and params"
   [base page-number since]
   (str base (http/generate-query-string
-             {"page" page-number "since" since})))
+              {"page" page-number "since" since})))
 
 (defn bulk-index!
   [es-conn index-name mapping-type {:keys [more datasets] :as result}]
@@ -18,7 +17,7 @@
 
 (defn extract-datasets
   "Given a feed result page json, extracts the datasets.  Althugh this consists of
-   a single symbol function call, leaving it because there have been other layouts
+  a single symbol function call, leaving it because there have been other layouts
   proposed for the structre of the json document"
   [json-body]
   (:pageContent json-body))
@@ -28,18 +27,18 @@
   returns the canonical representation of the datasets"
   [categories dataset]
   (sets/indexable-dataset
-   (. Integer parseInt (:id dataset))
-   (:product dataset)
-   [(:categoryId dataset)]
-   categories
-   {:vendor (:vendor dataset)
-    :lastUpdated (:activeAgo dataset)
-    :metaDataChanged (:lastUpdateTime dataset)
-    :remoteFile (:storage dataset)
-    :createdAt (:firstUpdateTime dataset)
-    :description (:description dataset)
-    :businessOwner (:businessOwner dataset)
-    :public (:public dataset)}))
+    (. Integer parseInt (:id dataset))
+    (:product dataset)
+    [(:categoryId dataset)]
+    categories
+    {:vendor (:vendor dataset)
+     :lastUpdated (:activeAgo dataset)
+     :metaDataChanged (:lastUpdateTime dataset)
+     :remoteFile (:storage dataset)
+     :createdAt (:firstUpdateTime dataset)
+     :description (:description dataset)
+     :businessOwner (:businessOwner dataset)
+     :public (:public dataset)}))
 
 (defn parse-feed-page
   "Given the raw response from TS feed, parses it"

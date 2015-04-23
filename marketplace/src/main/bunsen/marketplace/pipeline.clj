@@ -8,6 +8,5 @@
   [agent steps]
   (doseq [[stage work] steps]
     (send-off agent (fn [ctx]
-                      (assoc ctx :stage stage :result (work (:result ctx)))
-                      )))
+                      (assoc ctx :stage stage :result (work (:result ctx))))))
   agent)
