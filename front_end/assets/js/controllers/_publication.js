@@ -28,7 +28,10 @@
 
       F.Publications.getPublication($state.params.id).then(function(publication) {
         $scope.publication = publication;
-        $scope.isOwner = (publication.author.id === $sessionStorage.user.id);
+        F.Users.getUser(publication.userId).then(function(author) {
+          $scope.author = author;
+          $scope.isOwner = (author['public-id'] === $sessionStorage.user.id);
+        })
 
         F.Ratings.averageRating($scope.ratingAttrs)
         .then(function(count) {
@@ -48,8 +51,8 @@
     };
 
     $scope.commaNeeded = function() {
-      if ($scope.publication) {
-        return $scope.publication.author.jobTitle && $scope.publication.author.company;
+      if ($scope.author) {
+        return $scope.author['job-title'] && $scope.author.company;
       }
     };
 

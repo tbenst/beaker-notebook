@@ -3,11 +3,13 @@
     '$scope',
     '$stateParams',
     'Factories',
+    '$q',
     'TrackingService',
     function(
       $scope,
       $stateParams,
       Factories,
+      $q,
       TrackingService) {
 
       var F = Factories;
@@ -29,7 +31,16 @@
           $scope.publications.quantity = quantity;
         });
 
-        return F.Publications.getPublications(query).then(function(publications) {
+        return F.Publications.getPublications(query)
+        .then(function(publications) {
+          return $q.all(_.map(publications, function(p) {
+            return F.Users.getUser(p.userId)
+            .then(function(u) {
+              return _.merge(p, {author: u});
+            })
+          }));
+        })
+        .then(function(publications) {
           $scope.publications.list = publications;
           TrackingService.mark('PublicationListLoaded');
           TrackingService.measure('BaselinePublicationListLoad', 'PublicationListLoad', 'PublicationListLoaded');

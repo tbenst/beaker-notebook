@@ -15,6 +15,9 @@
       },
       getContributorsByCat: function(categoryId) {
         return R.all('contributors').customGET(categoryId);
+      },
+      getUser: function(id) {
+        return UsersRestangular.one('users', id).get();
       }
     };
   }]);
