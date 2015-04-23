@@ -7,6 +7,7 @@
             [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.cookies :refer [wrap-cookies]]
             [ring.middleware.stacktrace :refer [wrap-stacktrace-log]]
+            [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [bunsen.common.middleware.database :refer [wrap-database]]
             [clojure.algo.generic.functor :refer [fmap]]
             [com.stuartsierra.component :as component :refer [start stop]]
@@ -41,6 +42,7 @@
                               (assoc ::not-found not-found)))
                         (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
                                        :cookie-name "session"})
+                        wrap-keyword-params
                         wrap-json-params
                         (wrap-database database)
                         wrap-stacktrace-log
