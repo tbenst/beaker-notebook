@@ -18,4 +18,5 @@
     (service
       {:server-port (Integer. (:user-port env))
        :database-uri (:user-database-uri env)
-       :seed-file (:user-seed-file env)})))
+       :seed-file (:user-seed-file env)
+       :cookie-salt (:cookie-salt env)})))
