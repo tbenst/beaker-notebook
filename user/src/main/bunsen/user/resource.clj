@@ -1,6 +1,7 @@
 (ns bunsen.user.resource
   (:require [liberator.core :refer [defresource]]
             [bunsen.user.resource.users :refer [users]]
+            [bunsen.user.resource.session :refer [session]]
             [bunsen.user.resource.sessions :refer [sessions]]
             [bunsen.user.resource.defaults :refer [defaults]]))
 
@@ -10,4 +11,5 @@
 (def resources
   {:status status
    :users users
+   :session session
    :sessions sessions})
