@@ -93,7 +93,12 @@
 //      }
     });
 
-    beaker.run(function($location, $route, $document, bkUtils, bkCoreManager, bkHelper) {
+    beaker.run(function($location, $route, $document, $sessionStorage,  bkUtils, bkCoreManager, bkHelper) {
+
+      if ($sessionStorage.user !== void(0)) {
+        bkUtils.setServerRoot("/beaker/" + $sessionStorage.user.id + "/");
+      }
+
       var user;
       var lastAction = new Date();
       var beakerRootOp = {
