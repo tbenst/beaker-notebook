@@ -2,6 +2,7 @@
   (:require [liberator.core :refer [defresource]]
             [bunsen.marketplace.helper.resource :as resource]
             [bunsen.marketplace.api.domain :as domain]
+            [bunsen.marketplace.api.models.datasets :as datasets]
             [bunsen.marketplace.api.models.categories :as categories]))
 
 (defresource status [_ _] resource/defaults
@@ -23,10 +24,11 @@
   :post! #(domain/create-dataset config index-name (resource/get-body %)))
 
 (defresource dataset [config  {:keys  [index-name id]}] resource/defaults
-  :allowed? (partial resource/is-admin? config)
-  :allowed-methods #{:put :delete}
+  :allowed? (or (= (:request-method request) :get) (partial resource/is-admin? config))
+  :allowed-methods #{:put :delete :get}
   :delete! (fn [_] (domain/delete-dataset config index-name id))
-  :put! #(domain/update-dataset config index-name id (resource/get-body %)))
+  :put! #(domain/update-dataset config index-name id (resource/get-body %))
+  :handle-ok (datasets/get-dataset config index-name id))
 
 (defresource refresh [config _] resource/defaults
   :allowed? (partial resource/is-admin? config)
