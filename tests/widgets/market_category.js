@@ -27,10 +27,11 @@ module.exports = function() {
 
     findCategory: function(category) {
       return this.filter(function(item) {
-       return item.read({ transformer: _s.titleize }).then(function(contents) {
-          return contents.match("^"+category);
+        return item.read({transformer: _s.titleize}).then(function(contents) {
+          console.log(contents, category);
+          return contents.match("^" + category);
         });
-      }).then(function (results) {
+      }).then(function(results) {
         return results[0];
       });
     },
