@@ -146,11 +146,29 @@ __p += '\n<header class="navbar-fixed-top bkr">\n  <div class="navbar navbar-inv
 }
 return __p
 }})();
+(function() {(window["JST"] = window["JST"] || {})["mainapp/components/pluginmanager/pluginmanager"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '\n<div class="bkr">\n  <div class="modal-header fixed bkr" style="height: 69px">\n    <h1 class="bkr">Language Manager</h1>\n  </div>\n  <div class="modal-body fixed modal-large plugin-manager bkr" style="padding-top: 69px; padding-bottom: 68px">\n    <div class="languages clearfix bkr">\n      <button class="btn btn-default language-icon-button bkr" ng-click="evalTabOp.togglePlugin(pluginName)" ng-repeat="(pluginName, pluginStatus) in evalTabOp.getEvaluatorStatuses()" ng-class="pluginName">\n        <span ng-class="\'plugin-\' + pluginStatus" class="plugin-status bkr">●</span>\n        <bk-language-logo bg-color="{{getEvaluatorDetails(pluginName).bgColor}}" name="{{getEvaluatorDetails(pluginName).shortName}}" fg-color="{{getEvaluatorDetails(pluginName).fgColor}}" border-color="{{getEvaluatorDetails(pluginName).borderColor}}" class="bkr">\n        </bk-language-logo>\n\n        {{pluginName}}\n      </button>\n      <button ng-click="evalTabOp.showURL = !evalTabOp.showURL" class="btn btn-default bkr">\n        From URL...\n      </button>\n    </div>\n    <div ng-show="evalTabOp.showURL" class="input-group addeval bkr">\n      <input type="text" bk-enter="evalTabOp.togglePlugin()" ng-model="evalTabOp.newPluginNameOrUrl" class="bkr">\n      <button class="btn btn-default bkr" ng-click="evalTabOp.togglePlugin()">Add Plugin from URL</button>\n    </div>\n    <div ng-show="evalTabOp.showSecurityWarning" class="bkr">\n      <div class="modal-body error-title body-box bkr">\n        <p class="bkr">Are you sure you want to load this plugin from an external URL?</p>\n        <button class="btn btn-default right bkr" ng-click="evalTabOp.showSecurityWarning = false; evalTabOp.showURL=false; evalTabOp.newPluginNameOrUrl=&quot;&quot;">Cancel</button>\n        <button class="btn btn-default right bkr" ng-click="evalTabOp.showSecurityWarning = false; evalTabOp.forceLoad = true; evalTabOp.togglePlugin()">OK</button>\n      </div>\n      <p class="bkr"><br class="bkr"></p>\n    </div>\n    <div ng-show="evalTabOp.showWarning" class="bkr">\n      <div class="modal-body error-title body-box bkr">\n        <p class="bkr">Cannot remove plugin currently used by a code cell in the notebook.<br class="bkr">\n        Delete those cells and try again.</p>\n        <button class="btn btn-default right bkr" ng-click="evalTabOp.showWarning = false">OK</button>\n      </div>\n      <p class="bkr"><br class="bkr"></p>\n    </div>\n    <tabset class="bkr">\n      <tab ng-repeat="(evaluatorName, evaluator) in evalTabOp.getEvaluatorsWithSpec()" heading="{{evaluatorName}}" class="bkr">\n        <bk-plugin-manager-evaluator-settings class="bkr"></bk-plugin-manager-evaluator-settings>\n      </tab>\n    </tabset>\n  </div>\n  <div class="modal-footer fixed bkr" style="height: 68px"> \n    <button class="btn btn-primary language-manager-close-button bkr" ng-click="doClose()">Close</button>\n  </div>\n</div>';
+
+}
+return __p
+}})();
+(function() {(window["JST"] = window["JST"] || {})["mainapp/components/pluginmanager/pluginmanager_evaluator_settings"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '\n\n<div ng-repeat="property in properties" class="form-group language-option property clearfix bkr">\n  <label class="bkr">{{ property.name }}</label>\n  <textarea class="form-control bkr" ng-model="evaluator.settings[property.key]"></textarea>\n  <button class="btn btn-default pull-right set bkr" ng-click="set(property.key)">Set</button>\n</div>\n<div ng-repeat="action in actions" class="action language-option clearfix bkr">\n  <button class="btn btn-default bkr" ng-click="evaluator.perform(action.key)">{{ action.name }}</button>\n</div>';
+
+}
+return __p
+}})();
 (function() {(window["JST"] = window["JST"] || {})["mainapp/components/notebook/cell"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '\n<div ng-class="isLocked() &amp;&amp; \'locked\'" class="bkcell {{cellmodel.type}} bkr">\n  <div ng-if="cellmodel.input.hidden &amp;&amp; cellmodel.type==\'code\' &amp;&amp; !isLocked()" class="mini-cell-stats advanced-hide bkr">\n    {{cellmodel.evaluator}} &nbsp;\n    ({{cellmodel.lineCount}} lines)\n  </div>\n  <div class="toggle-menu bkr">\n    <div class="dropdown dropdown-promoted bkr" data-toggle="dropdown" style="float: right">\n      <div class="cell-menu-item cell-dropdown dropdown-toggle bkr" title="cell menu"></div>\n      <bk-dropdown-menu menu-items="cellview.menu.items" submenu-classes="drop-left" class="bkr"></bk-dropdown-menu>\n    </div>\n    <div class="cell-menu-item move-cell-down bkr" ng-click="moveCellDown()" ng-class="moveCellDownDisabled() &amp;&amp; \'disabled\'" title="move cell down"></div>\n    <div class="cell-menu-item move-cell-up bkr" ng-click="moveCellUp()" ng-class="moveCellUpDisabled() &amp;&amp; \'disabled\'" title="move cell up"></div>\n    <div class="cell-menu-item delete-cell bkr" ng-click="deleteCell()" title="delete cell"></div>\n    <div class="cell-menu-item expand-contract bkr" ng-if="cellmodel.type==\'code\'" ng-click="toggleCellInput()" ng-class="cellmodel.input.hidden &amp;&amp; \'collapsed\'" title="hide/show cell input"></div>\n    <div class="dropdown dropdown-promoted advanced-only bkr" ng-if="isCodeCell()" style="float: right">\n      <bk-code-cell-input-menu class="bkr"></bk-code-cell-input-menu>\n    </div>\n    <div class="cell-menu-item evaluate advanced-only bkr" ng-click="evaluate($event)" ng-if="isCodeCell()" title="run cell"></div>\n    <div class="cell-status-item loading-state advanced-hide bkr" ng-if="cellmodel.type==\'code\' &amp;&amp; !cellmodel.evaluatorReader">Initializing {{cellmodel.evaluator}}\n      <div class="loading-spinner rotating bkr"></div>\n    </div>\n  </div>\n  <div ng-if="isDebugging()" class="bkr">\n    [Debug]: cell Id = {{cellmodel.id}}, parent = {{getParentId()}}, level = {{cellmodel.level}}\n    <a ng-click="toggleShowDebugInfo()" ng-hide="isShowDebugInfo()" class="bkr">show more</a>\n    <a ng-click="toggleShowDebugInfo()" ng-show="isShowDebugInfo()" class="bkr">show less</a>\n    <div collapse="!isShowDebugInfo()" class="bkr">\n      <pre class="bkr">{{cellmodel | json}}</pre>\n    </div>\n  </div>\n  <div ng-include="getTypeCellUrl()" class="bkr"></div>\n  <bk-new-cell-menu size="xs" config="newCellMenuConfig" ng-if="newCellMenuConfig.isShow()" class="bkr"></bk-new-cell-menu>\n</div>';
+__p += '\n<div ng-class="isLocked() &amp;&amp; \'locked\'" class="bkcell {{cellmodel.type}} bkr">\n  <div ng-if="cellmodel.input.hidden &amp;&amp; cellmodel.type==\'code\' &amp;&amp; !isLocked()" class="mini-cell-stats advanced-hide bkr">\n    {{cellmodel.evaluator}} &nbsp;\n    ({{cellmodel.lineCount}} lines)\n  </div>\n  <div class="toggle-menu bkr">\n    <div class="dropdown dropdown-promoted bkr" data-toggle="dropdown" style="float: right">\n      <div class="cell-menu-item cell-dropdown dropdown-toggle bkr" title="cell menu"></div>\n      <bk-dropdown-menu menu-items="cellview.menu.items" submenu-classes="drop-left" class="bkr"></bk-dropdown-menu>\n    </div>\n    <div class="cell-menu-item move-cell-down bkr" ng-click="moveCellDown()" ng-class="moveCellDownDisabled() &amp;&amp; \'disabled\'" title="move cell down"></div>\n    <div class="cell-menu-item move-cell-up bkr" ng-click="moveCellUp()" ng-class="moveCellUpDisabled() &amp;&amp; \'disabled\'" title="move cell up"></div>\n    <div class="cell-menu-item delete-cell bkr" ng-click="deleteCell()" title="delete cell"></div>\n    <div class="cell-menu-item expand-contract bkr" ng-if="cellmodel.type==\'code\'" ng-click="toggleCellInput()" ng-class="cellmodel.input.hidden &amp;&amp; \'collapsed\'" title="hide/show cell input"></div>\n    <div class="dropdown dropdown-promoted advanced-only bkr" ng-if="isCodeCell()" style="float: right">\n      <bk-code-cell-input-menu class="bkr"></bk-code-cell-input-menu>\n    </div>\n    <div class="cell-menu-item evaluate bkr" ng-click="evaluate($event)" ng-if="isCodeCell()" title="run cell"></div>\n    <div class="cell-status-item loading-state advanced-hide bkr" ng-if="cellmodel.type==\'code\' &amp;&amp; !cellmodel.evaluatorReader">Initializing {{cellmodel.evaluator}}\n      <div class="loading-spinner rotating bkr"></div>\n    </div>\n  </div>\n  <div ng-if="isDebugging()" class="bkr">\n    [Debug]: cell Id = {{cellmodel.id}}, parent = {{getParentId()}}, level = {{cellmodel.level}}\n    <a ng-click="toggleShowDebugInfo()" ng-hide="isShowDebugInfo()" class="bkr">show more</a>\n    <a ng-click="toggleShowDebugInfo()" ng-show="isShowDebugInfo()" class="bkr">show less</a>\n    <div collapse="!isShowDebugInfo()" class="bkr">\n      <pre class="bkr">{{cellmodel | json}}</pre>\n    </div>\n  </div>\n  <div ng-include="getTypeCellUrl()" class="bkr"></div>\n  <bk-new-cell-menu config="newCellMenuConfig" ng-class="isLarge &amp;&amp; \'large\'" is-large="isLarge" ng-if="newCellMenuConfig.isShow()" class="bkr"></bk-new-cell-menu>\n</div>';
 
 }
 return __p
@@ -213,7 +231,7 @@ return __p
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '\n<div class="btn-group new-cell bkr" ng-class="last &amp;&amp; \'last\'">\n  <button ng-click="newCodeCell(defaultEvaluator())" class="btn btn-primary insert-cell bkr" ng-class="size &amp;&amp; \'btn-\'+size">\n    Insert {{defaultEvaluator()}} Cell\n  </button>\n  <button class="btn btn-primary dropdown-toggle bkr" ng-class="size &amp;&amp; \'btn-\'+size" data-toggle="dropdown">\n    <i class="fa fa-sort-down bkr" ng-class="!last &amp;&amp; \'advanced-hide\'"></i>\n    <span ng-if="!last" class="plus advanced-only bkr">+</span>\n  </button>\n  <ul class="dropdown-menu bkr" role="menu">\n    <li class="dropdown-submenu bkr">\n      <a tabindex="-1" class="bkr">Code cell</a>\n      <ul class="dropdown-menu bkr">\n        <li ng-repeat="(key, value) in getEvaluators()" class="bkr">\n          <a ng-click="newCodeCell(key)" class="bkr">{{key}}</a>\n        </li>\n        <li class="bkr">\n           <a ng-click="showPluginManager()" class="bkr">Other languages...</a>\n        </li>\n      </ul>\n    </li>\n    <li class="dropdown-submenu bkr">\n      <a tabindex="-1" class="bkr">Section cell</a>\n      <ul class="dropdown-menu bkr">\n        <li ng-repeat="level in getLevels()" class="bkr">\n          <a ng-click="newSectionCell(level)" class="bkr">H{{level}}</a>\n        </li>\n      </ul>\n    </li>\n    <li class="bkr">\n      <a tabindex="-1" ng-click="newMarkdownCell()" class="bkr">Markdown cell</a>\n    </li>\n  </ul>\n</div>';
+__p += '\n<div class="btn-group new-cell bkr">\n  <button ng-click="newCodeCell(defaultEvaluator())" class="btn btn-primary insert-cell bkr" ng-class="!isLarge &amp;&amp; \'btn-xs\'">\n    <span ng-class="!isLarge &amp;&amp; \'advanced-hide\'" class="bkr">\n      Insert {{defaultEvaluator()}} Cell\n    </span>\n    <span ng-if="!isLarge" class="plus advanced-only bkr">+</span>\n  </button>\n  <button class="btn btn-primary dropdown-toggle bkr" ng-class="!isLarge &amp;&amp; \'btn-xs\'" data-toggle="dropdown">\n    <i class="fa fa-sort-down bkr"></i>\n  </button>\n  <ul class="dropdown-menu bkr" role="menu">\n    <li class="dropdown-submenu bkr">\n      <a tabindex="-1" class="bkr">Code cell</a>\n      <ul class="dropdown-menu bkr">\n        <li ng-repeat="(key, value) in getEvaluators()" class="bkr">\n          <a ng-click="newCodeCell(key)" class="bkr">{{key}}</a>\n        </li>\n        <li class="bkr">\n           <a ng-click="showPluginManager()" class="bkr">Other languages...</a>\n        </li>\n      </ul>\n    </li>\n    <li class="dropdown-submenu bkr">\n      <a tabindex="-1" class="bkr">Section cell</a>\n      <ul class="dropdown-menu bkr">\n        <li ng-repeat="level in getLevels()" class="bkr">\n          <a ng-click="newSectionCell(level)" class="bkr">H{{level}}</a>\n        </li>\n      </ul>\n    </li>\n    <li class="bkr">\n      <a tabindex="-1" ng-click="newMarkdownCell()" class="bkr">Markdown cell</a>\n    </li>\n  </ul>\n</div>';
 
 }
 return __p
@@ -222,7 +240,7 @@ return __p
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '\n<div ng-class="{\'advanced-mode\': isAdvancedMode(), \'hierarchy-mode\': isHierarchyEnabled()}" class="bkr">\n  <div class="bkcell bkr">\n    <bk-cell ng-repeat="cell in getChildren()" cellmodel="cell" index="$index" cellid="{{cell.id}}" class="bkr">\n    </bk-cell>\n    <div class="dropdown bkcellmenu bkr" style="position: fixed; z-index: 99">\n      <a class="dropdown-toggle bkr" data-toggle="dropdown"></a>\n      <bk-dropdown-menu menu-items="menuItems" submenu-classes="pull-left" class="bkr"></bk-dropdown-menu>\n    </div>\n  </div>\n  <bk-new-cell-menu ng-show="!isLocked() &amp;&amp; !isLoading" position="last" class="base-menu-add bkr" config="newCellMenuConfig"></bk-new-cell-menu>\n  <div ng-show="isShowingOutput()" class="outputlogbox bkr"></div>\n  <div ng-show="isShowingOutput()" class="outputlogcontainer bkr">\n    <div class="outputloghandle bkr"></div>\n    <div class="btn-toolbar bkr">\n      <div class="btn-group alt-controls bkr">\n        <a class="btn btn-default btn-sm bkr" ng-click="clearOutput()">Clear</a>\n        <a class="btn btn-default btn-sm hide-output bkr" ng-click="hideOutput()">Hide</a>\n      </div>\n      <div class="btn-group bkr" data-toggle="buttons-checkbox">\n        <a class="btn bkr" ng-class="showStdOut ? \'btn-primary\' : \'btn-default\'" ng-click="toggleStdOut($event)">stdout</a>\n        <a class="btn bkr" ng-class="showStdErr ? \'btn-primary\' : \'btn-default\'" ng-click="toggleStdErr($event)">stderr</a>\n      </div>\n    </div>\n    <div class="outputlogout bkr" ng-show="showStdOut" ng-class="!showStdErr &amp;&amp; \'single\'">\n      <label class="output-label bkr">stdout:</label>\n      <div class="outputlogbox outputlogstdout bkr">\n        <div ng-repeat="line in outputLog track by $index" class="bkr">\n          <div ng-show="line.type == \'text\' || line.type == \'stdout\'" class="bkr">\n            <pre class="prelog bkr">{{line.line}}</pre>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class="outputlogerr bkr" ng-show="showStdErr" ng-class="!showStdOut &amp;&amp; \'single\'">\n      <label class="output-label bkr">stderr:</label>\n      <div class="outputlogbox bkr">\n        <div ng-repeat="line in outputLog track by $index" class="bkr">\n          <div ng-show="line.type == \'stderr\'" class="bkr">\n            <pre class="prelog bkr">{{line.line}}</pre>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <div ng-if="isDebugging()" class="bkr">\n    <button ng-click="showDebugTree = !showDebugTree" class="bkr">Toggle debug Tree</button>\n    <div collapse="!showDebugTree" class="bkr">\n      <pre class="bkr">{{getNotebookModel() | json}}</pre>\n    </div>\n  </div>\n</div>';
+__p += '\n<div ng-class="{\'advanced-mode\': isAdvancedMode(), \'hierarchy-mode\': isHierarchyEnabled()}" class="bkr">\n  <bk-new-cell-menu ng-show="!isLocked() &amp;&amp; !isLoading" ng-class="isEmpty() &amp;&amp; \'only-child large\'" is-large="isEmpty()" config="newCellMenuConfig" class="bkr"></bk-new-cell-menu>\n  <div class="bkcell bkr">\n    <bk-cell ng-repeat="cell in getChildren()" cellmodel="cell" index="$index" cellid="{{cell.id}}" class="bkr">\n    </bk-cell>\n    <div class="dropdown bkcellmenu bkr" style="position: fixed; z-index: 99">\n      <a class="dropdown-toggle bkr" data-toggle="dropdown"></a>\n      <bk-dropdown-menu menu-items="menuItems" submenu-classes="pull-left" class="bkr"></bk-dropdown-menu>\n    </div>\n  </div>\n  <div ng-show="isShowingOutput()" class="outputlogbox bkr"></div>\n  <div ng-show="isShowingOutput()" class="outputlogcontainer bkr">\n    <div class="outputloghandle bkr"></div>\n    <div class="btn-toolbar bkr">\n      <div class="btn-group alt-controls bkr">\n        <a class="btn btn-default btn-sm bkr" ng-click="clearOutput()">Clear</a>\n        <a class="btn btn-default btn-sm hide-output bkr" ng-click="hideOutput()">Hide</a>\n      </div>\n      <div class="btn-group bkr" data-toggle="buttons-checkbox">\n        <a class="btn bkr" ng-class="showStdOut ? \'btn-primary\' : \'btn-default\'" ng-click="toggleStdOut($event)">stdout</a>\n        <a class="btn bkr" ng-class="showStdErr ? \'btn-primary\' : \'btn-default\'" ng-click="toggleStdErr($event)">stderr</a>\n      </div>\n    </div>\n    <div class="outputlogout bkr" ng-show="showStdOut" ng-class="!showStdErr &amp;&amp; \'single\'">\n      <label class="output-label bkr">stdout:</label>\n      <div class="outputlogbox outputlogstdout bkr">\n        <div ng-repeat="line in outputLog track by $index" class="bkr">\n          <div ng-show="line.type == \'text\' || line.type == \'stdout\'" class="bkr">\n            <pre class="prelog bkr">{{line.line}}</pre>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class="outputlogerr bkr" ng-show="showStdErr" ng-class="!showStdOut &amp;&amp; \'single\'">\n      <label class="output-label bkr">stderr:</label>\n      <div class="outputlogbox bkr">\n        <div ng-repeat="line in outputLog track by $index" class="bkr">\n          <div ng-show="line.type == \'stderr\'" class="bkr">\n            <pre class="prelog bkr">{{line.line}}</pre>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n  <div ng-if="isDebugging()" class="bkr">\n    <button ng-click="showDebugTree = !showDebugTree" class="bkr">Toggle debug Tree</button>\n    <div collapse="!showDebugTree" class="bkr">\n      <pre class="bkr">{{getNotebookModel() | json}}</pre>\n    </div>\n  </div>\n</div>';
 
 }
 return __p
@@ -259,24 +277,6 @@ obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '\n\n<p class="depth-indicator bkr">{{getFullIndex()}}</p>\n<div class="textcell-wrapper bkr" ng-click="edit()">\n  <div class="editable-text bkr" contenteditable="{{ isEditable() ? true : false }}" style="min-height: 14px; min-width: 14px"></div>\n</div>';
-
-}
-return __p
-}})();
-(function() {(window["JST"] = window["JST"] || {})["mainapp/components/pluginmanager/pluginmanager"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '\n<div class="bkr">\n  <div class="modal-header fixed bkr" style="height: 69px">\n    <h1 class="bkr">Language Manager</h1>\n  </div>\n  <div class="modal-body fixed modal-large plugin-manager bkr" style="padding-top: 69px; padding-bottom: 68px">\n    <div class="languages clearfix bkr">\n      <button class="btn btn-default language-icon-button bkr" ng-click="evalTabOp.togglePlugin(pluginName)" ng-repeat="(pluginName, pluginStatus) in evalTabOp.getEvaluatorStatuses()" ng-class="pluginName">\n        <span ng-class="\'plugin-\' + pluginStatus" class="plugin-status bkr">●</span>\n        <bk-language-logo bg-color="{{getEvaluatorDetails(pluginName).bgColor}}" name="{{getEvaluatorDetails(pluginName).shortName}}" fg-color="{{getEvaluatorDetails(pluginName).fgColor}}" border-color="{{getEvaluatorDetails(pluginName).borderColor}}" class="bkr">\n        </bk-language-logo>\n\n        {{pluginName}}\n      </button>\n      <button ng-click="evalTabOp.showURL = !evalTabOp.showURL" class="btn btn-default bkr">\n        From URL...\n      </button>\n    </div>\n    <div ng-show="evalTabOp.showURL" class="input-group addeval bkr">\n      <input type="text" bk-enter="evalTabOp.togglePlugin()" ng-model="evalTabOp.newPluginNameOrUrl" class="bkr">\n      <button class="btn btn-default bkr" ng-click="evalTabOp.togglePlugin()">Add Plugin from URL</button>\n    </div>\n    <div ng-show="evalTabOp.showSecurityWarning" class="bkr">\n      <div class="modal-body error-title body-box bkr">\n        <p class="bkr">Are you sure you want to load this plugin from an external URL?</p>\n        <button class="btn btn-default right bkr" ng-click="evalTabOp.showSecurityWarning = false; evalTabOp.showURL=false; evalTabOp.newPluginNameOrUrl=&quot;&quot;">Cancel</button>\n        <button class="btn btn-default right bkr" ng-click="evalTabOp.showSecurityWarning = false; evalTabOp.forceLoad = true; evalTabOp.togglePlugin()">OK</button>\n      </div>\n      <p class="bkr"><br class="bkr"></p>\n    </div>\n    <div ng-show="evalTabOp.showWarning" class="bkr">\n      <div class="modal-body error-title body-box bkr">\n        <p class="bkr">Cannot remove plugin currently used by a code cell in the notebook.<br class="bkr">\n        Delete those cells and try again.</p>\n        <button class="btn btn-default right bkr" ng-click="evalTabOp.showWarning = false">OK</button>\n      </div>\n      <p class="bkr"><br class="bkr"></p>\n    </div>\n    <tabset class="bkr">\n      <tab ng-repeat="(evaluatorName, evaluator) in evalTabOp.getEvaluatorsWithSpec()" heading="{{evaluatorName}}" class="bkr">\n        <bk-plugin-manager-evaluator-settings class="bkr"></bk-plugin-manager-evaluator-settings>\n      </tab>\n    </tabset>\n  </div>\n  <div class="modal-footer fixed bkr" style="height: 68px"> \n    <button class="btn btn-primary language-manager-close-button bkr" ng-click="doClose()">Close</button>\n  </div>\n</div>';
-
-}
-return __p
-}})();
-(function() {(window["JST"] = window["JST"] || {})["mainapp/components/pluginmanager/pluginmanager_evaluator_settings"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '\n\n<div ng-repeat="property in properties" class="form-group language-option property clearfix bkr">\n  <label class="bkr">{{ property.name }}</label>\n  <textarea class="form-control bkr" ng-model="evaluator.settings[property.key]"></textarea>\n  <button class="btn btn-default pull-right set bkr" ng-click="set(property.key)">Set</button>\n</div>\n<div ng-repeat="action in actions" class="action language-option clearfix bkr">\n  <button class="btn btn-default bkr" ng-click="evaluator.perform(action.key)">{{ action.name }}</button>\n</div>';
 
 }
 return __p
@@ -1811,6 +1811,9 @@ return __p
       generateId: function(length) {
         return bkUtils.generateId(length);
       },
+      serverUrl: function(path) {
+        return bkUtils.serverUrl(path);
+      },
       httpGet: function(url, data) {
         return bkUtils.httpGet(url, data);
       },
@@ -1896,7 +1899,7 @@ return __p
 
      
       locatePluginService: function(id, locator) {
-        return bkUtils.httpGet("../beaker/rest/plugin-services/" + id,
+        return bkUtils.httpGet(bkUtils.serverUrl("beaker/rest/plugin-services/" + id),
             locator);
       },
       getEvaluatorFactory: function(shellConstructorPromise) {
@@ -4082,13 +4085,13 @@ return __p
 
 (function() {
   'use strict';
-  var module = angular.module("bk.notebookCellModelManager", []);
+  var module = angular.module('bk.notebookCellModelManager', []);
 
  
   var generateCellMap = function(cells) {
     var decoratedCells = {
-      "root": {
-        id: "root",
+      'root': {
+        id: 'root',
         raw: null,
         level: 0,
         parent: null,
@@ -4117,7 +4120,7 @@ return __p
       return this[this.length - 1];
     };
     _(decoratedCells).each(function(cell) {
-      if (cell.id === "root") {
+      if (cell.id === 'root') {
         return;
       }
       while (stack.peek().level >= cell.level) {
@@ -4140,7 +4143,7 @@ return __p
           return cell.raw && cell.raw.initialization;
         })
         .map(function(cell) {
-          if (cell.raw.type === "code") {
+          if (cell.raw.type === 'code') {
             return cell;
           } else {
             return _(cell.allDescendants).chain()
@@ -4148,7 +4151,7 @@ return __p
                   return cellMap[childId];
                 })
                 .filter(function(c) {
-                  return c.raw.type === "code";
+                  return c.raw.type === 'code';
                 })
                 .value();
           }
@@ -4173,7 +4176,7 @@ return __p
     };
     _(cellMap).chain()
         .filter(function(cell) {
-          return cell.raw && cell.raw.type === "code";
+          return cell.raw && cell.raw.type === 'code';
         })
         .each(function(codeCell) {
           evaluatorMap.add(codeCell.raw.evaluator, codeCell.raw);
@@ -4189,14 +4192,15 @@ return __p
     };
     _(cellMap).chain()
     .filter(function(cell) {
-      return cell.raw && cell.raw.type === "code" && cell.raw.tags !== undefined && cell.raw.tags !== '';
+      return cell.raw && cell.raw.type === 'code' && cell.raw.tags !== undefined && cell.raw.tags !== '';
     })
     .each(function(codeCell) {
       var re = /\s+/;
       var tags = codeCell.raw.tags.split(re);
       var i;
-      for (i=0; i<tags.length; i++)
+      for (i = 0; i < tags.length; i++) {
         userTagsMap.add(tags[i], codeCell.raw);
+      }
     });
 
     return {
@@ -4211,7 +4215,7 @@ return __p
     oldArray.splice.apply(oldArray, args);
   };
 
-  module.factory("bkNotebookCellModelManager", function($timeout, $rootScope) {
+  module.factory('bkNotebookCellModelManager', function($timeout, $rootScope) {
     var cells = [];
     var cellMap = {};
     var tagMap = {};
@@ -4271,7 +4275,7 @@ return __p
         if (this.hasCell(id)) {
           return cellMap[id];
         } else {
-          throw "target cell " + id + " was not found";
+          throw 'target cell ' + id + ' was not found';
         }
       },
       getCell: function(id) {
@@ -4285,7 +4289,7 @@ return __p
       },
       getParent: function(id) {
         var parentId = this._getDecoratedCell(id).parent;
-        if (parentId === "root") {
+        if (parentId === 'root') {
           return;
         } else {
           return this.getCell(parentId);
@@ -4305,10 +4309,10 @@ return __p
       },
       getAllCodeCells: function(id) {
         if (!id) {
-          id = "root";
+          id = 'root';
         }
         return this.getAllDescendants(id).filter(function(cell) {
-          return cell.type === "code";
+          return cell.type === 'code';
         });
       },
      
@@ -4316,7 +4320,7 @@ return __p
       findCodeCell: function(startCellId, forward) {
         var cell = this.getCell(startCellId);
         while (cell) {
-          if (cell.type === "code") {
+          if (cell.type === 'code') {
             return cell;
           }
           cell = forward ? this.getNext(cell.id) : this.getPrev(cell.id);
@@ -4328,19 +4332,19 @@ return __p
         if (index !== -1) {
           cells.splice(index, 0, cell);
         } else {
-          throw "target cell " + id + " was not found";
+          throw 'target cell ' + id + ' was not found';
         }
         recreateCellMap();
         $timeout(function() {
           $rootScope.$broadcast('beaker.cell.added', cell);
         });
       },
-      insertLast: function(cell) {
+      insertFirst: function(cell) {
         if (!_.isObject(cell)) {
-          throw "unacceptable"
+          throw 'unacceptable';
         }
 
-        cells.splice(cells.length, 0, cell);
+        cells.splice(0, 0, cell);
         recreateCellMap();
         $timeout(function() {
           $rootScope.$broadcast('beaker.cell.added', cell);
@@ -4348,27 +4352,27 @@ return __p
       },
       insertAfter: function(id, cell) {
         if (!_.isObject(cell)) {
-          throw "unacceptable"
+          throw 'unacceptable';
         }
 
         var index = this.getIndex(id);
         if (index !== -1) {
           cells.splice(index + 1, 0, cell);
         } else {
-          throw "target cell " + id + " was not found";
+          throw 'target cell ' + id + ' was not found';
         }
         recreateCellMap();
         $timeout(function() {
           $rootScope.$broadcast('beaker.cell.added', cell);
         });
       },
-      insertAt: function(index, cell,doNotClearUndoAction) {
+      insertAt: function(index, cell, doNotClearUndoAction) {
         if (_.isArray(cell)) {
           Array.prototype.splice.apply(cells, [index, 0].concat(cell));
         } else if (_.isObject(cell)) {
           cells.splice(index, 0, cell);
         } else {
-          throw "unacceptable"
+          throw 'unacceptable';
         }
         recreateCellMap(doNotClearUndoAction);
         $timeout(function() {
@@ -4390,13 +4394,13 @@ return __p
             cells[index - 1] = cell;
           }
         } else {
-          throw "target cell " + id + " was not found";
+          throw 'target cell ' + id + ' was not found';
         }
         recreateCellMap();
       },
       isPossibleToMoveDown: function(id) {
        
-        return [-1, (cells.length-1)].indexOf(this.getIndex(id)) === -1;
+        return [-1, (cells.length - 1)].indexOf(this.getIndex(id)) === -1;
       },
       moveDown: function(id) {
         var index = this.getIndex(id);
@@ -4409,13 +4413,13 @@ return __p
             cells[index + 1] = cell;
           }
         } else {
-          throw "target cell " + id + " was not found";
+          throw 'target cell ' + id + ' was not found';
         }
         recreateCellMap();
       },
       undoableDelete: function() {
         this.deleteUndo = {
-            type: "single",
+            type: 'single',
             index: this.getIndex(id),
             cell: this.getCell(id)
         };
@@ -4449,10 +4453,10 @@ return __p
        
         var cell = this.getCell(id);
         if (!cell) {
-          throw "target cell " + id + " was not found";
+          throw 'target cell ' + id + ' was not found';
         }
-        if (cell.type !== "section") {
-          throw "target cell " + id + " is not a section cell";
+        if (cell.type !== 'section') {
+          throw 'target cell ' + id + ' is not a section cell';
         }
         var index = this.getIndex(id);
         var descendants = this.getAllDescendants(id);
@@ -4481,16 +4485,20 @@ return __p
           redoAction2 = undefined;
           undoAction2 = undoAction;
           undoAction = undefined;
-        } else console.log("no undo");
+        } else {
+          console.log('no undo');
+        }
       },
       redo: function() {
-        if(redoAction) {
+        if (redoAction) {
           redoAction.apply();
           redoAction2 = redoAction;
           undoAction = undoAction2;
           undoAction2 = undefined;
           redoAction = undefined;
-        } else console.log("no redo");
+        } else {
+          console.log('no redo');
+        }
       },
       deleteAllOutputCells: function() {
         if (cells) {
@@ -4505,7 +4513,7 @@ return __p
         if (cells) {
           _.each(cells, function(cell) {
             if (cell.output) {
-              cell.output.state = { };
+              cell.output.state = {};
             }
           });
         }
@@ -4516,7 +4524,7 @@ return __p
         }
        
         if (segBegin + offset < 0 || segBegin + segLength - 1 + offset >= cells.length) {
-          throw "Illegal shifting, result would be out of bound";
+          throw 'Illegal shifting, result would be out of bound';
         }
         var slice1 = cells.slice(0, segBegin);
         var slice2 = cells.slice(segBegin, segBegin + segLength);
@@ -4566,7 +4574,7 @@ return __p
         var length = this.getSectionLength(id);
         var prevSib = this.getPrevSibling(id);
         if (!prevSib) {
-          throw "Cannot move section up";
+          throw 'Cannot move section up';
         }
         var prevSibId = prevSib.id;
         var offset = -1 * this.getSectionLength(prevSibId);
@@ -4578,7 +4586,7 @@ return __p
       moveSectionDown: function(id) {
         var nextSib = this.getNextSibling(id);
         if (!nextSib) {
-          throw "Cannot move section down";
+          throw 'Cannot move section down';
         }
         this.moveSectionUp(nextSib.id);
       },
@@ -4603,7 +4611,7 @@ return __p
         return this.getCellAtIndex(index - 1);
       },
       isContainer: function(id) {
-        return id === "root" || !!this.getCell(id).level;
+        return id === 'root' || !!this.getCell(id).level;
       },
       isEmpty: function(id) {
         return this._getDecoratedCell(id).allDescendants.length === 0;
@@ -4655,22 +4663,27 @@ return __p
         if (tags !== undefined) {
           var tgs = tags.split(re);
           var i;
-          for(i=0; i<tgs.length; i++) {
-            if(cellMap[tgs[i]] !== undefined) return "ERROR: The name '"+tgs[i]+"' is already used as a cell name.";
+          for (i = 0; i < tgs.length; i++) {
+            if (cellMap[tgs[i]] !== undefined) {
+              return 'ERROR: The name "' + tgs[i] + '" is already used as a cell name.';
+            }
           }
         }
-        return "";
+        return '';
       },
       canRenameCell: function(newid) {
-        if (cellMap[newid] !== undefined)
-          return "ERROR: Cell '"+newid+"' already exists.";
-        if (tagMap.usertags[newid] !== undefined)
-          return "ERROR: The name '"+newid+"' is already used as a tag."
+        if (cellMap[newid] !== undefined) {
+          return 'ERROR: Cell "' + newid + '" already exists.';
+        }
+        if (tagMap.usertags[newid] !== undefined) {
+          return 'ERROR: The name "' + newid + '" is already used as a tag.';
+        }
         return '';
       },
       renameCell: function(oldid, newid) {
-        if (this.canRenameCell(newid) !== '')
+        if (this.canRenameCell(newid) !== '') {
           return;
+        }
         var idx = this.getIndex(oldid);
         if (idx >= 0) {
           cells[idx].id = newid;
@@ -4907,21 +4920,21 @@ return __p
       return true;
     };
 
-    function transform(v) {
+    function transform(v, norecurse) {
       if (_.isFunction(v) || _.isUndefined(v))
         return null;
 
       if (_.isDate(v)) {
         var o = {}
         o.type = "Date";
-        o.timestamp = v.getTime();
+        o.timestamp = v.valueOf();
         return o
       }
 
       if (isPrimitiveType(v))
         return v;
 
-      if (v instanceof ImageIcon) {
+      if (v instanceof ImageIcon && norecurse === undefined) {
         var o = {}
         o.type = "ImageIcon";
         o.imageData = v.imageData;
@@ -4930,7 +4943,7 @@ return __p
         return o
       }
 
-      if (v instanceof DataFrame) {
+      if (v instanceof DataFrame && norecurse === undefined) {
         var o = {}
         o.type = "TableDisplay";
         o.subtype = "TableDisplay";
@@ -4938,7 +4951,7 @@ return __p
         for (var i in v.values) {
           var row = [];
           for (var j in v.values[i]) {
-            row.push(transform(v.values[i][j]));
+            row.push(transform(v.values[i][j], true));
           }
           o.values.push(row);
         }
@@ -4961,14 +4974,14 @@ return __p
             }
           }
         }
-        if (doit) {
+        if (doit && norecurse === undefined) {
           var o = {}
           o.type = "TableDisplay";
           o.values = [];
           for (var i in v) {
             var row = [];
             for (var item in v[i])
-              row.push(transform(v[i][item]));
+              row.push(transform(v[i][item], true));
             o.values.push(row);
           }
           o.subtype = "Matrix";
@@ -4987,7 +5000,7 @@ return __p
               break;
             }
           }
-          if (doit) {
+          if (doit && norecurse === undefined) {
             var o = {};
             o.type = "TableDisplay";
             o.subtype = "ListOfMaps";
@@ -5004,7 +5017,7 @@ return __p
               for (var j in o.columnNames) {
                 var n = o.columnNames[j];
                 if (v[i][n] !== undefined)
-                  o2.push(transform(v[i][n]));
+                  o2.push(transform(v[i][n], true));
                 else
                   o2.push(null);
               }
@@ -5028,12 +5041,12 @@ return __p
       if (_.isArray(v)) {
         var o = [];
         for(var p in v) {
-          o.push(transform(v[p]));
+          o.push(transform(v[p], true));
         }
         return o;
       }
 
-      if (_.isObject(v) && isDictionary(v)) {
+      if (_.isObject(v) && isDictionary(v) && norecurse === undefined) {
         var o = {}
         o.type = "TableDisplay";
         o.values = [];
@@ -5042,14 +5055,14 @@ return __p
         for (var i in v) {
           var r = [];
           r.push(i);
-          r.push(v[i]);
+          r.push(transform(v[i],true));
           o.values.push(r);
         }
         return o;
       }
       var o = {};
       for(var p in v) {
-        o[p] = transform(v[p]);
+        o[p] = transform(v[p], true);
       }
       return o;
     };
@@ -5810,10 +5823,10 @@ return __p
   module.directive('bkCell', function(bkUtils, bkSessionManager, bkCoreManager, bkEvaluatorManager) {
     return {
       restrict: 'E',
-      template: JST["mainapp/components/notebook/cell"](),
+      template: JST['mainapp/components/notebook/cell'](),
       scope: {
-        cellmodel: "=",
-        index: "="
+        cellmodel: '=',
+        index: '='
       },
       controller: function($scope, $element) {
         $scope.cellmodel.evaluatorReader = false;
@@ -5823,11 +5836,17 @@ return __p
         };
         var notebookCellOp = bkSessionManager.getNotebookCellOp();
 
+        $scope.$watch(function() {
+          return notebookCellOp.isLast($scope.cellmodel.id);
+        }, function(newVal, oldVal) {
+          $scope.isLarge = newVal;
+        });
+
         $scope.cellview = {
           showDebugInfo: false,
           menu: {
             items: [],
-            renameItem: function(opts)  {
+            renameItem: function(opts) {
               _.findWhere(this.items,
                 {name: opts.name}
               ).name = opts.newName;
@@ -5849,13 +5868,11 @@ return __p
 
         $scope.isLocked = function() {
           return bkSessionManager.isNotebookLocked();
-        }
+        };
 
         $scope.newCellMenuConfig = {
           isShow: function() {
-            return !bkSessionManager.isNotebookLocked()
-                && !notebookCellOp.isContainer($scope.cellmodel.id)
-                && !notebookCellOp.isLast($scope.cellmodel.id);
+            return !bkSessionManager.isNotebookLocked() && !notebookCellOp.isContainer($scope.cellmodel.id);
           },
           attachCell: function(newCell) {
             notebookCellOp.insertAfter($scope.cellmodel.id, newCell);
@@ -5867,10 +5884,10 @@ return __p
 
         $scope.getFullIndex = function() {
           if ($scope.$parent.getNestedLevel) {
-            return $scope.$parent.getFullIndex() + "." + ($scope.index + 1);
+            return $scope.$parent.getFullIndex() + '.' + ($scope.index + 1);
           }
 
-          return $scope.index+$scope.getNestedLevel();
+          return $scope.index + $scope.getNestedLevel();
         };
 
         $scope.toggleShowDebugInfo = function() {
@@ -5903,7 +5920,9 @@ return __p
         };
 
         $scope.evaluate = function($event) {
-          if ($event) $event.stopPropagation();
+          if ($event) {
+            $event.stopPropagation();
+          }
 
           $scope.cellmodel.output.state = {};
 
@@ -5916,7 +5935,7 @@ return __p
 
         $scope.deleteCell = function() {
           notebookCellOp.delete($scope.cellmodel.id, true);
-        }
+        };
 
         $scope.getEvaluators = function() {
           return bkEvaluatorManager.getAllEvaluators();
@@ -5927,45 +5946,52 @@ return __p
         };
 
         var moveMethod = 'move';
-        if ($scope.cellmodel.type == 'section') moveMethod = 'moveSection';
+        if ($scope.cellmodel.type == 'section') {
+          moveMethod = 'moveSection';
+        }
 
         $scope.moveCellUp = function() {
           notebookCellOp[moveMethod + 'Up']($scope.cellmodel.id);
-        }
+        };
 
         $scope.moveCellDown = function() {
           notebookCellOp[moveMethod + 'Down']($scope.cellmodel.id);
-        }
+        };
 
-        $scope.moveCellUpDisabled = function(){return !notebookCellOp['isPossibleTo' + _.string.capitalize(moveMethod) + 'Up']($scope.cellmodel.id)};
-        $scope.moveCellDownDisabled = function(){return !notebookCellOp['isPossibleTo' + _.string.capitalize(moveMethod) + 'Down']($scope.cellmodel.id)};
+        $scope.moveCellUpDisabled = function() {
+          return !notebookCellOp['isPossibleTo' + _.string.capitalize(moveMethod) + 'Up']($scope.cellmodel.id);
+        };
+
+        $scope.moveCellDownDisabled = function() {
+          return !notebookCellOp['isPossibleTo' + _.string.capitalize(moveMethod) + 'Down']($scope.cellmodel.id);
+        };
 
         $scope.cellview.menu.addItem({
-          name: "Delete cell",
+          name: 'Delete cell',
           action: $scope.deleteCell
         });
 
         $scope.cellview.menu.addItem({
-          name: "Move up",
+          name: 'Move up',
           action: $scope.moveCellUp,
           disabled: $scope.moveCellUpDisabled
         });
 
         $scope.cellview.menu.addItem({
-          name: "Move down",
+          name: 'Move down',
           action: $scope.moveCellDown,
           disabled: $scope.moveCellDownDisabled
         });
 
         $scope.cellview.menu.addItem({
-          name: "Cut",
+          name: 'Cut',
           action: function() {
             notebookCellOp.cut($scope.cellmodel.id);
           }
         });
 
         $scope.cellview.menu.addItem({
-          name: "Paste (append after)",
+          name: 'Paste (append after)',
           disabled: function() {
             return !notebookCellOp.clipboard;
           },
@@ -5976,7 +6002,7 @@ return __p
 
         $scope.getTypeCellUrl = function() {
           var type = $scope.cellmodel.type;
-          return type + "-cell.html";
+          return type + '-cell.html';
         };
 
         $scope.isCodeCell = function() {
@@ -6267,7 +6293,6 @@ return __p
         };
         scope.focus = function() {
           scope.cm.focus();
-          scope.$apply();
         };
         CodeMirror.on(window, "resize", resizeHandler);
 
@@ -6691,6 +6716,38 @@ return __p
 
 (function() {
   'use strict';
+
+ 
+ 
+ 
+  var bkRenderer = new marked.Renderer();
+  bkRenderer.link = function(href, title, text) {
+    if (this.options.sanitize) {
+      try {
+        var prot = decodeURIComponent(unescape(href))
+          .replace(/[^\w:]/g, '')
+          .toLowerCase();
+      } catch (e) {
+        return '';
+      }
+      if (prot.indexOf('javascript:') === 0 || prot.indexOf('vbscript:') === 0) {
+        return '';
+      }
+    }
+    var out = '<a href="' + href + '"';
+    if (title) {
+      out += ' title="' + title + '"';
+    }
+    out += ' target="_blank"';
+    out += '>' + text + '</a>';
+    return out;
+  };
+
+  bkRenderer.paragraph = function(text) {
+   
+    return marked.Renderer.prototype.paragraph.call(this, text.replace(/\\\$/g, '$'));
+  };
+
   var module = angular.module('bk.notebook');
   module.directive('bkMarkdownEditable', ['bkSessionManager', 'bkHelper', 'bkCoreManager', '$timeout', function(bkSessionManager, bkHelper, bkCoreManager, $timeout) {
     var notebookCellOp = bkSessionManager.getNotebookCellOp();
@@ -6704,25 +6761,21 @@ return __p
         cellmodel: '='
       },
       link: function(scope, element, attrs) {
-        var contentAttribute;
-
-        if (!_.isUndefined(scope.cellmodel.body)) {
-          contentAttribute = 'body';
-        } else {
-          contentAttribute = 'title';
-        }
+        var contentAttribute = scope.cellmodel.type === "section" ? 'title' : 'body';
 
         var preview = function() {
-          var markdownFragment = $('<div style="display: none;">' + scope.cellmodel[contentAttribute] + '</div>');
-          markdownFragment.appendTo('body');
-
-          MathJax.Hub.Queue(["Typeset", MathJax.Hub, markdownFragment[0]]);
-          MathJax.Hub.Queue(function() {
-            element.find('.markup').html(marked(markdownFragment.html(), {gfm: true}));
-            markdownFragment.remove();
-            scope.mode = 'preview';
-            scope.$apply();
+          var markdownFragment = $('<div>' + scope.cellmodel[contentAttribute] + '</div>');
+          renderMathInElement(markdownFragment[0], {
+            delimiters: [
+              {left: "$$", right: "$$", display: true},
+              {left: "$", right:  "$", display: false},
+              {left: "\\[", right: "\\]", display: true},
+              {left: "\\(", right: "\\)", display: false}
+            ]
           });
+          element.find('.markup').html(marked(markdownFragment.html(), {gfm: true, renderer: bkRenderer}));
+          markdownFragment.remove();
+          scope.mode = 'preview';
         };
 
         var syncContentAndPreview = function() {
@@ -6835,14 +6888,12 @@ return __p
       template: JST["mainapp/components/notebook/newcellmenu"](),
       scope: {
         config: '=',
-        size: '@',
+        isLarge: '=',
         position: '@'
       },
       controller: function($scope) {
         var newCellFactory = bkSessionManager.getNotebookNewCellFactory();
         var recentlyAddedLanguage;
-
-        $scope.last = $scope.position == 'last';
 
         $scope.getEvaluators = function() {
           return bkEvaluatorManager.getAllEvaluators();
@@ -6892,7 +6943,7 @@ return __p
           if ($scope.config && $scope.config.attachCell) {
             return $scope.config.attachCell(cell);
           } else {
-            cellOps.insertLast(cell);
+            cellOps.insertFirst(cell);
           }
         }
 
@@ -7122,6 +7173,10 @@ return __p
         $scope.getChildren = function () {
          
           return notebookCellOp.getChildren("root");
+        };
+
+        $scope.isEmpty = function() {
+          return $scope.getChildren().length == 0;
         };
 
         $scope.getShareMenuPlugin = function () {
@@ -7504,7 +7559,11 @@ return __p
           controller: function($scope) {
             $scope.getDate = function() {
               var model = $scope.model.getCellModel();
-              return (model && model.timestamp) ? moment(model.timestamp).format("YYYYMMDD HH:mm:ss.SSS") : model;
+              if (model && model.timestamp) {
+                var m = moment(model.timestamp);
+                return m.format("YYYYMMDD HH:mm:ss.SSS ZZ");
+              }
+              return model;
             };
           }
         },
@@ -8745,10 +8804,13 @@ return __p
 (function() {
   'use strict';
   var module = angular.module('bk.cometdUtils', []);
-  module.factory('cometdUtils', function () {
-    $.cometd.init({
+  module.factory('cometdUtils', ['$sessionStorage', function($sessionStorage) {
+    if ($sessionStorage.user) {
+      $.cometd.init("/beaker/" + $sessionStorage.user.id + "/cometd");
+    }
+    else {
       url: document.baseURI+'cometd/'
-    });
+    }
     var _statusListener;
     return {
       addConnectedStatusListener: function (cb) {
@@ -8770,7 +8832,7 @@ return __p
         return $.cometd.disconnect();
       }
     };
-  });
+  }]);
 })();
 
 (function() {
@@ -8957,11 +9019,11 @@ return __p
 
 (function() {
   'use strict';
-  var module = angular.module('bk.outputLog', ['bk.angularUtils', 'bk.cometdUtils']);
-  module.factory('bkOutputLog', function (angularUtils, cometdUtils) {
+  var module = angular.module('bk.outputLog', ['bk.utils', 'bk.cometdUtils']);
+  module.factory('bkOutputLog', function (bkUtils, cometdUtils) {
     return {
       getLog: function (cb) {
-        angularUtils.httpGet("../beaker/rest/outputlog/get", {})
+        bkUtils.httpGet(bkUtils.serverUrl("beaker/rest/outputlog/get"), {})
             .success(cb)
             .error(function () {
               console.log("failed to get output log");
@@ -9068,11 +9130,11 @@ return __p
 
 (function() {
   'use strict';
-  var module = angular.module('bk.session', ['bk.angularUtils']);
-    module.factory('bkSession', function(angularUtils) {
+  var module = angular.module('bk.session', ['bk.utils']);
+    module.factory('bkSession', function(bkUtils) {
     var backupSession = function(sessionId, sessionData) {
-      var deferred = angularUtils.newDeferred();
-      angularUtils.httpPost("../beaker/rest/session-backup/backup/" + sessionId, sessionData)
+      var deferred = bkUtils.newDeferred();
+      bkUtils.httpPost(bkUtils.serverUrl("beaker/rest/session-backup/backup/" + sessionId), sessionData)
           .success(function(data) {
             deferred.resolve();
           })
@@ -9083,8 +9145,8 @@ return __p
       return deferred.promise;
     };
     var getSessions = function() {
-      var deferred = angularUtils.newDeferred();
-      angularUtils.httpGet("../beaker/rest/session-backup/getExistingSessions")
+      var deferred = bkUtils.newDeferred();
+      bkUtils.httpGet(bkUtils.serverUrl("beaker/rest/session-backup/getExistingSessions"))
           .success(function(sessions) {
             deferred.resolve(sessions);
           })
@@ -9094,8 +9156,8 @@ return __p
       return deferred.promise;
     };
     var loadSession = function(sessionId) {
-      var deferred = angularUtils.newDeferred();
-      angularUtils.httpGet("../beaker/rest/session-backup/load", {sessionid: sessionId})
+      var deferred = bkUtils.newDeferred();
+      bkUtils.httpGet(bkUtils.serverUrl("beaker/rest/session-backup/load"), {sessionid: sessionId})
           .success(function(session, status) {
             deferred.resolve(session);
           })
@@ -9105,8 +9167,8 @@ return __p
       return deferred.promise;
     };
     var closeSession = function(sessionId) {
-      var deferred = angularUtils.newDeferred();
-      angularUtils.httpPost("../beaker/rest/session-backup/close", {sessionid: sessionId})
+      var deferred = bkUtils.newDeferred();
+      bkUtils.httpPost(bkUtils.serverUrl("beaker/rest/session-backup/close"), {sessionid: sessionId})
           .success(function(ret) {
             deferred.resolve(sessionId);
           })
@@ -9116,8 +9178,8 @@ return __p
       return deferred.promise;
     };
     var recordLoadedPlugin = function(pluginName, pluginUrl) {
-      angularUtils.httpPost(
-          "../beaker/rest/session-backup/addPlugin",
+      bkUtils.httpPost(
+          bkUtils.serverUrl("beaker/rest/session-backup/addPlugin"),
           {pluginname: pluginName, pluginurl: pluginUrl})
           .success(function(ret) {
            
@@ -9127,8 +9189,8 @@ return __p
           });
     };
     var getPlugins = function() {
-      var deferred = angularUtils.newDeferred();
-      angularUtils.httpGet("../beaker/rest/session-backup/getExistingPlugins", {})
+      var deferred = bkUtils.newDeferred();
+      bkUtils.httpGet(bkUtils.serverUrl("beaker/rest/session-backup/getExistingPlugins"), {})
           .success(function(plugins) {
             deferred.resolve(plugins);
           })
@@ -9258,7 +9320,14 @@ return __p
   ]);
     module.factory('bkUtils', function(commonUtils, angularUtils, bkTrack, cometdUtils) {
 
+    var serverRoot = "../";
+    function serverUrl(path) {
+      return serverRoot + path;
+    }
+
     var bkUtils = {
+      serverUrl: serverUrl,
+
      
       log: function(event, obj) {
         bkTrack.log(event, obj);
@@ -9328,34 +9397,37 @@ return __p
         return angularUtils.timeout(func,ms);
       },
       cancelTimeout: function(promise) {
-        return angularUtils.cancelTimeout(promise);  
+        return angularUtils.cancelTimeout(promise);
       },
-      
+      setServerRoot: function(url) {
+        serverRoot = url;
+      },
+
      
       getHomeDirectory: function() {
         var deferred = angularUtils.newDeferred();
-        this.httpGet("../beaker/rest/file-io/getHomeDirectory")
+        this.httpGet(serverUrl("beaker/rest/file-io/getHomeDirectory"))
             .success(deferred.resolve)
             .error(deferred.reject);
         return deferred.promise;
       },
       getVersionInfo: function() {
         var deferred = angularUtils.newDeferred();
-        this.httpGet("../beaker/rest/util/getVersionInfo")
+        this.httpGet(serverUrl("beaker/rest/util/getVersionInfo"))
             .success(deferred.resolve)
             .error(deferred.reject);
         return deferred.promise;
       },
       getStartUpDirectory: function() {
         var deferred = angularUtils.newDeferred();
-        this.httpGet("../beaker/rest/file-io/getStartUpDirectory")
+        this.httpGet(serverUrl("beaker/rest/file-io/getStartUpDirectory"))
             .success(deferred.resolve)
             .error(deferred.reject);
         return deferred.promise;
       },
       getDefaultNotebook: function() {
         var deferred = angularUtils.newDeferred();
-        angularUtils.httpGet("../beaker/rest/util/getDefaultNotebook").
+        angularUtils.httpGet(serverUrl("beaker/rest/util/getDefaultNotebook")).
             success(function(data) {
               deferred.resolve(angular.fromJson(data));
             }).
@@ -9373,7 +9445,7 @@ return __p
       },
       loadFile: function(path) {
         var deferred = angularUtils.newDeferred();
-        angularUtils.httpGet("../beaker/rest/file-io/load", {path: path})
+        angularUtils.httpGet(serverUrl("beaker/rest/file-io/load"), {path: path})
             .success(function(content) {
               if (!_.isString(content)) {
                
@@ -9393,7 +9465,7 @@ return __p
           var queryParams = {};
         }
         else {
-          var loadingUri = "../beaker/rest/http-proxy/load";
+          var loadingUri = serverUrl("beaker/rest/http-proxy/load");
           var queryParams = {url: logicalUrl};
           var headers = {};
         }
@@ -9414,11 +9486,11 @@ return __p
       saveFile: function(path, contentAsJson, overwrite) {
         var deferred = angularUtils.newDeferred();
         if (overwrite) {
-          angularUtils.httpPost("../beaker/rest/file-io/save", {path: path, content: contentAsJson})
+          angularUtils.httpPost(serverUrl("beaker/rest/file-io/save"), {path: path, content: contentAsJson})
               .success(deferred.resolve)
               .error(deferred.reject);
         } else {
-          angularUtils.httpPost("../beaker/rest/file-io/saveIfNotExists", {path: path, content: contentAsJson})
+          angularUtils.httpPost(serverUrl("beaker/rest/file-io/saveIfNotExists"), {path: path, content: contentAsJson})
               .success(deferred.resolve)
               .error(function(data, status, header, config) {
                 if (status === 409) {

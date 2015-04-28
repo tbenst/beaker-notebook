@@ -6574,7 +6574,7 @@
     background: #39a9ed;
     color: #fff; }
   .beaker-sandbox .dashboard.container-fluid {
-    margin: 0 auto;
+    margin: 50 auto 0;
     max-width: 980px; }
   .beaker-sandbox .dashboard.container-fluid .new-notebook {
     margin-top: 40px;
@@ -6621,46 +6621,33 @@
     display: block; }
   .beaker-sandbox .advanced-mode .advanced-hide {
     display: none !important; }
-  .beaker-sandbox .advanced-mode :not(.base-menu-add) bk-new-cell-menu {
-    position: relative;
-    left: -24px; }
-  .beaker-sandbox .btn-group.new-cell .btn-xs {
-    line-height: 1em; }
-  .beaker-sandbox .btn-group.new-cell .btn-xs.dropdown-toggle {
-    padding: 2px 6px 0 !important; }
-  .beaker-sandbox .btn-group.new-cell .btn-xs.insert-cell {
-    padding-top: 4px; }
-  .beaker-sandbox .btn-group.new-cell .plus {
-    font-size: 21px; }
-  .beaker-sandbox .advanced-mode :not(.base-menu-add) .btn-group.new-cell::after {
-    content: "";
-    display: inline-block;
-    position: absolute;
-    right: -10px;
-    top: 50%;
-    margin-top: -4px;
-    z-index: 0;
-    height: 0;
-    border-top: 4px solid transparent;
-    border-bottom: 4px solid transparent;
-    border-left: 5px solid #39a9ed; }
-  .beaker-sandbox .advanced-mode :not(.base-menu-add) .btn-group.new-cell .insert-cell {
-    display: none; }
-  .beaker-sandbox .advanced-mode :not(.base-menu-add) .btn-group.new-cell .dropdown-toggle {
-    padding: 4px 4px 0 !important; }
-  .beaker-sandbox .bkcell bk-new-cell-menu {
-    display: block; }
-  .beaker-sandbox .bkcell bk-new-cell-menu .new-cell {
-    visibility: hidden; }
-  .beaker-sandbox .bkcell bk-new-cell-menu:hover .new-cell {
-    visibility: visible; }
   .beaker-sandbox bk-new-cell-menu {
+    position: relative; }
+  .beaker-sandbox bk-new-cell-menu .btn-xs {
+    line-height: 1em; }
+  .beaker-sandbox bk-new-cell-menu .btn-xs.dropdown-toggle {
+    padding: 2px 6px 0 !important; }
+  .beaker-sandbox bk-new-cell-menu .btn-xs.insert-cell {
+    padding-top: 4px; }
+  .beaker-sandbox bk-new-cell-menu .plus {
+    font-size: 14px; }
+  .beaker-sandbox .advanced-mode bk-new-cell-menu:not(.large) .btn {
+    height: 10px;
+    width: 20px;
+    padding: 0 !important; }
+  .beaker-sandbox .advanced-mode bk-new-cell-menu:not(.large) .insert-cell {
+    width: 40px; }
+  .beaker-sandbox .advanced-mode bk-new-cell-menu:not(.large) .dropdown-toggle {
+    font-size: 10px; }
+  .beaker-sandbox bk-new-cell-menu {
+    display: block;
     margin: 15px 0; }
-  .beaker-sandbox .advanced-mode bk-new-cell-menu {
+  .beaker-sandbox bk-new-cell-menu .new-cell {
+    visibility: hidden; }
+  .beaker-sandbox bk-new-cell-menu:hover .new-cell, .beaker-sandbox bk-new-cell-menu.only-child .new-cell {
+    visibility: visible; }
+  .beaker-sandbox .advanced-mode bk-new-cell-menu:not(.large) {
     margin: 0; }
-  .beaker-sandbox .new-cell {
-    position: relative;
-    left: -1px; }
   .beaker-sandbox .new-cell .insert-cell {
     border-right-width: 4px; }
   .beaker-sandbox .new-cell .btn {
@@ -6805,11 +6792,6 @@
     right: 19px; }
   .beaker-sandbox bk-code-cell-output .ui-state-default {
     background: #ebebeb; }
-  .beaker-sandbox .advanced-mode bk-output-display[type="Html"] {
-    padding-top: 10px;
-    display: block;
-    margin-top: 8px;
-    position: relative; }
   .beaker-sandbox .advanced-mode bk-output-display.bkr {
     min-height: 20px; }
   .beaker-sandbox .markup, .beaker-sandbox .dataTables_scrollBody {
@@ -6824,6 +6806,12 @@
     margin-left: 20px; }
   .beaker-sandbox .bk-section-title .markup {
     min-height: 1em; }
+  .beaker-sandbox .markup p:before {
+    content: ' ';
+    display: block;
+    float: right;
+    height: 10px;
+    width: 79px; }
   .beaker-sandbox .modal.output-table-options .row {
     margin-bottom: 20px; }
   .beaker-sandbox .modal.output-table-options h2 {
@@ -7170,7 +7158,7 @@
   .beaker-sandbox root {
     display: block; }
   .beaker-sandbox {
-    padding-top: 100px; }
+    padding-top: 76px; }
   .beaker-sandbox.dragover:after {
     content: "Drop to Import";
     position: absolute;
