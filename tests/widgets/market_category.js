@@ -11,11 +11,11 @@ module.exports = function() {
       return World.driver.wait(function() {
         return this.findCategory(category)
         .then(function(v) {
-          return v != undefined
+          return v != undefined;
         })
         .thenCatch(function() {
-          return false
-        })
+          return false;
+        });
       }.bind(this), global.timeout)
       .then(function() {
         return this.findCategory(category)
@@ -32,7 +32,7 @@ module.exports = function() {
         });
       }).then(function (results) {
         return results[0];
-      })
+      });
     },
 
     openCatalog: function() {
