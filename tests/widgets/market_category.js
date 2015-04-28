@@ -4,7 +4,7 @@ var _ = require('lodash');
 module.exports = function() {
   var World = this;
 
-  return this.Widgets.MarketCategory = this.Widget.List.extend({
+  this.Widgets.MarketCategory = this.Widget.List.extend({
     root: '.tree-market-category ul',
 
     clickCategory: function(category) {
