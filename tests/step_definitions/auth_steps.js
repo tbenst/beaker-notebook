@@ -1,36 +1,54 @@
 var assert  = require("assert"),
     _       = require('lodash');
 module.exports = function() {
+  var u = this.user;
 
   var userData  = {
-    model: "User",
+    "name": 'joe research',
+    "email": 'u@r.edu',
+    "password": 'password'
+  };
+
+  var userDetails  = {
+    "job-title": 'Researcher',
+    "company": 'Two Sigma',
+    "bio": 'I got data all around me'
+  };
+
+  var projectBase = {
+    model: "Project",
     data: {
-      name: 'joe research',
-      email: 'u@r.edu',
-      password: 'password',
-      beaker_password: 'bdcd4dc234eaddac4fc036c27dafa74727e756e0',
-      job_title: 'Researcher',
-      company: 'Two Sigma',
-      bio: 'I got data all around me',
-      role: this.USER_ROLE['researcher']
+      name: 'Sandbox',
+      description: 'Sandbox'
     }
   };
 
   this.Given(/^I'm signed in as a researcher$/, function() {
     var _this = this;
-    return this.seed.populate(userData).then(function() {
+    return u.signUp(userData)
+    .then(function() {
+      return _this.user.updateUser(_.merge(userData, userDetails));
+    })
+    .then(function() {
+      return _this.user.getDetails();
+    })
+    .then(function(u) {
+      var projectData = _.merge(_.cloneDeep(projectBase), {'data': {'owner_id': u['public-id']}});
+      return _this.seed.populate(projectData);
+    })
+    .then(function() {
       return _this.driver.get(_this.route.signIn).then(function() {
-        return new _this.Widgets.SignInForm().submitWith(_.pick(userData.data, 'email', 'password'));
+        return new _this.Widgets.SignInForm().submitWith(_.pick(userData, 'email', 'password'));
       });
     })
     .then(function() {
       return new _this.Widgets.SignInForm().ensureNotPresent()
-    })
+    });
   });
 
   this.Given(/^I signed up as a researcher$/, function() {
     var _this = this;
-    return this.seed.populate(userData).then(function() {
+    return u.signUp(userData).then(function() {
       return _this.driver.get(_this.route.home);
     });
   });

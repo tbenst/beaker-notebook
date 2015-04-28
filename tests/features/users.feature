@@ -7,19 +7,19 @@ Feature: Users
     Given I'm signed in as a researcher
     When I go to the edit user page
     And I fill in the edit user form with:
-      | name    | email          | currentPassword | job_title   | company | bio         |
-      | New Name| newEmail@m.com | password        | Researcher  | MIT     | I like math |
+      | name    | email          | password | job-title   | company | bio         |
+      | New Name| newEmail@m.com | password | Researcher  | MIT     | I like math |
     Then I should see the header greeting "Hi, New Name"
     When I view the market search
     And I go to the edit user page
     Then I should see the following user:
-      | name    | email          | jobTitle   | company | bio         |
+      | name    | email          | job-title   | company | bio         |
       | New Name| newEmail@m.com | Researcher | MIT     | I like math |
 
   Scenario: Wrong password when editing
     Given I'm signed in as a researcher
     When I go to the edit user page
     And I fill in the edit user form with:
-      | name     | email          | currentPassword |
+      | name     | email          | password        |
       | New Name | newEmail@m.com | wrongpassword   |
-    Then I should see an error message of "Error: Wrong Password"
+    Then I should see an error message of "Error: incorrect password"

@@ -42,7 +42,7 @@ module.exports = function() {
       attrs.userEmail = attrs.userEmail || "u@r.edu";
 
       return Promise.all([
-        _this.seed.fetch("User", {email: attrs.userEmail}),
+        _this.user.getDetails(),
         _this.seed.fetch("Project", {name: attrs.projectName})
       ]).spread(function(user, project) {
         return _this.seed.populate({
@@ -51,7 +51,7 @@ module.exports = function() {
             notebookBase(),
             _.omit(attrs, ['userEmail', 'projectName']),
             {
-              userId: JSON.parse(user[1]).id,
+              user_id: user['public-id'],
               projectId: JSON.parse(project[1]).id
             }
           )

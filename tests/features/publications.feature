@@ -105,13 +105,13 @@ Feature: Publications
     Then I should see that the notebook is published
     When I view the publications page
     Then I should see the following top contributors:
-      | name          | job_title  | company   | gravatar_email |
-      | jon research  |            |           | jon@r.edu      |
-      | joe research  | Researcher | Two Sigma | u@r.edu        |
+      | name          | job_title  | company   |
+      | jon research  |            |           |
+      | joe research  | Researcher | Two Sigma |
     When I click the "Energy" category
     Then I should see the following top contributors:
-      | name          | job_title  | company   | gravatar_email |
-      | jon research  |            |           | jon@r.edu      |
+      | name          | job_title  | company   |
+      | jon research  |            |           |
 
   Scenario: Deleting a Publication
     Given the notebook "top secret" is published

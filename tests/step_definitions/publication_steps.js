@@ -4,21 +4,15 @@ var notebookBase = require('../fixtures/notebook_data_sample');
 var _ = require('lodash');
 
 var randomUser = {
-  model: "User",
-  data: {
-    name: 'jane research',
-    email: 'j@r.edu',
-    password: 'password'
-  }
+  name: 'jane research',
+  email: 'j@r.edu',
+  password: 'password'
 };
 
 var otherUser = {
-  model: "User",
-  data: {
-    name: 'jon research',
-    email: 'jon@r.edu',
-    password: 'password'
-  }
+  name: 'jon research',
+  email: 'jon@r.edu',
+  password: 'password'
 };
 
 var randomProject = function(user, name) {
@@ -26,7 +20,7 @@ var randomProject = function(user, name) {
     model: "Project",
     data: {
       name: name || 'gorillas',
-      ownerId: user.id
+      owner_id: user['public-id']
     }
   }
 };
@@ -37,7 +31,7 @@ var randomNotebook = function(user, project, name, i) {
     model: "Notebook",
     data: _.extend(_.omit(notebookBase, ['userEmail', 'projectName']), {
       name: i == 0 ? notebookName : notebookName + ' ' + i,
-      userId: user.id,
+      user_id: user['public-id'],
       projectId: project.id
     })
   }
@@ -48,12 +42,12 @@ var seedPublications = function(count, options, user) {
       category = options && options.category,
       projectName = options && options.projectName;
 
-  return this.seed.populate(user).then(function(u) {
-    return this.seed.populate(randomProject(u[0], projectName)).then(function(project) {
+  return this.user.createUser(user).then(function(u) {
+    return this.seed.populate(randomProject(u, projectName)).then(function(project) {
       var notebooks = [];
 
       for(var i = 0; i < +count; ++i) {
-        notebooks.push(randomNotebook(u[0], project[0], name, i));
+        notebooks.push(randomNotebook(u, project[0], name, i));
       }
 
       return this.seed.populate(notebooks)
@@ -69,7 +63,7 @@ var seedPublications = function(count, options, user) {
                 notebook_id: notebook.id,
                 name: i== 0 ? publicationName : publicationName + ' ' + i,
                 contents: notebookBase.data,
-                userId: u[0].id
+                user_id: u['public-id']
               }
             };
 
@@ -105,21 +99,20 @@ module.exports = function() {
   });
 
   this.Given(/^the notebook "([^"]*)" is published$/, function(notebookName) {
-    return this.seed.populate({
-      model: 'Publication',
-      data: {
-        name: notebookName
-      },
-      associations: [{
-        foreignKey: 'notebook_id',
-        lookup: {"Notebook": {name: notebookName}}
-      },
-      {
-        foreignKey: "user_id",
-        lookup: {
-          User: {email: "u@r.edu"}
-        }
-      }]
+    var _this = this;
+    return this.user.getDetails()
+    .then(function(u) {
+      return _this.seed.populate({
+        model: 'Publication',
+        data: {
+          name: notebookName,
+          user_id: u['public-id']
+        },
+        associations: [{
+          foreignKey: 'notebook_id',
+          lookup: {"Notebook": {name: notebookName}}
+        }]
+      });
     });
   });
 
@@ -316,15 +309,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the following top contributors:$/, function(table) {
-    var expectedValues = _.map(table.hashes(), function(row) {
-      var hash = require('crypto').createHash('md5').update(row.gravatar_email).digest('hex');
-      var expected_icon_src = 'https://secure.gravatar.com/avatar/' + hash + '?d=retro&size=100';
-      delete row.gravatar_email;
-      row.icon_src = expected_icon_src;
-
-      return row;
-    });
-
+    var expectedValues = table.hashes();
     return new this.Widgets.TopContributorList().contents().should.eventually.eql(expectedValues);
   });
 
