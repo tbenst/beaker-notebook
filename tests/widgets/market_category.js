@@ -11,7 +11,7 @@ module.exports = function() {
       return World.driver.wait(function() {
         return this.findCategory(category)
         .then(function(v) {
-          return v != undefined;
+          return v !== undefined;
         })
         .thenCatch(function() {
           return false;
