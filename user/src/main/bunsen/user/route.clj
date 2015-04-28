@@ -6,4 +6,6 @@
                    "/users" {"" :users
                              ["/" :id] :users}
                    "/session" :session
-                   "/sessions" :sessions}}])
+                   "/sessions" :sessions
+                   "/seed" {"" :seed
+                            "/users" :seed-users}}}])
