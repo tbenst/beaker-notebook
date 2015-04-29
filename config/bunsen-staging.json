@@ -328,6 +328,51 @@
       "uris": [
         "file:///etc/.dockercfg"
       ]
+    },
+    {
+      "id": "/bunsen-staging/user",
+      "cmd": "",
+      "cpus": 1,
+      "mem": 2048,
+      "instances": 1,
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "network": "BRIDGE",
+          "image": "quay.io/mojotech/bunsen-user",
+          "portMappings": [
+            {
+              "containerPort": 3004,
+              "servicePort": 3004,
+              "protocol": "tcp"
+            }
+          ]
+        }
+      },
+      "env": {
+        "USER_PORT": 3004,
+        "USER_DATABASE_URI": "datomic:mem://user",
+        "COOKIE_SALT": "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<",
+        "BAMBOO_HOST": "beaker-staging.withmojo.com",
+        "BAMBOO_PATH": "/user"
+      },
+      "healthChecks": [
+        {
+          "protocol": "HTTP",
+          "path": "/user/v1/status",
+          "gracePeriodSeconds": 10,
+          "intervalSeconds": 10,
+          "portIndex": 0,
+          "timeoutSeconds": 5,
+          "maxConsecutiveFailures": 3
+        }
+      ],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0
+      },
+      "uris": [
+        "file:///etc/.dockercfg"
+      ]
     }
   ]
 }

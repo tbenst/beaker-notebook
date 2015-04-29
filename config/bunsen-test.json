@@ -214,6 +214,51 @@
       "upgradeStrategy": {
         "minimumHealthCapacity": 0
       }
+    },
+    {
+      "id": "/bunsen-test/user",
+      "cmd": "",
+      "cpus": 0.1,
+      "mem": 100,
+      "ports": [
+        3004
+      ],
+      "instances": 1,
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "network": "BRIDGE",
+          "image": "mojotech/bunsen-user",
+          "portMappings": [
+            {
+              "containerPort": 3004,
+              "servicePort": 3004,
+              "protocol": "tcp"
+            }
+          ]
+        }
+      },
+      "env": {
+        "USER_PORT": 3004,
+        "USER_DATABASE_URI": "datomic:mem://user",
+        "BAMBOO_HOST": "bunsen-test",
+        "COOKIE_SALT": "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<",
+        "BAMBOO_PATH": "/user"
+      },
+      "healthChecks": [
+        {
+          "protocol": "HTTP",
+          "path": "/user/v1/status",
+          "gracePeriodSeconds": 60,
+          "intervalSeconds": 10,
+          "portIndex": 0,
+          "timeoutSeconds": 5,
+          "maxConsecutiveFailures": 5
+        }
+      ],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0
+      }
     }
   ]
 }
