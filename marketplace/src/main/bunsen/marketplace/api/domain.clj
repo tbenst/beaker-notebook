@@ -10,6 +10,8 @@
             [clojurewerkz.elastisch.rest.response :refer :all]
             [clojurewerkz.elastisch.query :as query]))
 
+(declare background-update-counts)
+
 (defn update-marketplace
   "Performs some common pre-processing tasks before kicking off the
   specified marketplace work.
@@ -55,21 +57,33 @@
         created_id (:_id (doc/create connection index-name "datasets" document))]
         ; set the ID attribute of a dataset to be the internal elastic search _id
         ; since the api consumers expect their to be an ID attribute on each dataset.
-        (doc/update-with-partial-doc connection index-name "datasets" created_id {:id created_id})))
+        (doc/update-with-partial-doc connection index-name "datasets" created_id {:id created_id})
+        (background-update-counts connection index-name)))
 
 (defn delete-dataset
   [config index-name id]
-  (-> (helper/connect-to-es config) (doc/delete index-name "datasets" id)))
+  (let [connection (helper/connect-to-es config)]
+    (doc/delete connection index-name "datasets" id)
+    (background-update-counts connection index-name)))
 
 (defn update-dataset
   "Updates dataset with given payload"
   [config index-name id document]
-  (-> (helper/connect-to-es config) (doc/put index-name "datasets" id document)))
+  (let [connection (helper/connect-to-es config)]
+    (doc/put connection index-name "datasets" id document)
+    (background-update-counts connection index-name)))
 
 (defn update-counts
-  [es-conn index-name payload]
+  [es-conn index-name _]
   (let [categories (base/read-indexed-results es-conn index-name "categories")]
     (cats/update-counts! es-conn index-name categories)))
+
+(defn background-update-counts
+  "Updates datasets within an index with the correct count, this method
+  is intended to be run after a CRUD operation"
+  [es-conn index-name]
+  (ind/refresh es-conn index-name)
+  (update-counts es-conn index-name nil))
 
 (defn update-mappings
   "Updates the ElasticSearch mappings necessary for the index's catalog

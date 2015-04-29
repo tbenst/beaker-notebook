@@ -4,18 +4,18 @@ var _ = require('lodash');
 module.exports = function() {
   var World = this;
 
-  return this.Widgets.MarketCategory = this.Widget.List.extend({
+  this.Widgets.MarketCategory = this.Widget.List.extend({
     root: '.tree-market-category ul',
 
     clickCategory: function(category) {
       return World.driver.wait(function() {
         return this.findCategory(category)
         .then(function(v) {
-          return v != undefined
+          return v !== undefined;
         })
         .thenCatch(function() {
-          return false
-        })
+          return false;
+        });
       }.bind(this), global.timeout)
       .then(function() {
         return this.findCategory(category)
@@ -27,16 +27,17 @@ module.exports = function() {
 
     findCategory: function(category) {
       return this.filter(function(item) {
-       return item.read({ transformer: _s.titleize }).then(function(contents) {
-          return contents.match("^"+category);
+        return item.read({transformer: _s.titleize}).then(function(contents) {
+          console.log(contents, category);
+          return contents.match('^' + category);
         });
-      }).then(function (results) {
+      }).then(function(results) {
         return results[0];
-      })
+      });
     },
 
     openCatalog: function() {
-      return this.click(".tree-branch-head");
+      return this.click('.tree-branch-head');
     },
 
     selectedCategoryCount: function() {

@@ -18,6 +18,15 @@ module.exports = function() {
     return this.W.click('.admin-action.edit');
   });
 
+  this.When(/^I set the category to "([^"]*)"$/, function(category) {
+      var editor = new this.Widgets.DatasetEditor();
+
+      return editor.setCategory(category)
+      .then(function() {
+        return editor.save();
+      });
+  });
+
   this.When(/^I enter the dataset name as "([^"]*)"$/, function(newName) {
     return new this.Widgets.DatasetEditor().setTitle(newName);
   });

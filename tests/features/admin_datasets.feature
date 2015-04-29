@@ -33,6 +33,19 @@ Feature: Admin Datasets
       | stacy  | finance  |
     And I view the market search
     Then I should see 2 market items on the market list page
+  Scenario: Changing a datasets category
+    When I have the following categories:
+      | name       | path  |
+      | finance    | 0.1.1 |
+      | beer       | 0.1.2 |
+    When I create a new dataset with
+      | name   | category |
+      | stacy  | finance  |
+    And I view the market search
+    And I edit a the "stacy" dataset
+    And I set the category to "beer"
+    When I view the market search
+    Then I should see 1 items in the "Beer" category count
 
   Scenario: Editing a dataset from the detail
     When I view the market search
