@@ -21,6 +21,5 @@
             :inherited {:url "https://github.com/twosigma/bunsen"
                         :scm {:name "git"
                               :url "https://github.com/twosigma/bunsen"}
-                        :jvm-opts ["-Xmx256M"
-                                   "-Dsun.security.jgss.native=true"]}
+                        :jvm-opts ["-Dsun.security.jgss.native=true"]}
             :subprocess false})
