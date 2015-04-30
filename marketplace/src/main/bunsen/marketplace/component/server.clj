@@ -5,6 +5,7 @@
             [ring.middleware.cookies :refer [wrap-cookies]]
             [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.params :refer [wrap-params]]
+            [ring.middleware.stacktrace :refer [wrap-stacktrace-log]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.util.response :refer [response]]
             [bidi.ring :refer (make-handler)]
@@ -42,15 +43,15 @@
                           ((resource config (:route-params request)) request))))]
 
         (assoc server
-               :jetty (run-jetty (-> handler 
+               :jetty (run-jetty (-> handler
                                      (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
                                                     :cookie-name "session"})
                                       wrap-cookies
                                       wrap-keyword-params
                                       wrap-params
+                                      wrap-stacktrace-log
                                       (wrap-json-body {:keywords? true})
-                                      (kerberos/authenticate principal)
-				     )
+                                      (kerberos/authenticate principal))
                                  (:jetty-options config))))))
 
   (stop [server]
