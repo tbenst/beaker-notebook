@@ -47,9 +47,12 @@
         MarketplaceRestangular) {
         return {
           getDataSet: function(index, id) {
-            return TimeoutRestangular().all('data_sets')
-            .one(index, id).get()
-            .then(formatDataset);
+            return MarketplaceRestangular
+            .one('indices', index)
+            .one('datasets', id).get()
+            .then(function(results) {
+              return formatDataset(results.data);
+            });
           },
           updateDataSet: function(dataset) {
             return MarketplaceRestangular
