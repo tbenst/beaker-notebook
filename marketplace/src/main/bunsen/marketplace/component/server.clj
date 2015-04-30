@@ -9,6 +9,7 @@
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.util.response :refer [response]]
             [bidi.ring :refer (make-handler)]
+            [bunsen.common.middleware.database :refer [wrap-database]]
             [bunsen.common.helper.session.store :refer [bunsen-cookie-store]]
             [bunsen.marketplace.api.resource :as api-resource]
             [bunsen.marketplace.api.route :as api-route]
@@ -29,8 +30,7 @@
    :vendors api-resource/vendors
    :default api-resource/default})
 
-
-(defrecord Server [config]
+(defrecord Server [config database]
   component/Lifecycle
   (start [server]
     (if (:jetty server)
@@ -49,6 +49,7 @@
                                       wrap-cookies
                                       wrap-keyword-params
                                       wrap-params
+                                      (wrap-database database)
                                       wrap-stacktrace-log
                                       (wrap-json-body {:keywords? true})
                                       (kerberos/authenticate principal))
@@ -59,4 +60,4 @@
       (.stop jetty))
     (dissoc server :jetty)))
 
-(defn server [] (map->Server {}))
+(defn server [config] (map->Server {:config config}))
