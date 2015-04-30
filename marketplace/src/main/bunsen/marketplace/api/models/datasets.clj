@@ -1,7 +1,46 @@
 (ns bunsen.marketplace.api.models.datasets
   (:require [bunsen.marketplace.helper.api :as helper]
+            [bunsen.marketplace.base :as base]
+            [bunsen.marketplace.api.domain :as domain]
+            [bunsen.marketplace.simple.simple :as simple]
             [clojurewerkz.elastisch.rest.document :as doc]
             [clojure.string :as str]))
+
+(defn create-datasets
+  "Returns true if datasets payload was succesfully sent to
+  ElasticSearch, false otherwise."
+  [es-conn index-name payload]
+  (let [datasets (:datasets payload)
+        categories (base/read-indexed-results es-conn index-name "categories")
+        indexer (base/index! es-conn index-name "datasets" datasets
+                             identity ; json already parsed
+                             #(map (partial simple/prepare-dataset categories) %)
+                             base/bulk-to-es!)]
+    (await-for 5000 indexer)
+    (= (:stage @indexer) :indexed)))
+
+(defn create-dataset
+  "Creates a single dataset based on the index-name provided"
+  [config index-name document]
+  (let [connection (helper/connect-to-es config)
+        created_id (:_id (doc/create connection index-name "datasets" document))]
+        ; set the ID attribute of a dataset to be the internal elastic search _id
+        ; since the api consumers expect their to be an ID attribute on each dataset.
+        (doc/update-with-partial-doc connection index-name "datasets" created_id {:id created_id})
+        (domain/background-update-counts connection index-name)))
+
+(defn delete-dataset
+  [config index-name id]
+  (let [connection (helper/connect-to-es config)]
+    (doc/delete connection index-name "datasets" id)
+    (domain/background-update-counts connection index-name)))
+
+(defn update-dataset
+  "Updates dataset with given payload"
+  [config index-name id document]
+  (let [connection (helper/connect-to-es config)]
+    (doc/put connection index-name "datasets" id document)
+    (domain/background-update-counts connection index-name)))
 
 (defn get-catalog
   [es-conn index-name path]
