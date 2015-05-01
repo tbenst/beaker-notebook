@@ -19,6 +19,7 @@
   {:status api-resource/status
    :categories api-resource/categories
    :seed-datasets api-resource/seed-datasets
+   :subscription api-resource/subscription
    :dataset api-resource/dataset
    :datasets api-resource/datasets
    :refresh api-resource/refresh

@@ -3,7 +3,8 @@
             [bunsen.marketplace.helper.resource :as resource]
             [bunsen.marketplace.api.domain :as domain]
             [bunsen.marketplace.api.models.datasets :as datasets]
-            [bunsen.marketplace.api.models.categories :as categories]))
+            [bunsen.marketplace.api.models.categories :as categories]
+            [bunsen.marketplace.api.models.subscriptions :as subscriptions]))
 
 (defresource status [_ _] resource/defaults
   :handle-ok domain/get-status)
@@ -66,3 +67,10 @@
 
 (defresource default [_ _] resource/defaults
   :exists? (constantly false))
+
+(defresource subscription [config {:keys [index-name data-set-id]}] resource/defaults
+  :allowed-methods #{:post :put :delete}
+  :put! (fn [_] (let [user-id (-> request :session :id)]
+          (subscriptions/subscribe (:conn request) index-name data-set-id user-id)))
+  :delete! (fn [_] (let [user-id (-> request :session :id)]
+             (subscriptions/unsubscribe (:conn request) index-name data-set-id user-id))))

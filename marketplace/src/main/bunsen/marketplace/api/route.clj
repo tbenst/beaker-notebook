@@ -13,4 +13,5 @@
                       "/formats" :formats
                       "/tags" :tags
                       "/vendors" :vendors
+                      "/subscriptions" {["/" :index-name "/" :data-set-id] :subscription}
                       }])
