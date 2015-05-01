@@ -27,11 +27,11 @@ Feature: Subscriptions
       | Crime Rates, Canada | /var/s3/CRIME.xml  | pretty bad   |
       | Population, Canada  | /var/s3/POP.xml    | somewhat low |
 
-  # Scenario: Viewing dataset details
-  #   When I view My Datasets
-  #   And I view the "Crime Rates, Canada" dataset
-  #   Then I should see the "Crime Rates, Canada" dataset in the marketplace
-  #   And I should be able to unsubscribe
+  Scenario: Viewing dataset details
+    When I view My Datasets
+    And I view the "Crime Rates, Canada" dataset
+    Then I should see the "Crime Rates, Canada" dataset in the marketplace
+    And I should be able to unsubscribe
 
   Scenario: Returning to marketplace from my dataset details
     When I view My Datasets
