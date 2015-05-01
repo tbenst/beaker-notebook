@@ -113,10 +113,9 @@
     (transform-results results)))
 
 (defn find-matching
-  [es-conn query]
+  [es-conn index query]
   (let [category-path (:category-path query)
         catalog-path (extract-catalog-path category-path)
-        index (:index query)
         catalog (category/fetch es-conn index catalog-path)
         results (doc/search es-conn
                             index
@@ -147,9 +146,9 @@
                    :index index-name
                    :subscriberIds (dataset-users db index-name id)
                    :related (find-matching es-conn
+                                           index-name
                                            {:category-path catalog-path
                                             :tags (:tags dataset)
                                             :exclude id
-                                            :index index-name
                                             :size 5
                                             :from 0}))))
