@@ -109,6 +109,16 @@
   [results]
   (into [] (map #(merge (:_source %) {:index (:_index %)}) (-> results :hits :hits))))
 
+(defn find-by-ids
+  [es-conn ids]
+  (let [query {:ids {:values ids}}
+        results (doc/search es-conn
+                            "*"
+                            "datasets"
+                            :size 10
+                            :query query)]
+    (transform-results results)))
+
 (defn find-matching
   [es-conn query]
   (let [category-path (:category-path query)

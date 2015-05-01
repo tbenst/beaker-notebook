@@ -1,5 +1,9 @@
 (ns bunsen.marketplace.api.models.subscriptions
-  (:require [bunsen.common.helper.utils :as utils]
+  (:require [clojure.set :as set]
+            [bunsen.common.helper.utils :as utils]
+            [bunsen.common.helper.query :as q]
+            [bunsen.marketplace.api.models.datasets :as datasets]
+            [bunsen.marketplace.helper.api :as helper]
             [datomic.api :as d]))
 
 (defn subscribe
@@ -22,3 +26,28 @@
                   data-set-id
                   (utils/uuid-from-str user-id))]
     @(d/transact conn [[:db.fn/retractEntity (ffirst eid)]])))
+
+(defn get-subscriptions
+  [config db user-id]
+  (let [es-conn (helper/connect-to-es config)
+        eids (d/q '[:find [?s ...]
+                    :in $ ?user-id
+                    :where [?s :subscription/user-id ?user-id]]
+                  db
+                  (utils/uuid-from-str user-id))
+        subscriptions (d/pull-many db '[*] eids)
+        subs-w-timestamps (map #(merge % (q/timestamps db (:db/id %))) subscriptions)
+        dataset-ids (into [] (map #(:subscription/data-set-id %) subscriptions))
+        datasets (datasets/find-by-ids es-conn dataset-ids)
+        ds-with-cat (map #(assoc %
+                                 :catalog
+                                 (datasets/get-catalog es-conn (:index %) (datasets/dataset-catalog-path %)))
+                         datasets)
+        subscriptions (map (fn [sub] (assoc sub
+                                            :dataSet
+                                            (into {} (filter #(and (= (str (:id %)) (:subscription/data-set-id sub))
+                                                                   (= (:index %) (:subscription/index-name sub)))
+                                                             ds-with-cat))))
+                            subs-w-timestamps)]
+        (map #(set/rename-keys % {:created-at :createdAt})
+             subscriptions)))

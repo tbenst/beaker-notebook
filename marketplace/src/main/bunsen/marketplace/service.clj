@@ -8,6 +8,7 @@
                                           [server :refer [server]])))
 
 (defn service [env]
+  (json/enable-date-serialization)
   (json/enable-uuid-json-serialization)
   (-> (component/system-map
         :database (database (config env))

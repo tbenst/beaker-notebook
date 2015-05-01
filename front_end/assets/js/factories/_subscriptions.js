@@ -1,10 +1,11 @@
 ;(function(angular, app) {
-  app.factory('SubscriptionsFactory', ['Restangular', function(Restangular) {
-    var R = Restangular;
-
+  app.factory('SubscriptionsFactory', ['MarketplaceRestangular', function(MR) {
     return {
       getSubscriptions: function() {
-        return R.all('subscriptions').getList();
+        return MR.all('subscriptions').getList()
+        .then(function(results) {
+          return results.data;
+        });
       },
     };
   }]);

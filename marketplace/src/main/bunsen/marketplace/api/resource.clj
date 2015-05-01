@@ -74,3 +74,8 @@
           (subscriptions/subscribe (:conn request) index-name data-set-id user-id)))
   :delete! (fn [_] (let [user-id (-> request :session :id)]
              (subscriptions/unsubscribe (:conn request) index-name data-set-id user-id))))
+
+(defresource subscriptions [config _] resource/defaults
+  :allowed-methods #{:get}
+  :handle-ok (fn [_] (let [user-id (-> request :session :id)]
+                       (subscriptions/get-subscriptions config (:db request) user-id))))
