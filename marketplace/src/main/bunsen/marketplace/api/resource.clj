@@ -30,7 +30,7 @@
   :allowed-methods #{:put :delete :get}
   :delete! (fn [_] (datasets/delete-dataset config index-name id))
   :put! #(datasets/update-dataset config index-name id (resource/get-body %))
-  :handle-ok (datasets/get-dataset config index-name id))
+  :handle-ok (datasets/get-dataset (:db request) config index-name id))
 
 (defresource refresh [config _] resource/defaults
   :allowed? (partial resource/admin? config)

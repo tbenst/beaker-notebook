@@ -4,7 +4,8 @@
             [bunsen.marketplace.api.domain :as domain]
             [bunsen.marketplace.simple.simple :as simple]
             [clojurewerkz.elastisch.rest.document :as doc]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [datomic.api :as d]))
 
 (defn create-datasets
   "Returns true if datasets payload was succesfully sent to
@@ -123,13 +124,25 @@
                             :sort [{:_score {:order "desc"}} {:raw_title {:order "asc"}}])]
     (transform-results results)))
 
+(defn dataset-users
+  [db index-name data-set-id]
+  (d/q '[:find [?ids ...]
+         :in $ ?index-name ?data-set-id
+         :where [?s :subscription/data-set-id ?data-set-id]
+                [?s :subscription/index-name ?index-name]
+                [?s :subscription/user-id ?ids]]
+        db
+        index-name
+        data-set-id))
+
 (defn get-dataset
-  [config index-name id]
+  [db config index-name id]
   (let [es-conn (helper/connect-to-es config)
         dataset (-> es-conn (doc/get index-name "datasets" id) :_source)
         catalog-path (dataset-catalog-path dataset)]
     (assoc dataset :catalog (get-catalog es-conn index-name catalog-path)
                    :index index-name
+                   :subscriberIds (dataset-users db index-name id)
                    :related (find-matching es-conn
                                            {:category-path catalog-path
                                             :tags (:tags dataset)
