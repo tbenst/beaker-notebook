@@ -66,8 +66,8 @@ module.exports = function() {
 
   this.Then(/^I should see the gravatar for "([^"]*)"$/, function(email) {
     var hash = require('crypto').createHash('md5').update(email).digest('hex');
-    var gravatarLink = 'http://www.gravatar.com/avatar/' + hash + '?size=100&default=retro';
-    return new this.Widgets.PublicationNotebookHero().gravatarLink().should.eventually.eql(gravatarLink);
+    var gravatarLink = 'gravatar.com/avatar/' + hash;
+    return new this.Widgets.PublicationNotebookHero().gravatarLink().should.eventually.contain(gravatarLink);
   });
 
   this.When(/^I should be able to collapse and expand inputs$/, function() {
