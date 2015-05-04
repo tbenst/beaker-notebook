@@ -34,7 +34,7 @@ module.exports = function() {
 
     getNames: function() {
       return this.showList().then(function() {
-        return this.invoke({ method: 'read', arguments: ['a'] });
+        return this.invoke({method: 'read', arguments: ['a']});
       }.bind(this));
     }
   });

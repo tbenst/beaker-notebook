@@ -46,7 +46,7 @@ var seedPublications = function(count, options, user) {
     return this.seed.populate(randomProject(u, projectName)).then(function(project) {
       var notebooks = [];
 
-      for(var i = 0; i < +count; ++i) {
+      for (var i = 0; i < +count; ++i) {
         notebooks.push(randomNotebook(u, project[0], name, i));
       }
 
@@ -61,7 +61,7 @@ var seedPublications = function(count, options, user) {
               model: 'Publication',
               data: {
                 notebook_id: notebook.id,
-                name: i== 0 ? publicationName : publicationName + ' ' + i,
+                name: i == 0 ? publicationName : publicationName + ' ' + i,
                 contents: notebookBase.data,
                 user_id: u['public-id']
               }
@@ -84,18 +84,18 @@ var seedPublications = function(count, options, user) {
     }.bind(this));
   }.bind(this))
   .then(function(arr) {
-    return bluebird.reduce(arr, function(total, v){return v()}, 0);
+    return bluebird.reduce(arr, function(total, v) {return v()}, 0);
   })
 };
 
 module.exports = function() {
 
   this.Given(/^there are (\d+) publications(?: for the project "([^"]*)")?$/, function(count, projectName) {
-    return seedPublications.bind(this)(count, { projectName: projectName }, randomUser);
+    return seedPublications.bind(this)(count, {projectName: projectName}, randomUser);
   });
 
   this.Given(/^there are (\d+) publications in the "([^"]*)" category$/, function(count, categoryName) {
-    return seedPublications.bind(this)(count, { category: categoryName }, otherUser);
+    return seedPublications.bind(this)(count, {category: categoryName}, otherUser);
   });
 
   this.Given(/^the notebook "([^"]*)" is published$/, function(notebookName) {
@@ -127,7 +127,7 @@ module.exports = function() {
   });
 
   this.Given(/^there is a publication named "([^"]*)"$/, function(name) {
-    return seedPublications.bind(this)(1, { name: name }, otherUser);
+    return seedPublications.bind(this)(1, {name: name}, otherUser);
   });
 
   this.Given(/^I view the first publication$/, function() {
@@ -142,7 +142,7 @@ module.exports = function() {
     }.bind(this), global.timeout)
     .then(function() {
       return new this.Widgets.PublicationList()
-      .clickAt({ selector: 'a.title', index: 0 });
+      .clickAt({selector: 'a.title', index: 0});
     }.bind(this));
   });
 
@@ -322,7 +322,7 @@ module.exports = function() {
     return new this.Widgets.TopContributorList().contents().should.eventually.eql(expectedValues);
   });
 
-  this.When(/^I search for publication "([^"]*)"$/, function (searchText) {
+  this.When(/^I search for publication "([^"]*)"$/, function(searchText) {
     var publicationSearch = new this.Widgets.PublicationSearch;
     return publicationSearch.search(searchText);
   });

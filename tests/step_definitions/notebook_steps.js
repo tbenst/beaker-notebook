@@ -138,7 +138,7 @@ module.exports = function() {
       return new this.Widgets.NotebookList()
       .getNames()
       .should.eventually.deep.equal(expected)
-      .then(function(){
+      .then(function() {
         return true;
       })
       .thenCatch(function() {
@@ -278,7 +278,7 @@ module.exports = function() {
     return (new this.Widgets.RecentNotebooks()).clickItem(name);
   });
 
-  this.When(/^I search for notebook "([^"]*)"$/, function (searchText) {
+  this.When(/^I search for notebook "([^"]*)"$/, function(searchText) {
     var notebookSearch = new this.Widgets.ProjectSearch;
     return notebookSearch.search(searchText);
   });
