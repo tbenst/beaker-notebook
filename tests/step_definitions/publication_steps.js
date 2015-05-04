@@ -259,17 +259,17 @@ module.exports = function() {
 
   this.Then(/^the notebook updated time should be now$/, function(callback) {
     return new this.Widgets.Notebook().updateTime().then(function(publishTime) {
-      var publishTime = moment(publishTime, 'M/D/YY h:mm A');
+      var formattedPublishTime = moment(publishTime, 'M/D/YY h:mm A');
       var now = moment();
-      return now.diff(publishTime, 'minutes').should.be.at.most(1);
+      return now.diff(formattedPublishTime, 'minutes').should.be.at.most(1);
     });
   });
 
   this.Then(/^the notebook publish date should be now$/, function() {
     return new this.Widgets.Notebook().publishTime().then(function(publishTime) {
-      var publishTime = moment(publishTime, 'M/D/YY h:mm A');
+      var formattedPublishTime = moment(publishTime, 'M/D/YY h:mm A');
       var now = moment();
-      return now.diff(publishTime, 'minutes').should.be.at.most(1);
+      return now.diff(formattedPublishTime, 'minutes').should.be.at.most(1);
     });
   });
 
