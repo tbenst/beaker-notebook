@@ -20,7 +20,9 @@ var randomProject = function(user, name) {
     model: 'Project',
     data: {
       name: name || 'gorillas',
+      //jscs:disable
       owner_id: user['public-id']
+      //jscs:enable
     }
   };
 };
@@ -31,7 +33,9 @@ var randomNotebook = function(user, project, name, i) {
     model: 'Notebook',
     data: _.extend(_.omit(notebookBase, ['userEmail', 'projectName']), {
       name: i == 0 ? notebookName : notebookName + ' ' + i,
+      //jscs:disable
       user_id: user['public-id'],
+      //jscs:enable
       projectId: project.id
     })
   };
@@ -60,10 +64,14 @@ var seedPublications = function(count, options, user) {
             var publication = {
               model: 'Publication',
               data: {
+                //jscs:disable
                 notebook_id: notebook.id,
+                //jscs:enable
                 name: i == 0 ? publicationName : publicationName + ' ' + i,
                 contents: notebookBase.data,
+                //jscs:disable
                 user_id: u['public-id']
+                //jscs:enable
               }
             };
 
@@ -106,7 +114,9 @@ module.exports = function() {
         model: 'Publication',
         data: {
           name: notebookName,
+          //jscs:disable
           user_id: u['public-id']
+          //jscs:enable
         },
         associations: [{
           foreignKey: 'notebook_id',
