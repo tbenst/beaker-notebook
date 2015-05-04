@@ -31,4 +31,5 @@
        :container-prefix (:provisioner-default-container-prefix env)
        :local-cookie-path (:provisioner-local-cookie-path env)
        :scratch-space-root (:scratch-space-root env)
+       :beakerauth-token (:beakerauth-token env)
        :lifecycle-strategy (keyword (:provisioner-lifecycle-strategy env))})))
