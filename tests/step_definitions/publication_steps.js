@@ -38,9 +38,9 @@ var randomNotebook = function(user, project, name, i) {
 };
 
 var seedPublications = function(count, options, user) {
-  var name = options && options.name,
-      category = options && options.category,
-      projectName = options && options.projectName;
+  var name = options && options.name;
+  var category = options && options.category;
+  var projectName = options && options.projectName;
 
   return this.user.createUser(user).then(function(u) {
     return this.seed.populate(randomProject(u, projectName)).then(function(project) {
