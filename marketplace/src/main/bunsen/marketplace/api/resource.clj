@@ -9,7 +9,7 @@
   :handle-ok domain/get-status)
 
 (defresource categories [config _] resource/defaults
-  :allowed? (partial resource/admin? config)
+  :allowed? (some-fn resource/get? (partial resource/admin? config))
   :allowed-methods #{:get :post}
   :handle-ok #(categories/get-with-params config (resource/get-params %))
   :post! (partial resource/pass-body categories/create-bulk config))
@@ -25,7 +25,7 @@
   :post! #(datasets/create-dataset config index-name (resource/get-body %)))
 
 (defresource dataset [config  {:keys  [index-name id]}] resource/defaults
-  :allowed? (or (= (:request-method request) :get) (partial resource/admin? config))
+  :allowed? (some-fn resource/get? (partial resource/admin? config))
   :allowed-methods #{:put :delete :get}
   :delete! (fn [_] (datasets/delete-dataset config index-name id))
   :put! #(datasets/update-dataset config index-name id (resource/get-body %))
