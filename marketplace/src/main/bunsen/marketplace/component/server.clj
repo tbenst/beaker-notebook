@@ -46,8 +46,7 @@
                                       wrap-keyword-params
                                       wrap-params
                                       (wrap-json-body {:keywords? true}))
-                                 {:join? false
-                                  :port (:server-port config)})))))
+                                 (:jetty-options config))))))
 
   (stop [server]
     (when-let [jetty (:jetty server)]
