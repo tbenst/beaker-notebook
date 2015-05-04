@@ -1,10 +1,10 @@
-var _         = require("lodash");
-var Promise   = require("bluebird");
-var assert    = require("assert");
+var _         = require('lodash');
+var Promise   = require('bluebird');
+var assert    = require('assert');
 var $         = require('selenium-webdriver').promise;
 
 var notebookBase = function() {
-  return require("../fixtures/notebook_data_sample");
+  return require('../fixtures/notebook_data_sample');
 }
 
 module.exports = function() {
@@ -39,14 +39,14 @@ module.exports = function() {
     var _this = this;
 
     return Promise.map(notebooks.hashes(), function(attrs) {
-      attrs.userEmail = attrs.userEmail || "u@r.edu";
+      attrs.userEmail = attrs.userEmail || 'u@r.edu';
 
       return Promise.all([
         _this.user.getDetails(),
-        _this.seed.fetch("Project", {name: attrs.projectName})
+        _this.seed.fetch('Project', {name: attrs.projectName})
       ]).spread(function(user, project) {
         return _this.seed.populate({
-          model: "Notebook",
+          model: 'Notebook',
           data: _.extend(
             notebookBase(),
             _.omit(attrs, ['userEmail', 'projectName']),

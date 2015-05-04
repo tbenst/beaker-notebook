@@ -13,7 +13,7 @@ module.exports = function() {
 
       return this.find({text: name})
       .then(function(filtered) {
-        return _this.driver.executeScript("arguments[0].scrollIntoView(true);", filtered)
+        return _this.driver.executeScript('arguments[0].scrollIntoView(true);', filtered)
         .then(function() {
           return filtered.click();
         })

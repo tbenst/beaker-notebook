@@ -17,7 +17,7 @@ var otherUser = {
 
 var randomProject = function(user, name) {
   return {
-    model: "Project",
+    model: 'Project',
     data: {
       name: name || 'gorillas',
       owner_id: user['public-id']
@@ -26,9 +26,9 @@ var randomProject = function(user, name) {
 };
 
 var randomNotebook = function(user, project, name, i) {
-  var notebookName = name || "Notebook";
+  var notebookName = name || 'Notebook';
   return {
-    model: "Notebook",
+    model: 'Notebook',
     data: _.extend(_.omit(notebookBase, ['userEmail', 'projectName']), {
       name: i == 0 ? notebookName : notebookName + ' ' + i,
       user_id: user['public-id'],
@@ -55,10 +55,10 @@ var seedPublications = function(count, options, user) {
           var publicationPromises = [];
 
           _.each(notebooks, function(notebook, i) {
-            var publicationName = name || "Notebook";
+            var publicationName = name || 'Notebook';
 
             var publication = {
-              model: "Publication",
+              model: 'Publication',
               data: {
                 notebook_id: notebook.id,
                 name: i== 0 ? publicationName : publicationName + ' ' + i,
@@ -110,7 +110,7 @@ module.exports = function() {
         },
         associations: [{
           foreignKey: 'notebook_id',
-          lookup: {"Notebook": {name: notebookName}}
+          lookup: {'Notebook': {name: notebookName}}
         }]
       });
     });
@@ -249,7 +249,7 @@ module.exports = function() {
 
   this.Then(/^the notebook updated time should be now$/, function(callback) {
     return new this.Widgets.Notebook().updateTime().then(function(publishTime) {
-      var publishTime = moment(publishTime, "M/D/YY h:mm A");
+      var publishTime = moment(publishTime, 'M/D/YY h:mm A');
       var now = moment();
       return now.diff(publishTime, 'minutes').should.be.at.most(1);
     });
@@ -257,7 +257,7 @@ module.exports = function() {
 
   this.Then(/^the notebook publish date should be now$/, function() {
     return new this.Widgets.Notebook().publishTime().then(function(publishTime) {
-      var publishTime = moment(publishTime, "M/D/YY h:mm A");
+      var publishTime = moment(publishTime, 'M/D/YY h:mm A');
       var now = moment();
       return now.diff(publishTime, 'minutes').should.be.at.most(1);
     });
