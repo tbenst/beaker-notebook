@@ -1,5 +1,5 @@
 module.exports = function() {
-  return this.Widgets.RecentNotebooks = this.Widget.List.extend({
+  this.Widgets.RecentNotebooks = this.Widget.List.extend({
     root: '.recently-used',
     itemSelector: '.recent-notebook',
 
