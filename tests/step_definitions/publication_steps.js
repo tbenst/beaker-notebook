@@ -150,6 +150,15 @@ module.exports = function() {
     return this.driver.get(this.route.publications);
   });
 
+  this.When(/^I wait for publications to load$/, function() {
+    return this.driver.wait(function() {
+      return new this.Widgets.PublicationList().length()
+      .then(function(num) {
+        return num > 0;
+      });
+    }.bind(this), 10000, 'Found no publications');
+  });
+
   this.When(/^I click the "([^"]*)" category$/, function(category) {
     return new this.Widgets.PublicationCategoriesList().clickCategory(category);
   });

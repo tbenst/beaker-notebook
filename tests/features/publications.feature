@@ -143,9 +143,11 @@ Feature: Publications
     Given there are 12 publications
     And the notebook "top secret" is published
     When I view the publications page
+    And I wait for publications to load
     And I search for publication "lorem ipsum"
     Then I should see 0 publication results on the page
-    When I view the publications page
+    When I refresh the page
+    And I wait for publications to load
     And I search for publication "top secret"
     Then I should see 1 publication results on the page
     And I should be on page 1 of results
