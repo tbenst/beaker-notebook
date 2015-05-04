@@ -333,7 +333,7 @@ module.exports = function() {
   });
 
   this.When(/^I search for publication "([^"]*)"$/, function(searchText) {
-    var publicationSearch = new this.Widgets.PublicationSearch;
+    var publicationSearch = new this.Widgets.PublicationSearch();
     return publicationSearch.search(searchText);
   });
 
