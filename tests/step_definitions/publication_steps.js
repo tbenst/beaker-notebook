@@ -22,7 +22,7 @@ var randomProject = function(user, name) {
       name: name || 'gorillas',
       owner_id: user['public-id']
     }
-  }
+  };
 };
 
 var randomNotebook = function(user, project, name, i) {
@@ -34,7 +34,7 @@ var randomNotebook = function(user, project, name, i) {
       user_id: user['public-id'],
       projectId: project.id
     })
-  }
+  };
 };
 
 var seedPublications = function(count, options, user) {
@@ -71,7 +71,7 @@ var seedPublications = function(count, options, user) {
               publication.associations = [{
                 foreignKey: 'category_id',
                 lookup: {'PublicationCategory': {name: category}}
-              }]
+              }];
             }
 
             var publicationPromise = this.seed.populate.bind(this, publication);
@@ -84,8 +84,8 @@ var seedPublications = function(count, options, user) {
     }.bind(this));
   }.bind(this))
   .then(function(arr) {
-    return bluebird.reduce(arr, function(total, v) {return v()}, 0);
-  })
+    return bluebird.reduce(arr, function(total, v) {return v();}, 0);
+  });
 };
 
 module.exports = function() {
@@ -121,7 +121,7 @@ module.exports = function() {
       return {
         model: 'PublicationCategory',
         data: category
-      }
+      };
     });
     return this.seed.populate(seedData);
   });
@@ -138,7 +138,7 @@ module.exports = function() {
       })
       .thenCatch(function() {
         return false;
-      })
+      });
     }.bind(this), global.timeout)
     .then(function() {
       return new this.Widgets.PublicationList()
@@ -176,7 +176,7 @@ module.exports = function() {
   });
 
   this.When(/^I give it the description "([^"]*)"$/, function(description) {
-    return new this.Widgets.PublishModal().addDescription(description)
+    return new this.Widgets.PublishModal().addDescription(description);
   });
 
   this.Then(/^I should see "([^"]*)"$/, function(msg) {
@@ -226,7 +226,7 @@ module.exports = function() {
     return publication.name().should.eventually.eql(attrs.name)
     .then(function() {
       return publication.description().should.eventually.eql(attrs.description);
-    })
+    });
   });
 
   this.Then(/^I should see an updated version of the following notebook:$/, function(table) {
@@ -236,7 +236,7 @@ module.exports = function() {
     return publication.name().should.eventually.eql(attrs.name)
     .then(function() {
       return publication.description().should.eventually.eql(attrs.description);
-    })
+    });
   });
 
   this.Then(/^I should see that the notebook is not published$/, function() {
@@ -267,7 +267,7 @@ module.exports = function() {
     var _this = this;
     return new this.Widgets.Notebook().waitForBeaker().then(function() {
       return new _this.Widgets.NotebookiFrames().hasVisible().should.eventually.eql(true);
-    })
+    });
   });
 
   this.Then(/^I should see (\d+) publication results on the page$/, function(count) {
@@ -288,7 +288,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see (\d+) publication results next to the "([^"]*)" category$/, function(n, category) {
-    return new this.Widgets.PublicationCategoriesList().count(category).should.eventually.eql(n)
+    return new this.Widgets.PublicationCategoriesList().count(category).should.eventually.eql(n);
   });
 
   this.Then(/^I should see the following publication first in the list:$/, function(table) {
@@ -353,4 +353,4 @@ module.exports = function() {
   this.Then(/^I should see (\d+) stars highlighted in the average$/, function(count) {
     return new this.Widgets.UserRating({root: '.average'}).currentRating().should.eventually.have.length(count);
   });
-}
+};

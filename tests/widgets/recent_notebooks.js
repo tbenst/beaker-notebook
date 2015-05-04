@@ -16,11 +16,11 @@ module.exports = function() {
         return _this.driver.executeScript('arguments[0].scrollIntoView(true);', filtered)
         .then(function() {
           return filtered.click();
-        })
+        });
       })
       .thenCatch(function(err) {
         var _this = this;
-        if (retry == 3) { throw err }
+        if (retry == 3) { throw err; }
 
         return this.driver.sleep(1000)
         .then(function() {
@@ -29,7 +29,7 @@ module.exports = function() {
         .then(function() {
           return _this.clickItem(name, ++retry);
         });
-      }.bind(this))
+      }.bind(this));
     },
 
     getNames: function() {
