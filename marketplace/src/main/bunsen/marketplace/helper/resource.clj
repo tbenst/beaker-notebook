@@ -7,7 +7,7 @@
    :available-media-types #{"text/plain" "application/json"}
    :handle-exception #(-> % :exception throw)})
 
-(defn is-admin? [config ctx]
+(defn admin? [config ctx]
   (if (= "true" (:allow-seed config))
     true
     (= 1 (-> ctx :request :session :role))))
