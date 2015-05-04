@@ -32,7 +32,7 @@ var randomNotebook = function(user, project, name, i) {
   return {
     model: 'Notebook',
     data: _.extend(_.omit(notebookBase, ['userEmail', 'projectName']), {
-      name: i == 0 ? notebookName : notebookName + ' ' + i,
+      name: i === 0 ? notebookName : notebookName + ' ' + i,
       //jscs:disable
       user_id: user['public-id'],
       //jscs:enable
@@ -67,7 +67,7 @@ var seedPublications = function(count, options, user) {
                 //jscs:disable
                 notebook_id: notebook.id,
                 //jscs:enable
-                name: i == 0 ? publicationName : publicationName + ' ' + i,
+                name: i === 0 ? publicationName : publicationName + ' ' + i,
                 contents: notebookBase.data,
                 //jscs:disable
                 user_id: u['public-id']
@@ -144,7 +144,7 @@ module.exports = function() {
     return this.driver.wait(function() {
       return new this.Widgets.PublicationList().at(0)
       .then(function(v) {
-        return v != undefined;
+        return v !== undefined;
       })
       .thenCatch(function() {
         return false;
