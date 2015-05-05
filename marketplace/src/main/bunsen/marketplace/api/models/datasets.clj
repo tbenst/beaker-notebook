@@ -1,6 +1,7 @@
 (ns bunsen.marketplace.api.models.datasets
   (:require [bunsen.marketplace.helper.api :as helper]
             [bunsen.marketplace.base :as base]
+            [bunsen.marketplace.api.models.categories :as category]
             [bunsen.marketplace.api.domain :as domain]
             [bunsen.marketplace.simple.simple :as simple]
             [clojurewerkz.elastisch.rest.document :as doc]
@@ -42,14 +43,6 @@
   (let [connection (helper/connect-to-es config)]
     (doc/put connection index-name "datasets" id document)
     (domain/background-update-counts connection index-name)))
-
-(defn get-catalog
-  [es-conn index-name path]
-  (let [catalog (doc/search es-conn
-                            index-name
-                            "categories"
-                            :query {:term {:path path}})]
-    (-> catalog :hits :hits first :_source)))
 
 (defn extract-catalog-path [category-path]
   (if (nil? category-path) "0.1"
@@ -124,7 +117,7 @@
   (let [category-path (:category-path query)
         catalog-path (extract-catalog-path category-path)
         index (:index query)
-        catalog (get-catalog es-conn index catalog-path)
+        catalog (category/fetch es-conn index catalog-path)
         results (doc/search es-conn
                             index
                             "datasets"
@@ -150,7 +143,7 @@
   (let [es-conn (helper/connect-to-es config)
         dataset (-> es-conn (doc/get index-name "datasets" id) :_source)
         catalog-path (dataset-catalog-path dataset)]
-    (assoc dataset :catalog (get-catalog es-conn index-name catalog-path)
+    (assoc dataset :catalog (category/fetch es-conn index-name catalog-path)
                    :index index-name
                    :subscriberIds (dataset-users db index-name id)
                    :related (find-matching es-conn
