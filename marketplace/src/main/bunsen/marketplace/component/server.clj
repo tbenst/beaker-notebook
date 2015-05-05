@@ -10,7 +10,8 @@
             [bidi.ring :refer (make-handler)]
             [bunsen.common.helper.session.store :refer [bunsen-cookie-store]]
             [bunsen.marketplace.api.resource :as api-resource]
-            [bunsen.marketplace.api.route :as api-route]))
+            [bunsen.marketplace.api.route :as api-route]
+            [bunsen.common.helper.kerberos :as kerberos]))
 
 (def resources
   {:status api-resource/status
@@ -27,25 +28,29 @@
    :vendors api-resource/vendors
    :default api-resource/default})
 
+
 (defrecord Server [config]
   component/Lifecycle
   (start [server]
     (if (:jetty server)
       server
-      (let [handler (make-handler
+      (let [principal (if (:use-kerberos config) (:kerberos-principal config) nil)
+      	    handler (make-handler
                      api-route/routes
-                     #(let [resource (% resources)]
+		     #(let [resource (% resources)]
                         (fn [request]
                           ((resource config (:route-params request)) request))))]
 
         (assoc server
-               :jetty (run-jetty (-> handler
+               :jetty (run-jetty (-> handler 
                                      (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
                                                     :cookie-name "session"})
                                       wrap-cookies
                                       wrap-keyword-params
                                       wrap-params
-                                      (wrap-json-body {:keywords? true}))
+                                      (wrap-json-body {:keywords? true})
+                                      (kerberos/authenticate principal)
+				     )
                                  (:jetty-options config))))))
 
   (stop [server]

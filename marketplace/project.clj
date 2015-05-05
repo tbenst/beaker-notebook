@@ -15,7 +15,6 @@
                  [liberator _]
                  [wkf/clj-http _]
                  [com.taoensso/timbre "3.3.1"]
-                 [bunsen/common _]
                  [clojurewerkz/elastisch "2.1.0"]]
   :plugins [[lein-modules "0.3.10"]]
   :profiles {:uberjar {:aot [bunsen.marketplace.service]}
