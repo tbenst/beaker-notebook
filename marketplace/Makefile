@@ -18,6 +18,6 @@ test:
 
 run:
 	java \
-		-Xmx256M \
+		-Xmx384M \
 		-Dsun.security.jgss.native=true \
 		-jar $(wildcard target/marketplace-*-standalone.jar)
