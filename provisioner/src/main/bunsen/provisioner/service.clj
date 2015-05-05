@@ -32,4 +32,20 @@
        :local-cookie-path (:provisioner-local-cookie-path env)
        :scratch-space-root (:scratch-space-root env)
        :beakerauth-token (:beakerauth-token env)
-       :lifecycle-strategy (keyword (:provisioner-lifecycle-strategy env))})))
+       :lifecycle-strategy (keyword (:provisioner-lifecycle-strategy env))
+       :use-kerberos (let [kerberosprincipal (:kerberos-principal env)]
+   		        (if kerberosprincipal
+		          true false))
+       :kerberos-principal (:kerberos-principal env)
+       :jetty-options (let [keystore (:ssl-keystore env)
+   		            keystore-pass (:ssl-keystore-pass env)]
+                        (if-not (and keystore keystore-pass)
+                        {:port (Integer. (:provisioner-port env))
+		         :ssl? false
+		         :join? false}
+		        {:ssl? true
+		         :port (+ (Integer. (:provisioner-port env)) 1)
+		         :ssl-port (Integer. (:provisioner-port env))
+		         :keystore (:ssl-keystore env)
+		         :key-password (:ssl-keystore-pass env)
+		         :join? false}))})))
