@@ -1,26 +1,23 @@
 var assert  = require("assert"),
     _       = require('lodash');
 module.exports = function() {
+  var u = this.user;
 
   var userData  = {
-    model: "User",
-    data: {
-      name: 'john admin',
-      email: 'r@u.edu',
-      password: 'password',
-      beaker_password: 'bdcd4dc234eaddac4fc036c27dafa74727e756e0',
-      job_title: 'Admin',
-      company: 'Two Sigma',
-      bio: 'Keeping these parts safe',
-      role: this.USER_ROLE['administrator']
-    }
+    'name': 'john admin',
+    'email': 'r@u.edu',
+    'password': 'password',
+    'role': this.USER_ROLE['administrator'],
+    'job-title': 'Admin',
+    'company': 'Two Sigma',
+    'bio': 'Keeping these parts safe'
   };
 
   this.Given(/^I'm signed in as an administrator$/, function() {
     var _this = this;
-    return this.seed.populate(userData).then(function() {
+    return u.createUser(userData).then(function() {
       return _this.driver.get(_this.route.signIn).then(function() {
-        return new _this.Widgets.SignInForm().submitWith(_.pick(userData.data, 'email', 'password'));
+        return new _this.Widgets.SignInForm().submitWith(_.pick(userData, 'email', 'password'));
       });
     })
     .then(function() {

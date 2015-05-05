@@ -1,10 +1,13 @@
 ;(function(angular, app) {
-  app.factory('UsersFactory', ['Restangular', function(Restangular) {
+  app.factory('UsersFactory', ['Restangular', 'UsersRestangular', function(Restangular, UsersRestangular) {
     var R = Restangular;
 
     return {
-      getUser: function() {
-        return R.one('users').customGET('current');
+      getCurrentUser: function() {
+        return UsersRestangular.one('user').get();
+      },
+      update: function(attrs) {
+        return UsersRestangular.one('user').customPUT(attrs);
       },
 
       getContributors: function() {
@@ -12,6 +15,9 @@
       },
       getContributorsByCat: function(categoryId) {
         return R.all('contributors').customGET(categoryId);
+      },
+      getUser: function(id) {
+        return UsersRestangular.one('users', id).get();
       }
     };
   }]);

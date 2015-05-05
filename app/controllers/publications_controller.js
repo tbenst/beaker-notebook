@@ -34,7 +34,7 @@ module.exports = function(app) {
       }
 
       publicationList
-      .fetchAll({ withRelated: ['author', 'category'] })
+      .fetchAll({ withRelated: ['category'] })
       .then(function(publications) {
         return Promise.each(publications.models, function(publication) {
           publication.set('languages', Publication.languages(publication.get('contents')));

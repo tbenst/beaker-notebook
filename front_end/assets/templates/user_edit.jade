@@ -1,7 +1,7 @@
 .user-container
   h1.user-edit-page-message(ng-if='message') {{message}}
   .heading
-    img.user-icon.left(ng-src="{{user.gravatar}}&size=50")
+    img.user-icon.left(gravatar-src="user.email" gravatar-size="50" gravatar-default="retro")
     h2.user-edit-title Edit User
   form.user-edit(name='editUserForm', ng-submit='editUser(editUserForm.$valid)')
     section.overview
@@ -15,16 +15,16 @@
         label.full(for='user-current-password') Current Password:
         span.password-warning Enter password to update user
         br
-        input.user-form(ng-model='user.currentPassword', type='password', name='currentPassword',id='user-current-password', required)
+        input.user-form(ng-model='user.password', type='password', name='password',id='user-current-password', required)
         label.full(ng-show='editMode', for='user-new-password') New Password:
-        input.user-form(ng-show='editMode', ng-model='user.newPassword', type='password', name='newPassword', id='user-new-password', ng-minlength=6)
-        span(ng-show='editUserForm.newPassword.$invalid && !editUserForm.newPassword.$pristine') Password must be at least 6 chars
+        input.user-form(ng-show='editMode', ng-model='user["new-password"]', type='password', name='new-password', id='user-new-password', ng-minlength=6)
+        span(ng-show='editUserForm.new-password.$invalid && !editUserForm.new-password.$pristine') Password must be at least 6 chars
         br
         input.btn.left(type='submit', value='Update')
         button.btn.left.new-password-toggle(type='button',ng-click="toggleEditMode()") Change Password
       .col-half
         label.full(for='user-job-title') Job Title:
-        input.user-form(ng-model='user.jobTitle', type='text', name='job_title', id='user-job-title')
+        input.user-form(ng-model='user["job-title"]', type='text', name='job-title', id='user-job-title')
         br
         label.full(for='user-company') Company:
         input.user-form(ng-model='user.company', type='text', name='company', id='user-company')

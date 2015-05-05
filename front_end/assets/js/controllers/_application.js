@@ -6,6 +6,7 @@
     '$cookies',
     '$http',
     'Restangular',
+    'UsersRestangular',
     '$sessionStorage',
     'AuthService',
     'Factories',
@@ -17,6 +18,7 @@
       $cookies,
       $http,
       Restangular,
+      UsersRestangular,
       $sessionStorage,
       AuthService,
       F,
@@ -49,9 +51,9 @@
       });
 
       $scope.$watch(function() {
-        return $cookies.user;
+        return $cookies.session;
       }, function() {
-        if ($cookies.user && $sessionStorage.user) {
+        if ($cookies.session && $sessionStorage.user) {
           $scope.isUserAdmin = AuthService.isUserAdmin();
           F.Notebooks.getOpened().then(function(notebooks) {
             if (notebooks.length) {
@@ -60,7 +62,7 @@
           });
         }
 
-        if (!$cookies.user && $sessionStorage.user) {
+        if (!$cookies.session && $sessionStorage.user) {
           $rootScope.signOut();
         }
       })
@@ -69,7 +71,7 @@
 
       $rootScope.signOut = function() {
         delete $sessionStorage.user;
-        return Restangular.all('session').remove()
+        return UsersRestangular.all('session').remove()
         .then(function() {
           $state.go('landing');
         })

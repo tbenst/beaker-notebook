@@ -12,8 +12,9 @@
     (lifecycle/inspect [_ id]
       {:id id})
 
-    (lifecycle/create! [_ {token :token}]
+    (lifecycle/create! [_ {:keys [id token]}]
       (spit
         (str local-cookie-path "/" token)
-        "allowed"))
+        "allowed")
+      {:id id})
     ))

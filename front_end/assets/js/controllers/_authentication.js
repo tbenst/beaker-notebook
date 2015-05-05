@@ -4,43 +4,54 @@
     '$scope',
     '$state',
     'Restangular',
+    'UsersRestangular',
     '$http',
     '$sessionStorage',
     '$stateParams',
+    'Factories',
     'TrackingService',
     function(
       $rootScope,
       $scope,
       $state,
       Restangular,
+      UsersRestangular,
       $http,
       $sessionStorage,
       $stateParams,
+      F,
       TrackingService) {
 
     $scope.message = ''
     $scope.user = $scope.user || {};
 
-    function signIn(d) {
-      $sessionStorage.user = _.pick(d, 'name', 'id', 'role');
-      $scope.message = 'You are signed in.'
-      $scope.loading = false;
-      if ($rootScope.goTo) {
-        $state.go($rootScope.goTo);
-        delete $rootScope.goTo;
-      } else {
-        $state.go('projects.items');
-      }
+    function signIn() {
+      return F.Users.getCurrentUser().then(function(d) {
+        $sessionStorage.user = _.pick(d, 'name', 'public-id', 'role');
+        $sessionStorage.user.id = d['public-id'];
+        $scope.message = 'You are signed in.'
+        $scope.loading = false;
+        if ($rootScope.goTo) {
+          $state.go($rootScope.goTo);
+          delete $rootScope.goTo;
+        } else {
+          $state.go('projects.items');
+        }
+      })
     }
 
     $scope.showPasswordValidationErrorMessage  = function(form) {
       return form.password.$invalid && !form.password.$pristine
     };
 
+    function createDefaultProject() {
+      F.Projects.create({name: 'Sandbox', description: 'Sandbox'});
+    }
+
     $scope.submit = function() {
       TrackingService.mark('SignIn');
       $scope.loading = true;
-      Restangular.all('session').post($scope.user)
+      UsersRestangular.all('sessions').post($scope.user)
         .then(signIn)
         .catch(function(err) {
           $scope.loading = false;
@@ -52,8 +63,9 @@
       TrackingService.mark('SignUp');
       if(isValid) {
         $scope.loading = true;
-        Restangular.all('sign_up').post($scope.user)
+        UsersRestangular.all('users').post($scope.user)
           .then(signIn)
+          .then(createDefaultProject)
           .catch(function(err) {
             $scope.loading = false;
             if(err.status === 409) {

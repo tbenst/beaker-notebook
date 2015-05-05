@@ -17,7 +17,7 @@
               .name
                 strong {{publication.author.name}}
               .info
-                span.job-title(ng-if="publication.author.jobTitle") {{publication.author.jobTitle}},
+                span.job-title(ng-if="publication.author['job-title']") {{publication.author['job-title']}},
                 span.company {{publication.author.company}}
           .right
             ratings(average="publication.averageRating" score=0 max=5)

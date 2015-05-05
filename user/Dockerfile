@@ -5,5 +5,7 @@ WORKDIR /opt/user
 
 ADD . /opt/user
 
+EXPOSE 3004
+
 ENTRYPOINT ["make"]
 CMD ["run"]

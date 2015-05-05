@@ -9,6 +9,7 @@
 
 (def config
   {:server-port 3001
+   :database-uri "datomic:mem://provisioner"
    :docker-url "http://10.10.10.10:4243"
    :marathon-url "http://10.10.10.10:8000"
    :app-group "/bunsen-dev/beaker"

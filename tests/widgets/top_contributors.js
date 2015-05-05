@@ -7,13 +7,12 @@ module.exports = function() {
 
     contents: function() {
       return this.map(function(n) {
-        return $.all([n.read('.name'), n.read('.job-title'), n.read('.company'), n.getAttribute({selector: '.icon', attribute: 'src' }) ])
+        return $.all([n.read('.name'), n.read('.job-title'), n.read('.company')])
         .then(function(attrs) {
           return {
             name: attrs[0],
             job_title: attrs[1],
-            company: attrs[2],
-            icon_src: attrs[3]
+            company: attrs[2]
           }
         });
       });

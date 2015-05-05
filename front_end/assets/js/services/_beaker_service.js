@@ -28,9 +28,10 @@
       },
 
       provision: function() {
+        var id = $sessionStorage.user.id;
         return this.beaker().post()
         .then(function(res) {
-          return '/beaker/' + $sessionStorage.user.id + '/beaker/';
+          return '/beaker/' + id + '/beaker/';
         });
       },
 

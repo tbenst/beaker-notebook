@@ -8,15 +8,7 @@ var projectBase = {
   data: {
     name: 'My Project',
     description: 'desc'
-  },
-  associations: [
-    {
-      foreignKey: "ownerId",
-      lookup: {
-        User: {email: "u@r.edu"}
-      }
-    }
-  ]
+  }
 };
 
 function openProject(name, count) {
@@ -77,15 +69,19 @@ module.exports = function() {
   });
 
   this.Given(/^I'm looking at a project$/, function() {
-    var _this       = this;
-    var projectData = _.cloneDeep(projectBase);
+    var _this = this;
 
-    return this.seed.populate(projectData)
-    .then(function() {
-      return viewProjectDashboard.call(_this).then(function() {
-        return openProject.call(_this, projectData.data.name);
-      })
-    });
+    return this.user.getDetails()
+    .then(function(u) {
+      var projectData = _.merge(_.cloneDeep(projectBase), {'data': {'owner_id': u['public-id']}});
+
+      return _this.seed.populate(projectData)
+      .then(function() {
+        return viewProjectDashboard.call(_this).then(function() {
+          return openProject.call(_this, projectData.data.name);
+        })
+      });
+    })
   });
 
   this.When(/^I edit the project$/, function() {
@@ -159,13 +155,19 @@ module.exports = function() {
   });
 
   this.Given(/^I have the following Projects:$/, function(table) {
-    var seed = _(table.hashes()).map(function(attrs) {
-        return _.merge(_.cloneDeep(projectBase), {
-          data: attrs
+    var _this = this;
+    return this.user.getDetails()
+    .then(function(u) {
+      var seed = _(table.hashes()).map(function(attrs) {
+        var projectData = _.merge(_.cloneDeep(projectBase), {
+          'data': {'owner_id': u['public-id']}
         });
+
+        return _.merge(projectData, {data: attrs});
       }).value();
 
-    return this.seed.populate(seed);
+      return _this.seed.populate(seed);
+    });
   });
 
   this.Given(/^I view the first search result$/, function(index) {

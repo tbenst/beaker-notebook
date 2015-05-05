@@ -14,11 +14,7 @@ module.exports = function(app) {
     },
 
     index: function(req, res, next) {
-      User.forge({id: req.signedCookies.user})
-      .fetch()
-      .then(function(user) {
-        return user.getScratchSpaceContents();
-      })
+      req.user.getScratchSpaceContents()
       .then(res.json.bind(res))
       .catch(next);
     },

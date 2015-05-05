@@ -105,13 +105,13 @@ Feature: Publications
     Then I should see that the notebook is published
     When I view the publications page
     Then I should see the following top contributors:
-      | name          | job_title  | company   | gravatar_email |
-      | jon research  |            |           | jon@r.edu      |
-      | joe research  | Researcher | Two Sigma | u@r.edu        |
+      | name          | job_title  | company   |
+      | jon research  |            |           |
+      | joe research  | Researcher | Two Sigma |
     When I click the "Energy" category
     Then I should see the following top contributors:
-      | name          | job_title  | company   | gravatar_email |
-      | jon research  |            |           | jon@r.edu      |
+      | name          | job_title  | company   |
+      | jon research  |            |           |
 
   Scenario: Deleting a Publication
     Given the notebook "top secret" is published
@@ -143,9 +143,11 @@ Feature: Publications
     Given there are 12 publications
     And the notebook "top secret" is published
     When I view the publications page
+    And I wait for publications to load
     And I search for publication "lorem ipsum"
     Then I should see 0 publication results on the page
-    When I view the publications page
+    When I refresh the page
+    And I wait for publications to load
     And I search for publication "top secret"
     Then I should see 1 publication results on the page
     And I should be on page 1 of results

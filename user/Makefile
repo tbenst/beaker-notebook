@@ -1,9 +1,16 @@
 SHELL := /usr/bin/env bash
 
-.PHONY: test all
+.PHONY: all watch run
 
 all:
 	lein do clean, uberjar
 
-test:
-	lein test
+# the repl is configured to run `(user/watch)` on startup
+watch:
+	lein repl :headless
+
+run:
+	java \
+		-Xmx384M \
+		-Dsun.security.jgss.native=true \
+		-jar $(wildcard target/user-*-standalone.jar)

@@ -14,7 +14,7 @@
     $scope.user = {};
     $scope.loading = false;
 
-    F.Users.getUser().then(function(u) {
+    F.Users.getCurrentUser().then(function(u) {
       $scope.user = u;
     })
 
@@ -25,13 +25,17 @@
     $scope.editUser = function (isValid) {
       if (isValid) {
         $scope.loading = true;
-        $scope.user.customPUT($scope.user).then(function(u) {
+        F.Users.update($scope.user).then(function(u) {
           $sessionStorage.user = _.pick(u, 'name', 'id');
           $scope.user = u;
           $scope.message = "User Updated"
         })
         .catch(function (err) {
-          $scope.message  = "Error: " + err.data;
+          if (err.status == 401) {
+            $scope.message = "Error: incorrect password"
+          } else {
+            $scope.message  = "Error: " + err.data.password[0];
+          }
         })
         .finally(function() {
           $scope.loading = false;

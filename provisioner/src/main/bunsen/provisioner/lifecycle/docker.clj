@@ -8,11 +8,11 @@
   (reify Lifecycle
 
     (lifecycle/inspect [_ id]
-      (when (docker/get-container docker-url (str container-prefix "_" id))
+      (when (docker/get-container docker-url container-prefix)
         {:id id}))
 
     (lifecycle/create! [_ {:keys [id token]}]
-      (let [container-id (str container-prefix "_" id)
+      (let [container-id container-prefix
             host-path (str scratch-space-root "/" id)
             existed? (docker/get-container
                        docker-url

@@ -22,6 +22,11 @@
       cookie-val)
     cookie-val))
 
+(defn signed-session [data secret]
+  (let [json-data (json/write-str data)
+        unsigned (str "j:" json-data)]
+    (str "s:" (sign unsigned secret))))
+
 (deftype BunsenCookieStore [secret-key]
   SessionStore
   (read-session [f data]
@@ -29,8 +34,9 @@
       (json/read-str (subs unsigned 2) :key-fn keyword)
       {}))
 
-  (write-session [_ key data] (println "write session not implemented"))
-  (delete-session [_ key] (println "delete session not implemented")))
+  (write-session [_ _ data] (signed-session data secret-key))
+
+  (delete-session [_ _] (signed-session {} secret-key)))
 
 (defn bunsen-cookie-store
   ([] (bunsen-cookie-store ""))

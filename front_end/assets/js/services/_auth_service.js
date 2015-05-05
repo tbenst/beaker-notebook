@@ -10,7 +10,7 @@
 
       return {
         setUserIfLoggedIn: function() {
-          return Factories.Users.getUser()
+          return Factories.Users.getCurrentUser()
           .then(function(user) {
             $sessionStorage.user = _.pick(user, 'name', 'id', 'role');
           });

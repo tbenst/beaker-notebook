@@ -1,6 +1,5 @@
 var _                     = require("lodash");
 var Promise               = require('bluebird');
-var Bcrypt                = Promise.promisifyAll(require("bcryptjs"));
 var Checkit               = require('checkit');
 var Crypto                = require('crypto');
 var moment                = require('moment');
@@ -10,69 +9,10 @@ var path = require('path');
 var fileTree = require('../lib/file_tree_generator');
 var fs = Promise.promisifyAll(require('fs-extra'))
 
-function encryptPassword(password) {
-  return Bcrypt.hashAsync(password, 10);
-};
-
 module.exports = function(Bookshelf, app) {
   var query   = Bookshelf.knex;
   var User    = Bookshelf.Model.extend({
     tableName: "users",
-    hasTimestamps: true,
-    idAttrs: ["email"],
-
-    defaults: {
-      role: 0
-    },
-
-    validations: {
-      email: ['required', 'email', function(email) {
-        var _this = this.target;
-        return User.forge({email: email}).fetch().then(function(user) {
-          // Only throw if the user is different than the current user.
-          if (user && user.id != _this.id) {
-            throw new Error("Email already registered");
-          }
-        });
-      }],
-      name: ['required'],
-      password: ['required', 'minLength:6']
-    },
-
-    initialize: function () {
-      this.on("creating", this.ensureValidationCreation, this);
-      this.on("created", this.createDefaultProject);
-      this.on('saving', this.validate, this);
-      this.on('saving', this.hashPassword, this);
-    },
-
-    ensureValidationCreation: function(model, attrs, options) {
-      return new Checkit(this.validations).run(model.attributes)
-      .then(function() {
-        return User.forge(_.pick(model.attributes, 'email'))
-        .fetch(function(u) {
-          if (u) {
-            throw new RecordNotUniqueError('The entered email is already registered');
-          }
-        });
-      });
-    },
-
-    createDefaultProject: function() {
-      return app.Models.Project.forge({ownerId: this.id, name: 'Sandbox', description: 'Sandbox'})
-      .save()
-    },
-
-    hashPassword: function(model) {
-      if (!this.hasChanged('password')) {
-        return;
-      }
-
-      return encryptPassword(model.get('password'))
-        .then(function(hash) {
-          return model.set({ password: hash });
-        })
-    },
 
     projects: function(id) {
       return this.hasMany(app.Models.Project, 'owner_id')
@@ -157,29 +97,6 @@ module.exports = function(Bookshelf, app) {
       })
     },
 
-    validate: function (model, attrs, options) {
-      if (!this.hasChanged('password') &&
-          !this.hasChanged('email') &&
-          !this.hasChanged('name')) { return; }
-
-      return new Checkit(this.validations).run(this.attributes);
-    },
-
-    update: function(attrs) {
-      var _this = this;
-      return User.forge({email: this.attributes.email}).fetch()
-        .then(function(user) {
-          return Bcrypt.compareAsync(attrs.currentPassword, user.attributes.password)
-            .then(function(match) {
-              if (!match) { throw new Error('Wrong Password')}
-              var password = attrs.newPassword ? attrs.newPassword : attrs.currentPassword;
-              attrs = _.omit(attrs, 'currentPassword', 'newPassword');
-              _.extend(attrs, { password: password })
-              return _this.save(attrs);
-            })
-        })
-    },
-
     getScratchSpacePath: function() {
       return path.join(process.env.SCRATCH_SPACE_ROOT, this.id.toString());
     },
@@ -209,52 +126,12 @@ module.exports = function(Bookshelf, app) {
       });
     },
 
-    getOrCreateBeakerToken: function() {
-      var user = this;
-
-      function randomInt(low, high) {
-        return Math.floor(Math.random() * (high - low + 1) + low);
-      }
-
-      function randomSecure() {
-        return Crypto.createHmac('sha1', Date.now().toString())
-          .update(randomInt(0, 9999).toString())
-          .digest('hex');
-      }
-
-      if (user.get('beakerPassword')) {
-        return Promise.resolve(user.get('beakerPassword'));
-      } else {
-        var password = randomSecure();
-
-        return user.save({beakerPassword: password}, {patch: true})
-        .then(function() {
-          user.set({beakerPassword: password});
-          return password;
-        });
-      }
-    },
-
     isAdmin: function() {
       return this.get('role') == 1;
     }
   });
 
   User = _.extend(User, {
-    signIn: function(attrs) {
-      var userEmail = _.pick(attrs, "email");
-
-      return User.forge(userEmail).fetch()
-        .then(function(user) {
-          if(!user) { throw new Error("Email not registered"); }
-          return Bcrypt.compareAsync(attrs.password, user.attributes.password)
-            .then(function(match) {
-              if(!match) { throw new Error('Wrong password'); }
-              return user;
-            });
-        });
-    },
-
     changePassword: function(attrs) {
       function isExpired(rpr) {
         return moment().utc().diff(moment(new Date(rpr.get('createdAt'))).utc(), 'hours') >=24;

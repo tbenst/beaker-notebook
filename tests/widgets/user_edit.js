@@ -3,7 +3,7 @@ var $ = require('selenium-webdriver').promise;
 module.exports = function() {
   return this.Widgets.EditUserForm = this.Widget.Form.extend({
     root: 'form.user-edit',
-    fields: ['name', 'email', 'currentPassword', 'newPassword', 'job_title', 'company', 'bio'],
+    fields: ['name', 'email', 'password', 'newPassword', 'job_title', 'company', 'bio'],
 
     contents: function() {
       return $.all([
@@ -15,11 +15,11 @@ module.exports = function() {
       ])
       .then(function(attrs) {
         return {
-          name: attrs[0],
-          email: attrs[1],
-          jobTitle: attrs[2],
-          company: attrs[3],
-          bio: attrs[4]
+          'name': attrs[0],
+          'email': attrs[1],
+          'job-title': attrs[2],
+          'company': attrs[3],
+          'bio': attrs[4]
         }
       });
     }
