@@ -14,9 +14,12 @@
 
       var F = Factories;
       var categoryID = $stateParams.category_id;
+      var lastPromiseTime;
 
       function loadPublications() {
         TrackingService.mark('PublicationListLoad');
+        var currentPromiseTime = Date.now();
+        lastPromiseTime = currentPromiseTime;
         var query = {
               limit: $scope.publications.itemsPerPage,
               category_id: categoryID,
@@ -41,7 +44,9 @@
           }));
         })
         .then(function(publications) {
-          $scope.publications.list = publications;
+          if (currentPromiseTime >= lastPromiseTime) {
+            $scope.publications.list = publications;
+          }
           TrackingService.mark('PublicationListLoaded');
           TrackingService.measure('BaselinePublicationListLoad', 'PublicationListLoad', 'PublicationListLoaded');
         });
