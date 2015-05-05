@@ -4,7 +4,7 @@
   "description": "Specifying big data for fun and profit by example",
   "main": "pioneer",
   "scripts": {
-    "start": "NODE_ENV=test pioneer",
+    "start": "NODE_ENV=test pioneer --tags ~@flaky",
     "failures": "NODE_ENV=test pioneer --tags @failed",
     "ci": "NODE_ENV=test DISPLAY=:99.0 pioneer features/ --driver=firefox",
     "test": "NODE_ENV=test node-debug --web-port 8081 --debug-port 5859 pioneer --tags @failed",

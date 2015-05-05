@@ -17,6 +17,7 @@ Feature: Use Notebooks
       | powderpuff girls   |
       | top secret         |
 
+  @flaky
   Scenario: Recent Notebooks
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
@@ -90,6 +91,7 @@ Feature: Use Notebooks
     When I rename the notebook to "top secrete"
     Then I should be in the "top secrete" notebook
 
+  @flaky
   Scenario: Renaming Notebook to Duplicate
     When I open the "ghost of tom jones" project
     And I rename the "powderpuff girls" notebook to "top secret"
@@ -183,6 +185,7 @@ Feature: Use Notebooks
       | top secret         |
     And I should see the error: "A notebook named 'top secret' already exists in project 'Finance Research'"
 
+  @flaky
   Scenario: Saving a new notebook as another name
     When I open the "ghost of tom jones" project
     And I make a new notebook
@@ -239,6 +242,7 @@ Feature: Use Notebooks
     When I open the "ghost of tom jones" project
     Then I should see the project has 6 commits
 
+  @flaky
   Scenario: Open last used notebook
     When I open the "ghost of tom jones" project
     And I see the project detail page
@@ -294,6 +298,7 @@ Feature: Use Notebooks
     Then the modal should be closed
     And I should see the "ghost of tom jones" project detail page
 
+  @flaky
   Scenario: Unavailable notebook
     Given my "powderpuff girls" notebook is unavailable
     When I open the "ghost of tom jones" project
