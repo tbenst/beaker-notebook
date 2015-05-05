@@ -7,7 +7,7 @@
    :available-media-types #{"text/plain" "application/json"}
    :handle-exception #(-> % :exception throw)})
 
-(defn is-admin? [config ctx]
+(defn admin? [config ctx]
   (if (= "true" (:allow-seed config))
     true
     (= 1 (-> ctx :request :session :role))))
@@ -23,3 +23,6 @@
 (defn pass-body
   [biz-fn config ctx]
   (domain/update-marketplace config (get-body ctx) biz-fn))
+
+(defn get? [ctx]
+  (= "get" (-> ctx :request :request-method)))
