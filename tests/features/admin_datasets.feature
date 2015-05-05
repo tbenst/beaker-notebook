@@ -16,6 +16,7 @@ Feature: Admin Datasets
     When I view the market search
     Then I should see 0 market item on the market list page
 
+  @flaky
   Scenario: Editing a dataset
     When I view the market search
     And I edit a dataset
@@ -24,6 +25,7 @@ Feature: Admin Datasets
     And I view the market search
     Then I should see a dataset with the name "wow"
 
+  @flaky
   Scenario: Creating a dataset
     When I have the following categories:
       | name       | path  |
