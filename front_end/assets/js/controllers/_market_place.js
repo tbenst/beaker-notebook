@@ -34,7 +34,7 @@
         var TS = TagNormalizeService;
 
         // condense all search filters into a flat list
-        var scopes = _($scope.marketPlace.filters).keys().map(function(f) {
+        var scopes = _.chain($scope.marketPlace.filters).keys().map(function(f) {
           var filterScope = f + 'Scope';
           return TS.normalizeFilter($scope.marketPlace[filterScope], 'marketPlace.' + filterScope, $scope);
         })
@@ -116,7 +116,7 @@
 
       function watchFilterScopes() {
         unbindWatchers();
-        _($scope.marketPlace.filters).keys().each(function(f) {
+        _.chain($scope.marketPlace.filters).keys().each(function(f) {
           watchers.push($scope.$watchCollection('marketPlace.' + f + 'Scope', resetDataSets));
         });
       }

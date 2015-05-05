@@ -39,7 +39,7 @@
         var _this = this;
         return Beaker.getBeakerInstance().then(function(instance) {
           var markName = 'Load';
-          if ( _($rootScope.cachedNotebooks).pluck('id').contains(notebook.id) ) markName += 'Cached';
+          if ( _.chain($rootScope.cachedNotebooks).pluck('id').contains(notebook.id) ) markName += 'Cached';
           markName += instance === 'null' ? 'Unprovisioned' : 'Provisioned';
           markName += 'Notebook';
           _this.mark(markName);

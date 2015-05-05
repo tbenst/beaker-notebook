@@ -9,7 +9,7 @@
     };
 
     function clearSearch() {
-      var filterScopes = _($scope.marketPlace.filters).keys().map(function(f) {
+      var filterScopes = _.chain($scope.marketPlace.filters).keys().map(function(f) {
         return f + 'Scope';
       }).value();
 
