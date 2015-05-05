@@ -1,5 +1,5 @@
 module.exports = function() {
-  return this.Widgets.RecentNotebooks = this.Widget.List.extend({
+  this.Widgets.RecentNotebooks = this.Widget.List.extend({
     root: '.recently-used',
     itemSelector: '.recent-notebook',
 
@@ -13,14 +13,14 @@ module.exports = function() {
 
       return this.find({text: name})
       .then(function(filtered) {
-        return _this.driver.executeScript("arguments[0].scrollIntoView(true);", filtered)
+        return _this.driver.executeScript('arguments[0].scrollIntoView(true);', filtered)
         .then(function() {
           return filtered.click();
-        })
+        });
       })
       .thenCatch(function(err) {
         var _this = this;
-        if (retry == 3) { throw err }
+        if (retry == 3) { throw err; }
 
         return this.driver.sleep(1000)
         .then(function() {
@@ -29,12 +29,12 @@ module.exports = function() {
         .then(function() {
           return _this.clickItem(name, ++retry);
         });
-      }.bind(this))
+      }.bind(this));
     },
 
     getNames: function() {
       return this.showList().then(function() {
-        return this.invoke({ method: 'read', arguments: ['a'] });
+        return this.invoke({method: 'read', arguments: ['a']});
       }.bind(this));
     }
   });

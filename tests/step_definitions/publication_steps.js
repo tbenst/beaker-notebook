@@ -17,36 +17,40 @@ var otherUser = {
 
 var randomProject = function(user, name) {
   return {
-    model: "Project",
+    model: 'Project',
     data: {
       name: name || 'gorillas',
+      //jscs:disable
       owner_id: user['public-id']
+      //jscs:enable
     }
-  }
+  };
 };
 
 var randomNotebook = function(user, project, name, i) {
-  var notebookName = name || "Notebook";
+  var notebookName = name || 'Notebook';
   return {
-    model: "Notebook",
+    model: 'Notebook',
     data: _.extend(_.omit(notebookBase, ['userEmail', 'projectName']), {
-      name: i == 0 ? notebookName : notebookName + ' ' + i,
+      name: i === 0 ? notebookName : notebookName + ' ' + i,
+      //jscs:disable
       user_id: user['public-id'],
+      //jscs:enable
       projectId: project.id
     })
-  }
+  };
 };
 
 var seedPublications = function(count, options, user) {
-  var name = options && options.name,
-      category = options && options.category,
-      projectName = options && options.projectName;
+  var name = options && options.name;
+  var category = options && options.category;
+  var projectName = options && options.projectName;
 
   return this.user.createUser(user).then(function(u) {
     return this.seed.populate(randomProject(u, projectName)).then(function(project) {
       var notebooks = [];
 
-      for(var i = 0; i < +count; ++i) {
+      for (var i = 0; i < +count; ++i) {
         notebooks.push(randomNotebook(u, project[0], name, i));
       }
 
@@ -55,15 +59,19 @@ var seedPublications = function(count, options, user) {
           var publicationPromises = [];
 
           _.each(notebooks, function(notebook, i) {
-            var publicationName = name || "Notebook";
+            var publicationName = name || 'Notebook';
 
             var publication = {
-              model: "Publication",
+              model: 'Publication',
               data: {
+                //jscs:disable
                 notebook_id: notebook.id,
-                name: i== 0 ? publicationName : publicationName + ' ' + i,
+                //jscs:enable
+                name: i === 0 ? publicationName : publicationName + ' ' + i,
                 contents: notebookBase.data,
+                //jscs:disable
                 user_id: u['public-id']
+                //jscs:enable
               }
             };
 
@@ -71,7 +79,7 @@ var seedPublications = function(count, options, user) {
               publication.associations = [{
                 foreignKey: 'category_id',
                 lookup: {'PublicationCategory': {name: category}}
-              }]
+              }];
             }
 
             var publicationPromise = this.seed.populate.bind(this, publication);
@@ -84,18 +92,18 @@ var seedPublications = function(count, options, user) {
     }.bind(this));
   }.bind(this))
   .then(function(arr) {
-    return bluebird.reduce(arr, function(total, v){return v()}, 0);
-  })
+    return bluebird.reduce(arr, function(total, v) {return v();}, 0);
+  });
 };
 
 module.exports = function() {
 
   this.Given(/^there are (\d+) publications(?: for the project "([^"]*)")?$/, function(count, projectName) {
-    return seedPublications.bind(this)(count, { projectName: projectName }, randomUser);
+    return seedPublications.bind(this)(count, {projectName: projectName}, randomUser);
   });
 
   this.Given(/^there are (\d+) publications in the "([^"]*)" category$/, function(count, categoryName) {
-    return seedPublications.bind(this)(count, { category: categoryName }, otherUser);
+    return seedPublications.bind(this)(count, {category: categoryName}, otherUser);
   });
 
   this.Given(/^the notebook "([^"]*)" is published$/, function(notebookName) {
@@ -106,11 +114,13 @@ module.exports = function() {
         model: 'Publication',
         data: {
           name: notebookName,
+          //jscs:disable
           user_id: u['public-id']
+          //jscs:enable
         },
         associations: [{
           foreignKey: 'notebook_id',
-          lookup: {"Notebook": {name: notebookName}}
+          lookup: {'Notebook': {name: notebookName}}
         }]
       });
     });
@@ -121,28 +131,28 @@ module.exports = function() {
       return {
         model: 'PublicationCategory',
         data: category
-      }
+      };
     });
     return this.seed.populate(seedData);
   });
 
   this.Given(/^there is a publication named "([^"]*)"$/, function(name) {
-    return seedPublications.bind(this)(1, { name: name }, otherUser);
+    return seedPublications.bind(this)(1, {name: name}, otherUser);
   });
 
   this.Given(/^I view the first publication$/, function() {
     return this.driver.wait(function() {
       return new this.Widgets.PublicationList().at(0)
       .then(function(v) {
-        return v != undefined;
+        return v !== undefined;
       })
       .thenCatch(function() {
         return false;
-      })
+      });
     }.bind(this), global.timeout)
     .then(function() {
       return new this.Widgets.PublicationList()
-      .clickAt({ selector: 'a.title', index: 0 });
+      .clickAt({selector: 'a.title', index: 0});
     }.bind(this));
   });
 
@@ -176,7 +186,7 @@ module.exports = function() {
   });
 
   this.When(/^I give it the description "([^"]*)"$/, function(description) {
-    return new this.Widgets.PublishModal().addDescription(description)
+    return new this.Widgets.PublishModal().addDescription(description);
   });
 
   this.Then(/^I should see "([^"]*)"$/, function(msg) {
@@ -226,7 +236,7 @@ module.exports = function() {
     return publication.name().should.eventually.eql(attrs.name)
     .then(function() {
       return publication.description().should.eventually.eql(attrs.description);
-    })
+    });
   });
 
   this.Then(/^I should see an updated version of the following notebook:$/, function(table) {
@@ -236,7 +246,7 @@ module.exports = function() {
     return publication.name().should.eventually.eql(attrs.name)
     .then(function() {
       return publication.description().should.eventually.eql(attrs.description);
-    })
+    });
   });
 
   this.Then(/^I should see that the notebook is not published$/, function() {
@@ -249,17 +259,17 @@ module.exports = function() {
 
   this.Then(/^the notebook updated time should be now$/, function(callback) {
     return new this.Widgets.Notebook().updateTime().then(function(publishTime) {
-      var publishTime = moment(publishTime, "M/D/YY h:mm A");
+      var formattedPublishTime = moment(publishTime, 'M/D/YY h:mm A');
       var now = moment();
-      return now.diff(publishTime, 'minutes').should.be.at.most(1);
+      return now.diff(formattedPublishTime, 'minutes').should.be.at.most(1);
     });
   });
 
   this.Then(/^the notebook publish date should be now$/, function() {
     return new this.Widgets.Notebook().publishTime().then(function(publishTime) {
-      var publishTime = moment(publishTime, "M/D/YY h:mm A");
+      var formattedPublishTime = moment(publishTime, 'M/D/YY h:mm A');
       var now = moment();
-      return now.diff(publishTime, 'minutes').should.be.at.most(1);
+      return now.diff(formattedPublishTime, 'minutes').should.be.at.most(1);
     });
   });
 
@@ -267,7 +277,7 @@ module.exports = function() {
     var _this = this;
     return new this.Widgets.Notebook().waitForBeaker().then(function() {
       return new _this.Widgets.NotebookiFrames().hasVisible().should.eventually.eql(true);
-    })
+    });
   });
 
   this.Then(/^I should see (\d+) publication results on the page$/, function(count) {
@@ -288,7 +298,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see (\d+) publication results next to the "([^"]*)" category$/, function(n, category) {
-    return new this.Widgets.PublicationCategoriesList().count(category).should.eventually.eql(n)
+    return new this.Widgets.PublicationCategoriesList().count(category).should.eventually.eql(n);
   });
 
   this.Then(/^I should see the following publication first in the list:$/, function(table) {
@@ -322,8 +332,8 @@ module.exports = function() {
     return new this.Widgets.TopContributorList().contents().should.eventually.eql(expectedValues);
   });
 
-  this.When(/^I search for publication "([^"]*)"$/, function (searchText) {
-    var publicationSearch = new this.Widgets.PublicationSearch;
+  this.When(/^I search for publication "([^"]*)"$/, function(searchText) {
+    var publicationSearch = new this.Widgets.PublicationSearch();
     return publicationSearch.search(searchText);
   });
 
@@ -353,4 +363,4 @@ module.exports = function() {
   this.Then(/^I should see (\d+) stars highlighted in the average$/, function(count) {
     return new this.Widgets.UserRating({root: '.average'}).currentRating().should.eventually.have.length(count);
   });
-}
+};

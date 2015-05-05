@@ -1,11 +1,11 @@
-var _         = require("lodash");
-var Promise   = require("bluebird");
-var assert    = require("assert");
+var _         = require('lodash');
+var Promise   = require('bluebird');
+var assert    = require('assert');
 var $         = require('selenium-webdriver').promise;
 
 var notebookBase = function() {
-  return require("../fixtures/notebook_data_sample");
-}
+  return require('../fixtures/notebook_data_sample');
+};
 
 module.exports = function() {
   var World = this;
@@ -19,11 +19,11 @@ module.exports = function() {
     return Promise.delay(1500)
     .then(function() {
       return notebookList.clickByName(notebookName);
-    })
+    });
   });
 
   this.When(/^I (?:should see|see) the following recent notebooks:$/, function(table) {
-    var names = table.hashes().map(function(n) { return n.name;})
+    var names = table.hashes().map(function(n) { return n.name;});
 
     return this.driver.wait(function() {
       return new this.Widgets.RecentNotebooks()
@@ -31,7 +31,7 @@ module.exports = function() {
       .then(function(recent) {
         return Promise.resolve(!assert.deepEqual(recent, names));
       })
-      .thenCatch(function(v) { return false; })
+      .thenCatch(function(v) { return false; });
     }.bind(this), 10000);
   });
 
@@ -39,14 +39,14 @@ module.exports = function() {
     var _this = this;
 
     return Promise.map(notebooks.hashes(), function(attrs) {
-      attrs.userEmail = attrs.userEmail || "u@r.edu";
+      attrs.userEmail = attrs.userEmail || 'u@r.edu';
 
       return Promise.all([
         _this.user.getDetails(),
-        _this.seed.fetch("Project", {name: attrs.projectName})
+        _this.seed.fetch('Project', {name: attrs.projectName})
       ]).spread(function(user, project) {
         return _this.seed.populate({
-          model: "Notebook",
+          model: 'Notebook',
           data: _.extend(
             notebookBase(),
             _.omit(attrs, ['userEmail', 'projectName']),
@@ -138,12 +138,12 @@ module.exports = function() {
       return new this.Widgets.NotebookList()
       .getNames()
       .should.eventually.deep.equal(expected)
-      .then(function(){
+      .then(function() {
         return true;
       })
       .thenCatch(function() {
         return false;
-      })
+      });
     }.bind(this), global.timeout);
   });
 
@@ -165,7 +165,7 @@ module.exports = function() {
     var importWidget = new this.Widgets.ImportNotebooks();
     return importWidget.startImport().then(function() {
       return importWidget.attachFile(file);
-    })
+    });
   });
 
   this.When(/^I should see a notebook import error message$/, function() {
@@ -179,8 +179,8 @@ module.exports = function() {
       })
       .thenCatch(function() {
         return false;
-      })
-    }, global.timeout)
+      });
+    }, global.timeout);
 
   });
 
@@ -199,7 +199,7 @@ module.exports = function() {
     var _this = this;
     return new this.Widgets.Notebook().waitForBeaker().then(function() {
       return new _this.Widgets.Notebook().openModalAndRename(newName);
-    })
+    });
   });
 
   this.When(/^I rename the notebook "([^"]*)" instead$/, function(newName) {
@@ -222,7 +222,7 @@ module.exports = function() {
     var p = global.timeout;
 
     return this.driver.wait(function() {
-      return new this.Widgets.Notebook().isPresent()
+      return new this.Widgets.Notebook().isPresent();
     }.bind(this),
     10000
     )
@@ -231,7 +231,7 @@ module.exports = function() {
     })
     .thenCatch(function() {
       global.timeout = p;
-    })
+    });
   });
 
   this.When(/^I save the notebook as "([^"]*)"$/, function(name) {
@@ -278,7 +278,7 @@ module.exports = function() {
     return (new this.Widgets.RecentNotebooks()).clickItem(name);
   });
 
-  this.When(/^I search for notebook "([^"]*)"$/, function (searchText) {
+  this.When(/^I search for notebook "([^"]*)"$/, function(searchText) {
     var notebookSearch = new this.Widgets.ProjectSearch;
     return notebookSearch.search(searchText);
   });
@@ -302,7 +302,7 @@ module.exports = function() {
   });
 
   this.Then(/^the "([^"]*)" notebook should be active$/, function(notebook) {
-    return new this.Widgets.OpenNotebookList().activeNotebook().should.eventually.equal(notebook)
+    return new this.Widgets.OpenNotebookList().activeNotebook().should.eventually.equal(notebook);
   });
 
   this.Given(/^my "([^"]*)" notebook is unavailable$/, function(name) {
@@ -320,4 +320,4 @@ module.exports = function() {
   this.When(/^I navigate directly to the unavailable notebook$/, function() {
     return this.driver.get(this.route.projectDashboard + '/2/notebooks/2');
   });
-}
+};
