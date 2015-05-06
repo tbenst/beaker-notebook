@@ -52,7 +52,7 @@ frontend http
   bind *:9000
   use_backend marketplace if { path_beg -i /marketplace }
   use_backend api if { path_beg -i /api }
-  use_backend publications if { path_beg -i /publications/ }
+  use_backend notebook if { path_beg -i /notebook/ }
   use_backend riemann if { path_beg -i /events }
   use_backend beaker if { path_beg -i /beaker }
   use_backend provisioner if { path_beg -i /provisioner }
@@ -67,9 +67,9 @@ backend api
   balance roundrobin
   server api-server localhost:3000
 
-backend publications
+backend notebook
   balance roundrobin
-  server publications-server localhost:3003
+  server notebook-server localhost:3003
 
 backend user
   balance roundrobin

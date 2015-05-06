@@ -2,7 +2,7 @@
   "id": "/beaker-test",
   "apps": [
     {
-      "id": "/beaker-test/publications",
+      "id": "/beaker-test/notebook",
       "cmd": "",
       "cpus": 0.1,
       "mem": 100,
@@ -14,7 +14,7 @@
         "type": "DOCKER",
         "docker": {
           "network": "BRIDGE",
-          "image": "publications",
+          "image": "notebook",
           "portMappings": [
             {
               "containerPort": 3003,
@@ -25,15 +25,15 @@
         }
       },
       "env": {
-        "PUBLICATIONS_PORT": 3003,
-        "PUBLICATIONS_DATABASE_URI": "datomic:mem://publications",
+        "NOTEBOOK_PORT": 3003,
+        "NOTEBOOK_DATABASE_URI": "datomic:mem://notebook",
         "BAMBOO_HOST": "beaker-test",
-        "BAMBOO_PATH": "/publications/"
+        "BAMBOO_PATH": "/notebook/"
       },
       "healthChecks": [
         {
           "protocol": "HTTP",
-          "path": "/publications/v1/status",
+          "path": "/notebook/v1/status",
           "gracePeriodSeconds": 10,
           "intervalSeconds": 10,
           "portIndex": 0,
@@ -66,7 +66,7 @@
       "env": {
         "ENABLE_COVERAGE": true,
         "BAMBOO_HOST": "beaker-test",
-        "BAMBOO_ACLS": "!{ path_beg -i /publications/ }"
+        "BAMBOO_ACLS": "!{ path_beg -i /notebook/ }"
       },
       "healthChecks": [
         {

@@ -16,6 +16,6 @@
 
 (defn -main [& args]
   (component/start
-    (service {:server-port (Integer. (:publications-port env))
-              :seed-file (:publications-seed-file env)
-              :database-uri (:publications-database-uri env)})))
+    (service {:server-port (Integer. (:notebook-port env))
+              :seed-file (:notebook-seed-file env)
+              :database-uri (:notebook-database-uri env)})))

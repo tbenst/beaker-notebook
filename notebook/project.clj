@@ -1,7 +1,7 @@
-(defproject bunsen/publications "0.1.0-SNAPSHOT"
+(defproject bunsen/notebook "0.1.0-SNAPSHOT"
   :description "bunsen publications service"
   :url "https://github.com/twosigma/bunsen"
-  :main bunsen.publications.service
+  :main bunsen.notebook.service
   :jvm-opts ["-Xmx1536M"]
   :repositories {"my.datomic.com"
                  {:url "https://my.datomic.com/repo"
@@ -22,7 +22,7 @@
   :plugins [[lein-environ "1.0.0"]]
   :test-paths ["src/test"]
   :source-paths ["src/main"]
-  :profiles {:uberjar {:aot [bunsen.publications.service]}
+  :profiles {:uberjar {:aot [bunsen.notebook.service]}
              :dev {:env {:server-port 3003
                          :database-uri "datomic:mem://publications"
                          :seed-file "seed.edn"}
