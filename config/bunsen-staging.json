@@ -307,6 +307,9 @@
           ]
         }
       },
+      "ports": [
+        4334
+      ],
       "env": {
         "DATOMIC_HOST": "0.0.0.0",
         "DATOMIC_ALT_HOST": "172.17.42.1",
