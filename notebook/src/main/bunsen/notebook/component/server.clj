@@ -6,6 +6,7 @@
             [ring.util.response :refer [response]]
             [bunsen.common.middleware.database :refer [wrap-database]]
             [bunsen.common.helper.session.store :refer [bunsen-cookie-store]]
+            [ring.middleware.stacktrace :refer [wrap-stacktrace-log]]
             [bunsen.notebook.helper.route :as route]
             [bunsen.notebook.route :as api-route]
             [bunsen.notebook.resource.default :refer [default]]
@@ -52,6 +53,7 @@
                  wrapped-handler (-> handler
                                      wrap-json-params
                                      wrap-params
+                                     wrap-stacktrace-log
                                      (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
                                                     :cookie-name "session"})
                                      (wrap-database database))]
