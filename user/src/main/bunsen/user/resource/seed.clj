@@ -9,7 +9,9 @@
 
   :allowed-methods [:delete]
 
-  :delete! (fn [{{uri :db-uri} :request}]
-             (d/delete-database uri)
-             (d/create-database uri)
-             (db/migrate (d/connect uri) "migrations.edn")))
+  :delete! (fn [ctx]
+             (let [uri (:database-uri config)
+                   conn (get-in ctx [:request :conn])]
+               (d/delete-database uri)
+               (d/create-database uri)
+               (db/migrate conn "migrations.edn"))))
