@@ -5,6 +5,7 @@
             [ring.middleware.params :refer [wrap-params]]
             [ring.util.response :refer [response]]
             [bunsen.common.middleware.database :refer [wrap-database]]
+            [bunsen.common.helper.session.store :refer [bunsen-cookie-store]]
             [bunsen.notebook.helper.route :as route]
             [bunsen.notebook.route :as api-route]
             [bunsen.notebook.resource.default :refer [default]]
@@ -51,6 +52,8 @@
                  wrapped-handler (-> handler
                                      wrap-json-params
                                      wrap-params
+                                     (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
+                                                    :cookie-name "session"})
                                      (wrap-database database))]
              (assoc server
                :jetty (run-jetty wrapped-handler {:join? false

@@ -19,4 +19,5 @@
   (component/start
     (service {:server-port (Integer. (:notebook-port env))
               :seed-file (:notebook-seed-file env)
+              :cookie-salt (:cookie-salt env)
               :database-uri (:notebook-database-uri env)})))
