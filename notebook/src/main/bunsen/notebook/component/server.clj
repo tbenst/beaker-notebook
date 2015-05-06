@@ -4,6 +4,7 @@
             [ring.middleware.json :refer [wrap-json-params]]
             [ring.middleware.params :refer [wrap-params]]
             [ring.util.response :refer [response]]
+            [bunsen.common.middleware.database :refer [wrap-database]]
             [bunsen.notebook.helper.route :as route]
             [bunsen.notebook.route :as api-route]
             [bunsen.notebook.resource.default :refer [default]]
@@ -35,17 +36,6 @@
    :ratings ratings
    :seed seed
    :default default})
-
-(defn wrap-database [handler database]
-  (fn [req]
-    (let [uri (:uri database)
-          conn (d/connect uri)
-          db (d/db conn)
-          request (assoc req
-                    :db db
-                    :conn conn
-                    :db-uri uri)]
-      (handler request))))
 
 (defrecord Server [config database]
   component/Lifecycle
