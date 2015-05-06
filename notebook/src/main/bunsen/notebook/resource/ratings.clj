@@ -1,7 +1,7 @@
-(ns bunsen.publications.resource.ratings
+(ns bunsen.notebook.resource.ratings
   (:require [liberator.core :refer [defresource]]
-            [bunsen.publications.helper.resource :as resource]
-            [bunsen.publications.presenter.ratings :as api]))
+            [bunsen.notebook.helper.resource :as resource]
+            [bunsen.notebook.presenter.ratings :as api]))
 
 (defresource ratings [_ {:keys [id]}] resource/defaults
   :allowed-methods [:post :get]

@@ -1,7 +1,7 @@
-(ns bunsen.publications.resource.category
+(ns bunsen.notebook.resource.category
   (:require [liberator.core :refer [defresource]]
-            [bunsen.publications.helper.resource :as resource]
-            [bunsen.publications.presenter.categories :as api]))
+            [bunsen.notebook.helper.resource :as resource]
+            [bunsen.notebook.presenter.categories :as api]))
 
 (defresource category [_ {:keys [id]}] resource/defaults
   :allowed-methods [:get]

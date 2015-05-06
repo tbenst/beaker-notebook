@@ -1,4 +1,4 @@
-(ns bunsen.publications.helper.json
+(ns bunsen.notebook.helper.json
   (:require [clj-time.coerce :as t]
             [clojure.data.json :as json]))
 

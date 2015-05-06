@@ -4,7 +4,7 @@
             [com.stuartsierra.component :as component]
             [clojure.tools.namespace.file :refer [read-file-ns-decl]]
             [clojure.tools.namespace.repl :refer [refresh refresh-all]]
-            [bunsen.publications.service :refer [service]]
+            [bunsen.notebook.service :refer [service]]
             [datomic.api :as d]))
 
 (def ^:dynamic *service*)

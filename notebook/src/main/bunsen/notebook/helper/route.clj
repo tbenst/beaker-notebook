@@ -1,4 +1,4 @@
-(ns bunsen.publications.helper.route
+(ns bunsen.notebook.helper.route
   (:require [bidi.bidi :as bidi]))
 
 (defn- walk-matched [f routes]

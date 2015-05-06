@@ -1,7 +1,7 @@
-(ns bunsen.publications.resource.publications-count
+(ns bunsen.notebook.resource.publications-count
   (:require [liberator.core :refer [defresource]]
-            [bunsen.publications.helper.resource :as resource]
-            [bunsen.publications.presenter.publications :as api]))
+            [bunsen.notebook.helper.resource :as resource]
+            [bunsen.notebook.presenter.publications :as api]))
 
 (defresource publications-count [_ {:keys [id]}] resource/defaults
   :allowed-methods [:get]

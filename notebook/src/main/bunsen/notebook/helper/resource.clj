@@ -1,4 +1,4 @@
-(ns bunsen.publications.helper.resource)
+(ns bunsen.notebook.helper.resource)
 
 (def defaults
   {:allowed-methods #{:get}

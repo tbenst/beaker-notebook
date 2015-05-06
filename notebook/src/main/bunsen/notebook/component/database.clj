@@ -1,4 +1,4 @@
-(ns bunsen.publications.component.database
+(ns bunsen.notebook.component.database
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
             [io.rkn.conformity :as c]

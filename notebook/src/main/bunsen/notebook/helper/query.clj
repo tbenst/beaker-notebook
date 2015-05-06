@@ -1,4 +1,4 @@
-(ns bunsen.publications.helper.query
+(ns bunsen.notebook.helper.query
   (:require [datomic.api :as d]
             [clj-time.coerce :as t]))
 

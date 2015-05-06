@@ -1,7 +1,7 @@
-(ns bunsen.publications.presenter.categories
+(ns bunsen.notebook.presenter.categories
   (:require [datomic.api :as d]
-            [bunsen.publications.helper.query :as q]
-            [bunsen.publications.helper.entity :as e]))
+            [bunsen.notebook.helper.query :as q]
+            [bunsen.notebook.helper.entity :as e]))
 
 (defn find-category[db eid]
   (e/load-entity db eid :category/name))

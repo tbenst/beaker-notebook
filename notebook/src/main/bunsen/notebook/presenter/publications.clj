@@ -1,7 +1,7 @@
-(ns bunsen.publications.presenter.publications
+(ns bunsen.notebook.presenter.publications
   (:require [datomic.api :as d]
-            [bunsen.publications.helper.query :as q]
-            [bunsen.publications.helper.entity :as e]))
+            [bunsen.notebook.helper.query :as q]
+            [bunsen.notebook.helper.entity :as e]))
 
 (defn find-publication [db eid]
   (e/load-entity db eid :publication/name))

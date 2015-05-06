@@ -1,7 +1,7 @@
-(ns bunsen.publications.presenter.ratings
-  (:require [bunsen.publications.helper.query :as q]
+(ns bunsen.notebook.presenter.ratings
+  (:require [bunsen.notebook.helper.query :as q]
             [datomic.api :as d]
-            [bunsen.publications.helper.entity :as e]))
+            [bunsen.notebook.helper.entity :as e]))
 
 (defn find-rating [db publication-id user-id]
   (let [query '[:find ?rating

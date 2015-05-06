@@ -1,10 +1,10 @@
-(ns bunsen.publications.service
+(ns bunsen.notebook.service
   (:gen-class)
   (:require [environ.core :refer [env]]
-            [bunsen.publications.helper.json :as json]
+            [bunsen.notebook.helper.json :as json]
             [com.stuartsierra.component :as component]
-            [bunsen.publications.component.database :refer [database]]
-            [bunsen.publications.component.server :refer [server]]))
+            [bunsen.notebook.component.database :refer [database]]
+            [bunsen.notebook.component.server :refer [server]]))
 
 (defn service [config]
   (json/enable-date-serialization)

@@ -1,6 +1,6 @@
-(ns bunsen.publications.helper.entity
+(ns bunsen.notebook.helper.entity
   (:require [datomic.api :as d]
-            [bunsen.publications.helper.query :as q]))
+            [bunsen.notebook.helper.query :as q]))
 
 (defn insert-or-update-tx [attrs]
   [(merge {:db/id (d/tempid :db.part/user)} attrs)])

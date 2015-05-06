@@ -1,8 +1,8 @@
-(ns bunsen.publications.resource.publications
+(ns bunsen.notebook.resource.publications
   (:require [liberator.core :refer [defresource]]
-            [bunsen.publications.helper.resource :as resource]
-            [bunsen.publications.presenter.publications :as api]
-            [bunsen.publications.helper.query :as q]))
+            [bunsen.notebook.helper.resource :as resource]
+            [bunsen.notebook.presenter.publications :as api]
+            [bunsen.notebook.helper.query :as q]))
 
 (defn parse-num-or-default
   "Parses a number from a string parameter or if the parameter is nil returns a default value."

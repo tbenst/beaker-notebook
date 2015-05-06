@@ -1,4 +1,4 @@
-(ns bunsen.publications.route)
+(ns bunsen.notebook.route)
 
 (def routes
   {"/notebook/v1" {"/status" :status

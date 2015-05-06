@@ -1,7 +1,7 @@
-(ns bunsen.publications.resource.publication
+(ns bunsen.notebook.resource.publication
   (:require [liberator.core :refer [defresource]]
-            [bunsen.publications.helper.resource :as resource]
-            [bunsen.publications.presenter.publications :as api]))
+            [bunsen.notebook.helper.resource :as resource]
+            [bunsen.notebook.presenter.publications :as api]))
 
 (defresource publication [_ {:keys [id]}] resource/defaults
   :allowed-methods [:get :put :delete]
