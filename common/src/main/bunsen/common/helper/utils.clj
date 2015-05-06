@@ -1,4 +1,8 @@
-(ns bunsen.common.helper.utils)
+(ns bunsen.common.helper.utils
+  (:require [clojure.java.io :as io]))
+
+(defn read-resource-file [file]
+  (->> file io/resource slurp))
 
 (defn uuid-from-str [s]
   (java.util.UUID/fromString s))
