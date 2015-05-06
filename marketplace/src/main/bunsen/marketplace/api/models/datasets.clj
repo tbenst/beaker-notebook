@@ -26,10 +26,10 @@
   [config index-name document]
   (let [connection (helper/connect-to-es config)
         created_id (:_id (doc/create connection index-name "datasets" document))]
-        ; set the ID attribute of a dataset to be the internal elastic search _id
-        ; since the api consumers expect their to be an ID attribute on each dataset.
-        (doc/update-with-partial-doc connection index-name "datasets" created_id {:id created_id})
-        (domain/background-update-counts connection index-name)))
+    ; set the ID attribute of a dataset to be the internal elastic search _id
+    ; since the api consumers expect their to be an ID attribute on each dataset.
+    (doc/update-with-partial-doc connection index-name "datasets" created_id {:id created_id})
+    (domain/background-update-counts connection index-name)))
 
 (defn delete-dataset
   [config index-name id]
@@ -73,7 +73,7 @@
   [fields params]
   (let [filters [(category-path-filter (or (:category-path params) "0"))]
         fields-in-params (into {} (map #(when ((keyword %) params)
-                                                     {(keyword %) ((keyword %) params)})
+                                          {(keyword %) ((keyword %) params)})
                                        fields))]
     (conj filters (reduce-kv (fn [m k v ] (if (vector? v)
                                             (conj m (filter-terms k v))
@@ -97,12 +97,12 @@
 (defn query-builder
   [catalog params]
   {:filtered {
-    :query {
-      :bool {:must (must-queries (metadata-indexes (:metadata catalog) "text") params)}}
-    :filter {
-      :bool {
-        :must (must-filters (metadata-indexes (:metadata catalog) "filter") params)
-        :must_not (must-not-filters params)}}}})
+              :query {
+                      :bool {:must (must-queries (metadata-indexes (:metadata catalog) "text") params)}}
+              :filter {
+                       :bool {
+                              :must (must-filters (metadata-indexes (:metadata catalog) "filter") params)
+                              :must_not (must-not-filters params)}}}})
 
 (defn aggregators [fields] (apply merge (map #(hash-map % {:terms {:field %}}) fields)))
 
