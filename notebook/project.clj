@@ -1,5 +1,5 @@
 (defproject bunsen/notebook "0.1.0-SNAPSHOT"
-  :description "bunsen publications service"
+  :description "bunsen project and notebook service"
   :url "https://github.com/twosigma/bunsen"
   :main bunsen.notebook.service
   :jvm-opts ["-Xmx1536M"]

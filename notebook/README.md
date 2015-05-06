@@ -1,7 +1,7 @@
-Beaker Publications
+Notebook
 ===========================
 ###Description
-A web API server for sharing and publishing Beaker notebooks.
+A web API server for projects, notebooks and publications.
 
 
 ###Requirements
