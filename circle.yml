@@ -30,5 +30,5 @@ deployment:
       - docker login -e="." -u="$QUAY_USER" -p "$QUAY_PASS" "$QUAY_HOST"
       - make push-all:
           timeout: 360
-      - make deploy-staging:
+      - make deploy-bunsen-staging:
           timeout: 360
