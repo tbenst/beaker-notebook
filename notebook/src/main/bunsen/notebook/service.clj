@@ -2,14 +2,15 @@
   (:gen-class)
   (:require [environ.core :refer [env]]
             [bunsen.notebook.helper.json :as json]
+            [bunsen.common.helper.utils :as u]
             [com.stuartsierra.component :as component]
-            [bunsen.notebook.component.database :refer [database]]
+            [bunsen.common.component.database :refer [database]]
             [bunsen.notebook.component.server :refer [server]]))
 
 (defn service [config]
   (json/enable-date-serialization)
   (-> (component/system-map
-        :database (database config)
+        :database (database (assoc config :seed-readers {'file u/read-resource-file}))
         :server (component/using
                   (server config)
                   {:database :database}))))
