@@ -194,6 +194,9 @@
       },
       "uris": [
         "file:///etc/.dockercfg"
+      ],
+      "dependencies": [
+        "/bunsen-staging/datomic"
       ]
     },
     {
@@ -375,6 +378,9 @@
       },
       "uris": [
         "file:///etc/.dockercfg"
+      ],
+      "dependencies": [
+        "/bunsen-staging/datomic"
       ]
     }
   ]
