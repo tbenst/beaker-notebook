@@ -34,7 +34,7 @@
                    readers (:seed-readers config)]
                (migrate conn "migrations.edn")
                (if seed (d/transact conn (seed-data seed readers)))
-               (assoc database :uri uri)))))
+               (assoc database :conn conn)))))
 
   (stop [database]
         (when-let [conn (:conn database)]
