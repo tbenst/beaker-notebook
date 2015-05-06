@@ -113,8 +113,9 @@
     (transform-results results)))
 
 (defn find-matching
-  [es-conn index query]
-  (let [category-path (:category-path query)
+  [config index query]
+  (let [es-conn (helper/connect-to-es config)
+        category-path (:category-path query)
         catalog-path (extract-catalog-path category-path)
         catalog (category/fetch es-conn index catalog-path)
         results (doc/search es-conn
@@ -140,15 +141,17 @@
 (defn get-dataset
   [db config index-name id]
   (let [es-conn (helper/connect-to-es config)
-        dataset (-> es-conn (doc/get index-name "datasets" id) :_source)
+        dataset (-> es-conn
+                    (doc/get index-name "datasets" id)
+                    :_source)
         catalog-path (dataset-catalog-path dataset)]
     (assoc dataset :catalog (category/fetch es-conn index-name catalog-path)
-                   :index index-name
-                   :subscriberIds (dataset-users db index-name id)
-                   :related (find-matching es-conn
-                                           index-name
-                                           {:category-path catalog-path
-                                            :tags (:tags dataset)
-                                            :exclude id
-                                            :size 5
-                                            :from 0}))))
+           :index index-name
+           :subscriberIds (dataset-users db index-name id)
+           :related (find-matching config
+                                   index-name
+                                   {:category-path catalog-path
+                                    :tags (:tags dataset)
+                                    :exclude id
+                                    :size 5
+                                    :from 0}))))
