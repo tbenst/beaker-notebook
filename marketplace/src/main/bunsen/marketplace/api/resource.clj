@@ -26,9 +26,10 @@
   :delete! (subscriptions/retract-all-subscriptions! (:conn request)))
 
 (defresource datasets [config {:keys [index-name]}] resource/defaults
-  :allowed? (partial resource/admin? config)
-  :allowed-methods #{:post}
-  :post! #(datasets/create-dataset config index-name (resource/get-body %)))
+  :allowed? (some-fn resource/get? (partial resource/admin? config))
+  :allowed-methods #{:get :post}
+  :post! #(datasets/create-dataset config index-name (resource/get-body %))
+  :handle-ok #(datasets/find-matching config index-name (dissoc (resource/get-params %) :index-name)))
 
 (defresource dataset [config  {:keys  [index-name id]}] resource/defaults
   :allowed? (some-fn resource/get? (partial resource/admin? config))

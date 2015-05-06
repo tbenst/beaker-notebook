@@ -87,20 +87,28 @@
     [{:ids {:values [(:exclude params)]}}]
     []))
 
+(defn must-queries [text-fields query]
+  (map (fn [query] {:multi_match {:query (val query)
+                                  :type "phrase_prefix"
+                                  :fields text-fields
+                                  :operator "and"}})
+       (select-keys query [:searchTerm :searchScope])))
+
 (defn query-builder
   [catalog params]
   {:filtered {
-    ;TODO implement query filter
-    ;:query {
-    ;  :bool {:must (build-must-queries catalog-text-fields query)}}
+    :query {
+      :bool {:must (must-queries (metadata-indexes (:metadata catalog) "text") params)}}
     :filter {
       :bool {
         :must (must-filters (metadata-indexes (:metadata catalog) "filter") params)
         :must_not (must-not-filters params)}}}})
 
-(defn transform-results
-  [results]
-  (into [] (map #(merge (:_source %) {:index (:_index %)}) (-> results :hits :hits))))
+(defn aggregators [fields] (apply merge (map #(hash-map % {:terms {:field %}}) fields)))
+
+(defn transform-results [results]
+  (let [transformed-results (mapv #(merge (:_source %) {:index (:_index %)}) (-> results :hits :hits))]
+    {:data transformed-results :total-items (-> results :hits :total) :filters {}}))
 
 (defn find-by-ids
   [es-conn ids]
@@ -118,14 +126,24 @@
         category-path (:category-path query)
         catalog-path (extract-catalog-path category-path)
         catalog (category/fetch es-conn index catalog-path)
+        catalog-filters (metadata-indexes (:metadata catalog) "filter")
         results (doc/search es-conn
                             index
                             "datasets"
                             :size (:size query)
                             :from (:from query)
                             :query (query-builder catalog query)
-                            :sort [{:_score {:order "desc"}} {:raw_title {:order "asc"}}])]
-    (transform-results results)))
+                            :sort [{:_score {:order "desc"}} {:raw_title {:order "asc"}}]
+                            :aggs (aggregators catalog-filters))
+
+        aggregations (:aggregations results)
+        filters (apply merge (map (fn [catalog-filter]
+                                    (hash-map catalog-filter
+                                              (map #(:key %)
+                                                   (:buckets (catalog-filter aggregations)))))
+                                  catalog-filters))]
+
+    (assoc (transform-results results) :filters filters)))
 
 (defn dataset-users
   [db index-name data-set-id]
