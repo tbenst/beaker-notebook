@@ -7,7 +7,8 @@
                  {:url "https://my.datomic.com/repo"
                   :username "will@mojotech.com"
                   :password "9b571a50-cb08-48ba-bd2c-86ccf58b1ad2"}}
-  :dependencies [[org.clojure/clojure "1.6.0"]
+  :dependencies [[bunsen/common _]
+                 [org.clojure/clojure "1.6.0"]
                  [org.clojure/tools.cli "0.3.1"]
                  [org.clojure/data.codec "0.1.0"]
                  [com.stuartsierra/component "0.2.2"]
