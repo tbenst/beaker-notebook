@@ -28,7 +28,8 @@
       first))
 
 (defn load-user [db id]
-  (when-let [user (find-user-by-id db id)]
+  (when-let [user (when id
+                    (find-user-by-id db id))]
     (select-keys user [:user/public-id :user/name :user/email :user/role :user/job-title :user/bio :user/company])))
 
 (defn create-user! [conn {:keys [email name password role]}]
