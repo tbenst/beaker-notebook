@@ -14,9 +14,13 @@
                             (if-not (and user pass)
                               {}
                               {:basic-auth [user pass]}))
+   :use-kerberos (let [kerberosprincipal (:kerberos-principal env)]
+   		      (if kerberosprincipal
+		        true false))
+   :kerberos-principal (:kerberos-principal env)
    :jetty-options (let [keystore (:ssl-keystore env)
    		      keystore-pass (:ssl-keystore-pass env)]
-                  (if-not (and keystore keystore-pass)
+                    (if-not (and keystore keystore-pass)
 		      {:port (Integer. (:marketplace-port env))
 		       :ssl? false
 		       :join? false}
