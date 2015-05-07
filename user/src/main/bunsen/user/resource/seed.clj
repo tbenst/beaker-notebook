@@ -1,6 +1,7 @@
 (ns bunsen.user.resource.seed
   (:require [liberator.core :refer [defresource]]
             [datomic.api :as d]
+            [bunsen.user.model.user :as u]
             [bunsen.common.component.database :as db]
             [bunsen.user.resource.defaults :refer [defaults]]))
 
@@ -9,7 +10,6 @@
 
   :allowed-methods [:delete]
 
-  :delete! (fn [{{uri :db-uri} :request}]
-             (d/delete-database uri)
-             (d/create-database uri)
-             (db/migrate (d/connect uri) "migrations.edn")))
+  :delete! (fn [ctx]
+             (let [conn (-> ctx :request :conn)]
+               (u/excise-all-users! conn))))

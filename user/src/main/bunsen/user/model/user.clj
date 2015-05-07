@@ -64,3 +64,16 @@
                   :email [v/required v/email [unique-email? id db :message "email already taken"]]
                   :password [v/required [v/min-count 6]])
       first))
+
+(defn excise-all-users!
+  "A pretty dangerous function."
+  [conn]
+  (->> (d/q '[:find [?user]
+              :where [?user :user/public-id]]
+            (d/db conn))
+       (map
+         (fn [e]
+           {:db/id (d/tempid :db.part/user)
+            :db/excise e}))
+       (d/transact conn)
+       deref))

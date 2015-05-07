@@ -25,7 +25,7 @@
       "env": {
         "WEB_ROOT": "/var/www/public",
         "BAMBOO_HOST": "bunsen-staging.withmojo.com",
-        "BAMBOO_ACLS": "!{ path_beg -i /api } !{ path_beg -i /beaker } !{ path_beg -i /events } !{ path_beg -i /marketplace }"
+        "BAMBOO_ACLS": "!{ path_beg -i /api } !{ path_beg -i /beaker } !{ path_beg -i /events } !{ path_beg -i /marketplace } !{ path_beg -i /user }"
       },
       "healthChecks": [
         {
@@ -140,8 +140,6 @@
       "env": {
         "PROVISIONER_PORT": 3001,
         "PROVISIONER_LIFECYCLE_STRATEGY": "marathon",
-        "DATOMIC_HOST": "172.17.42.1",
-        "DATOMIC_PORT": "4334",
         "PROVISIONER_DATABASE_URI": "datomic:ddb://us-east-1/bunsen-staging/provisioner",
         "COOKIE_SALT": "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<",
         "SCRATCH_SPACE_ROOT": "/mnt/gluster0/bunsen-staging/scratch",
@@ -196,6 +194,9 @@
       },
       "uris": [
         "file:///etc/.dockercfg"
+      ],
+      "dependencies": [
+        "/bunsen-staging/datomic"
       ]
     },
     {
@@ -306,7 +307,13 @@
           ]
         }
       },
+      "ports": [
+        4334
+      ],
       "env": {
+        "DATOMIC_HOST": "0.0.0.0",
+        "DATOMIC_ALT_HOST": "172.17.42.1",
+        "DATOMIC_PORT": 4334,
         "DATOMIC_PROTOCOL": "ddb",
         "DATOMIC_AWS_DYNAMODB_TABLE": "bunsen-staging",
         "DATOMIC_AWS_DYNAMODB_REGION": "us-east-1",
@@ -353,11 +360,9 @@
       },
       "env": {
         "USER_PORT": 3004,
-        "DATOMIC_HOST": "172.17.42.1",
-        "DATOMIC_PORT": "4334",
         "USER_DATABASE_URI": "datomic:ddb://us-east-1/bunsen-staging/user",
         "COOKIE_SALT": "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<",
-        "BAMBOO_HOST": "beaker-staging.withmojo.com",
+        "BAMBOO_HOST": "bunsen-staging.withmojo.com",
         "BAMBOO_PATH": "/user"
       },
       "healthChecks": [
@@ -376,6 +381,9 @@
       },
       "uris": [
         "file:///etc/.dockercfg"
+      ],
+      "dependencies": [
+        "/bunsen-staging/datomic"
       ]
     }
   ]
