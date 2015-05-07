@@ -8,6 +8,7 @@ Feature: Admin Datasets
     When I view the market search
     Then I should see the edit indicator
 
+  @flaky
   Scenario: Deleting a dataset
     When I view the market search
     And I edit a dataset
@@ -35,6 +36,8 @@ Feature: Admin Datasets
       | stacy  | finance  |
     And I view the market search
     Then I should see 2 market items on the market list page
+
+  @flaky
   Scenario: Changing a datasets category
     When I have the following categories:
       | name       | path  |

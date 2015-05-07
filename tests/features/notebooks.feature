@@ -37,6 +37,7 @@ Feature: Use Notebooks
     When I refresh the page
     Then 2 notebooks should load in the background
 
+  @flaky
   Scenario: Open Notebooks
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"

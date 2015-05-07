@@ -57,6 +57,7 @@ Feature: Beaker Solo Publications
     Then I should be able to collapse and expand inputs
     And I should be able to collapse and expand outputs
 
+  @flaky
   Scenario: Paginated publications
     Given I have the following Beaker publication categories:
       | name       | description             |

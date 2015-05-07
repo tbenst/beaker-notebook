@@ -65,6 +65,7 @@ Feature: Publications
       | name        | description       | category |
       | top secrets | a new description | Finance  |
 
+  @flaky
   Scenario: Publications List
     Given there are 5 publications
     And I view my projects
@@ -91,6 +92,7 @@ Feature: Publications
     When I view the publications page
     Then I should see my author info in the first publication
 
+  @flaky
   Scenario: Top Contributors List in Sidebar
     Given I have the following publication categories:
       | name       | description          |
