@@ -13,7 +13,8 @@
             [com.stuartsierra.component :as component :refer [start stop]]
             [bunsen.user.route :refer [routes]]
             [bunsen.common.helper.session.store :refer [bunsen-cookie-store]]
-            [bunsen.user.resource :refer [resources]]))
+            [bunsen.user.resource :refer [resources]]
+            [bunsen.common.helper.kerberos :as kerberos]))
 
 (def not-found
   (constantly
@@ -34,6 +35,7 @@
       server
       (let [port (:server-port config)
             salt (:cookie-salt config)
+            principal (if (:use-kerberos config) (:kerberos-principal config) nil)
             handler (-> (compile-route
                           (with-default-route routes ::not-found))
                         (make-handler
@@ -47,11 +49,11 @@
                         wrap-json-params
                         (wrap-database database)
                         wrap-stacktrace-log
-                        wrap-cookies)]
+                        wrap-cookies
+			(kerberos/authenticate principal))]
         (assoc server
                :jetty (run-jetty
-                        handler {:port port
-                                 :join? false})))))
+                        handler (:jetty-options config))))))
 
   (stop [server]
     (when-let [jetty (:jetty server)]
