@@ -25,4 +25,4 @@
   (domain/update-marketplace config (get-body ctx) biz-fn))
 
 (defn get? [ctx]
-  (= "get" (-> ctx :request :request-method)))
+  (= :get (-> ctx :request :request-method)))
