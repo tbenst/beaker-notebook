@@ -96,12 +96,8 @@
 
 (defn query-builder
   [catalog params]
-  {:filtered {
-              :query {
-                      :bool {:must (must-queries (metadata-indexes (:metadata catalog) "text") params)}}
-              :filter {
-                       :bool {
-                              :must (must-filters (metadata-indexes (:metadata catalog) "filter") params)
+  {:filtered {:query {:bool {:must (must-queries (metadata-indexes (:metadata catalog) "text") params)}}
+              :filter {:bool {:must (must-filters (metadata-indexes (:metadata catalog) "filter") params)
                               :must_not (must-not-filters params)}}}})
 
 (defn aggregators [fields] (apply merge (map #(hash-map % {:terms {:field %}}) fields)))
