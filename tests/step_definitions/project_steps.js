@@ -217,7 +217,7 @@ module.exports = function() {
     var projectDetail = new this.Widgets.ProjectDetail();
     return this.driver.wait(function() {
       return projectDetail.numCommits().should.eventually.equal(num);
-    }, 9000);
+    }, 30000);
   });
 
   this.Then(/^I should see project's last updated as today's date$/, function(callback) {

@@ -32,7 +32,7 @@ module.exports = function() {
         return Promise.resolve(!assert.deepEqual(recent, names));
       })
       .thenCatch(function(v) { return false; });
-    }.bind(this), 10000);
+    }.bind(this), 30000);
   });
 
   this.Given(/^I have the following notebooks:$/, function(notebooks) {
@@ -62,7 +62,7 @@ module.exports = function() {
 
   this.When(/^the "([^"]*)" notebook is open$/, function(name) {
     var p = global.timeout;
-    global.timeout = 10000;
+    global.timeout = 30000;
 
     var _this = this;
 
@@ -106,7 +106,7 @@ module.exports = function() {
 
   this.Then(/^I should see the following open notebooks:$/, function(table, callback) {
     var expected = _.pluck(table.hashes(), 'name');
-    return Promise.delay(1000).then(function() {
+    return Promise.delay(10000).then(function() {
       return (new this.Widgets.OpenNotebookList).getNames().then(function(names) {
         return assert.deepEqual(names, expected);
       });
@@ -224,7 +224,7 @@ module.exports = function() {
     return this.driver.wait(function() {
       return new this.Widgets.Notebook().isPresent();
     }.bind(this),
-    10000
+    30000
     )
     .then(function() {
       global.timeout = p;

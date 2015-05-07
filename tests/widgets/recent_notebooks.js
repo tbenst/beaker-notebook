@@ -22,7 +22,7 @@ module.exports = function() {
         var _this = this;
         if (retry == 3) { throw err; }
 
-        return this.driver.sleep(1000)
+        return this.driver.sleep(10000)
         .then(function() {
           return _this.showList();
         })

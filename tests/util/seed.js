@@ -9,6 +9,8 @@ var dropPublications = require('./beaker_publications')().deleteSeed;
 var dropUser = require('./user')().deleteSeed;
 
 module.exports = function() {
+  global.timout = 30000;
+
   this.USER_ROLE = {
     researcher: 0,
     administrator: 1
