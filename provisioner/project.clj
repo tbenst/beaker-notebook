@@ -20,6 +20,7 @@
                  [pandect "0.5.1"]
                  [bunsen/common _]
                  [com.datomic/datomic-pro "0.9.5153"]
+		 [com.datastax.cassandra/cassandra-driver-core "2.0.6"]
                  [crypto-random "1.2.0"]
                  [com.cemerick/url "0.1.1"]]
   :plugins [[lein-modules "0.3.10"]]
