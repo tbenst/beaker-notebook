@@ -23,7 +23,7 @@ function openProject(name, count) {
   .then(function() {
     return new _this.Widgets.ProjectManager().click({ text: name })
     .thenCatch(function() {
-      return openProject(name, ++count);
+      return openProject.call(_this, name, ++count);
     })
   })
 }
