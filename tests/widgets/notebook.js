@@ -60,7 +60,7 @@ module.exports = function() {
       // get bogged down. Thus preventing the digest loop
       // from even happening thus the target of this click
       // was doing nothing.
-      return Promise.delay(1000).then(function() {
+      return Promise.delay(10000).then(function() {
         return this.click('.sidebar-box .content .publish');
       }.bind(this));
     },
@@ -105,7 +105,7 @@ module.exports = function() {
     waitForBeaker: function() {
       return this.driver.wait(function() {
         return new World.W({ root: 'iframe.beaker' }).isPresent();
-      }, 120000, 'iframe.beaker not found');
+      }, 360000, 'iframe.beaker not found');
     },
 
     beakerNotebookCount: function() {

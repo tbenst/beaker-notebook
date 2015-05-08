@@ -166,7 +166,7 @@ module.exports = function() {
       .then(function(num) {
         return num > 0;
       });
-    }.bind(this), 10000, 'Found no publications');
+    }.bind(this), 30000, 'Found no publications');
   });
 
   this.When(/^I click the "([^"]*)" category$/, function(category) {
@@ -288,7 +288,7 @@ module.exports = function() {
         found = num;
         return num == count;
       });
-    }.bind(this), 10000, 'Found ' + found + ' results, expected ' + count);
+    }.bind(this), 30000, 'Found ' + found + ' results, expected ' + count);
   });
 
   this.Then(/^I should see the "([^"]*)" icon in the first result$/, function(category) {
@@ -345,7 +345,7 @@ module.exports = function() {
         currentPage = p;
         return p == page;
       });
-    }.bind(this), 10000, 'expected to be on page ' + page + ', instead was on ' + currentPage);
+    }.bind(this), 30000, 'expected to be on page ' + page + ', instead was on ' + currentPage);
   });
 
   this.When(/^I click page (\d+) of pagination$/, function(page) {

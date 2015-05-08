@@ -10,7 +10,7 @@ module.exports = function() {
 
     selectCategory: function(category) {
       var p = global.timeout;
-      global.timeout = 10000;
+      global.timeout = 30000;
       return new World.Widget.Form({ root: this.root })
       .select({ text: category })
       .then(function(v) {

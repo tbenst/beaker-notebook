@@ -13,7 +13,7 @@ module.exports = function() {
     },
 
     attachFile: function(file) {
-      return Promise.delay(1000)
+      return Promise.delay(10000)
       .then(function() {
         return this.sendKeys({
           selector: this.fileUploadSelector,

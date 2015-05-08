@@ -7,7 +7,7 @@ module.exports = function() {
     root: 'iframe.beaker',
 
     enter: function() {
-      return Bluebird.delay(1000).then(function() {
+      return Bluebird.delay(10000).then(function() {
         return this.driver.switchTo().frame(0);
       }.bind(this));
     },
