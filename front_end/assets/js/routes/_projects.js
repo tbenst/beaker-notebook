@@ -73,7 +73,7 @@
                         $stateParams, $route, $routeParams) {
         $routeParams.sessionId = $stateParams.notebook_id;
         var notebookUri = $window.location.origin +
-            Restangular.one('notebooks', $stateParams.id)
+            Restangular.one('notebooks', $stateParams.notebook_id)
             .all('contents').getRestangularUrl();
         $route.current = {locals:
                           {target: {
