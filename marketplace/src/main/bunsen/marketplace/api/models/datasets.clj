@@ -170,7 +170,8 @@
                                        :exclude id
                                        :size 5
                                        :from 0}))]
-    (assoc dataset :catalog (category/fetch es-conn index-name catalog-path)
+    (assoc dataset
+           :catalog (category/fetch es-conn index-name catalog-path)
            :index index-name
            :subscriberIds (dataset-users db index-name id)
            :related related)))
