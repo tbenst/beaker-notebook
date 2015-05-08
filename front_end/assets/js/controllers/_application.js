@@ -55,11 +55,6 @@
       }, function() {
         if ($cookies.session && $sessionStorage.user) {
           $scope.isUserAdmin = AuthService.isUserAdmin();
-          F.Notebooks.getOpened().then(function(notebooks) {
-            if (notebooks.length) {
-              return BeakerNotebookService.loadOpened(notebooks);
-            }
-          });
         }
 
         if (!$cookies.session && $sessionStorage.user) {
