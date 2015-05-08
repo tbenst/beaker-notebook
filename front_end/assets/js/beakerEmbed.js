@@ -35,62 +35,6 @@
     ]);
 
 
-    // setup routing. the template is going to replace ng-view
-    beaker.config(function($routeProvider) {
-      var sessionRouteResolve = {};
-      var generateId = function() {
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        return _(_.range(6)).map(function() {
-          return possible.charAt(Math.floor(Math.random() * possible.length));
-        }).join('');
-      };
-      var makeNewProvider = function(result) {
-        return function() {
-          var newSessionId = generateId();
-          sessionRouteResolve.isNewSession = function () {
-            return result;
-          };
-          return '/session/' + newSessionId;
-        };
-      };
-      $routeProvider
-          .when('/session/new', {
-            redirectTo: makeNewProvider("new")
-          })
-          .when('/session/empty', {
-            redirectTo: makeNewProvider("empty")
-          })
-          .when('/session/import', {
-            redirectTo: function() {
-              sessionRouteResolve.isImport = function() {
-                return true;
-              };
-              return '/session/' + generateId();
-            }
-          })
-          .when('/session/:sessionId', {
-            template: JST["template/mainapp/app"](),
-            resolve: sessionRouteResolve
-          })
-          .when('/open', {
-            redirectTo: function(routeParams, path, search) {
-              var newSessionId = generateId();
-              sessionRouteResolve.isOpen = function() {
-                return true;
-              };
-              sessionRouteResolve.target = function() {
-                return search;
-              };
-              return '/session/' + newSessionId;
-            }
-          })
-          .when('/control', {
-            template: JST["template/dashboard/app"](),
-          }).otherwise({
-            redirectTo: "/control"
-          });
-    });
-
     beaker.config(function(bkRecentMenuProvider) {
 //      var recentMenuServer = {
 //        addItem: function(doc, callback) {
