@@ -6621,6 +6621,8 @@
     display: block; }
   .beaker-sandbox .advanced-mode .advanced-hide {
     display: none !important; }
+  .beaker-sandbox bk-notebook {
+    position: relative; }
   .beaker-sandbox bk-new-cell-menu {
     position: relative; }
   .beaker-sandbox bk-new-cell-menu .btn-xs {
