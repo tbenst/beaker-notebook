@@ -25,7 +25,7 @@
         }
 
         function selectedFiles() {
-          return _(Restangular.stripRestangular($scope.scratchSpaceFiles))
+          return _.chain(Restangular.stripRestangular($scope.scratchSpaceFiles))
           .filter('selected')
           .pluck('name')
           .value()

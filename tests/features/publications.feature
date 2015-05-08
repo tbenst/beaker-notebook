@@ -15,6 +15,7 @@ Feature: Publications
       | name       |
       | Finance    |
 
+  @flaky @beaker
   Scenario: Viewing an open and published notebook
     Given I view my projects
     And I open the "ghost of tom jones" project
@@ -27,6 +28,7 @@ Feature: Publications
     And I view the notebook "top secret"
     Then the notebook cells should be visible
 
+  @flaky @beaker
   Scenario: Publishing a Notebook
     Given I view my projects
     And I open the "ghost of tom jones" project
@@ -216,6 +218,7 @@ Feature: Publications
     Then I should be able to collapse and expand inputs
     And I should be able to collapse and expand outputs
 
+  @flaky @beaker
   Scenario: Publishing a Notebook with unsaved changes
     Given I view my projects
     And I open the "ghost of tom jones" project

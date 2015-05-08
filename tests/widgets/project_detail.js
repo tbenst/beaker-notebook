@@ -3,7 +3,7 @@ module.exports = function() {
   var World = this;
   return this.Widgets.ProjectDetail = this.Widget.extend({
     root: '.projects-root',
-    projectMenu: '.project-menu .dropdown-toggle',
+    projectMenu: '.project-menu .bunsen-dropdown-toggle',
 
     edit: function() {
       var _this = this;

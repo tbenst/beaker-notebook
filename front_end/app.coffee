@@ -2,6 +2,7 @@
 ignore_files: ['_*', 'readme*', '.gitignore', '.DS_Store', 'coverage-server.js']
 ignore_folders: ['.git', 'bower_components', 'bower.json', 'node_modules']
 
+watcher_ignore_files: ['#*']
 watcher_ignore_folders: ['.git', 'bower_components', 'bower.json', 'node_modules', 'components']
 
 layouts:

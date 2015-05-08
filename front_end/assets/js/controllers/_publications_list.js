@@ -39,7 +39,7 @@
           return $q.all(_.map(publications, function(p) {
             return F.Users.getUser(p.userId)
             .then(function(u) {
-              return _.merge(p, {author: u});
+              return _.extend(p, {author: u});
             })
           }));
         })

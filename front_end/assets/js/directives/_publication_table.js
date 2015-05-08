@@ -30,7 +30,7 @@
         var columnNames = $scope.cell.output.result.tableDisplayModel.columnNames;
         var rows = $scope.cell.output.result.tableDisplayModel.values;
 
-        var colDefs = _(columnNames).compact().map(function(column) {
+        var colDefs = _.chain(columnNames).compact().map(function(column) {
           return {name: column, resizable: true, width: 150, sortable: true};
         }).value()
 

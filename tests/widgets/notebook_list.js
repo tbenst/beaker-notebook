@@ -36,7 +36,7 @@ module.exports = function() {
       var _this = this;
       return this.findNotebook(name)
       .then(function(item) {
-        return item.hover({ selector: '.dropdown-toggle' })
+        return item.hover({ selector: '.bunsen-dropdown-toggle' })
         .then(function() {
           return item.find('.rename')
           .then(function(el) {
@@ -59,7 +59,7 @@ module.exports = function() {
       var _this = this;
       return this.findNotebook(name)
       .then(function(item) {
-        return item.hover({ selector: '.dropdown-toggle' })
+        return item.hover({ selector: '.bunsen-dropdown-toggle' })
         .then(function() {
           return item.find('.destroy')
           .then(function(el) {
@@ -90,7 +90,7 @@ module.exports = function() {
 
     move: function(notebook, project) {
       return this.findNotebook(notebook).then(function(item) {
-        return item.hover({ selector: '.dropdown-toggle' })
+        return item.hover({ selector: '.bunsen-dropdown-toggle' })
         .then(function(dropdown){
           return dropdown.hover('.move');
         })

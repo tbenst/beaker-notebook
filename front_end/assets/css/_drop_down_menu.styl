@@ -1,7 +1,7 @@
-.dropdown-toggle
+.bunsen-dropdown-toggle
   position relative
   cursor pointer
-  > .dropdown, > .dropdown-wrapper
+  > .bunsen-dropdown, > .bunsen-dropdown-wrapper
     display none
     position absolute
     left 0
@@ -14,7 +14,7 @@
       left auto
       right 0
   &:hover, &.expanded
-    > .dropdown, > .dropdown-wrapper
+    > .bunsen-dropdown, > .bunsen-dropdown-wrapper
       display block
 
 .options
@@ -32,7 +32,7 @@
     &:hover
       background-color transparent
 
-.dropdown-toggle .settings-dropdown
+.bunsen-dropdown-toggle .settings-bunsen-dropdown
   top 25px
   left auto
   right 0
@@ -50,7 +50,7 @@
     &:hover
       background-color transparent
 
-.dropdown, .dropdown-menu
+.bunsen-dropdown, .bunsen-dropdown-menu
   background-color white
   box-shadow 1px 1px 6px 1px rgba(17,17,17,0.15)
   min-width 120px
@@ -77,7 +77,7 @@
           color base-step4
           background-color transparent
 
-.dropdown-menu
+.bunsen-dropdown-menu
   max-width 250px
   
 .dropright-arrow:after
@@ -89,5 +89,5 @@
   margin-top -0.6em
   right 11px
 
-.dropdown .dropdown-wrapper // submenu
+.bunsen-dropdown .bunsen-dropdown-wrapper // submenu
   padding-left 4px

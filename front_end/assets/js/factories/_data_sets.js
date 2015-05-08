@@ -22,7 +22,7 @@
       query.currentIndex = scope.currentCategory.index;
     }
 
-    _(scope.filters).keys().each(function(f) {
+    _.chain(scope.filters).keys().each(function(f) {
       var s = scope[f + 'Scope'];
       if (s !== void(0) && s.length > 0) {
         query[f] = s;

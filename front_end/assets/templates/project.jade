@@ -40,9 +40,9 @@
     a.btn.btn-light.update-project-top-btn(ng-show="editMode", ng-click="updateProject()") Save
 
     .right.project-menu
-      span.options.dropdown-toggle
-        .dropdown-wrapper
-          ul.dropdown
+      span.options.bunsen-dropdown-toggle
+        .bunsen-dropdown-wrapper
+          ul.bunsen-dropdown
             li(ng-hide="editMode")
               a.edit-project(ng-click="editProject()") Edit
             li(ng-show="editMode")
@@ -84,12 +84,12 @@
             span.text-small.notebook-last-used  Last used on
               span.text-green.date {{notebook.updatedAt | date: 'short'}}
             span.notebook-options
-              span.options.dropdown-toggle
-                ul.dropdown
+              span.options.bunsen-dropdown-toggle
+                ul.bunsen-dropdown
                   li
                     a.rename(rename-notebook-toggle notebook="notebook") Rename
                   li(ng-if="projects.list.length > 1")
-                    span.move.dropdown-toggle.dropright-arrow(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)")
+                    span.move.bunsen-dropdown-toggle.dropright-arrow(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)")
                   li
                     a.destroy(confirm="Are you sure you want to delete {{ notebook.name }}?" on-confirm="deleteNotebook(notebook)") Delete
           .cl

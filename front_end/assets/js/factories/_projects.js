@@ -24,7 +24,7 @@
       createProject: function(projects) {
 
         function lastProjectNum() {
-          var numbers = _(projects).map(function(p) {
+          var numbers = _.chain(projects).map(function(p) {
             var match = p.name.match(/^Project (\d+)/)
             if (match) {return +match[1]}
           }).compact().push(0).value();

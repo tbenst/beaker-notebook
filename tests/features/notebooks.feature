@@ -60,6 +60,7 @@ Feature: Use Notebooks
       | powerpuff girls |
       | top secret      |
 
+  @flaky @beaker
   Scenario: Deleting a Notebook
     Given I open the "ghost of tom jones" project
     And the "top secret" notebook is open
@@ -86,6 +87,7 @@ Feature: Use Notebooks
     When I click the modal close button
     Then the modal should be closed
 
+  @flaky @beaker
   Scenario: Renaming Notebook from Detail View
     Given I open the "ghost of tom jones" project
     And I view the notebook "top secret"
@@ -102,6 +104,7 @@ Feature: Use Notebooks
     When I open the rename modal for "powerpuff girls"
     Then I shouldn't see an error in the modal
 
+  @flaky @beaker
   Scenario: Closing the current notebook
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
@@ -120,6 +123,7 @@ Feature: Use Notebooks
     When I close the open notebook "powderpuff girls"
     Then I should see the "ghost of tom jones" project detail page
 
+  @flaky @beaker
   Scenario: Creating a Notebook
     When I open the "ghost of tom jones" project
     And I make a new notebook
@@ -201,6 +205,7 @@ Feature: Use Notebooks
       | top secret       |
       | Winter Grasp     |
 
+  @flaky @beaker
   Scenario: Saving changes to an existing notebook
     When I view my projects
     And I open the "ghost of tom jones" project
@@ -233,6 +238,7 @@ Feature: Use Notebooks
       | Notebook: Data preparation  |
       | Project: Finance Research   |
 
+  @flaky @beaker
   Scenario: Notebooks commit stats
     When I open the "ghost of tom jones" project
     And I see the project has 4 commits
@@ -252,6 +258,7 @@ Feature: Use Notebooks
     And I ensure the notebook is open
     Then I should be in the "powderpuff girls" notebook
 
+  @flaky @beaker
   Scenario: Reopening notebooks
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
@@ -267,6 +274,7 @@ Feature: Use Notebooks
     When I open the recent notebook "powderpuff girls"
     Then I should be in the "powderpuff girls" notebook
 
+  @flaky @beaker
   Scenario: Leaving a notebook open when browsing away from Projects tab
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
@@ -279,6 +287,7 @@ Feature: Use Notebooks
     And I view the notebook "top secret"
     Then the "top secret" notebook should be active
 
+  @flaky @beaker
   Scenario: Warning user when trying to close unsaved notebook
     And I open the "ghost of tom jones" project
     And I view the notebook "powderpuff girls"
@@ -289,6 +298,7 @@ Feature: Use Notebooks
     Then the modal should be closed
     And I should see the "ghost of tom jones" project detail page
 
+  @flaky @beaker
   Scenario: Saving and closing a notebook with edits
     And I open the "ghost of tom jones" project
     And I view the notebook "powderpuff girls"

@@ -4,7 +4,7 @@ module.exports = function() {
   return this.Widgets.ProjectManager = this.Widget.List.extend({
     root: '.projects-root',
     itemSelector: '.project',
-    projectsSidebarHeader: '.project-sidebar .sidebar-box h3 .dropdown-toggle',
+    projectsSidebarHeader: '.project-sidebar .sidebar-box h3 .bunsen-dropdown-toggle',
 
     createNew: function() {
       var _this = this;

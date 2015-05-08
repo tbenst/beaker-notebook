@@ -97,7 +97,7 @@ module.exports = function() {
     },
 
     _openPublicationOptions: function() {
-      return this.find('.publishing .dropdown-toggle').then(function(el) {
+      return this.find('.publishing .bunsen-dropdown-toggle').then(function(el) {
         return new World.Widgets.Dropdown().show(el);
       });
     },
