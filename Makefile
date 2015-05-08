@@ -123,6 +123,9 @@ prepare-%: install
 prepare-api:
 	make -C app
 
+prepare-beaker:
+	make -C beaker
+
 prepare-web:
 	make -C front_end
 
