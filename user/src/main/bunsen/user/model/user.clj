@@ -27,10 +27,32 @@
            db (utils/uuid-from-str id))
       first))
 
+(defn find-user-by-account [db account]
+  (-> (d/q '[:find [(pull ?user [*])]
+             :in $ ?account
+             :where [?user :user/account ?account]]
+           db account)
+      first))
+
 (defn load-user [db id]
   (when-let [user (when id
                     (find-user-by-id db id))]
     (select-keys user [:user/public-id :user/name :user/email :user/role :user/job-title :user/bio :user/company])))
+
+(defn ext-load-user [db account conn]
+  (if-let [user (find-user-by-account db account)]
+    (select-keys user [:user/public-id :user/account :user/name :user/email :user/role :user/job-title :user/bio :user/company])
+    ; automatically create a user - we fill only account which is used by JavaScript
+    ; to retrieve user info from company REST api
+    (let [user {:db/id (d/tempid :db.part/user)
+              :user/public-id (d/squuid)
+	      :user/account account
+              :user/name ""
+              :user/email ""
+              :user/password ""
+              :user/role 0}]
+      @(d/transact conn [user])
+      (dissoc user :user/password :db/id))))
 
 (defn create-user! [conn {:keys [email name password role]}]
   (let [user {:db/id (d/tempid :db.part/user)
