@@ -139,7 +139,6 @@ gulp.task("compileBeakerScss", function() {
 gulp.task('prepareCssForNamespacing', function(){
   gulp.src(Path.join(buildPath, '*.css')).
     pipe(rename(function(path) {
-      path.basename = "_" + path.basename;
       path.extname = ".scss";
     }))
     .pipe(gulp.dest(Path.join(tempPath, "namespacedCss")))
