@@ -15,7 +15,7 @@
           function getTags() {
             Factories.Tags.getTags()
             .then(function(tags) {
-              $scope.allTags = _.xor(tags.data, $scope.datasetTags);
+              $scope.allTags = _.difference(tags.data, $scope.datasetTags);
             });
           }
 
