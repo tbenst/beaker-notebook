@@ -8,3 +8,11 @@
                    :db db
                    :conn conn)]
      (handler request)))
+
+(defn wrap-database-reconnect [handler config]
+  (fn [req]
+    (let [uri (:database-uri config)
+          conn (d/connect uri)
+          db (d/db conn)]
+    (handler
+      (assoc req :db db :conn conn)))))

@@ -11,5 +11,7 @@
   :allowed-methods [:delete]
 
   :delete! (fn [ctx]
-             (let [conn (-> ctx :request :conn)]
-               (u/excise-all-users! conn))))
+             (let [uri (:database-uri config)]
+               (d/delete-database uri)
+               (d/create-database uri)
+               (db/migrate (d/connect uri) "migrations.edn"))))
