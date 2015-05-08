@@ -6,6 +6,15 @@
             [bunsen.marketplace.helper.api :as helper]
             [datomic.api :as d]))
 
+(defn retract-all-subscriptions!
+  [conn]
+  (->> (d/q '[:find [?s ...]
+              :where [?s :subscription/data-set-id]]
+            (d/db conn))
+       (map (fn [eid] [:db.fn/retractEntity eid]))
+       (d/transact conn)
+       deref))
+
 (defn subscribe
   [conn index-name data-set-id user-id]
   (let [subscription {:db/id (d/tempid :db.part/user)

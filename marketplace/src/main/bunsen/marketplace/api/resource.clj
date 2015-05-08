@@ -20,6 +20,11 @@
   :allowed-methods #{:post}
   :processable? (partial resource/pass-body datasets/create-datasets config))
 
+(defresource seed-subscriptions [config _] resource/defaults
+  :allowed? (partial resource/admin? config)
+  :allowed-methods [:delete]
+  :delete! (subscriptions/retract-all-subscriptions! (:conn request)))
+
 (defresource datasets [config {:keys [index-name]}] resource/defaults
   :allowed? (partial resource/admin? config)
   :allowed-methods #{:post}

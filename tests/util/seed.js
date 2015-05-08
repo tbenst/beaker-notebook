@@ -6,6 +6,7 @@ var post    = Promise.promisify(require('request').post);
 var base    = config.bunsenUrl + 'api/seed';
 var del = Promise.promisify(require('request').del);
 var dropPublications = require('./beaker_publications')().deleteSeed;
+var clearDatomic = require('./marketplace')().deleteSeed;
 var dropUser = require('./user')().deleteSeed;
 
 module.exports = function() {
@@ -116,6 +117,9 @@ module.exports = function() {
     }.bind(this))
     .then(function() {
       return dropUser();
+    }.bind(this))
+    .then(function() {
+      return clearDatomic();
     }.bind(this))
     .catch(function(e) {
       console.log(e);

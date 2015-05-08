@@ -110,6 +110,10 @@ module.exports = function() {
         .then(function() {
           return updateCounts(indexName);
         });
+    },
+
+    deleteSeed: function() {
+      return del(config.marketplaceUrl + '/seed/subscriptions');
     }
   };
 
