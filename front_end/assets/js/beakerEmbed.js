@@ -34,65 +34,6 @@
       'bk.helper'
     ]);
 
-
-    beaker.config(function(bkRecentMenuProvider) {
-//      var recentMenuServer = {
-//        addItem: function(doc, callback) {
-//          if (!doc) {
-//            return;
-//          }
-//
-//          var req = $.ajax({
-//            type: "POST",
-//            datatype: "json",
-//            url: "../beaker/rest/recent-menu/addItem",
-//            data: {item: doc}
-//          });
-//          req.done(callback);
-//          req.fail(function(jqXHR, textStatus) {
-//            console.error("Request failed: " + textStatus);
-//          });
-//        },
-//        getItems: function(callback) {
-//          var req = $.ajax({
-//            type: "GET",
-//            datatype: "json",
-//            url: "../beaker/rest/recent-menu/getItems",
-//            data: {}
-//          });
-//          req.done(callback);
-//          req.fail(function(jqXHR, textStatus) {
-//            console.error("Request failed: " + textStatus);
-//          });
-//        },
-//        clear: function(callback) {
-//          var req = $.ajax({
-//            type: "POST",
-//            datatype: "json",
-//            url: "../beaker/rest/recent-menu/clear",
-//            data: {}
-//          });
-//          req.done(callback);
-//          req.fail(function(jqXHR, textStatus) {
-//            console.error("Request failed: " + textStatus);
-//          });
-//        }
-//      };
-      //bkRecentMenuProvider.configServer(recentMenuServer);
-    });
-
-    beaker.config(function(bkShareProvider) {
-//      if (window.bkInit && window.bkInit.shareService) {
-//        bkShareProvider.config(window.bkInit.shareService);
-//      }
-    });
-//
-    beaker.config(function(bkTrackProvider) {
-//      if (window.bkInit && window.bkInit.trackingService) {
-//        bkTrackProvider.config(window.bkInit.trackingService);
-//      }
-    });
-
     beaker.run(function($location, $route, $document, $sessionStorage,  bkUtils, bkCoreManager, bkHelper) {
 
       if ($sessionStorage.user !== void(0)) {
@@ -101,44 +42,7 @@
 
       var user;
       var lastAction = new Date();
-      var beakerRootOp = {
-        gotoControlPanel: function() {
-          return $location.path("/control").search({});
-        },
-        openNotebook: function(notebookUri, uriType, readOnly, format) {
-          if (!notebookUri) {
-            return;
-          }
-
-          var routeParams = {
-            uri: notebookUri
-          };
-          if (uriType) {
-            routeParams.type = uriType;
-          }
-          if (readOnly) {
-            routeParams.readOnly = true;
-          }
-          if (format) {
-            routeParams.format = format;
-          }
-          return $location.path("/open").search(routeParams);
-        },
-        newSession: function(empty) {
-          var name = "/session/new";
-          if (empty) {
-            name = "/session/empty";
-          }
-          if ($location.$$path === name) {
-            return $route.reload();
-          } else {
-            return $location.path(name).search({});
-          }
-        },
-        openSession: function(sessionId) {
-          return $location.path("session/" + sessionId).search({});
-        }
-      };
+      var beakerRootOp = {};
       bkCoreManager.init(beakerRootOp);
       Q.delay(1000).then(function() {
         $.get(bkUtils.serverUrl("beaker/rest/util/whoami"), {}, function(data) {
