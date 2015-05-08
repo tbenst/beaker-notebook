@@ -62,7 +62,7 @@
         });
       }
 
-      if (_.contains($rootScope.referrer.fromState.name, 'subscriptions')) {
+      if ($rootScope.referrer.fromState.name.indexOf('subscriptions') >= 0) {
         $scope.referrerList = 'subscriptions.items';
       } else {
         $scope.referrerList = 'marketPlace.items';
