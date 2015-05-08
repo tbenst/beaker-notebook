@@ -55,5 +55,5 @@
         if (!$scope.helpState.currentTopic) { return; }
         $scope.helpState.currentSection = $scope.helpState.currentTopic.sections[0];
       })
-  }]);
+    }]);
 })(angular, window.bunsen);
