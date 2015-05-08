@@ -1,6 +1,7 @@
 ;(function(angular) {
   window.bunsen = angular.module('bunsen',
-    ['ui.router',
+    ['beaker',
+     'ui.router',
      'ui.bootstrap',
      'restangular',
      'treeControl',
