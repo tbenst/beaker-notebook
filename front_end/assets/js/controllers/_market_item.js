@@ -7,6 +7,7 @@
     'Restangular',
     '$sessionStorage',
     'DataFormatService',
+    'MarketplaceRestangular',
     'AuthService',
     function(
       $scope,
@@ -16,11 +17,13 @@
       Restangular,
       $sessionStorage,
       DataFormatService,
+      MarketplaceRestangular,
       AuthService) {
 
       var R = Restangular;
       var F = Factories;
       var DFS = DataFormatService;
+      var MR = MarketplaceRestangular;
 
       $scope.item = {};
 
@@ -73,7 +76,7 @@
       };
 
       function restangularSubscription() {
-        return R.all('subscriptions').one($state.params.index, $state.params.id);
+        return MR.all('subscriptions').one($state.params.index, $state.params.id);
       }
 
       $scope.unsubscribe = function() {

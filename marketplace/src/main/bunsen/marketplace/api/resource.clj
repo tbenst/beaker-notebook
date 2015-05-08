@@ -3,7 +3,8 @@
             [bunsen.marketplace.helper.resource :as resource]
             [bunsen.marketplace.api.domain :as domain]
             [bunsen.marketplace.api.models.datasets :as datasets]
-            [bunsen.marketplace.api.models.categories :as categories]))
+            [bunsen.marketplace.api.models.categories :as categories]
+            [bunsen.marketplace.api.models.subscriptions :as subscriptions]))
 
 (defresource status [_ _] resource/defaults
   :handle-ok domain/get-status)
@@ -19,6 +20,11 @@
   :allowed-methods #{:post}
   :processable? (partial resource/pass-body datasets/create-datasets config))
 
+(defresource seed-subscriptions [config _] resource/defaults
+  :allowed? (partial resource/admin? config)
+  :allowed-methods [:delete]
+  :delete! (subscriptions/retract-all-subscriptions! (:conn request)))
+
 (defresource datasets [config {:keys [index-name]}] resource/defaults
   :allowed? (partial resource/admin? config)
   :allowed-methods #{:post}
@@ -29,7 +35,7 @@
   :allowed-methods #{:put :delete :get}
   :delete! (fn [_] (datasets/delete-dataset config index-name id))
   :put! #(datasets/update-dataset config index-name id (resource/get-body %))
-  :handle-ok (datasets/get-dataset config index-name id))
+  :handle-ok (datasets/get-dataset (:db request) config index-name id))
 
 (defresource refresh [config _] resource/defaults
   :allowed? (partial resource/admin? config)
@@ -66,3 +72,15 @@
 
 (defresource default [_ _] resource/defaults
   :exists? (constantly false))
+
+(defresource subscription [config {:keys [index-name data-set-id]}] resource/defaults
+  :allowed-methods #{:post :put :delete}
+  :put! (fn [_] (let [user-id (-> request :session :id)]
+          (subscriptions/subscribe (:conn request) index-name data-set-id user-id)))
+  :delete! (fn [_] (let [user-id (-> request :session :id)]
+             (subscriptions/unsubscribe (:conn request) index-name data-set-id user-id))))
+
+(defresource subscriptions [config _] resource/defaults
+  :allowed-methods #{:get}
+  :handle-ok (fn [_] (let [user-id (-> request :session :id)]
+                       (subscriptions/get-subscriptions config (:db request) user-id))))

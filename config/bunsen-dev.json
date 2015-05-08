@@ -93,6 +93,7 @@
         "BAMBOO_HOST": "bunsen-dev",
         "COOKIE_SALT": "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<",
         "MARKETPLACE_PORT": 8444,
+        "MARKETPLACE_DATABASE_URI": "datomic:mem://marketplace",
         "ELASTICSEARCH_HOST": "172.17.42.1",
         "ELASTICSEARCH_PORT": 9200,
         "ELASTICSEARCH_USER": "bunsen",

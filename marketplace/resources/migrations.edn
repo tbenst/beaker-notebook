@@ -1,0 +1,21 @@
+{:marketplace/add-subscription-schema
+  {:txes [[
+            {:db/id #db/id[:db.part/db]
+             :db/ident :subscription/data-set-id
+             :db/valueType :db.type/string
+             :db/cardinality :db.cardinality/one
+             :db.install/_attribute :db.part/db}
+
+            {:db/id #db/id[:db.part/db]
+             :db/ident :subscription/user-id
+             :db/valueType :db.type/uuid
+             :db/cardinality :db.cardinality/one
+             :db.install/_attribute :db.part/db}
+
+            {:db/id #db/id[:db.part/db]
+             :db/ident :subscription/index-name
+             :db/valueType :db.type/string
+             :db/cardinality :db.cardinality/one
+             :db.install/_attribute :db.part/db}
+            ]]}
+}

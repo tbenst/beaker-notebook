@@ -6,6 +6,7 @@
   [env]
   {:cookie-salt (:cookie-salt env)
    :allow-seed (:allow-seed env)
+   :database-uri (:marketplace-database-uri env)
    :elasticsearch-url (format "http://%s:%s"
                               (:elasticsearch-host env)
                               (:elasticsearch-port env))
