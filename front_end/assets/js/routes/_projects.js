@@ -68,7 +68,25 @@
           controller: 'projectsList',
           template: templates.project_list
         }
-      })
+      },
+      onEnter: function($window, Restangular,
+                        $stateParams, $route, $routeParams) {
+        $routeParams.sessionId = $stateParams.notebook_id;
+        var notebookUri = $window.location.origin +
+            Restangular.one('notebooks', $stateParams.id)
+            .all('contents').getRestangularUrl();
+        $route.current = {locals:
+                          {target: {
+                            uri: notebookUri,
+                            type: "http", // beaker would guess anyway
+                            format: "bkr", // beaker would guess anyway
+                            readOnly: false // the default anyway
+                          },
+                           isOpen: true},
+                          $$route: {
+                            resolve: {}
+                          }};
+      }})
     .state('projects.items.item.notebook.search', {
       url: '/search',
       views: {
