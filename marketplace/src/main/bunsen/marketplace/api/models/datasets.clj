@@ -144,14 +144,15 @@
         dataset (-> es-conn
                     (doc/get index-name "datasets" id)
                     :_source)
-        catalog-path (dataset-catalog-path dataset)]
+        catalog-path (dataset-catalog-path dataset)
+        related (:data (find-matching config
+                                      index-name
+                                      {:category-path catalog-path
+                                       :tags (:tags dataset)
+                                       :exclude id
+                                       :size 5
+                                       :from 0}))]
     (assoc dataset :catalog (category/fetch es-conn index-name catalog-path)
            :index index-name
            :subscriberIds (dataset-users db index-name id)
-           :related (find-matching config
-                                   index-name
-                                   {:category-path catalog-path
-                                    :tags (:tags dataset)
-                                    :exclude id
-                                    :size 5
-                                    :from 0}))))
+           :related related)))
