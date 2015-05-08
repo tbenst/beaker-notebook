@@ -146,8 +146,9 @@
 
     $scope.$watch('project', function() {
       var editableAttributes = ['name', 'description'];
-
-      $scope.newAttributes = _.pick($scope.project, editableAttributes);
+      if ($scope.project !== void(0)) {
+        $scope.newAttributes = _.pick($scope.project, editableAttributes);
+      }
     });
   }]);
 })(angular, window.bunsen);
