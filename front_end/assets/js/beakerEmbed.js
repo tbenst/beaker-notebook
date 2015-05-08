@@ -141,7 +141,7 @@
       };
       bkCoreManager.init(beakerRootOp);
       Q.delay(1000).then(function() {
-        $.get("../beaker/rest/util/whoami", {}, function(data) {
+        $.get(bkUtils.serverUrl("beaker/rest/util/whoami"), {}, function(data) {
           user = data;
           bkUtils.log("start", {user: data});
         }, "json");
