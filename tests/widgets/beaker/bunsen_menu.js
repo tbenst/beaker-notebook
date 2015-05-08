@@ -2,7 +2,7 @@ module.exports = function() {
   this.Widgets.Beaker = this.Widgets.Beaker || {};
 
   return this.Widgets.Beaker.BunsenMenu = this.Widget.List.extend({
-    root: '.dropdown.open > .dropdown-menu',
+    root: '.bunsen-dropdown.open > .bunsen-dropdown-menu',
 
     clickSave: function() {
       return this.at(0).then(function(item) {

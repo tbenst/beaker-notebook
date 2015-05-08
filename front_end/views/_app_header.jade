@@ -6,9 +6,10 @@
       li(ng-show='$session.user')
         span.signed-in Hi, {{$session.user.name}}
       li
-        span.dropdown-toggle.settings
-          .dropdown-wrapper.settings-dropdown
-            ul.dropdown(ng-show='$session.user')
+        span.bunsen-dropdown-toggle.settings
+          .bunsen-dropdown-wrapper.settings-dropdown
+
+            ul.bunsen-dropdown(ng-show='$session.user')
               li
                 a.edit-info(ui-sref="userEdit") Edit Information
               li

@@ -3,7 +3,7 @@ module.exports = function() {
   return this.Widgets.ProjectForm = this.Widget.Form.extend({
     root: '.projects-root',
     fields: ['name', 'description'],
-    projectMenu: '.project-menu .dropdown-toggle',
+    projectMenu: '.project-menu .bunsen-dropdown-toggle',
 
     goToDelete: function() {
       var _this = this;

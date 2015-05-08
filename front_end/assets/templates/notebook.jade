@@ -3,8 +3,8 @@
     .publishing.sidebar-box.light
       h3
         | Publishing
-        span.options.dropdown-toggle.light.right
-          ul.dropdown.drop-bottom-left
+        span.options.bunsen-dropdown-toggle.light.right
+          ul.bunsen-dropdown.drop-bottom-left
             li(ng-if="!published")
               a.publish(ng-click="openPublishModal()") Publish notebook
             li(ng-if="published")
@@ -25,8 +25,8 @@
 
   .two-sidebars
     .main-content
-      span.options.dropdown-toggle.right.expanded(ng-mouseover="showMenu()" ng-mouseleave="hideMenu()")
-        ul.dropdown(ng-if="menu")
+      span.options.bunsen-dropdown-toggle.right.expanded(ng-mouseover="showMenu()" ng-mouseleave="hideMenu()")
+        ul.bunsen-dropdown(ng-if="menu")
           li
             a.save(ng-click="save()") Save
           li

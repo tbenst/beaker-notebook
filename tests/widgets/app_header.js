@@ -7,7 +7,7 @@ module.exports = function() {
     },
 
     signOut: function() {
-      return this.hover({selector: '.dropdown-toggle'})
+      return this.hover({selector: '.bunsen-dropdown-toggle'})
         .then(function(menu) {
           return menu.hover({selector: '.sign-out'})
             .then(function(item) {
