@@ -10,7 +10,7 @@ var clearDatomic = require('./marketplace')().deleteSeed;
 var dropUser = require('./user')().deleteSeed;
 
 module.exports = function() {
-  global.timout = 30000;
+  global.timeout = 30000;
 
   this.USER_ROLE = {
     researcher: 0,
