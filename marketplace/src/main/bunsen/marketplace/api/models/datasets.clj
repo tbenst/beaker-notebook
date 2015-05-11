@@ -1,6 +1,7 @@
 (ns bunsen.marketplace.api.models.datasets
   (:require [bunsen.marketplace.helper.api :as helper]
             [bunsen.marketplace.base :as base]
+            [bunsen.common.helper.utils :as u]
             [bunsen.marketplace.api.models.categories :as category]
             [bunsen.marketplace.api.domain :as domain]
             [bunsen.marketplace.simple.simple :as simple]
@@ -151,6 +152,19 @@
         db
         index-name
         data-set-id))
+
+(defn subscribed?
+  [data-set-id index-name ctx]
+  (let [user-id (-> ctx :request :session :id)]
+    (d/q '[:find ?s .
+           :in $ ?index-name ?data-set-id ?user-id
+           :where [?s :subscription/data-set-id ?data-set-id]
+                  [?s :subscription/index-name ?index-name]
+                  [?s :subscription/user-id ?user-id]]
+         (-> ctx :request :db)
+         index-name
+         data-set-id
+         (u/uuid-from-str user-id))))
 
 (defn get-dataset
   [db config index-name id]

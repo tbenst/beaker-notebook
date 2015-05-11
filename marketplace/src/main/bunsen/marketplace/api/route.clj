@@ -9,7 +9,9 @@
                       "/counts" :counts
                       "/indices" {"" :indices
                                   ["/" :index-name "/datasets"] :datasets
-                                  ["/" :index-name  "/datasets/" :id] :dataset}
+                                  ["/" :index-name  "/datasets/" :id] {"" :dataset
+                                                                       "/average-rating" :average-rating
+                                                                       "/rating" :rating}}
                       "/mappings" :mappings
                       "/formats" :formats
                       "/tags" :tags

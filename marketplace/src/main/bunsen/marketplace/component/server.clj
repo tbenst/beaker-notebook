@@ -24,6 +24,8 @@
    :subscriptions api-resource/subscriptions
    :dataset api-resource/dataset
    :datasets api-resource/datasets
+   :average-rating api-resource/average-rating
+   :rating api-resource/rating
    :refresh api-resource/refresh
    :counts api-resource/counts
    :indices api-resource/indices

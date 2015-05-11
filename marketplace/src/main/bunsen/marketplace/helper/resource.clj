@@ -1,6 +1,7 @@
 (ns bunsen.marketplace.helper.resource
   (:require [clojure.data.json :as json]
-            [bunsen.marketplace.api.domain :as domain]))
+            [bunsen.marketplace.api.domain :as domain]
+            [bunsen.marketplace.api.models.datasets :as datasets]))
 
 (def defaults
   {:allowed-methods #{:get}
