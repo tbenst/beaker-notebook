@@ -48,7 +48,7 @@
               :user/public-id (d/squuid)
 	      :user/account account
               :user/name ""
-              :user/email ""
+              :user/email account
               :user/password ""
               :user/role 0}]
       @(d/transact conn [user])

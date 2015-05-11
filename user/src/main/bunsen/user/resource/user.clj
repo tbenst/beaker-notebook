@@ -2,7 +2,9 @@
   (:require [liberator.core :refer [defresource]]
             [bunsen.user.resource.defaults :refer [defaults]]
             [liberator.representation :refer [ring-response]]
-            [bunsen.user.model.user :as u]))
+            [bunsen.user.model.user :as u]
+	    [clojure.string :as str]
+            [bunsen.user.helper.tsusers :as extuser]))
 
 (defresource user [_] defaults
   :allowed-methods #{:get :put}
@@ -20,7 +22,9 @@
   :exists? (fn [{{db :db conn :conn {id :id} :session remote-user :remote-user} :request}]
   	     (if remote-user
                (when-let [user (u/ext-load-user db remote-user conn)]
-                 {::user user})
+	      	 (let [extuser (extuser/get-ext-user (first (str/split remote-user #"@")))
+		       mergeduser (extuser/merge-user user extuser)]
+                   {::user mergeduser}))
                (when-let [user (u/load-user db id)]
                  {::user user})))
 
