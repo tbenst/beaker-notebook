@@ -13,6 +13,7 @@
                  [org.clojure/data.codec "0.1.0"]
                  [com.stuartsierra/component _]
                  [com.datomic/datomic-pro "0.9.5153"]
+                 [org.clojure/algo.generic "0.1.2"]
                  [ring _]
                  [bidi _ :exclusions [org.clojure/clojure]]
                  [liberator _]

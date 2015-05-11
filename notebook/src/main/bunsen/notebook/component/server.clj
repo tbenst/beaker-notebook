@@ -1,70 +1,60 @@
 (ns bunsen.notebook.component.server
-  (:require [ring.adapter.jetty :refer [run-jetty]]
+  (:require [bidi.ring :refer [make-handler]]
+            [bidi.bidi :refer [compile-route]]
+            [ring.util.response :refer [response status]]
+            [ring.adapter.jetty :refer [run-jetty]]
             [com.stuartsierra.component :as component :refer [start stop]]
             [ring.middleware.json :refer [wrap-json-params]]
             [ring.middleware.params :refer [wrap-params]]
-            [ring.util.response :refer [response]]
             [bunsen.common.middleware.database :refer [wrap-database]]
             [bunsen.common.helper.session.store :refer [bunsen-cookie-store]]
+            [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.stacktrace :refer [wrap-stacktrace-log]]
-            [bunsen.notebook.helper.route :as route]
-            [bunsen.notebook.route :as api-route]
-            [bunsen.notebook.resource.default :refer [default]]
-            [bunsen.notebook.resource.status :refer [status]]
-            [bunsen.notebook.resource.seed :refer [seed]]
-            [bunsen.notebook.resource.publication :refer [publication]]
-            [bunsen.notebook.resource.notebook :refer [notebook]]
-            [bunsen.notebook.resource.publications :refer [publications]]
-            [bunsen.notebook.resource.publications-count :refer [publications-count]]
-            [bunsen.notebook.resource.category :refer [category]]
-            [bunsen.notebook.resource.categories :refer [categories]]
-            [bunsen.notebook.resource.rating :refer [rating]]
-            [bunsen.notebook.resource.ratings :refer [ratings]]
+            [clojure.algo.generic.functor :refer [fmap]]
+            [bunsen.notebook.resource :refer [resources]]
+            [bunsen.notebook.route :refer [routes]]
             [datomic.api :as d]))
 
-(def routes
-  (route/with-default
-    :default api-route/routes))
+(def not-found
+  (constantly
+    (-> "" response (status 404))))
 
-(def resources
-  {:status status
-   :publication publication
-   :publications publications
-   :publications-count publications-count
-   :notebook notebook
-   :category category
-   :categories categories
-   :rating rating
-   :ratings ratings
-   :seed seed
-   :default default})
+(defn with-default-route
+  "Add a route pattern that will match anything. This way, we can handle the 404 (not Jetty)."
+  [routes default]
+  [""
+   [routes
+    [#".*" default]]])
 
 (defrecord Server [config database]
   component/Lifecycle
 
   (start [server]
-         (if (:jetty server)
-           server
-           (let [handler (route/make-handler
-                           #(let [resource (% resources)]
-                              (fn [req]
-                                ((resource server (:route-params req)) req)))
-                           routes)
-                 wrapped-handler (-> handler
-                                     wrap-json-params
-                                     wrap-params
-                                     wrap-stacktrace-log
-                                     (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
-                                                    :cookie-name "session"})
-                                     (wrap-database database))]
-             (assoc server
-               :jetty (run-jetty wrapped-handler {:join? false
-                                                  :port (:server-port config)})))))
+    (if (:jetty server)
+      server
+      (let [port (:server-port config)
+            salt (:cookie-salt config)
+            handler (-> (compile-route
+                          (with-default-route routes ::not-found))
+                        (make-handler
+                          ;; defresource returns a function that returns a handler... call it here to pass config
+                          (-> (fmap #(% config) resources)
+                              (assoc ::not-found not-found)))
+                        (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
+                                       :cookie-name "session"})
+                        wrap-params
+                        wrap-json-params
+                        (wrap-database database)
+                        wrap-stacktrace-log)]
+        (assoc server
+               :jetty (run-jetty
+                        handler {:port port
+                                 :join? false})))))
 
   (stop [server]
-        (when-let [jetty (:jetty server)]
-          (.stop jetty))
-        (dissoc server :jetty)))
+    (when-let [jetty (:jetty server)]
+      (.stop jetty))
+    (dissoc server :jetty)))
 
 (defn server [config]
   (map->Server {:config config}))

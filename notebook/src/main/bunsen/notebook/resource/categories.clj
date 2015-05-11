@@ -3,7 +3,7 @@
             [bunsen.notebook.helper.resource :as resource]
             [bunsen.notebook.presenter.categories :as api]))
 
-(defresource categories [_ _] resource/defaults
+(defresource categories [_] resource/defaults
   :allowed-methods [:post :get]
   :post! (fn [_]
            (api/create-category (:conn request) (:params request)))

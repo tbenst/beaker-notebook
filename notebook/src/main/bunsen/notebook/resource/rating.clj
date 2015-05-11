@@ -3,8 +3,8 @@
             [bunsen.notebook.helper.resource :as resource]
             [bunsen.notebook.presenter.ratings :as api]))
 
-(defresource rating [_ {:keys [id]}] resource/defaults
+(defresource rating [_] resource/defaults
   :allowed-methods [:get]
-  :exists? (fn [_]
-             {::rating (api/find-rating (:db request) (Long. id) 1)})
+  :exists? (fn [{{db :db {id :id} :route-params} :request}]
+             {::rating (api/find-rating db (Long. id) 1)})
   :handle-ok ::rating)

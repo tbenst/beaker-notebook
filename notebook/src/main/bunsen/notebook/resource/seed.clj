@@ -1,10 +1,10 @@
 (ns bunsen.notebook.resource.seed
   (:require [liberator.core :refer [defresource]]
             [datomic.api :as d]
-            [bunsen.notebook.component.database :as db]
+            [bunsen.common.component.database :as db]
             [bunsen.notebook.helper.resource :as resource]))
 
-(defresource seed [_ _] resource/defaults
+(defresource seed [_] resource/defaults
   :allowed-methods [:delete]
   :delete! (fn [_]
              (d/delete-database (:db-uri request))

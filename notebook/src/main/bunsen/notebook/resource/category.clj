@@ -3,9 +3,9 @@
             [bunsen.notebook.helper.resource :as resource]
             [bunsen.notebook.presenter.categories :as api]))
 
-(defresource category [_ {:keys [id]}] resource/defaults
+(defresource category [_] resource/defaults
   :allowed-methods [:get]
-  :exists? (fn [_]
-             (if-let [c (api/find-category (:db request) (Long. id))]
+  :exists? (fn [{{db :db {id :id} :route-params} :request}]
+             (if-let [c (api/find-category db (Long. id))]
                {::category c}))
   :handle-ok ::category)
