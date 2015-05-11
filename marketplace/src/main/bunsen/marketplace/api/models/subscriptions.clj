@@ -52,7 +52,7 @@
         ds-with-cat (map #(assoc %
                                  :catalog
                                  (category/fetch es-conn (:index %) (datasets/dataset-catalog-path %)))
-                         datasets)
+                         (:data datasets))
         subscriptions (map (fn [sub] (assoc sub
                                             :dataSet
                                             (into {} (filter #(and (= (str (:id %)) (:subscription/data-set-id sub))
