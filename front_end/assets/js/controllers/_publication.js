@@ -33,12 +33,12 @@
           $scope.isOwner = (author['public-id'] === $sessionStorage.user.id);
         })
 
-        F.Ratings.averageRating($scope.ratingAttrs)
+        F.Ratings.averagePubRating($scope.ratingAttrs)
         .then(function(count) {
           _.extend($scope.publication, {averageRating: parseFloat(count)});
         });
 
-        F.Ratings.userRating($scope.ratingAttrs)
+        F.Ratings.userPubRating($scope.ratingAttrs)
         .then(function(rate) {
           _.extend($scope.publication, {userRating: rate});
         });
