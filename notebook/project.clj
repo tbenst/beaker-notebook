@@ -2,7 +2,6 @@
   :description "bunsen project and notebook service"
   :url "https://github.com/twosigma/bunsen"
   :main bunsen.notebook.service
-  :jvm-opts ["-Xmx1536M"]
   :repositories {"my.datomic.com"
                  {:url "https://my.datomic.com/repo"
                   :username "will@mojotech.com"
@@ -33,5 +32,4 @@
                    :source-paths ["src/dev"]
                    :dependencies [[hawk "0.1.1"]
                                   [ring-mock "0.1.5"]
-                                  [org.clojure/tools.namespace "0.2.7"]]}}
-  :aliases {"build" ["do" ["clean"] ["uberjar"]]})
+                                  [org.clojure/tools.namespace "0.2.7"]]}})
