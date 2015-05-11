@@ -4,9 +4,10 @@
             [bunsen.common.component.database :as db]
             [bunsen.notebook.helper.resource :as resource]))
 
-(defresource seed [_] resource/defaults
+(defresource seed [config] resource/defaults
   :allowed-methods [:delete]
   :delete! (fn [_]
-             (d/delete-database (:db-uri request))
-             (d/create-database (:db-uri request))
-             (db/migrate (d/connect (:db-uri request)) "migrations.edn")))
+             (let [uri (:database-uri config)]
+               (d/delete-database uri)
+               (d/create-database uri)
+               (db/migrate (d/connect uri) "migrations.edn"))))

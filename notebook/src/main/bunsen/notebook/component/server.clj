@@ -6,7 +6,7 @@
             [com.stuartsierra.component :as component :refer [start stop]]
             [ring.middleware.json :refer [wrap-json-params]]
             [ring.middleware.params :refer [wrap-params]]
-            [bunsen.common.middleware.database :refer [wrap-database]]
+            [bunsen.common.middleware.database :refer [wrap-database wrap-database-reconnect]]
             [bunsen.common.helper.session.store :refer [bunsen-cookie-store]]
             [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.stacktrace :refer [wrap-stacktrace-log]]
@@ -26,6 +26,11 @@
    [routes
     [#".*" default]]])
 
+(defn conditionally-wrap-database [handler config database]
+  (if (= "true" (:allow-seed config))
+    (wrap-database-reconnect handler config)
+    (wrap-database handler database)))
+
 (defrecord Server [config database]
   component/Lifecycle
 
@@ -44,7 +49,7 @@
                                        :cookie-name "session"})
                         wrap-params
                         wrap-json-params
-                        (wrap-database database)
+                        (conditionally-wrap-database config database)
                         wrap-stacktrace-log)]
         (assoc server
                :jetty (run-jetty

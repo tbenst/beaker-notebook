@@ -22,4 +22,5 @@
     (service {:server-port (Integer. (:notebook-port env))
               :seed-file (:notebook-seed-file env)
               :cookie-salt (:cookie-salt env)
+              :allow-seed (:allow-seed env)
               :database-uri (:notebook-database-uri env)})))
