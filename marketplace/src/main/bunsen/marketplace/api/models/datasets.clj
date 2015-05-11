@@ -5,6 +5,7 @@
             [bunsen.marketplace.api.models.categories :as category]
             [bunsen.marketplace.api.domain :as domain]
             [bunsen.marketplace.simple.simple :as simple]
+            [bunsen.marketplace.api.models.ratings :as ratings]
             [clojurewerkz.elastisch.rest.document :as doc]
             [clojure.string :as str]
             [datomic.api :as d]))
@@ -118,7 +119,7 @@
     (transform-results results)))
 
 (defn find-matching
-  [config index query]
+  [db config index query]
   (let [es-conn (helper/connect-to-es config)
         category-path (:category-path query)
         catalog-path (extract-catalog-path category-path)
@@ -138,9 +139,11 @@
                                     (hash-map catalog-filter
                                               (map #(:key %)
                                                    (:buckets (catalog-filter aggregations)))))
-                                  catalog-filters))]
-
-    (assoc (transform-results results) :filters filters)))
+                                  catalog-filters))
+        datasets (assoc (transform-results results) :filters filters)]
+    (assoc datasets
+           :data (map #(merge % (ratings/avg-rating db (str (:id %)) index ))
+                      (:data datasets)))))
 
 (defn dataset-users
   [db index-name data-set-id]
@@ -173,7 +176,8 @@
                     (doc/get index-name "datasets" id)
                     :_source)
         catalog-path (dataset-catalog-path dataset)
-        related (:data (find-matching config
+        related (:data (find-matching db
+                                      config
                                       index-name
                                       {:category-path catalog-path
                                        :tags (:tags dataset)

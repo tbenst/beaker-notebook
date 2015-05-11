@@ -31,7 +31,7 @@
   :allowed? (some-fn resource/get? (partial resource/admin? config))
   :allowed-methods #{:get :post}
   :post! #(datasets/create-dataset config index-name (resource/get-body %))
-  :handle-ok #(datasets/find-matching config index-name (dissoc (resource/get-params %) :index-name)))
+  :handle-ok #(datasets/find-matching (:db request) config index-name (dissoc (resource/get-params %) :index-name)))
 
 (defresource dataset [config  {:keys  [index-name id]}] resource/defaults
   :allowed? (some-fn resource/get? (partial resource/admin? config))
