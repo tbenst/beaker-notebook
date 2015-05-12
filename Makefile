@@ -10,7 +10,7 @@ HOST ?= localhost
 CLOJURE_IMAGES := \
 	provisioner \
 	marketplace \
-	publications \
+	notebook \
 	user \
 	vendor
 
@@ -43,13 +43,13 @@ IMAGES := \
 	wait-web \
 	wait-provisioner \
 	wait-marketplace \
-	wait-publications \
+	wait-notebook \
 	wait-user \
 	start-api \
 	start-web \
 	start-provisioner \
 	start-marketplace \
-	start-publications \
+	start-notebook \
 	start-user \
 	start-riemann \
 	start-tests-user \
@@ -160,7 +160,7 @@ test-integration: wait-all start-tests
 
 test-marketplace: PORT := 8444
 
-wait-all: wait-web wait-api wait-provisioner wait-marketplace wait-publications wait-user
+wait-all: wait-web wait-api wait-provisioner wait-marketplace wait-notebook wait-user
 
 wait-web: start-web
 	wget -qO- --retry-connrefused --tries=20 "$(HOST):8081"
@@ -174,8 +174,8 @@ wait-provisioner: start-provisioner
 wait-marketplace: start-marketplace
 	wget -qO- --retry-connrefused --tries=20 "$(HOST):8444/marketplace/v1/status"
 
-wait-publications: start-publications
-	wget -qO- --retry-connrefused --tries=20 "$(HOST):3003/publications/v1/status"
+wait-notebook: start-notebook
+	wget -qO- --retry-connrefused --tries=20 "$(HOST):3003/notebook/v1/status"
 
 wait-user: start-user
 	wget -qO- --retry-connrefused --tries=20 "$(HOST):3004/user/v1/status"
@@ -202,8 +202,8 @@ start-beaker:
 start-riemann:
 	docker run -d -p 5556:5556 --env-file="config/$(ENV).env" --name=bunsen-riemann $(REGISTRY)/bunsen-provisioner:$(TAG) $(COMMANDS)
 
-start-publications:
-	docker run -d -p 3003:3003 --env-file="config/$(ENV).env" --name=bunsen-publications $(REGISTRY)/bunsen-publications:$(TAG) $(COMMANDS)
+start-notebook:
+	docker run -d -p 3003:3003 --env-file="config/$(ENV).env" --name=bunsen-notebook $(REGISTRY)/bunsen-notebook:$(TAG) $(COMMANDS)
 
 start-user:
 	docker run -d -p 3004:3004 --env-file="config/$(ENV).env" --name=bunsen-user $(REGISTRY)/bunsen-user:$(TAG) $(COMMANDS)

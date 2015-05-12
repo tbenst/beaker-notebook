@@ -18,7 +18,7 @@
      'ui.grid',
      'ui.grid.autoResize'
     ], ['RestangularProvider', function(RestangularProvider) {
-      RestangularProvider.setBaseUrl('/publications/v1');
+      RestangularProvider.setBaseUrl('/notebook/v1');
     }]);
 
   window.bunsen.run(['$templateCache', function($templateCache){
