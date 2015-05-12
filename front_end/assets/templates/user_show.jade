@@ -1,0 +1,59 @@
+.user-container
+  h1.user-edit-page-message(ng-if='message') {{message}}
+  .heading
+    img.user-icon.left(ng-src="https://pictures.twosigma.com/pictures/{{user.extdata['person.person_has_primary_identity.identity_name']}}.jpg")
+    h2.user-edit-title Show User
+  form.user-edit(name='editUserForm', ng-submit='editUser(editUserForm.$valid)')
+    section.overview
+      .col-half
+        br
+        br
+        b Name:
+        br
+        {{ user.name }}
+        br
+        br
+        b Email:
+        br
+        {{ user.email }}
+        br
+        br
+        b Desk Phone:
+        br
+        {{ user.extdata.person_desk_phone }}
+        br
+        br
+        b Mobile Phone:
+        br
+        {{ user.extdata.person_mobile_phone }}
+        br
+        br
+        b Location:
+        br
+        {{ user.extdata.person_location }}
+        br
+        br
+        b Building:
+        br
+        {{ user.extdata.person_building }}
+        br
+        br
+        b Floor:
+        br
+        {{ user.extdata.person_floor }}
+        br
+        br
+      .col-half
+        b Bio:
+        br
+        {{ user.extdata.person_professional_bio }}
+        br
+        br
+        b Personal Bio:
+        br
+        {{ user.extdata.person_personal_bio }}
+        br
+        br
+
+  .loading(ng-if="loading")
+   bunsen-spinner
