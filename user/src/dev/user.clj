@@ -12,7 +12,11 @@
    :database-uri "datomic:mem://user"
    :seed-file "seed.edn"
    :allow-seed "true"
-   :cookie-salt "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<"})
+   :cookie-salt "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<"
+   :jetty-options {:port 3004
+                   :ssl? false
+                   :join? false}}
+  )
 
 (defn start []
   (alter-var-root #'*service*
