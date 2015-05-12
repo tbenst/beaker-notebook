@@ -151,4 +151,28 @@
   :publication/ratings [{:rating/user 2 :rating/score 2}
                         {:rating/user 1 :rating/score 5}]}
 
+ {:db/id #db/id[:db.part/user]
+  :project/public-id #uuid "5551e48e-f53f-4341-97e5-9515f07ee224"
+  :project/name "Sandbox"
+  :project/description "Sandbox"
+  :project/owner-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
+  :project/last-executed #inst "2015-05-15T15:15:55.00Z"
+  :project/opened-at #inst "2015-05-15T15:55:55.00Z"}
+
+ {:db/id #db/id[:db.part/user]
+  :project/public-id #uuid "5551e2b9-e25f-4971-b3ad-ba80d95929f7"
+  :project/name "Large Hadron Collider"
+  :project/description "Testing the predictions of different theories of particle physics and high-energy physics"
+  :project/owner-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
+  :project/last-executed #inst "2015-05-15T15:15:55.00Z"
+  :project/opened-at #inst "2015-05-15T15:55:55.00Z"}
+
+ {:db/id #db/id[:db.part/user]
+  :notebook/public-id #uuid "5551e2b9-e25f-4971-b3ad-ba80d95929f7"
+  :notebook/name "Deficiencies of the Standard Model"
+  :notebook/user-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
+  :notebook/project-id #uuid "5551e2b9-e25f-4971-b3ad-ba80d95929f7" ; belongs to "Large Hadron Collider"
+  :notebook/open false
+  :notebook/opened-at #inst "2015-05-15T15:55:55.00Z"
+  :notebook/contents #file "notebooks/hello_world.bkr"}
  ]
