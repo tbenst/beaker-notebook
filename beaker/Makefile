@@ -5,7 +5,7 @@ SHELL := /usr/bin/env bash
 
 all: env
 	env/bin/pip install -r requirements.txt
-	cd beaker-server && gradle build
+	cd beaker-server && gradle buildembed
 
 # isolate python packages inside a virtualenv
 env:
