@@ -39,23 +39,23 @@
     (if (:jetty server)
       server
       (let [principal (if (:use-kerberos config) (:kerberos-principal config) nil)
-      	    handler (make-handler
-                     api-route/routes
-		     #(let [resource (% resources)]
-                        (fn [request]
-                          ((resource config (:route-params request)) request))))]
+            handler (make-handler
+                      api-route/routes
+                      #(let [resource (% resources)]
+                         (fn [request]
+                           ((resource config (:route-params request)) request))))]
 
         (assoc server
                :jetty (run-jetty (-> handler
                                      (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
                                                     :cookie-name "session"})
-                                      wrap-cookies
-                                      wrap-keyword-params
-                                      wrap-params
-                                      (wrap-database database)
-                                      wrap-stacktrace-log
-                                      (wrap-json-body {:keywords? true})
-                                      (kerberos/authenticate principal))
+                                     wrap-cookies
+                                     wrap-keyword-params
+                                     wrap-params
+                                     (wrap-database database)
+                                     wrap-stacktrace-log
+                                     (wrap-json-body {:keywords? true})
+                                     (kerberos/authenticate principal))
                                  (:jetty-options config))))))
 
   (stop [server]
