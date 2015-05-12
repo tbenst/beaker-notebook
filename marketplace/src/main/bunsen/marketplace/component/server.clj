@@ -9,7 +9,7 @@
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.util.response :refer [response]]
             [bidi.ring :refer (make-handler)]
-            [bunsen.common.middleware.database :refer [wrap-database]]
+            [bunsen.common.middleware.database :refer [wrap-database wrap-database-reconnect]]
             [bunsen.common.helper.session.store :refer [bunsen-cookie-store]]
             [bunsen.marketplace.api.resource :as api-resource]
             [bunsen.marketplace.api.route :as api-route]
@@ -33,6 +33,11 @@
    :vendors api-resource/vendors
    :default api-resource/default})
 
+(defn conditionally-wrap-database [handler config database]
+  (if (= "true" (:allow-seed config))
+    (wrap-database-reconnect handler config)
+    (wrap-database handler database)))
+
 (defrecord Server [config database]
   component/Lifecycle
   (start [server]
@@ -52,7 +57,7 @@
                                      wrap-cookies
                                      wrap-keyword-params
                                      wrap-params
-                                     (wrap-database database)
+                                     (conditionally-wrap-database config database)
                                      wrap-stacktrace-log
                                      (wrap-json-body {:keywords? true})
                                      (kerberos/authenticate principal))
