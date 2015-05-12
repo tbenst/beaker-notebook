@@ -85,4 +85,14 @@
                                                                                  :cookie-store (sign-in 1)
                                                                                  :content-type :json}))))))
 
+(deftest get-datasets
+  (testing "finding datasets with params"
+    (let [datasets (json/read-str (:body (fetch (str "/marketplace/v1/indices/" index-name "/datasets")
+                                                {:cookie-store (sign-in 1)
+                                                 :query-params {:category-path 0.0
+                                                                :from 0
+                                                                :limit 10}}))
+                                  :key-fn keyword)]
+      (is (= 14 (:total-items datasets))))))
+
 (use-fixtures :each setup-market-tests)

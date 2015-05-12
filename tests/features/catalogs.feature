@@ -68,4 +68,3 @@ As a researcher, I want to be able to browse different market place catalogs.
     And I browse "Duplicate Path" catalog
     And I view the market search
     Then I should be in "Duplicate Path" catalog
-

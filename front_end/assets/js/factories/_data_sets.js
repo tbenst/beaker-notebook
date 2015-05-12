@@ -2,7 +2,7 @@
 
   function buildQuery(scope) {
     var query = {
-      offset: (scope.currentPage - 1) * scope.itemsPerPage,
+      from: (scope.currentPage - 1) * scope.itemsPerPage,
       limit: scope.itemsPerPage
     };
 
@@ -15,11 +15,7 @@
     }
 
     if (scope.categoryPath !== void(0)) {
-      query.categoryPath = scope.categoryPath;
-    }
-
-    if (scope.currentCategory !== void(0)) {
-      query.currentIndex = scope.currentCategory.index;
+      query['category-path'] = scope.categoryPath;
     }
 
     _.chain(scope.filters).keys().each(function(f) {
@@ -70,9 +66,14 @@
             .one('indices', dataset.index)
             .post('datasets', _.omit(dataset, 'index'));
           },
-          getDataSets: function(scope, abort) {
-            return TimeoutRestangular(abort).one('data_sets')
+          getDataSets: function(scope) {
+            return MarketplaceRestangular
+            .one('indices', scope.currentCategory.index)
+            .one('datasets')
             .get(buildQuery(scope))
+            .then(function(datasets) {
+              return datasets.data;
+            })
             .then(function(datasets) {
               return _.extend(datasets, {
                 data: _.map(datasets.data, formatDataset)
