@@ -1,9 +1,11 @@
 (ns bunsen.marketplace.api.models.datasets
   (:require [bunsen.marketplace.helper.api :as helper]
             [bunsen.marketplace.base :as base]
+            [bunsen.common.helper.utils :as u]
             [bunsen.marketplace.api.models.categories :as category]
             [bunsen.marketplace.api.domain :as domain]
             [bunsen.marketplace.simple.simple :as simple]
+            [bunsen.marketplace.api.models.ratings :as ratings]
             [clojurewerkz.elastisch.rest.document :as doc]
             [clojure.string :as str]
             [datomic.api :as d]))
@@ -117,7 +119,7 @@
     (transform-results results)))
 
 (defn find-matching
-  [config index query]
+  [db config index query]
   (let [es-conn (helper/connect-to-es config)
         category-path (:category-path query)
         catalog-path (extract-catalog-path category-path)
@@ -137,9 +139,11 @@
                                     (hash-map catalog-filter
                                               (map #(:key %)
                                                    (:buckets (catalog-filter aggregations)))))
-                                  catalog-filters))]
-
-    (assoc (transform-results results) :filters filters)))
+                                  catalog-filters))
+        datasets (assoc (transform-results results) :filters filters)]
+    (assoc datasets
+           :data (map #(merge % (ratings/avg-rating db (str (:id %)) index ))
+                      (:data datasets)))))
 
 (defn dataset-users
   [db index-name data-set-id]
@@ -152,6 +156,19 @@
         index-name
         data-set-id))
 
+(defn subscribed?
+  [data-set-id index-name ctx]
+  (let [user-id (-> ctx :request :session :id)]
+    (d/q '[:find ?s .
+           :in $ ?index-name ?data-set-id ?user-id
+           :where [?s :subscription/data-set-id ?data-set-id]
+                  [?s :subscription/index-name ?index-name]
+                  [?s :subscription/user-id ?user-id]]
+         (-> ctx :request :db)
+         index-name
+         data-set-id
+         (u/uuid-from-str user-id))))
+
 (defn get-dataset
   [db config index-name id]
   (let [es-conn (helper/connect-to-es config)
@@ -159,7 +176,8 @@
                     (doc/get index-name "datasets" id)
                     :_source)
         catalog-path (dataset-catalog-path dataset)
-        related (:data (find-matching config
+        related (:data (find-matching db
+                                      config
                                       index-name
                                       {:category-path catalog-path
                                        :tags (:tags dataset)
