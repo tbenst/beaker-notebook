@@ -5,7 +5,7 @@ SHELL := /usr/bin/env bash
 
 all: env
 	env/bin/pip install -r requirements.txt
-	cd beaker-notebook && gradle build
+	cd beaker-server && gradle build
 
 # isolate python packages inside a virtualenv
 env:
@@ -16,7 +16,7 @@ watch: run
 
 # calling core/beaker.command directly doesn't work inside a virtual env, so call bin/core directly
 run:
-	source env/bin/activate && cd beaker-notebook/core && ./build/install/core/bin/core --open-browser=false
+	source env/bin/activate && cd beaker-server/core && ./build/install/core/bin/core --open-browser=false
 
 # generate a cookie file to secure beaker at runtime
 cookie:
