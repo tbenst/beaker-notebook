@@ -42,12 +42,11 @@
 (defn ext-load-user [db account conn]
   (if-let [user (find-user-by-account db account)]
     (select-keys user [:user/public-id :user/account :user/name :user/email :user/role :user/job-title :user/bio :user/company])
-    ; automatically create a user - we fill only account which is used by JavaScript
-    ; to retrieve user info from company REST api
+    ; automatically create a user
     (let [user {:db/id (d/tempid :db.part/user)
               :user/public-id (d/squuid)
-	      :user/account account
-              :user/name ""
+              :user/account account
+              :user/name account
               :user/email account
               :user/password ""
               :user/role 0}]

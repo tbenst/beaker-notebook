@@ -11,7 +11,7 @@
            (org.apache.http.auth Credentials)
            (org.apache.http.auth AuthScope)
            (org.apache.commons.io IOUtils)
-	   (javax.security.auth.kerberos KerberosPrincipal)))
+           (javax.security.auth.kerberos KerberosPrincipal)))
 
 (deftype KCredentials [ ]
   Credentials
@@ -46,7 +46,7 @@
           content-type (try (.getValue (aget (.getHeaders response "Content-Type") 0)) (catch Exception e nil))
           charset (detect-charset content-type)
           body (IOUtils/toByteArray (.getContent (.getEntity response)))
-	  jbody (coerce-json-body body charset)]
+          jbody (coerce-json-body body charset)]
       jbody)))
 
 (defn get-ext-user [account]
@@ -54,7 +54,6 @@
     (let [url (str "http://facebook.twosigma.com:8770/rest/userprofiles/user?username=" account)]
       (fetchdata url))
     (catch Exception e (println (str "exception: " e)))))
-
 
 (defn merge-user [user extuser]
   (let [fields (get extuser :fields)

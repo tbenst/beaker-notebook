@@ -3,7 +3,7 @@
             [bunsen.user.resource.defaults :refer [defaults]]
             [liberator.representation :refer [ring-response]]
             [bunsen.user.model.user :as u]
-	    [clojure.string :as str]
+            [clojure.string :as str]
             [bunsen.user.helper.tsusers :as extuser]))
 
 (defresource user [_] defaults
@@ -12,7 +12,7 @@
   :processable? (fn [{{db :db params :params {id :id} :session method :request-method remote-user :remote-user} :request}]
                   (if (= :put method)
                     (if remote-user
-		      {::errors "cannot edit external users"}
+                      {::errors "cannot edit external users"}
                       (let [errors (u/validate-user db id params)]
                         [(empty? errors) {::errors errors}]))
                     true))
@@ -20,10 +20,10 @@
   :handle-unprocessable-entity ::errors
 
   :exists? (fn [{{db :db conn :conn {id :id} :session remote-user :remote-user} :request}]
-  	     (if remote-user
+               (if remote-user
                (when-let [user (u/ext-load-user db remote-user conn)]
-	      	 (let [extuser (extuser/get-ext-user (first (str/split remote-user #"@")))
-		       mergeduser (extuser/merge-user user extuser)]
+                 (let [extuser (extuser/get-ext-user (first (str/split remote-user #"@")))
+                       mergeduser (extuser/merge-user user extuser)]
                    {::user mergeduser}))
                (when-let [user (u/load-user db id)]
                  {::user user})))
