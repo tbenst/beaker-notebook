@@ -79,6 +79,9 @@ web:
 api:
 	docker build --force-rm -t $(REGISTRY)/bunsen-api:$(TAG) app
 
+submodules:
+	git submodule update --init
+
 install:
 	lein modules install
 
@@ -123,7 +126,7 @@ prepare-%: install
 prepare-api:
 	make -C app
 
-prepare-beaker:
+prepare-beaker: submodules
 	make -C beaker
 
 prepare-web:
