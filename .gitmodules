@@ -1,0 +1,4 @@
+[submodule "beaker/beaker-server"]
+	path = beaker/beaker-server
+	url = git@github.com:twosigma/beaker-notebook.git
+	branch = bunsen_integration
