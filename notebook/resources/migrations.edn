@@ -129,6 +129,18 @@
            :db/valueType :db.type/instant
            :db/cardinality :db.cardinality/one
            :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :project/created-at
+           :db/valueType :db.type/instant
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :project/updated-at
+           :db/valueType :db.type/instant
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
           ]]}
 
  :notebook/add-notebook-schema
@@ -173,6 +185,18 @@
           {:db/id #db/id[:db.part/db]
            :db/ident :notebook/contents
            :db/valueType :db.type/string
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :notebook/created-at
+           :db/valueType :db.type/instant
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :notebook/updated-at
+           :db/valueType :db.type/instant
            :db/cardinality :db.cardinality/one
            :db.install/_attribute :db.part/db}
           ]]}

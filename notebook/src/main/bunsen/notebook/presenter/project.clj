@@ -2,7 +2,7 @@
   (:require [datomic.api :as d]
             [bunsen.common.helper.utils :as utils]
             [bouncer.core :as b]
-            [bunsen.common.helper.query :as q]
+            [clj-time.core :as time]
             [bouncer.validators :as v]))
 
 (defn find-project [db owner-id project-id]
@@ -16,13 +16,13 @@
 (defn load-project [db owner-id project-id]
   (when-let [p (when (and owner-id project-id)
                  (find-project db owner-id project-id))]
-    (let [t (q/timestamps db (:db/id p))
-          prj (merge p t)]
-      (dissoc prj :db/id))))
+    (dissoc p :db/id)))
 
 (defn create-project! [conn owner-id {:keys [name description]}]
   (let [p {:db/id (d/tempid :db.part/user)
            :project/public-id (d/squuid)
+           :project/created-at (time/now)
+           :project/updated-at (time/now)
            :project/name name
            :project/description description
            :project/owner-id (utils/uuid-from-str owner-id)}]
@@ -35,7 +35,7 @@
                  (dissoc :public-id :id)
                  utils/remove-nils
                  (utils/namespace-keys "project")
-                 (assoc :db/id (:db/id p)))]
+                 (assoc :db/id (:db/id p) :project/updated-at (time/now)))]
       @(d/transact conn [tx])
       tx)))
 
