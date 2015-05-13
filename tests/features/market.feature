@@ -44,7 +44,7 @@ As a researcher, I want to be able to use the market place.
     And I filter by search by selecting the "George data" vendors
     Then I should see 1 market item on the market list page
 
-  @broken
+  @flaky @broken
   Scenario: Stacking market item filters
     Given I have the following market items:
       | title           | vendor        | format  |
@@ -83,6 +83,8 @@ As a researcher, I want to be able to use the market place.
     And I view the market search
     Then I should see 10 market items on the market list page
     And I should see 22 total results
+    When I click page 3 of pagination
+    Then I should see 2 market items on the market list page
 
   Scenario: Market place filter persistence
     When there is a market item with the tags "cat,dog,human"
@@ -103,7 +105,7 @@ As a researcher, I want to be able to use the market place.
     And I click "Government"
     Then I should see that no tags are selected
 
-  @broken
+  @flaky @broken
   Scenario: Market items top-level text-search
     Given I have the following market items:
       | title                  |
