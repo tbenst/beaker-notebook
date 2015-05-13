@@ -19,7 +19,7 @@
                  [environ _]
                  [liberator _]
                  [com.stuartsierra/component _]
-                 [com.datomic/datomic-pro "0.9.5153"]
+                 [com.datomic/datomic-pro "0.9.5153" :exclusions [joda-time]]
                  [com.datastax.cassandra/cassandra-driver-core "2.0.6"]
                  [crypto-password "0.1.3"]
                  [bouncer "0.3.2"]

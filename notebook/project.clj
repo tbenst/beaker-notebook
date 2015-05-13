@@ -11,7 +11,7 @@
                  [org.clojure/tools.cli "0.3.1"]
                  [org.clojure/data.codec "0.1.0"]
                  [com.stuartsierra/component _]
-                 [com.datomic/datomic-pro "0.9.5153"]
+                 [com.datomic/datomic-pro "0.9.5153" :exclusions [joda-time]]
                  [com.datastax.cassandra/cassandra-driver-core "2.0.6"]
                  [org.clojure/algo.generic "0.1.2"]
                  [ring _]

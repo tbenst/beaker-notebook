@@ -19,7 +19,7 @@
                  [liberator _]
                  [wkf/clj-http _]
                  [com.taoensso/timbre "3.3.1"]
-                 [com.datomic/datomic-pro "0.9.5153"]
+                 [com.datomic/datomic-pro "0.9.5153" :exclusions [joda-time]]
                  [com.datastax.cassandra/cassandra-driver-core "2.0.6"]
                  [clojurewerkz/elastisch "2.1.0"]]
   :plugins [[lein-modules "0.3.10"]]
