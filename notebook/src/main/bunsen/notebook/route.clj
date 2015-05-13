@@ -7,7 +7,7 @@
                        "/publications" {"" :publications
                                         "_count" :publications-count
                                         ["/" :id] {"" :publication
-                                                   "/notebook" :notebook
+                                                   "/notebook" :publication-contents
                                                    "/ratings" :ratings
                                                    "/rating" :rating}}
                        "/categories" {"" :categories

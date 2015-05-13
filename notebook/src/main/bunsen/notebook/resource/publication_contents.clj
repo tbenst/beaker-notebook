@@ -1,9 +1,9 @@
-(ns bunsen.notebook.resource.notebook
+(ns bunsen.notebook.resource.publication-contents
   (:require [liberator.core :refer [defresource]]
             [bunsen.notebook.helper.resource :as resource]
             [bunsen.notebook.presenter.publications :as api]))
 
-(defresource notebook [_] resource/defaults
+(defresource publication-contents [_] resource/defaults
   :allowed-methods [:get]
   :exists? (fn [{{db :db {id :id} :route-params} :request}]
              (if-let [p (api/find-publication db (Long. id))]
