@@ -61,3 +61,12 @@
                   :name [v/required [unique-project-name? project-id owner-id db
                                      :message "project with this name already exists"]])
       first))
+
+(defn find-projects [db owner-id]
+  (d/q '[:find [(pull ?p [* {:notebook/_project [:notebook/public-id :notebook/name
+                                                 :notebook/open :notebook/opened-at
+                                                 :notebook/created-at :notebook/updated-at]}]) ...]
+         :in $ ?oid
+         :where
+         [?p :project/owner-id ?oid]]
+       db (utils/uuid-from-str owner-id)))
