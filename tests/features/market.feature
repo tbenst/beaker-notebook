@@ -44,7 +44,7 @@ As a researcher, I want to be able to use the market place.
     And I filter by search by selecting the "George data" vendors
     Then I should see 1 market item on the market list page
 
-  @broken
+  @flaky @broken
   Scenario: Stacking market item filters
     Given I have the following market items:
       | title           | vendor        | format  |
@@ -103,7 +103,7 @@ As a researcher, I want to be able to use the market place.
     And I click "Government"
     Then I should see that no tags are selected
 
-  @broken
+  @flaky @broken
   Scenario: Market items top-level text-search
     Given I have the following market items:
       | title                  |

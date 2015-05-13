@@ -33,7 +33,7 @@ As a researcher, I want to be able to browse different market place catalogs.
     | type    | xml              |
     And I should see 1 market item on the market list page
 
-  @broken
+  @flaky @broken
   Scenario: Search an alternate catalog
     And index "catalog_0.2" has the following market items:
       | name                   | company          | type | categories |
