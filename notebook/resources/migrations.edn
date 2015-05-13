@@ -1,0 +1,179 @@
+{:publications/add-publication-schema
+ {:txes [[
+          {:db/id #db/id[:db.part/db]
+           :db/ident :publication/name
+           :db/valueType :db.type/string
+           :db/fulltext true
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :publication/description
+           :db/valueType :db.type/string
+           :db/fulltext true
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :publication/contents
+           :db/valueType :db.type/string
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :publication/author
+           :db/valueType :db.type/long
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :publication/notebook-id
+           :db/valueType :db.type/string
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :publication/category
+           :db/valueType :db.type/ref
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :category/name
+           :db/valueType :db.type/string
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :category/description
+           :db/valueType :db.type/string
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+          ]]}
+
+ :publications/add-category-schema
+ {:txes [[
+          {:db/id #db/id[:db.part/db]
+           :db/ident :category/name
+           :db/valueType :db.type/string
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :category/description
+           :db/valueType :db.type/string
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+          ]]}
+
+ :publications/add-ratings-schema
+ {:txes [[
+          {:db/id #db/id[:db.part/db]
+           :db/ident :rating/user
+           :db/valueType :db.type/long
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :rating/score
+           :db/valueType :db.type/long
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+          ]]}
+
+ :publications/add-ratings-to-publications
+ {:txes [[
+          {:db/id #db/id[:db.part/db]
+           :db/ident :publication/ratings
+           :db/valueType :db.type/ref
+           :db/cardinality :db.cardinality/many
+           :db/isComponent true
+           :db.install/_attribute :db.part/db}
+          ]]}
+
+ :notebook/add-project-schema
+ {:txes [[
+          {:db/id #db/id[:db.part/db]
+           :db/ident :project/public-id
+           :db/valueType :db.type/uuid
+           :db/unique :db.unique/value
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :project/name
+           :db/valueType :db.type/string
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :project/description
+           :db/valueType :db.type/string
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :project/owner-id
+           :db/valueType :db.type/uuid
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :project/last-executed
+           :db/valueType :db.type/instant
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :project/opened-at
+           :db/valueType :db.type/instant
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+          ]]}
+
+ :notebook/add-notebook-schema
+ {:txes [[
+          {:db/id #db/id[:db.part/db]
+           :db/ident :notebook/public-id
+           :db/valueType :db.type/uuid
+           :db/unique :db.unique/value
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :notebook/name
+           :db/valueType :db.type/string
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :notebook/user-id
+           :db/valueType :db.type/uuid
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :notebook/project-id
+           :db/valueType :db.type/uuid
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :notebook/open
+           :db/valueType :db.type/boolean
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :notebook/opened-at
+           :db/valueType :db.type/instant
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :notebook/contents
+           :db/valueType :db.type/string
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+          ]]}
+ }

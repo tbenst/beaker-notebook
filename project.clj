@@ -5,6 +5,7 @@
                  [bunsen/user _]
                  [bunsen/vendor _]
                  [bunsen/provisioner _]
+                 [bunsen/notebook _]
                  [bunsen/marketplace _]]
   :plugins [[lein-modules "0.3.10"]]
   :modules {:versions {bunsen :version

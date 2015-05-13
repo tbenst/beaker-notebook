@@ -119,6 +119,7 @@ As a researcher, I want to be able to use the market place.
     Then I should see 1 market item on the market list page
     And I should see the "Credit Card Complaints" market item on the market list page
 
+  @flaky @broken
   Scenario: Market items filter text search
     Given I have the following market items:
       | title                  |
@@ -147,6 +148,7 @@ As a researcher, I want to be able to use the market place.
     And I clear the marketplace search
     Then I should see 2 market items on the market list page
 
+  @flaky @broken
   Scenario: Market items filter search stacking on top-level search
     Given I have the following market items:
       | title                             |
@@ -160,6 +162,7 @@ As a researcher, I want to be able to use the market place.
     Then I should see 1 market item on the market list page
     And I should see the "Crime in America" market item on the market list page
 
+  @flaky @broken
   Scenario: Market items tag filter stacking on top-level search
     Given I have the following market items:
       | title                             | tags |
