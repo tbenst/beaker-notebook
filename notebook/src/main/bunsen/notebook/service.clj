@@ -1,7 +1,6 @@
 (ns bunsen.notebook.service
   (:gen-class)
   (:require [environ.core :refer [env]]
-            [bunsen.notebook.helper.json :as json]
             [bunsen.common.helper.utils :as u]
             [bunsen.common.helper.json :as j]
             [com.stuartsierra.component :as component]
@@ -9,7 +8,7 @@
             [bunsen.notebook.component.server :refer [server]]))
 
 (defn service [config]
-  (json/enable-date-serialization)
+  (j/enable-date-serialization)
   (j/enable-uuid-json-serialization)
   (-> (component/system-map
         :database (database (assoc config :seed-readers {'file u/read-resource-file}))
