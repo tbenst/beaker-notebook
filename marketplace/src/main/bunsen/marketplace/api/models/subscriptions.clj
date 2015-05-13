@@ -3,6 +3,7 @@
             [bunsen.common.helper.utils :as utils]
             [bunsen.common.helper.query :as q]
             [bunsen.marketplace.api.models.datasets :as datasets]
+            [bunsen.marketplace.api.models.categories :as category]
             [bunsen.marketplace.helper.api :as helper]
             [datomic.api :as d]))
 
@@ -50,8 +51,8 @@
         datasets (datasets/find-by-ids es-conn dataset-ids)
         ds-with-cat (map #(assoc %
                                  :catalog
-                                 (datasets/get-catalog es-conn (:index %) (datasets/dataset-catalog-path %)))
-                         datasets)
+                                 (category/fetch es-conn (:index %) (datasets/dataset-catalog-path %)))
+                         (:data datasets))
         subscriptions (map (fn [sub] (assoc sub
                                             :dataSet
                                             (into {} (filter #(and (= (str (:id %)) (:subscription/data-set-id sub))

@@ -1,9 +1,11 @@
 (ns bunsen.marketplace.api.resource
   (:require [liberator.core :refer [defresource]]
+            [bunsen.common.helper.utils :as u]
             [bunsen.marketplace.helper.resource :as resource]
             [bunsen.marketplace.api.domain :as domain]
             [bunsen.marketplace.api.models.datasets :as datasets]
             [bunsen.marketplace.api.models.categories :as categories]
+            [bunsen.marketplace.api.models.ratings :as ratings]
             [bunsen.marketplace.api.models.subscriptions :as subscriptions]))
 
 (defresource status [_ _] resource/defaults
@@ -26,9 +28,10 @@
   :delete! (subscriptions/retract-all-subscriptions! (:conn request)))
 
 (defresource datasets [config {:keys [index-name]}] resource/defaults
-  :allowed? (partial resource/admin? config)
-  :allowed-methods #{:post}
-  :post! #(datasets/create-dataset config index-name (resource/get-body %)))
+  :allowed? (some-fn resource/get? (partial resource/admin? config))
+  :allowed-methods #{:get :post}
+  :post! #(datasets/create-dataset config index-name (resource/get-body %))
+  :handle-ok #(datasets/find-matching (:db request) config index-name (dissoc (resource/get-params %) :index-name)))
 
 (defresource dataset [config  {:keys  [index-name id]}] resource/defaults
   :allowed? (some-fn resource/get? (partial resource/admin? config))
@@ -84,3 +87,21 @@
   :allowed-methods #{:get}
   :handle-ok (fn [_] (let [user-id (-> request :session :id)]
                        (subscriptions/get-subscriptions config (:db request) user-id))))
+
+(defresource rating [_ {:keys [id index-name]}] resource/defaults
+  :allowed? (some-fn resource/get? (partial datasets/subscribed? id index-name))
+  :allowed-methods [:get :post]
+  :post! (fn [_] (ratings/rate-data-set (:conn request)
+                                        id
+                                        index-name
+                                        (u/uuid-from-str (-> request :session :id))
+                                        (-> request :body :score)))
+  :handle-ok (or (ratings/user-rating (:db request)
+                                      id
+                                      index-name
+                                      (u/uuid-from-str (-> request :session :id)))
+                 {:score 0}))
+
+(defresource average-rating [_ {:keys [id index-name]}] resource/defaults
+  :allowed-methods [:get]
+  :handle-ok (ratings/avg-rating (:db request) id index-name))

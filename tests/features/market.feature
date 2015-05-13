@@ -44,6 +44,7 @@ As a researcher, I want to be able to use the market place.
     And I filter by search by selecting the "George data" vendors
     Then I should see 1 market item on the market list page
 
+  @broken
   Scenario: Stacking market item filters
     Given I have the following market items:
       | title           | vendor        | format  |
@@ -102,6 +103,7 @@ As a researcher, I want to be able to use the market place.
     And I click "Government"
     Then I should see that no tags are selected
 
+  @broken
   Scenario: Market items top-level text-search
     Given I have the following market items:
       | title                  |
@@ -352,16 +354,16 @@ As a researcher, I want to be able to use the market place.
     When I click the "Thumbnails" tab
     Then I should see an active tab of "Thumbnails"
 
-  # Scenario: Rating a market item
-  #   Given I have the following market items:
-  #     | title           | vendor           |
-  #     | Rate Me         | Ratings R Us     |
-  #   And I view the market search
-  #   And I view the "Rate Me" market item
-  #   And I subscribe to the market item
-  #   When I give the market item a rating of 4
-  #   Then I should see 4 stars highlighted in my rate
-  #   And I should see 4 stars highlighted in the average
+  Scenario: Rating a market item
+    Given I have the following market items:
+      | title           | vendor           |
+      | Rate Me         | Ratings R Us     |
+    And I view the market search
+    And I view the "Rate Me" market item
+    And I subscribe to the market item
+    When I give the market item a rating of 4
+    Then I should see 4 stars highlighted in my rate
+    And I should see 4 stars highlighted in the average
 
   Scenario: Hiding user rating when unsubscribed
     Given I have the following market items:
@@ -371,14 +373,14 @@ As a researcher, I want to be able to use the market place.
     And I view the "Unrateable" market item
     Then I should not see the user rating
 
-  # Scenario: Rating in market item list view
-  #   Given I have the following market items:
-  #     | title           | vendor           |
-  #     | Rate Me         | Ratings R Us     |
-  #   And I view the market search
-  #   And I view the "Rate Me" market item
-  #   And I subscribe to the market item
-  #   When I give the market item a rating of 4
-  #   And I view the market search
-  #   And I refresh the page
-  #   Then I should see an average rating of 4 for the first market item
+  Scenario: Rating in market item list view
+    Given I have the following market items:
+      | title           | vendor           |
+      | Rate Me         | Ratings R Us     |
+    And I view the market search
+    And I view the "Rate Me" market item
+    And I subscribe to the market item
+    When I give the market item a rating of 4
+    And I view the market search
+    And I refresh the page
+    Then I should see an average rating of 4 for the first market item

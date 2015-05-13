@@ -26,8 +26,7 @@
 
         $scope.canShowRating = function() {
           if (!$scope.ratingAttrs) return;
-          var rateableType = $scope.ratingAttrs.rateableId.split(':')[0];
-          return $scope.subscribed || rateableType !== 'data_sets';
+          return $scope.subscribed || $scope.ratingAttrs.rateableId;
         };
 
         $scope.stopHover = function() {
@@ -45,12 +44,20 @@
         $scope.setRating = function(index) {
           if ($scope.score === index + 1) return;
           $scope.ratingAttrs.score = index + 1;
-          Factories.Ratings.createRating($scope.ratingAttrs)
-          .then(function() {
-            return Factories.Ratings.averageRating($scope.ratingAttrs)
-          })
-          .then(function(average) {
-            $scope.average = average;
+          var average;
+          if ($scope.ratingAttrs.rateableId) {
+            average = Factories.Ratings.createPubRating($scope.ratingAttrs)
+            .then(function() {
+              return Factories.Ratings.averagePubRating($scope.ratingAttrs);
+            });
+          } else {
+            average = Factories.Ratings.createRating($scope.ratingAttrs)
+           .then(function() {
+             return Factories.Ratings.averageRating($scope.ratingAttrs);
+           });
+          }
+          average.then(function(score) {
+            $scope.average = score;
             $scope.score = index + 1;
           });
         };

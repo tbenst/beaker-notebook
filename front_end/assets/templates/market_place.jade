@@ -19,7 +19,7 @@
 
   h2.total-result-count-header
     span.total-result-count
-      {{marketPlace.totalItems}}
+      {{marketPlace['total-items']}}
     | &nbsp;results
   .filter-market-results
     .filter-header.filter-col
@@ -49,6 +49,6 @@
     pagination(ng-model="marketPlace.currentPage"
         max-size="marketPlace.maxSize"
         items-per-page="marketPlace.itemsPerPage"
-        total-items="marketPlace.totalItems")
+        total-items="marketPlace['total-items']")
 
 .cl

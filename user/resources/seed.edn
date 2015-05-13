@@ -17,4 +17,13 @@
   :user/company "Mojotech"
   :user/bio "Quentin was only three years old when his father became president."
   :user/role 0}
+
+ {:db/id #db/id[:db.part/user]
+  :user/public-id #uuid "554ba7d8-ad50-4ab9-b231-3dd339315c6d"
+  :user/name "Seth Krasnianski"
+  :user/email "seth@mojotech.edu"
+  :user/password #bcrypt "mountainpig"
+  :user/company "Mojotech"
+  :user/bio "Ω"
+  :user/role 1}
  ]

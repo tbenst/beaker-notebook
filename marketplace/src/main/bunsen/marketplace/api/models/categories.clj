@@ -49,3 +49,13 @@
     ; Catch all
     :else
     {}))
+
+(defn fetch
+  "Fetches a single category within a given catalog and having a matching index"
+  [es-conn index catalog-path]
+  (-> (doc/search es-conn
+                  index
+                  "categories"
+                  :size 1
+                  :query {:term {:path catalog-path}})
+      :hits :hits first :_source))
