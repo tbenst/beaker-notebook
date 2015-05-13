@@ -33,6 +33,6 @@
                          :allow-seed "true"}
                    :repl-options {:init (user/watch)}
                    :source-paths ["src/dev"]
-                   :dependencies [[hawk "0.1.1"]
+                   :dependencies [[hawk _]
                                   [ring-mock "0.1.5"]
                                   [org.clojure/tools.namespace "0.2.7"]]}})

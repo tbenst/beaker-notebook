@@ -28,6 +28,6 @@
              :dev {:source-paths ["src/dev"]
                    :repl-options {:init (user/watch)
                                   :init-ns user}
-                   :dependencies [[hawk "0.1.1"]
+                   :dependencies [[hawk _]
                                   [ring-mock "0.1.5"]
                                   [org.clojure/tools.namespace "0.2.10"]]}})
