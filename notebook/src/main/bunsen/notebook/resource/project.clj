@@ -9,7 +9,7 @@
 
   :processable? (fn [{{db :db
                        {owner-id :id} :session
-                       {project-id :id} :route-params
+                       {project-id :project-id} :route-params
                        params :params
                        method :request-method} :request}]
                   (if (= :put method)
@@ -21,20 +21,20 @@
 
   :exists? (fn [{{db :db
                   {owner-id :id} :session
-                  {project-id :id} :route-params} :request}]
+                  {project-id :project-id} :route-params} :request}]
              (when-let [project (p/load-project db owner-id project-id)]
                {::project project}))
 
   :put! (fn [{{conn :conn
                {owner-id :id} :session
-               {project-id :id} :route-params
+               {project-id :project-id} :route-params
                params :params} :request}]
           (when-let [p (p/update-project! conn owner-id project-id params)]
             {::updated-project p}))
 
   :delete! (fn [{{conn :conn
                   {owner-id :id} :session
-                  {project-id :id} :route-params} :request}]
+                  {project-id :project-id} :route-params} :request}]
              (p/delete-project! conn owner-id project-id))
 
   :handle-created (fn [{p ::updated-project}]
