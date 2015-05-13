@@ -226,7 +226,6 @@ define tag_images
 	| .apps[].container.docker.image |= "\(.):$(TAG)"
 	| .apps |= map(if .id | contains("provisioner")
 									then (.
-												| .env.APP_DEFAULTS.container.docker.image |= "\(.):$(TAG)"
 												| .env.APP_DEFAULTS |= tojson
 											)
 									else .

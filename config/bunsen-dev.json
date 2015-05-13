@@ -39,8 +39,11 @@
           "container": {
             "type": "DOCKER",
             "docker": {
-              "image": "mojotech/bunsen-beaker",
+              "image": "beakernotebook/beaker-prerelease",
               "network": "BRIDGE",
+              "cmd": [
+                "su -m beaker -c \"export PATH=$PATH:/usr/sbin && /home/beaker/src/core/beaker.command --listen-interface=*\""
+              ],
               "portMappings": [
                 {
                   "containerPort": 8801
