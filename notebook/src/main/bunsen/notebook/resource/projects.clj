@@ -22,9 +22,9 @@
                (p/find-projects db owner-id))
 
   :post! (fn [{{conn :conn
-               {owner-id :id} :session
-               params :params} :request}]
-          (when-let [p (p/create-project! conn owner-id params)]
-            {::project p}))
+                {owner-id :id} :session
+                params :params} :request}]
+           (when-let [p (p/create-project! conn owner-id params)]
+             {::project p}))
 
   :handle-created ::project)
