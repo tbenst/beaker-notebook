@@ -5,7 +5,7 @@
   (:import org.ietf.jgss.GSSManager)
   (:import org.ietf.jgss.GSSCredential)
   (:import org.ietf.jgss.Oid)
-  (:use clojure.string))
+  (:use [clojure.string :exclude (reverse replace)]))
 
 (def krb5Mech (Oid. "1.2.840.113554.1.2.2"))
 (def krb5PrincNameType (Oid. "1.2.840.113554.1.2.2.1"))
