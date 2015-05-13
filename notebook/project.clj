@@ -19,6 +19,7 @@
                  [ring/ring-json _]
                  [clj-time "0.9.0"]
                  [io.rkn/conformity "0.3.3"]
+                 [bouncer "0.3.2"]
                  [environ _]]
   :plugins [[lein-environ "1.0.0"]
             [lein-modules "0.3.10"]]
