@@ -152,7 +152,7 @@
           "container": {
             "type": "DOCKER",
             "docker": {
-              "image": "quay.io/mojotech/bunsen-beaker",
+              "image": "beakernotebook/beaker-prerelease:latest",
               "network": "BRIDGE",
               "portMappings": [
                 {
@@ -168,6 +168,7 @@
               }
             ]
           },
+          "cmd": "su -m beaker -c \"export PATH=$PATH:/usr/sbin && /home/beaker/src/core/beaker.command --listen-interface=*\"",
           "uris": [
             "file:///etc/.dockercfg"
           ],

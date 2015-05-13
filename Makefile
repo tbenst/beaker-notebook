@@ -23,6 +23,9 @@ IMAGES := \
 	datomic \
 	$(CLOJURE_IMAGES)
 
+DEPLOY_IMAGES := \
+	$(filter-out beaker,$(IMAGES))
+
 .PHONY: \
 	$(IMAGES) \
 	push-all \
@@ -66,7 +69,7 @@ IMAGES := \
 
 all: $(IMAGES)
 
-$(filter-out $(CLOJURE_IMAGES) web api,$(IMAGES)):
+$(filter-out $(CLOJURE_IMAGES) web api beaker,$(IMAGES)):
 	docker build --force-rm -t $(REGISTRY)/bunsen-$@:$(TAG) $@
 
 $(CLOJURE_IMAGES): install
@@ -79,10 +82,16 @@ web:
 api:
 	docker build --force-rm -t $(REGISTRY)/bunsen-api:$(TAG) app
 
+beaker:
+	docker pull beakernotebook/beaker-prerelease
+
+submodules:
+	git submodule update --init
+
 install:
 	lein modules install
 
-push-all: $(IMAGES:%=push-%)
+push-all: $(DEPLOY_IMAGES:%=push-%)
 push-%:
 	docker push $(REGISTRY)/bunsen-$*:$(TAG)
 
@@ -123,7 +132,7 @@ prepare-%: install
 prepare-api:
 	make -C app
 
-prepare-beaker:
+prepare-beaker: submodules
 	make -C beaker
 
 prepare-web:
@@ -217,7 +226,6 @@ define tag_images
 	| .apps[].container.docker.image |= "\(.):$(TAG)"
 	| .apps |= map(if .id | contains("provisioner")
 									then (.
-												| .env.APP_DEFAULTS.container.docker.image |= "\(.):$(TAG)"
 												| .env.APP_DEFAULTS |= tojson
 											)
 									else .

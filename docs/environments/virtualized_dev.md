@@ -17,6 +17,11 @@
     * `$ make deploy-beaker-dev`
   * Browse to http://bunsen-dev/ to access Bunsen web app or to http://bunsen-dev/solo/publications.html to access Publications app
 
+## To deploy changes once the app is already running
+  * Shut down the app:
+    `bin/marathon group delete -f /bunsen-dev`
+  * Then follow the appropriate steps in "To run the application locally" above
+
 ## Running tests
 
   * Make sure vagrant is running
