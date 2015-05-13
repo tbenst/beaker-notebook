@@ -66,7 +66,7 @@ IMAGES := \
 
 all: $(IMAGES)
 
-$(filter-out $(CLOJURE_IMAGES) web api,$(IMAGES)):
+$(filter-out $(CLOJURE_IMAGES) web api beaker,$(IMAGES)):
 	docker build --force-rm -t $(REGISTRY)/bunsen-$@:$(TAG) $@
 
 $(CLOJURE_IMAGES): install
@@ -78,6 +78,9 @@ web:
 
 api:
 	docker build --force-rm -t $(REGISTRY)/bunsen-api:$(TAG) app
+
+beaker:
+	docker pull beakernotebook/beaker-prerelease
 
 submodules:
 	git submodule update --init
