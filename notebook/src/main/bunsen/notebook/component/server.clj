@@ -6,6 +6,7 @@
             [com.stuartsierra.component :as component :refer [start stop]]
             [ring.middleware.json :refer [wrap-json-params]]
             [ring.middleware.params :refer [wrap-params]]
+            [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [bunsen.common.middleware.database :refer [wrap-database wrap-database-reconnect]]
             [bunsen.common.helper.session.store :refer [bunsen-cookie-store]]
             [ring.middleware.session :refer [wrap-session]]
@@ -48,6 +49,7 @@
                         (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
                                        :cookie-name "session"})
                         wrap-params
+                        wrap-keyword-params
                         wrap-json-params
                         (conditionally-wrap-database config database)
                         wrap-stacktrace-log)]

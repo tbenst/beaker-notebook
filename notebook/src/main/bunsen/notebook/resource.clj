@@ -3,6 +3,8 @@
             [bunsen.notebook.resource.defaults :refer [defaults]]
             [bunsen.notebook.resource.seed :refer [seed]]
             [bunsen.notebook.resource.publication :refer [publication]]
+            [bunsen.notebook.resource.project :refer [project]]
+            [bunsen.notebook.resource.projects :refer [projects]]
             [bunsen.notebook.resource.notebook :refer [notebook]]
             [bunsen.notebook.resource.publications :refer [publications]]
             [bunsen.notebook.resource.publications-count :refer [publications-count]]
@@ -19,6 +21,8 @@
    :publication publication
    :publications publications
    :publications-count publications-count
+   :project project
+   :projects projects
    :notebook notebook
    :category category
    :categories categories
