@@ -27,7 +27,7 @@
 
     function signIn() {
       return F.Users.getCurrentUser().then(function(d) {
-        $sessionStorage.user = _.pick(d, 'name', 'public-id', 'role');
+          $sessionStorage.user = _.pick(d, 'name', 'public-id', 'role', 'extdata');
         $sessionStorage.user.id = d['public-id'];
         $scope.message = 'You are signed in.'
         $scope.loading = false;

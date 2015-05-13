@@ -10,9 +10,13 @@
           .bunsen-dropdown-wrapper.settings-dropdown
 
             ul.bunsen-dropdown(ng-show='$session.user')
-              li
-                a.edit-info(ui-sref="userEdit") Edit Information
+              li(ng-show='!$session.user.extdata')
+                a.edit-info(ui-sref="userEdit") Edit User Info
+              li(ng-show='$session.user.extdata')
+                a.edit-info(ui-sref="userShow") User Info
               li
                 a.help(ui-sref="help.main.home" target="_blank") Help
-              li
+              li(ng-show='!$session.user.extdata')
                 a.sign-out(ui-sref="signOut") Sign out
+              li(ng-show='$session.user.extdata')
+                a.sign-out(ui-sref="signOut") Close Window

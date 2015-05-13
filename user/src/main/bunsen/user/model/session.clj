@@ -11,6 +11,11 @@
       {:id (:user/public-id user)
        :role (:user/role user)})))
 
+(defn ext-new-session [db account]
+  (when-let [user (u/find-user-by-account db account)]
+    {:id (:user/public-id user)
+     :role (:user/role user)}))
+
 (defn validate-session [params]
   (-> (b/validate (select-keys params [:email :password])
                   :email v/required
