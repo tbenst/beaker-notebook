@@ -5,7 +5,7 @@
             [bunsen.notebook.presenter.project :as p]))
 
 (defresource projects [_] defaults
-  :allowed-methods #{:post}
+  :allowed-methods #{:post :get}
 
   :processable? (fn [{{db :db
                        {owner-id :id} :session
@@ -18,10 +18,13 @@
 
   :handle-unprocessable-entity ::errors
 
+  :handle-ok (fn [{{db :db {owner-id :id} :session} :request}]
+               (p/find-projects db owner-id))
+
   :post! (fn [{{conn :conn
-               {owner-id :id} :session
-               params :params} :request}]
-          (when-let [p (p/create-project! conn owner-id params)]
-            {::project p}))
+                {owner-id :id} :session
+                params :params} :request}]
+           (when-let [p (p/create-project! conn owner-id params)]
+             {::project p}))
 
   :handle-created ::project)
