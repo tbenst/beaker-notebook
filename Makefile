@@ -23,6 +23,9 @@ IMAGES := \
 	datomic \
 	$(CLOJURE_IMAGES)
 
+DEPLOY_IMAGES := \
+	$(filter-out beaker,$(IMAGES))
+
 .PHONY: \
 	$(IMAGES) \
 	push-all \
@@ -88,7 +91,7 @@ submodules:
 install:
 	lein modules install
 
-push-all: $(IMAGES:%=push-%)
+push-all: $(DEPLOY_IMAGES:%=push-%)
 push-%:
 	docker push $(REGISTRY)/bunsen-$*:$(TAG)
 
