@@ -2,15 +2,9 @@
   h1.user-edit-page-message(ng-if='message') {{message}}
   .heading
     img.user-icon.left(ng-src="https://pictures.twosigma.com/pictures/{{user.extdata['person.person_has_primary_identity.identity_name']}}.jpg")
-    h2.user-edit-title Show User
-  form.user-edit(name='editUserForm', ng-submit='editUser(editUserForm.$valid)')
-    section.overview
+    h2.user-edit-title {{ user.name }}
+  section.overview
       .col-half
-        br
-        br
-        b Name:
-        br
-        {{ user.name }}
         br
         br
         b Email:

@@ -44,12 +44,12 @@
     (select-keys user [:user/public-id :user/account :user/name :user/email :user/role :user/job-title :user/bio :user/company])
     ; automatically create a user
     (let [user {:db/id (d/tempid :db.part/user)
-              :user/public-id (d/squuid)
-              :user/account account
-              :user/name account
-              :user/email account
-              :user/password ""
-              :user/role 0}]
+                :user/public-id (d/squuid)
+                :user/account account
+                :user/name account
+                :user/email account
+                :user/password ""
+                :user/role 0}]
       @(d/transact conn [user])
       (dissoc user :user/password :db/id))))
 

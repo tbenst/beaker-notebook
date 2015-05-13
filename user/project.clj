@@ -28,7 +28,7 @@
                  [org.apache.httpcomponents/httpmime "4.3.2"]
                  [commons-codec "1.10"]
                  [commons-io "2.4"]
-                 [cheshire "5.4.0"]]
+                 [org.clojure/data.json _]]
   :plugins [[lein-modules "0.3.10"]]
   :profiles {:uberjar {:aot [bunsen.user.service]}
              :dev {:source-paths ["src/dev"]

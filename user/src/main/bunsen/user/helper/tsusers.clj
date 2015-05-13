@@ -1,6 +1,6 @@
 (ns bunsen.user.helper.tsusers
   (:require [clojure.string :as str]
-            [cheshire.core :as chcore])
+            [clojure.data.json :as json])
   (:import (org.apache.http.config RegistryBuilder)
            (org.apache.http.impl.auth SPNegoSchemeFactory)
            (org.apache.http.impl.client HttpClients)
@@ -27,7 +27,7 @@
 
 (defn coerce-json-body  [body charset]
   (let [^String charset (or charset "UTF-8")]
-    (chcore/decode (String. ^"[B" body charset) true)))
+    (json/read-str (String. ^"[B" body charset) :key-fn keyword)))
 
 (defn fetchdata [url]
   (let [builder (RegistryBuilder/create)
