@@ -61,3 +61,12 @@
            :where [?notebook :notebook/user-id ?user-id]]
          db user-id)))
 
+(defn project-notebooks [db user-id project-id]
+  (let [user-id (u/uuid-from-str user-id)
+        project-id (u/uuid-from-str project-id)]
+    (d/q '[:find [(pull ?notebook [*]) ...]
+           :in $ ?user-id ?project-id
+           :where [?notebook :notebook/user-id ?user-id]
+                  [?project :project/public-id ?project-id]
+                  [?notebook :notebook/project ?project]]
+         db user-id project-eid)))
