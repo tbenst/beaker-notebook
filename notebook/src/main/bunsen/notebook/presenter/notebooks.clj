@@ -69,4 +69,4 @@
            :where [?notebook :notebook/user-id ?user-id]
                   [?project :project/public-id ?project-id]
                   [?notebook :notebook/project ?project]]
-         db user-id project-eid)))
+         db user-id project-id)))
