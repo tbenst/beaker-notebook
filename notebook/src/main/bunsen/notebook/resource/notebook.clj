@@ -1,15 +1,25 @@
 (ns bunsen.notebook.resource.notebook
   (:require [liberator.core :refer [defresource]]
             [bunsen.notebook.helper.resource :as resource]
-            [bunsen.notebook.presenter.publications :as api]))
+            [bunsen.notebook.presenter.notebooks :as api]))
+
+(defn rename-data-to-contents [params]
+  (-> params
+      (assoc :content (:data params))
+      (dissoc :data)))
 
 (defresource notebook [_] resource/defaults
-  :allowed-methods [:get]
-  :exists? (fn [{{db :db {id :id} :route-params} :request}]
-             (if-let [p (api/find-publication db (Long. id))]
-               {::notebook (:publication/contents p)}))
-  :handle-ok ::notebook
-  :as-response (fn [notebook {{{id :id} :route-params} :request}]
-                 (let [attachment (str "attachment; filename=" "notebook-" id ".bkr")]
-                   (-> {:body notebook}
-                       (assoc-in [:headers "Content-Disposition"] attachment)))))
+  :allowed-methods [:get :post :put :delete]
+  :delete! (fn [{{conn :conn {id :notebook-id} :route-params} :request}]
+              (api/delete-notebook! conn id))
+  :post! (fn [{{conn :conn {id :project-id} :route-params} :request}]
+             (api/create-notebook! conn
+                          (merge (-> request :params rename-data-to-contents)
+                                 {:user-id (-> request :session :id)
+                                  :project-id id})))
+  :put! (fn [{{conn :conn {id :notebook-id} :route-params} :request}]
+          (api/update-notebook! conn
+                                id
+                                (-> request :params rename-data-to-contents)))
+  :handle-ok (fn [{{db :db {id :notebook-id} :route-params} :request}]
+                (api/find-notebook db id)))

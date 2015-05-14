@@ -3,13 +3,17 @@
 (def routes
   ["/" {"notebook/v1" {"/status" :status
                        "/projects" {"" :projects
-                                    ["/" :id] :project}
+                                    ["/" :project-id] {"" :project
+                                                       "/notebook" :notebook}}
                        "/publications" {"" :publications
                                         "_count" :publications-count
                                         ["/" :id] {"" :publication
-                                                   "/notebook" :notebook
+                                                   "/notebook" :publication-contents
                                                    "/ratings" :ratings
                                                    "/rating" :rating}}
+                       "/notebooks" {["/" :notebook-id]
+                                     {"" :notebook
+                                      "/contents" :notebook-contents}}
                        "/categories" {"" :categories
                                       ["/" :id] :category}
                        "/seed" :seed}}])

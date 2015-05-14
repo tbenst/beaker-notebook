@@ -6,6 +6,8 @@
             [bunsen.notebook.resource.project :refer [project]]
             [bunsen.notebook.resource.projects :refer [projects]]
             [bunsen.notebook.resource.notebook :refer [notebook]]
+            [bunsen.notebook.resource.notebook-contents :refer [notebook-contents]]
+            [bunsen.notebook.resource.publication-contents :refer [publication-contents]]
             [bunsen.notebook.resource.publications :refer [publications]]
             [bunsen.notebook.resource.publications-count :refer [publications-count]]
             [bunsen.notebook.resource.category :refer [category]]
@@ -21,9 +23,11 @@
    :publication publication
    :publications publications
    :publications-count publications-count
+   :publication-contents publication-contents
    :project project
    :projects projects
    :notebook notebook
+   :notebook-contents notebook-contents
    :category category
    :categories categories
    :rating rating
