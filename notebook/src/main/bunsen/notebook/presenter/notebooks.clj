@@ -44,7 +44,7 @@
               (unique-name? (d/db conn) (:name params) (:notebook/project-id n)))
       (let [tx (-> params
                    include-opened-at
-                   (dissoc :public-id :id :data)
+                   (dissoc :public-id :id)
                    u/remove-nils
                    (assoc :db/id (:db/id n)))]
         @(d/transact conn [tx])
@@ -53,3 +53,20 @@
 (defn delete-notebook! [conn notebook-id]
   (when-let [n (find-notebook (d/db conn) notebook-id)]
     @(d/transact conn [[:db.fn/retractEntity (:db/id n)]])))
+
+(defn user-notebooks [db user-id]
+  (let [user-id (u/uuid-from-str user-id)]
+    (d/q '[:find [(pull ?notebook [*]) ...]
+           :in $ ?user-id
+           :where [?notebook :notebook/user-id ?user-id]]
+         db user-id)))
+
+(defn project-notebooks [db user-id project-id]
+  (let [user-id (u/uuid-from-str user-id)
+        project-id (u/uuid-from-str project-id)]
+    (d/q '[:find [(pull ?notebook [*]) ...]
+           :in $ ?user-id ?project-id
+           :where [?notebook :notebook/user-id ?user-id]
+                  [?project :project/public-id ?project-id]
+                  [?notebook :notebook/project ?project]]
+         db user-id project-eid)))
