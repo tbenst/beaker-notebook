@@ -23,9 +23,12 @@
       }
 
       $scope.removeFilter = function(value, model) {
-        _.remove($scope.$eval(model), function(v) {
-          return v === value;
-        });
+        var evaluatedModel = $scope.$eval(model);
+        var removeIndex = evaluatedModel.indexOf(value);
+
+        if (removeIndex != -1) {
+          evaluatedModel.splice(removeIndex, 1);
+        }
 
         getDataSets();
       };
