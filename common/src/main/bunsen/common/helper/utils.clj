@@ -15,3 +15,5 @@
 
 (defn remove-nils [params]
   (into {} (remove (comp nil? second) params)))
+
+(defn now [] (java.util.Date.))
