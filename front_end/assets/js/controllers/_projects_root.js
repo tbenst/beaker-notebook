@@ -37,8 +37,8 @@
       TrackingService.manageNotebookMarks(notebook)
       .then(function() {
         $state.go('projects.items.item.notebook', {
-          id: notebook.projectId,
-          notebook_id: notebook.id
+          id: notebook.project['public-id'],
+          notebook_id: notebook['public-id']
         });
       });
     }
@@ -66,7 +66,7 @@
 
     $scope.$on('notebookUpdated', function(e, notebook) {
       $scope.notebooks.list = _.reject($scope.notebooks.list, function(n) {
-        return n.id == notebook.id;
+        return n['public-id'] == notebook['public-id'];
       });
 
       $scope.notebooks.list.push(notebook);
@@ -74,7 +74,7 @@
 
     $scope.$on('notebookDeleted', function(e, notebookId) {
       $scope.notebooks.list = _.reject($scope.notebooks.list, function(n) {
-        return n.id == notebookId;
+        return n['public-id'] == notebookId;
       });
     });
   }]);

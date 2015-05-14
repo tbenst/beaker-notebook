@@ -7,7 +7,7 @@
     'Factories',
     'Notebooks',
     '$upload',
-    'Restangular',
+    'NotebookRestangular',
     'TrackingService',
     'Beaker',
     function(
@@ -18,7 +18,7 @@
       Factories,
       Notebooks,
       $upload,
-      Restangular,
+      NR,
       TrackingService,
       Beaker) {
 
@@ -65,20 +65,20 @@
         TrackingService.mark(markName);
       })
       .then(function() {
-        return Restangular.one('projects', $scope.project.id)
+        return NR.one('projects', $scope.project['public-id'])
         .all('notebooks')
         .post();
       })
       .then(function(notebook) {
         $state.go('projects.items.item.notebook', {
-          notebook_id: notebook.id
+          notebook_id: notebook['public-id']
         });
       });
     };
 
     $scope.deleteNotebook = function(notebook) {
-      (notebook.open ? Notebooks.closeNotebook(notebook.id) : resolvedPromise())
-      .then(function() { return Notebooks.destroy(notebook.id); })
+      (notebook.open ? Notebooks.closeNotebook(notebook['public-id']) : resolvedPromise())
+      .then(function() { return Notebooks.destroy(notebook['public-id']); })
       .then(function() { _.pull($scope.project.notebooks, notebook); })
       .catch(function(response) {
         alert(response.data);
@@ -102,7 +102,7 @@
     }
 
     $scope.updateProject = function() {
-      $scope.project.customPUT($scope.newAttributes).then(function() {
+      F.Projects.update($state.params.id, $scope.newAttributes).then(function() {
         $scope.loadProject();
         loadProjectList();
         $scope.editMode = false;
@@ -117,20 +117,20 @@
         // We have to make sure to delete the project and all its notebooks
         // from the internal scope lists.
         $scope.projects.list =  _.where($scope.projects.list, function(p) {
-          return p.id !== +$state.params.id;
+          return p['public-id'] !== $state.params.id;
         });
         $scope.notebooks.list = _.where($scope.notebooks.list, function(n) {
-          return n.projectId !== +$state.params.id;
+          return n.project['public-id'] !== $state.params.id;
         });
 
-        var lastProject = _.last(_.sortBy($scope.projects.list, 'created_at'));
-        if (lastProject) $state.go('projects.items.item', {id: lastProject.id})
+        var lastProject = _.last(_.sortBy($scope.projects.list, 'created-at'));
+        if (lastProject) $state.go('projects.items.item', {id: lastProject['public-id']})
       });
     };
 
     $scope.onFileSelect = function($files) {
       _.each($files, function(file) {
-        var url = Restangular.one('projects', $scope.project.id).all('notebooks').one('import').getRestangularUrl();
+        var url = NR.one('projects', $scope.project['public-id']).all('notebooks').one('import').getRestangularUrl();
         $scope.upload = $upload.upload({
           url: url,
           method: 'POST',

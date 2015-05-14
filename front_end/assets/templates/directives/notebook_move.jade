@@ -2,4 +2,4 @@
 .bunsen-dropdown-wrapper.dropright
   ul.bunsen-dropdown.project-selector
     li(ng-repeat="project in otherProjects")
-      a.project(ng-click="moveTo({projectId: project.id, projectName: project.name})") {{project.name}}
+      a.project(ng-click="moveTo({projectId: project['public-id'], projectName: project.name})") {{project.name}}

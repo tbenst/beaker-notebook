@@ -14,7 +14,7 @@
       link: function(scope, element, attrs) {
         function filterProjects() {
           scope.otherProjects = _.reject(scope.projects, function(p) {
-            return p.id === scope.projectId
+            return p['public-id'] === scope.projectId
           });
         }
 
@@ -22,8 +22,8 @@
 
         scope.moveTo = function(options) {
           Notebooks.update({
-            id: scope.notebook.id,
-            projectId: options.projectId
+            id: scope.notebook['public-id'],
+            "project-id": options.projectId
           })
           .then(function() {
             scope.open = false;

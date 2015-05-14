@@ -5,7 +5,7 @@
     $scope.createProject = function() {
       F.Projects.createProject($scope.projects.list)
       .then(function(p) {
-        $state.go('projects.items.item', { id: p.id});
+        $state.go('projects.items.item', { id: p['public-id']});
       });
     };
   }]);
