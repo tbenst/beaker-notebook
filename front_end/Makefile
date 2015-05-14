@@ -38,8 +38,8 @@ copy-beaker:
 	cp bower_components/beaker-notebook/plugin/ipythonPlugins/src/dist/ipython/ipython.js public/plugins/eval/ipythonPlugins/ipython/
 	mkdir -p public/plugins/eval/ipythonPlugins/vendor/ipython2
 	cp bower_components/beaker-notebook/plugin/ipythonPlugins/src/dist/vendor/ipython2/*js  public/plugins/eval/ipythonPlugins/vendor/ipython2/
-	mkdir -p public/js/plugins/eval/ipythonPlugins/vendor/ipython3
-	cp bower_components/beaker-notebook/plugin/ipythonPlugins/src/dist/vendor/ipython3/*js  public/js/plugins/eval/ipythonPlugins/vendor/ipython3/
+	mkdir -p public/plugins/eval/ipythonPlugins/vendor/ipython3
+	cp bower_components/beaker-notebook/plugin/ipythonPlugins/src/dist/vendor/ipython3/*js  public/plugins/eval/ipythonPlugins/vendor/ipython3/
 
 	mkdir -p public/plugins/eval/node/
 	cp bower_components/beaker-notebook/plugin/node/src/dist/node.js public/plugins/eval/node/
@@ -48,7 +48,6 @@ copy-beaker:
 	mkdir -p public/js/beaker
 	cp bower_components/beaker-notebook/embeddable_assets/*.js public/js/beaker/
 	cp bower_components/beaker-notebook/embeddable_assets/*.js public/js/beaker/
-	cp bower_components/beaker-notebook/core/src/main/web/app/main.js public/js/beaker/
 
 	cd bower_components/beaker-notebook/core/ && unzip -ouq ../data/allDeps.zip
 	mkdir -p public/js/beaker/vendor
