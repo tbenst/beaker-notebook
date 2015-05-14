@@ -11,7 +11,8 @@
                                                    "/notebook" :publication-contents
                                                    "/ratings" :ratings
                                                    "/rating" :rating}}
-                       "/notebooks" {["/" :notebook-id]
+                       "/notebooks" {"" :notebooks
+                                     ["/" :notebook-id]
                                      {"" :notebook
                                       "/contents" :notebook-contents}}
                        "/categories" {"" :categories

@@ -53,3 +53,11 @@
 (defn delete-notebook! [conn notebook-id]
   (when-let [n (find-notebook (d/db conn) notebook-id)]
     @(d/transact conn [[:db.fn/retractEntity (:db/id n)]])))
+
+(defn user-notebooks [db user-id]
+  (let [user-id (u/uuid-from-str user-id)]
+    (d/q '[:find [(pull ?notebook [*]) ...]
+           :in $ ?user-id
+           :where [?notebook :notebook/user-id ?user-id]]
+         db user-id)))
+
