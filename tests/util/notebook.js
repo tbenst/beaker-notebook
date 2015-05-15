@@ -10,27 +10,27 @@ var util = require('util');
 
 module.exports = function() {
 
-  this.beakerPublications = {
+  this.notebook = {
 
     getCategories: function() {
-      return get(config.publicationsUrl + '/categories', {json: true})
+      return get(config.notebookUrl + '/categories', {json: true})
       .then(function(response) {
         return response[0].body;
       });
     },
 
     createCategory: function(attrs) {
-      return post(config.publicationsUrl + '/categories', {json: true, body: attrs});
+      return post(config.notebookUrl + '/categories', {json: true, body: attrs});
     },
 
     createPublication: function(attrs) {
-      return post(config.publicationsUrl + '/publications', {json: true, body: attrs});
+      return post(config.notebookUrl + '/publications', {json: true, body: attrs});
     },
 
     deleteSeed: function() {
-      return del(config.publicationsUrl + '/seed', {json: true});
+      return del(config.notebookUrl + '/seed', {json: true});
     }
   }
 
-  return this.beakerPublications;
+  return this.notebook;
 };

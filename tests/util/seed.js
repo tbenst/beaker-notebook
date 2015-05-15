@@ -5,9 +5,9 @@ var util = require('util');
 var post    = Promise.promisify(require('request').post);
 var base    = config.bunsenUrl + 'api/seed';
 var del = Promise.promisify(require('request').del);
-var dropPublications = require('./beaker_publications')().deleteSeed;
 var dropMarketplace = require('./marketplace')().deleteSeed;
 var dropUser = require('./user')().deleteSeed;
+var dropNotebook = require('./notebook')().deleteSeed;
 
 module.exports = function() {
   global.timeout = 30000;
@@ -75,10 +75,6 @@ module.exports = function() {
       });
     },
 
-    dropRepos: function() {
-      return post(base + "/drop-repos");
-    },
-
     dropIndex: function() {
       return post(base + "/drop-index");
     },
@@ -105,15 +101,12 @@ module.exports = function() {
   }
 
   this.BeforeAll(function() {
-    return this.seed.dropRepos()
-    .then(function() {
-      return this.seed.dropAll();
-    }.bind(this))
+    return this.seed.dropAll()
     .then(function() {
       return this.seed.dropIndex();
     }.bind(this))
     .then(function() {
-      return dropPublications();
+      return dropNotebook();
     }.bind(this))
     .then(function() {
       return dropUser();
