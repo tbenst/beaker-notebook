@@ -22,4 +22,21 @@
               :seed-file (:notebook-seed-file env)
               :cookie-salt (:cookie-salt env)
               :allow-seed (:allow-seed env)
-              :database-uri (:notebook-database-uri env)})))
+              :database-uri (:notebook-database-uri env)
+              :use-kerberos (let [kerberosprincipal (:kerberos-principal env)]
+                              (if kerberosprincipal
+                               true false))
+              :kerberos-principal (:kerberos-principal env)
+              :jetty-options (let [keystore (:ssl-keystore env)
+                                   keystore-pass (:ssl-keystore-pass env)]
+                               (if-not (and keystore keystore-pass)
+                                 {:port (Integer. (:notebook-port env))
+                                  :ssl? false
+                                  :join? false}
+                                 {:ssl? true
+                                  :port (+ (Integer. (:notebook-port env)) 1)
+                                  :ssl-port (Integer. (:notebook-port env))
+                                  :keystore (:ssl-keystore env)
+                                  :key-password (:ssl-keystore-pass env)
+                                  :join? false}))})))
+
