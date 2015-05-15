@@ -9,7 +9,10 @@
 
 (def ^:dynamic *service*)
 
-(def config{})
+(def config
+  {:jetty-options {:port 3003
+                   :ssl? false
+                   :join? false}})
 
 (defn start []
   (alter-var-root #'*service*
