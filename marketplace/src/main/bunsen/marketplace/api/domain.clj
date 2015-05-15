@@ -45,8 +45,9 @@
   "Updates datasets within an index with the correct count, this method
   is intended to be run after a CRUD operation"
   [es-conn index-name]
-  (ind/refresh es-conn index-name)
-  (update-counts es-conn index-name nil))
+  (future
+    (ind/refresh es-conn index-name)
+    (update-counts es-conn index-name nil)))
 
 (defn update-mappings
   "Updates the ElasticSearch mappings necessary for the index's catalog
