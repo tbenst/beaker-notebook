@@ -19,4 +19,5 @@
                        "/categories" {"" :categories
                                       ["/" :id] :category}
                        "/seed" {"" :seed
-                                "/projects" :seed-projects}}}])
+                                "/projects" :seed-projects
+                                "/notebooks" :seed-notebooks}}}])

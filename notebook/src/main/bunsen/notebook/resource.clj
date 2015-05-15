@@ -3,6 +3,7 @@
             [bunsen.notebook.resource.defaults :refer [defaults]]
             [bunsen.notebook.resource.seed :refer [seed]]
             [bunsen.notebook.resource.seed-projects :refer [seed-projects]]
+            [bunsen.notebook.resource.seed-notebooks :refer [seed-notebooks]]
             [bunsen.notebook.resource.publication :refer [publication]]
             [bunsen.notebook.resource.project :refer [project]]
             [bunsen.notebook.resource.projects :refer [projects]]
@@ -36,4 +37,5 @@
    :rating rating
    :ratings ratings
    :seed seed
-   :seed-projects seed-projects})
+   :seed-projects seed-projects
+   :seed-notebooks seed-notebooks})
