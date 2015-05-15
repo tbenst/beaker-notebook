@@ -14,7 +14,8 @@
             [clojure.algo.generic.functor :refer [fmap]]
             [bunsen.notebook.resource :refer [resources]]
             [bunsen.notebook.route :refer [routes]]
-            [datomic.api :as d]))
+            [datomic.api :as d]
+            [bunsen.common.helper.kerberos :as kerberos]))
 
 (def not-found
   (constantly
@@ -40,6 +41,7 @@
       server
       (let [port (:server-port config)
             salt (:cookie-salt config)
+            principal (if (:use-kerberos config) (:kerberos-principal config) nil)
             handler (-> (compile-route
                           (with-default-route routes ::not-found))
                         (make-handler
@@ -52,7 +54,8 @@
                         wrap-keyword-params
                         wrap-json-params
                         (conditionally-wrap-database config database)
-                        wrap-stacktrace-log)]
+                        wrap-stacktrace-log
+                        (kerberos/authenticate principal))]
         (assoc server
                :jetty (run-jetty
                         handler {:port port
