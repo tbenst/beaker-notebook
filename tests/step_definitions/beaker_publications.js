@@ -24,7 +24,7 @@ function categoryAttrs(attrs) {
 }
 
 module.exports = function() {
-  var p = this.beakerPublications;
+  var n = this.notebook;
 
   this.When(/^I view the Beaker publications page$/, function() {
     return this.driver.get(this.route.beakerPublications);
@@ -54,16 +54,16 @@ module.exports = function() {
   this.Given(/^there are (\d+) Beaker publications$/, function(count) {
     return Promise.resolve(_.range(count))
     .each(function(i) {
-      return p.createPublication(publicationAttrs({":publication/name": "Beaker publication " + i}));
+      return n.createPublication(publicationAttrs({":publication/name": "Beaker publication " + i}));
     });
   });
 
   this.Given(/^there are (\d+) Beaker publications in the "([^"]*)" category$/, function(count, categoryName) {
-    p.getCategories()
+    n.getCategories()
     .then(function(categories){
       var found = _.find(categories, function (c) {return c.name == categoryName});
       return Promise.each(_.range(count), function(i) {
-        return p.createPublication(publicationAttrs({
+        return n.createPublication(publicationAttrs({
           ":publication/name": "Beaker publication " + i,
           ":publication/category": found.id
         }));
@@ -77,11 +77,11 @@ module.exports = function() {
       var attrs = _.object(_.map(row, function (val, key) {
         return [":category/" + key, val];
       }));
-      return p.createCategory(categoryAttrs(attrs));
+      return n.createCategory(categoryAttrs(attrs));
     });
   });
 
   this.Given(/^there is Beaker publication named "([^"]*)"$/, function(name) {
-    return p.createPublication(publicationAttrs({":publication/name": name}));
+    return n.createPublication(publicationAttrs({":publication/name": name}));
   });
 }

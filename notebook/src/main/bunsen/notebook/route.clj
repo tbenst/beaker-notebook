@@ -18,4 +18,6 @@
                                       "/contents" :notebook-contents}}
                        "/categories" {"" :categories
                                       ["/" :id] :category}
-                       "/seed" :seed}}])
+                       "/seed" {"" :seed
+                                "/projects" :seed-projects
+                                "/notebooks" :seed-notebooks}}}])
