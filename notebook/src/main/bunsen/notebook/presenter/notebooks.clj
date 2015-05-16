@@ -44,7 +44,7 @@
               (unique-name? (d/db conn) (:name params) (:notebook/project-id n)))
       (let [tx (-> params
                    include-opened-at
-                   (dissoc :public-id :id)
+                   (dissoc :public-id :id :notebook-id)
                    u/remove-nils
                    (assoc :db/id (:db/id n)))]
         @(d/transact conn [tx])
