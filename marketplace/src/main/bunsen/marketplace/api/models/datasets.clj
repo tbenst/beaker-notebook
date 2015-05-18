@@ -3,7 +3,6 @@
             [bunsen.marketplace.base :as base]
             [bunsen.common.helper.utils :as u]
             [bunsen.marketplace.api.models.categories :as category]
-            [bunsen.marketplace.api.domain :as domain]
             [bunsen.marketplace.simple.simple :as simple]
             [bunsen.marketplace.api.models.ratings :as ratings]
             [clojurewerkz.elastisch.rest.document :as doc]

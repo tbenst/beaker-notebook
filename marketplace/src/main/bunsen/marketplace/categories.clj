@@ -1,16 +1,11 @@
 (ns bunsen.marketplace.categories
   (:require [bunsen.marketplace.base :as base]
+            [bunsen.marketplace.api.models.categories :as categories]
             [clojure.data.json :as json]
             [clojurewerkz.elastisch.rest.document :as doc]
-            [clojurewerkz.elastisch.rest.index :as ind]
-            [clojurewerkz.elastisch.rest.response :as res]
-            [clojurewerkz.elastisch.query :as q]))
+            [clojurewerkz.elastisch.rest.index :as ind]))
 
-(defn add-id-for-elastisch
-  "Adds the _id element (copied from existing 'id') to each category"
-  [categories]
-  (map (fn [cat] (assoc cat :_id (:id cat)))
-       categories))
+(def add-id-for-elastisch categories/add-id-for-elastisch)
 
 (defn ->json-for-elastisch
   "Reads a JSON array of preformatted categories data from a string,
@@ -19,35 +14,13 @@
   [raw]
   (add-id-for-elastisch (json/read-str raw :key-fn keyword)))
 
-(defn fetch-count
-  "Isses an ES query for the count for the datasets belonging
-  a given category path"
-  [es-conn index-name path]
-  (doc/count
-    es-conn index-name "datasets"
-    (q/bool {:should [(q/prefix :path (str path "."))
-                      (q/term :path path)]})))
+(def fetch-count categories/fetch-count)
 
-(defn parse-count
-  "Given an ES response, return [:result count-from-response]"
-  [response]
-  (res/count-from response))
+(def parse-count categories/parse-count)
 
-(defn update-es-count!
-  "Given a specific entity id in elastic search, update its count attribute
-  in place"
-  [id es-conn index-name mapping-type count]
-  (doc/update-with-partial-doc es-conn index-name mapping-type id
-                               {:count count}))
+(def update-es-count! categories/update-es-count!)
 
-(defn update-counts!
-  "Given ES connection and category map, updates count attributes of
-  all categories therein"
-  [es-conn index-name categories]
-  (doseq [category categories]
-    (let [[id {:keys [path] :as attrs}] category
-          count (parse-count (fetch-count es-conn index-name path))]
-      (update-es-count! id es-conn index-name "categories" count))))
+(def update-counts! categories/update-counts!)
 
 (defn update-mappings!
   "Updates mappings to avoid indexing filter fields for the index's catalogs."
