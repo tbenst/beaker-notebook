@@ -40,20 +40,14 @@
   (doc/update-with-partial-doc es-conn index-name mapping-type id
                                {:count count}))
 
-(defn cache-subtree-count!
-  [es-conn index-name id path]
-  (base/index! es-conn index-name "categories" path
-               (partial fetch-count es-conn index-name)
-               parse-count
-               (partial update-es-count! id)))
-
 (defn update-counts!
   "Given ES connection and category map, updates count attributes of
   all categories therein"
   [es-conn index-name categories]
   (doseq [category categories]
-    (let [[id {:keys [path] :as attrs}] category]
-      (await-for 5000 (cache-subtree-count! es-conn index-name id path)))))
+    (let [[id {:keys [path] :as attrs}] category
+          count (parse-count (fetch-count es-conn index-name path))]
+      (update-es-count! id es-conn index-name "categories" count))))
 
 (defn update-mappings!
   "Updates mappings to avoid indexing filter fields for the index's catalogs."
