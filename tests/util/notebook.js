@@ -12,6 +12,10 @@ module.exports = function() {
 
   this.notebook = {
 
+    createProject: function(attrs) {
+      return post(config.notebookUrl + '/seed/projects', {body: attrs});
+    },
+
     getCategories: function() {
       return get(config.notebookUrl + '/categories')
       .then(function(response) {

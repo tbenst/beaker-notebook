@@ -16,11 +16,8 @@ module.exports = function() {
   };
 
   var projectBase = {
-    model: "Project",
-    data: {
-      name: 'Sandbox',
-      description: 'Sandbox'
-    }
+    name: 'Sandbox',
+    description: 'Sandbox'
   };
 
   this.Given(/^I'm signed in as a researcher$/, function() {
@@ -33,8 +30,8 @@ module.exports = function() {
       return _this.user.getDetails();
     })
     .then(function(u) {
-      var projectData = _.merge(_.cloneDeep(projectBase), {'data': {'owner_id': u['public-id']}});
-      return _this.seed.populate(projectData);
+      var projectData = _.merge(_.cloneDeep(projectBase), {'owner-id': u['public-id']});
+      return _this.notebook.createProject(projectData);
     })
     .then(function() {
       return _this.driver.get(_this.route.signIn).then(function() {
