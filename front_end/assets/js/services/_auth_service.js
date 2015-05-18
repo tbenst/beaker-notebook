@@ -12,7 +12,8 @@
         setUserIfLoggedIn: function() {
           return Factories.Users.getCurrentUser()
           .then(function(user) {
-              $sessionStorage.user = _.pick(user, 'name', 'id', 'role', 'extdata');
+            $sessionStorage.user = _.pick(user, 'name', 'public-id', 'role', 'extdata');
+            $sessionStorage.user.id = $sessionStorage.user['public-id'];
           });
         },
         researcherRedirect: function() {
