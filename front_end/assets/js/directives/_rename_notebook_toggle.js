@@ -27,7 +27,7 @@
             $rootScope.$broadcast('closeModal');
             delete $scope.error;
           }).catch(function(response) {
-            $scope.error = response.data.error;
+            $scope.error = response.data.name[0];
           });
         };
 

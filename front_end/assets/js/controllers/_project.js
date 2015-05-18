@@ -108,7 +108,7 @@
         $scope.editMode = false;
         $scope.error = null;
       }, function(response) {
-        $scope.error = response.data.error;
+        $scope.error = response.data.name[0];
       });
     }
 
