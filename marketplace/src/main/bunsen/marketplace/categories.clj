@@ -14,10 +14,6 @@
   [raw]
   (add-id-for-elastisch (json/read-str raw :key-fn keyword)))
 
-(def fetch-count categories/fetch-count)
-
-(def parse-count categories/parse-count)
-
 (def update-es-count! categories/update-es-count!)
 
 (def update-counts! categories/update-counts!)

@@ -5,9 +5,14 @@
             [bunsen.marketplace.api.models.categories :as category]
             [bunsen.marketplace.simple.simple :as simple]
             [bunsen.marketplace.api.models.ratings :as ratings]
+            [clojurewerkz.elastisch.rest.index :as ind]
+            [clojurewerkz.elastisch.rest.response :as res]
             [clojurewerkz.elastisch.rest.document :as doc]
+            [clojurewerkz.elastisch.query :as q]
             [clojure.string :as str]
             [datomic.api :as d]))
+
+(declare background-update-counts)
 
 (defn create-datasets
   "Returns true if datasets payload was succesfully sent to
@@ -30,20 +35,20 @@
     ; set the ID attribute of a dataset to be the internal elastic search _id
     ; since the api consumers expect their to be an ID attribute on each dataset.
     (doc/update-with-partial-doc connection index-name "datasets" created_id {:id created_id})
-    (category/background-update-counts connection index-name)))
+    (background-update-counts connection index-name)))
 
 (defn delete-dataset
   [config index-name id]
   (let [connection (helper/connect-to-es config)]
     (doc/delete connection index-name "datasets" id)
-    (category/background-update-counts connection index-name)))
+    (background-update-counts connection index-name)))
 
 (defn update-dataset
   "Updates dataset with given payload"
   [config index-name id document]
   (let [connection (helper/connect-to-es config)]
     (doc/put connection index-name "datasets" id document)
-    (category/background-update-counts connection index-name)))
+    (background-update-counts connection index-name)))
 
 (defn extract-catalog-path [category-path]
   (if (nil? category-path) "0.1"
@@ -191,3 +196,30 @@
            :index index-name
            :subscriberIds (dataset-users db index-name id)
            :related related)))
+
+(defn fetch-count
+  "Issues an ES query for the count for the datasets belonging
+  a given category path"
+  [es-conn index-name path]
+  (doc/count
+    es-conn index-name "datasets"
+    (q/bool {:should [(q/prefix :path (str path "."))
+                      (q/term :path path)]})))
+
+(defn parse-count
+  "Given an ES response, return [:result count-from-response]"
+  [response]
+  (res/count-from response))
+
+(defn fetch-counts
+  [es-conn index-name categories]
+  (into {} (map (fn [[_ {:keys [path]}]] [path (parse-count (fetch-count es-conn index-name path))]) categories)))
+
+(defn background-update-counts
+  "Updates datasets within an index with the correct count, this method
+  is intended to be run after a CRUD operation"
+  [es-conn index-name]
+  (ind/refresh es-conn index-name)
+  (let [categories (base/read-indexed-results es-conn index-name "categories")]
+    (future
+      (category/update-counts! es-conn index-name categories (fetch-counts es-conn index-name categories)))))
