@@ -118,10 +118,9 @@
                             :query query)]
     (transform-results results)))
 
-(defn find-matching
-  [db config index query]
-  (let [es-conn (helper/connect-to-es config)
-        category-path (:category-path query)
+(defn dataset-search
+  [es-conn index query]
+  (let [category-path (:category-path query)
         catalog-path (extract-catalog-path category-path)
         catalog (category/fetch es-conn index catalog-path)
         catalog-filters (metadata-indexes (:metadata catalog) "filter")
@@ -139,10 +138,14 @@
                                     (hash-map catalog-filter
                                               (map #(:key %)
                                                    (:buckets (catalog-filter aggregations)))))
-                                  catalog-filters))
-        datasets (assoc (transform-results results) :filters filters)]
+                                  catalog-filters))]
+    (assoc (transform-results results) :filters filters)))
+
+(defn find-matching
+  [db config index query]
+  (let [datasets (dataset-search (helper/connect-to-es config) index query)]
     (assoc datasets
-           :data (map #(merge % (ratings/avg-rating db (str (:id %)) index ))
+           :data (map #(merge % (ratings/avg-rating db (str (:id %)) index))
                       (:data datasets)))))
 
 (defn dataset-users
