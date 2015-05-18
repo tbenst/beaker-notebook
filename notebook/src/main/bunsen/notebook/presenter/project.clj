@@ -6,7 +6,11 @@
             [bouncer.validators :as v]))
 
 (defn find-project [db owner-id project-id]
-  (d/q '[:find (pull ?p [*]) .
+  (d/q '[:find (pull ?p [:db/id :project/name :project/description :project/created-at
+                         :project/public-id :project/updated-at :project/owner-id
+                           {:notebook/_project [:notebook/public-id :notebook/name
+                                                :notebook/open :notebook/opened-at
+                                                :notebook/created-at :notebook/updated-at]}]) .
          :in $ [?oid ?pid]
          :where
          [?p :project/public-id ?pid]
