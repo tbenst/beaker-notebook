@@ -42,11 +42,14 @@
 
 (defn update-project! [conn owner-id project-id params]
   (when-let [p (find-project (d/db conn) owner-id project-id)]
-    (let [tx (-> params
+    (let [updated-at (if (:updated-at params) (:updated-at params) (utils/now))
+          opened-at (when (:open params) (utils/now))
+          tx (-> params
                  (dissoc :public-id :project-id)
+                 (assoc :project/opened-at opened-at)
                  utils/remove-nils
                  (utils/namespace-keys "project")
-                 (assoc :db/id (:db/id p) :project/updated-at (utils/now)))]
+                 (assoc :db/id (:db/id p) :project/updated-at updated-at))]
       @(d/transact conn [tx])
       tx)))
 
