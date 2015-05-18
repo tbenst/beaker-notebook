@@ -17,10 +17,17 @@
          [?p :project/owner-id ?oid]]
        db (mapv utils/uuid-from-str [owner-id project-id])))
 
+(defn last-updated-at [p]
+  (let [notebook-timestamps (mapv #(:notebook/updated-at %) (:notebook/_project p))
+        timestamps (conj notebook-timestamps (:project/updated-at p))]
+    (-> (sort timestamps)
+        last)))
+
 (defn load-project [db owner-id project-id]
   (when-let [p (when (and owner-id project-id)
                  (find-project db owner-id project-id))]
-    (dissoc p :db/id)))
+    (-> (dissoc p :db/id)
+        (assoc :last-updated-at (last-updated-at p)))))
 
 (defn create-project! [conn owner-id {:keys [name description created-at updated-at]}]
   (let [p {:db/id (d/tempid :db.part/user)

@@ -60,7 +60,7 @@
             .value {{project.lastExecuted || "N/A" | date: 'short'}}
           li
             .label Updated
-            .value.last-updated {{project.lastUpdatedAt | date: 'short'}}
+            .value.last-updated {{project['last-updated-at'] | date: 'short'}}
           li
             .label Commits
             .value.num-commits {{project.numCommits}}
