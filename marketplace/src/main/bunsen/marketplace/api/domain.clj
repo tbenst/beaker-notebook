@@ -9,8 +9,6 @@
             [clojurewerkz.elastisch.rest.response :refer :all]
             [clojurewerkz.elastisch.query :as query]))
 
-(declare background-update-counts)
-
 (defn update-marketplace
   "Performs some common pre-processing tasks before kicking off the
   specified marketplace work.
@@ -40,14 +38,6 @@
   [es-conn index-name _]
   (let [categories (base/read-indexed-results es-conn index-name "categories")]
     (cats/update-counts! es-conn index-name categories)))
-
-(defn background-update-counts
-  "Updates datasets within an index with the correct count, this method
-  is intended to be run after a CRUD operation"
-  [es-conn index-name]
-  (future
-    (ind/refresh es-conn index-name)
-    (update-counts es-conn index-name nil)))
 
 (defn update-mappings
   "Updates the ElasticSearch mappings necessary for the index's catalog

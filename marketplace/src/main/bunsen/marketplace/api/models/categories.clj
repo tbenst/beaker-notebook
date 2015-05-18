@@ -2,6 +2,7 @@
   (:require [bunsen.marketplace.helper.api :as helper]
             [bunsen.marketplace.base :as base]
             [bunsen.marketplace.categories :as cats]
+            [clojurewerkz.elastisch.rest.index :as ind]
             [clojurewerkz.elastisch.rest.document :as doc]))
 
 (declare build-query)
@@ -59,3 +60,12 @@
                   :size 1
                   :query {:term {:path catalog-path}})
       :hits :hits first :_source))
+
+(defn background-update-counts
+  "Updates datasets within an index with the correct count, this method
+  is intended to be run after a CRUD operation"
+  [es-conn index-name]
+  (let [categories (base/read-indexed-results es-conn index-name "categories")]
+    (future
+      (ind/refresh es-conn index-name)
+      (cats/update-counts! es-conn index-name categories))))

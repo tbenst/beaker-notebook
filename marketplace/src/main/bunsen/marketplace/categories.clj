@@ -55,7 +55,6 @@
     (let [[id {:keys [path] :as attrs}] category]
       (await-for 5000 (cache-subtree-count! es-conn index-name id path)))))
 
-
 (defn update-mappings!
   "Updates mappings to avoid indexing filter fields for the index's catalogs."
   [es-conn index-name categories]

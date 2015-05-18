@@ -31,20 +31,20 @@
     ; set the ID attribute of a dataset to be the internal elastic search _id
     ; since the api consumers expect their to be an ID attribute on each dataset.
     (doc/update-with-partial-doc connection index-name "datasets" created_id {:id created_id})
-    (domain/background-update-counts connection index-name)))
+    (category/background-update-counts connection index-name)))
 
 (defn delete-dataset
   [config index-name id]
   (let [connection (helper/connect-to-es config)]
     (doc/delete connection index-name "datasets" id)
-    (domain/background-update-counts connection index-name)))
+    (category/background-update-counts connection index-name)))
 
 (defn update-dataset
   "Updates dataset with given payload"
   [config index-name id document]
   (let [connection (helper/connect-to-es config)]
     (doc/put connection index-name "datasets" id document)
-    (domain/background-update-counts connection index-name)))
+    (category/background-update-counts connection index-name)))
 
 (defn extract-catalog-path [category-path]
   (if (nil? category-path) "0.1"
