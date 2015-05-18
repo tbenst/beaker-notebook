@@ -24,7 +24,7 @@
   :post! (fn [{{conn :conn
                 {owner-id :id} :session
                 params :params} :request}]
-           (when-let [p (p/create-project! conn owner-id params)]
+           (when-let [p (p/create-project! conn owner-id (dissoc params :updated-at :created-at))]
              {::project p}))
 
   :handle-created ::project)

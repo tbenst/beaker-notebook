@@ -1,5 +1,6 @@
 (ns bunsen.notebook.presenter.project
   (:require [datomic.api :as d]
+            [clojure.instant :as inst]
             [bunsen.common.helper.utils :as utils]
             [bouncer.core :as b]
             [bouncer.validators :as v]))
@@ -17,11 +18,11 @@
                  (find-project db owner-id project-id))]
     (dissoc p :db/id)))
 
-(defn create-project! [conn owner-id {:keys [name description]}]
+(defn create-project! [conn owner-id {:keys [name description created-at updated-at]}]
   (let [p {:db/id (d/tempid :db.part/user)
            :project/public-id (d/squuid)
-           :project/created-at (utils/now)
-           :project/updated-at (utils/now)
+           :project/created-at (if created-at (inst/read-instant-timestamp created-at) (utils/now))
+           :project/updated-at (if updated-at (inst/read-instant-timestamp updated-at) (utils/now))
            :project/name name
            :project/description description
            :project/owner-id (utils/uuid-from-str owner-id)}]
