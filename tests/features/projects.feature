@@ -192,8 +192,8 @@ As a researcher, I want to manage my projects.
 
   Scenario: Project updated date
     Given I have the following Projects:
-      | name              | description                          | updated_at                |
-      | Finance Research  | Researching a theory on stock prices | 2014-04-29 09:45:18.697   |
+      | name              | description                          | updated-at                    |
+      | Finance Research  | Researching a theory on stock prices | 2014-04-29T09:45:18.678+00:00 |
     And I view my projects
     And I open the "Finance Research" project
     And I edit the project
@@ -204,8 +204,8 @@ As a researcher, I want to manage my projects.
 
   Scenario: Opening a project should not change its updated date
     Given I have the following Projects:
-      | name              | description                          | updated_at                |
-      | Finance Research  | Researching a theory on stock prices | 2014-04-29 09:45:18.697   |
+      | name              | description                          | updated-at                    |
+      | Finance Research  | Researching a theory on stock prices | 2014-04-29T09:45:18.678+00:00 |
     And I view my projects
     And I open the "Finance Research" project
     Then I should see the project's last updated date as "4/29/14 9:45 AM"
@@ -213,12 +213,12 @@ As a researcher, I want to manage my projects.
   @flaky @beaker
   Scenario: Project with notebooks updated date
     Given I have the following Projects:
-      | name              | description                          | updatedAt                 |
-      | Finance Research  | Researching a theory on stock prices | 2014-04-29 09:45:18.697   |
+      | name              | description                          | updated-at                    |
+      | Finance Research  | Researching a theory on stock prices | 2014-04-29T09:45:18.697+00:00 |
     And I have the following notebooks:
-      | name              | projectName      | updatedAt               |
-      | Data preparation  | Finance Research | 2014-04-29 09:45:18.697 |
-      | Hadoop map-reduce | Finance Research | 2014-12-30 09:45:18.697 |
+      | name              | projectName      | updated-at                    |
+      | Data preparation  | Finance Research | 2014-04-29T09:45:18.697+00:00 |
+      | Hadoop map-reduce | Finance Research | 2014-12-30T09:45:18.697+00:00 |
     And I view my projects
     When I open the "Finance Research" project
     When I view the notebook "Data preparation"
@@ -228,12 +228,12 @@ As a researcher, I want to manage my projects.
   @flaky @beaker
   Scenario: Recently Used Notebooks
     Given I have the following Projects:
-      | name              | description                          | updated_at                |
-      | Finance Research  | Researching a theory on stock prices | 2014-04-29 09:45:18.697   |
+      | name              | description                          | updated-at                      |
+      | Finance Research  | Researching a theory on stock prices | 2014-04-29T09:45:18.697+00:00   |
     And I have the following notebooks:
-      | name              | projectName      | openedAt                |
-      | Data preparation  | Finance Research | 2014-04-29 09:45:18.697 |
-      | Hadoop map-reduce | Finance Research | 2014-04-30 09:45:18.697 |
+      | name              | projectName      | opened-at                     |
+      | Data preparation  | Finance Research | 2014-04-29T09:45:18.697+00:00 |
+      | Hadoop map-reduce | Finance Research | 2014-04-30T09:45:18.697+00:00 |
     And I view my projects
     When I open the "Finance Research" project
     Then I should see the following recently used notebooks:
