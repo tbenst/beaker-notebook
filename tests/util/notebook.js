@@ -1,7 +1,7 @@
 var _ = require('lodash');
 var config  = require('./_config');
 var Promise = require('bluebird');
-var req = require('request');
+var req = require('request').defaults({json: true});
 var post = Promise.promisify(req.post);
 var get = Promise.promisify(req.get);
 var put = Promise.promisify(req.put);
@@ -13,22 +13,22 @@ module.exports = function() {
   this.notebook = {
 
     getCategories: function() {
-      return get(config.notebookUrl + '/categories', {json: true})
+      return get(config.notebookUrl + '/categories')
       .then(function(response) {
         return response[0].body;
       });
     },
 
     createCategory: function(attrs) {
-      return post(config.notebookUrl + '/categories', {json: true, body: attrs});
+      return post(config.notebookUrl + '/categories', {body: attrs});
     },
 
     createPublication: function(attrs) {
-      return post(config.notebookUrl + '/publications', {json: true, body: attrs});
+      return post(config.notebookUrl + '/publications', {body: attrs});
     },
 
     deleteSeed: function() {
-      return del(config.notebookUrl + '/seed', {json: true});
+      return del(config.notebookUrl + '/seed');
     }
   }
 
