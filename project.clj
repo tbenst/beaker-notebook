@@ -18,6 +18,7 @@
                        bidi "1.18.9"
                        environ "1.0.0"
                        liberator "0.12.1"
+                       hawk "0.2.4"
                        wkf/clj-http "1.0.1-SNAPSHOT-MOJO"}
             :inherited {:url "https://github.com/twosigma/bunsen"
                         :scm {:name "git"
