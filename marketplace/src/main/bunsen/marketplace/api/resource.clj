@@ -72,7 +72,7 @@
 
 (defresource vendors [config _] resource/defaults
   :allowed? (partial resource/admin? config)
-  :handle-ok (vendors/get-vendors config))
+  :handle-ok (fn [_] (vendors/get-vendors (:db request))))
 
 (defresource default [_ _] resource/defaults
   :exists? (constantly false))
