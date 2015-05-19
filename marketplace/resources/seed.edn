@@ -1,0 +1,160 @@
+[
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Australian Securities Exchange"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Bank of England"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Bundesbank"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "CBOE Futures Exchange"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Central Bank of Brazil"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Chicago Board Options Exchange"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Chigaco Mercantile Exchange"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Chris"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Consumer Financial Protection Bureau"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Damodaran Financial Data"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Energy Information Administration, Department of Energy"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Eurex Exchange"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "European Energy Exchange"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Federal Reserve Bank of St. Louis"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Federal Reserve Economic Data"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Google Finance"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Hong Kong Exchange"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Intercontinental Exchange"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Johnson Matthey"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "London Bullion Market Association"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "MeasuringWorth"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Minneapolis Grain Exchange"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Montreal Exchange"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Multi Commodity Exchange India"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "NYSE EURONEXT LIFFE"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "New York Government"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Nikkei"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Open Data for Africa (IMF)"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Open Financial Data Project"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Osaka Dojima Commodity Exchange"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Osaka Securities Exchange"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "PRICE-DATA.COM"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "PsychSignal"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Quandl"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Quandl Open Data"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Shanghai Futures Exchange"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Singapore Exchange"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Statistics Canada"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Stock Exchange of Thailand"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Tokyo Financial Exchange"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "U.S. Census Bureau, Department of Commerce"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "U.S. Commodity Futures Trading Commision"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "U.S. Energy Information Administration"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "U.S. Office of Personnel Management"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "U.S. Securities and Exchange Commission"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "US Department of Energy"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "United Nations"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Wall Street Journal"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "World Bank"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "World Gold Council"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "World Health Organization"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Yahoo Finance"}
+
+  {:db/id #db/id[:db.part/user]
+   :vendor/name "Zillow Real Estate Research"}
+]
