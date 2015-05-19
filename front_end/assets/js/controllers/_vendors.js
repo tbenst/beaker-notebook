@@ -24,12 +24,12 @@
       };
 
       $scope.createVendor = function(isValid) {
-        if (!isValid) return;
+        if (!isValid) { return; }
 
         $scope.loading = true;
         F.Vendors.create($scope.vendor).then(function(vendor) {
           $scope.vendor = vendor;
-          $scope.message = "Vendor Created";
+          $scope.message = 'Vendor Created';
           getVendors();
         })
         .catch(errorMessage)
@@ -41,8 +41,9 @@
 
       $scope.deleteVendors = function() {
         $q.all(_.map($scope.vendors, function(vendor) {
-          if(vendor.delete)
+          if (vendor.delete) {
             return F.Vendors.destroy(vendor.id);
+          }
         }))
         .then(getVendors)
         .catch(errorMessage);
@@ -55,7 +56,7 @@
       };
 
       function errorMessage(err) {
-        $scope.message = "Error: " + err.statusText;
+        $scope.message = 'Error: ' + err.statusText;
       };
     }]
   );
