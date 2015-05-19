@@ -4,6 +4,7 @@
             [bunsen.marketplace.datasets :as datasets]
             [bunsen.marketplace.mappings :as mappings]
             [bunsen.marketplace.helper.api :as helper]
+            [bunsen.marketplace.api.models.datasets :as ds]
             [clojurewerkz.elastisch.rest.index :as ind]
             [clojurewerkz.elastisch.rest.document :as doc]
             [clojurewerkz.elastisch.rest.response :refer :all]
@@ -35,9 +36,11 @@
   (helper/aggregate-term "vendor" (helper/connect-to-es config)))
 
 (defn update-counts
-  [es-conn index-name _]
-  (let [categories (base/read-indexed-results es-conn index-name "categories")]
-    (cats/update-counts! es-conn index-name categories)))
+  [config body]
+  (let [es-conn (helper/connect-to-es config)
+        index-name (-> body :indexName)
+        categories (base/read-indexed-results es-conn index-name "categories")]
+    (cats/update-counts! es-conn index-name categories (ds/fetch-counts es-conn index-name categories))))
 
 (defn update-mappings
   "Updates the ElasticSearch mappings necessary for the index's catalog
