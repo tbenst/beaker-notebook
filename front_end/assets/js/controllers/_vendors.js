@@ -9,53 +9,54 @@
       $state,
       F,
       $q) {
-        $scope.vendors = {};
-        $scope.loading = false;
-        $scope.query   = null;
+      $scope.vendors = {};
+      $scope.loading = false;
+      $scope.query   = null;
 
-        getVendors();
+      getVendors();
 
-        $scope.clear = function(form) {
-          form.$setPristine();
-        };
+      $scope.clear = function(form) {
+        form.$setPristine();
+      };
 
-        $scope.search = function(vendor) {
-          return !$scope.query || vendor.name.toLowerCase().indexOf($scope.query.toLowerCase()) > -1;
-        };
+      $scope.search = function(vendor) {
+        return !$scope.query || vendor.name.toLowerCase().indexOf($scope.query.toLowerCase()) > -1;
+      };
 
-        $scope.createVendor = function(isValid) {
-          if (!isValid) return;
+      $scope.createVendor = function(isValid) {
+        if (!isValid) return;
 
-          $scope.loading = true;
-          F.Vendors.create($scope.vendor).then(function(vendor) {
-            $scope.vendor = vendor;
-            $scope.message = "Vendor Created";
-            getVendors();
-          })
-          .catch(errorMessage)
-          .finally(function() {
-            $scope.loading = false;
-            $scope.vendor.name = null;
-          });
-        };
+        $scope.loading = true;
+        F.Vendors.create($scope.vendor).then(function(vendor) {
+          $scope.vendor = vendor;
+          $scope.message = "Vendor Created";
+          getVendors();
+        })
+        .catch(errorMessage)
+        .finally(function() {
+          $scope.loading = false;
+          $scope.vendor.name = null;
+        });
+      };
 
-        $scope.deleteVendors = function() {
-          $q.all(_.map($scope.vendors, function(vendor) {
-            if(vendor.delete)
-              return F.Vendors.destroy(vendor.id);
-          }))
-          .then(getVendors)
-          .catch(errorMessage);
-        };
+      $scope.deleteVendors = function() {
+        $q.all(_.map($scope.vendors, function(vendor) {
+          if(vendor.delete)
+            return F.Vendors.destroy(vendor.id);
+        }))
+        .then(getVendors)
+        .catch(errorMessage);
+      };
 
-        function getVendors() {
-          F.Vendors.getVendors().then(function(vendors) {
-            $scope.vendors = vendors;
-          });
-        };
+      function getVendors() {
+        F.Vendors.getVendors().then(function(vendors) {
+          $scope.vendors = vendors;
+        });
+      };
 
-        function errorMessage(err) {
-          $scope.message = "Error: " + err.statusText;
-        };
-  }]);
+      function errorMessage(err) {
+        $scope.message = "Error: " + err.statusText;
+      };
+    }]
+  );
 })(angular, window.bunsen);
