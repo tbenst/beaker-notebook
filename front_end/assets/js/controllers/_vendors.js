@@ -51,7 +51,7 @@
 
       function getVendors() {
         F.Vendors.getVendors().then(function(vendors) {
-          $scope.vendors = vendors;
+          $scope.vendors = vendors.data;
         });
       }
 
