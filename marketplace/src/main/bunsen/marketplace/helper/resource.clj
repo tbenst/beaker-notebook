@@ -22,8 +22,8 @@
   (-> ctx :request :body))
 
 (defn pass-body
-  [biz-fn config ctx]
-  (domain/update-marketplace config (get-body ctx) biz-fn))
+  [f config ctx]
+  (domain/update-marketplace config (get-body ctx) f))
 
 (defn get? [ctx]
   (= :get (-> ctx :request :request-method)))

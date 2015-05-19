@@ -15,11 +15,11 @@
   specified marketplace work.
   config = application config instance
   body = string representation of request body
-  biz-fn = business task that we intend to perform"
-  [config body biz-fn]
+  f = business task that we intend to perform"
+  [config body f]
   (let [es-conn (helper/connect-to-es config)
         index-name (:indexName body)]
-    (biz-fn es-conn index-name body)))
+    (f es-conn index-name body)))
 
 (defn get-status [ctx] "ok")
 
