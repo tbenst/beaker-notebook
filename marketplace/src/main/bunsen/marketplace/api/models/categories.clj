@@ -1,10 +1,15 @@
 (ns bunsen.marketplace.api.models.categories
   (:require [bunsen.marketplace.helper.api :as helper]
             [bunsen.marketplace.base :as base]
-            [bunsen.marketplace.categories :as cats]
             [clojurewerkz.elastisch.rest.document :as doc]))
 
 (declare build-query)
+
+(defn add-id-for-elastisch
+  "Adds the _id element (copied from existing 'id') to each category"
+  [categories]
+  (map (fn [cat] (assoc cat :_id (:id cat)))
+       categories))
 
 (defn get-with-params
   "Returns categories based on supplied parameters.
@@ -33,7 +38,7 @@
   (let [categories (:categories payload)
         indexer (base/index! es-conn index-name "categories" categories
                              identity ; json already parsed
-                             cats/add-id-for-elastisch
+                             add-id-for-elastisch
                              base/bulk-to-es!)]
     (await-for 5000 indexer)
     (= (:stage @indexer) :indexed)))
@@ -59,3 +64,18 @@
                   :size 1
                   :query {:term {:path catalog-path}})
       :hits :hits first :_source))
+
+(defn update-es-count!
+  "Given a specific entity id in elastic search, update its count attribute
+  in place"
+  [id es-conn index-name mapping-type count]
+  (doc/update-with-partial-doc es-conn index-name mapping-type id
+                               {:count count}))
+
+(defn update-counts!
+  "Given ES connection and category map, updates count attributes of
+  all categories therein"
+  [es-conn index-name categories counts]
+  (doseq [category categories]
+    (let [[id {:keys [path] :as attrs}] category]
+      (update-es-count! id es-conn index-name "categories" (get counts path)))))

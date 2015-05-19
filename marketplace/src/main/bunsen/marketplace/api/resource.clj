@@ -48,7 +48,7 @@
 (defresource counts [config _] resource/defaults
   :allowed? (partial resource/admin? config)
   :allowed-methods #{:put}
-  :put! (partial resource/pass-body domain/update-counts config))
+  :put! #(domain/update-counts config (resource/get-body %)))
 
 (defresource mappings [config _] resource/defaults
   :allowed? (partial resource/admin? config)

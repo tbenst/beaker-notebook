@@ -1,6 +1,7 @@
 (ns bunsen.marketplace.main
   (:require [bunsen.marketplace.base :as base]
             [bunsen.marketplace.categories :as cats]
+            [bunsen.marketplace.api.models.datasets :as datasets]
             [bunsen.marketplace.mappings :as mappings]
             [clojurewerkz.elastisch.rest.index :as ind]
             [clojurewerkz.elastisch.rest :as rest]))
@@ -17,5 +18,5 @@
   (let [categories (base/read-indexed-results es-conn index-name "categories")]
     (datasets-fn es-conn index-name datasets-url categories)
     (ind/refresh es-conn index-name)
-    (cats/update-counts! es-conn index-name categories)
+    (cats/update-counts! es-conn index-name categories (datasets/fetch-counts es-conn index-name categories))
     (cats/update-mappings! es-conn index-name categories)))

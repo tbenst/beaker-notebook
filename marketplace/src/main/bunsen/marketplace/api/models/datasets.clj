@@ -3,12 +3,16 @@
             [bunsen.marketplace.base :as base]
             [bunsen.common.helper.utils :as u]
             [bunsen.marketplace.api.models.categories :as category]
-            [bunsen.marketplace.api.domain :as domain]
             [bunsen.marketplace.simple.simple :as simple]
             [bunsen.marketplace.api.models.ratings :as ratings]
+            [clojurewerkz.elastisch.rest.index :as ind]
+            [clojurewerkz.elastisch.rest.response :as res]
             [clojurewerkz.elastisch.rest.document :as doc]
+            [clojurewerkz.elastisch.query :as q]
             [clojure.string :as str]
             [datomic.api :as d]))
+
+(declare background-update-counts)
 
 (defn create-datasets
   "Returns true if datasets payload was succesfully sent to
@@ -31,20 +35,20 @@
     ; set the ID attribute of a dataset to be the internal elastic search _id
     ; since the api consumers expect their to be an ID attribute on each dataset.
     (doc/update-with-partial-doc connection index-name "datasets" created_id {:id created_id})
-    (domain/background-update-counts connection index-name)))
+    (background-update-counts connection index-name)))
 
 (defn delete-dataset
   [config index-name id]
   (let [connection (helper/connect-to-es config)]
     (doc/delete connection index-name "datasets" id)
-    (domain/background-update-counts connection index-name)))
+    (background-update-counts connection index-name)))
 
 (defn update-dataset
   "Updates dataset with given payload"
   [config index-name id document]
   (let [connection (helper/connect-to-es config)]
     (doc/put connection index-name "datasets" id document)
-    (domain/background-update-counts connection index-name)))
+    (background-update-counts connection index-name)))
 
 (defn extract-catalog-path [category-path]
   (if (nil? category-path) "0.1"
@@ -118,10 +122,9 @@
                             :query query)]
     (transform-results results)))
 
-(defn find-matching
-  [db config index query]
-  (let [es-conn (helper/connect-to-es config)
-        category-path (:category-path query)
+(defn dataset-search
+  [es-conn index query]
+  (let [category-path (:category-path query)
         catalog-path (extract-catalog-path category-path)
         catalog (category/fetch es-conn index catalog-path)
         catalog-filters (metadata-indexes (:metadata catalog) "filter")
@@ -139,10 +142,14 @@
                                     (hash-map catalog-filter
                                               (map #(:key %)
                                                    (:buckets (catalog-filter aggregations)))))
-                                  catalog-filters))
-        datasets (assoc (transform-results results) :filters filters)]
+                                  catalog-filters))]
+    (assoc (transform-results results) :filters filters)))
+
+(defn find-matching
+  [db config index query]
+  (let [datasets (dataset-search (helper/connect-to-es config) index query)]
     (assoc datasets
-           :data (map #(merge % (ratings/avg-rating db (str (:id %)) index ))
+           :data (map #(merge % (ratings/avg-rating db (str (:id %)) index))
                       (:data datasets)))))
 
 (defn dataset-users
@@ -189,3 +196,29 @@
            :index index-name
            :subscriberIds (dataset-users db index-name id)
            :related related)))
+
+(defn fetch-count
+  "Issues an ES query for the count for the datasets belonging
+  a given category path"
+  [es-conn index-name path]
+  (dataset-search es-conn index-name {:category-path path
+                                      :from 0
+                                      :limit 9999}))
+
+(defn parse-count
+  "Given an ES response, return [:result count-from-response]"
+  [response]
+  (:total-items response))
+
+(defn fetch-counts
+  [es-conn index-name categories]
+  (into {} (map (fn [[_ {:keys [path]}]] [path (parse-count (fetch-count es-conn index-name path))]) categories)))
+
+(defn background-update-counts
+  "Updates datasets within an index with the correct count, this method
+  is intended to be run after a CRUD operation"
+  [es-conn index-name]
+  (ind/refresh es-conn index-name)
+  (let [categories (base/read-indexed-results es-conn index-name "categories")]
+    (future
+      (category/update-counts! es-conn index-name categories (fetch-counts es-conn index-name categories)))))

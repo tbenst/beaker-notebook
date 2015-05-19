@@ -262,7 +262,7 @@ As a researcher, I want to be able to use the market place.
     And I view the market search
     And I view the "Crime Rates, Canada" market item
     Then I should see the start date "4/4/14"
-
+  @flakey
   Scenario: Market place related tags
     Given I have the following market items:
       | title                      | tags               |
@@ -337,7 +337,7 @@ As a researcher, I want to be able to use the market place.
     And I view the market search
     And I view the "Sans Previews" market item
     Then I should not see any previews
-
+  @flakey
   Scenario: Market item with only a thumbnail
     When I have a market item with only a thumbnail
     And I view the market search
