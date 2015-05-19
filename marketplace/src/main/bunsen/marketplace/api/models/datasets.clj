@@ -201,15 +201,14 @@
   "Issues an ES query for the count for the datasets belonging
   a given category path"
   [es-conn index-name path]
-  (doc/count
-    es-conn index-name "datasets"
-    (q/bool {:should [(q/prefix :path (str path "."))
-                      (q/term :path path)]})))
+  (dataset-search es-conn index-name {:category-path path
+                                      :from 0
+                                      :limit 9999}))
 
 (defn parse-count
   "Given an ES response, return [:result count-from-response]"
   [response]
-  (res/count-from response))
+  (:total-items response))
 
 (defn fetch-counts
   [es-conn index-name categories]
