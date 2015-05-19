@@ -41,21 +41,17 @@ module.exports = function() {
     return Promise.map(notebooks.hashes(), function(attrs) {
       attrs.userEmail = attrs.userEmail || 'u@r.edu';
 
-      return Promise.all([
-        _this.user.getDetails(),
-        _this.seed.fetch('Project', {name: attrs.projectName})
-      ]).spread(function(user, project) {
-        return _this.seed.populate({
-          model: 'Notebook',
-          data: _.extend(
-            notebookBase(),
+      return _this.user.getDetails()
+      .then(function(user) {
+        return _this.notebook.createNotebook(
+          _.extend(
+            {},
             _.omit(attrs, ['userEmail', 'projectName']),
-            {
-              user_id: user['public-id'],
-              projectId: JSON.parse(project[1]).id
+            {'user-id': user['public-id'],
+             'project-id': _this.currentProjects[attrs.projectName]['public-id']
             }
           )
-        });
+        );
       });
     });
   });

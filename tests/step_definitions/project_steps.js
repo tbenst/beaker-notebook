@@ -159,7 +159,12 @@ module.exports = function() {
       return Promise.resolve(table.hashes())
       .each(function(attrs) {
         var projectData = _.merge(_.cloneDeep(projectBase), {'owner-id': u['public-id']});
-        return _this.notebook.createProject(_.merge(projectData, attrs));
+        return _this.notebook.createProject(_.merge(projectData, attrs))
+        .then(function(project) {
+          _this.currentProjects = _this.currentProjects || {};
+          _this.currentProjects[project.name] = project;
+          return project;
+        });
       });
     });
   });
