@@ -5,6 +5,10 @@
 
 (defresource rating [_] resource/defaults
   :allowed-methods [:get]
-  :exists? (fn [{{db :db {id :id} :route-params} :request}]
-             {::rating (api/find-rating db (Long. id) 1)})
+
+  :exists? (fn [{{db :db
+                  {user-id :id} :session
+                  {pub-id :pub-id} :route-params} :request}]
+             {::rating (api/find-rating db user-id pub-id)})
+
   :handle-ok ::rating)

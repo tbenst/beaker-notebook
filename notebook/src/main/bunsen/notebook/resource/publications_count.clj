@@ -5,9 +5,9 @@
 
 (defresource publications-count [_] resource/defaults
   :allowed-methods [:get]
-  :handle-ok (fn [{{db :db} :request}]
-               (let [term (get-in request [:params "searchTerm"])
-                     category-id (get-in request [:params "category_id"])]
+  :handle-ok (fn [{{db :db params :params} :request}]
+               (let [term (get params "searchTerm")
+                     category-id (get params "category_id")]
                  {:count (-> (api/find-publications db category-id term)
                              count)})))
 

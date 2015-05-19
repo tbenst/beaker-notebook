@@ -5,11 +5,14 @@
 
 (defresource publication-contents [_] resource/defaults
   :allowed-methods [:get]
-  :exists? (fn [{{db :db {id :id} :route-params} :request}]
-             (if-let [p (api/find-publication db (Long. id))]
+
+  :exists? (fn [{{db :db {pub-id :pub-id} :route-params} :request}]
+             (if-let [p (api/find-publication db pub-id)]
                {::notebook (:publication/contents p)}))
+
   :handle-ok ::notebook
-  :as-response (fn [notebook {{{id :id} :route-params} :request}]
-                 (let [attachment (str "attachment; filename=" "notebook-" id ".bkr")]
+
+  :as-response (fn [notebook {{{pub-id :pub-id} :route-params} :request}]
+                 (let [attachment (str "attachment; filename=" "notebook-" pub-id ".bkr")]
                    (-> {:body notebook}
                        (assoc-in [:headers "Content-Disposition"] attachment)))))
