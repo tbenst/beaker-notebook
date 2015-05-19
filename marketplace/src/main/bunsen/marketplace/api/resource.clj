@@ -6,7 +6,8 @@
             [bunsen.marketplace.api.models.datasets :as datasets]
             [bunsen.marketplace.api.models.categories :as categories]
             [bunsen.marketplace.api.models.ratings :as ratings]
-            [bunsen.marketplace.api.models.subscriptions :as subscriptions]))
+            [bunsen.marketplace.api.models.subscriptions :as subscriptions]
+            [bunsen.marketplace.api.models.vendors :as vendors]))
 
 (defresource status [_ _] resource/defaults
   :handle-ok domain/get-status)
@@ -71,7 +72,7 @@
 
 (defresource vendors [config _] resource/defaults
   :allowed? (partial resource/admin? config)
-  :handle-ok (domain/get-vendors config))
+  :handle-ok (vendors/get-vendors config))
 
 (defresource default [_ _] resource/defaults
   :exists? (constantly false))
