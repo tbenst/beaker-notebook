@@ -53,11 +53,11 @@
         F.Vendors.getVendors().then(function(vendors) {
           $scope.vendors = vendors;
         });
-      };
+      }
 
       function errorMessage(err) {
         $scope.message = 'Error: ' + err.statusText;
-      };
+      }
     }]
   );
 })(angular, window.bunsen);
