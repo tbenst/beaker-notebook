@@ -39,6 +39,7 @@
             a.close-notebook(close-notebook="{{ notebook.current.id }}") Close
       h2.left Notebook:&nbsp;
         span.name {{notebook.current.name}}
+        span.status(ng-if="getLoadingMessage()") ({{getLoadingMessage()}})
       .cl
       .loading(ng-if="loading")
         bunsen-spinner

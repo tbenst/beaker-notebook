@@ -33,6 +33,8 @@
 
     $scope.warning = "";
 
+    $scope.getLoadingMessage = bkHelper.getStatus;
+
     $scope.edited = function() {
       return $scope.notebook.current.edited;
     };
