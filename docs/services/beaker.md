@@ -1,26 +1,28 @@
 # Beaker Service
 
-Beaker service provides both the front end and back end of the actual Beaker
-Notebook interface.
+Beaker service provides the server of the actual Beaker Notebook interface.
 
 Beaker essentially provides an alternate version of the [Beaker-notebook](http://beakernotebook.com/) project,
 with modifications that make it suitable for running inside Bunsen (and
 unsusable in a desktop context).
 
 
-## Updating embeded beaker-notebook
+## Updating embeded beaker-server
 
-The beaker directory uses a [git subtree](https://github.com/git/git/blob/master/contrib/subtree/git-subtree.txt) to vendor the beaker-notebook repo. There are changes on this repo that are specific to the Bunsen world.
+The beaker directory uses a [git submodule](http://git-scm.com/docs/git-submodule) to vendor the beaker-server.
+There are changes on this repo that are specific to the Bunsen world.
 
-To update the beaker-notebook:
+To update the beaker-server submodule:
 
-  * checkout `bunsen` branch of [beaker-notebook](http://github.com/twosigma/beaker-notebook.git) repo and make your changes
-  * `$ cd core`
-  * `$ npm install`
-  * `$ npm run compile`
-  * commit and push changes to bunsen branch on github
-  * switch back to the `bunsen` project
-  * git subtree pull --prefix=beaker/beaker-notebook
-    http://github.com/twosigma/beaker-notebook.git bunsen
+(http://stackoverflow.com/questions/8813249/git-submodules-specify-a-specific-sha)
 
-(For development, it's easier to make the changes directly in `bunsen/beaker/beaker-notebook` and run `cd core && npm install && npm run compile` from there.)
+  * Update the submodule like any other repo
+    * `cd beaker/beaker-server`
+    * `git fetch`
+    * `git checkout origin/bunsen_integration`
+  * Commit your changes in the base project
+
+Keep in mind that this will only change the local versions.  In order to make a version
+available in staging/ci, you'll need to ask Scott to update the development docker image
+https://registry.hub.docker.com/u/beakernotebook/beaker-prerelease/ and give the build
+a unique tag, and update bunsen-staging.json with the new tag.
