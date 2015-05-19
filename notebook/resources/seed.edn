@@ -78,78 +78,70 @@
  {:db/id #db/id[:db.part/user]
   :publication/name "NYC Parking Ticket Exploration"
   :publication/description "This notebook was created by Ben Wellington, adapted from a blog post on IQuantNY, www.iquantny.com \n You need ticket data: https://data.cityofnewyork.us/City-Government/Parking-Violations-Issued-Fiscal-Year-2014-August-/jt7v-77mi? \n This notebook provides an exploration of NYC Parking Ticket data, using basic statistics. The language of choice for this notebook is IPython, using the pandas library."
-  :publication/author 1
-  :publication/notebook-id "1239abc"
+  :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/nyc_parking_ticket_exploration.bkr"
   :publication/category #db/id[:db.part/user -9]}
 
  {:db/id #db/id[:db.part/user]
   :publication/name "Python, HTML, Javascript, and d3"
   :publication/description "This notebook was created by Scott Draves. \n This notebook creates a random network with Python, and then visualizes it with an interactive forced-directed graph by using the d3 library."
-  :publication/author 1
-  :publication/notebook-id "1240abc"
+  :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/python_html_js_d3.bkr"
   :publication/category #db/id[:db.part/user -13]}
 
  {:db/id #db/id[:db.part/user]
   :publication/name "iPython Examples"
   :publication/description "This notebook was created by Scott Draves. \n IPython is the Python language with extensions for interactivity.  Follow the instructions on BeakerNotebook.com for how to install IPython so Beaker can use it."
-  :publication/author 1
-  :publication/notebook-id "1241abc"
+  :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/ipython_examples.bkr"
   :publication/category #db/id[:db.part/user -13]}
 
  {:db/id #db/id[:db.part/user]
   :publication/name "An Exploration of Citi Bike Riders in NYC"
   :publication/description "This notebook was created by Ben Wellington. \n In order to use this notebook, you first need to download the publicly available Citi bike data.  (Available at http://www.citibikenyc.com/system-data) \n This notebook provides an example of how to mine publicly available Citi bike data, using basic statistics to uncover interesting patterns. It uses Ipython as the language of choice (with pandas and numpy). There's also some Groovy at the end to show how data can be passed between languages."
-  :publication/author 1
-  :publication/notebook-id "1242abc"
+  :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/citibike_riders_nyc.bkr"
   :publication/category #db/id[:db.part/user -9]}
 
  {:db/id #db/id[:db.part/user]
   :publication/name "The 1000 Genomes Project"
   :publication/description "The 1000 Genomes Project is the first project to sequence the genomes of a large number of people, to provide a comprehensive resource on human genetic variation. As with other major human genome reference projects, data from the 1000 Genomes Project will be made available quickly to the worldwide scientific community through freely accessible public databases. The goal of the 1000 Genomes Project is to find most genetic variants that have frequencies of at least 1% in the populations studied."
-  :publication/author 1
-  :publication/notebook-id "1234abc"
+  :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/hello_world.bkr"
   :publication/category #db/id[:db.part/user -1]}
 
  {:db/id #db/id[:db.part/user]
   :publication/name "The sound of Hydrogen"
   :publication/description "Visualizing and listening to the quantum-mechanical spectrum of Hydrogen."
-  :publication/author 1
-  :publication/notebook-id "1235abc"
+  :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/ipython.bkr"
   :publication/category #db/id[:db.part/user -2]}
 
  {:db/id #db/id[:db.part/user]
   :publication/name "Particle physics at the Large Hadron Collider"
   :publication/description "The LHC was built in collaboration with over 10,000 scientists and engineers from over 100 countries, as well as hundreds of universities and laboratories. It lies in a tunnel 27 kilometres (17 mi) in circumference, as deep as 175 metres (574 ft) beneath the Franco-Swiss border near Geneva, Switzerland. It is also the longest machine ever built."
-  :publication/author 1
-  :publication/notebook-id "1236abc"
+  :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
+  :publication/notebook #db/id[:db.part/user -200]
   :publication/contents #file "notebooks/hello_world.bkr"
   :publication/category #db/id[:db.part/user -15]}
 
  {:db/id #db/id[:db.part/user]
   :publication/name "Replication of the highly-contentious analysis of economic growth"
   :publication/description "Replication of Reinhart-Rogoff \"Growth in a Time of Debt.\""
-  :publication/author 1
-  :publication/notebook-id "1237abc"
+  :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/ipython.bkr"
   :publication/category #db/id[:db.part/user -4]
-  :publication/ratings [{:rating/user 1 :rating/score 3}
-                        {:rating/user 2 :rating/score 4}]}
+  :publication/ratings [{:rating/user-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" :rating/score 3}
+                        {:rating/user-id #uuid "553686a5-e3bf-4d98-85ce-ec6e3ea59fa1" :rating/score 4}]}
 
  {:db/id #db/id[:db.part/user]
   :publication/name "Comparing different approaches to evolutionary simulations"
   :publication/description "Also available here to better visualization. The notebook was converted to a HTML presentation using an old nbconvert with the first developing implementation of reveal converter."
-  :publication/author 1
-  :publication/notebook-id "1238abc"
+  :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/hello_world.bkr"
   :publication/category #db/id[:db.part/user -1]
-  :publication/ratings [{:rating/user 2 :rating/score 2}
-                        {:rating/user 1 :rating/score 5}]}
+  :publication/ratings [{:rating/user-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" :rating/score 2}
+                        {:rating/user-id #uuid "553686a5-e3bf-4d98-85ce-ec6e3ea59fa1" :rating/score 5}]}
 
  {:db/id #db/id[:db.part/user]
   :project/public-id #uuid "5551e48e-f53f-4341-97e5-9515f07ee224"
@@ -171,7 +163,7 @@
   :project/last-executed #inst "2015-05-15T15:15:55.00Z"
   :project/opened-at #inst "2015-05-15T15:55:55.00Z"}
 
- {:db/id #db/id[:db.part/user]
+ {:db/id #db/id[:db.part/user -200]
   :notebook/public-id #uuid "5551e2b9-e25f-4971-b3ad-ba80d95929f7"
   :notebook/name "Deficiencies of the Standard Model"
   :notebook/user-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin

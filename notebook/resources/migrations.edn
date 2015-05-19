@@ -21,14 +21,14 @@
            :db.install/_attribute :db.part/db}
 
           {:db/id #db/id[:db.part/db]
-           :db/ident :publication/author
-           :db/valueType :db.type/long
+           :db/ident :publication/author-id
+           :db/valueType :db.type/uuid
            :db/cardinality :db.cardinality/one
            :db.install/_attribute :db.part/db}
 
           {:db/id #db/id[:db.part/db]
-           :db/ident :publication/notebook-id
-           :db/valueType :db.type/string
+           :db/ident :publication/notebook
+           :db/valueType :db.type/ref
            :db/cardinality :db.cardinality/one
            :db.install/_attribute :db.part/db}
 
@@ -69,8 +69,8 @@
  :publications/add-ratings-schema
  {:txes [[
           {:db/id #db/id[:db.part/db]
-           :db/ident :rating/user
-           :db/valueType :db.type/long
+           :db/ident :rating/user-id
+           :db/valueType :db.type/uuid
            :db/cardinality :db.cardinality/one
            :db.install/_attribute :db.part/db}
 
