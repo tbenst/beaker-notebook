@@ -10,6 +10,7 @@
     'Notebooks',
     'Beaker',
     'BeakerNotebookService',
+    'NotebookMenuService',
     'TrackingService',
     function(
       $scope,
@@ -22,6 +23,7 @@
       Notebooks,
       Beaker,
       BeakerNotebookService,
+      NotebookMenuService,
       TrackingService) {
 
     var frame;
@@ -116,6 +118,10 @@
         $scope.$emit('closeModal');
       }
     };
+
+    $scope.menuItems = function() {
+      return NotebookMenuService.menuItems($scope);
+    }
 
     $scope.saveAsCancel = function() {
       $scope.$emit('closeModal');
