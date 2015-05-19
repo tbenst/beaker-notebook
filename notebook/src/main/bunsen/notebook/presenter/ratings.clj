@@ -1,7 +1,9 @@
 (ns bunsen.notebook.presenter.ratings
   (:require [datomic.api :as d]
             [bunsen.notebook.presenter.publications :as pub]
-            [bunsen.common.helper.utils :as utils]))
+            [bunsen.common.helper.utils :as utils]
+            [bouncer.core :as b]
+            [bouncer.validators :as v]))
 
 (defn find-rating [db user-id pub-id]
   (d/q '[:find (pull ?r [:db/id :rating/score]) .
@@ -31,3 +33,8 @@
                                           :rating/user-id (utils/uuid-from-str user-id)
                                           :rating/score score}]}]
     @(d/transact conn [rating-tx])))
+
+(defn validate-rating [params]
+  (-> (b/validate (select-keys params [:score])
+                  :score [v/required [v/member (range 1 6)]])
+      first))
