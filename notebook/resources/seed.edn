@@ -1,144 +1,190 @@
 [
  {:db/id #db/id[:db.part/user -1]
+  :category/public-id #uuid "555b6f35-d2f5-4970-925f-ee540688562b"
   :category/name "Biology"
   :category/description "Biology is a natural science concerned with the study of life and living organisms, including their structure, function, growth, evolution, distribution, and taxonomy. Modern biology is a vast and eclectic field, composed of many branches and subdisciplines."}
 
  {:db/id #db/id[:db.part/user -2]
+  :category/public-id #uuid "555b6f35-184a-48a8-b5db-300429a3ceab"
   :category/name "Chemistry"
   :category/description "Chemistry is a branch of physical science that studies the composition, structure, properties and change of matter. Chemistry is chiefly concerned with atoms and molecules and their interactions and transformations, for example, the properties of the chemical bonds formed between atoms to create chemical compounds."}
 
  {:db/id #db/id[:db.part/user -3]
+  :category/public-id #uuid "555b6f35-fa50-4cbc-a3ec-95fead2c8550"
   :category/name "Demographics"
   :category/description "Demographics are the quantifiable statistics of a given population. Demographics are also used to identify the study of quantifiable subsets within a given population which characterize that population at a specific point in time."}
 
  {:db/id #db/id[:db.part/user -4]
+  :category/public-id #uuid "555b6f35-b771-4d40-a5ef-4a007a624e75"
   :category/name "Economics"
   :category/description "Economics is the social science that studies economic activity to gain an understanding of the processes that govern the production, distribution and consumption of goods and services in an economy. Economics focuses on the behavior and interactions of economic agents and how economies work."}
 
  {:db/id #db/id[:db.part/user -5]
+  :category/public-id #uuid "555b6f35-8e15-4d0a-8cc1-b7cc0068e4cf"
   :category/name "Education"
   :category/description "Education in its general sense is a form of learning in which the knowledge, skills, values, beliefs and habits of a group of people are transferred from one generation to the next through story telling, discussion, teaching, training, and or research. Education may also include informal transmission of such information from one human being to another."}
 
  {:db/id #db/id[:db.part/user -6]
+  :category/public-id #uuid "555b6f35-3478-4ac6-b36c-16f595855be0"
   :category/name "Engineering"
   :category/description "Engineering is the application of scientific, economic, social, and practical knowledge in order to invent, design, build, maintain, and improve structures, machines, devices, systems, materials and processes. The discipline of engineering is extremely broad, and encompasses a range of more specialized fields of engineering, each with a more specific emphasis on particular areas of applied science, technology and types of application."}
 
  {:db/id #db/id[:db.part/user -7]
+  :category/public-id #uuid "555b6f35-3e83-4e00-9b7a-e7947de44c68"
   :category/name "Finance"
   :category/description "Finance is a field that deals with the allocation of assets and liabilities over time under conditions of certainty and uncertainty. Finance also applies and uses the theories of economics at some level. Finance can also be defined as the science of money management."}
 
  {:db/id #db/id[:db.part/user -8]
+  :category/public-id #uuid "555b6f35-b03d-4564-84a5-bfafe630e848"
   :category/name "Geospatial"
   :category/description "Geospatial analysis is an approach to applying statistical analysis and other informational techniques to data which has a geographical or geospatial aspect. Such analysis would typically employ software capable of geospatial representation and processing, and apply analytical methods to terrestrial or geographic datasets, including the use of geographic information systems and geomatics."}
 
  {:db/id #db/id[:db.part/user -9]
+  :category/public-id #uuid "555b6f35-f9d2-4eca-bc8a-3ad572c1a99e"
   :category/name "Government"
   :category/description "A government is the system by which a state or community is governed. In Commonwealth English, a government more narrowly refers to the particular executive in control of a state at a given time—known in American English as an administration."}
 
  {:db/id #db/id[:db.part/user -11]
+  :category/public-id #uuid "555b6f35-49d0-4d0c-a06c-7090827400eb"
   :category/name "Health"
   :category/description "Health is the level of functional or metabolic efficiency of a living organism. In humans, it is the general condition of a person's mind and body, usually meaning to be free from illness, injury or pain. Applications with regard to animal health are covered by the veterinary sciences."}
 
  {:db/id #db/id[:db.part/user -12]
+  :category/public-id #uuid "555b6f35-388a-4d98-b6ac-b8e0ac534fa3"
   :category/name "Law"
   :category/description "Law is, generally, a system of rules which are enforced through social institutions to govern behaviour. Laws can be made by legislatures through legislation, the executive through decrees and regulations, or judges through binding precedents."}
 
  {:db/id #db/id[:db.part/user -13]
+  :category/public-id #uuid "555b6f35-e962-4fce-9262-70c2c3519133"
   :category/name "Mathematics"
   :category/description "Mathematics is the study of topics such as quantity, structure, space, and change. There is a range of views among mathematicians and philosophers as to the exact scope and definition of mathematics. Mathematicians seek out patterns and use them to formulate new conjectures."}
 
  {:db/id #db/id[:db.part/user -14]
+  :category/public-id #uuid "555b6f35-36ee-44f0-8372-4b21d342f431"
   :category/name "News"
   :category/description "News is the communication of selected information on current events. It is shared in various ways: among individuals and small groups with wider audiences or in ways that blend those traits."}
 
  {:db/id #db/id[:db.part/user -15]
+  :category/public-id #uuid "555b6f35-3e72-481b-8382-3be6f442af37"
   :category/name "Physics"
   :category/description "Physics \"knowledge of nature\", is the natural science that involves the study of matter and its motion through space and time, along with related concepts such as energy and force. More broadly, it is the general analysis of nature, conducted in order to understand how the universe behaves."}
 
  {:db/id #db/id[:db.part/user -16]
+  :category/public-id #uuid "555b6f35-ea3d-486b-96ec-047d0d3a2460"
   :category/name "Psychology"
   :category/description "Psychology is an academic and applied discipline that involves the scientific study of mental functions and behaviors. Psychology has the immediate goal of understanding individuals and groups by both establishing general principles and researching specific cases, and by many accounts it ultimately aims to benefit society."}
 
  {:db/id #db/id[:db.part/user -17]
+  :category/public-id #uuid "555b6f35-782a-4655-bc69-44def0526fc3"
   :category/name "Politics"
   :category/description "Politics is the practice and theory of influencing other people on a global, civic or individual level. More narrowly, it refers to achieving and exercising positions of governance — organized control over a human community, particularly a state."}
 
  {:db/id #db/id[:db.part/user -18]
+  :category/public-id #uuid "555b6f35-af3c-429b-a6e8-952ca99b9c97"
   :category/name "Physiology"
   :category/description "Physiology is the scientific study of function in living systems. A sub-discipline of biology, its focus is in how organisms, organ systems, organs, cells, and bio-molecules carry out the chemical or physical functions that exist in a living system."}
 
  {:db/id #db/id[:db.part/user -19]
+  :category/public-id #uuid "555b6f35-ff57-4bcc-9001-8b208b74e5f8"
   :category/name "Social Media"
   :category/description "Social media is the social interaction among people in which they create, share or exchange information, ideas, and pictures/videos in virtual communities and networks. Andreas Kaplan and Michael Haenlein define social media as \"a group of Internet-based applications that build on the ideological and technological foundations of Web 2.0, and that allow the creation and exchange of user-generated content.\""}
 
  {:db/id #db/id[:db.part/user -20]
+  :category/public-id #uuid "555b6f35-f49e-410a-9700-7c10820ffb6b"
   :category/name "Travel"
   :category/description "Travel is the movement of people between relatively distant geographical locations, and can involve travel by foot, bicycle, automobile, train, boat, airplane, or other means, with or without luggage, and can be one way or round trip. Travel can also include relatively short stays between successive movements."}
 
  {:db/id #db/id[:db.part/user]
+  :publication/public-id #uuid "555b6f35-fe61-4264-948f-455e1833f270"
   :publication/name "NYC Parking Ticket Exploration"
   :publication/description "This notebook was created by Ben Wellington, adapted from a blog post on IQuantNY, www.iquantny.com \n You need ticket data: https://data.cityofnewyork.us/City-Government/Parking-Violations-Issued-Fiscal-Year-2014-August-/jt7v-77mi? \n This notebook provides an exploration of NYC Parking Ticket data, using basic statistics. The language of choice for this notebook is IPython, using the pandas library."
   :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/nyc_parking_ticket_exploration.bkr"
+  :publication/created-at #inst "2015-05-15T15:55:55.00Z"
+  :publication/updated-at #inst "2015-05-15T15:55:55.00Z"
   :publication/category #db/id[:db.part/user -9]}
 
  {:db/id #db/id[:db.part/user]
+  :publication/public-id #uuid "555b6f35-48a9-412b-aa17-6a5a5b1dfd41"
   :publication/name "Python, HTML, Javascript, and d3"
   :publication/description "This notebook was created by Scott Draves. \n This notebook creates a random network with Python, and then visualizes it with an interactive forced-directed graph by using the d3 library."
   :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/python_html_js_d3.bkr"
+  :publication/created-at #inst "2015-05-15T15:55:55.00Z"
+  :publication/updated-at #inst "2015-05-15T15:55:55.00Z"
   :publication/category #db/id[:db.part/user -13]}
 
  {:db/id #db/id[:db.part/user]
+  :publication/public-id #uuid "555b6f35-56c7-453d-97a2-4cc33225d80b"
   :publication/name "iPython Examples"
   :publication/description "This notebook was created by Scott Draves. \n IPython is the Python language with extensions for interactivity.  Follow the instructions on BeakerNotebook.com for how to install IPython so Beaker can use it."
   :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/ipython_examples.bkr"
+  :publication/created-at #inst "2015-05-15T15:55:55.00Z"
+  :publication/updated-at #inst "2015-05-15T15:55:55.00Z"
   :publication/category #db/id[:db.part/user -13]}
 
  {:db/id #db/id[:db.part/user]
+  :publication/public-id #uuid "555b6f35-816c-47d0-a045-85fdd4828679"
   :publication/name "An Exploration of Citi Bike Riders in NYC"
   :publication/description "This notebook was created by Ben Wellington. \n In order to use this notebook, you first need to download the publicly available Citi bike data.  (Available at http://www.citibikenyc.com/system-data) \n This notebook provides an example of how to mine publicly available Citi bike data, using basic statistics to uncover interesting patterns. It uses Ipython as the language of choice (with pandas and numpy). There's also some Groovy at the end to show how data can be passed between languages."
   :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/citibike_riders_nyc.bkr"
+  :publication/created-at #inst "2015-05-15T15:55:55.00Z"
+  :publication/updated-at #inst "2015-05-15T15:55:55.00Z"
   :publication/category #db/id[:db.part/user -9]}
 
  {:db/id #db/id[:db.part/user]
+  :publication/public-id #uuid "555b6f35-4262-4db3-996b-d191abbafa83"
   :publication/name "The 1000 Genomes Project"
   :publication/description "The 1000 Genomes Project is the first project to sequence the genomes of a large number of people, to provide a comprehensive resource on human genetic variation. As with other major human genome reference projects, data from the 1000 Genomes Project will be made available quickly to the worldwide scientific community through freely accessible public databases. The goal of the 1000 Genomes Project is to find most genetic variants that have frequencies of at least 1% in the populations studied."
   :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/hello_world.bkr"
+  :publication/created-at #inst "2015-05-15T15:55:55.00Z"
+  :publication/updated-at #inst "2015-05-15T15:55:55.00Z"
   :publication/category #db/id[:db.part/user -1]}
 
  {:db/id #db/id[:db.part/user]
+  :publication/public-id #uuid "555b6f35-a93b-4e84-8c9d-a2111604785a"
   :publication/name "The sound of Hydrogen"
   :publication/description "Visualizing and listening to the quantum-mechanical spectrum of Hydrogen."
   :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/ipython.bkr"
+  :publication/created-at #inst "2015-05-15T15:55:55.00Z"
+  :publication/updated-at #inst "2015-05-15T15:55:55.00Z"
   :publication/category #db/id[:db.part/user -2]}
 
  {:db/id #db/id[:db.part/user]
+  :publication/public-id #uuid "555b6f35-cf7c-418d-8711-a2dccff9febe"
   :publication/name "Particle physics at the Large Hadron Collider"
   :publication/description "The LHC was built in collaboration with over 10,000 scientists and engineers from over 100 countries, as well as hundreds of universities and laboratories. It lies in a tunnel 27 kilometres (17 mi) in circumference, as deep as 175 metres (574 ft) beneath the Franco-Swiss border near Geneva, Switzerland. It is also the longest machine ever built."
   :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/notebook #db/id[:db.part/user -200]
   :publication/contents #file "notebooks/hello_world.bkr"
+  :publication/created-at #inst "2015-05-15T15:55:55.00Z"
+  :publication/updated-at #inst "2015-05-15T15:55:55.00Z"
   :publication/category #db/id[:db.part/user -15]}
 
  {:db/id #db/id[:db.part/user]
+  :publication/public-id #uuid "555b6f35-b1c0-4e2a-bb69-de993fcca449"
   :publication/name "Replication of the highly-contentious analysis of economic growth"
   :publication/description "Replication of Reinhart-Rogoff \"Growth in a Time of Debt.\""
   :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/ipython.bkr"
+  :publication/created-at #inst "2015-05-15T15:55:55.00Z"
+  :publication/updated-at #inst "2015-05-15T15:55:55.00Z"
   :publication/category #db/id[:db.part/user -4]
   :publication/ratings [{:rating/user-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" :rating/score 3}
                         {:rating/user-id #uuid "553686a5-e3bf-4d98-85ce-ec6e3ea59fa1" :rating/score 4}]}
 
  {:db/id #db/id[:db.part/user]
+  :publication/public-id #uuid "555b6f35-4e8c-42c5-bb80-b4d9147394c0"
   :publication/name "Comparing different approaches to evolutionary simulations"
   :publication/description "Also available here to better visualization. The notebook was converted to a HTML presentation using an old nbconvert with the first developing implementation of reveal converter."
   :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/hello_world.bkr"
+  :publication/created-at #inst "2015-05-15T15:55:55.00Z"
+  :publication/updated-at #inst "2015-05-15T15:55:55.00Z"
   :publication/category #db/id[:db.part/user -1]
   :publication/ratings [{:rating/user-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" :rating/score 2}
                         {:rating/user-id #uuid "553686a5-e3bf-4d98-85ce-ec6e3ea59fa1" :rating/score 5}]}

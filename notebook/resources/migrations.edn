@@ -1,6 +1,13 @@
 {:publications/add-publication-schema
  {:txes [[
           {:db/id #db/id[:db.part/db]
+           :db/ident :publication/public-id
+           :db/valueType :db.type/uuid
+           :db/unique :db.unique/value
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
            :db/ident :publication/name
            :db/valueType :db.type/string
            :db/fulltext true
@@ -49,10 +56,29 @@
            :db/valueType :db.type/string
            :db/cardinality :db.cardinality/one
            :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :publication/created-at
+           :db/valueType :db.type/instant
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :publication/updated-at
+           :db/valueType :db.type/instant
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
           ]]}
 
  :publications/add-category-schema
  {:txes [[
+          {:db/id #db/id[:db.part/db]
+           :db/ident :category/public-id
+           :db/valueType :db.type/uuid
+           :db/unique :db.unique/value
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
           {:db/id #db/id[:db.part/db]
            :db/ident :category/name
            :db/valueType :db.type/string
@@ -77,6 +103,18 @@
           {:db/id #db/id[:db.part/db]
            :db/ident :rating/score
            :db/valueType :db.type/long
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :rating/created-at
+           :db/valueType :db.type/instant
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :rating/updated-at
+           :db/valueType :db.type/instant
            :db/cardinality :db.cardinality/one
            :db.install/_attribute :db.part/db}
           ]]}
