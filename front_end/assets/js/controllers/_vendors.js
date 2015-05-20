@@ -56,7 +56,11 @@
       }
 
       function errorMessage(err) {
-        $scope.message = 'Error: ' + err.statusText;
+        if (err.status === 422) {
+          $scope.message = 'Error: ' + err.data.message;
+        } else {
+          $scope.message = 'Error: ' + err.statusText;
+        }
       }
     }]
   );
