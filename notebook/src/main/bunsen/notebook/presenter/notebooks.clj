@@ -1,21 +1,44 @@
 (ns bunsen.notebook.presenter.notebooks
   (:require [datomic.api :as d]
             [clojure.string :as str]
+            [bouncer.core :as b]
+            [bouncer.validators :as v]
             [bunsen.common.helper.utils :as u]
             [bunsen.common.helper.query :as q]))
 
-(defn unique-name? [db name project-id]
+(defn unique-name? [name project-id db]
   (empty? (d/q '[:find ?n
                  :in $ ?name ?project-id
                  :where [?n :notebook/name ?name]
-                        [?n :notebook/project-id ?project-id]]
-        db name project-id)))
+                        [?p :project/public-id ?project-id]
+                        [?n :notebook/project ?p]]
+                db name project-id)))
+
+(defn find-notebook-with-name [db project-id user-id name]
+  (d/q '[:find (pull ?n [*]) .
+         :in $ ?name ?pid ?uid
+         :where [?n :notebook/name ?name]
+                [?n :notebook/user-id ?uid]
+                [?p :project/public-id ?pid]
+                [?n :notebook/project ?p]]
+       db name project-id user-id))
 
 (defn find-notebook [db notebook-id user-id]
-  (d/q '[:find (pull ?n [*]) .
-         :in $ [?nid ?uid]
-         :where [?n :notebook/public-id ?nid]]
+  (d/q '[:find (pull ?n [* {:notebook/project [:project/public-id]}]) .
+         :in $ [?n-id ?u-id]
+         :where [?n :notebook/public-id ?n-id]]
        db (mapv u/uuid-from-str [notebook-id user-id])))
+
+(defn validate-notebook [db params notebook-id user-id]
+  (let [name (:name params)
+        user-uuid (u/uuid-from-str user-id)
+        project-id (-> (find-notebook db notebook-id user-id) :notebook/project :project/public-id)
+        n (and name (find-notebook-with-name db project-id user-uuid name))]
+    (cond (and n (not= (:notebook/public-id n) (u/uuid-from-str notebook-id)))
+            (first (b/validate {:name name}
+                               :name [v/required [unique-name? project-id db
+                                                   :message "That name is taken by another notebook in this project."]]))
+          :else nil)))
 
 (defn load-notebook [db notebook-id user-id]
   (when-let [n (find-notebook db notebook-id user-id)]
@@ -65,16 +88,15 @@
 
 (defn update-notebook! [conn notebook-id user-id params]
   (when-let [n (find-notebook (d/db conn) notebook-id user-id)]
-    (when (or (= (:name params) (:notebook/name n))
-              (unique-name? (d/db conn) (:name params) (:notebook/project-id n)))
-      (let [tx (-> params
-                   include-opened-at
-                   (dissoc :public-id :id :notebook-id)
-                   u/remove-nils
-                   (assoc :db/id (:db/id n)
-                          :notebook/updated-at (java.util.Date.)))]
+    (let [tx (-> params
+                 include-opened-at
+                 (dissoc :public-id :id :notebook-id)
+                 u/remove-nils
+                 (assoc :db/id (:db/id n)
+                        :notebook/updated-at (java.util.Date.)))]
         @(d/transact conn [tx])
-        tx))))
+        (-> (find-notebook (d/db conn) notebook-id user-id)
+          (dissoc :db/id))))
 
 (defn delete-notebook! [conn notebook-id user-id]
   (when-let [n (find-notebook (d/db conn) notebook-id user-id)]
