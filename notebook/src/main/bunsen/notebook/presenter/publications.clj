@@ -65,6 +65,11 @@
 (defn constrain-query [query conditions]
   (update-in query [:where] into conditions))
 
+(defn calc-avg-rating [pub]
+  (let [scores (map #(:rating/score %) (:publication/ratings pub))]
+    (when-not (empty? scores)
+      (/ (apply + scores) (count scores)))))
+
 (defn find-publications [db category-id search-term]
   (let [wildcard-term (str search-term "*")
         rules '[[(has-text ?p ?term) [(fulltext $ :publication/name ?term) [[?p ?text]]]]
@@ -72,13 +77,15 @@
         query (cond-> '{:find [[(pull ?p [:db/id :publication/name :publication/description
                                           :publication/public-id :publication/author-id
                                           :publication/notebook-id
+                                          {:publication/ratings [:rating/score]}
                                           {:publication/category [*]}]) ...]]
                         :in [$ % [?category-id ?term]]
                         :where [[?p :publication/name]]}
                       category-id (constrain-query '[[?c :category/public-id ?category-id]
                                                      [?p :publication/category ?c]])
-                      search-term (constrain-query '[(has-text ?p ?term)]))]
-    (d/q query db rules [(when category-id (utils/uuid-from-str category-id)) wildcard-term])))
+                      search-term (constrain-query '[(has-text ?p ?term)]))
+        results (d/q query db rules [(when category-id (utils/uuid-from-str category-id)) wildcard-term])]
+    (map #(assoc % "averageRating" (calc-avg-rating %)) results)))
 
 (defn validate-publication [params]
   (-> (b/validate (select-keys params [:description :notebook-id])
