@@ -1,7 +1,10 @@
 ;(function(app) {
   app.service('NotebookMenuService', [
     'bkMenuPluginManager',
-    function(bkMenuPluginManager) {
+    'bkHelper',
+    'bkSessionManager',
+    'Notebooks',
+    function(bkMenuPluginManager, bkHelper, bkSessionManager, Notebooks) {
 
       function menuContents($scope) {
         return [
@@ -13,7 +16,10 @@
                 name: "Save",
                 sortorder: 40,
                 action: function () {
-                  alert('Coming soon!');
+                  Notebooks.update({
+                    id: $scope.notebook.current.id,
+                    data: bkSessionManager.getSaveData().notebookModelAsString
+                  });
                   $scope.hideMenu();
                 },
                 tooltip: "Save notebook",
