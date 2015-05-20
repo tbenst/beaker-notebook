@@ -10,11 +10,16 @@
 
 (defresource notebook [_] resource/defaults
   :allowed-methods [:get :put :delete]
-  :delete! (fn [{{conn :conn {id :notebook-id} :route-params} :request}]
-              (api/delete-notebook! conn id))
-  :put! (fn [{{conn :conn {id :notebook-id} :route-params} :request}]
+
+  :delete! (fn [{{conn :conn
+                  {nid :notebook-id} :route-params} :request}]
+             (api/delete-notebook! conn nid))
+  :put! (fn [{{conn :conn
+               params :params
+               {nid :notebook-id} :route-params} :request}]
           (api/update-notebook! conn
-                                id
-                                (-> request :params rename-data-to-contents)))
-  :handle-ok (fn [{{db :db {id :notebook-id} :route-params} :request}]
-                (api/load-notebook db id)))
+                                nid
+                                (rename-data-to-contents params)))
+  :handle-ok (fn [{{db :db
+                    {nid :notebook-id} :route-params} :request}]
+               (api/load-notebook db nid)))
