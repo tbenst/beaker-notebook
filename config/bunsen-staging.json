@@ -152,7 +152,7 @@
           "container": {
             "type": "DOCKER",
             "docker": {
-              "image": "beakernotebook/beaker-prerelease:latest",
+              "image": "beakernotebook/beaker-prerelease:master-0-g95b1538",
               "network": "BRIDGE",
               "portMappings": [
                 {

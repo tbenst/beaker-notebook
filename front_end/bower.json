@@ -14,7 +14,7 @@
     "angular-ui-router": "0.2.13",
     "angular-underscore-string": "0.1.1",
     "angularjs-humanize": "grin/angularjs-humanize#v0.0.1",
-    "beaker-notebook": "twosigma/beaker-notebook#f86b26c",
+    "beaker-notebook": "twosigma/beaker-notebook#bunsen_integration_2015_05_20_01_54",
     "highlightjs": "8.3.0",
     "humanize": "~0.0.9",
     "ng-file-upload": "1.3.2",
