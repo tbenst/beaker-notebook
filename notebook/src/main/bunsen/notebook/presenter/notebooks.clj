@@ -10,14 +10,14 @@
                         [?n :notebook/project-id ?project-id]]
         db name project-id)))
 
-(defn find-notebook [db notebook-id]
+(defn find-notebook [db notebook-id user-id]
   (d/q '[:find (pull ?n [*]) .
-         :in $ [?n-id]
-         :where [?n :notebook/public-id ?n-id]]
-       db (u/uuid-from-str notebook-id)))
+         :in $ [?nid ?uid]
+         :where [?n :notebook/public-id ?nid]]
+       db (mapv u/uuid-from-str [notebook-id user-id])))
 
-(defn load-notebook [db notebook-id]
-  (when-let [n (find-notebook db notebook-id)]
+(defn load-notebook [db notebook-id user-id]
+  (when-let [n (find-notebook db notebook-id user-id)]
     (dissoc n :db/id)))
 
 (defn create-notebook! [conn params]
@@ -38,8 +38,8 @@
     (assoc params :opened-at (java.util.Date.))
     params))
 
-(defn update-notebook! [conn notebook-id params]
-  (when-let [n (find-notebook (d/db conn) notebook-id)]
+(defn update-notebook! [conn notebook-id user-id params]
+  (when-let [n (find-notebook (d/db conn) notebook-id user-id)]
     (when (or (= (:name params) (:notebook/name n))
               (unique-name? (d/db conn) (:name params) (:notebook/project-id n)))
       (let [tx (-> params
@@ -51,8 +51,8 @@
         @(d/transact conn [tx])
         tx))))
 
-(defn delete-notebook! [conn notebook-id]
-  (when-let [n (find-notebook (d/db conn) notebook-id)]
+(defn delete-notebook! [conn notebook-id user-id]
+  (when-let [n (find-notebook (d/db conn) notebook-id user-id)]
     @(d/transact conn [[:db.fn/retractEntity (:db/id n)]])))
 
 (defn user-notebooks [db user-id]
