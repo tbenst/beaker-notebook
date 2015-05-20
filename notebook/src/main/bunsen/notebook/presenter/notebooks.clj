@@ -1,5 +1,6 @@
 (ns bunsen.notebook.presenter.notebooks
   (:require [datomic.api :as d]
+            [clojure.string :as str]
             [bunsen.common.helper.utils :as u]
             [bunsen.common.helper.query :as q]))
 
@@ -20,18 +21,42 @@
   (when-let [n (find-notebook db notebook-id user-id)]
     (dissoc n :db/id)))
 
+(defn calculate-notebook-name [db user-id project-id]
+  (let [names (d/q '[:find [?name ...]
+                     :in $ [?uid ?pid]
+                     :where [?p :project/public-id ?pid]
+                            [?p :project/owner-id ?uid]
+                            [?n :notebook/project ?p]
+                            [?n :notebook/name ?name]]
+                   db (mapv u/uuid-from-str [user-id project-id]))
+        numbered-names (filter #(re-matches #"Notebook (\d+)" %)
+                               names)
+        max-n (reduce #(let [match (second (re-matches #"Notebook (\d+)" %2))
+                             num (Integer. match)]
+                         (if (> num %1) num %1)) 0 numbered-names)]
+    (str "Notebook " (+ max-n 1))))
+
+(defn notebook-project-eid [db project-id user-id]
+  (d/q '[:find ?p .
+         :in $ [?pid ?uid]
+         :where [?p :project/public-id ?pid]
+                [?p :project/owner-id ?uid]]
+        db (mapv u/uuid-from-str [project-id user-id])))
+
 (defn create-notebook! [conn params]
-  (when (unique-name? (d/db conn) (:name params) (:project-id params))
-    (let [n {:db/id (d/tempid :db.part/user)
-             :notebook/public-id (d/squuid)
-             :notebook/name (:name params)
-             :notebook/contents (:contents params)
-             :notebook/project-id (:project-id params)
-             :notebook/created-at (or (:created-at params ) (java.util.Date.))
-             :notebook/updated-at (or (:updated-at params ) (java.util.Date.))
-             :notebook/user-id (u/uuid-from-str (:user-id params))}]
-      @(d/transact conn [(u/remove-nils n)])
-      (dissoc n :db/id))))
+  (let [p-eid (notebook-project-eid (d/db conn) (:project-id params) (:user-id params))
+        name (or (:name params) (calculate-notebook-name (d/db conn) (:user-id params) (:project-id params)))
+        contents (or (:content params) (u/read-resource-file "notebooks/base_notebook.bkr"))
+        n {:db/id (d/tempid :db.part/user)
+           :notebook/public-id (d/squuid)
+           :notebook/name name
+           :notebook/project p-eid
+           :notebook/contents contents
+           :notebook/created-at (or (:created-at params ) (java.util.Date.))
+           :notebook/updated-at (or (:updated-at params ) (java.util.Date.))
+           :notebook/user-id (u/uuid-from-str (:user-id params))}]
+    @(d/transact conn [(u/remove-nils n)])
+    (dissoc n :db/id)))
 
 (defn include-opened-at [params]
   (if (:open params)
