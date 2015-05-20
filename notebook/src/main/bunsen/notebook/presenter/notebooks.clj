@@ -3,6 +3,7 @@
             [clojure.string :as str]
             [bouncer.core :as b]
             [bouncer.validators :as v]
+            [bunsen.notebook.presenter.project :as p]
             [bunsen.common.helper.utils :as u]
             [bunsen.common.helper.query :as q]))
 
@@ -32,11 +33,21 @@
 (defn validate-notebook [db params notebook-id user-id]
   (let [name (:name params)
         user-uuid (u/uuid-from-str user-id)
-        project-id (-> (find-notebook db notebook-id user-id) :notebook/project :project/public-id)
-        n (and name (find-notebook-with-name db project-id user-uuid name))]
+        new-project-id (:project-id params)
+        new-project (and new-project-id (p/find-project db user-id new-project-id))
+        notebook (find-notebook db notebook-id user-id)
+        current-pid (-> notebook :notebook/project :project/public-id)
+        nbk-name (:notebook/name notebook)
+        n (and name (find-notebook-with-name db current-pid user-uuid name))]
     (cond (and n (not= (:notebook/public-id n) (u/uuid-from-str notebook-id)))
             (first (b/validate {:name name}
-                               :name [v/required [unique-name? project-id db
+                               :name [v/required [unique-name? current-pid db
+                                                   :message "That name is taken by another notebook in this project."]]))
+          new-project
+            (first (b/validate {:owner-id (:project/owner-id new-project) :name nbk-name}
+                               :owner-id [[= user-uuid
+                                           :message "You are not the owner of that project"]]
+                               :name [v/required [unique-name? (:project/public-id new-project) db
                                                    :message "That name is taken by another notebook in this project."]]))
           :else nil)))
 
@@ -88,15 +99,18 @@
 
 (defn update-notebook! [conn notebook-id user-id params]
   (when-let [n (find-notebook (d/db conn) notebook-id user-id)]
-    (let [tx (-> params
+    (let [p-eid (and (:project-id params) (notebook-project-eid (d/db conn) (:project-id params)  user-id))
+          tx (-> params
                  include-opened-at
-                 (dissoc :public-id :id :notebook-id)
+                 (dissoc :public-id :id :notebook-id :project-id)
+                 (assoc :project p-eid
+                        :updated-at (java.util.Date.))
                  u/remove-nils
-                 (assoc :db/id (:db/id n)
-                        :notebook/updated-at (java.util.Date.)))]
-        @(d/transact conn [tx])
-        (-> (find-notebook (d/db conn) notebook-id user-id)
-          (dissoc :db/id))))
+                 (u/namespace-keys "notebook")
+                 (assoc :db/id (:db/id n)))]
+      @(d/transact conn [tx])
+      (-> (find-notebook (d/db conn) notebook-id user-id)
+          (dissoc :db/id)))))
 
 (defn delete-notebook! [conn notebook-id user-id]
   (when-let [n (find-notebook (d/db conn) notebook-id user-id)]
