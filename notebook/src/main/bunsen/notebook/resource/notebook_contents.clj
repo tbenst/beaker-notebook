@@ -6,4 +6,4 @@
 (defresource notebook-contents [_] resource/defaults
   :allowed-methods [:get]
   :handle-ok (fn [{{db :db {id :notebook-id} :route-params} :request}]
-                (:contents (api/find-notebook db id))))
+                (:contents (api/load-notebook db id))))

@@ -22,4 +22,4 @@
                                 id
                                 (-> request :params rename-data-to-contents)))
   :handle-ok (fn [{{db :db {id :notebook-id} :route-params} :request}]
-                (api/find-notebook db id)))
+                (api/load-notebook db id)))
