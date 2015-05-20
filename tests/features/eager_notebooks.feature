@@ -13,7 +13,7 @@ all of the open notebooks in the background when they first login.
       | powderpuff girls   | ghost of tom jones | 1991-01-01 00:00:00.000 | true |
     And I view my projects
 
-  @flaky
+  @flaky @beaker
   Scenario: Load recent notebooks after authentication
     Given I'm not signed in
     When I go to the sign in page
