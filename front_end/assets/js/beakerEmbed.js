@@ -38,6 +38,7 @@
 
       if ($sessionStorage.user !== void(0)) {
         bkUtils.setServerRoot("/beaker/" + $sessionStorage.user.id + "/");
+        bkUtils.setFileRoot("/");
       }
 
       var user;
