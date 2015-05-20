@@ -5,18 +5,13 @@
 
 (defn rename-data-to-contents [params]
   (-> params
-      (assoc :content (:data params))
+      (assoc :contents (:data params))
       (dissoc :data)))
 
 (defresource notebook [_] resource/defaults
-  :allowed-methods [:get :post :put :delete]
+  :allowed-methods [:get :put :delete]
   :delete! (fn [{{conn :conn {id :notebook-id} :route-params} :request}]
               (api/delete-notebook! conn id))
-  :post! (fn [{{conn :conn {id :project-id} :route-params} :request}]
-             (api/create-notebook! conn
-                          (merge (-> request :params rename-data-to-contents)
-                                 {:user-id (-> request :session :id)
-                                  :project-id id})))
   :put! (fn [{{conn :conn {id :notebook-id} :route-params} :request}]
           (api/update-notebook! conn
                                 id
