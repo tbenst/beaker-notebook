@@ -223,6 +223,7 @@
         "BAMBOO_HOST": "bunsen-staging.withmojo.com",
         "MARKETPLACE_PORT": 8444,
         "MARKETPLACE_DATABASE_URI": "datomic:ddb://us-east-1/bunsen-staging/marketplace",
+        "MARKETPLACE_SEED_FILE": "seed.edn",
         "DATOMIC_HOST": "172.17.42.1",
         "DATOMIC_PORT": "4334",
         "ELASTICSEARCH_HOST": "172.17.42.1",
