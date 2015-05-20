@@ -7,4 +7,4 @@
   :allowed-methods [:get]
   :handle-ok (fn [{{db :db
                    {nid :notebook-id} :route-params} :request}]
-               (:contents (api/load-notebook db nid))))
+               (:notebook/contents (api/load-notebook db nid))))
