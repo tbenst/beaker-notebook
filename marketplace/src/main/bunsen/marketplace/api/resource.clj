@@ -76,8 +76,16 @@
   :allowed? (partial resource/admin? config)
   :handle-ok (domain/get-tags config))
 
+(defn vendor-exists? [{{db :db
+                        {name :name} :body} :request}]
+  (vendors/get-vendor-by-name db name))
+
 (defresource vendors [config _] resource/defaults
   :allowed? (partial resource/admin? config)
+  :allowed-methods #{:post :get}
+  :processable? (some-fn resource/get? (complement vendor-exists?))
+  :handle-unprocessable-entity {:message "Vendor Exists"}
+  :post! #(vendors/create! (:conn request) (resource/get-body %))
   :handle-ok (fn [_] (vendors/get-vendors (:db request))))
 
 (defresource default [_ _] resource/defaults
