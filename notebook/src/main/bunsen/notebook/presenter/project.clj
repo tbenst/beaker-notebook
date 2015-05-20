@@ -10,7 +10,8 @@
                          :project/public-id :project/updated-at :project/owner-id
                            {:notebook/_project [:notebook/public-id :notebook/name
                                                 :notebook/open :notebook/opened-at
-                                                :notebook/created-at :notebook/updated-at]}]) .
+                                                :notebook/created-at :notebook/updated-at
+                                                  {:notebook/project [:project/public-id]}]}]) .
          :in $ [?oid ?pid]
          :where
          [?p :project/public-id ?pid]
