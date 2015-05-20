@@ -18,9 +18,7 @@
 
 (defn load-notebook [db notebook-id]
   (when-let [n (find-notebook db notebook-id)]
-    (let [t (q/timestamps db (:db/id n))
-          notebook (merge n t)]
-      (dissoc notebook :db/id))))
+    (dissoc n :db/id)))
 
 (defn create-notebook! [conn params]
   (when (unique-name? (d/db conn) (:name params) (:project-id params))
@@ -29,6 +27,8 @@
              :notebook/name (:name params)
              :notebook/contents (:contents params)
              :notebook/project-id (:project-id params)
+             :notebook/created-at (or (:created-at params ) (java.util.Date.))
+             :notebook/updated-at (or (:updated-at params ) (java.util.Date.))
              :notebook/user-id (u/uuid-from-str (:user-id params))}]
       @(d/transact conn [(u/remove-nils n)])
       (dissoc n :db/id))))
@@ -46,7 +46,8 @@
                    include-opened-at
                    (dissoc :public-id :id :notebook-id)
                    u/remove-nils
-                   (assoc :db/id (:db/id n)))]
+                   (assoc :db/id (:db/id n)
+                          :notebook/updated-at (java.util.Date.)))]
         @(d/transact conn [tx])
         tx))))
 
