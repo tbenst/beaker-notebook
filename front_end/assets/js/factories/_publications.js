@@ -1,14 +1,15 @@
 ;(function(angular, app) {
-  app.factory('PublicationsFactory', ['Restangular', function(Restangular) {
-    var R = Restangular;
-
+  app.factory('PublicationsFactory', ['NotebookRestangular', function(R) {
     return {
       getPublications: function(params) {
         return R.all('publications').getList(params);
       },
 
       getPublicationCount: function(params) {
-        return R.one('publication_count').customGET('', params);
+        return R.one('publications_count').customGET('', params)
+        .then(function(d) {
+          return d.count;
+        });
       },
 
       getPublication: function(publicationId) {

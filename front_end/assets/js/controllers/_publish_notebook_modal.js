@@ -27,21 +27,24 @@
     }
 
     $scope.publish = function() {
-      if ($scope.notebook.current.publication.categoryId == 0) {
+      if ($scope.notebook.current.publication.categoryID == 0) {
         return $scope.error = true;
       }
       TrackingService.mark('PublishNotebook');
-      _.extend($scope.notebook.current.publication, {notebookId: $scope.notebook.current['public-id']});
-      F.Notebooks[publishType]($scope.notebook.current.publication).then(function(notebook) {
-        $scope.notebook.current = notebook;
-        $scope.$emit('closeModal');
-        TrackingService.mark('NotebookPublished');
-        TrackingService.measure('BaselineNotebookPublishing', 'PublishNotebook', 'NotebookPublished');
+      _.extend($scope.notebook.current.publication, {'notebook-id': $scope.notebook.current['public-id']});
+      F.Notebooks[publishType]($scope.notebook.current.publication)
+      .then(function(publication) {
+        F.Notebooks.getNotebook($scope.notebook.current['public-id']).then(function(notebook) {
+          $scope.notebook.current = notebook;          
+          $scope.$emit('closeModal');
+          TrackingService.mark('NotebookPublished');
+          TrackingService.measure('BaselineNotebookPublishing', 'PublishNotebook', 'NotebookPublished');
+        })
       });
     };
 
     $scope.refresh = function() {
-      $scope.error = ($scope.notebook.current.publication.categoryId == 0);
+      $scope.error = ($scope.notebook.current.publication.categoryID == 0);
     }
 
     $scope.savePublish = function() {
@@ -56,8 +59,13 @@
       $scope.$emit('closeModal');
     };
 
-    $scope.categoryBase = [{ id: 0, name: 'Select a Category' }];
-    $scope.notebook.current.publication.categoryId = $scope.notebook.current.publication.categoryId || 0;
+    $scope.categoryBase = [{ 'public-id': 0, 'name': 'Select a Category' }];
+
+    if ($scope.notebook.current.publication.category) {
+      $scope.notebook.current.publication.categoryID = $scope.notebook.current.publication.category['public-id'];
+    } else {
+      $scope.notebook.current.publication.categoryID = 0;
+    }
 
     F.PublicationCategories.getAll().then(function(categories) {
       $scope.categories = $scope.categoryBase.concat(_.sortBy(categories, "name"));

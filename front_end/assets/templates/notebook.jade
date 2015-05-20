@@ -16,11 +16,11 @@
         ul.publication-details.property-list.small(ng-if="published")
           li
             .label Published
-            .value.publish-time {{notebook.current.publication.createdAt | date:'short'}}
+            .value.publish-time {{notebook.current.publication['created-at'] | date:'short'}}
           li
             .label Last updated
-            .value.update-time {{notebook.current.publication.updatedAt | date:'short'}}
-        a.view-published(ng-if="published" ui-sref="publications.items.item({id: notebook.current.publication.id})") View published version &raquo;
+            .value.update-time {{notebook.current.publication['updated-at'] | date:'short'}}
+        a.view-published(ng-if="published" ui-sref="publications.items.item({id: notebook.current.publication['public-id']})") View published version &raquo;
         a.publish(ng-if="!published" ng-click="openPublishModal()") Publish this notebook &raquo;
 
   .two-sidebars

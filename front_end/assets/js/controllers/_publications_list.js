@@ -37,7 +37,7 @@
         return F.Publications.getPublications(query)
         .then(function(publications) {
           return $q.all(_.map(publications, function(p) {
-            return F.Users.getUser(p.userId)
+            return F.Users.getUser(p['author-id'])
             .then(function(u) {
               return _.extend(p, {author: u});
             })

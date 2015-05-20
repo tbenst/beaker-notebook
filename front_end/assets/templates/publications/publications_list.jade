@@ -1,17 +1,17 @@
 .sidebar-right
-  contributors(ng-if="publications.list" category-id="publications.category.id")
+  contributors(ng-if="publications.list" category-id="publications.category['public-id']")
 
 .two-sidebars
   .main-content.publications
     publication-hero(publications='publications')
     ul.publication-list.bunsen-list
-      li.bunsen-list-item(ng-repeat="publication in publications.list | orderBy:'createdAt':true")
+      li.bunsen-list-item(ng-repeat="publication in publications.list | orderBy:'created-at':true")
         figure
           .category-icon(data-icon="{{publication.category.name}}")
           figcaption {{publication.category.name}}
         .publication-meta
           h2
-            a.title(ui-sref="publications.items.item({id: publication.id})") {{publication.name}}
+            a.title(ui-sref="publications.items.item({id: publication['public-id']})") {{publication.name}}
           .left
             .author(ng-if="publication.author.name")
               .name

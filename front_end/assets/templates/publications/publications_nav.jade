@@ -6,6 +6,6 @@ input.search.full.publication-search(ng-model="publications.search", ng-model-op
     li
       a.sidebar-box-list-link.category(ng-class="publications.currentCategory == null && 'active'", ng-click="filterByCategory(null)") All
     li(ng-repeat="category in publications.categories | orderBy:'name'")
-      a.sidebar-box-list-link.category(ng-class="publications.currentCategory == category.id && 'active'", ng-click="filterByCategory(category.id)")
+      a.sidebar-box-list-link.category(ng-class="publications.currentCategory == category['public-id'] && 'active'", ng-click="filterByCategory(category['public-id'])")
         span.left {{category.name}}
         span.right.count {{category.count}}

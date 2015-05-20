@@ -23,24 +23,25 @@
 
     function getPublicationWithRatings() {
       $scope.ratingAttrs = {
-        rateableId: 'publications' + ':' + $state.params.id.toString()
+        rateableId: $state.params.id.toString()
       };
 
       F.Publications.getPublication($state.params.id).then(function(publication) {
         $scope.publication = publication;
-        F.Users.getUser(publication.userId).then(function(author) {
+        F.Users.getUser(publication['author-id']).then(function(author) {
           $scope.author = author;
           $scope.isOwner = (author['public-id'] === $sessionStorage.user.id);
         })
 
-        F.Ratings.averagePubRating($scope.ratingAttrs)
+        F.Ratings.averagePubRating(publication['public-id'])
         .then(function(count) {
-          _.extend($scope.publication, {averageRating: parseFloat(count)});
+          _.extend($scope.publication, {averageRating: parseFloat(count.rating)});
         });
 
-        F.Ratings.userPubRating($scope.ratingAttrs)
+        F.Ratings.userPubRating(publication['public-id'])
         .then(function(rate) {
-          _.extend($scope.publication, {userRating: rate});
+          score = rate ? rate.score : 0;
+          _.extend($scope.publication, {userRating: score});
         });
       });
     }
@@ -57,7 +58,7 @@
     };
 
     $scope.destroyPublication = function() {
-      F.Publications.destroy($scope.publication.id).then(function() {
+      F.Publications.destroy($scope.publication['public-id']).then(function() {
         $state.go('^');
       });
     };
