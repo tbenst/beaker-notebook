@@ -31,10 +31,6 @@
   [config]
   (helper/aggregate-term "tags" (helper/connect-to-es config)))
 
-(defn get-vendors
-  [config]
-  (helper/aggregate-term "vendor" (helper/connect-to-es config)))
-
 (defn update-counts
   [config body]
   (let [es-conn (helper/connect-to-es config)

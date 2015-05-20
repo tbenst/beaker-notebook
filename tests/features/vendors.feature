@@ -9,7 +9,7 @@ Feature: Vendor Panel
       | MojoTech   |
       | RC Cola    |
     And I go to the vendors page
-
+  @flakey
   Scenario: Creating a vendor
     When I create the vendor "Apple"
     Then I should see 3 vendors in the vendor list
@@ -17,15 +17,15 @@ Feature: Vendor Panel
   Scenario: Clearing a vendor name
     When I enter and clear the vendor name
     Then I should see an empty vendor name field
-
+  @flakey
   Scenario: Deleting a vendor
     When I delete the vendor "RC Cola"
     Then I should see 1 vendor in the vendor list
-
+  @flakey
   Scenario: Updating a vendor
     When I rename the vendor "RC Cola" to "Pepsi"
     Then the vendor should now be named "Pepsi"
-
+  @flakey
   Scenario: Searching for a vendor
     When I search for the vendor "RC Cola"
     Then I should only see the vendor "RC Cola"

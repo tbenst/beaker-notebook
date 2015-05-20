@@ -7,7 +7,7 @@
       },
 
       getVendors: function() {
-        return R.all('vendors').getList();
+        return MR.all('vendors').getList();
       },
 
       getMarketplaceVendors: function() {
