@@ -39,7 +39,7 @@ module.exports = function() {
       });
     })
     .then(function() {
-      return new _this.Widgets.SignInForm().ensureNotPresent()
+      return new _this.Widgets.AppHeader().ensureSignedIn();
     });
   });
 

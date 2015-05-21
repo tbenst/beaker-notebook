@@ -23,7 +23,7 @@ module.exports = function() {
         return new _this.Widgets.SignInForm().submitWith(_.pick(userData, 'email', 'password'));
       })
       .then(function() {
-        return new _this.Widgets.SignInForm().ensureNotPresent();
+        return new _this.Widgets.AppHeader().ensureSignedIn();
       })
   });
 

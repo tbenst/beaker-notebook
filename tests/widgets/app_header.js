@@ -6,6 +6,10 @@ module.exports = function() {
       return this.read(".signed-in");
     },
 
+    ensureSignedIn: function() {
+      return this.find(".signed-in");
+    },
+
     signOut: function() {
       return this.hover({selector: '.bunsen-dropdown-toggle'})
         .then(function(menu) {
