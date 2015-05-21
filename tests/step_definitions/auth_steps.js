@@ -44,10 +44,7 @@ module.exports = function() {
   });
 
   this.Given(/^I signed up as a researcher$/, function() {
-    var _this = this;
-    return u.signUp(userData).then(function() {
-      return _this.driver.get(_this.route.home);
-    });
+    return u.signUp(userData);
   });
 
   this.Given(/^I'm not signed in$/, function() {
