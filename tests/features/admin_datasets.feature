@@ -14,7 +14,7 @@ Feature: Admin Datasets
     And I delete the dataset
     Then I should see the Admin Panel heading
     When I view the market search
-    Then I should see 0 market item on the market list page
+    Then I should see 0 market items on the market list page
 
   Scenario: Editing a dataset
     When I view the market search
@@ -25,7 +25,7 @@ Feature: Admin Datasets
     Then I should see a dataset with the name "wow"
 
   Scenario: Creating a dataset
-    When I have the following categories:
+    Given I have the following categories:
       | name       | path  |
       | finance    | 0.1.1 |
     When I create a new dataset with
@@ -35,7 +35,7 @@ Feature: Admin Datasets
     Then I should see 2 market items on the market list page
 
   Scenario: Changing a datasets category
-    When I have the following categories:
+    Given I have the following categories:
       | name       | path  |
       | finance    | 0.1.1 |
       | beer       | 0.1.2 |
@@ -43,7 +43,7 @@ Feature: Admin Datasets
       | name   | category |
       | stacy  | finance  |
     And I view the market search
-    And I edit a the "stacy" dataset
+    And I edit the "stacy" dataset
     And I set the category to "beer"
     When I view the market search
     Then I should see 1 items in the "Beer" category count
@@ -66,7 +66,7 @@ Feature: Admin Datasets
     Then I should see a category autocomplete dropdown with "finance (0.1.1)"
 
   Scenario: Invalid entry in dataset category
-    And I have the following categories:
+    Given I have the following categories:
       | name       | path  |
       | canada     | 0.1.2 |
     When I view the market search
@@ -78,7 +78,7 @@ Feature: Admin Datasets
     Then I should see the category field is empty
 
   Scenario: Dataset format dropdown
-    When there is a market item with the title "Item 1" and the format "MAGIC"
+    Given there is a market item with the title "Item 1" and the format "MAGIC"
     And there is a market item with the title "Item 2" and the format "CSV"
     When I view the market search
     And I edit a dataset
@@ -87,30 +87,30 @@ Feature: Admin Datasets
 
   @flaky
   Scenario: Dataset vendor dropdown
-    When there is a market item with the vendor "George data"
+    Given there is a market item with the vendor "George data"
     And there is a market item with the vendor "Doge industries"
-    And I view the market search
+    When I view the market search
     And I edit a dataset
     And I enter "Doge industries" into the vendor field
     Then I should see a vendor-field autocomplete dropdown with "Doge industries"
 
   Scenario: Dataset tags dropdown
-    When there is a market item with the title "Item 2" and the format "CSV"
+    Given there is a market item with the title "Item 2" and the format "CSV"
     And there is a market item with the tags "cat man carson,dog,human"
-    And I view the market search
+    When I view the market search
     And I view the "Item 2" market item
-    When I edit the market item from the detail view
+    And I edit the market item from the detail view
     And I enter "dog" into the tags field
     Then I should see a tag-field autocomplete dropdown with "dog"
 
   Scenario: Adding tags on a new dataset
-    When I have the following categories:
+    Given I have the following categories:
       | name       | path  |
       | finance    | 0.1.1 |
     When I create a new dataset with
       | name   | category | tag  |
       | stacy  | finance  | tank |
-    And I edit a the "stacy" dataset
+    And I edit the "stacy" dataset
     Then I should see the "tank" tag
 
   Scenario: Saving a new dataset tag

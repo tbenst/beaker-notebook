@@ -4,7 +4,7 @@ module.exports = function() {
     .should.eventually.eql(true);
   });
 
-  this.When(/^I edit a the "([^"]*)" dataset$/, function(datasetName) {
+  this.When(/^I edit the "([^"]*)" dataset$/, function(datasetName) {
     return this.driver.visit(this.route.market)
     .then(function() {
       return new this.Widgets.MarketTextSearch().setTerm(datasetName);

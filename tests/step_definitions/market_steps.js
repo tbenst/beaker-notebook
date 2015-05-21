@@ -199,6 +199,7 @@ module.exports = function() {
       return (new this.Widgets.MarketRelatedTags()).is([].concat(tags.split(',')));
     }.bind(this));
   });
+
   this.When(/^I view the market search$/, function(callback) {
     return this.driver.get(this.route.market);
   });
