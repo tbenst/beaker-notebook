@@ -26,7 +26,11 @@
        db name project-id user-id))
 
 (defn find-notebook [db notebook-id user-id]
-  (d/q '[:find (pull ?n [* {:notebook/project [:project/public-id]}]) .
+  (d/q '[:find (pull ?n [*
+                         {:notebook/project [:project/public-id]}
+                         {:publication/_notebook [:publication/public-id :publication/created-at
+                                                  :publication/updated-at :publication/description
+                                                  {:publication/category [:category/public-id]}]}]) .
          :in $ [?n-id ?u-id]
          :where [?n :notebook/public-id ?n-id]]
        db (mapv u/uuid-from-str [notebook-id user-id])))
@@ -76,7 +80,8 @@
 
 (defn load-notebook [db notebook-id user-id]
   (when-let [n (find-notebook db notebook-id user-id)]
-    (dissoc n :db/id)))
+    (-> (dissoc n :db/id)
+        (assoc :publication (first (:publication/_notebook n))))))
 
 (defn calculate-notebook-name [db user-id project-id]
   (let [names (d/q '[:find [?name ...]
