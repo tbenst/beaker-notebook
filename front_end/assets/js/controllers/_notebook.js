@@ -95,8 +95,10 @@
       });
     }
 
-    $scope.save = function(newName) {
-      Notebooks.save($scope.notebook.current['public-id'], newName);
+    $scope.save = function() {
+      bkHelper.saveNotebook().then(function() {
+        $rootScope.$broadcast('notebookUpdated', $scope.notebook.current);
+      });
       $scope.hideMenu();
     };
 

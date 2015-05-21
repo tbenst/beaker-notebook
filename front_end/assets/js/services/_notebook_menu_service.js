@@ -2,9 +2,7 @@
   app.service('NotebookMenuService', [
     'bkMenuPluginManager',
     'bkHelper',
-    'bkSessionManager',
-    'Notebooks',
-    function(bkMenuPluginManager, bkHelper, bkSessionManager, Notebooks) {
+    function(bkMenuPluginManager, bkHelper) {
 
       function menuContents($scope) {
         return [
@@ -15,13 +13,7 @@
               {
                 name: "Save",
                 sortorder: 40,
-                action: function () {
-                  Notebooks.update({
-                    id: $scope.notebook.current['public-id'],
-                    data: bkSessionManager.getSaveData().notebookModelAsString
-                  });
-                  $scope.hideMenu();
-                },
+                action: $scope.save,
                 tooltip: "Save notebook",
                 id: "save-menuitem"
               },
