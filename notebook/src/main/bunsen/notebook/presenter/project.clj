@@ -90,10 +90,14 @@
       first))
 
 (defn find-projects [db owner-id]
-  (d/q '[:find [(pull ?p [* {:notebook/_project [:notebook/public-id :notebook/name
-                                                 :notebook/open :notebook/opened-at
-                                                 :notebook/created-at :notebook/updated-at]}]) ...]
-         :in $ ?oid
-         :where
-         [?p :project/owner-id ?oid]]
-       db (utils/uuid-from-str owner-id)))
+  (when owner-id
+    (->> (d/q '[:find [(pull ?p [* {:notebook/_project [:notebook/public-id :notebook/name
+                                                        :notebook/open :notebook/opened-at
+                                                        :notebook/created-at :notebook/updated-at]}]) ...]
+                :in $ ?oid
+                :where
+                [?p :project/owner-id ?oid]]
+              db (utils/uuid-from-str owner-id))
+          (map (fn [p] (-> (dissoc p :db/id)
+                           (assoc :last-updated-at (last-updated-at p))
+                           (set/rename-keys {:notebook/_project :notebooks})))))))
