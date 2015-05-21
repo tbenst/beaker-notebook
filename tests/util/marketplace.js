@@ -62,7 +62,7 @@ module.exports = function() {
   function createRecords(indexName, recordType, records) {
     var payloadObj = {indexName: indexName};
     payloadObj[recordType] = Array.prototype.concat(records);
-    recordType = recordType.indexOf('datasets') > -1 ? "seed/" + recordType : recordType;
+    recordType = recordType.indexOf('datasets') > -1 ? 'seed/' + recordType : recordType;
     var payload = JSON.stringify(payloadObj);
     return post({
       url: config.marketplaceUrl + '/' + recordType,
