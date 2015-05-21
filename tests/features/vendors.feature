@@ -9,7 +9,7 @@ Feature: Vendor Panel
       | MojoTech   |
       | RC Cola    |
     And I go to the vendors page
-  @flaky
+
   Scenario: Creating a vendor
     When I create the vendor "Apple"
     Then I should see 3 vendors in the vendor list
