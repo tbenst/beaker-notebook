@@ -18,7 +18,6 @@
                  [bidi _ :exclusions [org.clojure/clojure]]
                  [liberator _]
                  [ring/ring-json _]
-                 [clj-time "0.9.0"]
                  [io.rkn/conformity "0.3.3"]
                  [bouncer "0.3.2"]
                  [environ _]]
