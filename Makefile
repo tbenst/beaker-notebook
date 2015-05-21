@@ -86,6 +86,7 @@ beaker:
 	docker pull beakernotebook/beaker-prerelease
 
 submodules:
+	cd beaker/beaker-server && git fetch --tags
 	git submodule update --init
 
 install:
