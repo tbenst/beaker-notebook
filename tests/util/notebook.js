@@ -41,7 +41,7 @@ module.exports = function() {
     deleteSeed: function() {
       return del(config.notebookUrl + '/seed');
     }
-  }
+  };
 
   return this.notebook;
 };

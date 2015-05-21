@@ -42,7 +42,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see an empty vendor name field$/, function() {
-    return new this.Widgets.Vendors().nameField().should.eventually.equal('')
+    return new this.Widgets.Vendors().nameField().should.eventually.equal('');
   });
 
   this.When(/^I search for the vendor "([^"]*)"$/, function(vendor) {
