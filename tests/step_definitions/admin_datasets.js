@@ -38,13 +38,7 @@ module.exports = function() {
     }.bind(this))
     .then(function(dialog) {
       return dialog.accept();
-    })
-    .then(function() {
-      // We sleep for 2 seconds to let the network
-      // request finish. We have to do this since there is no visible
-      // indicator.
-      return this.driver.sleep(2000);
-    }.bind(this));
+    });
   });
 
   this.When(/^I update the dataset$/, function() {

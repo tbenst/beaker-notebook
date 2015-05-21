@@ -210,14 +210,7 @@ module.exports = function() {
 
   this.Then(/^I should see (\d+) market items? on the market list page$/, function(count) {
     var marketList = new this.Widgets.MarketList();
-
-    return this.driver.wait(function() {
-      return marketList.items().should.eventually.have.length(+count)
-      .then(function(count) {
-        return true;
-      })
-      .thenCatch(function(v) { return false; });
-    }.bind(this), 30000);
+    return marketList.items().should.eventually.have.length(+count)
   });
 
   this.When(/^I filter by search by selecting the "([^"]*)" formats$/, function(formats, callback) {
@@ -281,13 +274,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the "([^"]*)" market item on the market list page$/, function(title) {
-    return this.driver.wait(function() {
-      return new this.Widgets.MarketList().contains(title)
-      .then(function(title) {
-        return true;
-      })
-      .thenCatch(function(v) { return false; });
-    }.bind(this), 30000);
+    return new this.Widgets.MarketList().contains(title);
   });
 
   this.When(/^I follow the related tag "([^"]*)"$/, function(tag) {
