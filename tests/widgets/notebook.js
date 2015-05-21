@@ -116,6 +116,14 @@ module.exports = function() {
         })
         .length()
       });
-    }
+    },
+
+    sidebarsVisible: function() {
+      return this.isVisible('.sidebar-left, .sidebar-right');
+    },
+
+    toggleFullscreen: function() {
+      return this.click('fullscreen-toggle i');
+    },
   });
 };

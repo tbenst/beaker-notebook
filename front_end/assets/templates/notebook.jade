@@ -29,6 +29,7 @@
           bk-dropdown-menu.bunsen-dropdown(ng-if="menu", menu-items="menuItems()")
 
       h2
+        fullscreen-toggle
         span.name {{notebook.current.name}}
         span.status(ng-if="getLoadingMessage()") ({{getLoadingMessage()}})
       .loading(ng-if="loading")

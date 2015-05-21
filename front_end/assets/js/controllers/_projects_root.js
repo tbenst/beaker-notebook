@@ -5,12 +5,14 @@
     'Factories',
     '$state',
     '$rootScope',
+    'FullscreenState',
     'TrackingService',
     function(
       $scope,
       Factories,
       $state,
       $rootScope,
+      FullscreenState,
       TrackingService) {
     var F = Factories;
 
@@ -31,6 +33,8 @@
         $scope.notebooks.list = notebooks;
       });
     }
+
+    $scope.isFullscreen = FullscreenState.isFullscreen;
 
     $scope.openNotebook = function(notebook) {
       if (notebook.unavailable) return;
