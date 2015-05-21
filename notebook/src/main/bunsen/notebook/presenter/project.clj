@@ -56,9 +56,19 @@
       @(d/transact conn [tx])
       tx)))
 
+(defn associated-notebook-eids [conn project-eid]
+  (d/q '[:find [?n ...]
+         :in $ ?eid
+         :where [?n :notebook/project ?eid]]
+        (d/db conn) project-eid))
+
 (defn delete-project! [conn owner-id project-id]
   (when-let [p (find-project (d/db conn) owner-id project-id)]
-    @(d/transact conn [[:db.fn/retractEntity (:db/id p)]])))
+    (let [eids (conj (associated-notebook-eids conn (:db/id p)) (:db/id p))]
+      (->> eids
+           (map (fn [eid] [:db.fn/retractEntity eid]))
+           (d/transact conn)
+           deref))))
 
 (defn find-another-project-with-name [db owner-id project-id name]
   (d/q '[:find (pull ?p [*]) .
