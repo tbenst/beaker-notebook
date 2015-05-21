@@ -20,6 +20,13 @@ module.exports = function() {
         })
     },
 
+    editUserInfo: function() {
+      return this.hover({selector: '.bunsen-dropdown-toggle'})
+        .then(function(menu) {
+          return menu.click('.edit-info');
+        });
+    },
+
     clickLogo: function() {
       return this.click('.header-logo');
     },

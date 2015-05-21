@@ -56,7 +56,7 @@ module.exports = function() {
   });
 
   this.When(/^I go to the edit user page$/, function() {
-    return this.driver.get(this.route.userEdit);
+    return new this.Widgets.AppHeader().editUserInfo();
   });
 
   this.When(/^I fill in the edit user form with:$/, function(table) {
