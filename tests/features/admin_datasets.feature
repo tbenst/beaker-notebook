@@ -85,7 +85,7 @@ Feature: Admin Datasets
     And I enter "csv" into the format field
     Then I should see a format-field autocomplete dropdown with "CSV"
 
-  @flaky
+  @flaky @actually-broken-vendors
   Scenario: Dataset vendor dropdown
     Given there is a market item with the vendor "George data"
     And there is a market item with the vendor "Doge industries"
