@@ -28,6 +28,7 @@
              :dev {:source-paths ["src/dev"]
                    :repl-options {:init (user/watch)
                                   :init-ns user}
+                   :jvm-opts ["-Xmx300m" "-Ddatomic.objectCacheMax=64m" "-Ddatomic.memoryIndexMax=128m" ]
                    :dependencies [[hawk _]
                                   [ring-mock "0.1.5"]
                                   [org.clojure/tools.namespace "0.2.10"]]}})
