@@ -17,7 +17,7 @@
                 sortorder: 40,
                 action: function () {
                   Notebooks.update({
-                    id: $scope.notebook.current.id,
+                    id: $scope.notebook.current['public-id'],
                     data: bkSessionManager.getSaveData().notebookModelAsString
                   });
                   $scope.hideMenu();

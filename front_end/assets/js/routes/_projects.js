@@ -69,12 +69,11 @@
           template: templates.project_list
         }
       },
-      onEnter: function($window, Restangular,
-                        $stateParams, $route, $routeParams) {
+      onEnter: function($window, NotebookRestangular, $stateParams, $route, $routeParams) {
         $routeParams.sessionId = $stateParams.notebook_id;
-        var notebookUri = $window.location.origin +
-            Restangular.one('notebooks', $stateParams.notebook_id)
-            .all('contents').getRestangularUrl();
+        var notebookUri = $window.location.origin + "/" +
+                          NotebookRestangular.one('notebooks', $stateParams.notebook_id)
+                          .all('contents').getRestangularUrl();
         $route.current = {locals:
                           {target: {
                             uri: notebookUri,

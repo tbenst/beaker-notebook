@@ -63,9 +63,9 @@
 
     function openNotebook(notebook, cached) {
       if (notebook.unavailable) return $state.go('projects.items.item',{id: notebook.projectId});
-      Notebooks.update({id: notebook.id, open: true});
+      Notebooks.update({id: notebook['public-id'], open: true});
       $scope.notebook = {current: notebook};
-      $rootScope.cachedNotebooks[notebook.id] = notebook;
+      $rootScope.cachedNotebooks[notebook['public-id']] = notebook;
       if (!cached) return;
       TrackingService.mark('CachedNotebookLoaded');
       TrackingService.measure('BaselineCachedProvisionedNotebookLoad', 'LoadCachedProvisionedNotebook', 'CachedNotebookLoaded');
@@ -84,7 +84,7 @@
           } else if (result === 'error') {
             return $scope.warning = 'An Error has occurred';
           }
-          notebook.location = $sce.trustAsResourceUrl(BeakerNotebookService.notebookLocation(result, prjId, notebook.id));
+          notebook.location = $sce.trustAsResourceUrl(BeakerNotebookService.notebookLocation(result, prjId, notebook['public-id']));
           $scope.loading = false;
           TrackingService.mark('NotebookLoaded');
           TrackingService.measure('BaselineUnprovisionedNotebookLoad', 'LoadUnprovisionedNotebook', 'NotebookLoaded');
@@ -96,14 +96,14 @@
     }
 
     $scope.save = function(newName) {
-      Notebooks.save($scope.notebook.current.id, newName);
+      Notebooks.save($scope.notebook.current['public-id'], newName);
       $scope.hideMenu();
     };
 
     $scope.showStdoutStderr = function() {
       var data = { action: 'showStdoutStderr' };
 
-      Notebooks.sendToIFrame($scope.notebook.current.id, data);
+      Notebooks.sendToIFrame($scope.notebook.current['public-id'], data);
       scrollToBottom();
     };
 
@@ -142,7 +142,7 @@
     };
 
     $rootScope.$on('notebook-edited', function(event, data) {
-      if ($scope.notebook && $scope.notebook.current.id == data.notebookId) {
+      if ($scope.notebook && $scope.notebook.current['public-id'] == data.notebookId) {
         $scope.notebook.current.edited = data.value;
       }
     });

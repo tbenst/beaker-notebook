@@ -1,3 +1,4 @@
+@flaky
 Feature: Publications
   As a User
   I want to be able to publish notebooks

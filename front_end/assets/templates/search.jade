@@ -8,18 +8,18 @@
     li.bunsen-list-item.skinny(ng-repeat="notebook in notebookResults = (notebooks.list | filter:searchable.search)")
       .col-three-quarters
         h2
-          a.title(ui-sref="projects.items.item.notebook({id: notebook.projectId, notebook_id: notebook.id})") Notebook: {{notebook.name | limitTo:30}}
+          a.title(ui-sref="projects.items.item.notebook({id: notebook.project['public-id'], notebook_id: notebook['public-id']})") Notebook: {{notebook.name | limitTo:30}}
       .col-quarter
         ul.attributes
           li
             span.label Updated:&nbsp
-            span.value {{notebook.updatedAt | date: 'shortDate'}}
+            span.value {{notebook['updated-at']| date: 'shortDate'}}
       .cl
 
     li.bunsen-list-item.skinny(ng-repeat="project in projectResults = (projects.list | filter:searchable.search)")
       .col-three-quarters
         h2
-          a.title(ui-sref="projects.items.item({id: project.id})") Project: {{project.name | limitTo:30}}
+          a.title(ui-sref="projects.items.item({id: project['public-id']})") Project: {{project.name | limitTo:30}}
         p.description {{project.description}}
 
       .col-quarter
@@ -29,5 +29,5 @@
             span.value.count {{project.notebooks.length}}
           li
             span.label Updated:&nbsp
-            span.value {{project.lastUpdatedAt | date: 'shortDate'}}
+            span.value {{project['last-updated-at'] | date: 'shortDate'}}
       .cl

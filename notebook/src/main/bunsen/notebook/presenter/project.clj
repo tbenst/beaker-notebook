@@ -1,27 +1,42 @@
 (ns bunsen.notebook.presenter.project
   (:require [datomic.api :as d]
+            [clojure.instant :as inst]
+            [clojure.set :as set]
             [bunsen.common.helper.utils :as utils]
             [bouncer.core :as b]
             [bouncer.validators :as v]))
 
 (defn find-project [db owner-id project-id]
-  (d/q '[:find (pull ?p [*]) .
+  (d/q '[:find (pull ?p [:db/id :project/name :project/description :project/created-at
+                         :project/public-id :project/updated-at :project/owner-id
+                           {:notebook/_project [:notebook/public-id :notebook/name
+                                                :notebook/open :notebook/opened-at
+                                                :notebook/created-at :notebook/updated-at
+                                                  {:notebook/project [:project/public-id]}]}]) .
          :in $ [?oid ?pid]
          :where
          [?p :project/public-id ?pid]
          [?p :project/owner-id ?oid]]
        db (mapv utils/uuid-from-str [owner-id project-id])))
 
+(defn last-updated-at [p]
+  (let [notebook-timestamps (mapv #(:notebook/updated-at %) (:notebook/_project p))
+        timestamps (conj notebook-timestamps (:project/updated-at p))]
+    (-> (sort timestamps)
+        last)))
+
 (defn load-project [db owner-id project-id]
   (when-let [p (when (and owner-id project-id)
                  (find-project db owner-id project-id))]
-    (dissoc p :db/id)))
+    (-> (dissoc p :db/id)
+        (assoc :last-updated-at (last-updated-at p))
+        (set/rename-keys {:notebook/_project :notebooks}))))
 
-(defn create-project! [conn owner-id {:keys [name description]}]
+(defn create-project! [conn owner-id {:keys [name description created-at updated-at]}]
   (let [p {:db/id (d/tempid :db.part/user)
            :project/public-id (d/squuid)
-           :project/created-at (utils/now)
-           :project/updated-at (utils/now)
+           :project/created-at (if created-at (inst/read-instant-timestamp created-at) (utils/now))
+           :project/updated-at (if updated-at (inst/read-instant-timestamp updated-at) (utils/now))
            :project/name name
            :project/description description
            :project/owner-id (utils/uuid-from-str owner-id)}]
@@ -30,17 +45,30 @@
 
 (defn update-project! [conn owner-id project-id params]
   (when-let [p (find-project (d/db conn) owner-id project-id)]
-    (let [tx (-> params
+    (let [updated-at (if (:updated-at params) (:updated-at params) (utils/now))
+          opened-at (when (:open params) (utils/now))
+          tx (-> params
                  (dissoc :public-id :project-id)
+                 (assoc :project/opened-at opened-at)
                  utils/remove-nils
                  (utils/namespace-keys "project")
-                 (assoc :db/id (:db/id p) :project/updated-at (utils/now)))]
+                 (assoc :db/id (:db/id p) :project/updated-at updated-at))]
       @(d/transact conn [tx])
       tx)))
 
+(defn associated-notebook-eids [conn project-eid]
+  (d/q '[:find [?n ...]
+         :in $ ?eid
+         :where [?n :notebook/project ?eid]]
+        (d/db conn) project-eid))
+
 (defn delete-project! [conn owner-id project-id]
   (when-let [p (find-project (d/db conn) owner-id project-id)]
-    @(d/transact conn [[:db.fn/retractEntity (:db/id p)]])))
+    (let [eids (conj (associated-notebook-eids conn (:db/id p)) (:db/id p))]
+      (->> eids
+           (map (fn [eid] [:db.fn/retractEntity eid]))
+           (d/transact conn)
+           deref))))
 
 (defn find-another-project-with-name [db owner-id project-id name]
   (d/q '[:find (pull ?p [*]) .
@@ -62,10 +90,14 @@
       first))
 
 (defn find-projects [db owner-id]
-  (d/q '[:find [(pull ?p [* {:notebook/_project [:notebook/public-id :notebook/name
-                                                 :notebook/open :notebook/opened-at
-                                                 :notebook/created-at :notebook/updated-at]}]) ...]
-         :in $ ?oid
-         :where
-         [?p :project/owner-id ?oid]]
-       db (utils/uuid-from-str owner-id)))
+  (when owner-id
+    (->> (d/q '[:find [(pull ?p [* {:notebook/_project [:notebook/public-id :notebook/name
+                                                        :notebook/open :notebook/opened-at
+                                                        :notebook/created-at :notebook/updated-at]}]) ...]
+                :in $ ?oid
+                :where
+                [?p :project/owner-id ?oid]]
+              db (utils/uuid-from-str owner-id))
+          (map (fn [p] (-> (dissoc p :db/id)
+                           (assoc :last-updated-at (last-updated-at p))
+                           (set/rename-keys {:notebook/_project :notebooks})))))))

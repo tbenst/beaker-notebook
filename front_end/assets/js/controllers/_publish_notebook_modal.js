@@ -31,10 +31,10 @@
         return $scope.error = true;
       }
       TrackingService.mark('PublishNotebook');
-      _.extend($scope.notebook.current.publication, {notebookId: $scope.notebook.current.id});
+      _.extend($scope.notebook.current.publication, {notebookId: $scope.notebook.current['public-id']});
       F.Notebooks[publishType]($scope.notebook.current.publication).then(function(notebook) {
         $scope.notebook.current = notebook;
-        $scope.cachedNotebooks[notebook.id].publication = notebook.publication;
+        $scope.cachedNotebooks[notebook['public-id']].publication = notebook.publication;
         $scope.$emit('closeModal');
         TrackingService.mark('NotebookPublished');
         TrackingService.measure('BaselineNotebookPublishing', 'PublishNotebook', 'NotebookPublished');

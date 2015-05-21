@@ -1,6 +1,6 @@
 ;(function(angular, app) {
-  app.factory('ProjectsFactory', ["Restangular", function(Restangular) {
-    var R = Restangular;
+  app.factory('ProjectsFactory', ["NotebookRestangular", function(NotebookRestangular) {
+    var R = NotebookRestangular;
 
     return {
       deleteProject: function(id) {
@@ -44,8 +44,8 @@
                 });
       },
 
-      update: function(attrs) {
-        return R.one('projects', attrs.id).customPUT(attrs);
+      update: function(publicId, attrs) {
+        return R.one('projects', publicId).customPUT(attrs);
       },
 
     }

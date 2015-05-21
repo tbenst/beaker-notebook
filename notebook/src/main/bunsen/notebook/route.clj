@@ -4,7 +4,6 @@
   ["/" {"notebook/v1" {"/status" :status
                        "/projects" {"" :projects
                                     ["/" :project-id] {"" :project
-                                                       "/notebook" :notebook
                                                        "/notebooks" :notebooks}}
                        "/publications" {"" :publications
                                         "_count" :publications-count
@@ -13,9 +12,8 @@
                                                    "/ratings" :ratings
                                                    "/rating" :rating}}
                        "/notebooks" {"" :notebooks
-                                     ["/" :notebook-id]
-                                     {"" :notebook
-                                      "/contents" :notebook-contents}}
+                                     ["/" :notebook-id] {"" :notebook
+                                                         "/contents" :notebook-contents}}
                        "/categories" {"" :categories
                                       ["/" :id] :category}
                        "/seed" {"" :seed

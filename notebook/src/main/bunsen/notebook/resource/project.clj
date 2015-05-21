@@ -2,6 +2,7 @@
   (:require [liberator.core :refer [defresource]]
             [bunsen.notebook.resource.defaults :refer [defaults]]
             [liberator.representation :refer [ring-response]]
+            [bunsen.common.helper.utils :as utils]
             [bunsen.notebook.presenter.project :as p]))
 
 (defresource project [_] defaults
@@ -40,4 +41,10 @@
   :handle-created (fn [{p ::updated-project}]
                     (when p (dissoc p :db/id :project/public-id)))
 
-  :handle-ok ::project)
+  :handle-ok (fn [{{conn :conn
+                    {owner-id :id} :session
+                    {project-id :project-id} :route-params} :request
+                   p ::project}]
+               (p/update-project! conn owner-id project-id {:opened-at (utils/now)
+                                                            :updated-at (:project/updated-at p)})
+               p))

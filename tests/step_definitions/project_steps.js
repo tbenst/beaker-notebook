@@ -3,12 +3,10 @@ var moment      = require("moment");
 var _           = require("lodash");
 var expect = require('chai').expect;
 var Promise = require('bluebird');
+
 var projectBase = {
-  model: "Project",
-  data: {
-    name: 'My Project',
-    description: 'desc'
-  }
+  name: 'My Project',
+  description: 'desc'
 };
 
 function openProject(name, count) {
@@ -73,12 +71,12 @@ module.exports = function() {
 
     return this.user.getDetails()
     .then(function(u) {
-      var projectData = _.merge(_.cloneDeep(projectBase), {'data': {'owner_id': u['public-id']}});
+      var projectData = _.merge(_.cloneDeep(projectBase), {'owner-id': u['public-id']});
 
-      return _this.seed.populate(projectData)
+      return _this.notebook.createProject(projectData)
       .then(function() {
         return viewProjectDashboard.call(_this).then(function() {
-          return openProject.call(_this, projectData.data.name);
+          return openProject.call(_this, projectData.name);
         })
       });
     })
@@ -158,15 +156,16 @@ module.exports = function() {
     var _this = this;
     return this.user.getDetails()
     .then(function(u) {
-      var seed = _(table.hashes()).map(function(attrs) {
-        var projectData = _.merge(_.cloneDeep(projectBase), {
-          'data': {'owner_id': u['public-id']}
+      return Promise.resolve(table.hashes())
+      .each(function(attrs) {
+        var projectData = _.merge(_.cloneDeep(projectBase), {'owner-id': u['public-id']});
+        return _this.notebook.createProject(_.merge(projectData, attrs))
+        .then(function(project) {
+          _this.currentProjects = _this.currentProjects || {};
+          _this.currentProjects[project.name] = project;
+          return project;
         });
-
-        return _.merge(projectData, {data: attrs});
-      }).value();
-
-      return _this.seed.populate(seed);
+      });
     });
   });
 
@@ -238,7 +237,7 @@ module.exports = function() {
 
   this.Then(/^I should be warned that the project is a duplicate name$/, function(callback) {
     var projectDetail = new this.Widgets.ProjectDetail();
-    return projectDetail.error().should.eventually.contain("already have a project named");
+    return projectDetail.error().should.eventually.contain("project with this name already exists");
   });
 
   this.When(/^I dismiss the duplicate project name error message$/, function() {

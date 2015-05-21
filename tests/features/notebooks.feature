@@ -137,6 +137,7 @@ Feature: Use Notebooks
       | powderpuff girls |
       | top secret       |
 
+@flaky @notebookservice
   Scenario: Importing notebooks
     When I open the "ghost of tom jones" project
     And I import the notebook by uploading the "hello_world.bkr" file
@@ -146,6 +147,7 @@ Feature: Use Notebooks
       | powderpuff girls   |
       | top secret         |
 
+@flaky @notebookservice
   Scenario: Importing an invalid notebook should show an error message
    When I open the "ghost of tom jones" project
    And I import the notebook by uploading the "doge.jpg" file

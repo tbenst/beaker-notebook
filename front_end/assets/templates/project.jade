@@ -60,7 +60,7 @@
             .value {{project.lastExecuted || "N/A" | date: 'short'}}
           li
             .label Updated
-            .value.last-updated {{project.lastUpdatedAt | date: 'short'}}
+            .value.last-updated {{project['last-updated-at'] | date: 'short'}}
           li
             .label Commits
             .value.num-commits {{project.numCommits}}
@@ -82,7 +82,7 @@
 
           .right
             span.text-small.notebook-last-used  Last used on
-              span.text-green.date {{notebook.updatedAt | date: 'short'}}
+              span.text-green.date {{notebook['updated-at'] | date: 'short'}}
             span.notebook-options
               span.options.bunsen-dropdown-toggle
                 ul.bunsen-dropdown

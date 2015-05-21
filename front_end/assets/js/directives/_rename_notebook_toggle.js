@@ -22,12 +22,12 @@
         });
 
         $scope.renameSave = function() {
-          Notebooks.update({ id: $scope.notebook.id, name: $scope.notebookNewName }).then(function(notebook) {
+          Notebooks.update({ id: $scope.notebook['public-id'], name: $scope.notebookNewName }).then(function(notebook) {
             $scope.notebook.name = notebook.name;
             $rootScope.$broadcast('closeModal');
             delete $scope.error;
           }).catch(function(response) {
-            $scope.error = response.data.error;
+            $scope.error = response.data.name[0];
           });
         };
 

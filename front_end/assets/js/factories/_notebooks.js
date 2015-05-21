@@ -1,6 +1,6 @@
 ;(function(angular, app) {
   app.factory('NotebooksFactory', [
-    "Restangular",
+    "NotebookRestangular",
     '$window',
     '$location',
     function(
