@@ -28,7 +28,7 @@ module.exports = function() {
   });
 
   this.Given(/^I go to the admin page$/, function() {
-    return this.driver.get(this.route.admin);
+    return new this.Widgets.MainNav().visitAdmin();
   });
 
   this.Then(/^I should see the Admin Panel heading$/, function() {

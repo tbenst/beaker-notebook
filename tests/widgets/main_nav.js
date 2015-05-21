@@ -11,8 +11,11 @@ module.exports = function() {
     visitMarketPlace: function() {
       return this.click('.market-place');
     },
+    visitAdmin: function() {
+      return this.click('.admin');
+    },
     activeTab: function() {
-      return this.read('.nav-item-active')
+      return this.read('.nav-item-active');
     },
   });
 };
