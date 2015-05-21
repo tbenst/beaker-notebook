@@ -15,14 +15,16 @@ module.exports = function() {
 
   this.Given(/^I'm signed in as an administrator$/, function() {
     var _this = this;
-    return u.createUser(userData).then(function() {
-      return _this.driver.get(_this.route.signIn).then(function() {
+    return u.createUser(userData)
+      .then(function() {
+        return _this.driver.get(_this.route.signIn);
+      })
+      .then(function() {
         return new _this.Widgets.SignInForm().submitWith(_.pick(userData, 'email', 'password'));
-      });
-    })
-    .then(function() {
-      return new _this.Widgets.SignInForm().ensureNotPresent();
-    })
+      })
+      .then(function() {
+        return new _this.Widgets.SignInForm().ensureNotPresent();
+      })
   });
 
   this.Given(/^I go to the admin page$/, function() {
