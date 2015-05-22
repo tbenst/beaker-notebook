@@ -2,30 +2,44 @@
   .bunsen-dropdown, .bunsen-dropdown-wrapper
     min-width 140px
 
-.notebook .main-content > h2
-  margin-top 8px
-  margin-bottom 0
-  padding-bottom 10px
-  border-bottom 1px solid base-step5
+.notebook .main-content
+  // to compensate for the padding on the sticky title-bar,
+  // we're moving the main-content up
+  margin-top -7px
 
-  .name
+.notebook .title-bar
+  &.stuck
+    background-color rgba(255, 255, 255, 0.8)
+    z-index z-notebook-sticky-header
+
+  .options
+    top 9px
+
+  h2
+    margin-top 0
+    margin-bottom 0
+    padding-top 15px
     padding-bottom 10px
+    border-bottom 1px solid base-step5
 
-  .status
-    font-style italic
-    color base-step4
-    font-size font-size-base
-    margin-left 20px
+    .name
+      padding-bottom 10px
 
-  .down-arrow
-    margin-left 10px
-    font-size 12px
-    color base-step4
-    margin-top -1px
+    .status
+      font-style italic
+      color base-step4
+      font-size font-size-base
+      margin-left 20px
 
-  .bunsen-dropdown
-    min-width 160px
-    top 35px
+    .down-arrow
+      margin-left 10px
+      font-size 12px
+      color base-step4
+      margin-top -1px
+
+    .bunsen-dropdown
+      min-width 160px
+      top 35px
 
 .publish-modal
   .unsaved .note
