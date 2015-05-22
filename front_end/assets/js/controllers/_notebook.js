@@ -12,6 +12,7 @@
     'BeakerNotebookService',
     'NotebookMenuService',
     'TrackingService',
+    'bkSessionManager',
     function(
       $scope,
       $rootScope,
@@ -24,7 +25,8 @@
       Beaker,
       BeakerNotebookService,
       NotebookMenuService,
-      TrackingService) {
+      TrackingService,
+      bkSessionManager) {
 
     var frame;
     var prjId = $state.params.id;
@@ -118,7 +120,9 @@
       if (notebookNameTaken()) {
         $scope.error = 'That notebook name is already taken in this project.';
       } else {
-        $scope.save($scope.saveAsName);
+        Notebooks.create($scope.notebook.current.project['public-id'],
+                         {name: $scope.saveAsName,
+                          data: bkSessionManager.getSaveData().notebookModelAsString});
         $scope.$emit('closeModal');
       }
     };

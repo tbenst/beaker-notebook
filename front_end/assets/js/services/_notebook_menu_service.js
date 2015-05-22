@@ -20,9 +20,7 @@
               {
                 name: "Save as...",
                 sortorder: 50,
-                action: function () {
-                  alert('Coming soon!');
-                },
+                action: $scope.saveAs,
                 tooltip: "Copy notebook to another name",
                 id: "save-as-menuitem"
               },

@@ -58,6 +58,15 @@
     return {
       sendToIFrame: sendToIFrame,
 
+      create: function(projectId, attrs) {
+        return Factories.Notebooks.createNotebook(projectId, attrs)
+          .then(function(notebook) {
+            $state.go('projects.items.item.notebook', { notebook_id: notebook['public-id'] });
+          }, function(response) {
+            $window.alert("Error attempting to create notebook.");
+          });
+      },
+
       save: function(notebookId, newName) {
         var data = { action: 'save' };
         if (newName) {
