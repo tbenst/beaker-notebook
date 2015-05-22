@@ -80,7 +80,7 @@
 (defn create-notebook! [conn params]
   (let [p-eid (notebook-project-eid (d/db conn) (:project-id params) (:user-id params))
         name (or (:name params) (calculate-notebook-name (d/db conn) (:user-id params) (:project-id params)))
-        contents (or (:content params) (u/read-resource-file "notebooks/base_notebook.bkr"))
+        contents (or (:contents params) (u/read-resource-file "notebooks/base_notebook.bkr"))
         n {:db/id (d/tempid :db.part/user)
            :notebook/public-id (d/squuid)
            :notebook/name name
