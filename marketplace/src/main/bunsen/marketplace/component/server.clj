@@ -18,6 +18,7 @@
 (def resources
   {:status api-resource/status
    :categories api-resource/categories
+   :seed api-resource/seed
    :seed-datasets api-resource/seed-datasets
    :seed-subscriptions api-resource/seed-subscriptions
    :subscription api-resource/subscription

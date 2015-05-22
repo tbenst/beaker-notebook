@@ -40,9 +40,9 @@
     (is (= 2 (count (search-categories)))))
 
   (testing "reading category tree"
-    (= 200 (fetch "/marketplace/v1/categories" {:cookie-store (sign-in 0)
-                                                :query-params {:limit 3
-                                                               :size 9999}}))))
+    (is (= 200 (:status (fetch "/marketplace/v1/categories" {:cookie-store (sign-in 0)
+                                                             :query-params {:limit 3
+                                                                            :size 9999}}))))))
 
 (deftest read-category
   (testing "reading a category contains name and id"

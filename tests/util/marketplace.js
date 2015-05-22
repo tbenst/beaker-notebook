@@ -62,7 +62,7 @@ module.exports = function() {
   function createRecords(indexName, recordType, records) {
     var payloadObj = {indexName: indexName};
     payloadObj[recordType] = Array.prototype.concat(records);
-    recordType = recordType.indexOf('datasets') > -1 ? "seed/" + recordType : recordType;
+    recordType = recordType.indexOf('datasets') > -1 ? 'seed/' + recordType : recordType;
     var payload = JSON.stringify(payloadObj);
     return post({
       url: config.marketplaceUrl + '/' + recordType,
@@ -79,7 +79,21 @@ module.exports = function() {
   }
 
   this.marketplace = {
-
+    createVendors: function(vendors) {
+      return del(config.marketplaceUrl + '/seed').then(function() {
+        return Promise.each(vendors, function(vendor) {
+          return post({
+            url: config.marketplaceUrl + '/vendors',
+            body: JSON.stringify(vendor),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+        });
+      }).catch(function(e) {
+        return console.log(e)
+      });
+    },
     createIndex: function(indexName) {
       var payload = JSON.stringify({indexName: indexName});
       return post({

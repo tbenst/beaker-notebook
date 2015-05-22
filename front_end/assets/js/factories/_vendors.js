@@ -23,7 +23,7 @@
       },
 
       create: function(attrs) {
-        return R.all('vendors').post(attrs);
+        return MR.all('vendors').post(attrs);
       }
     };
   }]);

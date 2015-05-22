@@ -1,16 +1,10 @@
 var _ = require('lodash');
+var createVendors = require('../util/marketplace')().createVendors;
 
 module.exports = function() {
 
   this.Given(/^I have the following Vendors:$/, function(vendors) {
-    var vendorData = _.map(vendors.hashes(), function(vendor) {
-      return {
-        model: "Vendor",
-        data: vendor
-      };
-    });
-
-    return this.seed.populate(vendorData);
+    return createVendors(vendors.hashes());
   });
 
   this.Given(/^I go to the vendors page$/, function() {
@@ -42,7 +36,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see an empty vendor name field$/, function() {
-    return new this.Widgets.Vendors().nameField().should.eventually.equal('')
+    return new this.Widgets.Vendors().nameField().should.eventually.equal('');
   });
 
   this.When(/^I search for the vendor "([^"]*)"$/, function(vendor) {
