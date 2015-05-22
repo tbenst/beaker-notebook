@@ -1,8 +1,7 @@
 (ns bunsen.notebook.presenter.categories
   (:require [datomic.api :as d]
             [bunsen.common.helper.utils :as utils]
-            [bunsen.notebook.helper.query :as q]
-            [bunsen.notebook.helper.entity :as e]))
+            [bunsen.notebook.helper.query :as q]))
 
 (defn find-category [db cat-id]
   (d/q '[:find (pull ?c [*]) .
@@ -11,8 +10,13 @@
          [?c :category/public-id ?cid]]
        db (utils/uuid-from-str cat-id)))
 
-(defn create-category [conn attrs]
-  (d/transact conn (e/insert-or-update-tx attrs)))
+(defn create-category [conn {:keys [name description]}]
+  (let [c {:db/id (d/tempid :db.part/user)
+           :category/public-id (d/squuid)
+           :category/name name
+           :category/description description}]
+    @(d/transact conn [(utils/remove-nils c)])
+    (dissoc c :db/id)))
 
 (defn find-categories [db]
   (let [q '{:find [?c]
