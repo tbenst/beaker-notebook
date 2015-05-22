@@ -12,6 +12,7 @@
     'BeakerNotebookService',
     'NotebookMenuService',
     'TrackingService',
+    'bkSessionManager',
     function(
       $scope,
       $rootScope,
@@ -24,7 +25,8 @@
       Beaker,
       BeakerNotebookService,
       NotebookMenuService,
-      TrackingService) {
+      TrackingService,
+      bkSessionManager) {
 
     var frame;
     var prjId = $state.params.id;
@@ -95,8 +97,10 @@
       });
     }
 
-    $scope.save = function(newName) {
-      Notebooks.save($scope.notebook.current['public-id'], newName);
+    $scope.save = function() {
+      bkHelper.saveNotebook().then(function() {
+        $rootScope.$broadcast('notebookUpdated', $scope.notebook.current);
+      });
       $scope.hideMenu();
     };
 
@@ -116,7 +120,9 @@
       if (notebookNameTaken()) {
         $scope.error = 'That notebook name is already taken in this project.';
       } else {
-        $scope.save($scope.saveAsName);
+        Notebooks.create($scope.notebook.current.project['public-id'],
+                         {name: $scope.saveAsName,
+                          data: bkSessionManager.getSaveData().notebookModelAsString});
         $scope.$emit('closeModal');
       }
     };

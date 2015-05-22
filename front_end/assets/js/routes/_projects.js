@@ -69,15 +69,17 @@
           template: templates.project_list
         }
       },
-      onEnter: function($window, NotebookRestangular, $stateParams, $route, $routeParams) {
+      onEnter: function(NotebookRestangular, $stateParams,
+                        $route, $routeParams) {
         $routeParams.sessionId = $stateParams.notebook_id;
-        var notebookUri = $window.location.origin + "/" +
-                          NotebookRestangular.one('notebooks', $stateParams.notebook_id)
-                          .all('contents').getRestangularUrl();
+        var baseRest = NotebookRestangular.one('notebooks', $stateParams.notebook_id);
+        var notebookLocation = "ajax:"
+            + baseRest.all('contents').getRestangularUrl() + ":"
+            + baseRest.getRestangularUrl();
         $route.current = {locals:
                           {target: {
-                            uri: notebookUri,
-                            type: "http", // beaker would guess anyway
+                            uri: notebookLocation,
+                            type: "ajax", // beaker would guess anyway
                             format: "bkr", // beaker would guess anyway
                             readOnly: false // the default anyway
                           },
