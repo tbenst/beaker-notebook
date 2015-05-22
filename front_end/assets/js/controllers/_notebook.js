@@ -53,6 +53,14 @@
       this.menu = false;
     };
 
+    $scope.otherOpenNotebooks = function(value, index) {
+      return value.open && !$scope.isViewingNotebook(value.id);
+    };
+
+    $scope.otherOpenNotebooksExist = function() {
+      return _.any($scope.notebooks.list, $scope.otherOpenNotebooks);
+    };
+
     var notebookNameTaken = function() {
       return !!_.find($scope.notebooks.list, { name: $scope.saveAsName, projectId: $scope.notebook.current.projectId });
     };

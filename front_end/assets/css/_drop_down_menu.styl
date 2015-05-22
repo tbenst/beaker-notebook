@@ -70,16 +70,19 @@
       font-size font-size-base
       line-height font-size-base
       display block
+    span
+      color base-step4
+      font-style italic
+    a:hover
+      background-color action-blue
+      color white
+      cursor pointer
+    .disabled
+      color base-step4
+      cursor default
       &:hover
-        background-color action-blue
-        color white
-        cursor pointer
-      &.disabled
         color base-step4
-        cursor default
-        &:hover
-          color base-step4
-          background-color transparent
+        background-color transparent
 
 .bunsen-dropdown-menu
   max-width 250px

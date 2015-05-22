@@ -30,7 +30,14 @@
 
       h2
         fullscreen-toggle
-        span.name {{notebook.current.name}}
+        span.name(ng-class="otherOpenNotebooksExist() && 'bunsen-dropdown-toggle'")
+          {{notebook.current.name}}
+          .down-arrow.glyphicon.glyphicon-chevron-down(ng-if="otherOpenNotebooksExist()")
+          ul.bunsen-dropdown(ng-if="otherOpenNotebooksExist()")
+            li
+              span Other Open Notebooks
+            li(ng-repeat="notebook in notebooks.list | filter:otherOpenNotebooks | orderBy:'name'")
+              a(ng-click="openNotebook(notebook)") {{notebook.name}}
         span.status(ng-if="getLoadingMessage()") ({{getLoadingMessage()}})
       .loading(ng-if="loading")
         bunsen-spinner
