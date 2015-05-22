@@ -4,7 +4,8 @@
   ["/" {"notebook/v1" {"/status" :status
                        "/projects" {"" :projects
                                     ["/" :project-id] {"" :project
-                                                       "/notebooks" :notebooks}}
+                                                       "/notebooks" :notebooks
+                                                       "/notebooks/import" :notebook-import}}
                        "/publications" {"" :publications
                                         "_count" :publications-count
                                         ["/" :id] {"" :publication
