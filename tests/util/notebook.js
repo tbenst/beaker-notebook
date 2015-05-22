@@ -1,7 +1,7 @@
 var _ = require('lodash');
 var config  = require('./_config');
 var Promise = require('bluebird');
-var req = require('request').defaults({json: true});
+var req = require('request').defaults({jar: true, json: true});
 var post = Promise.promisify(req.post);
 var get = Promise.promisify(req.get);
 var put = Promise.promisify(req.put);
@@ -31,11 +31,17 @@ module.exports = function() {
     },
 
     createCategory: function(attrs) {
-      return post(config.notebookUrl + '/categories', {body: attrs});
+      return post(config.notebookUrl + '/categories', {body: attrs})
+      .then(function(res) {
+        return res[0].body;
+      });
     },
 
     createPublication: function(attrs) {
-      return post(config.notebookUrl + '/publications', {body: attrs});
+      return post(config.notebookUrl + '/publications', {body: attrs})
+      .then(function(res) {
+        return res[0].body;
+      });
     },
 
     deleteSeed: function() {
