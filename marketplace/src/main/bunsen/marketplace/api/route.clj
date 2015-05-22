@@ -3,7 +3,8 @@
 (def routes
   ["/marketplace/v1" {"/status" :status
                       "/categories" :categories
-                      "/seed" {"/subscriptions" :seed-subscriptions
+                      "/seed" {"" :seed
+                               "/subscriptions" :seed-subscriptions
                                "/datasets" :seed-datasets}
                       "/refresh" :refresh
                       "/counts" :counts

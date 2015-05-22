@@ -3,7 +3,9 @@
             [clojurewerkz.elastisch.rest.document :as doc]
             [clojurewerkz.elastisch.query :as query]
             [clojurewerkz.elastisch.aggregation :as agg]
-            [clojurewerkz.elastisch.rest.response :refer :all]))
+            [clojurewerkz.elastisch.rest.response :refer :all]
+            [bunsen.common.component.database :as db]
+            [datomic.api :as d]))
 
 (defn connect-to-es
   "[] - Connect to default elasticsearch url
@@ -26,3 +28,9 @@
                                                                     {:size 0})})
         aggregation (aggregation-from response :title_terms)]
     (map :key (:buckets aggregation))))
+
+(defn reset-db! [config]
+  (let [uri (:database-uri config)]
+    (d/delete-database uri)
+    (d/create-database uri)
+    (db/migrate (d/connect uri) "migrations.edn")))

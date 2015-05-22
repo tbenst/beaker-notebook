@@ -2,6 +2,7 @@
   (:require [liberator.core :refer [defresource]]
             [bunsen.common.helper.utils :as u]
             [bunsen.marketplace.helper.resource :as resource]
+            [bunsen.marketplace.helper.api :as api]
             [bunsen.marketplace.api.domain :as domain]
             [bunsen.marketplace.api.models.datasets :as datasets]
             [bunsen.marketplace.api.models.categories :as categories]
@@ -17,6 +18,11 @@
   :allowed-methods #{:get :post}
   :handle-ok #(categories/get-with-params config (resource/get-params %))
   :post! (partial resource/pass-body categories/create-bulk config))
+
+(defresource seed [config _] resource/defaults
+  :allowed? (= "true" (:allow-seed config))
+  :allowed-methods [:post :delete]
+  :delete! (fn [_] (api/reset-db! config)))
 
 (defresource seed-datasets [config _] resource/defaults
   :allowed? (partial resource/admin? config)
