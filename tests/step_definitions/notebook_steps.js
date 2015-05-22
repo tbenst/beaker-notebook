@@ -316,4 +316,16 @@ module.exports = function() {
   this.When(/^I navigate directly to the unavailable notebook$/, function() {
     return this.driver.get(this.route.projectDashboard + '/2/notebooks/2');
   });
+
+  this.Then(/^the notebook should be in fullscreen$/, function() {
+    return new this.Widgets.Notebook().sidebarsVisible().should.eventually.be.false;
+  });
+
+  this.When(/^I toggle fullscreen mode$/, function() {
+    return new this.Widgets.Notebook().toggleFullscreen();
+  });
+
+  this.Then(/^I should see the project and notebook options$/, function() {
+    return new this.Widgets.Notebook().sidebarsVisible().should.eventually.be.true;
+  });
 };

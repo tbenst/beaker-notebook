@@ -287,6 +287,13 @@ Feature: Use Notebooks
     And I view the notebook "top secret"
     Then the "top secret" notebook should be active
 
+  Scenario: Fullscreen View
+    When I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    Then the notebook should be in fullscreen
+    When I toggle fullscreen mode
+    Then I should see the project and notebook options
+
   @flaky @beaker
   Scenario: Warning user when trying to close unsaved notebook
     And I open the "ghost of tom jones" project

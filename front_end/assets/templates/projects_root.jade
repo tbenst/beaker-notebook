@@ -1,5 +1,5 @@
 .roots
-  .projects-root
+  .projects-root(ng-class="isFullscreen() && 'fullscreen'")
     .sidebar-left.project-sidebar
       .nav(ui-view="nav")
       div(sticky offset='20').open-notebooks

@@ -11,6 +11,7 @@
     'Beaker',
     'BeakerNotebookService',
     'NotebookMenuService',
+    'FullscreenState',
     'TrackingService',
     'bkSessionManager',
     function(
@@ -25,6 +26,7 @@
       Beaker,
       BeakerNotebookService,
       NotebookMenuService,
+      FullscreenState,
       TrackingService,
       bkSessionManager) {
 
@@ -151,6 +153,12 @@
       if ($scope.notebook && $scope.notebook.current['public-id'] == data.notebookId) {
         $scope.notebook.current.edited = data.value;
       }
+    });
+
+    FullscreenState.toggleFullscreen(true);
+
+    $scope.$on('$destroy', function() {
+      FullscreenState.toggleFullscreen(false);
     });
 
     $scope.$watch('notebook.current', function(newVal) {
