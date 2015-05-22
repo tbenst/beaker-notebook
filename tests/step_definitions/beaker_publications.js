@@ -71,13 +71,20 @@ module.exports = function() {
     })
   });
 
-  this.Given(/^I have the following Beaker publication categories:$/, function(table) {
+  this.Given(/^I have the following(?: Beaker)? publication categories:$/, function(table) {
+    var _this = this;
     return Promise.resolve(table.hashes())
     .each(function(row) {
       var attrs = _.object(_.map(row, function (val, key) {
-        return [":category/" + key, val];
+        return [key, val];
       }));
-      return n.createCategory(categoryAttrs(attrs));
+      return n.createCategory(categoryAttrs(attrs))
+      .then(function (category) {
+        _this.currentCategory = category;
+        _this.currentCategories = _this.currentCategories || {};
+        _this.currentCategories[category.name] = category;
+        return category;
+      });
     });
   });
 

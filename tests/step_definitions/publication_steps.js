@@ -97,6 +97,7 @@ var seedPublications = function(count, options, user) {
 };
 
 module.exports = function() {
+  var n = this.notebook;
 
   this.Given(/^there are (\d+) publications(?: for the project "([^"]*)")?$/, function(count, projectName) {
     return seedPublications.bind(this)(count, {projectName: projectName}, randomUser);
@@ -106,34 +107,15 @@ module.exports = function() {
     return seedPublications.bind(this)(count, {category: categoryName}, otherUser);
   });
 
-  this.Given(/^the notebook "([^"]*)" is published$/, function(notebookName) {
-    var _this = this;
-    return this.user.getDetails()
-    .then(function(u) {
-      return _this.seed.populate({
-        model: 'Publication',
-        data: {
-          name: notebookName,
-          //jscs:disable
-          user_id: u['public-id']
-          //jscs:enable
-        },
-        associations: [{
-          foreignKey: 'notebook_id',
-          lookup: {'Notebook': {name: notebookName}}
-        }]
+  this.Given(/^the notebook "([^"]*)" is published$/, function(name) {
+    var notebook = this.currentNotebooks[name];
+    var category = this.currentCategory;
+    return n.createPublication(
+      {"name": name,
+       "description": "some published notebook",
+       "notebook-id": notebook["public-id"],
+       "categoryID": category['public-id']
       });
-    });
-  });
-
-  this.Given(/^I have the following publication categories:$/, function(table) {
-    var seedData = _.map(table.hashes(), function(category) {
-      return {
-        model: 'PublicationCategory',
-        data: category
-      };
-    });
-    return this.seed.populate(seedData);
   });
 
   this.Given(/^there is a publication named "([^"]*)"$/, function(name) {

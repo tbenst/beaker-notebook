@@ -52,6 +52,12 @@ module.exports = function() {
             }
           )
         );
+      })
+      .then(function(res) {
+        var notebook = res[0].body;
+        _this.currentNotebooks = _this.currentNotebooks || {};
+        _this.currentNotebooks[attrs.name] = notebook;
+        return notebook;
       });
     });
   });
