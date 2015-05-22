@@ -35,7 +35,7 @@
         var omitAttrs = specialUiAttrs.concat(ignoreAttrs);
 
         function parseDate(dateField) {
-          $scope.item.filteredMeta[dateField] = moment.utc($scope.item[dateField]).local().format("M/D/YY");
+          $scope.item.filteredMeta[dateField] = moment.utc($scope.item[dateField]).utc().format("YYYY-MM-DD");
         }
 
         var dateFields = _.filter(_.keys($scope.item.catalog.metadata), function(key) {
