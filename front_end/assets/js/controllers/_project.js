@@ -135,9 +135,14 @@
           $scope.importError = null;
           $scope.loadProject();
         }).error(function(e) {
-          $scope.importError = e.error;
+          var errors = ['contents', 'name', 'owner-id'];
+          _.each(errors, function(error) {
+            if (e[error]) {
+              $scope.importError = e[error][0];
+            }
+          });
         });
-      })
+      });
     };
 
     $scope.$watch('project', function() {

@@ -9,6 +9,7 @@
             [bunsen.notebook.resource.projects :refer [projects]]
             [bunsen.notebook.resource.notebook :refer [notebook]]
             [bunsen.notebook.resource.notebook-contents :refer [notebook-contents]]
+            [bunsen.notebook.resource.notebook-import :refer [notebook-import]]
             [bunsen.notebook.resource.notebooks :refer [notebooks]]
             [bunsen.notebook.resource.publication-contents :refer [publication-contents]]
             [bunsen.notebook.resource.publications :refer [publications]]
@@ -32,6 +33,7 @@
    :notebook notebook
    :notebooks notebooks
    :notebook-contents notebook-contents
+   :notebook-import notebook-import
    :category category
    :categories categories
    :rating rating

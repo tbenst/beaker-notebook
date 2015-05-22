@@ -5,6 +5,7 @@
             [ring.adapter.jetty :refer [run-jetty]]
             [com.stuartsierra.component :as component :refer [start stop]]
             [ring.middleware.json :refer [wrap-json-params]]
+            [ring.middleware.multipart-params :refer [wrap-multipart-params]]
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [bunsen.common.middleware.database :refer [wrap-database wrap-database-reconnect]]
@@ -50,6 +51,7 @@
                               (assoc ::not-found not-found)))
                         (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
                                        :cookie-name "session"})
+                        wrap-multipart-params
                         wrap-params
                         wrap-keyword-params
                         wrap-json-params

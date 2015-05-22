@@ -1,6 +1,7 @@
 (ns bunsen.notebook.presenter.notebooks
   (:require [datomic.api :as d]
             [clojure.string :as str]
+            [clojure.data.json :as json]
             [bouncer.core :as b]
             [bouncer.validators :as v]
             [bunsen.notebook.presenter.project :as p]
@@ -29,6 +30,28 @@
          :in $ [?n-id ?u-id]
          :where [?n :notebook/public-id ?n-id]]
        db (mapv u/uuid-from-str [notebook-id user-id])))
+
+(defn valid-json? [contents]
+  (let [exception (try (json/read-str contents)
+                       (catch java.lang.Exception e e))]
+    (when (and (instance? Exception exception)
+               (not (re-matches #"JSON error.*" (.getMessage exception))))
+      (throw exception))
+    (if (and (= java.lang.Exception (class exception))
+             (re-matches #"JSON error.*" (.getMessage exception)))
+      false
+      true)))
+
+
+(defn validate-imported-notebook [db {:keys [contents name pid uid]}]
+  (let [project (p/find-project db uid pid)]
+    (first (b/validate {:name name :contents contents :owner-id (u/uuid-from-str uid)}
+                       :name [v/required [unique-name? (u/uuid-from-str pid) db
+                                           :message "That name is taken by another notebook in this project."]]
+                       :owner-id [v/required [= (:project/owner-id project)
+                                               :message "You are not the owner of that project."]]
+                       :contents [v/required [valid-json?
+                                               :message (str "Could not import notebook " name " Beaker notebooks must contain valid JSON.")]]))))
 
 (defn validate-notebook [db params notebook-id user-id]
   (let [name (:name params)
@@ -80,7 +103,7 @@
 (defn create-notebook! [conn params]
   (let [p-eid (notebook-project-eid (d/db conn) (:project-id params) (:user-id params))
         name (or (:name params) (calculate-notebook-name (d/db conn) (:user-id params) (:project-id params)))
-        contents (or (:content params) (u/read-resource-file "notebooks/base_notebook.bkr"))
+        contents (or (:contents params) (u/read-resource-file "notebooks/base_notebook.bkr"))
         n {:db/id (d/tempid :db.part/user)
            :notebook/public-id (d/squuid)
            :notebook/name name
