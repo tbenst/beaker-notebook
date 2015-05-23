@@ -50,8 +50,11 @@
 
 (defn update-publication! [conn author-id pub-id params]
   (when-let [p (find-publication-by-author (d/db conn) author-id pub-id)]
-    (let [tx (-> params
-                 (dissoc :public-id :pub-id)
+    (let [category-id (:categoryID params)
+          c (find-category (d/db conn) category-id)
+          tx (-> params
+                 (dissoc :public-id :pub-id :created-at :updated-at :notebook-id :categoryID)
+                 (assoc :category (:db/id c))
                  utils/remove-nils
                  (utils/namespace-keys "publication")
                  (assoc :db/id (:db/id p) :publication/updated-at (utils/now)))]
