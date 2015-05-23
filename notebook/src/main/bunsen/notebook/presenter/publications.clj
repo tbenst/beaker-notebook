@@ -14,7 +14,7 @@
        db (utils/uuid-from-str pub-id)))
 
 (defn find-publication-by-author [db author-id pub-id]
-  (d/q '[:find (pull ?p [*]) .
+  (d/q '[:find (pull ?p [* {:publication/notebook [*]}]) .
          :in $ [?aid ?pid]
          :where
          [?p :publication/public-id ?pid]
@@ -51,10 +51,12 @@
 (defn update-publication! [conn author-id pub-id params]
   (when-let [p (find-publication-by-author (d/db conn) author-id pub-id)]
     (let [category-id (:categoryID params)
+          n (:publication/notebook p)
           c (find-category (d/db conn) category-id)
           tx (-> params
                  (dissoc :public-id :pub-id :created-at :updated-at :notebook-id :categoryID)
                  (assoc :category (:db/id c))
+                 (assoc :contents (:notebook/contents n) :name (:notebook/name n))
                  utils/remove-nils
                  (utils/namespace-keys "publication")
                  (assoc :db/id (:db/id p) :publication/updated-at (utils/now)))]
