@@ -23,24 +23,7 @@ module.exports = function() {
     },
 
     publish: function() {
-      return this.click('.publish')
-      .then(this.ensureClosed.bind(this));
-    },
-
-    ensureClosed: function() {
-      this.driver.wait(function() {
-        return this.find()
-        .then(function(el) {
-          return el.isDisplayed()
-        })
-        .then(function(v) {
-          return !v;
-        })
-        .thenCatch(function(e) {
-          return true;
-        })
-      }.bind(this)
-      , global.timeout)
+      return this.click('.publish');
     }
   });
 }
