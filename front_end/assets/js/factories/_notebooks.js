@@ -32,7 +32,7 @@
         },
 
         updatePublication: function(attrs) {
-          return R.one('publications', attrs.id).customPUT(attrs);
+          return R.one('publications', attrs['public-id']).customPUT(attrs);
         },
 
         destroy: function(id) {
