@@ -94,6 +94,6 @@
 
 (defn validate-publication [params]
   (-> (b/validate (select-keys params [:description :notebook-id])
-                  :description v/required
+                  ;:description v/required
                   :notebook-id v/required)
       first))
