@@ -50,9 +50,6 @@ Feature: Publications
       | top secret | not so secret anymore |
 
   Scenario: Updating a Publication
-    Given I have the following publication categories:
-      | name       |
-      | Finance    |
     And the notebook "top secret" is published
     When I view my projects
     And I open the "ghost of tom jones" project
