@@ -13,30 +13,28 @@
             [bunsen.common.middleware.database :refer [wrap-database wrap-database-reconnect]]
             [bunsen.marketplace.helper.elasticsearch :refer [wrap-elasticsearch]]
             [bunsen.common.helper.session.store :refer [bunsen-cookie-store]]
-            [bunsen.marketplace.api.resource :as api-resource]
-            [bunsen.marketplace.api.route :as api-route]
+            [bunsen.marketplace.resource :as resource]
+            [bunsen.marketplace.route :as route]
             [bunsen.common.helper.kerberos :as kerberos]))
 
 (def resources
-  {:status api-resource/status
-   :categories api-resource/categories
-   :seed api-resource/seed
-   :seed-datasets api-resource/seed-datasets
-   :seed-subscriptions api-resource/seed-subscriptions
-   :subscription api-resource/subscription
-   :subscriptions api-resource/subscriptions
-   :dataset api-resource/dataset
-   :datasets api-resource/datasets
-   :average-rating api-resource/average-rating
-   :rating api-resource/rating
-   :refresh api-resource/refresh
-   :counts api-resource/counts
-   :indices api-resource/indices
-   :mappings api-resource/mappings
-   :formats api-resource/formats
-   :tags api-resource/tags
-   :vendors api-resource/vendors
-   :default api-resource/default})
+  {:status resource/status
+   :categories resource/categories
+   :seed-datasets resource/seed-datasets
+   :seed-subscriptions resource/seed-subscriptions
+   :subscription resource/subscription
+   :subscriptions resource/subscriptions
+   :dataset resource/dataset
+   :datasets resource/datasets
+   :average-rating resource/average-rating
+   :rating resource/rating
+   :refresh-index resource/refresh-index
+   :indices resource/indices
+   :mappings resource/mappings
+   :formats resource/formats
+   :tags resource/tags
+   :vendors resource/vendors
+   :default resource/default})
 
 (defn conditionally-wrap-database [handler config database]
   (if (= "true" (:allow-seed config))
@@ -54,10 +52,10 @@
       server
       (let [principal (if (:use-kerberos config) (:kerberos-principal config) nil)
             handler (make-handler
-                      api-route/routes
+                      route/routes
                       #(let [resource (% resources)]
                          (fn [request]
-                           ((resource config (:route-params request)) request))))]
+                           ((resource (:params request)) request))))]
 
         (assoc server
                :jetty (run-jetty (-> handler
