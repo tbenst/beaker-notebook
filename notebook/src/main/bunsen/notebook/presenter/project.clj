@@ -3,7 +3,7 @@
             [clojure.instant :as inst]
             [clojure.set :as set]
             [bunsen.common.helper.utils :as utils]
-            [bunsen.notebook.presenter.notebooks :as nb]
+            [bunsen.notebook.helper.notebook :as nb-helper]
             [bouncer.core :as b]
             [bouncer.validators :as v]))
 
@@ -39,7 +39,7 @@
 (defn fix-project-format [project]
   (-> (dissoc project :db/id)
       (assoc :last-updated-at (last-updated-at project))
-      (assoc :notebooks (map nb/fix-notebook-format (:notebook/_project project)))
+      (assoc :notebooks (map nb-helper/fix-notebook-format (:notebook/_project project)))
       (dissoc :notebook/_project)))
 
 (defn load-project [db owner-id project-id]

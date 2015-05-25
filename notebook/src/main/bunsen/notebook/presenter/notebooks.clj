@@ -5,6 +5,7 @@
             [bouncer.core :as b]
             [bouncer.validators :as v]
             [bunsen.notebook.presenter.project :as p]
+            [bunsen.notebook.helper.notebook :as nb-helper]
             [bunsen.common.helper.utils :as u]
             [bunsen.common.helper.query :as q]))
 
@@ -91,13 +92,10 @@
                                                    :message "That name is taken by another notebook in this project."]]))
           :else nil)))
 
-(defn fix-notebook-format [notebook]
-  (assoc notebook :publication (first (:publication/_notebook notebook))))
-
 (defn load-notebook [db notebook-id user-id]
   (when-let [n (find-notebook db notebook-id user-id)]
     (-> (dissoc n :db/id)
-        fix-notebook-format)))
+        nb-helper/fix-notebook-format)))
 
 (defn calculate-notebook-name [db user-id project-id]
   (let [names (d/q '[:find [?name ...]
@@ -166,7 +164,7 @@
                          :in $ pattern ?user-id
                          :where [?notebook :notebook/user-id ?user-id]]
                        db notebook-pattern user-id)]
-    (map fix-notebook-format notebooks)))
+    (map nb-helper/fix-notebook-format notebooks)))
 
 (defn project-notebooks [db user-id project-id]
   (let [user-id (u/uuid-from-str user-id)
@@ -178,4 +176,4 @@
                   [?notebook :notebook/project ?project]]
                        db notebook-pattern user-id project-id)]
 
-    (map fix-notebook-format notebooks)))
+    (map nb-helper/fix-notebook-format notebooks)))
