@@ -25,7 +25,7 @@
   :plugins [[lein-modules "0.3.10"]]
   :profiles {:uberjar {:aot [bunsen.marketplace.service]}
              :dev {:source-paths ["src/dev"]
-                   :repl-options {:init (user/watch)
+                   :repl-options {:init (user/watch-marketplace)
                                   :init-ns user}
                    :dependencies [[hawk _]
                                   [ring-mock "0.1.5"]

@@ -3,26 +3,25 @@
             [environ.core :refer [env]]
             [com.stuartsierra.component :as component]
             [clojure.tools.namespace.file :refer [read-file-ns-decl]]
-            [clojure.tools.namespace.repl :refer [refresh refresh-all]]
-            [bunsen.marketplace.service :refer [service]]))
+            [bunsen.marketplace.service :as marketplace]))
 
-(def ^:dynamic *service*)
+(def ^:dynamic *marketplace*)
 
-(defn start []
-  (alter-var-root #'*service*
+(defn start-marketplace []
+  (alter-var-root #'*marketplace*
                   (constantly
-                    (component/start (service env)))))
+                    (component/start (marketplace/service env)))))
 
-(defn stop []
-  (alter-var-root #'*service*
+(defn stop-marketplace []
+  (alter-var-root #'*marketplace*
                   #(when % (component/stop %))))
 
-(defn restart []
-  (stop)
-  (refresh :after 'user/start))
+(defn restart-marketplace []
+  (stop-marketplace)
+  (start-marketplace))
 
-(defn watch []
-  (start)
+(defn watch-marketplace []
+  (start-marketplace)
   (hawk/watch!
     [{:paths ["src"]
       :filter hawk/file?
