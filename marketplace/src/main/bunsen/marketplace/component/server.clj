@@ -50,13 +50,14 @@
 
         (assoc server
                :jetty (run-jetty (-> handler
-                                     (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
-                                                    :cookie-name "session"})
                                      wrap-logger
+                                     wrap-stacktrace-log
+                                     (wrap-session
+                                       {:store (bunsen-cookie-store (:cookie-salt config))
+                                        :cookie-name "session"})
                                      wrap-cookies
                                      wrap-keyword-params
                                      wrap-params
-                                     wrap-stacktrace-log
                                      (wrap-with
                                        :config config
                                        :es (:conn elasticsearch))
