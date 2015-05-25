@@ -31,20 +31,6 @@ module.exports = function() {
     });
   }
 
-  function updateCounts(indexName) {
-    var payload = JSON.stringify({indexName: indexName});
-    return put({
-      url: config.marketplaceUrl + '/counts',
-      body: payload,
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-    .then(function(response) {
-      return ensureSuccess(response, indexName);
-    });
-  }
-
   function updateMappings(indexName) {
     var payload = JSON.stringify({indexName: indexName});
     return put({
@@ -73,8 +59,6 @@ module.exports = function() {
     })
     .then(function(response) {
       return ensureSuccess(response, indexName);
-    }).then(function() {
-      return updateCounts(indexName);
     });
   }
 
@@ -120,10 +104,7 @@ module.exports = function() {
         set.id = set.id || currentDatasetId;
         currentDatasetId += 1;
       });
-      return createRecords(indexName, 'datasets', datasets)
-        .then(function() {
-          return updateCounts(indexName);
-        });
+      return createRecords(indexName, 'datasets', datasets);
     },
 
     deleteSeed: function() {
