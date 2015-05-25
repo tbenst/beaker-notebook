@@ -9,9 +9,9 @@
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.util.response :refer [response]]
             [bidi.ring :refer (make-handler)]
+            [bunsen.common.middleware.with :refer [wrap-with]]
             [bunsen.common.middleware.logger :refer [wrap-logger]]
             [bunsen.common.middleware.database :refer [wrap-database]]
-            [bunsen.marketplace.helper.elasticsearch :refer [wrap-elasticsearch]]
             [bunsen.common.helper.session.store :refer [bunsen-cookie-store]]
             [bunsen.marketplace.resource :as resource]
             [bunsen.marketplace.route :as route]
@@ -36,10 +36,6 @@
    :vendors resource/vendors
    :default resource/default})
 
-(defn wrap-config [handler config]
-  (fn [req]
-    (handler (assoc req :config config))))
-
 (defrecord Server [config database elasticsearch]
   component/Lifecycle
   (start [server]
@@ -60,9 +56,10 @@
                                      wrap-cookies
                                      wrap-keyword-params
                                      wrap-params
-                                     (wrap-config config)
-                                     (wrap-elasticsearch elasticsearch)
                                      wrap-stacktrace-log
+                                     (wrap-with
+                                       :config config
+                                       :es (:conn elasticsearch))
                                      (wrap-database config database)
                                      (wrap-json-body {:keywords? true})
                                      (kerberos/authenticate principal))
