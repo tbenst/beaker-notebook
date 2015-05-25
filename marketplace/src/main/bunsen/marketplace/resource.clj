@@ -103,7 +103,12 @@
   :handle-ok #(api/list-tags (get-es %)))
 
 (defresource vendors [_] restricted-read-defaults
-  :handle-ok #(api/list-vendors (get-es %)))
+  :allowed-methods #{:get :post}
+  :processable? (some-fn get? (complement
+                                #(api/vendor-exists? (get-db %) (:name (get-body %)))))
+  :handle-unprocessable-entity {:mesage "Vendor Exists"}
+  :post! #(api/create-vendor! (get-conn %) (get-body %))
+  :handle-ok #(api/list-vendors (get-db %)))
 
 (defresource subscription [{:keys [index-name dataset-id]}] defaults
   :allowed-methods #{:post :put :delete}

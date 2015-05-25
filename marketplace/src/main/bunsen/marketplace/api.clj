@@ -112,8 +112,16 @@
   (tag/list-tags es-conn))
 
 (defn list-vendors
-  [es-conn]
-  (vendor/list-vendors es-conn))
+  [datomic-db]
+  (vendor/list-vendors datomic-db))
+
+(defn vendor-exists?
+  [datomic-db vendor-name]
+  (vendor/get-vendor-by-name datomic-db vendor-name))
+
+(defn create-vendor!
+  [datomic-conn vendor]
+  (vendor/create-vendor! datomic-conn vendor))
 
 (defn list-categories
   [es-conn index-name]
