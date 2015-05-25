@@ -11,6 +11,7 @@
             [bidi.ring :refer (make-handler)]
             [bunsen.common.middleware.logger :refer [wrap-logger]]
             [bunsen.common.middleware.database :refer [wrap-database wrap-database-reconnect]]
+            [bunsen.marketplace.helper.elasticsearch :refer [wrap-elasticsearch]]
             [bunsen.common.helper.session.store :refer [bunsen-cookie-store]]
             [bunsen.marketplace.api.resource :as api-resource]
             [bunsen.marketplace.api.route :as api-route]
@@ -42,7 +43,7 @@
     (wrap-database-reconnect handler config)
     (wrap-database handler database)))
 
-(defrecord Server [config database]
+(defrecord Server [config database elasticsearch]
   component/Lifecycle
   (start [server]
     (if (:jetty server)
@@ -63,6 +64,7 @@
                                      wrap-keyword-params
                                      wrap-params
                                      (conditionally-wrap-database config database)
+                                     (wrap-elasticsearch elasticsearch)
                                      wrap-stacktrace-log
                                      (wrap-json-body {:keywords? true})
                                      (kerberos/authenticate principal))
