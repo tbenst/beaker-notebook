@@ -17,14 +17,17 @@ Feature: Vendor Panel
   Scenario: Clearing a vendor name
     When I enter and clear the vendor name
     Then I should see an empty vendor name field
+
   @flaky
   Scenario: Deleting a vendor
     When I delete the vendor "RC Cola"
     Then I should see 1 vendor in the vendor list
+
   @flaky
   Scenario: Updating a vendor
     When I rename the vendor "RC Cola" to "Pepsi"
     Then the vendor should now be named "Pepsi"
+
   @flaky
   Scenario: Searching for a vendor
     When I search for the vendor "RC Cola"

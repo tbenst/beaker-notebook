@@ -213,6 +213,7 @@ Feature: Use Notebooks
     And I save my changes to the notebook
     Then I should be in the "powderpuff girls" notebook
 
+  @flaky @broken
   Scenario: Deleting associated notebooks when deleting a project
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
@@ -282,6 +283,7 @@ Feature: Use Notebooks
     And I navigate away from the projects tab
     Then my notebook should remain open in the background
 
+  @flaky @broken
   Scenario: Highlight current notebook
     And I open the "ghost of tom jones" project
     And I view the notebook "top secret"

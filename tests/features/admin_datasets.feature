@@ -8,7 +8,6 @@ Feature: Admin Datasets
     When I view the market search
     Then I should see the edit indicator
 
-  @flaky
   Scenario: Deleting a dataset
     When I view the market search
     And I edit a dataset
@@ -17,7 +16,6 @@ Feature: Admin Datasets
     When I view the market search
     Then I should see 0 market item on the market list page
 
-  @flaky
   Scenario: Editing a dataset
     When I view the market search
     And I edit a dataset
@@ -26,7 +24,6 @@ Feature: Admin Datasets
     And I view the market search
     Then I should see a dataset with the name "wow"
 
-  @flaky
   Scenario: Creating a dataset
     When I have the following categories:
       | name       | path  |
@@ -37,7 +34,6 @@ Feature: Admin Datasets
     And I view the market search
     Then I should see 2 market items on the market list page
 
-  @flaky
   Scenario: Changing a datasets category
     When I have the following categories:
       | name       | path  |
@@ -88,6 +84,7 @@ Feature: Admin Datasets
     And I edit a dataset
     And I enter "csv" into the format field
     Then I should see a format-field autocomplete dropdown with "CSV"
+
   @flaky
   Scenario: Dataset vendor dropdown
     When there is a market item with the vendor "George data"
