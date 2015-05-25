@@ -292,6 +292,7 @@ Feature: Use Notebooks
   Scenario: Fullscreen View
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
+    And I toggle fullscreen mode
     Then the notebook should be in fullscreen
     When I toggle fullscreen mode
     Then I should see the project and notebook options
