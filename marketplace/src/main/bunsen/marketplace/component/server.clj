@@ -10,7 +10,7 @@
             [ring.util.response :refer [response]]
             [bidi.ring :refer (make-handler)]
             [bunsen.common.middleware.logger :refer [wrap-logger]]
-            [bunsen.common.middleware.database :refer [wrap-database wrap-database-reconnect]]
+            [bunsen.common.middleware.database :refer [wrap-database]]
             [bunsen.marketplace.helper.elasticsearch :refer [wrap-elasticsearch]]
             [bunsen.common.helper.session.store :refer [bunsen-cookie-store]]
             [bunsen.marketplace.resource :as resource]
@@ -36,11 +36,6 @@
    :vendors resource/vendors
    :default resource/default})
 
-(defn conditionally-wrap-database [handler config database]
-  (if (= "true" (:allow-seed config))
-    (wrap-database-reconnect handler config)
-    (wrap-database handler database)))
-
 (defn wrap-config [handler config]
   (fn [req]
     (handler (assoc req :config config))))
@@ -65,10 +60,10 @@
                                      wrap-cookies
                                      wrap-keyword-params
                                      wrap-params
-                                     (conditionally-wrap-database config database)
                                      (wrap-config config)
                                      (wrap-elasticsearch elasticsearch)
                                      wrap-stacktrace-log
+                                     (wrap-database config database)
                                      (wrap-json-body {:keywords? true})
                                      (kerberos/authenticate principal))
                                  (:jetty-options config))))))

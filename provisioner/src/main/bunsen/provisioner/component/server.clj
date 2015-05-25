@@ -45,11 +45,11 @@
                         (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
                                        :cookie-name "session"})
                         wrap-keyword-params
-                        (wrap-database database)
+                        (wrap-database config database)
                         wrap-stacktrace-log
                         wrap-json-params
                         wrap-cookies
-			(kerberos/authenticate principal))]
+                        (kerberos/authenticate principal))]
         (assoc server
                :jetty (run-jetty
                         handler (:jetty-options config))))))

@@ -8,7 +8,7 @@
             [ring.middleware.cookies :refer [wrap-cookies]]
             [ring.middleware.stacktrace :refer [wrap-stacktrace-log]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
-            [bunsen.common.middleware.database :refer [wrap-database wrap-database-reconnect]]
+            [bunsen.common.middleware.database :refer [wrap-database]]
             [clojure.algo.generic.functor :refer [fmap]]
             [com.stuartsierra.component :as component :refer [start stop]]
             [bunsen.user.route :refer [routes]]
@@ -26,11 +26,6 @@
   [""
    [routes
     [#".*" default]]])
-
-(defn conditionally-wrap-database [handler config database]
-  (if (= "true" (:allow-seed config))
-    (wrap-database-reconnect handler config)
-    (wrap-database handler database)))
 
 (defrecord Server [config database]
   component/Lifecycle
@@ -52,10 +47,10 @@
                                        :cookie-attrs {:http-only false}})
                         wrap-keyword-params
                         wrap-json-params
-                        (conditionally-wrap-database config database)
+                        (wrap-database config database)
                         wrap-stacktrace-log
                         wrap-cookies
-			(kerberos/authenticate principal))]
+                        (kerberos/authenticate principal))]
         (assoc server
                :jetty (run-jetty
                         handler (:jetty-options config))))))
