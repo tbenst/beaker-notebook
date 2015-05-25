@@ -10,6 +10,7 @@
                  [org.clojure/data.codec "0.1.0"]
                  [pandect "0.5.1"]
                  [wkf/clj-http _]
+                 [myguidingstar/clansi "1.3.0"]
                  [com.datomic/datomic-pro "0.9.5153" :exclusions [joda-time]]
                  [io.rkn/conformity "0.3.3"]
                  [org.clojure/data.json _]]
