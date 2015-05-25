@@ -5,7 +5,7 @@ module.exports = function() {
   });
 
   this.When(/^I edit the "([^"]*)" dataset$/, function(datasetName) {
-    return this.driver.visit(this.route.market)
+    return new this.Widgets.MainNav().visitMarketPlace()
     .then(function() {
       return new this.Widgets.MarketTextSearch().setTerm(datasetName);
     }.bind(this))

@@ -11,6 +11,12 @@ module.exports = function() {
     visitMarketPlace: function() {
       return this.click('.market-place');
     },
+    visitDatasets: function() {
+      return this.click('.subscriptions');
+    },
+    visitPublications: function() {
+      return this.click('.publications');
+    },
     visitAdmin: function() {
       return this.click('.admin');
     },

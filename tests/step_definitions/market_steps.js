@@ -140,9 +140,9 @@ module.exports = function() {
     var _this = this;
     return seedDataSets.call(_this, table.hashes()).then(function() {
       return bluebird.reduce(table.hashes(), function(__, row) {
-        return _this.driver.get(_this.route.subscriptions)
+        return new _this.Widgets.MainNav().visitDatasets()
           .then(function() {
-            return _this.driver.get(_this.route.market);
+            return new _this.Widgets.MainNav().visitMarketPlace();
           })
           .then(function() {
             return new _this.Widgets.MarketList().clickItem(row.title);
@@ -201,7 +201,7 @@ module.exports = function() {
   });
 
   this.When(/^I view the market search$/, function(callback) {
-    return this.driver.get(this.route.market);
+    return new this.Widgets.MainNav().visitMarketPlace();
   });
 
   this.When(/^I filter the market page by "([^"]*)"$/, function(searchText) {
