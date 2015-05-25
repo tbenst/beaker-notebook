@@ -4,8 +4,9 @@
   ["/marketplace/v1"
    {"/status" :status
     "/categories" :categories
-    "/seed" {"/subscriptions" :seed-subscriptions
-             "/datasets" :seed-datasets}
+    "/seed" {"" :seed
+             "/datasets" :seed-datasets
+             "/subscriptions" :seed-subscriptions}
     "/refresh" :refresh-index
     "/indices" {"" :indices
                 ["/" :index-name "/datasets"] :datasets

@@ -1,6 +1,7 @@
 (ns bunsen.marketplace.resource
   (:refer-clojure :exclude [get-method])
   (:require [bunsen.marketplace.api :as api]
+            [bunsen.common.protocol.seedable :refer [unseed!]]
             [liberator.core :refer [defresource]]))
 
 (defn get-*
@@ -9,6 +10,7 @@
   #(get-in % (cons :request xs)))
 
 (def get-es (get-* :es))
+(def get-datomic (get-* :datomic))
 (def get-db (get-* :db))
 (def get-conn (get-* :conn))
 (def get-body (get-* :body))
@@ -46,6 +48,11 @@
 
 (defresource default [_] defaults
   :exists? (constantly false))
+
+(defresource seed [_] defaults
+  :allowed? allow-seed?
+  :allowed-methods #{:delete}
+  :delete! #(unseed! (get-datomic %)))
 
 (defresource seed-datasets [_] restricted-read-defaults
   :allowed-methods #{:post}

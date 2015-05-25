@@ -20,6 +20,7 @@
 (def resources
   {:status resource/status
    :categories resource/categories
+   :seed resource/seed
    :seed-datasets resource/seed-datasets
    :seed-subscriptions resource/seed-subscriptions
    :subscription resource/subscription
