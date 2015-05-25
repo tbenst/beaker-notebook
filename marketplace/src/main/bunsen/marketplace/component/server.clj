@@ -9,6 +9,7 @@
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.util.response :refer [response]]
             [bidi.ring :refer (make-handler)]
+            [bunsen.common.middleware.logger :refer [wrap-logger]]
             [bunsen.common.middleware.database :refer [wrap-database wrap-database-reconnect]]
             [bunsen.common.helper.session.store :refer [bunsen-cookie-store]]
             [bunsen.marketplace.api.resource :as api-resource]
@@ -57,6 +58,7 @@
                :jetty (run-jetty (-> handler
                                      (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
                                                     :cookie-name "session"})
+                                     wrap-logger
                                      wrap-cookies
                                      wrap-keyword-params
                                      wrap-params
