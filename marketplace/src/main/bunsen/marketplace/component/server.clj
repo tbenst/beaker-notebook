@@ -43,6 +43,10 @@
     (wrap-database-reconnect handler config)
     (wrap-database handler database)))
 
+(defn wrap-config [handler config]
+  (fn [req]
+    (handler (assoc req :config config))))
+
 (defrecord Server [config database elasticsearch]
   component/Lifecycle
   (start [server]
@@ -64,6 +68,7 @@
                                      wrap-keyword-params
                                      wrap-params
                                      (conditionally-wrap-database config database)
+                                     (wrap-config config)
                                      (wrap-elasticsearch elasticsearch)
                                      wrap-stacktrace-log
                                      (wrap-json-body {:keywords? true})
