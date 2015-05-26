@@ -14,6 +14,7 @@
           .then(function(user) {
             $sessionStorage.user = _.pick(user, 'name', 'public-id', 'role', 'extdata');
             $sessionStorage.user.id = $sessionStorage.user['public-id'];
+            return $sessionStorage.user;
           });
         },
         researcherRedirect: function() {
