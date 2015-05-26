@@ -27,7 +27,9 @@
    Elastische.  cat-ids refers to a list of id's of categories, which are presumed
    to already exist in the indexed-categories param."
   [id title cat-ids indexed-categories extra-attrs]
-  (let [cats (map #(select-keys (get indexed-categories (str %1)) [:id :name :path])
+  (let [cats (map #(select-keys (or
+                                  (get indexed-categories %1)
+                                  (get indexed-categories (str %1))) [:id :name :path])
                   cat-ids)]
     (merge extra-attrs
            {:_id id ; Required for Elastische API
