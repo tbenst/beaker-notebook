@@ -41,9 +41,24 @@ copy-beaker:
 	mkdir -p public/plugins/eval/ipythonPlugins/vendor/ipython3
 	cp bower_components/beaker-notebook/plugin/ipythonPlugins/src/dist/vendor/ipython3/*js  public/plugins/eval/ipythonPlugins/vendor/ipython3/
 
+	mkdir -p public/plugins/eval/ipythonPlugins/julia/
+	cp bower_components/beaker-notebook/plugin/ipythonPlugins/src/dist/julia/julia.js  public/plugins/eval/ipythonPlugins/julia/
+
 	mkdir -p public/plugins/eval/node/
 	cp bower_components/beaker-notebook/plugin/node/src/dist/node.js public/plugins/eval/node/
 	cp bower_components/beaker-notebook/plugin/node/src/dist/node.js public/plugins/eval/node/
+
+	mkdir -p public/plugins/eval/groovy/
+	cp bower_components/beaker-notebook/plugin/groovy/src/dist/groovy.js public/plugins/eval/groovy/
+
+	mkdir -p public/plugins/eval/javash/
+	cp bower_components/beaker-notebook/plugin/javash/src/dist/javash.js public/plugins/eval/javash/
+
+	mkdir -p public/plugins/eval/r/
+	cp bower_components/beaker-notebook/plugin/r/src/dist/r.js public/plugins/eval/r/
+
+	mkdir -p public/plugins/eval/scala/
+	cp bower_components/beaker-notebook/plugin/scala/src/dist/scala.js public/plugins/eval/scala/
 
 	mkdir -p public/js/beaker
 	cp bower_components/beaker-notebook/embeddable_assets/*.js public/js/beaker/
