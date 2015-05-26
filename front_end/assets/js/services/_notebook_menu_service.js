@@ -60,6 +60,19 @@
                 id: "language-manager-menuitem"
               },
               {
+                name: 'Show Hierarchy',
+                sortorder: 102,
+                isChecked: function() {
+                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
+                  return notebookViewModel.isHierarchyEnabled();
+                },
+                action: function() {
+                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
+                  notebookViewModel.toggleHierarchyEnabled();
+                },
+                id: "show-hierarchy-menuitem"
+              },
+              {
                 name: "Show stdout/stderr",
                 sortorder: 107,
                 action: function () {
