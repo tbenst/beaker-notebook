@@ -61,6 +61,21 @@
               },
 
               {
+                name: "Show stdout/stderr",
+                sortorder: 107,
+                action: function () {
+                  bkHelper.getBkNotebookViewModel().toggleShowOutput();
+                },
+                tooltip: "Show or hide the stdout and stderr.",
+                isChecked: function() {
+                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
+                  if (notebookViewModel) {
+                    return notebookViewModel.isShowingOutput();
+                  }
+                },
+                id: "stdout-stderr-menuitem"
+              },
+              {
                 name: "Lock",
                 sortorder: 110,
                 action: function () {
