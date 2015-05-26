@@ -35,6 +35,7 @@
    :formats resource/formats
    :tags resource/tags
    :vendors resource/vendors
+   :vendor resource/vendor
    :default resource/default})
 
 (defrecord Server [config database elasticsearch]
