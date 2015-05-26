@@ -39,7 +39,7 @@
                 span Other Open Notebooks
               li(ng-repeat="notebook in notebooks.list | filter:otherOpenNotebooks | orderBy:'name'")
                 a(ng-click="openNotebook(notebook)") {{notebook.name}}
-          span.status(ng-if="getLoadingMessage()") ({{getLoadingMessage()}})
+          span.status(ng-if="beakerReady() && getLoadingMessage()") ({{getLoadingMessage()}})
       .loading(ng-if="!beakerReady()")
         bunsen-spinner
       .warning(ng-if="warning") {{warning}}
