@@ -45,7 +45,9 @@
       var lastAction = new Date();
       var beakerRootOp = {};
 
-      bkUtils.initializeCometd(bkUtils.serverUrl('cometd/'));
+      // cometd needs the host & port to be specified explicitly:
+      bkUtils.initializeCometd(location.origin +
+                               bkUtils.serverUrl('beaker/cometd/'));
       bkCoreManager.init(beakerRootOp);
       Q.delay(1000).then(function() {
         $.get(bkUtils.serverUrl("beaker/rest/util/whoami"), {}, function(data) {
