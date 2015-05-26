@@ -59,7 +59,6 @@
                 tooltip: "Show available languages and edit their settings",
                 id: "language-manager-menuitem"
               },
-
               {
                 name: "Show stdout/stderr",
                 sortorder: 107,
