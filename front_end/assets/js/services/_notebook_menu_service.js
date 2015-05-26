@@ -73,6 +73,22 @@
                 id: "show-hierarchy-menuitem"
               },
               {
+                name: 'Advanced Mode',
+                sortorder: 105,
+                isChecked: function() {
+                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
+                  return notebookViewModel.isAdvancedMode();
+                },
+                action: function() {
+                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
+                  notebookViewModel.toggleAdvancedMode();
+                  bkHelper.httpPost(bkHelper.serverUrl("beaker/rest/util/setUseAdvancedMode"), {
+                    advancedmode: notebookViewModel.isAdvancedMode()
+                  });
+                },
+                id: "advanced-mode-menuitem"
+              },
+              {
                 name: "Show stdout/stderr",
                 sortorder: 107,
                 action: function () {
