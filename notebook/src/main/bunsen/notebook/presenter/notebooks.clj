@@ -5,6 +5,7 @@
             [bouncer.core :as b]
             [bouncer.validators :as v]
             [bunsen.notebook.presenter.project :as p]
+            [bunsen.notebook.presenter.publications :as pub]
             [bunsen.notebook.helper.notebook :as nb-helper]
             [bunsen.common.helper.utils :as u]
             [bunsen.common.helper.query :as q]))
@@ -95,7 +96,8 @@
 (defn load-notebook [db notebook-id user-id]
   (when-let [n (find-notebook db notebook-id user-id)]
     (-> (dissoc n :db/id)
-        nb-helper/fix-notebook-format)))
+        nb-helper/fix-notebook-format
+        (assoc :publication (pub/find-notebook-publication db notebook-id user-id)))))
 
 (defn calculate-notebook-name [db user-id project-id]
   (let [names (d/q '[:find [?name ...]

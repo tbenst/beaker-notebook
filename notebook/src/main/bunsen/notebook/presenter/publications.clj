@@ -21,6 +21,19 @@
          [?p :publication/author-id ?aid]]
        db (mapv utils/uuid-from-str [author-id pub-id])))
 
+(defn find-notebook-publication [db notebook-id user-id]
+  (d/q '[:find (pull ?p [:publication/public-id
+                         :publication/created-at
+                         :publication/updated-at
+                         :publication/description
+                         {:publication/category [:category/public-id]}]) .
+         :in $ [?n-id ?u-id]
+         :where
+         [?n :notebook/public-id ?n-id]
+         [?p :publication/notebook ?n]
+         [?p :publication/author-id ?u-id]]
+       db (mapv utils/uuid-from-str [notebook-id user-id])))
+
 (defn load-publication [db pub-id]
   (when-let [p (when pub-id
                  (find-publication db pub-id))]
