@@ -44,20 +44,23 @@
         var deferred = $q.defer();
         var requesting = false;
         // Ping the instance at 3s intervals until it's ready
-        var interval = setInterval(function () {
+        var checkBeaker = function () {
           if (ready) {
-            clearInterval(interval);
             deferred.resolve(url);
-          } else if (!requesting) {
-            requesting = true;
-            Restangular.oneUrl('instance', url + "rest/util/whoami").get()
-            .then(function() {
-              ready = true;
-            }, function() {
-              requesting = false;
-            })
+          } else {
+            if (!requesting) {
+              requesting = true;
+              Restangular.oneUrl('instance', url + "rest/util/whoami").get()
+                .then(function() {
+                  ready = true;
+                }, function() {
+                  requesting = false;
+                });
+            }
+            setTimeout(checkBeaker, waitInterval);
           }
-        }, waitInterval);
+        }
+        checkBeaker();
         return deferred.promise;
       }
     }
