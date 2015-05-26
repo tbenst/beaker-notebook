@@ -89,7 +89,7 @@
                   li
                     a.rename(rename-notebook-toggle notebook="notebook") Rename
                   li(ng-if="projects.list.length > 1")
-                    span.move.bunsen-dropdown-toggle.dropright-arrow(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)")
+                    a.move.bunsen-dropdown-toggle.dropright-arrow(notebook-move project-id="project.id" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)")
                   li
                     a.destroy(confirm="Are you sure you want to delete {{ notebook.name }}?" on-confirm="deleteNotebook(notebook)") Delete
           .cl
