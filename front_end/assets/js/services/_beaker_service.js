@@ -4,12 +4,17 @@
     function($q, Restangular, Provisioner, $location, $sessionStorage) {
 
     var waitInterval = 3000;
+    var ready = false;
 
     return {
       whenReady: function() {
         return this.provision()
         .then(this.waitForReady.bind(this))
         .catch(this.handleErr);
+      },
+
+      isReady: function() {
+        return ready;
       },
 
       beaker: function() {
@@ -37,7 +42,6 @@
 
       waitForReady: function(url) {
         var deferred = $q.defer();
-        var ready = false;
         var requesting = false;
         // Ping the instance at 3s intervals until it's ready
         var interval = setInterval(function () {
