@@ -19,7 +19,7 @@
       },
 
       destroy: function(id) {
-        return R.one('vendors', id).remove();
+        return MR.one('vendor', id).remove();
       },
 
       create: function(attrs) {
