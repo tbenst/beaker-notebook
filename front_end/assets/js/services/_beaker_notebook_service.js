@@ -48,7 +48,6 @@
         return Beaker.whenReady().then(function(url) {
           _.each(notebooks, function(notebook) {
             notebook.location = $sce.trustAsResourceUrl(self.notebookLocation(url, notebook.projectId, notebook.id));
-            $rootScope.cachedNotebooks[notebook.id] = notebook;
             self.renderFrame(notebook, 1000, true);
           });
         });

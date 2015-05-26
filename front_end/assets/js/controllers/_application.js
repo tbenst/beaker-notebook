@@ -62,8 +62,6 @@
         }
       })
 
-      $rootScope.cachedNotebooks = $rootScope.cachedNotebooks || {};
-
       $rootScope.signOut = function() {
         delete $sessionStorage.user;
         return UsersRestangular.all('session').remove()
