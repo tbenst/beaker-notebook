@@ -1,6 +1,5 @@
 (ns bunsen.notebook.presenter.notebooks
   (:require [datomic.api :as d]
-            [clojure.string :as str]
             [clojure.instant :as inst]
             [clojure.data.json :as json]
             [bouncer.core :as b]
