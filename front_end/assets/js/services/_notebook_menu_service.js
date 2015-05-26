@@ -2,7 +2,8 @@
   app.service('NotebookMenuService', [
     'bkMenuPluginManager',
     'bkHelper',
-    function(bkMenuPluginManager, bkHelper) {
+    'Notebooks',
+    function(bkMenuPluginManager, bkHelper, Notebooks) {
 
       function menuContents($scope) {
         return [
@@ -37,7 +38,7 @@
                 name: "Close",
                 sortorder: 70,
                 action: function () {
-                  alert('Coming soon!');
+                  Notebooks.closeNotebook($scope.notebook.current['public-id']);
                 },
                 tooltip: "Close notebook",
                 id: "close-menuitem"
