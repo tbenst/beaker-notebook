@@ -9,59 +9,60 @@
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.util.response :refer [response]]
             [bidi.ring :refer (make-handler)]
-            [bunsen.common.middleware.database :refer [wrap-database wrap-database-reconnect]]
+            [bunsen.common.middleware.with :refer [wrap-with]]
+            [bunsen.common.middleware.logger :refer [wrap-logger]]
+            [bunsen.common.middleware.database :refer [wrap-database]]
             [bunsen.common.helper.session.store :refer [bunsen-cookie-store]]
-            [bunsen.marketplace.api.resource :as api-resource]
-            [bunsen.marketplace.api.route :as api-route]
+            [bunsen.marketplace.resource :as resource]
+            [bunsen.marketplace.route :as route]
             [bunsen.common.helper.kerberos :as kerberos]))
 
 (def resources
-  {:status api-resource/status
-   :categories api-resource/categories
-   :seed api-resource/seed
-   :seed-datasets api-resource/seed-datasets
-   :seed-subscriptions api-resource/seed-subscriptions
-   :subscription api-resource/subscription
-   :subscriptions api-resource/subscriptions
-   :dataset api-resource/dataset
-   :datasets api-resource/datasets
-   :average-rating api-resource/average-rating
-   :rating api-resource/rating
-   :refresh api-resource/refresh
-   :counts api-resource/counts
-   :indices api-resource/indices
-   :mappings api-resource/mappings
-   :formats api-resource/formats
-   :tags api-resource/tags
-   :vendors api-resource/vendors
-   :default api-resource/default})
+  {:status resource/status
+   :categories resource/categories
+   :seed resource/seed
+   :seed-datasets resource/seed-datasets
+   :seed-subscriptions resource/seed-subscriptions
+   :subscription resource/subscription
+   :subscriptions resource/subscriptions
+   :dataset resource/dataset
+   :datasets resource/datasets
+   :average-rating resource/average-rating
+   :rating resource/rating
+   :refresh-index resource/refresh-index
+   :indices resource/indices
+   :mappings resource/mappings
+   :formats resource/formats
+   :tags resource/tags
+   :vendors resource/vendors
+   :default resource/default})
 
-(defn conditionally-wrap-database [handler config database]
-  (if (= "true" (:allow-seed config))
-    (wrap-database-reconnect handler config)
-    (wrap-database handler database)))
-
-(defrecord Server [config database]
+(defrecord Server [config database elasticsearch]
   component/Lifecycle
   (start [server]
     (if (:jetty server)
       server
       (let [principal (if (:use-kerberos config) (:kerberos-principal config) nil)
             handler (make-handler
-                      api-route/routes
+                      route/routes
                       #(let [resource (% resources)]
                          (fn [request]
-                           ((resource config (:route-params request)) request))))]
+                           ((resource (:params request)) request))))]
 
         (assoc server
                :jetty (run-jetty (-> handler
-                                     (wrap-session {:store (bunsen-cookie-store (:cookie-salt config))
-                                                    :cookie-name "session"})
+                                     wrap-logger
+                                     wrap-stacktrace-log
+                                     (wrap-session
+                                       {:store (bunsen-cookie-store (:cookie-salt config))
+                                        :cookie-name "session"})
                                      wrap-cookies
                                      wrap-keyword-params
                                      wrap-params
-                                     (conditionally-wrap-database config database)
-                                     wrap-stacktrace-log
+                                     (wrap-with
+                                       :config config
+                                       :es (:conn elasticsearch))
+                                     (wrap-database config database)
                                      (wrap-json-body {:keywords? true})
                                      (kerberos/authenticate principal))
                                  (:jetty-options config))))))

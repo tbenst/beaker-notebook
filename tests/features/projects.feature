@@ -10,6 +10,7 @@ As a researcher, I want to manage my projects.
     When I open the project
     Then I should see the project detail page
 
+  @flaky
   Scenario: Edit a project
     Given I'm looking at a project
     When I edit the project
@@ -202,6 +203,7 @@ As a researcher, I want to manage my projects.
       | Researching a new theory on stock prices  |
     Then I should see project's last updated as today's date
 
+  @flaky @broken
   Scenario: Opening a project should not change its updated date
     Given I have the following Projects:
       | name              | description                          | updated-at                    |

@@ -1,12 +1,25 @@
-(ns bunsen.marketplace.seeder
-  (:require [bunsen.marketplace.base :as base]
-            [bunsen.marketplace.main :as main]
-            [bunsen.marketplace.simple.simple :as simple]
-            [clojure.java.io :as io]
+(ns bunsen.marketplace.cli.seed
+  (:require [clojure.java.io :as io]
             [clojure.tools.cli :refer [cli]]
-            [bunsen.marketplace.helper.api :refer [connect-to-es]]
-            [bunsen.marketplace.component.config :refer [config]]
-            [environ.core :refer [env]]))
+            [environ.core :refer [env]]
+            [bunsen.marketplace.api :as api]
+            [bunsen.marketplace.config :refer [config]]
+            [bunsen.marketplace.cli.seed.simple :as simple]
+            [bunsen.marketplace.cli.seed.two-sigma :as two-sigma]
+            [bunsen.marketplace.helper.elasticsearch :refer [connect-to-es]]))
+
+(defn seed!
+  "Given catalog urls, elasticsearch url, and index name, completely recreates the search index for the catalog"
+  [es-conn index-name mapping-file datasets-url categories-url datasets-fn categories-fn]
+  (await-for 5000 (api/create-index! es-conn index-name mapping-file))
+  (await-for 30000 (categories-fn es-conn index-name categories-url))
+  (api/refresh-index! es-conn index-name)
+  (let [categories (api/list-categories es-conn index-name)
+        categories-by-id (zipmap (map :id categories) categories)]
+    (await-for 60000 (datasets-fn es-conn index-name datasets-url categories-by-id))
+    (api/refresh-index! es-conn index-name)
+    (api/update-category-counts! es-conn index-name)
+    (api/update-dataset-mappings! es-conn index-name)))
 
 (defn -main [& args]
   (let [dataset-file (io/resource "seed/datasets_0.1.json")
@@ -37,11 +50,12 @@
                       (connect-to-es (config env))
                       (connect-to-es))]
 
-        (main/reindex-catalog! mapping-file
-                               datasets
-                               categories
-                               es-conn
-                               index-name
-                               simple/index-categories!
-                               simple/index-datasets!)
+        (seed! es-conn
+               index-name
+               mapping-file
+               datasets
+               categories
+               simple/index-datasets!
+               simple/index-categories!)
+
         (System/exit 0)))))

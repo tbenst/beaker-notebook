@@ -8,7 +8,7 @@
             [ring.middleware.multipart-params :refer [wrap-multipart-params]]
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
-            [bunsen.common.middleware.database :refer [wrap-database wrap-database-reconnect]]
+            [bunsen.common.middleware.database :refer [wrap-database]]
             [bunsen.common.helper.session.store :refer [bunsen-cookie-store]]
             [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.stacktrace :refer [wrap-stacktrace-log]]
@@ -28,11 +28,6 @@
   [""
    [routes
     [#".*" default]]])
-
-(defn conditionally-wrap-database [handler config database]
-  (if (= "true" (:allow-seed config))
-    (wrap-database-reconnect handler config)
-    (wrap-database handler database)))
 
 (defrecord Server [config database]
   component/Lifecycle
@@ -55,7 +50,7 @@
                         wrap-params
                         wrap-keyword-params
                         wrap-json-params
-                        (conditionally-wrap-database config database)
+                        (wrap-database config database)
                         wrap-stacktrace-log
                         (kerberos/authenticate principal))]
         (assoc server

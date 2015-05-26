@@ -44,7 +44,6 @@ As a researcher, I want to be able to use the market place.
     And I filter by search by selecting the "George data" vendors
     Then I should see 1 market item on the market list page
 
-  @flaky @broken
   Scenario: Stacking market item filters
     Given I have the following market items:
       | title           | vendor        | format  |
@@ -86,6 +85,9 @@ As a researcher, I want to be able to use the market place.
     When I click page 3 of pagination
     Then I should see 2 market items on the market list page
 
+  # FIXME:
+  #   at least one problem here seems te be caused by the tags dropdown covering the first marketplace item
+  @flaky @broken
   Scenario: Market place filter persistence
     When there is a market item with the tags "cat,dog,human"
     And I view the market search
@@ -105,7 +107,7 @@ As a researcher, I want to be able to use the market place.
     And I click "Government"
     Then I should see that no tags are selected
 
-  @flaky @broken
+  @flaky
   Scenario: Market items top-level text-search
     Given I have the following market items:
       | title                  |
@@ -119,7 +121,7 @@ As a researcher, I want to be able to use the market place.
     Then I should see 1 market item on the market list page
     And I should see the "Credit Card Complaints" market item on the market list page
 
-  @flaky @broken
+  @flaky
   Scenario: Market items filter text search
     Given I have the following market items:
       | title                  |
@@ -257,12 +259,13 @@ As a researcher, I want to be able to use the market place.
 
   Scenario: Data set details start date
     Given I have the following market items:
-      | title               | startDate              |
-      | Crime Rates, Canada | 2014-04-04T12:00:00.000|
+      | title               | startDate                |
+      | Crime Rates, Canada | 2014-04-04T12:00:00.000Z |
     And I view the market search
     And I view the "Crime Rates, Canada" market item
-    Then I should see the start date "4/4/14"
-  @flakey
+    Then I should see the start date "2014-04-04"
+
+  @flaky
   Scenario: Market place related tags
     Given I have the following market items:
       | title                      | tags               |
@@ -296,6 +299,7 @@ As a researcher, I want to be able to use the market place.
       | title                     | description                               | format | vendor |
       | crime rates, canada       | yearly crimes reported per 100,000 people | xml    |        |
 
+  @flaky @broken
   Scenario: Market item vendor in list
     Given I have the following market items:
       | title                     | description                               | format | vendor            |
@@ -337,7 +341,8 @@ As a researcher, I want to be able to use the market place.
     And I view the market search
     And I view the "Sans Previews" market item
     Then I should not see any previews
-  @flakey
+
+  @flaky
   Scenario: Market item with only a thumbnail
     When I have a market item with only a thumbnail
     And I view the market search

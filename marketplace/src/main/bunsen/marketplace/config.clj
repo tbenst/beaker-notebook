@@ -1,4 +1,4 @@
-(ns bunsen.marketplace.component.config)
+(ns bunsen.marketplace.config)
 
 (defn config
   ":server-port e.g. 8444
@@ -17,18 +17,18 @@
                               {}
                               {:basic-auth [user pass]}))
    :use-kerberos (let [kerberosprincipal (:kerberos-principal env)]
-   		      (if kerberosprincipal
-		        true false))
+                   (if kerberosprincipal
+                     true false))
    :kerberos-principal (:kerberos-principal env)
    :jetty-options (let [keystore (:ssl-keystore env)
-   		      keystore-pass (:ssl-keystore-pass env)]
+                        keystore-pass (:ssl-keystore-pass env)]
                     (if-not (and keystore keystore-pass)
-		      {:port (Integer. (:marketplace-port env))
-		       :ssl? false
-		       :join? false}
-		      {:ssl? true
-		       :port (+ (Integer. (:marketplace-port env)) 1)
-		       :ssl-port (Integer. (:marketplace-port env))
-		       :keystore (:ssl-keystore env)
-		       :key-password (:ssl-keystore-pass env)
-		       :join? false}))})
+                      {:port (Integer. (:marketplace-port env))
+                       :ssl? false
+                       :join? false}
+                      {:ssl? true
+                       :port (+ (Integer. (:marketplace-port env)) 1)
+                       :ssl-port (Integer. (:marketplace-port env))
+                       :keystore (:ssl-keystore env)
+                       :key-password (:ssl-keystore-pass env)
+                       :join? false}))})

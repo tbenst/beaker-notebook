@@ -1,18 +1,18 @@
 (ns bunsen.common.middleware.database
   (:require [datomic.api :as d :refer [q]]))
 
-(defn wrap-database [handler database]
-  #(let [conn (:conn database)
-         db (d/db conn)
-         request (assoc %
-                   :db db
-                   :conn conn)]
-     (handler request)))
+(def allow-seed?
+  (comp #{"true"} :allow-seed))
 
-(defn wrap-database-reconnect [handler config]
+(defn wrap-database [handler config database]
   (fn [req]
-    (let [uri (:database-uri config)
-          conn (d/connect uri)
+    (let [conn (if (allow-seed? config)
+                 (d/connect
+                   (:database-uri config))
+                 (:conn database))
           db (d/db conn)]
-    (handler
-      (assoc req :db db :conn conn)))))
+      (handler
+        (assoc req
+               :datomic database
+               :db db
+               :conn conn)))))

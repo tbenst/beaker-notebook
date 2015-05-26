@@ -3,7 +3,8 @@
             [clojure.edn :as edn]
             [io.rkn.conformity :as c]
             [clojure.java.io :as io]
-            [com.stuartsierra.component :as component :refer [start stop]]))
+            [com.stuartsierra.component :as component :refer [start stop]]
+            [bunsen.common.protocol.seedable :as seedable :refer [seed! unseed!]]))
 
 (defn read-resource-file [file]
   (->> file io/resource slurp))
@@ -39,7 +40,15 @@
   (stop [database]
         (when-let [conn (:conn database)]
           (d/release conn))
-        (dissoc database :conn)))
+        (dissoc database :conn))
+
+  seedable/Seedable
+
+  (unseed! [database]
+    (let [uri (:database-uri config)]
+      (d/delete-database uri)
+      (d/create-database uri)
+      (migrate (d/connect uri) "migrations.edn"))))
 
 (defn database [config]
   (map->Database {:config config}))

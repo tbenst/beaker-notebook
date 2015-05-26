@@ -43,7 +43,7 @@ To set up the Native Development environment:
     # make directory for auth cookies for beaker
     sudo mkdir /etc/nginx/cookies
     sudo chmod 777 /etc/nginx/cookies
-    
+
     # forego is a go version of foreman, use it to start the app
     forego start
 
@@ -121,4 +121,3 @@ the @failed tag above the scenario or feature you want to run, then
   If you do, some parts of Bunsen will likely work, but CORS will prevent
   other things from working, when Bunsen attempts to load Ajax requests
   and Websockets connections from the host you have defined in HOSTNAME.
-
