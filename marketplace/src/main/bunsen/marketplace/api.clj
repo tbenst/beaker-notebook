@@ -64,7 +64,8 @@
 
 (defn update-dataset!
   [es-conn index-name dataset-id dataset]
-  (dataset/update-dataset! es-conn index-name dataset-id dataset)
+  (dataset/update-dataset!
+    es-conn index-name dataset-id (dissoc dataset :index :catalog :subscriberIds :related))
   (future
     (update-category-counts! es-conn index-name)))
 
