@@ -22,7 +22,7 @@
       var omniList = _.filter(union, 'opened-at'),
           mostRecentItem = _.last(_.sortBy(omniList, 'opened-at'));
 
-      stateGo(mostRecentItem || _.last(_.sortBy(union, 'created-at')))
+      stateGo(mostRecentItem || _.last(_.sortBy($scope.projects.list, 'created-at')))
     }
 
     $scope.projects.ready.then(goToLast);

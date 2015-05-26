@@ -4,8 +4,8 @@ module.exports = function() {
     .should.eventually.eql(true);
   });
 
-  this.When(/^I edit a the "([^"]*)" dataset$/, function(datasetName) {
-    return this.driver.visit(this.route.market)
+  this.When(/^I edit the "([^"]*)" dataset$/, function(datasetName) {
+    return new this.Widgets.MainNav().visitMarketPlace()
     .then(function() {
       return new this.Widgets.MarketTextSearch().setTerm(datasetName);
     }.bind(this))
@@ -38,13 +38,7 @@ module.exports = function() {
     }.bind(this))
     .then(function(dialog) {
       return dialog.accept();
-    })
-    .then(function() {
-      // We sleep for 2 seconds to let the network
-      // request finish. We have to do this since there is no visible
-      // indicator.
-      return this.driver.sleep(2000);
-    }.bind(this));
+    });
   });
 
   this.When(/^I update the dataset$/, function() {

@@ -140,9 +140,9 @@ module.exports = function() {
     var _this = this;
     return seedDataSets.call(_this, table.hashes()).then(function() {
       return bluebird.reduce(table.hashes(), function(__, row) {
-        return _this.driver.get(_this.route.subscriptions)
+        return new _this.Widgets.MainNav().visitDatasets()
           .then(function() {
-            return _this.driver.get(_this.route.market);
+            return new _this.Widgets.MainNav().visitMarketPlace();
           })
           .then(function() {
             return new _this.Widgets.MarketList().clickItem(row.title);
@@ -199,8 +199,9 @@ module.exports = function() {
       return (new this.Widgets.MarketRelatedTags()).is([].concat(tags.split(',')));
     }.bind(this));
   });
+
   this.When(/^I view the market search$/, function(callback) {
-    return this.driver.get(this.route.market);
+    return new this.Widgets.MainNav().visitMarketPlace();
   });
 
   this.When(/^I filter the market page by "([^"]*)"$/, function(searchText) {
@@ -209,14 +210,7 @@ module.exports = function() {
 
   this.Then(/^I should see (\d+) market items? on the market list page$/, function(count) {
     var marketList = new this.Widgets.MarketList();
-
-    return this.driver.wait(function() {
-      return marketList.items().should.eventually.have.length(+count)
-      .then(function(count) {
-        return true;
-      })
-      .thenCatch(function(v) { return false; });
-    }.bind(this), 30000);
+    return marketList.items().should.eventually.have.length(+count)
   });
 
   this.When(/^I filter by search by selecting the "([^"]*)" formats$/, function(formats, callback) {
@@ -280,13 +274,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the "([^"]*)" market item on the market list page$/, function(title) {
-    return this.driver.wait(function() {
-      return new this.Widgets.MarketList().contains(title)
-      .then(function(title) {
-        return true;
-      })
-      .thenCatch(function(v) { return false; });
-    }.bind(this), 30000);
+    return new this.Widgets.MarketList().contains(title);
   });
 
   this.When(/^I follow the related tag "([^"]*)"$/, function(tag) {

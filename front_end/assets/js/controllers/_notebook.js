@@ -163,7 +163,7 @@
       }
     });
 
-    FullscreenState.toggleFullscreen(true);
+    // FullscreenState.toggleFullscreen(true);
 
     $scope.$on('$destroy', function() {
       FullscreenState.toggleFullscreen(false);

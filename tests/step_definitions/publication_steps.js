@@ -157,7 +157,7 @@ module.exports = function() {
   });
 
   this.When(/^I view the publications page$/, function() {
-    return this.driver.get(this.route.publications);
+    return new this.Widgets.MainNav().visitPublications();
   });
 
   this.When(/^I wait for publications to load$/, function() {

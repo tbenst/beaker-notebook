@@ -3,7 +3,7 @@ var Promise = require('bluebird');
 
 module.exports = function() {
   this.Given(/^I view My Datasets$/, function() {
-    return this.driver.get(this.route.subscriptions);
+    return new this.Widgets.MainNav().visitDatasets();
   });
 
   this.When(/^I search my subscriptions for "([^"]*)"$/, function(query) {

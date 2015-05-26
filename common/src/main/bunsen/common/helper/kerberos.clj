@@ -1,11 +1,10 @@
 (ns bunsen.common.helper.kerberos
-  (:use ring.util.response)
-  (:require [ring.util.response :refer [response]]
-            [clojure.data.codec.base64 :as b64])
+  (:require [ring.util.response :refer [header response status]]
+            [clojure.data.codec.base64 :as b64]
+            [clojure.string :as string])
   (:import org.ietf.jgss.GSSManager)
   (:import org.ietf.jgss.GSSCredential)
-  (:import org.ietf.jgss.Oid)
-  (:use [clojure.string :exclude (reverse replace)]))
+  (:import org.ietf.jgss.Oid))
 
 (def krb5Mech (Oid. "1.2.840.113554.1.2.2"))
 (def krb5PrincNameType (Oid. "1.2.840.113554.1.2.2.1"))
@@ -15,15 +14,14 @@
   "Find the token in the authorization header, then decode it with  base64"
   [req]
   (let [enc-tok (get-in req [:headers "authorization"])
-        tfields (split  enc-tok #" ")]
-    (when (= "negotiate" (lower-case (first tfields)))
+        tfields (string/split  enc-tok #" ")]
+    (when (= "negotiate" (string/lower-case (first tfields)))
       (b64/decode (.getBytes (last tfields))))))
 
 (defn encode-output-token
   "Take a token from a gss accept context call and encode it for use in a -authenticate header"
   [token]
   (str "Negotiate " (String. (b64/encode token))))
- 
 
 (defn do-gss-auth-check [gss_context req]
   (when-let [intok (decode-input-token req)]

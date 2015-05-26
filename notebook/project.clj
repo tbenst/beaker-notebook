@@ -18,7 +18,6 @@
                  [bidi _ :exclusions [org.clojure/clojure]]
                  [liberator _]
                  [ring/ring-json _]
-                 [clj-time "0.9.0"]
                  [io.rkn/conformity "0.3.3"]
                  [bouncer "0.3.2"]
                  [environ _]]
@@ -32,6 +31,7 @@
                          :seed-file "seed.edn"
                          :allow-seed "true"}
                    :repl-options {:init (user/watch)}
+                   :jvm-opts ["-Xmx300m" "-Ddatomic.objectCacheMax=64m" "-Ddatomic.memoryIndexMax=128m" ]
                    :source-paths ["src/dev"]
                    :dependencies [[hawk _]
                                   [ring-mock "0.1.5"]
