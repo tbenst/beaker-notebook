@@ -15,7 +15,7 @@
       },
 
       update: function(attrs) {
-        return R.one('vendors', attrs.id).customPUT(attrs);
+        return MR.one('vendor', attrs.id).customPUT(attrs);
       },
 
       destroy: function(id) {

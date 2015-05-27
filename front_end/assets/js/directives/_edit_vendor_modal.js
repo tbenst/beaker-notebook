@@ -1,3 +1,4 @@
+// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 ;(function(angular, app) {
   app.directive('editVendorModal', [
     '$compile',
@@ -22,8 +23,8 @@
         });
 
         $scope.update = function() {
-          F.Vendors.update({ id: $scope.vendor.id, name: $scope.vendorName }).then(function(vendor) {
-            $scope.vendor.name = vendor.name;
+          F.Vendors.update({id: $scope.vendor.id, name: $scope.vendorName}).then(function(vendor) {
+            $scope.vendor.name = vendor.data.name;
             $rootScope.$broadcast('closeModal');
             delete $scope.error;
           }).catch(function(response) {
@@ -36,6 +37,6 @@
           $rootScope.$broadcast('closeModal');
         };
       }
-    }
+    };
   }]);
 })(angular, window.bunsen);

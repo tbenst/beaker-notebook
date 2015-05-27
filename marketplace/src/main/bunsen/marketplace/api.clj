@@ -128,6 +128,10 @@
   [datomic-conn vendor-id]
   (vendor/delete-vendor! datomic-conn vendor-id))
 
+(defn update-vendor!
+  [datomic-conn vendor-id params]
+  (vendor/update-vendor! datomic-conn vendor-id params))
+
 (defn list-categories
   [es-conn index-name]
   (category/list-categories es-conn index-name))

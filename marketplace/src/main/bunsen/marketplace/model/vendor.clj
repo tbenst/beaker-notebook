@@ -1,6 +1,7 @@
 (ns bunsen.marketplace.model.vendor
   (:require [datomic.api :as d]
-            [bunsen.common.helper.query :as q]))
+            [bunsen.common.helper.query :as q]
+            [bunsen.common.helper.utils :as utils]))
 
 (defn find-vendor [datomic-db vendor-id]
   (d/q '[:find (pull ?eid [*]) .
@@ -33,3 +34,14 @@
 (defn delete-vendor! [datomic-conn vendor-id]
   (when-let [vendor (find-vendor (d/db datomic-conn) vendor-id)]
     @(d/transact datomic-conn [[:db.fn/retractEntity (:db/id vendor)]])))
+
+(defn update-vendor!
+  [datomic-conn vendor-id params]
+  (when-let [v (find-vendor (d/db datomic-conn) vendor-id)]
+    (let [tx (-> params
+                 utils/remove-nils
+                 (utils/namespace-keys "vendor")
+                 (assoc :db/id (:db/id v))
+                 (dissoc :vendor/id params))]
+      @(d/transact datomic-conn [tx])
+      (dissoc tx :db/id))))
