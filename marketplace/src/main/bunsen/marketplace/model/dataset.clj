@@ -25,11 +25,11 @@
         fields-in-params (into {} (map #(when ((keyword %) params)
                                           {(keyword %) ((keyword %) params)})
                                        fields))]
-    (conj filters (reduce-kv (fn [m k v] (if (vector? v)
-                                           (conj m (filter-terms k v))
-                                           (conj m (filter-term k v))))
-                             {}
-                             fields-in-params))))
+    (vec (concat filters
+                 (map (fn [[k v]] (if (vector? v)
+                                    (filter-terms k v)
+                                    (filter-term k v)))
+                      fields-in-params)))))
 
 (defn- aggregators
   [fields]
