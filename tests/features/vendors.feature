@@ -22,7 +22,6 @@ Feature: Vendor Panel
     When I delete the vendor "RC Cola"
     Then I should see 1 vendor in the vendor list
 
-  @flaky
   Scenario: Updating a vendor
     When I rename the vendor "RC Cola" to "Pepsi"
     Then the vendor should now be named "Pepsi"
