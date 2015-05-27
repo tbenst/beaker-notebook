@@ -24,7 +24,7 @@
 
         $scope.update = function() {
           F.Vendors.update({id: $scope.vendor.id, name: $scope.vendorName}).then(function(vendor) {
-            $scope.vendor.name = vendor.name;
+            $scope.vendor.name = vendor.data.name;
             $rootScope.$broadcast('closeModal');
             delete $scope.error;
           }).catch(function(response) {
