@@ -1,22 +1,21 @@
 module.exports = function() {
+
+  function waitforPublicationList(count) {
+    return this.driver.wait(function() {
+      return new this.Widgets.PublicationList().length()
+      .then(function(n) {return n > 0});
+    }.bind(this), 10000, 'Found no publications');
+  }
+
   this.When(/^I view the publication$/, function() {
     var _this = this;
-    return _this.driver.get(_this.route.publications).then(function() {
-      _this.driver.wait(function() {
-        return new _this.Widgets.PublicationList().at(0).then(function(el) {
-          return el.isPresent();
-        }).then(function(v) {
-          return v;
-        })
-        .thenCatch(function() {
-          return false;
-        })
-      }, global.timout)
-      .then(function() {
-        return new _this.Widgets.PublicationList().at(0).then(function(el) {
-          return el.click("a.title");
-        })
-      });
+
+    return new this.Widgets.MainNav().visitPublications()
+    .then(function() {
+      return waitforPublicationList.bind(_this)(1);
+    })
+    .then(function() {
+      return new _this.Widgets.PublicationList().clickAt({selector: 'a.title', index: 0});
     });
   });
 
