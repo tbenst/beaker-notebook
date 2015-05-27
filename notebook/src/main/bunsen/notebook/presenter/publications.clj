@@ -95,6 +95,7 @@
         query (cond-> '{:find [[(pull ?p [:db/id :publication/name :publication/description
                                           :publication/public-id :publication/author-id
                                           :publication/notebook-id
+                                          :publication/created-at
                                           {:publication/ratings [:rating/score]}
                                           {:publication/category [*]}]) ...]]
                         :in [$ % [?category-id ?term]]
@@ -103,7 +104,9 @@
                                                      [?p :publication/category ?c]])
                       search-term (constrain-query '[(has-text ?p ?term)]))
         results (d/q query db rules [(when category-id (utils/uuid-from-str category-id)) wildcard-term])]
-    (map #(assoc % "averageRating" (calc-avg-rating %)) results)))
+    (->> (map #(assoc % "averageRating" (calc-avg-rating %)) results)
+         (sort-by :publication/created-at)
+         reverse)))
 
 (defn validate-publication [params]
   (-> (b/validate (select-keys params [:description :notebook-id])
