@@ -1,7 +1,15 @@
 ;(function(app) {
-  app.service('Beaker',
-    ['$q', 'Restangular', 'ProvisionerRestangular', '$location', '$sessionStorage',
-    function($q, Restangular, Provisioner, $location, $sessionStorage) {
+  app.service('Beaker', [
+  '$q',
+  'Restangular',
+  'ProvisionerRestangular',
+  '$location',
+  '$sessionStorage',
+  function($q,
+           Restangular,
+           Provisioner,
+           $location,
+           $sessionStorage) {
 
     var waitInterval = 3000;
     var ready = false;
