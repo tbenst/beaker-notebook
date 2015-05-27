@@ -110,6 +110,10 @@
   :post! #(api/create-vendor! (get-conn %) (get-body %))
   :handle-ok #(api/list-vendors (get-db %)))
 
+(defresource vendor [{:keys [vendor-id]}] restricted-read-defaults
+  :allowed-methods #{:delete}
+  :delete! #(api/delete-vendor! (get-conn %) vendor-id))
+
 (defresource subscription [{:keys [index-name dataset-id]}] defaults
   :allowed-methods #{:post :put :delete}
   :put! #(api/create-subscription! (get-conn %) index-name dataset-id (get-user %))
