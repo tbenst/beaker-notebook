@@ -13,14 +13,17 @@ module.exports = function() {
   this.notebook = {
 
     createProject: function(attrs) {
-      return post(config.notebookUrl + '/seed/projects', {body: attrs})
+      return post(config.notebookUrl + '/projects', {body: attrs})
       .then(function(res) {
         return res[0].body;
       });
     },
 
-    createNotebook: function(attrs) {
-      return post(config.notebookUrl + '/seed/notebooks', {body: attrs});
+    createNotebook: function(projectId, attrs) {
+      return post(config.notebookUrl + '/projects/' + projectId + '/notebooks', {body: attrs})
+      .then(function(response) {
+        return response[0].body;
+      });
     },
 
     getCategories: function() {
