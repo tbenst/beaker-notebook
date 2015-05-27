@@ -37,6 +37,6 @@
           $rootScope.$broadcast('closeModal');
         };
       }
-    }
+    };
   }]);
 })(angular, window.bunsen);
