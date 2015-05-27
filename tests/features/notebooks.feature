@@ -300,6 +300,9 @@ Feature: Use Notebooks
     And I view the notebook "top secret"
     And I toggle fullscreen mode
     Then the notebook should be in fullscreen
+    When I go back to the current notebook's project
+    And I view the notebook "powderpuff girls"
+    Then the notebook should still be in fullscreen
     When I toggle fullscreen mode
     Then I should see the project and notebook options
 

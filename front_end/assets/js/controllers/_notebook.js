@@ -10,6 +10,7 @@
     '$route',
     '$routeParams',
     'Notebooks',
+    'UserPreferences',
     'Beaker',
     'BeakerNotebookService',
     'NotebookMenuService',
@@ -29,6 +30,7 @@
       $route,
       $routeParams,
       Notebooks,
+      UserPreferences,
       Beaker,
       BeakerNotebookService,
       NotebookMenuService,
@@ -181,7 +183,7 @@
       }
     });
 
-    // FullscreenState.toggleFullscreen(true);
+    FullscreenState.toggleFullscreen(UserPreferences.get('fullscreenView'));
 
     $scope.$on('$destroy', function() {
       FullscreenState.toggleFullscreen(false);

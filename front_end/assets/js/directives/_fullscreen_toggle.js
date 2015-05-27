@@ -1,5 +1,5 @@
 ;(function(angular, app) {
-  app.directive('fullscreenToggle', ['FullscreenState', function(FullscreenState) {
+  app.directive('fullscreenToggle', ['FullscreenState', 'UserPreferences', function(FullscreenState, UserPreferences) {
     return {
       restrict: 'E',
       template: templates['fullscreen_toggle'],
@@ -8,6 +8,7 @@
         $scope.isFullscreen = FullscreenState.isFullscreen;
 
         $scope.toggleFullscreen = function() {
+          UserPreferences.set('fullscreenView', !$scope.isFullscreen());
           FullscreenState.toggleFullscreen(!$scope.isFullscreen());
         };
       }]

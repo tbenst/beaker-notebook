@@ -314,7 +314,7 @@ module.exports = function() {
     return this.driver.get(this.route.projectDashboard + '/2/notebooks/2');
   });
 
-  this.Then(/^the notebook should be in fullscreen$/, function() {
+  this.Then(/^the notebook should (?:still )?be in fullscreen$/, function() {
     return new this.Widgets.Notebook().sidebarsVisible().should.eventually.be.false;
   });
 
