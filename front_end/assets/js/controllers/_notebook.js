@@ -7,10 +7,13 @@
     'Factories',
     '$compile',
     '$location',
+    '$route',
+    '$routeParams',
     'Notebooks',
     'Beaker',
     'BeakerNotebookService',
     'NotebookMenuService',
+    'NotebookRestangular',
     'FullscreenState',
     'TrackingService',
     'bkSessionManager',
@@ -23,10 +26,13 @@
       F,
       $compile,
       $location,
+      $route,
+      $routeParams,
       Notebooks,
       Beaker,
       BeakerNotebookService,
       NotebookMenuService,
+      NotebookRestangular,
       FullscreenState,
       TrackingService,
       bkSessionManager,
@@ -64,6 +70,23 @@
     };
 
     $scope.beakerReady = function() {
+      if ($route.current === void(0)) {
+        var baseRest = NotebookRestangular.one('notebooks', $state.params.notebook_id);
+        var notebookLocation = "ajax:"
+            + baseRest.all('contents').getRestangularUrl() + ":"
+            + baseRest.getRestangularUrl();
+        $route.current = {locals:
+                          {target: {
+                            uri: notebookLocation,
+                            type: "ajax", // beaker would guess anyway
+                            format: "bkr", // beaker would guess anyway
+                            readOnly: false // the default anyway
+                          },
+                           isOpen: true},
+                          $$route: {
+                            resolve: {}
+                          }};
+      }
       return Beaker.isReady();
     }
 
