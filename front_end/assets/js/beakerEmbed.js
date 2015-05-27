@@ -35,37 +35,9 @@
     ]);
 
     beaker.run(function($location, $route, $document, $sessionStorage,  bkUtils, bkCoreManager, bkHelper) {
-
-      if ($sessionStorage.user !== void(0)) {
-        bkUtils.setServerRoot("/beaker/" + $sessionStorage.user.id + "/");
-        bkUtils.setFileRoot("/");
-      }
-
-      var user;
-      var lastAction = new Date();
       var beakerRootOp = {};
-
-      // cometd needs the host & port to be specified explicitly:
-      bkUtils.initializeCometd(location.origin +
-                               bkUtils.serverUrl('beaker/cometd/'));
       bkCoreManager.init(beakerRootOp);
-      Q.delay(1000).then(function() {
-        $.get(bkUtils.serverUrl("beaker/rest/util/whoami"), {}, function(data) {
-          user = data;
-          bkUtils.log("start", {user: data});
-        }, "json");
-      });
-      var noteAction = function() {
-        lastAction = new Date();
-      };
-      window.addEventListener('click', noteAction, false);
-      window.addEventListener('keypress', noteAction, false);
-      window.setInterval(function() {
-        var now = new Date();
-        if ((now - lastAction) < 60 * 1000) {
-          bkUtils.log("tick", {user: user});
-        }
-      }, 60 * 1000);
+
       $document.bind('keydown', function(e) {
         if (e.which === 27) {
           $('.dropdown.open .dropdown-toggle').dropdown('toggle');
@@ -116,19 +88,8 @@
       }
     });
 
-    beaker.run(function(bkUtils, $rootScope) {
-      bkUtils.getVersionInfo().then(function(versionInfo) {
-        window.beaker.version = versionInfo.version;
-        window.beaker.buildTime = versionInfo.buildTime;
-        $rootScope.getVersion = function() {
-          return window.beaker.version;
-        };
-        $rootScope.getBuildTime = function() {
-          return window.beaker.buildTime;
-        };
-      });
-    });
   };
+
   var bootstrapBkApp = function() {
     // make sure requirejs reports error
     requirejs.config({

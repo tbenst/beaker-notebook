@@ -68,26 +68,7 @@
           controller: 'projectsList',
           template: templates.project_list
         }
-      },
-      onEnter: function(NotebookRestangular, $stateParams,
-                        $route, $routeParams) {
-        $routeParams.sessionId = $stateParams.notebook_id;
-        var baseRest = NotebookRestangular.one('notebooks', $stateParams.notebook_id);
-        var notebookLocation = "ajax:"
-            + baseRest.all('contents').getRestangularUrl() + ":"
-            + baseRest.getRestangularUrl();
-        $route.current = {locals:
-                          {target: {
-                            uri: notebookLocation,
-                            type: "ajax", // beaker would guess anyway
-                            format: "bkr", // beaker would guess anyway
-                            readOnly: false // the default anyway
-                          },
-                           isOpen: true},
-                          $$route: {
-                            resolve: {}
-                          }};
-      }})
+    }})
     .state('projects.items.item.notebook.search', {
       url: '/search',
       views: {

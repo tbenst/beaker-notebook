@@ -10,6 +10,7 @@
     '$stateParams',
     'Factories',
     'TrackingService',
+    'AuthService',
     function(
       $rootScope,
       $scope,
@@ -20,15 +21,14 @@
       $sessionStorage,
       $stateParams,
       F,
-      TrackingService) {
+      TrackingService,
+      AuthService) {
 
     $scope.message = ''
     $scope.user = $scope.user || {};
 
     function signIn() {
-      return F.Users.getCurrentUser().then(function(d) {
-          $sessionStorage.user = _.pick(d, 'name', 'public-id', 'role', 'extdata');
-        $sessionStorage.user.id = d['public-id'];
+      return AuthService.setUserIfLoggedIn().then(function(d) {
         $scope.message = 'You are signed in.'
         $scope.loading = false;
         if ($rootScope.goTo) {

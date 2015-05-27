@@ -26,7 +26,7 @@
       if (isValid) {
         $scope.loading = true;
         F.Users.update($scope.user).then(function(u) {
-          $sessionStorage.user = _.pick(u, 'name', 'id');
+          $sessionStorage.user.name = u.name;
           $scope.user = u;
           $scope.message = "User Updated"
         })

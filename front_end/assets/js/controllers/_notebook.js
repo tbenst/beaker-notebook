@@ -7,13 +7,17 @@
     'Factories',
     '$compile',
     '$location',
+    '$route',
+    '$routeParams',
     'Notebooks',
     'Beaker',
     'BeakerNotebookService',
     'NotebookMenuService',
+    'NotebookRestangular',
     'FullscreenState',
     'TrackingService',
     'bkSessionManager',
+    'bkHelper',
     function(
       $scope,
       $rootScope,
@@ -22,13 +26,17 @@
       F,
       $compile,
       $location,
+      $route,
+      $routeParams,
       Notebooks,
       Beaker,
       BeakerNotebookService,
       NotebookMenuService,
+      NotebookRestangular,
       FullscreenState,
       TrackingService,
-      bkSessionManager) {
+      bkSessionManager,
+      bkHelper) {
 
     var frame;
     var prjId = $state.params.id;
@@ -61,6 +69,27 @@
       return _.any($scope.notebooks.list, $scope.otherOpenNotebooks);
     };
 
+    $scope.beakerReady = function() {
+      if ($route.current === void(0)) {
+        var baseRest = NotebookRestangular.one('notebooks', $state.params.notebook_id);
+        var notebookLocation = "ajax:"
+            + baseRest.all('contents').getRestangularUrl() + ":"
+            + baseRest.getRestangularUrl();
+        $route.current = {locals:
+                          {target: {
+                            uri: notebookLocation,
+                            type: "ajax", // beaker would guess anyway
+                            format: "bkr", // beaker would guess anyway
+                            readOnly: false // the default anyway
+                          },
+                           isOpen: true},
+                          $$route: {
+                            resolve: {}
+                          }};
+      }
+      return Beaker.isReady();
+    }
+
     var notebookNameTaken = function() {
       return !!_.find($scope.notebooks.list, { name: $scope.saveAsName, projectId: $scope.notebook.current.projectId });
     };
@@ -73,40 +102,29 @@
       window.scrollTo(window.pageXOffset, height);
     };
 
-    function openNotebook(notebook, cached) {
+    function openNotebook(notebook) {
       if (notebook.unavailable) return $state.go('projects.items.item',{id: notebook.projectId});
       Notebooks.update({id: notebook['public-id'], open: true});
       $scope.notebook = {current: notebook};
-      $rootScope.cachedNotebooks[notebook['public-id']] = notebook;
-      if (!cached) return;
-      TrackingService.mark('CachedNotebookLoaded');
-      TrackingService.measure('BaselineCachedProvisionedNotebookLoad', 'LoadCachedProvisionedNotebook', 'CachedNotebookLoaded');
-      TrackingService.measure('BaselineCachedUnprovisionedNotebookLoad', 'LoadCachedUnprovisionedNotebook', 'CachedNotebookLoaded');
     }
 
-    if (cached = $rootScope.cachedNotebooks[$state.params.notebook_id]) {
-      openNotebook(cached, true);
-    } else {
-      $scope.loading = true;
-      F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
-        openNotebook(notebook);
-        Beaker.whenReady().then(function(result) {
-          if (result === 'timeout') {
-            return $scope.warning = 'Beaker has timed out.  Please refresh to try again.';
-          } else if (result === 'error') {
-            return $scope.warning = 'An Error has occurred';
-          }
-          notebook.location = $sce.trustAsResourceUrl(BeakerNotebookService.notebookLocation(result, prjId, notebook['public-id']));
-          $scope.loading = false;
-          TrackingService.mark('NotebookLoaded');
-          TrackingService.measure('BaselineUnprovisionedNotebookLoad', 'LoadUnprovisionedNotebook', 'NotebookLoaded');
-          TrackingService.measure('BaselineProvisionedNotebookLoad', 'LoadProvisionedNotebook', 'NotebookLoaded');
-          TrackingService.measure('BaselineUnProvisionedNotebookCreate', 'CreateUnProvisionedNotebook', 'NotebookLoaded');
-          TrackingService.measure('BaselineProvisionedNotebookCreate', 'CreateProvisionedNotebook', 'NotebookLoaded');
-        });
+    F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
+      openNotebook(notebook);
+      Beaker.whenReady().then(function(result) {
+        if (result === 'timeout') {
+          return $scope.warning = 'Beaker has timed out.  Please refresh to try again.';
+        } else if (result === 'error') {
+          return $scope.warning = 'An Error has occurred';
+        }
+        notebook.location = $sce.trustAsResourceUrl(BeakerNotebookService.notebookLocation(result, prjId, notebook['public-id']));
+        TrackingService.mark('NotebookLoaded');
+        TrackingService.measure('BaselineUnprovisionedNotebookLoad', 'LoadUnprovisionedNotebook', 'NotebookLoaded');
+        TrackingService.measure('BaselineProvisionedNotebookLoad', 'LoadProvisionedNotebook', 'NotebookLoaded');
+        TrackingService.measure('BaselineUnProvisionedNotebookCreate', 'CreateUnProvisionedNotebook', 'NotebookLoaded');
+        TrackingService.measure('BaselineProvisionedNotebookCreate', 'CreateProvisionedNotebook', 'NotebookLoaded');
       });
-    }
-
+    });
+      
     $scope.save = function() {
       bkHelper.saveNotebook().then(function() {
         $rootScope.$broadcast('notebookUpdated', $scope.notebook.current);
