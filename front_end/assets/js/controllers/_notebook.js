@@ -14,6 +14,7 @@
     'FullscreenState',
     'TrackingService',
     'bkSessionManager',
+    'bkHelper',
     function(
       $scope,
       $rootScope,
@@ -28,7 +29,8 @@
       NotebookMenuService,
       FullscreenState,
       TrackingService,
-      bkSessionManager) {
+      bkSessionManager,
+      bkHelper) {
 
     var frame;
     var prjId = $state.params.id;
