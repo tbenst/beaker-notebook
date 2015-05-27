@@ -1,9 +1,10 @@
 ;(function(app) {
   app.service('NotebookMenuService', [
+    'RenameNotebook',
     'bkMenuPluginManager',
     'bkHelper',
     'Notebooks',
-    function(bkMenuPluginManager, bkHelper, Notebooks) {
+    function(RenameNotebook, bkMenuPluginManager, bkHelper, Notebooks) {
 
       function menuContents($scope) {
         return [
@@ -29,7 +30,7 @@
                 name: "Rename",
                 sortorder: 60,
                 action: function () {
-                  alert('Coming soon!');
+                  RenameNotebook.openModal($scope, $scope.notebook.current);
                 },
                 tooltip: "Rename notebook",
                 id: "rename-menuitem"

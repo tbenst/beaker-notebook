@@ -8,6 +8,7 @@
     'Notebooks',
     '$upload',
     'NotebookRestangular',
+    'RenameNotebook',
     'TrackingService',
     'Beaker',
     function(
@@ -19,6 +20,7 @@
       Notebooks,
       $upload,
       NR,
+      RenameNotebook,
       TrackingService,
       Beaker) {
 
@@ -70,6 +72,10 @@
           notebook_id: notebook['public-id']
         });
       });
+    };
+
+    $scope.renameNotebook = function(notebook) {
+      RenameNotebook.openModal($scope, notebook);
     };
 
     $scope.deleteNotebook = function(notebook) {
