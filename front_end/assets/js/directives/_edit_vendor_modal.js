@@ -1,3 +1,4 @@
+// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 ;(function(angular, app) {
   app.directive('editVendorModal', [
     '$compile',
