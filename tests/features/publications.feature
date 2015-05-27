@@ -92,7 +92,7 @@ Feature: Publications
     When I view the publications page
     Then I should see my author info in the first publication
 
-  @flaky
+  @flaky @unimplemented
   Scenario: Top Contributors List in Sidebar
     Given I have the following publication categories:
       | name       | description          |
