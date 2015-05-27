@@ -1,4 +1,3 @@
-@flaky
 Feature: Publications
   As a User
   I want to be able to publish notebooks
@@ -65,7 +64,6 @@ Feature: Publications
       | name        | description       | category |
       | top secrets | a new description | Finance  |
 
-  @flaky
   Scenario: Publications List
     Given there are 5 publications
     And I view my projects
