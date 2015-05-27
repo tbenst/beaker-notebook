@@ -2,7 +2,8 @@
   app.service('NotebookMenuService', [
     'bkMenuPluginManager',
     'bkHelper',
-    function(bkMenuPluginManager, bkHelper) {
+    'Notebooks',
+    function(bkMenuPluginManager, bkHelper, Notebooks) {
 
       function menuContents($scope) {
         return [
@@ -37,7 +38,7 @@
                 name: "Close",
                 sortorder: 70,
                 action: function () {
-                  alert('Coming soon!');
+                  Notebooks.closeNotebook($scope.notebook.current['public-id']);
                 },
                 tooltip: "Close notebook",
                 id: "close-menuitem"
@@ -59,7 +60,50 @@
                 tooltip: "Show available languages and edit their settings",
                 id: "language-manager-menuitem"
               },
-
+              {
+                name: 'Show Hierarchy',
+                sortorder: 102,
+                isChecked: function() {
+                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
+                  return notebookViewModel.isHierarchyEnabled();
+                },
+                action: function() {
+                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
+                  notebookViewModel.toggleHierarchyEnabled();
+                },
+                id: "show-hierarchy-menuitem"
+              },
+              {
+                name: 'Advanced Mode',
+                sortorder: 105,
+                isChecked: function() {
+                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
+                  return notebookViewModel.isAdvancedMode();
+                },
+                action: function() {
+                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
+                  notebookViewModel.toggleAdvancedMode();
+                  bkHelper.httpPost(bkHelper.serverUrl("beaker/rest/util/setUseAdvancedMode"), {
+                    advancedmode: notebookViewModel.isAdvancedMode()
+                  });
+                },
+                id: "advanced-mode-menuitem"
+              },
+              {
+                name: "Show stdout/stderr",
+                sortorder: 107,
+                action: function () {
+                  bkHelper.getBkNotebookViewModel().toggleShowOutput();
+                },
+                tooltip: "Show or hide the stdout and stderr.",
+                isChecked: function() {
+                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
+                  if (notebookViewModel) {
+                    return notebookViewModel.isShowingOutput();
+                  }
+                },
+                id: "stdout-stderr-menuitem"
+              },
               {
                 name: "Lock",
                 sortorder: 110,
