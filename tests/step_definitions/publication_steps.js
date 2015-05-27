@@ -62,6 +62,31 @@ module.exports = function() {
     return seedPublications.bind(this)(1, {name: name}, otherUser);
   });
 
+  function categoryAttrs(attrs) {
+    var base = {
+      ":category/name": "Finance",
+      ":category/description": "Finance stuff"
+    };
+    return _.merge(base, attrs);
+  }
+
+  this.Given(/^I have the following(?: Beaker)? publication categories:$/, function(table) {
+    var _this = this;
+    return Promise.resolve(table.hashes())
+    .each(function(row) {
+      var attrs = _.object(_.map(row, function (val, key) {
+        return [key, val];
+      }));
+      return n.createCategory(categoryAttrs(attrs))
+      .then(function (category) {
+        _this.currentCategory = category;
+        _this.currentCategories = _this.currentCategories || {};
+        _this.currentCategories[category.name] = category;
+        return category;
+      });
+    });
+  });
+
   this.Given(/^I view the first publication$/, function() {
     return this.driver.wait(function() {
       return new this.Widgets.PublicationList().at(0)

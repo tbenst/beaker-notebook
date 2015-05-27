@@ -15,14 +15,6 @@ function publicationAttrs(attrs) {
   return _.merge(base, attrs);
 }
 
-function categoryAttrs(attrs) {
-  var base = {
-    ":category/name": "Finance",
-    ":category/description": "Finance stuff"
-  };
-  return _.merge(base, attrs);
-}
-
 module.exports = function() {
   var n = this.notebook;
 
@@ -69,23 +61,6 @@ module.exports = function() {
         }));
       });
     })
-  });
-
-  this.Given(/^I have the following(?: Beaker)? publication categories:$/, function(table) {
-    var _this = this;
-    return Promise.resolve(table.hashes())
-    .each(function(row) {
-      var attrs = _.object(_.map(row, function (val, key) {
-        return [key, val];
-      }));
-      return n.createCategory(categoryAttrs(attrs))
-      .then(function (category) {
-        _this.currentCategory = category;
-        _this.currentCategories = _this.currentCategories || {};
-        _this.currentCategories[category.name] = category;
-        return category;
-      });
-    });
   });
 
   this.Given(/^there is Beaker publication named "([^"]*)"$/, function(name) {
