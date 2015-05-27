@@ -34,6 +34,10 @@
       });
     }
 
+    $scope.openedAt = function(notebook) {
+      return moment.utc(notebook['opened-at']).utc().format()
+    }
+
     $scope.isFullscreen = FullscreenState.isFullscreen;
 
     $scope.openNotebook = function(notebook) {

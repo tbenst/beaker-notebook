@@ -118,8 +118,9 @@
     @(d/transact conn [(u/remove-nils n)])
     (dissoc n :db/id)))
 
-(defn include-opened-at [params]
-  (if (:open params)
+(defn include-opened-at [params notebook]
+  (if (and (:open params)
+           (not (:notebook/open notebook)))
     (assoc params :opened-at (java.util.Date.))
     params))
 
@@ -127,7 +128,7 @@
   (when-let [n (find-notebook (d/db conn) notebook-id user-id)]
     (let [p-eid (and (:project-id params) (notebook-project-eid (d/db conn) (:project-id params)  user-id))
           tx (-> params
-                 include-opened-at
+                 (include-opened-at n)
                  (dissoc :public-id :id :notebook-id :project-id)
                  (assoc :project p-eid
                         :updated-at (java.util.Date.))
