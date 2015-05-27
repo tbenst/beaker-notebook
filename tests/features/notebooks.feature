@@ -289,6 +289,12 @@ Feature: Use Notebooks
     And I view the notebook "top secret"
     Then the "top secret" notebook should be active
 
+  Scenario: Viewing current project's project page
+    When I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    And I go back to the current notebook's project
+    Then I should see the "ghost of tom jones" project detail page
+
   Scenario: Fullscreen View
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"

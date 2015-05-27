@@ -322,6 +322,10 @@ module.exports = function() {
     return new this.Widgets.Notebook().toggleFullscreen();
   });
 
+  this.When(/^I go back to the current notebook's project$/, function() {
+    return new this.Widgets.Notebook().goToProject();
+  });
+
   this.Then(/^I should see the project and notebook options$/, function() {
     return new this.Widgets.Notebook().sidebarsVisible().should.eventually.be.true;
   });
