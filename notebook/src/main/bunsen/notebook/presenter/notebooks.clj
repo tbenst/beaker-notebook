@@ -1,6 +1,7 @@
 (ns bunsen.notebook.presenter.notebooks
   (:require [datomic.api :as d]
             [clojure.string :as str]
+            [clojure.instant :as inst]
             [clojure.data.json :as json]
             [bouncer.core :as b]
             [bouncer.validators :as v]
@@ -121,7 +122,7 @@
                 [?p :project/owner-id ?uid]]
         db (mapv u/uuid-from-str [project-id user-id])))
 
-(defn create-notebook! [conn params]
+(defn create-notebook! [conn {:keys [created-at updated-at opened-at open] :as params}]
   (let [p-eid (notebook-project-eid (d/db conn) (:project-id params) (:user-id params))
         name (or (:name params) (calculate-notebook-name (d/db conn) (:user-id params) (:project-id params)))
         contents (or (:contents params) (u/read-resource-file "notebooks/base_notebook.bkr"))
@@ -130,14 +131,17 @@
            :notebook/name name
            :notebook/project p-eid
            :notebook/contents contents
-           :notebook/created-at (or (:created-at params ) (java.util.Date.))
-           :notebook/updated-at (or (:updated-at params ) (java.util.Date.))
+           :notebook/open (if open (Boolean/valueOf open) true)
+           :notebook/opened-at  (if opened-at (inst/read-instant-timestamp opened-at) (java.util.Date.))
+           :notebook/created-at (if created-at (inst/read-instant-timestamp created-at) (java.util.Date.))
+           :notebook/updated-at (if updated-at (inst/read-instant-timestamp updated-at) (java.util.Date.))
            :notebook/user-id (u/uuid-from-str (:user-id params))}]
     @(d/transact conn [(u/remove-nils n)])
     (dissoc n :db/id)))
 
-(defn include-opened-at [params]
-  (if (:open params)
+(defn include-opened-at [params notebook]
+  (if (and (:open params)
+           (not (:notebook/open notebook)))
     (assoc params :opened-at (java.util.Date.))
     params))
 
@@ -145,7 +149,7 @@
   (when-let [n (find-notebook (d/db conn) notebook-id user-id)]
     (let [p-eid (and (:project-id params) (notebook-project-eid (d/db conn) (:project-id params)  user-id))
           tx (-> params
-                 include-opened-at
+                 (include-opened-at n)
                  (dissoc :public-id :id :notebook-id :project-id)
                  (assoc :project p-eid
                         :updated-at (java.util.Date.))

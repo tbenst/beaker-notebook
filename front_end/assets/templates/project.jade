@@ -68,7 +68,7 @@
       .col-half
         h4 Recently Used Notebooks
         ul.link-list.recently-used
-          li(ng-repeat="notebook in project.notebooks | orderBy:'openedAt':true | limitTo:4")
+          li(ng-repeat="notebook in project.notebooks | orderBy:openedAt:true | limitTo:4")
             a(ng-click="openNotebook(notebook)") {{notebook.name}}
 
     section

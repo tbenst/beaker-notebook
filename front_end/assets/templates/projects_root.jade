@@ -8,7 +8,7 @@
             span.sidebar-box-header-count {{(notebooks.list | filter:{open: true}).length}}
             | Open Notebooks
           ul.open-notebooks.sidebar-box-list
-            li.open-notebook(ng-repeat="notebook in notebooks.list | filter:{open:true} | orderBy:'name'")
+            li.open-notebook(ng-repeat="notebook in notebooks.list | filter:{open:true} | orderBy:openedAt")
               a.sidebar-box-list-link(ng-class="{active: isViewingNotebook(notebook['public-id'])}", ng-click="openNotebook(notebook)") {{notebook.name}}
                 span.inline-icon-sidebar.inline-close-notebook.close-notebook(ng-click="$event.stopPropagation()" close-notebook="{{notebook['public-id']}}")
                   img(src="images/close-white-small.png", width="10", height="10")
