@@ -15,10 +15,11 @@ module.exports = function() {
     }
   }
 
-  function seedPublications(count, projectName, categoryName) {
-    return seedCategory(categoryName)
+  function seedPublications(count, names) {
+    names = names || {};
+    return seedCategory(names.category)
     .then(function(cat) {
-      return n.createProject({name: projectName || 'test', description: 'test'})
+      return n.createProject({name: names.project || 'test', description: 'test'})
       .then(function(p) {
         return Promise.resolve(_.range(count))
         .each(function(i) {
@@ -36,11 +37,11 @@ module.exports = function() {
   }
 
   this.Given(/^there are (\d+) publications(?: for the project "([^"]*)")?$/, function(count, projectName) {
-    return seedPublications(count, projectName);
+    return seedPublications(count, {project: projectName});
   });
 
   this.Given(/^there are (\d+) publications in the "([^"]*)" category$/, function(count, categoryName) {
-    return seedPublications(count, null, categoryName);
+    return seedPublications(count, {category: categoryName});
   });
 
   this.Given(/^I have a publication$/, function() {
