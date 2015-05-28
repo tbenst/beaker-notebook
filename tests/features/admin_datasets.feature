@@ -77,6 +77,7 @@ Feature: Admin Datasets
     And I refresh the page
     Then I should see the category field is empty
 
+  @flaky @broken
   Scenario: Dataset format dropdown
     Given there is a market item with the title "Item 1" and the format "MAGIC"
     And there is a market item with the title "Item 2" and the format "CSV"
