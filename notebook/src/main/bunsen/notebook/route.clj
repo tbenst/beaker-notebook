@@ -8,10 +8,10 @@
                                                        "/notebooks/import" :notebook-import}}
                        "/publications" {"" :publications
                                         "_count" :publications-count
-                                        ["/" :id] {"" :publication
-                                                   "/notebook" :publication-contents
-                                                   "/ratings" :ratings
-                                                   "/rating" :rating}}
+                                        ["/" :pub-id] {"" :publication
+                                                       "/notebook" :publication-contents
+                                                       "/ratings" :ratings
+                                                       "/rating" :rating}}
                        "/notebooks" {"" :notebooks
                                      ["/" :notebook-id] {"" :notebook
                                                          "/contents" :notebook-contents}}

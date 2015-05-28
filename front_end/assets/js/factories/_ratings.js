@@ -1,16 +1,16 @@
 ;(function(angular, app) {
-  app.factory('RatingsFactory', ['Restangular', 'MarketplaceRestangular', function(R, MR) {
+  app.factory('RatingsFactory', ['MarketplaceRestangular', 'NotebookRestangular', function(MR, NR) {
     return {
-      createPubRating: function(params) {
-        return R.all('ratings').post(params);
+      createPubRating: function(publicationId, params) {
+        return NR.one('publications', publicationId).all('ratings').post(params);
       },
 
-      averagePubRating: function(params) {
-        return R.one('ratings').customGET('average', params);
+      averagePubRating: function(publicationId) {
+        return NR.one('publications', publicationId).one('ratings').get();
       },
 
-      userPubRating: function(params) {
-        return R.one('ratings').customGET('user_rating', params);
+      userPubRating: function(publicationId) {
+        return NR.one('publications', publicationId).one('rating').get();
       },
 
       createRating: function(params) {

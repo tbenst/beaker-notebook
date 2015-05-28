@@ -1,3 +1,4 @@
+@flaky @unimplemented
 Feature: Beaker Solo Publications
   As a Beaker Solo User
   I want to be able to publish notebooks

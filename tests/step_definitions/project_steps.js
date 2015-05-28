@@ -69,15 +69,10 @@ module.exports = function() {
   this.Given(/^I'm looking at a project$/, function() {
     var _this = this;
 
-    return this.user.getDetails()
-    .then(function(u) {
-      var projectData = _.merge(_.cloneDeep(projectBase), {'owner-id': u['public-id']});
-
-      return _this.notebook.createProject(projectData)
-      .then(function() {
-        return viewProjectDashboard.call(_this).then(function() {
-          return openProject.call(_this, projectData.name);
-        })
+    return this.notebook.createProject(projectBase)
+    .then(function() {
+      return viewProjectDashboard.call(_this).then(function() {
+        return openProject.call(_this, projectBase.name);
       });
     })
   });
@@ -154,17 +149,14 @@ module.exports = function() {
 
   this.Given(/^I have the following Projects:$/, function(table) {
     var _this = this;
-    return this.user.getDetails()
-    .then(function(u) {
-      return Promise.resolve(table.hashes())
-      .each(function(attrs) {
-        var projectData = _.merge(_.cloneDeep(projectBase), {'owner-id': u['public-id']});
-        return _this.notebook.createProject(_.merge(projectData, attrs))
-        .then(function(project) {
-          _this.currentProjects = _this.currentProjects || {};
-          _this.currentProjects[project.name] = project;
-          return project;
-        });
+
+    return Promise.resolve(table.hashes())
+    .each(function(attrs) {
+      return _this.notebook.createProject(_.merge(projectBase, attrs))
+      .then(function(project) {
+        _this.currentProjects = _this.currentProjects || {};
+        _this.currentProjects[project.name] = project;
+        return project;
       });
     });
   });

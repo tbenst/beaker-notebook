@@ -5,6 +5,8 @@
             [bouncer.core :as b]
             [bouncer.validators :as v]
             [bunsen.notebook.presenter.project :as p]
+            [bunsen.notebook.presenter.publications :as pub]
+            [bunsen.notebook.helper.notebook :as nb-helper]
             [bunsen.common.helper.utils :as u]
             [bunsen.common.helper.query :as q]))
 
@@ -25,11 +27,28 @@
                 [?n :notebook/project ?p]]
        db name project-id user-id))
 
+(def notebook-pattern
+  [:db/id
+   :notebook/name
+   :notebook/public-id
+   :notebook/contents
+   :notebook/updated-at
+   :notebook/user-id
+   :notebook/created-at
+   :notebook/opened-at
+   :notebook/open
+   {:notebook/project [:project/public-id]}
+   {:publication/_notebook [:publication/public-id
+                            :publication/created-at
+                            :publication/updated-at
+                            :publication/description
+                            {:publication/category [:category/public-id]}]}])
+
 (defn find-notebook [db notebook-id user-id]
-  (d/q '[:find (pull ?n [* {:notebook/project [:project/public-id]}]) .
-         :in $ [?n-id ?u-id]
+  (d/q '[:find (pull ?n pattern) .
+         :in $ pattern [?n-id ?u-id]
          :where [?n :notebook/public-id ?n-id]]
-       db (mapv u/uuid-from-str [notebook-id user-id])))
+       db notebook-pattern (mapv u/uuid-from-str [notebook-id user-id])))
 
 (defn valid-json? [contents]
   (let [exception (try (json/read-str contents)
@@ -76,7 +95,9 @@
 
 (defn load-notebook [db notebook-id user-id]
   (when-let [n (find-notebook db notebook-id user-id)]
-    (dissoc n :db/id)))
+    (-> (dissoc n :db/id)
+        nb-helper/fix-notebook-format
+        (assoc :publication (pub/find-notebook-publication db notebook-id user-id)))))
 
 (defn calculate-notebook-name [db user-id project-id]
   (let [names (d/q '[:find [?name ...]
@@ -140,18 +161,21 @@
     @(d/transact conn [[:db.fn/retractEntity (:db/id n)]])))
 
 (defn user-notebooks [db user-id]
-  (let [user-id (u/uuid-from-str user-id)]
-    (d/q '[:find [(pull ?notebook [* {:notebook/project [:project/public-id]}]) ...]
-           :in $ ?user-id
-           :where [?notebook :notebook/user-id ?user-id]]
-         db user-id)))
+  (let [user-id (u/uuid-from-str user-id)
+        notebooks (d/q '[:find [(pull ?notebook pattern) ...]
+                         :in $ pattern ?user-id
+                         :where [?notebook :notebook/user-id ?user-id]]
+                       db notebook-pattern user-id)]
+    (map nb-helper/fix-notebook-format notebooks)))
 
 (defn project-notebooks [db user-id project-id]
   (let [user-id (u/uuid-from-str user-id)
-        project-id (u/uuid-from-str project-id)]
-    (d/q '[:find [(pull ?notebook [* {:notebook/project [:project/public-id]}]) ...]
-           :in $ ?user-id ?project-id
+        project-id (u/uuid-from-str project-id)
+        notebooks (d/q '[:find [(pull ?notebook pattern) ...]
+           :in $ pattern ?user-id ?project-id
            :where [?notebook :notebook/user-id ?user-id]
                   [?project :project/public-id ?project-id]
                   [?notebook :notebook/project ?project]]
-         db user-id project-id)))
+                       db notebook-pattern user-id project-id)]
+
+    (map nb-helper/fix-notebook-format notebooks)))

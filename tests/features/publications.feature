@@ -1,4 +1,3 @@
-@flaky
 Feature: Publications
   As a User
   I want to be able to publish notebooks
@@ -50,9 +49,6 @@ Feature: Publications
       | top secret | not so secret anymore |
 
   Scenario: Updating a Publication
-    Given I have the following publication categories:
-      | name       |
-      | Finance    |
     And the notebook "top secret" is published
     When I view my projects
     And I open the "ghost of tom jones" project
@@ -68,7 +64,6 @@ Feature: Publications
       | name        | description       | category |
       | top secrets | a new description | Finance  |
 
-  @flaky
   Scenario: Publications List
     Given there are 5 publications
     And I view my projects
@@ -95,7 +90,7 @@ Feature: Publications
     When I view the publications page
     Then I should see my author info in the first publication
 
-  @flaky
+  @flaky @unimplemented
   Scenario: Top Contributors List in Sidebar
     Given I have the following publication categories:
       | name       | description          |
@@ -126,6 +121,7 @@ Feature: Publications
     And I delete the publication
     Then I should see that the notebook is not published
 
+  @flaky @unimplemented
   Scenario: Copying a publication to Bunsen
     Given there is a publication named "top secret"
     And I view the publications page

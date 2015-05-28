@@ -6,6 +6,6 @@
 (defresource category [_] resource/defaults
   :allowed-methods [:get]
   :exists? (fn [{{db :db {id :id} :route-params} :request}]
-             (if-let [c (api/find-category db (Long. id))]
+             (if-let [c (api/find-category db id)]
                {::category c}))
   :handle-ok ::category)

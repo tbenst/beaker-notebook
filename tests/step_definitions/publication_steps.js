@@ -3,141 +3,88 @@ var bluebird = require('bluebird');
 var notebookBase = require('../fixtures/notebook_data_sample');
 var _ = require('lodash');
 
-var randomUser = {
-  name: 'jane research',
-  email: 'j@r.edu',
-  password: 'password'
-};
-
-var otherUser = {
-  name: 'jon research',
-  email: 'jon@r.edu',
-  password: 'password'
-};
-
-var randomProject = function(user, name) {
-  return {
-    model: 'Project',
-    data: {
-      name: name || 'gorillas',
-      //jscs:disable
-      owner_id: user['public-id']
-      //jscs:enable
-    }
-  };
-};
-
-var randomNotebook = function(user, project, name, i) {
-  var notebookName = name || 'Notebook';
-  return {
-    model: 'Notebook',
-    data: _.extend(_.omit(notebookBase, ['userEmail', 'projectName']), {
-      name: i === 0 ? notebookName : notebookName + ' ' + i,
-      //jscs:disable
-      user_id: user['public-id'],
-      //jscs:enable
-      projectId: project.id
-    })
-  };
-};
-
-var seedPublications = function(count, options, user) {
-  var name = options && options.name;
-  var category = options && options.category;
-  var projectName = options && options.projectName;
-
-  return this.user.createUser(user).then(function(u) {
-    return this.seed.populate(randomProject(u, projectName)).then(function(project) {
-      var notebooks = [];
-
-      for (var i = 0; i < +count; ++i) {
-        notebooks.push(randomNotebook(u, project[0], name, i));
-      }
-
-      return this.seed.populate(notebooks)
-        .then(function(notebooks) {
-          var publicationPromises = [];
-
-          _.each(notebooks, function(notebook, i) {
-            var publicationName = name || 'Notebook';
-
-            var publication = {
-              model: 'Publication',
-              data: {
-                //jscs:disable
-                notebook_id: notebook.id,
-                //jscs:enable
-                name: i === 0 ? publicationName : publicationName + ' ' + i,
-                contents: notebookBase.data,
-                //jscs:disable
-                user_id: u['public-id']
-                //jscs:enable
-              }
-            };
-
-            if (category) {
-              publication.associations = [{
-                foreignKey: 'category_id',
-                lookup: {'PublicationCategory': {name: category}}
-              }];
-            }
-
-            var publicationPromise = this.seed.populate.bind(this, publication);
-
-            publicationPromises.push(publicationPromise);
-          }.bind(this));
-
-          return publicationPromises;
-        }.bind(this));
-    }.bind(this));
-  }.bind(this))
-  .then(function(arr) {
-    return bluebird.reduce(arr, function(total, v) {return v();}, 0);
-  });
-};
-
 module.exports = function() {
+  var n = this.notebook;
+  var _this = this;
+
+  function seedCategory(name) {
+    if (name) {
+      return bluebird.resolve(_this.currentCategories[name]);
+    } else {
+      return n.createCategory({name: 'test category'});
+    }
+  }
+
+  function seedPublications(count, projectName, categoryName) {
+    return seedCategory(categoryName)
+    .then(function(cat) {
+      return n.createProject({name: projectName || 'test', description: 'test'})
+      .then(function(p) {
+        return Promise.resolve(_.range(count))
+        .each(function(i) {
+          return n.createNotebook(p['public-id'], {name: 'test notebook ' + i})
+          .then(function(nb) {
+            return n.createPublication({
+              'notebook-id': nb['public-id'],
+              'name': 'test publication ' + i,
+              'categoryID': cat['public-id']
+            });
+          });
+        });
+      });
+    });
+  }
 
   this.Given(/^there are (\d+) publications(?: for the project "([^"]*)")?$/, function(count, projectName) {
-    return seedPublications.bind(this)(count, {projectName: projectName}, randomUser);
+    return seedPublications(count, projectName);
   });
 
   this.Given(/^there are (\d+) publications in the "([^"]*)" category$/, function(count, categoryName) {
-    return seedPublications.bind(this)(count, {category: categoryName}, otherUser);
+    return seedPublications(count, null, categoryName);
   });
 
-  this.Given(/^the notebook "([^"]*)" is published$/, function(notebookName) {
-    var _this = this;
-    return this.user.getDetails()
-    .then(function(u) {
-      return _this.seed.populate({
-        model: 'Publication',
-        data: {
-          name: notebookName,
-          //jscs:disable
-          user_id: u['public-id']
-          //jscs:enable
-        },
-        associations: [{
-          foreignKey: 'notebook_id',
-          lookup: {'Notebook': {name: notebookName}}
-        }]
+  this.Given(/^I have a publication$/, function() {
+    seedPublications(1)
+  });
+
+  this.Given(/^the notebook "([^"]*)" is published$/, function(name) {
+    var notebook = this.currentNotebooks[name];
+    var category = this.currentCategory;
+    return n.createPublication(
+      {"name": name,
+       "description": "some published notebook",
+       "notebook-id": notebook["public-id"],
+       "categoryID": category['public-id']
       });
-    });
-  });
-
-  this.Given(/^I have the following publication categories:$/, function(table) {
-    var seedData = _.map(table.hashes(), function(category) {
-      return {
-        model: 'PublicationCategory',
-        data: category
-      };
-    });
-    return this.seed.populate(seedData);
   });
 
   this.Given(/^there is a publication named "([^"]*)"$/, function(name) {
     return seedPublications.bind(this)(1, {name: name}, otherUser);
+  });
+
+  function categoryAttrs(attrs) {
+    var base = {
+      ":category/name": "Finance",
+      ":category/description": "Finance stuff"
+    };
+    return _.merge(base, attrs);
+  }
+
+  this.Given(/^I have the following(?: Beaker)? publication categories:$/, function(table) {
+    var _this = this;
+    return Promise.resolve(table.hashes())
+    .each(function(row) {
+      var attrs = _.object(_.map(row, function (val, key) {
+        return [key, val];
+      }));
+      return n.createCategory(categoryAttrs(attrs))
+      .then(function (category) {
+        _this.currentCategory = category;
+        _this.currentCategories = _this.currentCategories || {};
+        _this.currentCategories[category.name] = category;
+        return category;
+      });
+    });
   });
 
   this.Given(/^I view the first publication$/, function() {
@@ -304,10 +251,10 @@ module.exports = function() {
   this.Then(/^I should see the following publication first in the list:$/, function(table) {
     return new this.Widgets.PublicationList().at(0).then(function(publication) {
       return publication.name().should.eventually.eql(_.pluck(table.hashes(), 'name')[0])
-      .then(function() {
-        var languages = _.pluck(table.hashes(), 'languages')[0];
-        return !languages || publication.languages().should.eventually.eql(languages);
-      });
+      // .then(function() {
+      //   var languages = _.pluck(table.hashes(), 'languages')[0];
+      //   return !languages || publication.languages().should.eventually.eql(languages);
+      // });
     });
   });
 

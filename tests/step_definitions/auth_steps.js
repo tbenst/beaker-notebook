@@ -27,11 +27,7 @@ module.exports = function() {
       return _this.user.updateUser(_.merge(userData, userDetails));
     })
     .then(function() {
-      return _this.user.getDetails();
-    })
-    .then(function(u) {
-      var projectData = _.merge(_.cloneDeep(projectBase), {'owner-id': u['public-id']});
-      return _this.notebook.createProject(projectData);
+      return _this.notebook.createProject(projectBase);
     })
     .then(function() {
       return _this.driver.get(_this.route.signIn).then(function() {

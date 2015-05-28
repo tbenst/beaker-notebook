@@ -1,11 +1,11 @@
 ;(function(app) {
-  app.factory('PublicationCategoriesFactory', ['Restangular', function(Restangular) {
+  app.factory('PublicationCategoriesFactory', ['NotebookRestangular', function(R) {
     return {
       getAll: function() {
-        return Restangular.all('publication_categories').getList();
+        return R.all('categories').getList();
       },
       getCategory: function(id) {
-        return Restangular.one('publication_categories', id).get();
+        return R.one('categories', id).get();
       }
     }
   }]);

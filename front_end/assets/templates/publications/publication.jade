@@ -9,7 +9,7 @@
           .col-half.col-outside
             span Published
           .col-half.col-outside
-            .publish-date {{publication.createdAt | date : 'M/d/yy' : 'UTC'}}
+            .publish-date {{publication['created-at'] | date : 'M/d/yy' : 'UTC'}}
         ratings(score="publication.userRating" average="publication.averageRating" max="5" rating-attrs="ratingAttrs")
       .details.cl
         div.publication-author

@@ -11,8 +11,23 @@
 
 (defresource publications [_] resource/defaults
   :allowed-methods [:post :get]
-  :post! (fn [{{conn :conn params :params} :request}]
-           (api/create-publication conn params))
+
+  :processable? (fn [{{params :params method :request-method} :request}]
+                  (if (= :post method)
+                    (let [errors (api/validate-publication params)]
+                      [(empty? errors) {::errors errors}])
+                    true))
+
+  :handle-unprocessable-entity ::errors
+
+  :post! (fn [{{conn :conn
+                {author-id :id} :session
+                params :params} :request}]
+           (when-let [p (api/create-publication! conn author-id params)]
+             {::publication p}))
+
+  :handle-created ::publication
+
   :handle-ok (fn [{{db :db params :params} :request}]
                (let [term (get params "searchTerm")
                      category-id (get params "category_id")

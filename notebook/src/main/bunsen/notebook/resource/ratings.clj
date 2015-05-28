@@ -5,10 +5,23 @@
 
 (defresource ratings [_] resource/defaults
   :allowed-methods [:post :get]
-  :post! (fn [{{conn :conn {id :id} :route-params} :request}]
-           (->> {:publication-id (Long. id)
-                 :user-id 1
-                 :score (get-in request [:params :score])}
+
+  :processable? (fn [{{params :params method :request-method} :request}]
+                  (if (= :post method)
+                    (let [errors (api/validate-rating params)]
+                      [(empty? errors) {::errors errors}])
+                    true))
+
+  :handle-unprocessable-entity ::errors
+
+  :post! (fn [{{conn :conn
+                {user-id :id} :session
+                {score :score} :params
+                {pub-id :pub-id} :route-params} :request}]
+           (->> {:publication-id pub-id
+                 :user-id user-id
+                 :score score}
                 (api/rate-publication conn)))
-  :handle-ok (fn [{{db :db {id :id} :route-params} :request}]
-               (api/avg-rating db (Long. id))))
+
+  :handle-ok (fn [{{db :db {pub-id :pub-id} :route-params} :request}]
+               (api/avg-rating db pub-id)))

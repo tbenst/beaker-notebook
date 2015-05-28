@@ -41,17 +41,14 @@ module.exports = function() {
     return Promise.map(notebooks.hashes(), function(attrs) {
       attrs.userEmail = attrs.userEmail || 'u@r.edu';
 
-      return _this.user.getDetails()
-      .then(function(user) {
-        return _this.notebook.createNotebook(
-          _.extend(
-            {},
-            _.omit(attrs, ['userEmail', 'projectName']),
-            {'user-id': user['public-id'],
-             'project-id': _this.currentProjects[attrs.projectName]['public-id']
-            }
-          )
-        );
+      return _this.notebook.createNotebook(_this.currentProjects[attrs.projectName]['public-id'],
+        _.omit(attrs, ['userEmail', 'projectName'])
+      )
+      .then(function(nb) {
+        var notebook = nb;
+        _this.currentNotebooks = _this.currentNotebooks || {};
+        _this.currentNotebooks[attrs.name] = notebook;
+        return notebook;
       });
     });
   });

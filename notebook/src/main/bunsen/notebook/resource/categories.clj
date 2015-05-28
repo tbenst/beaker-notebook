@@ -5,7 +5,10 @@
 
 (defresource categories [_] resource/defaults
   :allowed-methods [:post :get]
-  :post! (fn [_]
-           (api/create-category (:conn request) (:params request)))
+  :post! (fn [{{conn :conn params :params session :session} :request}]
+           (if-let [category (api/create-category conn params)]
+             {::category category}))
+
+  :handle-created ::category
   :handle-ok (fn [_]
                (api/find-categories (:db request))))

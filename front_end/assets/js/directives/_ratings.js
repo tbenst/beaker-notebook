@@ -46,9 +46,9 @@
           $scope.ratingAttrs.score = index + 1;
           var average;
           if ($scope.ratingAttrs.rateableId) {
-            average = Factories.Ratings.createPubRating($scope.ratingAttrs)
+            average = Factories.Ratings.createPubRating($scope.ratingAttrs.rateableId, $scope.ratingAttrs)
             .then(function() {
-              return Factories.Ratings.averagePubRating($scope.ratingAttrs);
+              return Factories.Ratings.averagePubRating($scope.ratingAttrs.rateableId);
             });
           } else {
             average = Factories.Ratings.createRating($scope.ratingAttrs)
@@ -57,10 +57,16 @@
            });
           }
           average.then(function(score) {
-            $scope.average = score;
+            $scope.average = score.rating || score;
             $scope.score = index + 1;
           });
         };
+
+        $scope.$watch('average', function(newValue, oldValue) {
+          if (newValue !== void(0)) {
+            setStars($scope.avgStars, $scope.average);
+          }
+        });
 
         $scope.$watch('score', function(newValue, oldValue) {
           if (newValue !== void(0)) {

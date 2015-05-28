@@ -3,21 +3,32 @@
             [clojure.instant :as inst]
             [clojure.set :as set]
             [bunsen.common.helper.utils :as utils]
+            [bunsen.notebook.helper.notebook :as nb-helper]
             [bouncer.core :as b]
             [bouncer.validators :as v]))
 
+(def project-pattern
+  [:db/id :project/name :project/description :project/created-at
+   :project/public-id :project/updated-at :project/owner-id
+   {:notebook/_project [
+                        :notebook/public-id
+                        :notebook/name
+                        :notebook/open
+                        :notebook/opened-at
+                        :notebook/created-at
+                        :notebook/updated-at
+                        {:notebook/project [:project/public-id]}
+                        {:publication/_notebook [
+                                                 :publication/public-id
+                                                 :publication/description]}]}])
+
 (defn find-project [db owner-id project-id]
-  (d/q '[:find (pull ?p [:db/id :project/name :project/description :project/created-at
-                         :project/public-id :project/updated-at :project/owner-id
-                           {:notebook/_project [:notebook/public-id :notebook/name
-                                                :notebook/open :notebook/opened-at
-                                                :notebook/created-at :notebook/updated-at
-                                                  {:notebook/project [:project/public-id]}]}]) .
-         :in $ [?oid ?pid]
+  (d/q '[:find (pull ?p pattern) .
+         :in $ pattern [?oid ?pid]
          :where
          [?p :project/public-id ?pid]
          [?p :project/owner-id ?oid]]
-       db (mapv utils/uuid-from-str [owner-id project-id])))
+       db project-pattern (mapv utils/uuid-from-str [owner-id project-id])))
 
 (defn last-updated-at [p]
   (let [notebook-timestamps (mapv #(:notebook/updated-at %) (:notebook/_project p))
@@ -25,12 +36,16 @@
     (-> (sort timestamps)
         last)))
 
+(defn fix-project-format [project]
+  (-> (dissoc project :db/id)
+      (assoc :last-updated-at (last-updated-at project))
+      (assoc :notebooks (map nb-helper/fix-notebook-format (:notebook/_project project)))
+      (dissoc :notebook/_project)))
+
 (defn load-project [db owner-id project-id]
   (when-let [p (when (and owner-id project-id)
                  (find-project db owner-id project-id))]
-    (-> (dissoc p :db/id)
-        (assoc :last-updated-at (last-updated-at p))
-        (set/rename-keys {:notebook/_project :notebooks}))))
+    (fix-project-format p)))
 
 (defn create-project! [conn owner-id {:keys [name description created-at updated-at]}]
   (let [p {:db/id (d/tempid :db.part/user)
@@ -91,13 +106,9 @@
 
 (defn find-projects [db owner-id]
   (when owner-id
-    (->> (d/q '[:find [(pull ?p [* {:notebook/_project [:notebook/public-id :notebook/name
-                                                        :notebook/open :notebook/opened-at
-                                                        :notebook/created-at :notebook/updated-at]}]) ...]
-                :in $ ?oid
-                :where
-                [?p :project/owner-id ?oid]]
-              db (utils/uuid-from-str owner-id))
-          (map (fn [p] (-> (dissoc p :db/id)
-                           (assoc :last-updated-at (last-updated-at p))
-                           (set/rename-keys {:notebook/_project :notebooks})))))))
+    (let [projects (d/q '[:find [(pull ?p pattern) ...]
+                          :in $ pattern ?oid
+                          :where
+                          [?p :project/owner-id ?oid]]
+                        db project-pattern (utils/uuid-from-str owner-id))]
+      (map fix-project-format projects))))
