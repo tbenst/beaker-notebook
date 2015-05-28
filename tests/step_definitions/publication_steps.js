@@ -23,11 +23,11 @@ module.exports = function() {
       .then(function(p) {
         return Promise.resolve(_.range(count))
         .each(function(i) {
-          return n.createNotebook(p['public-id'], {name: 'test notebook ' + i})
+          return n.createNotebook(p['public-id'], {name: names.notebook || 'test notebook ' + i})
           .then(function(nb) {
             return n.createPublication({
               'notebook-id': nb['public-id'],
-              'name': 'test publication ' + i,
+              'name': names.publication || 'test publication ' + i,
               'categoryID': cat['public-id']
             });
           });
