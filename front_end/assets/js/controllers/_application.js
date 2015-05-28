@@ -52,13 +52,15 @@
       $scope.$watch(function() {
         return $cookies.session;
       }, function() {
-        if ($cookies.session && $sessionStorage.user) {
-          $scope.isUserAdmin = AuthService.isUserAdmin();
-        }
-
         if (!$cookies.session && $sessionStorage.user) {
           $rootScope.signOut();
         }
+      });
+
+      $scope.$watch(function() {
+        return $sessionStorage.user;
+      }, function() {
+        $scope.isUserAdmin = AuthService.isUserAdmin()
       });
 
       $rootScope.signOut = function() {
