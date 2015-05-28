@@ -19,11 +19,10 @@
     var ready = false;
 
     function initBeaker(user) {
-      bkUtils.setServerRoot("/beaker/" + $sessionStorage.user.id + "/");
+      // beaker sub-modules that use cometd need the host & port to be specified explicitly:
+      bkUtils.setServerRoot(location.origin + "/beaker/" + $sessionStorage.user.id + "/");
       bkUtils.setFileRoot("/");
-      // cometd needs the host & port to be specified explicitly:
-      bkUtils.initializeCometd(location.origin +
-                               bkUtils.serverUrl('beaker/cometd/'));
+      bkUtils.initializeCometd(bkUtils.serverUrl('beaker/cometd/'));
 
       // note:  the below comes straight from beakerEmbed.js,
       // an example script provided by beaker-notebook, which
