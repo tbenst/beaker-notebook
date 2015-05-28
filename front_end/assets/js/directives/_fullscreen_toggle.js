@@ -1,8 +1,10 @@
 ;(function(angular, app) {
   app.directive('fullscreenToggle', [
+    'Sticky',
     'FullscreenState',
     'UserPreferences',
     function(
+      Sticky,
       FullscreenState,
       UserPreferences) {
     return {
@@ -15,6 +17,7 @@
         $scope.toggleFullscreen = function() {
           UserPreferences.set('fullscreenView', !$scope.isFullscreen());
           FullscreenState.toggleFullscreen(!$scope.isFullscreen());
+          Sticky.reflow();
         };
       }]
     };
