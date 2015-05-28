@@ -13,7 +13,7 @@ form.dataset-edit(name="datasetEditForm")
       label Vendor
       input.dataset-vendor-field(placeholder="vendor"
             ng-model="dataset.vendor"
-            typeahead="vendor for vendor in vendors | filter:$viewValue"
+            typeahead="vendor.name for vendor in vendors | filter:$viewValue"
             typeahead-min-length=3)
     .dataset-format
       label Format
