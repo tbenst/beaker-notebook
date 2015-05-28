@@ -93,7 +93,7 @@
         "COOKIE_SALT": "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<",
         "SERVER_PORT": 8444,
         "APP_GROUP": "/bunsen-test/beaker",
-        "MARKETPLACE_DATABASE_URI": "datomic:mem://marketplace",
+        "MARKETPLACE_DATABASE_URI": "datomic:mem://marketplace"
       },
       "healthChecks": [
         {
@@ -109,77 +109,6 @@
       "upgradeStrategy": {
         "minimumHealthCapacity": 0
       }
-    },
-    {
-      "id": "/bunsen-test/api",
-      "args": [
-        "--migrate"
-      ],
-      "cpus": 0.1,
-      "mem": 100,
-      "instances": 1,
-      "container": {
-        "type": "DOCKER",
-        "docker": {
-          "network": "BRIDGE",
-          "image": "api",
-          "portMappings": [
-            {
-              "containerPort": 3000,
-              "protocol": "tcp"
-            }
-          ]
-        },
-        "volumes": [
-          {
-            "hostPath": "/var/bunsen/test/beaker",
-            "containerPath": "/mnt/scratch",
-            "mode": "RW"
-          }
-        ]
-      },
-      "env": {
-        "NODE_ENV": "test",
-        "ALLOW_SEED": true,
-        "ALLOW_CROSS_ORIGIN": true,
-        "COOKIE_SALT": "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<",
-        "ENABLE_COVERAGE": true,
-        "DB_PORT_5432_TCP_ADDR": "172.17.42.1",
-        "DB_PORT_5432_TCP_PORT": "15432",
-        "MANDRILL_PASSWORD":"-QG6MBSWNPR7sPwRali8Jg",
-        "MANDRILL_USER":"ops+mandrill@mojotech.com",
-        "MAIL_FROM": "ops+bunsen@mojotech.com",
-        "EXTERNAL_DB_NAME": "bunsen_test",
-        "HOSTNAME": "bunsen-test",
-        "ELASTICSEARCH_PORT_9200_TCP_ADDR": "172.17.42.1",
-        "ELASTICSEARCH_PORT_9200_TCP_PORT": "19200",
-        "PROVISIONER_PORT_3001_TCP_ADDR": "172.17.42.1",
-        "PROVISIONER_PORT_3001_TCP_PORT": "13001",
-        "MARKETPLACE_HOST": "172.17.42.1",
-        "MARKETPLACE_PORT": "18444",
-        "SCRATCH_SPACE_ROOT": "/var/bunsen/test/beaker",
-        "SCRATCH_SPACE_PRESENTATION_DIR": "/tmp/bunsen/scratch",
-        "QUOTA": 102400
-      },
-      "healthChecks": [
-        {
-          "protocol": "HTTP",
-          "path": "/api/status",
-          "gracePeriodSeconds": 10,
-          "intervalSeconds": 10,
-          "portIndex": 0,
-          "timeoutSeconds": 5,
-          "maxConsecutiveFailures": 3
-        }
-      ],
-      "upgradeStrategy": {
-        "minimumHealthCapacity": 0
-      },
-      "dependencies": [
-        "../postgres",
-        "../provisioner",
-        "../elasticsearch"
-      ]
     },
     {
       "id": "/bunsen-test/web",

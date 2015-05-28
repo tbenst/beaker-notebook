@@ -16,7 +16,6 @@ CLOJURE_IMAGES := \
 
 IMAGES := \
 	web \
-	api \
 	beaker \
 	tests \
 	riemann \
@@ -42,13 +41,11 @@ DEPLOY_IMAGES := \
 	clean-% \
 	prepare-all \
 	prepare-% \
-	wait-api \
 	wait-web \
 	wait-provisioner \
 	wait-marketplace \
 	wait-notebook \
 	wait-user \
-	start-api \
 	start-web \
 	start-provisioner \
 	start-marketplace \
@@ -69,7 +66,7 @@ DEPLOY_IMAGES := \
 
 all: $(IMAGES)
 
-$(filter-out $(CLOJURE_IMAGES) web api beaker,$(IMAGES)):
+$(filter-out $(CLOJURE_IMAGES) web beaker,$(IMAGES)):
 	docker build --force-rm -t $(REGISTRY)/bunsen-$@:$(TAG) $@
 
 $(CLOJURE_IMAGES): install
@@ -78,9 +75,6 @@ $(CLOJURE_IMAGES): install
 
 web:
 	docker build --force-rm -t $(REGISTRY)/bunsen-web:$(TAG) front_end
-
-api:
-	docker build --force-rm -t $(REGISTRY)/bunsen-api:$(TAG) app
 
 beaker:
 	docker pull beakernotebook/beaker-prerelease
@@ -130,9 +124,6 @@ prepare-all: $(IMAGES:%=prepare-%)
 prepare-%: install
 	lein modules :dirs $* deps
 
-prepare-api:
-	make -C app
-
 prepare-beaker: submodules
 	make -C beaker
 
@@ -170,13 +161,10 @@ test-integration: wait-all start-tests
 
 test-marketplace: PORT := 8444
 
-wait-all: wait-web wait-api wait-provisioner wait-marketplace wait-notebook wait-user
+wait-all: wait-web wait-provisioner wait-marketplace wait-notebook wait-user
 
 wait-web: start-web
 	wget -qO- --retry-connrefused --tries=20 "$(HOST):8081"
-
-wait-api: start-api
-	wget -qO- --retry-connrefused --tries=20 "$(HOST):3000/api/status"
 
 wait-provisioner: start-provisioner
 	wget -qO- --retry-connrefused --tries=20 "$(HOST):3001/provisioner/v1/status"
@@ -195,9 +183,6 @@ start-tests:
 
 start-web:
 	docker run -d -p 8081:8081 --env-file="config/$(ENV).env" --name=bunsen-web $(REGISTRY)/bunsen-web:$(TAG) $(COMMANDS)
-
-start-api:
-	docker run -d -p 3000:3000 --env-file="config/$(ENV).env" --name=bunsen-api $(REGISTRY)/bunsen-api:$(TAG) $(COMMANDS)
 
 start-provisioner:
 	docker run -d -p 3001:3001 --env-file="config/$(ENV).env" --name=bunsen-provisioner \
