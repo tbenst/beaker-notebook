@@ -37,7 +37,9 @@
   (cond
     ; Typeahead
     (and (:index-name params) (:search-term params))
-    {:fuzzy_like_this_field {"name" {:like_text (:search-term params)}}}
+    {:multi_match {:query (:search-term params)
+                   :fields ["name"]
+                   :type "phrase_prefix"}}
     ; Category tree.
     (or (:root params) (:limit params))
     {:regexp {:path (format "%s(\\.[0-9]*){0,%s}" (or (:root params) 0) (or (:limit params) 0))}}
