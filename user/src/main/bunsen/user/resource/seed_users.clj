@@ -1,7 +1,6 @@
 (ns bunsen.user.resource.seed-users
   (:require [liberator.core :refer [defresource]]
             [bunsen.user.resource.defaults :refer [defaults]]
-            [liberator.representation :refer [ring-response]]
             [bunsen.user.model.user :as u]))
 
 (defresource seed-users [config] defaults

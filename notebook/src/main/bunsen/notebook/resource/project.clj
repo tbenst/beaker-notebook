@@ -1,7 +1,6 @@
 (ns bunsen.notebook.resource.project
   (:require [liberator.core :refer [defresource]]
             [bunsen.notebook.resource.defaults :refer [defaults]]
-            [liberator.representation :refer [ring-response]]
             [bunsen.common.helper.utils :as utils]
             [bunsen.notebook.presenter.project :as p]))
 

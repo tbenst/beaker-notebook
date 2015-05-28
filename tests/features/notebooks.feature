@@ -2,12 +2,12 @@ Feature: Use Notebooks
   Background:
     Given I'm signed in as a researcher
     And I have the following Projects:
-      | name               | description  | openedAt                |
-      | ghost of tom jones | watch out    | 2000-01-01 00:00:00.000 |
+      | name               | description  | opened-at                     |
+      | ghost of tom jones | watch out    | 2000-01-01T00:00:00.000+00:00 |
     And I have the following notebooks:
-      | name               | projectName        | openedAt                | open  |
-      | top secret         | ghost of tom jones | 1990-01-01 00:00:00.000 | false |
-      | powderpuff girls   | ghost of tom jones | 1991-01-01 00:00:00.000 | false |
+      | name               | projectName        | opened-at                     | open  |
+      | top secret         | ghost of tom jones | 1990-01-01T00:00:00.000+00:00 | false |
+      | powderpuff girls   | ghost of tom jones | 1991-01-01T00:00:00.000+00:00 | false |
     And I view my projects
 
   Scenario: Notebooks Listing

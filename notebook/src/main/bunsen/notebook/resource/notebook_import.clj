@@ -1,7 +1,6 @@
 (ns bunsen.notebook.resource.notebook-import
   (:require [liberator.core :refer [defresource]]
             [clojure.string :as str]
-            [liberator.representation :refer [ring-response as-response]]
             [bunsen.notebook.helper.resource :as resource]
             [bunsen.notebook.presenter.notebooks :as api]))
 

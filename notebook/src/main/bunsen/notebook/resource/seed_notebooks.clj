@@ -1,7 +1,6 @@
 (ns bunsen.notebook.resource.seed-notebooks
   (:require [liberator.core :refer [defresource]]
             [bunsen.notebook.resource.defaults :refer [defaults]]
-            [liberator.representation :refer [ring-response]]
             [bunsen.notebook.presenter.notebooks :as n]))
 
 (defresource seed-notebooks [config] defaults

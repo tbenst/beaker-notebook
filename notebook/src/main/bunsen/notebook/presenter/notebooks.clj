@@ -1,6 +1,5 @@
 (ns bunsen.notebook.presenter.notebooks
   (:require [datomic.api :as d]
-            [clojure.string :as str]
             [clojure.instant :as inst]
             [clojure.data.json :as json]
             [bouncer.core :as b]
@@ -52,16 +51,9 @@
        db notebook-pattern (mapv u/uuid-from-str [notebook-id user-id])))
 
 (defn valid-json? [contents]
-  (let [exception (try (json/read-str contents)
-                       (catch java.lang.Exception e e))]
-    (when (and (instance? Exception exception)
-               (not (re-matches #"JSON error.*" (.getMessage exception))))
-      (throw exception))
-    (if (and (= java.lang.Exception (class exception))
-             (re-matches #"JSON error.*" (.getMessage exception)))
-      false
-      true)))
-
+  (try
+    (json/read-str contents)
+    (catch Exception _ nil)))
 
 (defn validate-imported-notebook [db {:keys [contents name pid uid]}]
   (let [project (p/find-project db uid pid)]
