@@ -87,16 +87,27 @@ module.exports = function() {
     });
   });
 
-  this.Given(/^I view the first publication$/, function() {
+  function waitforPublicationList() {
     return this.driver.wait(function() {
-      return new this.Widgets.PublicationList().at(0)
-      .then(function(v) {
-        return v !== undefined;
-      })
-      .thenCatch(function() {
-        return false;
-      });
-    }.bind(this), global.timeout)
+      return new this.Widgets.PublicationList().length()
+      .then(function(n) {return n > 0});
+    }.bind(this), 10000, 'Found no publications');
+  }
+
+  this.When(/^I view the publication$/, function() {
+    var _this = this;
+
+    return new this.Widgets.MainNav().visitPublications()
+    .then(function() {
+      return waitforPublicationList.bind(_this)();
+    })
+    .then(function() {
+      return new _this.Widgets.PublicationList().clickAt({selector: 'a.title', index: 0});
+    });
+  });
+
+  this.Given(/^I view the first publication$/, function() {
+    return waitforPublicationList.bind(this)()
     .then(function() {
       return new this.Widgets.PublicationList()
       .clickAt({selector: 'a.title', index: 0});
@@ -108,12 +119,7 @@ module.exports = function() {
   });
 
   this.When(/^I wait for publications to load$/, function() {
-    return this.driver.wait(function() {
-      return new this.Widgets.PublicationList().length()
-      .then(function(num) {
-        return num > 0;
-      });
-    }.bind(this), 30000, 'Found no publications');
+    return waitforPublicationList.bind(this)();
   });
 
   this.When(/^I click the "([^"]*)" category$/, function(category) {
