@@ -30,10 +30,10 @@
         $rootScope.referrer = {
           fromState: fromState,
           fromParams: fromParams
-        }
+        };
 
         if ($sessionStorage.user) {
-          $scope.user = $sessionStorage.user
+          $scope.user = $sessionStorage.user;
         } else if (!toState.skipAuth) {
           AuthService.setUserIfLoggedIn()
           .then(function() {
@@ -45,7 +45,7 @@
               $state.go('landing');
               event.preventDefault();
             }
-          })
+          });
         }
       });
 
@@ -59,15 +59,15 @@
         if (!$cookies.session && $sessionStorage.user) {
           $rootScope.signOut();
         }
-      })
+      });
 
       $rootScope.signOut = function() {
         delete $sessionStorage.user;
         return UsersRestangular.all('session').remove()
         .then(function() {
           $state.go('landing');
-        })
-      }
+        });
+      };
 
     }
   ]);
