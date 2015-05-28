@@ -121,7 +121,6 @@ Feature: Publications
     And I delete the publication
     Then I should see that the notebook is not published
 
-  @flaky @unimplemented
   Scenario: Copying a publication to Bunsen
     Given there is a publication named "top secret"
     And I view the publications page

@@ -59,7 +59,7 @@ module.exports = function() {
   });
 
   this.Given(/^there is a publication named "([^"]*)"$/, function(name) {
-    return seedPublications.bind(this)(1, {name: name}, otherUser);
+    return seedPublications(1, {publication: name, notebook: name});
   });
 
   function categoryAttrs(attrs) {
