@@ -9,13 +9,19 @@
     };
 
     $scope.copyNotebook = function() {
-      F.Publications.copy($scope.publication.id, { projectId: $scope.copyToProject.id, name: $scope.newNotebookName }).then(function(notebook) {
+      F.Notebooks.createNotebook($scope.copyToProject['public-id'], {
+        'publication-id': $scope.publication['public-id'],
+        'name': $scope.newNotebookName})
+      .then(function(notebook) {
         $scope.$emit('closeModal');
-        $state.go('projects.items.item.notebook', { id: notebook.projectId, notebook_id: notebook.id });
+        $state.go('projects.items.item.notebook', {
+          id: $scope.copyToProject['public-id'],
+          notebook_id: notebook['public-id']
+        });
         delete $scope.error;
       })
       .catch(function(response) {
-        $scope.error = response.data.error;
+        $scope.error = response.data.name[0];
       });
     };
 
