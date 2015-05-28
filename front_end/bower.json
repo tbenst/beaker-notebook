@@ -7,7 +7,7 @@
     "angular-marked": "0.0.12",
     "angular-sanitize": "1.2.28",
     "angular-spinner": "0.5.0",
-    "angular-sticky": "mojotech/angular-sticky#v1.7.0-mojo3",
+    "angular-sticky": "mojotech/angular-sticky#v1.7.0-mojo5",
     "angular-tree-control": "mojotech/angular-tree-control#0.2.2-mojo1",
     "angular-truncate": "mojotech/angular-truncate#v0.1.2-mojo1",
     "angular-ui-grid": "~3.0.0-rc.12",
