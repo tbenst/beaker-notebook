@@ -34,8 +34,7 @@
 
         if ($sessionStorage.user) {
           $scope.user = $sessionStorage.user
-        }
-        else if (!toState.skipAuth) {
+        } else if (!toState.skipAuth) {
           AuthService.setUserIfLoggedIn()
           .then(function() {
             $scope.user = $sessionStorage.user;
