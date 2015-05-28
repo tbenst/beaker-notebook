@@ -1,4 +1,4 @@
-!(function(app) {
+;(function(app) {
   app.controller('application', [
     '$rootScope',
     '$scope',
@@ -26,16 +26,15 @@
       $rootScope.$session = $sessionStorage;
 
       $scope.$state = $state;
-      $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
+      $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
         $rootScope.referrer = {
           fromState: fromState,
           fromParams: fromParams
-        }
+        };
 
         if ($sessionStorage.user) {
-          $scope.user = $sessionStorage.user
-        }
-        else if (!toState.skipAuth) {
+          $scope.user = $sessionStorage.user;
+        } else if (!toState.skipAuth) {
           AuthService.setUserIfLoggedIn()
           .then(function() {
             $scope.user = $sessionStorage.user;
@@ -43,10 +42,10 @@
           .catch(function() {
             if (!$sessionStorage.user) {
               $rootScope.goTo = toState;
-              $state.go("landing");
+              $state.go('landing');
               event.preventDefault();
             }
-          })
+          });
         }
       });
 
@@ -60,15 +59,16 @@
         if (!$cookies.session && $sessionStorage.user) {
           $rootScope.signOut();
         }
-      })
+      });
 
       $rootScope.signOut = function() {
         delete $sessionStorage.user;
         return UsersRestangular.all('session').remove()
         .then(function() {
           $state.go('landing');
-        })
-      }
+        });
+      };
 
-  }]);
+    }
+  ]);
 })(window.bunsen);
