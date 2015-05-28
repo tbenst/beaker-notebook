@@ -43,7 +43,7 @@
 
 (deftest read-categories
   (testing "reading categories by search term"
-    (is (= 2 (count (search-categories)))))
+    (is (= 3 (count (search-categories)))))
 
   (testing "reading category tree"
     (is (= 200 (:status
