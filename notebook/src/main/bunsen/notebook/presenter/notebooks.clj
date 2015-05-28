@@ -38,7 +38,7 @@
    :notebook/created-at
    :notebook/opened-at
    :notebook/open
-   {:notebook/project [:project/public-id]}
+   {:notebook/project [:project/public-id :project/name]}
    {:publication/_notebook [:publication/public-id
                             :publication/created-at
                             :publication/updated-at

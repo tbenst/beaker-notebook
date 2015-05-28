@@ -289,11 +289,20 @@ Feature: Use Notebooks
     And I view the notebook "top secret"
     Then the "top secret" notebook should be active
 
+  Scenario: Viewing current project's project page
+    When I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    And I go back to the current notebook's project
+    Then I should see the "ghost of tom jones" project detail page
+
   Scenario: Fullscreen View
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
     And I toggle fullscreen mode
     Then the notebook should be in fullscreen
+    When I go back to the current notebook's project
+    And I view the notebook "powderpuff girls"
+    Then the notebook should still be in fullscreen
     When I toggle fullscreen mode
     Then I should see the project and notebook options
 

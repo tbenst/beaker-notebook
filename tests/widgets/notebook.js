@@ -118,6 +118,10 @@ module.exports = function() {
       });
     },
 
+    goToProject: function() {
+      return this.click('.title-bar a.project');
+    },
+
     sidebarsVisible: function() {
       return this.isVisible('.sidebar-left, .sidebar-right');
     },

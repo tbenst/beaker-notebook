@@ -1,5 +1,10 @@
 ;(function(angular, app) {
-  app.factory('UsersFactory', ['Restangular', 'UsersRestangular', function(Restangular, UsersRestangular) {
+  app.factory('UsersFactory', [
+      'Restangular',
+      'UsersRestangular',
+      function(
+        Restangular,
+        UsersRestangular) {
     var R = Restangular;
 
     return {

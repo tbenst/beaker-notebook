@@ -314,12 +314,16 @@ module.exports = function() {
     return this.driver.get(this.route.projectDashboard + '/2/notebooks/2');
   });
 
-  this.Then(/^the notebook should be in fullscreen$/, function() {
+  this.Then(/^the notebook should (?:still )?be in fullscreen$/, function() {
     return new this.Widgets.Notebook().sidebarsVisible().should.eventually.be.false;
   });
 
   this.When(/^I toggle fullscreen mode$/, function() {
     return new this.Widgets.Notebook().toggleFullscreen();
+  });
+
+  this.When(/^I go back to the current notebook's project$/, function() {
+    return new this.Widgets.Notebook().goToProject();
   });
 
   this.Then(/^I should see the project and notebook options$/, function() {
