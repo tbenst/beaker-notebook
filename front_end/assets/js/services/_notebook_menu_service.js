@@ -27,7 +27,7 @@
                 id: "save-as-menuitem"
               },
               {
-                name: "Rename",
+                name: "Rename...",
                 sortorder: 60,
                 action: function () {
                   RenameNotebook.openModal($scope, $scope.notebook.current);
@@ -53,98 +53,19 @@
                 type: 'divider'
               },
               {
-                name: "Language manager...",
-                sortorder: 100,
-                action: function () {
-                  bkHelper.showLanguageManager();
-                },
-                tooltip: "Show available languages and edit their settings",
-                id: "language-manager-menuitem"
-              },
-              {
-                name: 'Show Hierarchy',
-                sortorder: 102,
-                isChecked: function() {
-                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
-                  return notebookViewModel.isHierarchyEnabled();
-                },
-                action: function() {
-                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
-                  notebookViewModel.toggleHierarchyEnabled();
-                },
-                id: "show-hierarchy-menuitem"
-              },
-              {
-                name: 'Advanced Mode',
-                sortorder: 105,
-                isChecked: function() {
-                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
-                  return notebookViewModel.isAdvancedMode();
-                },
-                action: function() {
-                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
-                  notebookViewModel.toggleAdvancedMode();
-                  bkHelper.httpPost(bkHelper.serverUrl("beaker/rest/util/setUseAdvancedMode"), {
-                    advancedmode: notebookViewModel.isAdvancedMode()
-                  });
-                },
-                id: "advanced-mode-menuitem"
-              },
-              {
-                name: "Show stdout/stderr",
-                sortorder: 107,
-                action: function () {
-                  bkHelper.getBkNotebookViewModel().toggleShowOutput();
-                },
-                tooltip: "Show or hide the stdout and stderr.",
-                isChecked: function() {
-                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
-                  if (notebookViewModel) {
-                    return notebookViewModel.isShowingOutput();
-                  }
-                },
-                id: "stdout-stderr-menuitem"
-              },
-              {
-                name: "Lock",
-                sortorder: 110,
-                action: function () {
-                  bkHelper.toggleNotebookLocked();
-                },
-                tooltip: "Lock notebook from further editing",
-                isChecked: function () {
-                  return bkHelper.isNotebookLocked();
-                },
-                id: "lock-menuitem"
-              },
-              {
-                name: 'Delete all output cells',
-                sortorder: 120,
-                action: function () {
-                  bkHelper.deleteAllOutputCells();
-                },
-                tooltip: 'Deletes all of the output cells.',
-                id: "delete-all-menuitem"
-              },
-              {
-                name: "Run all cells",
-                sortorder: 130,
-                action: function() {
-                  bkHelper.evaluateRoot("root");
-                },
-                tooltip: "Run all cells",
-                id: "run-all-cells-menuitem"
-              },
-              {
-                name: 'Collapse All Sections',
-                sortorder: 135,
-                action: bkHelper.collapseAllSections,
-                id: "collapse-all-menuitem"
-              },
-              {
                 name: "Edit mode",
-                sortorder: 140,
+                sortorder: 90,
                 id: "edit-mode-menuitem"
+              },
+              {
+                name: "View",
+                sortorder: 100,
+                id: "view-menuitem"
+              },
+              {
+                name: "Run",
+                sortorder: 110,
+                id: "run-menuitem"
               }
             ]
           },
@@ -185,6 +106,109 @@
                 action: function () {
                   bkHelper.setInputCellKeyMapMode("emacs");
                 }
+              }
+            ]
+          },
+          {
+            parent: "Bunsen",
+            submenu: "View",
+            id: "view-menuitem",
+            items: [
+              {
+                name: "Show stdout/stderr",
+                sortorder: 10,
+                action: function () {
+                  bkHelper.getBkNotebookViewModel().toggleShowOutput();
+                },
+                tooltip: "Show or hide the stdout and stderr.",
+                isChecked: function() {
+                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
+                  if (notebookViewModel) {
+                    return notebookViewModel.isShowingOutput();
+                  }
+                },
+                id: "stdout-stderr-menuitem"
+              },
+              {
+                name: 'Collapse All Sections',
+                sortorder: 20,
+                action: bkHelper.collapseAllSections,
+                id: "collapse-all-menuitem"
+              },
+              {
+                name: 'Show Hierarchy',
+                sortorder: 30,
+                isChecked: function() {
+                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
+                  return notebookViewModel.isHierarchyEnabled();
+                },
+                action: function() {
+                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
+                  notebookViewModel.toggleHierarchyEnabled();
+                },
+                id: "show-hierarchy-menuitem"
+              },
+              {
+                name: 'Advanced Mode',
+                sortorder: 40,
+                isChecked: function() {
+                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
+                  return notebookViewModel.isAdvancedMode();
+                },
+                action: function() {
+                  var notebookViewModel = bkHelper.getBkNotebookViewModel();
+                  notebookViewModel.toggleAdvancedMode();
+                  bkHelper.httpPost(bkHelper.serverUrl("beaker/rest/util/setUseAdvancedMode"), {
+                    advancedmode: notebookViewModel.isAdvancedMode()
+                  });
+                },
+                id: "advanced-mode-menuitem"
+              },
+              {
+                name: "Lock",
+                sortorder: 50,
+                action: function () {
+                  bkHelper.toggleNotebookLocked();
+                },
+                tooltip: "Lock notebook from further editing",
+                isChecked: function () {
+                  return bkHelper.isNotebookLocked();
+                },
+                id: "lock-menuitem"
+              }
+            ]
+          },
+          {
+            parent: "Bunsen",
+            submenu: "Run",
+            id: "run-menuitem",
+            items: [
+              {
+                name: "Language manager...",
+                sortorder: 10,
+                action: function () {
+                  bkHelper.showLanguageManager();
+                },
+                tooltip: "Show available languages and edit their settings",
+                id: "language-manager-menuitem"
+              },
+              {
+                name: 'Delete all output cells',
+                sortorder: 20,
+                action: function () {
+                  bkHelper.deleteAllOutputCells();
+                },
+                tooltip: 'Deletes all of the output cells.',
+                id: "delete-all-menuitem"
+              },
+              {
+                name: "Run all cells",
+                sortorder: 30,
+                action: function() {
+                  bkHelper.evaluateRoot("root");
+                },
+                tooltip: "Run all cells",
+                id: "run-all-cells-menuitem"
               }
             ]
           }
