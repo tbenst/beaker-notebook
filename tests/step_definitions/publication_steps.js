@@ -15,18 +15,18 @@ module.exports = function() {
     }
   }
 
-  function seedPublications(count, names) {
-    return seedCategory(names.category)
+  function seedPublications(count, projectName, categoryName) {
+    return seedCategory(categoryName)
     .then(function(cat) {
-      return n.createProject({name: names.project || 'test', description: 'test'})
+      return n.createProject({name: projectName || 'test', description: 'test'})
       .then(function(p) {
         return Promise.resolve(_.range(count))
         .each(function(i) {
-          return n.createNotebook(p['public-id'], {name: names.notebook || 'test notebook ' + i})
+          return n.createNotebook(p['public-id'], {name: 'test notebook ' + i})
           .then(function(nb) {
             return n.createPublication({
               'notebook-id': nb['public-id'],
-              'name': names.publication || 'test publication ' + i,
+              'name': 'test publication ' + i,
               'categoryID': cat['public-id']
             });
           });
@@ -36,11 +36,11 @@ module.exports = function() {
   }
 
   this.Given(/^there are (\d+) publications(?: for the project "([^"]*)")?$/, function(count, projectName) {
-    return seedPublications(count, {project: projectName});
+    return seedPublications(count, projectName);
   });
 
   this.Given(/^there are (\d+) publications in the "([^"]*)" category$/, function(count, categoryName) {
-    return seedPublications(count, {category: categoryName});
+    return seedPublications(count, null, categoryName);
   });
 
   this.Given(/^I have a publication$/, function() {
@@ -59,7 +59,7 @@ module.exports = function() {
   });
 
   this.Given(/^there is a publication named "([^"]*)"$/, function(name) {
-    return seedPublications(1, {publication: name, notebook: name});
+    return seedPublications.bind(this)(1, {name: name}, otherUser);
   });
 
   function categoryAttrs(attrs) {
@@ -87,27 +87,16 @@ module.exports = function() {
     });
   });
 
-  function waitforPublicationList() {
-    return this.driver.wait(function() {
-      return new this.Widgets.PublicationList().length()
-      .then(function(n) {return n > 0});
-    }.bind(this), 10000, 'Found no publications');
-  }
-
-  this.When(/^I view the publication$/, function() {
-    var _this = this;
-
-    return new this.Widgets.MainNav().visitPublications()
-    .then(function() {
-      return waitforPublicationList.bind(_this)();
-    })
-    .then(function() {
-      return new _this.Widgets.PublicationList().clickAt({selector: 'a.title', index: 0});
-    });
-  });
-
   this.Given(/^I view the first publication$/, function() {
-    return waitforPublicationList.bind(this)()
+    return this.driver.wait(function() {
+      return new this.Widgets.PublicationList().at(0)
+      .then(function(v) {
+        return v !== undefined;
+      })
+      .thenCatch(function() {
+        return false;
+      });
+    }.bind(this), global.timeout)
     .then(function() {
       return new this.Widgets.PublicationList()
       .clickAt({selector: 'a.title', index: 0});
@@ -119,7 +108,12 @@ module.exports = function() {
   });
 
   this.When(/^I wait for publications to load$/, function() {
-    return waitforPublicationList.bind(this)();
+    return this.driver.wait(function() {
+      return new this.Widgets.PublicationList().length()
+      .then(function(num) {
+        return num > 0;
+      });
+    }.bind(this), 30000, 'Found no publications');
   });
 
   this.When(/^I click the "([^"]*)" category$/, function(category) {

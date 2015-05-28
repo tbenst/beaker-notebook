@@ -11,18 +11,6 @@
 (defresource notebooks [_] resource/defaults
   :allowed-methods [:get :post]
 
-  :processable? (fn [{{db :db
-                       params :params
-                       {uid :id} :session
-                       {pid :project-id} :route-params} :request}]
-                  (if (:name params)
-                    (let [fixed-params (assoc params :project-id pid :user-id uid)
-                          errors (api/validate-notebook-name db fixed-params)]
-                      [(empty? errors) {::errors errors}])
-                    true))
-
-  :handle-unprocessable-entity ::errors
-
   :post! (fn [{{conn :conn
                 params :params
                 {uid :id} :session
