@@ -72,7 +72,7 @@ $(CLOJURE_IMAGES): install
 	docker build --force-rm -t $(REGISTRY)/bunsen-$@:$(TAG) $@
 
 web:
-	docker build --force-rm -t $(REGISTRY)/bunsen-web:$(TAG) front_end
+	docker build --force-rm -t $(REGISTRY)/bunsen-web:$(TAG) web
 
 beaker:
 	docker pull beakernotebook/beaker-prerelease
@@ -126,7 +126,7 @@ prepare-beaker: submodules
 	make -C beaker
 
 prepare-web:
-	make -C front_end
+	make -C web
 
 prepare-riemann:
 	make -C riemann
