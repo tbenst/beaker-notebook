@@ -26,7 +26,7 @@
       $rootScope.$session = $sessionStorage;
 
       $scope.$state = $state;
-      $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
+      $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
         $rootScope.referrer = {
           fromState: fromState,
           fromParams: fromParams
@@ -43,7 +43,7 @@
           .catch(function() {
             if (!$sessionStorage.user) {
               $rootScope.goTo = toState;
-              $state.go("landing");
+              $state.go('landing');
               event.preventDefault();
             }
           })
