@@ -128,6 +128,7 @@ As a researcher, I want to manage my projects.
     And I search for project "rage"
     Then I should see 1 project results.
 
+  @flaky @broken
   Scenario: Project Search Metadata
     Given I have the following Projects:
       | name             | description                          |
