@@ -11,8 +11,7 @@ CLOJURE_IMAGES := \
 	provisioner \
 	marketplace \
 	notebook \
-	user \
-	vendor
+	user
 
 IMAGES := \
 	web \
@@ -53,7 +52,6 @@ DEPLOY_IMAGES := \
 	start-user \
 	start-riemann \
 	start-tests-user \
-	start-tests-vendor \
 	start-tests-integration \
 	start-tests-marketplace \
 	start-beaker \
@@ -144,7 +142,7 @@ prepare-datomic:
 #
 #
 
-test test-all: test-vendor test-marketplace test-user test-integration
+test test-all: test-marketplace test-user test-integration
 
 test-%: ENV := test
 test-%: HOST := 10.10.10.10
