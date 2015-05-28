@@ -1,5 +1,3 @@
-var Promise   = require('bluebird');
-
 module.exports = function() {
   var World = this;
 
@@ -23,18 +21,8 @@ module.exports = function() {
     root: 'modal',
 
     selectProject: function(project) {
-      var _this = this;
-
-      return this.read('option:checked')
-      .then(function(selected) {
-        // Widget.Form.select() fails if the passed option is already selected
-        if (project == selected) {
-          return true;
-        } else {
-          return new World.Widget.Form({ root: _this.root })
-          .select({ text: project });
-        }
-      })
+      return new World.Widget.Form({ root: this.root })
+      .select({ text: project });
     },
 
     nameNotebook: function(name) {
