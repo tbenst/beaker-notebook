@@ -14,14 +14,16 @@
  *  limitations under the License.
  */
 
-requirejs.config({
-  paths: {
-    'ipython3_comm':       "/plugins/eval/ipythonPlugins/vendor/ipython3/comm",
-    'ipython3_namespace':  "/plugins/eval/ipythonPlugins/vendor/ipython3/namespace",
-    'ipython3_kernel':     "/plugins/eval/ipythonPlugins/vendor/ipython3/kernel",
-    'ipython3_outputarea': "/plugins/eval/ipythonPlugins/vendor/ipython3/outputarea",
-    'ipython3_session':    "/plugins/eval/ipythonPlugins/vendor/ipython3/session",
-    'ipython3_serialize':  "/plugins/eval/ipythonPlugins/vendor/ipython3/serialize",
-    'ipython3_utils':      "/plugins/eval/ipythonPlugins/vendor/ipython3/utils"
-  }
+define(function() {
+  requirejs.config({
+    paths: {
+      'ipython3_comm':       "/plugins/eval/ipythonPlugins/vendor/ipython3/comm",
+      'ipython3_namespace':  "/plugins/eval/ipythonPlugins/vendor/ipython3/namespace",
+      'ipython3_kernel':     "/plugins/eval/ipythonPlugins/vendor/ipython3/kernel",
+      'ipython3_outputarea': "/plugins/eval/ipythonPlugins/vendor/ipython3/outputarea",
+      'ipython3_session':    "/plugins/eval/ipythonPlugins/vendor/ipython3/session",
+      'ipython3_serialize':  "/plugins/eval/ipythonPlugins/vendor/ipython3/serialize",
+      'ipython3_utils':      "/plugins/eval/ipythonPlugins/vendor/ipython3/utils"
+    }
+  });
 });
