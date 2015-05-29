@@ -4,7 +4,7 @@
             [bunsen.user.model.user :as u]))
 
 (defresource seed-users [config] defaults
-  :allowed? (= "true" (:allow-seed config))
+  :allowed? (comp #{"true"} :allow-seed :config :request)
 
   :allowed-methods #{:post}
 

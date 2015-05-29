@@ -3,6 +3,6 @@
             [bunsen.user.resource.defaults :refer [defaults]]
             [liberator.representation :refer [ring-response]]))
 
-(defresource session [config] defaults
+(defresource session [_] defaults
   :allowed-methods #{:delete}
   :handle-no-content (fn [_] (ring-response {:session nil})))

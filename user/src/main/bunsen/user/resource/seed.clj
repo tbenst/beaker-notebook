@@ -5,13 +5,13 @@
             [bunsen.common.component.database :as db]
             [bunsen.user.resource.defaults :refer [defaults]]))
 
-(defresource seed [config] defaults
-  :allowed? (= "true" (:allow-seed config))
+(defresource seed [_] defaults
+  :allowed? (comp #{"true"} :allow-seed :config :request)
 
-  :allowed-methods [:delete]
+  :allowed-methods #{:delete}
 
   :delete! (fn [ctx]
-             (let [uri (:database-uri config)]
+             (let [uri (-> ctx :request :config :database-uri)]
                (d/delete-database uri)
                (d/create-database uri)
                (db/migrate (d/connect uri) "migrations.edn"))))

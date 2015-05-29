@@ -4,7 +4,7 @@
             [liberator.representation :refer [ring-response]]
             [bunsen.user.model.session :as s]))
 
-(defresource sessions [config] defaults
+(defresource sessions [_] defaults
   :allowed-methods #{:post}
 
   ; validate session params
