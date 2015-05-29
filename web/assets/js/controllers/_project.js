@@ -10,6 +10,7 @@
     'NotebookRestangular',
     'RenameNotebook',
     'TrackingService',
+    'LastViewed',
     'Beaker',
     function(
       $scope,
@@ -22,11 +23,14 @@
       NR,
       RenameNotebook,
       TrackingService,
+      LastViewed,
       Beaker) {
 
     var F = Factories;
     $scope.editMode = false;
     $scope.importError = null;
+
+    LastViewed.set('projects');
 
     $scope.loadProject = function() {
       F.Projects.getProject($state.params.id).then(function(d) {
@@ -125,8 +129,8 @@
           return n.project['public-id'] !== $state.params.id;
         });
 
-        var lastProject = _.last(_.sortBy($scope.projects.list, 'created-at'));
-        if (lastProject) $state.go('projects.items.item', {id: lastProject['public-id']})
+        LastViewed.clear('projects');
+        $state.go('projects.items');
       });
     };
 

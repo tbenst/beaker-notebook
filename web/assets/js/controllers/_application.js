@@ -10,6 +10,7 @@
     '$sessionStorage',
     'AuthService',
     'Factories',
+    'LastViewed',
     'BeakerNotebookService',
     function(
       $rootScope,
@@ -22,6 +23,7 @@
       $sessionStorage,
       AuthService,
       F,
+      LastViewed,
       BeakerNotebookService) {
       $rootScope.$session = $sessionStorage;
 
@@ -64,7 +66,7 @@
       });
 
       $rootScope.signOut = function() {
-        delete $sessionStorage.user;
+        $sessionStorage.$reset();
         return UsersRestangular.all('session').remove()
         .then(function() {
           $state.go('landing');

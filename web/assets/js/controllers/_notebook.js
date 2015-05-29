@@ -3,6 +3,7 @@
     '$scope',
     '$rootScope',
     '$state',
+    'LastViewed',
     '$sce',
     'Factories',
     '$compile',
@@ -23,6 +24,7 @@
       $scope,
       $rootScope,
       $state,
+      LastViewed,
       $sce,
       F,
       $compile,
@@ -42,6 +44,8 @@
 
     var frame;
     var prjId = $state.params.id;
+
+    LastViewed.set('projects');
 
     $scope.projects.search = '';
 
@@ -126,7 +130,7 @@
         TrackingService.measure('BaselineProvisionedNotebookCreate', 'CreateProvisionedNotebook', 'NotebookLoaded');
       });
     });
-      
+
     $scope.save = function() {
       bkHelper.saveNotebook().then(function() {
         $rootScope.$broadcast('notebookUpdated', $scope.notebook.current);
