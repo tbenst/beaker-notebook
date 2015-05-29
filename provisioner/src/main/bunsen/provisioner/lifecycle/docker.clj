@@ -25,6 +25,9 @@
                             :token token
                             :port container-port
                             :image container-image
+                            :cmd ["/bin/sh",
+                                  "-c",
+                                  "su -m beaker -c \"export PATH=$PATH:/usr/sbin \u0026\u0026 /home/beaker/src/core/beaker.command --listen-interface=*\""]
                             :host-path host-path
                             :container-path container-path})))]
         (when created?

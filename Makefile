@@ -75,11 +75,7 @@ web:
 	docker build --force-rm -t $(REGISTRY)/bunsen-web:$(TAG) web
 
 beaker:
-	docker pull beakernotebook/beaker-prerelease
-
-submodules:
-	cd beaker/beaker-server && git fetch --tags
-	git submodule update --init
+	docker pull beakernotebook/beaker-prerelease:master-0-g95b1538
 
 install:
 	lein modules install
@@ -122,8 +118,7 @@ prepare-all: $(IMAGES:%=prepare-%)
 prepare-%: install
 	lein modules :dirs $* deps
 
-prepare-beaker: submodules
-	make -C beaker
+prepare-beaker: beaker
 
 prepare-web:
 	make -C web
