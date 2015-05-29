@@ -18,15 +18,15 @@
 (defresource status [_] defaults
   :handle-ok (constantly "ok"))
 
-(defresource instance [config] defaults
+(defresource instance [_] defaults
   :allowed-methods #{:get :post}
-  :exists? (fn [_]
+  :exists? (fn [{{config :config} :request}]
              (let [id (get-in request [:session :id])]
                {::instance
                 (lifecycle/inspect (lifecycle config) id)}))
   :handle-ok ::instance
 
-  :post! (fn [{{conn :conn {id :id} :session remote-user :remote-user} :request}]
+  :post! (fn [{{conn :conn {id :id} :session config :config remote-user :remote-user} :request}]
            ; use the same token for all users in test env
            (let [token (if (:beakerauth-token config) (:beakerauth-token config) (random/hex 20))
                  beaker (b/find-or-create-beaker! conn {:user-id id :token token})]

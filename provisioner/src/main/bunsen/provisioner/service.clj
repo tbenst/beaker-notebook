@@ -3,15 +3,17 @@
   (:require [environ.core :refer [env]]
             [clojure.data.json :as json]
             [com.stuartsierra.component :as component]
-            [bunsen.common.component.database :refer [database]]
-            [bunsen.provisioner.component.server :refer [server]]))
+            (bunsen.common.component [server :refer [server]]
+                                     [database :refer [database]])
+            [bunsen.provisioner.component.handler :refer [handler]]))
 
 (defn service [config]
-  (-> (component/system-map
-        :database (database config)
-        :server (component/using
-                  (server config)
-                  {:database :database}))))
+  (component/system-map
+    :database (database config)
+    :handler (component/using
+               (handler config) [:database])
+    :server (component/using
+              (server config) [:handler])))
 
 (defn -main [& args]
   (component/start
@@ -33,19 +35,17 @@
        :scratch-space-root (:scratch-space-root env)
        :beakerauth-token (:beakerauth-token env)
        :lifecycle-strategy (keyword (:provisioner-lifecycle-strategy env))
-       :use-kerberos (let [kerberosprincipal (:kerberos-principal env)]
-   		        (if kerberosprincipal
-		          true false))
+       :kerberos? (boolean (:kerberos-principal env))
        :kerberos-principal (:kerberos-principal env)
        :jetty-options (let [keystore (:ssl-keystore env)
-   		            keystore-pass (:ssl-keystore-pass env)]
+                            keystore-pass (:ssl-keystore-pass env)]
                         (if-not (and keystore keystore-pass)
-                        {:port (Integer. (:provisioner-port env))
-		         :ssl? false
-		         :join? false}
-		        {:ssl? true
-		         :port (+ (Integer. (:provisioner-port env)) 1)
-		         :ssl-port (Integer. (:provisioner-port env))
-		         :keystore (:ssl-keystore env)
-		         :key-password (:ssl-keystore-pass env)
-		         :join? false}))})))
+                          {:port (Integer. (:provisioner-port env))
+                           :ssl? false
+                           :join? false}
+                          {:ssl? true
+                           :port (+ (Integer. (:provisioner-port env)) 1)
+                           :ssl-port (Integer. (:provisioner-port env))
+                           :keystore (:ssl-keystore env)
+                           :key-password (:ssl-keystore-pass env)
+                           :join? false}))})))
