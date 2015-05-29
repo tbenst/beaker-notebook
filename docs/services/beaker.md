@@ -6,23 +6,21 @@ Beaker essentially provides an alternate version of the [Beaker-notebook](http:/
 with modifications that make it suitable for running inside Bunsen (and
 unsusable in a desktop context).
 
+## How Beaker is run in Bunsen
 
-## Updating embeded beaker-server
+TwoSigma publishes a Docker image for Beaker-notebook; we simply run this
+docker image with certain command line parameters to act as the Beaker server
+for Bunsen.
 
-The beaker directory uses a [git submodule](http://git-scm.com/docs/git-submodule) to vendor the beaker-server.
-There are changes on this repo that are specific to the Bunsen world.
+When running your native development environment, you will still normally
+run the Beaker server via Docker.  For this reason, you need to have your
+Vagrant server up and running, so that Beaker server can be run.
 
-To update the beaker-server submodule:
 
-(http://stackoverflow.com/questions/8813249/git-submodules-specify-a-specific-sha)
+## Updating embededd beaker-server
 
-  * Update the submodule like any other repo
-    * `cd beaker/beaker-server`
-    * `git fetch`
-    * `git checkout origin/bunsen_integration`
-  * Commit your changes in the base project
-
-Keep in mind that this will only change the local versions.  In order to make a version
-available in staging/ci, you'll need to ask Scott to update the development docker image
+In the event that the behavior of beaker-server changes, you will
+want to make this new version available to Bunsen.
+To accomplish this, you'll need to ask Scott to update the development docker image
 https://registry.hub.docker.com/u/beakernotebook/beaker-prerelease/ and give the build
-a unique tag, and update bunsen-staging.json with the new tag.
+a unique tag, and update Procfile, Makefile, and bunsen-staging.json with the new tag.
