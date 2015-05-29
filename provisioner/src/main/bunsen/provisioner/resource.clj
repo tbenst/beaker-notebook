@@ -26,13 +26,13 @@
                 (lifecycle/inspect (lifecycle config) id)}))
   :handle-ok ::instance
 
-  :post! (fn [{{conn :conn {id :id} :session} :request}]
+  :post! (fn [{{conn :conn {id :id} :session remote-user :remote-user} :request}]
            ; use the same token for all users in test env
            (let [token (if (:beakerauth-token config) (:beakerauth-token config) (random/hex 20))
                  beaker (b/find-or-create-beaker! conn {:user-id id :token token})]
              (when-let [i (lifecycle/create!
                             (lifecycle config)
-                            {:id id :token (:beaker/token beaker)})]
+                            {:id id :token (:beaker/token beaker) :user remote-user})]
                {::instance i
                 ::token (:beaker/token beaker)})))
 
