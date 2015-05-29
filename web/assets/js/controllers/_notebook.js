@@ -64,7 +64,7 @@
     };
 
     $scope.otherOpenNotebooks = function(value, index) {
-      return value.open && !$scope.isViewingNotebook(value.id);
+      return value.open && !$scope.isViewingNotebook(value['public-id']);
     };
 
     $scope.otherOpenNotebooksExist = function() {
