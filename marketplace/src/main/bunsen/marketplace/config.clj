@@ -16,9 +16,7 @@
                             (if-not (and user pass)
                               {}
                               {:basic-auth [user pass]}))
-   :use-kerberos (let [kerberosprincipal (:kerberos-principal env)]
-                   (if kerberosprincipal
-                     true false))
+   :kerberos?  (boolean (:kerberos-principal env))
    :kerberos-principal (:kerberos-principal env)
    :jetty-options (let [keystore (:ssl-keystore env)
                         keystore-pass (:ssl-keystore-pass env)]

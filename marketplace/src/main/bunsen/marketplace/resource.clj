@@ -54,47 +54,45 @@
   :allowed-methods #{:delete}
   :delete! #(unseed! (get-datomic %)))
 
-(defresource seed-datasets [_] restricted-read-defaults
+(defresource seed-datasets [params] restricted-read-defaults
   :allowed-methods #{:post}
-  :processable? #(let [body (get-body %)]
-                   (api/create-datasets! (get-es %) (:indexName body) (:datasets body))))
+  :processable? #(api/create-datasets! (get-es %) (:indexName params) (:datasets params)))
 
 (defresource seed-subscriptions [_] restricted-read-defaults
   :allowed-methods #{:delete}
   :delete! #(api/retract-subscriptions! (get-conn %)))
 
-(defresource categories [_] restricted-write-defaults
+(defresource categories [params] restricted-write-defaults
   :allowed-methods #{:get :post}
   :handle-ok #(api/find-categories (get-es %) (get-params %))
-  :post! #(let [body (get-body %)]
-            (api/create-categories! (get-es %) (:indexName body) (:categories body))))
+  :post! #(api/create-categories! (get-es %) (:indexName params) (:categories params)))
 
 (defresource datasets [{:keys [index-name] :as params}] restricted-write-defaults
   :exists? #(api/index-exists? (get-es %) index-name)
   :allowed-methods #{:get :post}
-  :post! #(api/create-dataset! (get-es %) index-name (get-body %))
+  :post! #(api/create-dataset! (get-es %) index-name params)
   :handle-ok #(api/find-datasets
                 (get-db %) (get-es %) index-name (dissoc params :index-name)))
 
-(defresource dataset [{:keys [index-name dataset-id]}] restricted-write-defaults
+(defresource dataset [{:keys [index-name dataset-id] :as params}] restricted-write-defaults
   :exists? #(api/index-exists? (get-es %) index-name)
   :allowed-methods #{:get :put :delete}
   :delete! #(api/retract-dataset! (get-es %) index-name dataset-id)
-  :put! #(api/update-dataset! (get-es %) index-name dataset-id (get-body %))
+  :put! #(api/update-dataset! (get-es %) index-name dataset-id params)
   :handle-ok #(api/get-dataset (get-db %) (get-es %) index-name dataset-id))
 
-(defresource mappings [_] restricted-read-defaults
+(defresource mappings [params] restricted-read-defaults
   :allowed-methods #{:put}
-  :put! #(api/update-dataset-mappings! (get-es %) (:indexName (get-body %))))
+  :put! #(api/update-dataset-mappings! (get-es %) (:indexName params)))
 
-(defresource indices [_] restricted-read-defaults
+(defresource indices [params] restricted-read-defaults
   :allowed-methods #{:get :post}
   :handle-ok #(api/list-indices (get-es %))
-  :post! #(api/create-index! (get-es %) (:indexName (get-body %))))
+  :post! #(api/create-index! (get-es %) (:indexName params)))
 
-(defresource refresh-index [_] restricted-read-defaults
+(defresource refresh-index [params] restricted-read-defaults
   :allowed-methods #{:put}
-  :put! #(api/refresh-index! (get-es %) (:indexName (get-body %))))
+  :put! #(api/refresh-index! (get-es %) (:indexName params)))
 
 (defresource formats [_] restricted-read-defaults
   :handle-ok #(api/list-formats (get-es %)))
@@ -102,21 +100,19 @@
 (defresource tags [_] restricted-read-defaults
   :handle-ok #(api/list-tags (get-es %)))
 
-(defresource vendors [_] restricted-read-defaults
+(defresource vendors [params] restricted-read-defaults
   :allowed-methods #{:get :post}
   :processable? (some-fn get? (complement
-                                #(api/vendor-exists? (get-db %) (:name (get-body %)))))
+                                #(api/vendor-exists? (get-db %) (:name params))))
   :handle-unprocessable-entity {:mesage "Vendor Exists"}
-  :post! #(api/create-vendor! (get-conn %) (get-body %))
+  :post! #(api/create-vendor! (get-conn %) params)
   :handle-ok #(api/list-vendors (get-db %)))
 
-(defresource vendor [{:keys [vendor-id]}] restricted-read-defaults
+(defresource vendor [{:keys [vendor-id] :as params}] restricted-read-defaults
   :allowed-methods #{:delete :put}
   :delete! #(api/delete-vendor! (get-conn %) vendor-id)
   :put! (fn [ctx]
-          {::vendor (api/update-vendor! (get-conn ctx)
-                                        vendor-id
-                                        (get-body ctx))})
+          {::vendor (api/update-vendor! (get-conn ctx) vendor-id params)})
   :handle-created ::vendor)
 
 (defresource subscription [{:keys [index-name dataset-id]}] defaults
@@ -130,12 +126,33 @@
   :allowed-methods #{:get}
   :handle-ok #(api/list-subscriptions (get-db %) (get-es %) (get-user %)))
 
-(defresource rating [{:keys [dataset-id index-name]}] defaults
+(defresource rating [{:keys [dataset-id index-name] :as params}] defaults
   :allowed?  #(or (get? %)
                   (api/subscribed? (get-db %) index-name dataset-id (get-user %)))
   :allowed-methods #{:get :post}
-  :post! #(api/create-rating! (get-conn %) index-name dataset-id (get-user %) (get-body %))
+  :post! #(api/create-rating! (get-conn %) index-name dataset-id (get-user %) params)
   :handle-ok #(api/get-rating (get-db %) index-name dataset-id (get-user %)))
 
 (defresource average-rating [{:keys [dataset-id index-name]}] defaults
   :handle-ok #(api/get-average-rating (get-db %) index-name dataset-id))
+
+(def resources
+  {:status status
+   :categories categories
+   :seed seed
+   :seed-datasets seed-datasets
+   :seed-subscriptions seed-subscriptions
+   :subscription subscription
+   :subscriptions subscriptions
+   :dataset dataset
+   :datasets datasets
+   :average-rating average-rating
+   :rating rating
+   :refresh-index refresh-index
+   :indices indices
+   :mappings mappings
+   :formats formats
+   :tags tags
+   :vendors vendors
+   :vendor vendor
+   :default default})

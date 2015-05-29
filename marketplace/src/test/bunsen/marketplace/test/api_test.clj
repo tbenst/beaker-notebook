@@ -7,6 +7,9 @@
             [bunsen.marketplace.cli.seed.simple :as simple]
             [bunsen.marketplace.helper.elasticsearch :as es]))
 
+;; FIXME:
+;;  sign-in is broken, the tests only work because :allow-seed is set to true
+
 (def index-name "catalog_simple")
 
 (defn seed-marketplace! []

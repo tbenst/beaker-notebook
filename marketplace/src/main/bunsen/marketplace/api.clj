@@ -57,6 +57,7 @@
 
 (defn create-dataset!
   [es-conn index-name dataset]
+  (println dataset)
   (dataset/create-dataset! es-conn index-name dataset)
   ;; TODO: move this to a queue instead of spinning up a new thread each time
   (future
