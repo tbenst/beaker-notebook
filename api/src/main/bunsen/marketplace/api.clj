@@ -124,6 +124,10 @@
   [datomic-conn vendor]
   (vendor/create-vendor! datomic-conn vendor))
 
+(defn get-vendor
+  [datomic-db vendor-id]
+  (vendor/find-vendor datomic-db vendor-id))
+
 (defn delete-vendor!
   [datomic-conn vendor-id]
   (vendor/delete-vendor! datomic-conn vendor-id))

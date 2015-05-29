@@ -108,11 +108,12 @@
   :handle-ok #(api/list-vendors (get-db %)))
 
 (defresource vendor [{:keys [vendor-id] :as params}] restricted-read-defaults
-  :allowed-methods #{:delete :put}
+  :allowed-methods #{:delete :put :get}
   :delete! #(api/delete-vendor! (get-conn %) vendor-id)
   :put! (fn [ctx]
           {::vendor (api/update-vendor! (get-conn ctx) vendor-id params)})
-  :handle-created ::vendor)
+  :handle-created ::vendor
+  :handle-ok #(api/get-vendor (get-db %) vendor-id))
 
 (defresource subscription [{:keys [index-name dataset-id]}] defaults
   :allowed-methods #{:put :delete}
