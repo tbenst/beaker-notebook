@@ -11,8 +11,7 @@ CLOJURE_IMAGES := \
 	provisioner \
 	marketplace \
 	notebook \
-	user \
-	vendor
+	user
 
 IMAGES := \
 	web \
@@ -53,7 +52,6 @@ DEPLOY_IMAGES := \
 	start-user \
 	start-riemann \
 	start-tests-user \
-	start-tests-vendor \
 	start-tests-integration \
 	start-tests-marketplace \
 	start-beaker \
@@ -74,7 +72,7 @@ $(CLOJURE_IMAGES): install
 	docker build --force-rm -t $(REGISTRY)/bunsen-$@:$(TAG) $@
 
 web:
-	docker build --force-rm -t $(REGISTRY)/bunsen-web:$(TAG) front_end
+	docker build --force-rm -t $(REGISTRY)/bunsen-web:$(TAG) web
 
 beaker:
 	docker pull beakernotebook/beaker-prerelease
@@ -128,7 +126,7 @@ prepare-beaker: submodules
 	make -C beaker
 
 prepare-web:
-	make -C front_end
+	make -C web
 
 prepare-riemann:
 	make -C riemann
@@ -144,7 +142,7 @@ prepare-datomic:
 #
 #
 
-test test-all: test-vendor test-marketplace test-user test-integration
+test test-all: test-marketplace test-user test-integration
 
 test-%: ENV := test
 test-%: HOST := 10.10.10.10
