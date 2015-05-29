@@ -184,9 +184,6 @@ start-provisioner:
 start-marketplace:
 	docker run -d -p 8444:8444 --env-file="config/$(ENV).env" --name=bunsen-marketplace $(REGISTRY)/bunsen-marketplace:$(TAG) $(COMMANDS)
 
-start-beaker:
-	docker run -d -p 8801:8801 --env-file="config/$(ENV).env" --name=bunsen-beaker $(REGISTRY)/bunsen-beaker:$(TAG) $(COMMANDS)
-
 start-riemann:
 	docker run -d -p 5556:5556 --env-file="config/$(ENV).env" --name=bunsen-riemann $(REGISTRY)/bunsen-provisioner:$(TAG) $(COMMANDS)
 
