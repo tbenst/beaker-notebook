@@ -120,7 +120,9 @@
   :handle-created ::vendor)
 
 (defresource subscription [{:keys [index-name dataset-id]}] defaults
-  :allowed-methods #{:post :put :delete}
+  :allowed-methods #{:put :delete}
+  :conflict? #(api/subscribed? (get-db %) index-name dataset-id (get-user %))
+  :handle-conflict {:message "You are already subscribed to this dataset"}
   :put! #(api/create-subscription! (get-conn %) index-name dataset-id (get-user %))
   :delete! #(api/retract-subscription! (get-conn %) index-name dataset-id (get-user %)))
 
