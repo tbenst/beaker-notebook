@@ -1,31 +1,31 @@
 (ns bunsen.notebook.service
   (:gen-class)
   (:require [environ.core :refer [env]]
-            [bunsen.common.helper.utils :as u]
             [bunsen.common.helper.json :as j]
+            [bunsen.common.helper.utils :as u]
             [com.stuartsierra.component :as component]
-            [bunsen.common.component.database :refer [database]]
-            [bunsen.notebook.component.server :refer [server]]))
+            (bunsen.common.component [server :refer [server]]
+                                     [database :refer [database]])
+            [bunsen.notebook.component.handler :refer [handler]]))
 
 (defn service [config]
   (j/enable-date-serialization)
   (j/enable-uuid-json-serialization)
-  (-> (component/system-map
-        :database (database (assoc config :seed-readers {'file u/read-resource-file}))
-        :server (component/using
-                  (server config)
-                  {:database :database}))))
+  (component/system-map
+    :database (database config)
+    :handler (component/using
+               (handler config) [:database])
+    :server (component/using
+              (server config) [:handler])))
 
 (defn -main [& args]
   (component/start
-    (service {:server-port (Integer. (:notebook-port env))
-              :seed-file (:notebook-seed-file env)
+    (service {:allow-seed (:allow-seed env)
               :cookie-salt (:cookie-salt env)
-              :allow-seed (:allow-seed env)
+              :seed-file (:notebook-seed-file env)
+              :seed-readers {'file u/read-resource-file}
               :database-uri (:notebook-database-uri env)
-              :use-kerberos (let [kerberosprincipal (:kerberos-principal env)]
-                              (if kerberosprincipal
-                               true false))
+              :kerberos? (boolean (:kerberos-principal env))
               :kerberos-principal (:kerberos-principal env)
               :jetty-options (let [keystore (:ssl-keystore env)
                                    keystore-pass (:ssl-keystore-pass env)]
@@ -39,4 +39,3 @@
                                   :keystore (:ssl-keystore env)
                                   :key-password (:ssl-keystore-pass env)
                                   :join? false}))})))
-

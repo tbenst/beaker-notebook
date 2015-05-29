@@ -3,8 +3,8 @@
             [bunsen.notebook.resource.defaults :refer [defaults]]
             [bunsen.notebook.presenter.notebooks :as n]))
 
-(defresource seed-notebooks [config] defaults
-  :allowed? (= "true" (:allow-seed config))
+(defresource seed-notebooks [_] defaults
+  :allowed? (comp #{"true"} :allow-seed :config :request)
 
   :allowed-methods #{:post}
 

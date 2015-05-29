@@ -1,6 +1,7 @@
 (ns user
   (:require [hawk.core :as hawk]
             [environ.core :refer [env]]
+            [bunsen.common.helper.utils :as u]
             [com.stuartsierra.component :as component]
             [clojure.tools.namespace.file :refer [read-file-ns-decl]]
             [clojure.tools.namespace.repl :refer [refresh refresh-all]]
@@ -10,14 +11,19 @@
 (def ^:dynamic *service*)
 
 (def config
-  {:jetty-options {:port 3003
+  {:allow-seed (:allow-seed env)
+   :cookie-salt (:cookie-salt env)
+   :seed-file (:notebook-seed-file env)
+   :seed-readers {'file u/read-resource-file}
+   :database-uri (:notebook-database-uri env)
+   :jetty-options {:port 3003
                    :ssl? false
                    :join? false}})
 
 (defn start []
   (alter-var-root #'*service*
                   (constantly
-                    (component/start (service env)))))
+                    (component/start (service config)))))
 
 (defn stop []
   (alter-var-root #'*service*
