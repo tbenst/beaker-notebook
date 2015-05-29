@@ -6,7 +6,12 @@
     (let [beg (System/nanoTime)
           uri (:uri req)
           verb (:request-method req)
-          res (handler req)
+          res (try
+                (handler req)
+                (catch Exception ex
+                  {:ex ex
+                   :status 500}))
+          ex (:ex res)
           status (or (:status res) 404)
           end (str
                 "[" (/ (- (System/nanoTime) beg) 1e9) "s]")]
@@ -21,4 +26,7 @@
             :red))
         uri
         (style end :bright))
+      (when ex
+        (.printStackTrace ex)
+        (throw ex))
       res)))
