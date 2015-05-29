@@ -8,8 +8,10 @@
                   :password "9b571a50-cb08-48ba-bd2c-86ccf58b1ad2"}}
   :dependencies [[org.clojure/clojure _]
                  [org.clojure/data.codec "0.1.0"]
+                 [org.clojure/algo.generic "0.1.2"]
                  [clj-time "0.9.0"]
                  [ring _]
+                 [bidi _ :exclusions [org.clojure/clojure]]
                  [com.stuartsierra/component "0.2.2"]
                  [pandect "0.5.1"]
                  [wkf/clj-http _]
