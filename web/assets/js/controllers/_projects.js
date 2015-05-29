@@ -1,30 +1,22 @@
 ;(function(angular, app) {
   app.controller('projects', [
     '$scope',
-    'Factories',
+    'LastViewed',
     '$state',
     function(
       $scope,
-      Factories,
+      LastViewed,
       $state) {
-    delete $scope.projects.search;
+    $scope.projects.search = null;
 
-    function stateGo(item) {
-      if(item.route == "notebooks") {
-        $state.go('projects.items.item.notebook', { id: item.project['public-id'], notebook_id: item['public-id']})
-      }else {
-        $state.go('projects.items.item', { id: item['public-id']})
+    $scope.projects.ready.then(function() {
+      var lastViewed = LastViewed.get('projects');
+      var redirectTo = lastViewed || {
+        name: 'projects.items.item',
+        params: { id: _.last(_.sortBy($scope.projects.list, 'created-at'))['public-id'] }
       }
-    }
 
-    function goToLast() {
-      var union = $scope.projects.list.concat($scope.notebooks.list);
-      var omniList = _.filter(union, 'opened-at'),
-          mostRecentItem = _.last(_.sortBy(omniList, 'opened-at'));
-
-      stateGo(mostRecentItem || _.last(_.sortBy($scope.projects.list, 'created-at')))
-    }
-
-    $scope.projects.ready.then(goToLast);
+      $state.go(redirectTo.name, redirectTo.params);
+    });
   }]);
 })(angular, window.bunsen);
