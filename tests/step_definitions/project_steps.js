@@ -204,13 +204,6 @@ module.exports = function() {
     return new this.Widgets.ProjectDetail().description().should.eventually.equal(description);
   });
 
-  this.Then(/^I (?:should see|see) the project has (\d+) commits$/, function(num, callback) {
-    var projectDetail = new this.Widgets.ProjectDetail();
-    return this.driver.wait(function() {
-      return projectDetail.numCommits().should.eventually.equal(num);
-    }, 30000);
-  });
-
   this.Then(/^I should see project's last updated as today's date$/, function(callback) {
     var projectDetail = new this.Widgets.ProjectDetail();
     return projectDetail.updatedAt().should.eventually.contain(moment().format("M/D/YY h:mm A"));

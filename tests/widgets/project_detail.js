@@ -37,10 +37,6 @@ module.exports = function() {
       return this.read('.last-updated');
     },
 
-    numCommits: function() {
-      return this.read('.num-commits');
-    },
-
     addNewNotebook: function() {
       return Promise.delay(1500)
       .then(function() {

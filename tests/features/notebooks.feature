@@ -239,17 +239,6 @@ Feature: Use Notebooks
       | Notebook: Data preparation  |
       | Project: Finance Research   |
 
-  @flaky @beaker
-  Scenario: Notebooks commit stats
-    When I open the "ghost of tom jones" project
-    And I see the project has 4 commits
-    When I view the notebook "powderpuff girls"
-    And I save my changes to the notebook
-    And I save the notebook as "Winter Grasp"
-    Then I should be in the "Winter Grasp" notebook
-    When I open the "ghost of tom jones" project
-    Then I should see the project has 6 commits
-
   @flaky
   Scenario: Open last used notebook
     When I open the "ghost of tom jones" project
