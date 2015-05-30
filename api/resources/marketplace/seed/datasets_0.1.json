@@ -20,7 +20,7 @@
       5
     ],
     "path": "0.1.2.2",
-    "vendor": "Consumer Financial Protection Bureau",
+    "vendor": "556f3d84-99bc-4d19-85f0-62b6c9eb46ff",
     "tags": [
       "Finance",
       "Credit Card"
@@ -46,7 +46,7 @@
       2
     ],
     "path": "0.1.1",
-    "vendor": "U.S. Energy Information Administration",
+    "vendor": "556f3d84-575e-468c-982e-8a9ee36d8116",
     "tags": [
       "Electricity",
       "United States of America"
@@ -72,7 +72,7 @@
       2
     ],
     "path": "0.1.1",
-    "vendor": "U.S. Energy Information Administration",
+    "vendor": "556f3d84-575e-468c-982e-8a9ee36d8116",
     "tags": [
       "Energy",
       "Gas",
@@ -91,7 +91,7 @@
       2
     ],
     "path": "0.1.1",
-    "vendor": "U.S. Energy Information Administration",
+    "vendor": "556f3d84-575e-468c-982e-8a9ee36d8116",
     "tags": [
       "Energy",
       "Gas",
@@ -118,7 +118,7 @@
       2
     ],
     "path": "0.1.1",
-    "vendor": "U.S. Energy Information Administration",
+    "vendor": "556f3d84-575e-468c-982e-8a9ee36d8116",
     "tags": [
       "Energy",
       "United States of America"
@@ -150,7 +150,7 @@
       7
     ],
     "path": "0.1.3.1",
-    "vendor": "Statistics Canada",
+    "vendor": "556f3d84-5980-4768-a1c4-c6564818873b",
     "tags": [
       "Canada",
       "Crime"
@@ -182,7 +182,7 @@
       7
     ],
     "path": "0.1.3.1",
-    "vendor": "Federal Reserve Economic Data",
+    "vendor": "556f3d84-233f-4edb-b4a0-7a0fc963dd3b",
     "tags": [
       "Canada",
       "Population"
@@ -207,7 +207,7 @@
       9
     ],
     "path": "0.1.3.2.1",
-    "vendor": "U.S. Office of Personnel Management",
+    "vendor": "556f3d84-898d-4f93-9d3e-5330688eef36",
     "tags": [
       "OPM",
       "Federal Government"
@@ -224,7 +224,7 @@
       5
     ],
     "path": "0.1.2.2",
-    "vendor": "Energy Information Administration, Department of Energy",
+    "vendor": "556f3d84-7c6b-4337-8f66-8d7a99a93beb",
     "tags": [
       "Energy",
       "Retail",
@@ -256,7 +256,7 @@
       5
     ],
     "path": "0.1.2.2",
-    "vendor": "Federal Reserve Bank of St. Louis",
+    "vendor": "556f3d84-9021-49b6-9f9e-7af0472aa560",
     "tags": [
       "Retail",
       "Rhode Island"
@@ -273,7 +273,7 @@
       3
     ],
     "path": "0.1.2",
-    "vendor": "World Bank",
+    "vendor": "556f3d84-5603-4d69-bfb6-47a44a2de218",
     "tags": [
       "Finance",
       "Global",
@@ -291,7 +291,7 @@
       5
     ],
     "path": "0.1.2.2",
-    "vendor": "U.S. Census Bureau, Department of Commerce",
+    "vendor": "556f3d84-7ca1-4689-b8b4-ab873aeb0555",
     "tags": [
       "Finance",
       "E-commerce"
@@ -316,7 +316,7 @@
       4
     ],
     "path": "0.1.2.1",
-    "vendor": "U.S. Securities and Exchange Commission",
+    "vendor": "556f3d84-1a4d-4cb7-9a82-ed451495e9ff",
     "tags": [
       "Finance",
       "SEC"
