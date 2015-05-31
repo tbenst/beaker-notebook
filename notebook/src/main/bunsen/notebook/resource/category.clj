@@ -5,7 +5,7 @@
 
 (defresource category [_] resource/defaults
   :allowed-methods [:get]
-  :exists? (fn [{{db :db {id :id} :route-params} :request}]
+  :exists? (fn [{{db :db {id :cat-id} :route-params} :request}]
              (if-let [c (api/find-category db id)]
                {::category c}))
   :handle-ok ::category)
