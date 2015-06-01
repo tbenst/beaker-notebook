@@ -12,13 +12,19 @@
             .publish-date {{publication['created-at'] | date : 'M/d/yy' : 'UTC'}}
         ratings(score="publication.userRating" average="publication.averageRating" max="5" rating-attrs="ratingAttrs")
       .details.cl
-        div.publication-author
+        div.publication-author(ng-if="author.extdata === undefined")
           img.icon.publication-notebook-icon(gravatar-src="author.email" gravatar-size="100" gravatar-default="retro")
           .author-info
             .name {{author.name}}
             span.job{{author['job-title']}}
             span(ng-if="commaNeeded()") {{ ", "}}
             span.company{{author.company}}
+        div.publication-author(ng-if="author.extdata !== undefined")
+          img.icon.publication-notebook-icon(ng-src="https://pictures.twosigma.com/pictures/{{author.extdata['person.person_has_primary_identity.identity_name']}}.jpg")
+          .author-info
+            .name {{author.name}}
+            span(ng-repeat="deps in author.extdata.departments") {{deps.name}}{{$last ? '' : ', '}}
+            .company Phone: {{author.extdata.person_desk_phone}}
         div.publication-control
           .btn.btn-primary.right.copy-notebook(ng-click="copyNotebook()") Open in Bunsen
           .btn.btn-primary.right.destroy-publication(ng-if="isOwner", ng-click="destroyPublication()") Delete Publication

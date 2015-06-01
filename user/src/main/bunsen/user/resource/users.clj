@@ -10,14 +10,17 @@
   :allowed-methods #{:post :get}
 
   :exists? (fn [{{db :db {id :id} :route-params conn :conn remote-user :remote-user} :request}]
-             (if remote-user
-                (when-let [user (u/ext-load-user db remote-user conn)]
-                 (let [extuser (extuser/get-ext-user (first (str/split remote-user #"@")))
+             (when id
+               (if-let [user (u/load-user db id)]
+                   (if (contains? user :user/account)
+                     (let [extuser (extuser/get-ext-user (first (str/split (get user :user/account) #"@")))
                        mergeduser (extuser/merge-user user extuser)]
-                   {::user mergeduser}))
-                (when id
-                  (when-let [user (u/load-user db id)]
-                    {::user user}))))
+                       {::user mergeduser})
+                     {::user user})
+                   { ::user { :user/public-id id
+                              :user/name "Unknown"
+                              :user/email "unknown@unknown"
+                              :user/role 0 }})))
 
   :handle-ok ::user
 

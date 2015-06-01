@@ -37,7 +37,7 @@
 (defn load-user [db id]
   (when-let [user (when id
                     (find-user-by-id db id))]
-    (select-keys user [:user/public-id :user/name :user/email :user/role :user/job-title :user/bio :user/company])))
+    (select-keys user [:user/public-id :user/account :user/name :user/email :user/role :user/job-title :user/bio :user/company])))
 
 (defn ext-load-user [db account conn]
   (if-let [user (find-user-by-account db account)]
