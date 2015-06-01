@@ -22,10 +22,11 @@
 (defn remove-container [url id]
   (rest/delete url (str "containers/" id)))
 
-(defn container [{:keys [id token port image host-path container-path]}]
+(defn container [{:keys [id token port image cmd host-path container-path]}]
   {"Id" id
    "Env" [(str "BEAKER_COOKIE=" token)]
    "Image" image
+   "Cmd" cmd
    "Volumes" [{container-path {}}]
    "ExposedPorts" {(str port "/tcp") {}}
    "HostConfig" {"Binds" [(str host-path ":" container-path)]

@@ -21,13 +21,13 @@
                                          "network" "BRIDGE"
                                          "portMappings" [{"containerPort" 8801}]}}}
    :container-port 8801
-   :container-image "mojotech/bunsen-beaker"
+   :container-image "beakernotebook/beaker-prerelease:master-0-g95b1538"
    :container-prefix "bunsen-dev-beaker"
    :container-path "/mnt/scratch"
    :cookie-salt "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<"
    :local-cookie-path "../beaker/cookies"
    :scratch-space-root "/tmp/bunsen/scratch"
-   :lifecycle-strategy :local
+   :lifecycle-strategy :docker
    :jetty-options {:port 3001
                    :ssl? false
                    :join? false}})
