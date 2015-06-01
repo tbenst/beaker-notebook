@@ -2,13 +2,6 @@
   (:require [datomic.api :as d]
             [clj-time.coerce :as t]))
 
-(defn find-one
-  "Finds one entity matching the query.
-  Pulls and returns the entity from the db according to the given pattern specification."
-  [{:keys [db query pattern args]}]
-  (if-let [entity (ffirst (apply d/q query db args))]
-    (d/pull db pattern entity)))
-
 (defn find-all
   "Finds entities matching the query.
   Pulls and returns the entities from the db according to the given pattern specification."
@@ -16,11 +9,6 @@
   (->> (apply d/q query db args)
        (map first)
        (d/pull-many db pattern)))
-
-(defn constrain
-  "Used during query building for constraining the query during runtime."
-  [query condition]
-  (update-in query [:where] conj condition))
 
 (defn paginate [results offset limit]
   (->> results
