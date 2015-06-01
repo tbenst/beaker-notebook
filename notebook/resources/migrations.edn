@@ -238,4 +238,13 @@
            :db/cardinality :db.cardinality/one
            :db.install/_attribute :db.part/db}
           ]]}
+
+ :publications/add-languages-to-publications
+ {:txes [[
+          {:db/id #db/id[:db.part/db]
+           :db/ident :publication/languages
+           :db/valueType :db.type/string
+           :db/cardinality :db.cardinality/many
+           :db.install/_attribute :db.part/db}
+          ]]}
  }

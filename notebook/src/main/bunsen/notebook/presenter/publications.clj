@@ -3,6 +3,7 @@
             [clojure.instant :as inst]
             [bunsen.common.helper.utils :as utils]
             [bunsen.notebook.presenter.categories :refer [find-category]]
+            [clojure.data.json :as json]
             [bouncer.core :as b]
             [bouncer.validators :as v]))
 
@@ -45,8 +46,16 @@
          :where [?n :notebook/public-id ?n-id]]
        db (mapv utils/uuid-from-str [notebook-id user-id])))
 
+(defn notebook-languages [contents]
+  (let [c (json/read-str contents)]
+    (->> (get c "cells")
+         (map #(get % "evaluator"))
+         (remove nil?)
+         distinct)))
+
 (defn create-publication! [conn author-id {:keys [categoryID notebook-id name description]}]
   (let [n (find-notebook (d/db conn) notebook-id author-id)
+        contents (:notebook/contents n)
         c (find-category (d/db conn) categoryID)
         p {:db/id (d/tempid :db.part/user)
            :publication/public-id (d/squuid)
@@ -56,7 +65,8 @@
            :publication/updated-at (utils/now)
            :publication/name (:notebook/name n)
            :publication/description description
-           :publication/contents (:notebook/contents n)
+           :publication/contents contents
+           :publication/languages (notebook-languages contents)
            :publication/author-id (utils/uuid-from-str author-id)}]
     @(d/transact conn [(utils/remove-nils p)])
     (dissoc p :db/id)))
@@ -65,11 +75,12 @@
   (when-let [p (find-publication-by-author (d/db conn) author-id pub-id)]
     (let [category-id (:categoryID params)
           n (:publication/notebook p)
+          contents (:notebook/contents n)
           c (find-category (d/db conn) category-id)
           tx (-> params
                  (dissoc :public-id :pub-id :created-at :updated-at :notebook-id :categoryID)
                  (assoc :category (:db/id c))
-                 (assoc :contents (:notebook/contents n) :name (:notebook/name n))
+                 (assoc :contents contents :name (:notebook/name n) :languages (notebook-languages contents))
                  utils/remove-nils
                  (utils/namespace-keys "publication")
                  (assoc :db/id (:db/id p) :publication/updated-at (utils/now)))]
@@ -96,6 +107,7 @@
                                           :publication/public-id :publication/author-id
                                           :publication/notebook-id
                                           :publication/created-at
+                                          :publication/languages
                                           {:publication/ratings [:rating/score]}
                                           {:publication/category [*]}]) ...]]
                         :in [$ % [?category-id ?term]]
