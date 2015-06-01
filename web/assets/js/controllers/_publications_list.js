@@ -41,6 +41,9 @@
             .then(function(u) {
               return _.extend(p, {author: u});
             })
+            .catch(function() {
+              return p;
+            })
           }));
         })
         .then(function(publications) {
