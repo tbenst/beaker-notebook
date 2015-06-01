@@ -18,7 +18,7 @@
         }
 
         scope.selectItem = function(item) {
-          if(!scope.isItemSelected(item)) {
+          if (!scope.isItemSelected(item)) {
             scope.filterScope = scope.filterScope || [];
             scope.filterScope.push(item);
           } else {
