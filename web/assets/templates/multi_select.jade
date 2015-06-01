@@ -1,4 +1,6 @@
 ul.filter-dropdown.format
   li.filter-dropdown-item(ng-repeat="i in collection")
-    a(ng-click="selectItem(i)", ng-class="isItemSelected(i) ? 'selected' : ''")
+    a(ng-if="has(i, 'id')", ng-click="selectItem(i.id)", ng-class="isItemSelected(i.id) ? 'selected' : ''")
+      {{ i.name }}
+    a(ng-if="!has(i, 'id')", ng-click="selectItem(i)", ng-class="isItemSelected(i) ? 'selected' : ''")
       {{ i }}

@@ -36,6 +36,12 @@
   [datomic-db datasets]
   (update-in datasets [:data] (partial mapv (partial assoc-dataset-vendor datomic-db))))
 
+(defn- assoc-dataset-filter-vendors
+  [datomic-db datasets]
+  (-> datasets
+      (update-in [:filters :vendor] (partial mapv (partial find-and-transform-vendor datomic-db)))
+      (update-in [:filters :vendor] (partial sort-by :name))))
+
 (defn find-datasets
   [datomic-db es-conn index-name query]
   (->> (:category-path query)
@@ -43,7 +49,8 @@
        (category/get-category-catalog es-conn index-name)
        (dataset/find-datasets es-conn index-name query)
        (merge-average-ratings-for-datasets datomic-db index-name)
-       (assoc-dataset-vendors datomic-db)))
+       (assoc-dataset-vendors datomic-db)
+       (assoc-dataset-filter-vendors datomic-db)))
 
 (defn get-dataset
   [datomic-db es-conn index-name dataset-id]
