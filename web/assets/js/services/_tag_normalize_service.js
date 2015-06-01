@@ -4,8 +4,8 @@
       normalizeFilter: function(filterValues, modelName, $scope) {
         return _.map(filterValues, function(v) {
           return {
-            "name": v,
-            "model": modelName
+            'name': v,
+            'model': modelName
           }
         });
       }

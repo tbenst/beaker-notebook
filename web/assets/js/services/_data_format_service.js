@@ -3,10 +3,10 @@
     return {
       buildTable: function (item) {
         var arrayOfRows = item.csvPreview.split('\n');
-        var columnNames = arrayOfRows[0].split(",");
+        var columnNames = arrayOfRows[0].split(',');
 
         var table = _.map(arrayOfRows.slice(1, arrayOfRows.length), function (row) {
-          return row.split(",");
+          return row.split(',');
         });
 
         return {

@@ -1,5 +1,5 @@
 ;(function(angular) {
-  angular.module("filterMarketPlace", [])
+  angular.module('filterMarketPlace', [])
   .directive('multiFilter', function() {
     return {
       restrict: 'E',
