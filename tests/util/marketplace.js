@@ -75,7 +75,7 @@ module.exports = function() {
           });
         });
       }).catch(function(e) {
-        return console.log(e)
+        return console.log(e);
       });
     },
     createIndex: function(indexName) {

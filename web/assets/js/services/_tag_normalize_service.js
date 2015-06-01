@@ -6,9 +6,9 @@
           return {
             'name': v,
             'model': modelName
-          }
+          };
         });
       }
-    }
+    };
   });
 })(window.bunsen);

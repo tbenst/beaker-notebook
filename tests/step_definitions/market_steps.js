@@ -210,7 +210,7 @@ module.exports = function() {
 
   this.Then(/^I should see (\d+) market items? on the market list page$/, function(count) {
     var marketList = new this.Widgets.MarketList();
-    return marketList.items().should.eventually.have.length(+count)
+    return marketList.items().should.eventually.have.length(+count);
   });
 
   this.When(/^I filter by search by selecting the "([^"]*)" formats$/, function(formats, callback) {

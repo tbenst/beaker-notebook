@@ -12,8 +12,8 @@
         return {
           headers: columnNames,
           body: table
-        }
+        };
       }
-    }
+    };
   });
 })(window.bunsen);

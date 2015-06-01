@@ -15,7 +15,7 @@
           if (scope.filterScope) {
             return scope.filterScope.indexOf(item) != -1;
           }
-        }
+        };
 
         scope.selectItem = function(item) {
           if (!scope.isItemSelected(item)) {
@@ -27,9 +27,9 @@
               scope.filterScope.splice(removeIndex, 1);
             }
           }
-        }
+        };
       }
 
-    }
+    };
   });
 })(angular);
