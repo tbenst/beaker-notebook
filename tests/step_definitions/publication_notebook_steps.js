@@ -1,24 +1,4 @@
 module.exports = function() {
-
-  function waitforPublicationList(count) {
-    return this.driver.wait(function() {
-      return new this.Widgets.PublicationList().length()
-      .then(function(n) {return n > 0});
-    }.bind(this), 10000, 'Found no publications');
-  }
-
-  this.When(/^I view the publication$/, function() {
-    var _this = this;
-
-    return new this.Widgets.MainNav().visitPublications()
-    .then(function() {
-      return waitforPublicationList.bind(_this)(1);
-    })
-    .then(function() {
-      return new _this.Widgets.PublicationList().clickAt({selector: 'a.title', index: 0});
-    });
-  });
-
   this.When(/^I delete the publication from publication page$/, function() {
     return new this.Widgets.PublicationNotebookHero().deletePublication();
   });

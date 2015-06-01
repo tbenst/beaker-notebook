@@ -55,6 +55,13 @@
     (json/read-str contents)
     (catch Exception _ nil)))
 
+(defn validate-notebook-name [db {:keys [name project-id user-id]}]
+  (let [project (p/find-project db user-id project-id)]
+    (first (b/validate {:name name }
+                       :name [v/required [unique-name? (u/uuid-from-str project-id) db
+                                          :message "That name is already taken by another notebook in that project"]]))))
+
+
 (defn validate-imported-notebook [db {:keys [contents name pid uid]}]
   (let [project (p/find-project db uid pid)]
     (first (b/validate {:name name :contents contents :owner-id (u/uuid-from-str uid)}
@@ -117,7 +124,11 @@
 (defn create-notebook! [conn {:keys [created-at updated-at opened-at open] :as params}]
   (let [p-eid (notebook-project-eid (d/db conn) (:project-id params) (:user-id params))
         name (or (:name params) (calculate-notebook-name (d/db conn) (:user-id params) (:project-id params)))
-        contents (or (:contents params) (u/read-resource-file "notebooks/base_notebook.bkr"))
+        contents   (cond
+                     (:contents params) (:contents params)
+                     (:publication-id params) (when-let [p (pub/find-publication (d/db conn) (:publication-id params))]
+                                                (:publication/contents p))
+                     :else (u/read-resource-file "notebooks/base_notebook.bkr"))
         n {:db/id (d/tempid :db.part/user)
            :notebook/public-id (d/squuid)
            :notebook/name name
