@@ -36,7 +36,7 @@
                 "container" {"volumes" [{"hostPath" host-path
                                          "containerPath" "/mnt/scratch"
                                          "mode" "RW"}]}
-                "env" env}]
+                "env" (into {} (filter val env))}]
     (deep-merge-with merge-strategy defaults config)))
 
 ;; Copied verbatim from the defunct clojure-contrib (http://bit.ly/deep-merge-with)
