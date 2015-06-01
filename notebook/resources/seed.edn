@@ -100,6 +100,7 @@
   :publication/description "This notebook was created by Ben Wellington, adapted from a blog post on IQuantNY, www.iquantny.com \n You need ticket data: https://data.cityofnewyork.us/City-Government/Parking-Violations-Issued-Fiscal-Year-2014-August-/jt7v-77mi? \n This notebook provides an exploration of NYC Parking Ticket data, using basic statistics. The language of choice for this notebook is IPython, using the pandas library."
   :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/nyc_parking_ticket_exploration.bkr"
+  :publication/languages ("IPython" "Node" "JavaScript")
   :publication/created-at #inst "2015-05-15T15:55:55.00Z"
   :publication/updated-at #inst "2015-05-15T15:55:55.00Z"
   :publication/category #db/id[:db.part/user -9]}
@@ -183,6 +184,7 @@
   :publication/description "Also available here to better visualization. The notebook was converted to a HTML presentation using an old nbconvert with the first developing implementation of reveal converter."
   :publication/author-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7" ; belongs to Quentin
   :publication/contents #file "notebooks/hello_world.bkr"
+  :publication/languages ("IPython" "Node" "JavaScript")
   :publication/created-at #inst "2015-05-15T15:55:55.00Z"
   :publication/updated-at #inst "2015-05-15T15:55:55.00Z"
   :publication/category #db/id[:db.part/user -1]

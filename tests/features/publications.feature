@@ -76,8 +76,8 @@ Feature: Publications
     When I view the publications page
     Then I should see 6 publication results on the page
     And I should see the following publication first in the list:
-      | name       | languages         |
-      | top secret | Ht, Py, R, Gr, JS |
+      | name       | languages |
+      | top secret | Py, JS, N |
 
   Scenario: Author Info in publication list
     When I view my projects
