@@ -70,9 +70,13 @@
         $scope.publications.currentPage = 1;
       }
 
-      F.PublicationCategories.getCategory(categoryID).then(function(category) {
-        $scope.publications.category = (categoryID !== null) ? category : null;
-      });
+      if (categoryID) {
+        F.PublicationCategories.getCategory(categoryID).then(function(category) {
+          $scope.publications.category = (categoryID !== null) ? category : null;
+        });
+      } else {
+        delete $scope.publications.category;
+      }
 
       loadPublications();
 
