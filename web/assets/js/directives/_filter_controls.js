@@ -1,3 +1,4 @@
+// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 ;(function(angular) {
   angular.module('filterMarketPlace', [])
   .directive('multiFilter', function() {
