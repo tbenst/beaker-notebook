@@ -16,7 +16,9 @@
                                      ["/" :notebook-id] {"" :notebook
                                                          "/contents" :notebook-contents}}
                        "/categories" {"" :categories
-                                      ["/" :id] :category}
+                                      ["/" :cat-id] {"" :category
+                                                     "/contributors" :contributors}}
+                       "/contributors" :contributors
                        "/seed" {"" :seed
                                 "/publications" :seed-publications
                                 "/projects" :seed-projects

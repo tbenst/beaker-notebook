@@ -90,7 +90,6 @@ Feature: Publications
     When I view the publications page
     Then I should see my author info in the first publication
 
-  @flaky @unimplemented
   Scenario: Top Contributors List in Sidebar
     Given I have the following publication categories:
       | name       | description          |
@@ -106,12 +105,12 @@ Feature: Publications
     When I view the publications page
     Then I should see the following top contributors:
       | name          | job_title  | company   |
-      | jon research  |            |           |
+      | john smith    |            |           |
       | joe research  | Researcher | Two Sigma |
     When I click the "Energy" category
     Then I should see the following top contributors:
       | name          | job_title  | company   |
-      | jon research  |            |           |
+      | john smith    |            |           |
 
   Scenario: Deleting a Publication
     Given the notebook "top secret" is published

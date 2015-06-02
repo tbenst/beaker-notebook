@@ -23,3 +23,25 @@
             :where [[?c :category/name]]}]
     (->> (q/find-all {:db db :query q :pattern '[* :publication/_category]})
          (map #(assoc % :count (count (:publication/_category %)))))))
+
+(defn fix-contributors-format [contributors]
+  (->> contributors
+       (sort-by first >)
+       (take 5)
+       (map #(second %))))
+
+(defn contributors [db]
+  (-> (d/q '[:find (count ?p) ?aid
+             :in $
+             :where [?p :publication/author-id ?aid]]
+           db)
+      fix-contributors-format))
+
+(defn contributors-by-cat [db category-id]
+  (-> (d/q '[:find (count ?p) ?aid
+             :in $ ?cid
+             :where [?p :publication/author-id ?aid]
+                    [?c :category/public-id ?cid]
+                    [?p :publication/category ?c]]
+           db (utils/uuid-from-str category-id))
+      fix-contributors-format))
