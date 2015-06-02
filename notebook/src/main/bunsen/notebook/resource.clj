@@ -15,6 +15,7 @@
             [bunsen.notebook.resource.publication-contents :refer [publication-contents]]
             [bunsen.notebook.resource.publications :refer [publications]]
             [bunsen.notebook.resource.publications-count :refer [publications-count]]
+            [bunsen.notebook.resource.contributors :refer [contributors]]
             [bunsen.notebook.resource.category :refer [category]]
             [bunsen.notebook.resource.categories :refer [categories]]
             [bunsen.notebook.resource.rating :refer [rating]]
@@ -37,6 +38,7 @@
    :notebook-import notebook-import
    :category category
    :categories categories
+   :contributors contributors
    :rating rating
    :ratings ratings
    :seed seed

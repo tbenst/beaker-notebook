@@ -1,11 +1,10 @@
 ;(function(angular, app) {
   app.factory('UsersFactory', [
-      'Restangular',
+      'NotebookRestangular',
       'UsersRestangular',
       function(
-        Restangular,
+        NR,
         UsersRestangular) {
-    var R = Restangular;
 
     return {
       getCurrentUser: function() {
@@ -16,10 +15,10 @@
       },
 
       getContributors: function() {
-        return R.all('contributors').getList();
+        return NR.all('contributors').getList();
       },
       getContributorsByCat: function(categoryId) {
-        return R.all('contributors').customGET(categoryId);
+        return NR.one('categories', categoryId).one('contributors').get();
       },
       getUser: function(id) {
         return UsersRestangular.one('users', id).get();
