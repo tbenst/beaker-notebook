@@ -22,9 +22,9 @@
         $scope.marketPlace.categoryPath = $localStorage.lastCatalogPath || '0.1';
       }
 
-      $scope.removeFilter = function(value, model) {
-        var evaluatedModel = $scope.$eval(model);
-        var removeIndex = evaluatedModel.indexOf(value);
+      $scope.removeFilter = function(filter) {
+        var evaluatedModel = $scope.$eval(filter.model);
+        var removeIndex = evaluatedModel.indexOf(filter.name);
 
         if (removeIndex != -1) {
           evaluatedModel.splice(removeIndex, 1);
