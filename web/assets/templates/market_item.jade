@@ -9,7 +9,7 @@
 
     .details
       .col-three-quarters.col-outside
-        a.vendor(ng-click="searchByVendor(item.vendor)") {{item.vendor}}
+        a.vendor(ng-click="searchByVendor(item.vendor.id)") {{item.vendor.name}}
           span.text-blue &nbsp; &raquo;
       .col-quarter.col-outside
         .right.btn.btn-primary.subscribe(ng-click="subscribed ? unsubscribe() : subscribe()") {{subscribed ? "unsubscribe" : "subscribe"}}

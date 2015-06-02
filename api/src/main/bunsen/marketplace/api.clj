@@ -54,7 +54,8 @@
 
 (defn get-dataset
   [datomic-db es-conn index-name dataset-id]
-  (let [dataset (dataset/get-dataset es-conn index-name dataset-id)
+  (let [dataset (assoc-dataset-vendor datomic-db
+                                      (dataset/get-dataset es-conn index-name dataset-id))
         catalog (category/get-category-catalog es-conn index-name (-> dataset :categories first))
         related (->> (dataset/find-datasets
                        es-conn index-name {:from 0
