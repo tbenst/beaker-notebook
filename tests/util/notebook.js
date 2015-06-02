@@ -26,6 +26,27 @@ module.exports = function() {
       });
     },
 
+    seedProject: function(attrs) {
+      return post(config.notebookUrl + '/seed/projects', {body: attrs})
+      .then(function(res) {
+        return res[0].body;
+      });
+    },
+
+    seedNotebook: function(attrs) {
+      return post(config.notebookUrl + '/seed/notebooks', {body: attrs})
+      .then(function(response) {
+        return response[0].body;
+      });
+    },
+
+    seedPublication: function(attrs) {
+      return post(config.notebookUrl + '/seed/publications', {body: attrs})
+      .then(function(response) {
+        return response[0].body;
+      });
+    },
+
     getCategories: function() {
       return get(config.notebookUrl + '/categories')
       .then(function(response) {

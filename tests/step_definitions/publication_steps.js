@@ -5,7 +5,19 @@ var _ = require('lodash');
 
 module.exports = function() {
   var n = this.notebook;
+  var u = this.user;
   var _this = this;
+
+  function otherUser() {
+    return {
+      'name': 'john smith',
+      'email': 'r' + _this.numUsers + '@u.edu',
+      'password': 'password',
+      'job-title': 'Dev',
+      'company': 'Two Sigma',
+      'bio': 'Keeping these parts safe'
+    };
+  }
 
   function seedCategory(name) {
     if (name) {
@@ -36,16 +48,51 @@ module.exports = function() {
     });
   }
 
+  function seedPublicationsAsOtherUser(count, names) {
+    names = names || {};
+    _this.numUsers = _this.numUsers || 0;
+
+    return u.createUser(otherUser())
+    .then(function(user) {
+      _this.numUsers += 1;
+      return seedCategory(names.category)
+      .then(function(cat) {
+        return n.seedProject({
+          'owner-id': user['public-id'],
+          'name': names.project || 'test', description: 'test'
+        })
+        .then(function(p) {
+          return Promise.resolve(_.range(count))
+          .each(function(i) {
+            return n.seedNotebook({
+              'project-id': p['public-id'],
+              'user-id': user['public-id'],
+              'name': names.notebook || 'test notebook ' + i
+            })
+            .then(function(nb) {
+              return n.seedPublication({
+                'author-id': user['public-id'],
+                'notebook-id': nb['public-id'],
+                'name': names.publication || 'test publication ' + i,
+                'categoryID': cat['public-id']
+              });
+            });
+          });
+        });
+      });
+    });
+  }
+
   this.Given(/^there are (\d+) publications(?: for the project "([^"]*)")?$/, function(count, projectName) {
-    return seedPublications(count, {project: projectName});
+    return seedPublicationsAsOtherUser(count, {project: projectName});
   });
 
   this.Given(/^there are (\d+) publications in the "([^"]*)" category$/, function(count, categoryName) {
-    return seedPublications(count, {category: categoryName});
+    return seedPublicationsAsOtherUser(count, {category: categoryName});
   });
 
   this.Given(/^I have a publication$/, function() {
-    seedPublications(1)
+    return seedPublications(1);
   });
 
   this.Given(/^the notebook "([^"]*)" is published$/, function(name) {

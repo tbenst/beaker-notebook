@@ -2,6 +2,7 @@
   (:require [liberator.core :refer [defresource]]
             [bunsen.notebook.resource.defaults :refer [defaults]]
             [bunsen.notebook.resource.seed :refer [seed]]
+            [bunsen.notebook.resource.seed-publications :refer [seed-publications]]
             [bunsen.notebook.resource.seed-projects :refer [seed-projects]]
             [bunsen.notebook.resource.seed-notebooks :refer [seed-notebooks]]
             [bunsen.notebook.resource.publication :refer [publication]]
@@ -39,5 +40,6 @@
    :rating rating
    :ratings ratings
    :seed seed
+   :seed-publications seed-publications
    :seed-projects seed-projects
    :seed-notebooks seed-notebooks})
