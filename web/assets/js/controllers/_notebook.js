@@ -18,6 +18,7 @@
     'NotebookRestangular',
     'FullscreenState',
     'TrackingService',
+    'bkSession',
     'bkSessionManager',
     'bkHelper',
     function(
@@ -39,11 +40,14 @@
       NotebookRestangular,
       FullscreenState,
       TrackingService,
+      bkSession,
       bkSessionManager,
       bkHelper) {
 
     var frame;
     var prjId = $state.params.id;
+
+    var isExistingSession;
 
     LastViewed.set('projects');
 
@@ -75,25 +79,40 @@
       return _.any($scope.notebooks.list, $scope.otherOpenNotebooks);
     };
 
+
     $scope.beakerReady = function() {
-      if ($route.current === void(0)) {
-        var baseRest = NotebookRestangular.one('notebooks', $state.params.notebook_id);
-        var notebookLocation = "ajax:"
-            + baseRest.all('contents').getRestangularUrl() + ":"
-            + baseRest.getRestangularUrl();
-        $route.current = {locals:
-                          {target: {
-                            uri: notebookLocation,
-                            type: "ajax", // beaker would guess anyway
-                            format: "bkr", // beaker would guess anyway
-                            readOnly: false // the default anyway
-                          },
-                           isOpen: true},
-                          $$route: {
-                            resolve: {}
-                          }};
+      var ready = Beaker.isReady() && isExistingSession !== void(0);
+
+      // Apply temporary routing hack if necessary.
+      // (Beaker Notebook directive is currently controlled only
+      // via the state of $route service, which Bunsen isn't using.)
+      if (ready && $route.current === void(0)) {
+
+        // enforce 1 open session per notebook.
+        $routeParams.sessionId = $state.params.notebook_id;
+
+        var currentRoute = {locals: {}, $$route: { resolve: {}}};
+
+        // if loading a new notebook (not an open session), additional
+        // state of $route is necessary to tell Beaker where to find
+        // the notebook contents.
+        if (!isExistingSession) {
+          var baseRest = NotebookRestangular.one('notebooks', $state.params.notebook_id);
+          var notebookLocation = "ajax:"
+              + baseRest.all('contents').getRestangularUrl() + ":"
+              + baseRest.getRestangularUrl();
+          currentRoute.locals.target = {
+            uri: notebookLocation,
+            type: "ajax", // beaker would guess anyway
+            format: "bkr", // beaker would guess anyway
+            readOnly: false // the default anyway
+          };
+          currentRoute.isOpen = true;
+        }
+
+        $route.current = currentRoute;
       }
-      return Beaker.isReady();
+      return ready;
     }
 
     var notebookNameTaken = function() {
@@ -128,6 +147,10 @@
         TrackingService.measure('BaselineProvisionedNotebookLoad', 'LoadProvisionedNotebook', 'NotebookLoaded');
         TrackingService.measure('BaselineUnProvisionedNotebookCreate', 'CreateUnProvisionedNotebook', 'NotebookLoaded');
         TrackingService.measure('BaselineProvisionedNotebookCreate', 'CreateProvisionedNotebook', 'NotebookLoaded');
+
+        return bkSession.getSessions().then(function(sessions) {
+          isExistingSession = sessions[$state.params.notebook_id] !== void(0);
+        });
       });
     });
 
