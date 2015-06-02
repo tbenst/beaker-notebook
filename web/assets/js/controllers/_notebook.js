@@ -107,7 +107,7 @@
             format: "bkr", // beaker would guess anyway
             readOnly: false // the default anyway
           };
-          currentRoute.isOpen = true;
+          currentRoute.locals.isOpen = true;
         }
 
         $route.current = currentRoute;
