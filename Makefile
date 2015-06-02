@@ -7,35 +7,13 @@ REGISTRY ?= mojotech
 ENV ?= dev
 HOST ?= localhost
 
-CLOJURE_IMAGES := \
-	provisioner \
-	marketplace \
-	notebook \
-	user
-
-IMAGES := \
-	web \
-	beaker \
-	tests \
-	riemann \
-	datomic \
-	$(CLOJURE_IMAGES)
-
-DEPLOY_IMAGES := \
-	$(filter-out beaker,$(IMAGES))
+BUILD_IMAGES := web api riemann datomic tests
+DEPLOY_IMAGES := web api riemann datomic
 
 .PHONY: \
-	$(IMAGES) \
+	$(BUILD_IMAGES) \
 	push-all \
 	push-% \
-	save-all \
-	save-% \
-	load-all \
-	load-% \
-	stop-all \
-	stop-% \
-	remove-all \
-	remove-% \
 	clean-all \
 	clean-% \
 	prepare-all \
@@ -62,136 +40,77 @@ DEPLOY_IMAGES := \
 	bootstrap-local \
 	provision-local
 
-all: $(IMAGES)
+all: $(BUILD_IMAGES)
 
-$(filter-out $(CLOJURE_IMAGES) web beaker,$(IMAGES)):
+$(BUILD_IMAGES):
 	docker build --force-rm -t $(REGISTRY)/bunsen-$@:$(TAG) $@
 
-$(CLOJURE_IMAGES): install
-	lein modules :dirs $@ do clean, uberjar
-	docker build --force-rm -t $(REGISTRY)/bunsen-$@:$(TAG) $@
-
-web:
-	docker build --force-rm -t $(REGISTRY)/bunsen-web:$(TAG) web
-
-beaker:
-	docker pull beakernotebook/beaker-prerelease:master-0-g95b1538
-
-install:
-	lein modules install
+#
+#
+#
 
 push-all: $(DEPLOY_IMAGES:%=push-%)
 push-%:
 	docker push $(REGISTRY)/bunsen-$*:$(TAG)
 
-pull-all: $(IMAGES:%=pull-%)
-pull-%:
-	docker pull $(REGISTRY)/bunsen-$*:$(TAG)
-
-save-all: $(IMAGES:%=save-%)
-save-%:
-	mkdir -p $(TARGET)
-	docker save $(REGISTRY)/bunsen-$* > $(TARGET)bunsen-$*.tar
-
-load-all: $(IMAGES:%=load-%)
-load-%:
-	if [[ -e $(SOURCE)bunsen-$*.tar ]]; then docker load -i $(SOURCE)bunsen-$*.tar; fi
-
-stop-all: $(IMAGES:%=stop-%)
-stop-%:
-	docker ps | awk 'NR>1 && $$2 == "$(REGISTRY)/bunsen-$*:$(TAG)"{print $$1}' | xargs -n1 docker stop
-
-remove-all: $(IMAGES:%=remove-%)
-remove-%: stop-%
-	docker ps -a | awk 'NR>1 && $$2 == "$(REGISTRY)/bunsen-$*:$(TAG)"{print $$1}' | xargs -n1 docker rm
-
-clean-all: $(IMAGES:%=clean-%)
-clean-%: remove-%
-	docker images | awk 'NR>1 && $$1 == "$(REGISTRY)/bunsen-$*" && $$2 == "$(TAG)"{print $$1}' | xargs -n1 docker rmi
-
 #
 #
 #
 
-prepare-all: $(IMAGES:%=prepare-%)
+prepare-all: $(BUILD_IMAGES:%=prepare-%) prepare-beaker
 
-prepare-%: install
-	lein modules :dirs $* deps
+prepare-%:
+	make -C $*
 
-prepare-beaker: beaker
+prepare-beaker:
+	docker pull beakernotebook/beaker-prerelease:master-0-g95b1538
 
-prepare-web:
-	make -C web
-
-prepare-riemann:
-	make -C riemann
-
-prepare-tests:
-	make -C tests
-
-# nothing to do here
-prepare-datomic:
+prepare-riemann prepare-datomic:
 	true
 
 #
 #
 #
 
-test test-all: test-marketplace test-user test-integration
+test test-all: test-api test-integration
 
 test-%: ENV := test
-test-%: HOST := 10.10.10.10
-test-%: PORT := 3000
-test-%: wait-all
-	source config/$(ENV).env && HOST=$(HOST) PORT=$(PORT) lein modules :dirs $* with-profiles -dev test
 
-test-integration: ENV := test
-test-integration: HOST := 10.10.10.10
+test-api: wait-all
+	source config/$(ENV).env && cd api && lein test
+
 test-integration: wait-all start-tests
 	sleep 5
 	docker logs -f bunsen-tests
 	exit $$(docker wait bunsen-tests)
 
-test-marketplace: PORT := 8444
+#
+#
+#
 
-wait-all: wait-web wait-provisioner wait-marketplace wait-notebook wait-user
+wait-all: wait-web wait-api
 
 wait-web: start-web
 	wget -qO- --retry-connrefused --tries=20 "$(HOST):8081"
 
-wait-provisioner: start-provisioner
-	wget -qO- --retry-connrefused --tries=20 "$(HOST):3001/provisioner/v1/status"
+wait-api: start-api
+	wget -qO- --retry-connrefused --tries=20 "$(HOST):3000/user/v1/status"
+	wget -qO- --retry-connrefused --tries=20 "$(HOST):3000/notebook/v1/status"
+	wget -qO- --retry-connrefused --tries=20 "$(HOST):3000/provisioner/v1/status"
+	wget -qO- --retry-connrefused --tries=20 "$(HOST):3000/marketplace/v1/status"
 
-wait-marketplace: start-marketplace
-	wget -qO- --retry-connrefused --tries=20 "$(HOST):8444/marketplace/v1/status"
-
-wait-notebook: start-notebook
-	wget -qO- --retry-connrefused --tries=20 "$(HOST):3003/notebook/v1/status"
-
-wait-user: start-user
-	wget -qO- --retry-connrefused --tries=20 "$(HOST):3004/user/v1/status"
-
-start-tests:
-	docker run -d -p 5900:5900 --env-file="config/$(ENV).env" --name=bunsen-tests -e "CIRCLE_NODE_TOTAL=$(CIRCLE_NODE_TOTAL)" -e "CIRCLE_NODE_INDEX=$(CIRCLE_NODE_INDEX)" $(REGISTRY)/bunsen-tests:$(TAG) $(COMMANDS)
+#
+#
+#
 
 start-web:
 	docker run -d -p 8081:8081 --env-file="config/$(ENV).env" --name=bunsen-web $(REGISTRY)/bunsen-web:$(TAG) $(COMMANDS)
 
-start-provisioner:
-	docker run -d -p 3001:3001 --env-file="config/$(ENV).env" --name=bunsen-provisioner \
-		-e PROVISIONER_DEFAULT_CONTAINER_IMAGE=$(REGISTRY)/bunsen-beaker:$(TAG) $(REGISTRY)/bunsen-provisioner:$(TAG) $(COMMANDS)
+start-api:
+	docker run -d -p 3000:3000 --env-file="config/$(ENV).env" --name=bunsen-api $(REGISTRY)/bunsen-api:$(TAG) $(COMMANDS)
 
-start-marketplace:
-	docker run -d -p 8444:8444 --env-file="config/$(ENV).env" --name=bunsen-marketplace $(REGISTRY)/bunsen-marketplace:$(TAG) $(COMMANDS)
-
-start-riemann:
-	docker run -d -p 5556:5556 --env-file="config/$(ENV).env" --name=bunsen-riemann $(REGISTRY)/bunsen-provisioner:$(TAG) $(COMMANDS)
-
-start-notebook:
-	docker run -d -p 3003:3003 --env-file="config/$(ENV).env" --name=bunsen-notebook $(REGISTRY)/bunsen-notebook:$(TAG) $(COMMANDS)
-
-start-user:
-	docker run -d -p 3004:3004 --env-file="config/$(ENV).env" --name=bunsen-user $(REGISTRY)/bunsen-user:$(TAG) $(COMMANDS)
+start-tests:
+	docker run -d -p 5900:5900 --env-file="config/$(ENV).env" --name=bunsen-tests -e "CIRCLE_NODE_TOTAL=$(CIRCLE_NODE_TOTAL)" -e "CIRCLE_NODE_INDEX=$(CIRCLE_NODE_INDEX)" $(REGISTRY)/bunsen-tests:$(TAG) $(COMMANDS)
 
 #
 #
