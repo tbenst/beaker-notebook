@@ -18,5 +18,6 @@
                        "/categories" {"" :categories
                                       ["/" :id] :category}
                        "/seed" {"" :seed
+                                "/publications" :seed-publications
                                 "/projects" :seed-projects
                                 "/notebooks" :seed-notebooks}}}])
