@@ -80,8 +80,13 @@
 
       loadPublications();
 
+      function searchPublications(newValue, oldValue) {
+        if (newValue === oldValue) {return;}
+        loadPublications();
+      }
+
       $scope.$watch('publications.currentPage', changePage);
-      $scope.$watch('publications.search', loadPublications);
+      $scope.$watch('publications.search', searchPublications);
     }
   ]);
 })(window.bunsen);
