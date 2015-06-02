@@ -39,7 +39,7 @@
         // condense all search filters into a flat list
         var scopes = _.chain($scope.marketPlace.filters).keys().map(function(f) {
           var filterScope = f + 'Scope';
-          return TS.normalizeFilter($scope.marketPlace[filterScope], 'marketPlace.' + filterScope, $scope);
+          return TS.normalizeFilter($scope.marketPlace[filterScope], 'marketPlace.' + filterScope);
         })
         .value();
 
