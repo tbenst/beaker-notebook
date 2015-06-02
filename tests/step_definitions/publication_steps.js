@@ -92,7 +92,7 @@ module.exports = function() {
   });
 
   this.Given(/^I have a publication$/, function() {
-    seedPublications(1)
+    return seedPublications(1);
   });
 
   this.Given(/^the notebook "([^"]*)" is published$/, function(name) {
