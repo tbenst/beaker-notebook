@@ -17,13 +17,33 @@
                               % (rating/get-average-rating
                                          datomic-db index-name (:id %))))))
 
+(defn- ->vendor
+  [vendor]
+  {:id (:vendor/public-id vendor)
+   :name (:vendor/name vendor)})
+
+(defn- find-and-transform-vendor
+  [datomic-db vendor-id]
+  (->> vendor-id
+       (vendor/find-vendor datomic-db)
+       ->vendor))
+
+(defn- assoc-dataset-vendor
+  [datomic-db dataset]
+  (update-in dataset [:vendor] (partial find-and-transform-vendor datomic-db)))
+
+(defn- assoc-dataset-vendors
+  [datomic-db datasets]
+  (update-in datasets [:data] (partial mapv (partial assoc-dataset-vendor datomic-db))))
+
 (defn find-datasets
   [datomic-db es-conn index-name query]
   (->> (:category-path query)
        (category/get-category es-conn index-name)
        (category/get-category-catalog es-conn index-name)
        (dataset/find-datasets es-conn index-name query)
-       (merge-average-ratings-for-datasets datomic-db index-name)))
+       (merge-average-ratings-for-datasets datomic-db index-name)
+       (assoc-dataset-vendors datomic-db)))
 
 (defn get-dataset
   [datomic-db es-conn index-name dataset-id]
