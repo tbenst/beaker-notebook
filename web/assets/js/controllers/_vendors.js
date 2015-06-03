@@ -42,7 +42,7 @@
       $scope.deleteVendors = function() {
         $q.all(_.map($scope.vendors, function(vendor) {
           if (vendor.delete) {
-            return F.Vendors.destroy(vendor.id);
+            return F.Vendors.destroy(vendor['public-id']);
           }
         }))
         .then(getVendors)
