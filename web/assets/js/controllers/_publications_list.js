@@ -14,12 +14,9 @@
 
       var F = Factories;
       var categoryID = $stateParams.category_id;
-      var lastPromiseTime;
 
       function loadPublications() {
         TrackingService.mark('PublicationListLoad');
-        var currentPromiseTime = Date.now();
-        lastPromiseTime = currentPromiseTime;
         var query = {
               limit: $scope.publications.itemsPerPage,
               category_id: categoryID,
@@ -36,6 +33,7 @@
 
         return F.Publications.getPublications(query)
         .then(function(publications) {
+          $scope.publications.list = publications;
           return $q.all(_.map(publications, function(p) {
             return F.Users.getUser(p['author-id'])
             .then(function(u) {
@@ -45,11 +43,6 @@
               return p;
             })
           }));
-        })
-        .then(function(publications) {
-          if (currentPromiseTime >= lastPromiseTime) {
-            $scope.publications.list = publications;
-          }
           TrackingService.mark('PublicationListLoaded');
           TrackingService.measure('BaselinePublicationListLoad', 'PublicationListLoad', 'PublicationListLoaded');
         });
@@ -80,8 +73,13 @@
 
       loadPublications();
 
+      function searchPublications(newValue, oldValue) {
+        if (newValue === oldValue) {return;}
+        loadPublications();
+      }
+
       $scope.$watch('publications.currentPage', changePage);
-      $scope.$watch('publications.search', loadPublications);
+      $scope.$watch('publications.search', searchPublications);
     }
   ]);
 })(window.bunsen);
