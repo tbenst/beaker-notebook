@@ -4,11 +4,11 @@
             [bunsen.common.helper.utils :as utils]))
 
 (defn find-vendor [datomic-db vendor-id]
-  (d/q '[:find (pull ?eid [*]) .
-         :in $ ?eid
+  (d/q '[:find (pull ?v [*]) .
+         :in $ ?pid
          :where
-         [?eid :vendor/name]]
-       datomic-db (Long. vendor-id)))
+         [?v :vendor/public-id ?pid]]
+       datomic-db (utils/uuid-from-str vendor-id)))
 
 (defn list-vendors
   [datomic-db]
@@ -29,6 +29,7 @@
   [datomic-conn vendor]
   @(d/transact datomic-conn
                [{:db/id (d/tempid :db.part/user)
+                 :vendor/public-id (d/squuid)
                  :vendor/name (:name vendor)}]))
 
 (defn delete-vendor! [datomic-conn vendor-id]

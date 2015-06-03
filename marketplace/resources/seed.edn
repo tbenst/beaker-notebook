@@ -1,160 +1,213 @@
 [
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-5d16-44a6-afea-982b60a5394b"
    :vendor/name "Australian Securities Exchange"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-1e79-4fe4-af35-1ce05f0aa393"
    :vendor/name "Bank of England"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-8425-404d-a644-a41cce58e921"
    :vendor/name "Bundesbank"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-2617-495f-89f5-dd0d2a02aade"
    :vendor/name "CBOE Futures Exchange"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-a1d5-455e-9226-6d866b9ed3c2"
    :vendor/name "Central Bank of Brazil"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-0713-4852-a302-85c13a2f35df"
    :vendor/name "Chicago Board Options Exchange"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-14dd-4988-ae8a-6ce6eb329ece"
    :vendor/name "Chigaco Mercantile Exchange"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-7cca-43d7-9c15-0346419a3fe9"
    :vendor/name "Chris"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-99bc-4d19-85f0-62b6c9eb46ff"
    :vendor/name "Consumer Financial Protection Bureau"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-a6e9-4040-8fec-5cfe1eccb3da"
    :vendor/name "Damodaran Financial Data"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-7c6b-4337-8f66-8d7a99a93beb"
    :vendor/name "Energy Information Administration, Department of Energy"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-902b-4641-a32c-fd131495f306"
    :vendor/name "Eurex Exchange"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-301c-468c-a647-9d270cd99362"
    :vendor/name "European Energy Exchange"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-9021-49b6-9f9e-7af0472aa560"
    :vendor/name "Federal Reserve Bank of St. Louis"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-233f-4edb-b4a0-7a0fc963dd3b"
    :vendor/name "Federal Reserve Economic Data"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-6bbb-4ce0-a3db-e6204ff60948"
    :vendor/name "Google Finance"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-0d87-455d-84bd-a1ce36b0c117"
    :vendor/name "Hong Kong Exchange"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-a20f-48a0-a363-fdf166bd4a8a"
    :vendor/name "Intercontinental Exchange"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-ccd0-4d1d-b50e-ea0157d2a457"
    :vendor/name "Johnson Matthey"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-772b-4b81-84d2-66da14607c13"
    :vendor/name "London Bullion Market Association"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-8833-4ff7-a44b-ea07c6a988aa"
    :vendor/name "MeasuringWorth"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-5e73-41f7-a74e-24ce01394b2c"
    :vendor/name "Minneapolis Grain Exchange"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-46f7-44a9-bbb2-04a23dbc7fb0"
    :vendor/name "Montreal Exchange"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-05c6-4fe8-a405-05ba9e251ba0"
    :vendor/name "Multi Commodity Exchange India"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-7d76-42dc-a012-05b4527e2694"
    :vendor/name "NYSE EURONEXT LIFFE"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-daf4-467f-b9a7-f356544fb561"
    :vendor/name "New York Government"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-6576-4754-9427-8c954e858608"
    :vendor/name "Nikkei"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-0c17-4b33-bf58-156501fb7778"
    :vendor/name "Open Data for Africa (IMF)"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-eadd-4d6b-9375-bd25677dd63c"
    :vendor/name "Open Financial Data Project"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-a15d-4175-9db7-5670ecfa7620"
    :vendor/name "Osaka Dojima Commodity Exchange"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-266c-470a-a3aa-21ea13e366fd"
    :vendor/name "Osaka Securities Exchange"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-329b-4bd3-83f1-b4180edc0329"
    :vendor/name "PRICE-DATA.COM"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-95b5-484f-92b0-af2b9f41cf0e"
    :vendor/name "PsychSignal"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-0ff6-4b83-97ed-026df8de9418"
    :vendor/name "Quandl"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-c184-41e4-afe7-2586859dc97b"
    :vendor/name "Quandl Open Data"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-3e72-4e5e-b42f-ede444984db3"
    :vendor/name "Shanghai Futures Exchange"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-d106-42ef-b03a-3ddae0c1cd25"
    :vendor/name "Singapore Exchange"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-5980-4768-a1c4-c6564818873b"
    :vendor/name "Statistics Canada"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-3461-4ccb-af98-673faf5ecd24"
    :vendor/name "Stock Exchange of Thailand"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-f040-4b82-a0db-49d645124378"
    :vendor/name "Tokyo Financial Exchange"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-7ca1-4689-b8b4-ab873aeb0555"
    :vendor/name "U.S. Census Bureau, Department of Commerce"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-95d4-440b-86a7-346df3f46aba"
    :vendor/name "U.S. Commodity Futures Trading Commision"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-575e-468c-982e-8a9ee36d8116"
    :vendor/name "U.S. Energy Information Administration"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-898d-4f93-9d3e-5330688eef36"
    :vendor/name "U.S. Office of Personnel Management"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-1a4d-4cb7-9a82-ed451495e9ff"
    :vendor/name "U.S. Securities and Exchange Commission"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-4a8f-4e30-82bc-266b2852a601"
    :vendor/name "US Department of Energy"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-94d3-43ba-82de-31fb61d6ad6d"
    :vendor/name "United Nations"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-df20-4399-8282-fe67e4db080c"
    :vendor/name "Wall Street Journal"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-5603-4d69-bfb6-47a44a2de218"
    :vendor/name "World Bank"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-4ca7-41cf-a677-9bc373f575e2"
    :vendor/name "World Gold Council"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-f592-478f-b143-7ec1afeb7224"
    :vendor/name "World Health Organization"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-8546-401f-90ad-f81e09f97733"
    :vendor/name "Yahoo Finance"}
 
   {:db/id #db/id[:db.part/user]
+   :vendor/public-id #uuid "556f3d84-c59e-4e15-835f-ddd3a868ea83"
    :vendor/name "Zillow Real Estate Research"}
 ]

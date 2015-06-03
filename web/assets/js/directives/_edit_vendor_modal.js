@@ -23,7 +23,7 @@
         });
 
         $scope.update = function() {
-          F.Vendors.update({id: $scope.vendor.id, name: $scope.vendorName}).then(function(vendor) {
+          F.Vendors.update({id: $scope.vendor['public-id'], name: $scope.vendorName}).then(function(vendor) {
             $scope.vendor.name = vendor.data.name;
             $rootScope.$broadcast('closeModal');
             delete $scope.error;
