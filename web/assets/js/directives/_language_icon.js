@@ -1,14 +1,20 @@
 ;(function(angular, app) {
   var languages = {
-    Html: { symbol: 'Ht', color: '#E54F1F' },
-    Latex: { symbol: 'La', color: 'white', borderColor: '#4C5353', textColor: 'black' },
-    IPython: { symbol: 'Py', color: '#EFBE3A' },
-    JavaScript: { symbol: 'JS', color: '#F0DD44', textColor: '#464549' },
-    Node: { symbol: 'N', color: '#8CC64B' },
-    R: { symbol: 'R', color: '#8394BD' },
-    Julia: { symbol: 'Ju', color: '#6CAD5A' },
-    Ruby: { symbol: 'Ru', color: '#B11400' },
-    Groovy: { symbol: 'Gr', color: '#6297AA' }
+    Html: { symbol: 'Ht', color: '#E3502B' },
+    Latex: { symbol: 'La', color: '#FFFFFF', borderColor: '#3D4444', textColor: '#030303' },
+    JavaScript: { symbol: 'Js', color: '#F0E8F0', textColor: '#4A4A4A' },
+    Groovy: { symbol: 'Gr', color: '#6497A9' },
+    IPython: { symbol: 'Py', color: '#EEBD48' },
+    Python3: { symbol: 'Py', color: '#EEBD48' },
+    Matlab: { symbol: 'Mt', color: '#6497A9' },
+    R: { symbol: 'R', color: '#8495BB' },
+    Scala: { symbol: 'Sc', color: '#B41703' },
+    Clojure: { symbol: 'Cj', color: '#5881d8' },
+    Kdb: { symbol: 'K', color: '#005e99' },
+    Java: { symbol: 'Jv', color: '#EB0000' },
+    Julia: { symbol: 'Jl', color: '#6CAC5E' },
+    IRuby: { symbol: 'Rb', color: '#AF1712' },
+    Node: { symbol: 'N', color: '#8EC453' }
   };
 
   app.directive('languageIcon', function() {

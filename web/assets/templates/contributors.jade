@@ -3,9 +3,16 @@
   .content
     ul
       li.contributor(ng-repeat="contributor in contributors")
-        img.icon.top-contributor-icon(gravatar-src="contributor.email" gravatar-size="100" gravatar-default="retro")
-        .name
-          strong {{contributor.name}}
-        .job-title {{contributor['job-title']}}
-        .company {{contributor.company}}
-        .cl
+        div.publication-author(ng-if="contributor.extdata !== undefined")
+          img.icon.top-contributor-icon(ng-src="https://pictures.twosigma.com/pictures/{{contributor.extdata['person.person_has_primary_identity.identity_name']}}.jpg")
+          .name
+            strong {{contributor.name}}
+          .company(ng-repeat="deps in contributor.extdata.departments") {{deps.name}}{{$last ? '' : ', '}}
+          .cl
+        div.publication-author(ng-if="contributor.extdata === undefined")
+          img.icon.top-contributor-icon(gravatar-src="contributor.email" gravatar-size="100" gravatar-default="retro")
+          .name
+            strong {{contributor.name}}
+          .job-title {{contributor['job-title']}}
+          .company {{contributor.company}}
+          .cl
