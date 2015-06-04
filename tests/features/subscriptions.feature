@@ -6,6 +6,7 @@ Feature: Subscriptions
   Background:
     Given I'm signed in as a researcher
     And I have a default catalog
+    And I have a default vendor
     And I'm subscribed to the following market items:
       | title               | remoteFile | description  |
       | Crime Rates, Canada | CRIME.xml  | pretty bad   |

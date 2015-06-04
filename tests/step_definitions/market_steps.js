@@ -14,7 +14,7 @@ var marketItemBase = function() {
     remoteFile: 'Credit_card_complaints.csv',
     rows: 350,
     updateFrequency: 'Weekly',
-    vendor: 'Two Sigma',
+    vendor: 'Some vendor',
     tags: ['one'],
     categoryIds: ['categories_default']
   });
@@ -68,6 +68,13 @@ module.exports = function() {
       //jscs:enable
       metadata: twoSigmaCatalog
     });
+  });
+
+  this.Given(/^I have a default vendor$/, function(callback) {
+    return this.marketplace.createVendors([{
+      'name': 'Some vendor',
+      'public-id': '55705cd9-f788-4a57-aa5d-1b271acd59cb'
+    }]);
   });
 
   this.Given(/^I have Two Sigma catalog$/, function() {

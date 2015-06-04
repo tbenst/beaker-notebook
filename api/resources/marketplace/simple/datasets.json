@@ -15,7 +15,7 @@
           "Births and Deaths",
           "Demography"
         ],
-        "vendor": "US Dept of Defense"
+        "vendor": "556fe828-7ba4-4fa4-be9d-f0e6737b5686"
     },
     {
         "businessOwner": "882-HU-BBT",
@@ -34,7 +34,7 @@
           "Demography",
           "Darts and Arts"
         ],
-        "vendor": "US Dept of Defense"
+        "vendor": "556fe828-7ba4-4fa4-be9d-f0e6737b5686"
     },
     {
         "businessOwner": "882-HU-BBT",
@@ -53,7 +53,7 @@
           "Cars",
           "NASA Spaceships"
         ],
-        "vendor": "NOAA"
+        "vendor": "556fe878-b3c5-4f94-ae66-d806fe8a54a4"
     },
     {
         "businessOwner": "HHE-UURYHA",
@@ -71,7 +71,7 @@
           "Industry in Asia",
           "France"
         ],
-        "vendor": "US Dept of Defense"
+        "vendor": "556fe828-7ba4-4fa4-be9d-f0e6737b5686"
     },
     {
         "businessOwner": "HHE-992282",
@@ -89,7 +89,7 @@
           "Television",
           "Milk"
         ],
-        "vendor": "US Dept of Defense"
+        "vendor": "556fe828-7ba4-4fa4-be9d-f0e6737b5686"
     },
     {
         "businessOwner": "HHE-992282",
@@ -103,7 +103,7 @@
         "public": true,
         "remoteFile": "file://./base_assignments.xsl",
         "title": "Armed Forces Food 2013",
-        "vendor": "US Dept of Defense"
+        "vendor": "556fe828-7ba4-4fa4-be9d-f0e6737b5686"
     },
     {
         "businessOwner": "HHE-992282",
@@ -117,7 +117,7 @@
         "public": true,
         "remoteFile": "file://./base_assignments.css",
         "title": "Armed Forces Styles",
-        "vendor": "US Dept of Defense"
+        "vendor": "556fe828-7ba4-4fa4-be9d-f0e6737b5686"
     },
     {
         "businessOwner": "HHE-992282",
@@ -131,7 +131,7 @@
         "public": true,
         "remoteFile": "file://./base_assignments.html",
         "title": "Armed Forces Markup",
-        "vendor": "US Dept of Defense"
+        "vendor": "556fe828-7ba4-4fa4-be9d-f0e6737b5686"
     },
     {
         "businessOwner": "HHE-992282",
@@ -145,7 +145,7 @@
         "public": true,
         "remoteFile": "file://./base_assignments.js",
         "title": "Armed Forces JavaScript",
-        "vendor": "US Dept of Defense"
+        "vendor": "556fe828-7ba4-4fa4-be9d-f0e6737b5686"
     },
     {
         "businessOwner": "HHE-992282",
@@ -159,7 +159,7 @@
         "public": true,
         "remoteFile": "file://./base_assignments.clj",
         "title": "Armed Forces Clojure",
-        "vendor": "US Dept of Defense"
+        "vendor": "556fe828-7ba4-4fa4-be9d-f0e6737b5686"
     },
     {
         "businessOwner": "HHE-992282",
@@ -173,7 +173,7 @@
         "public": true,
         "remoteFile": "file://./base_assignments.sql",
         "title": "Armed Forces Structured Query Language",
-        "vendor": "US Dept of Defense"
+        "vendor": "556fe828-7ba4-4fa4-be9d-f0e6737b5686"
     },
     {
         "businessOwner": "HHE-992282",
@@ -187,7 +187,7 @@
         "public": true,
         "remoteFile": "file://./base_assignments.cpp",
         "title": "Armed Forces C++",
-        "vendor": "US Dept of Defense"
+        "vendor": "556fe828-7ba4-4fa4-be9d-f0e6737b5686"
     },
     {
         "businessOwner": "HHE-992282",
@@ -201,7 +201,7 @@
         "public": true,
         "remoteFile": "file://./base_assignments.aspx",
         "title": "Armed Forces hearts asp.net",
-        "vendor": "US Dept of Defense"
+        "vendor": "556fe828-7ba4-4fa4-be9d-f0e6737b5686"
     },
     {
         "businessOwner": "HHE-992282",
@@ -215,6 +215,6 @@
         "public": true,
         "remoteFile": "file://./base_assignments.coffee",
         "title": "Armed Forces coffee",
-        "vendor": "US Dept of Defense"
+        "vendor": "556fe828-7ba4-4fa4-be9d-f0e6737b5686"
     }
 ]
