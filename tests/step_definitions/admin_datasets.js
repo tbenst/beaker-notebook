@@ -21,7 +21,7 @@ module.exports = function() {
   this.When(/^I set the category to "([^"]*)"$/, function(category) {
     var editor = new this.Widgets.DatasetEditor();
 
-    return editor.setCategory(category)
+    return editor.setTypeahead('category', category)
     .then(function() {
       return editor.save();
     });
@@ -46,7 +46,7 @@ module.exports = function() {
   });
 
   this.When(/^I enter "([^"]*)" into the category field$/, function(category) {
-    return new this.Widgets.DatasetEditor().setCategory(category);
+    return new this.Widgets.DatasetEditor().setTypeahead('category', category);
   });
 
   this.When(/^I enter "([^"]*)" into the format field$/, function(format) {
@@ -167,7 +167,7 @@ module.exports = function() {
       return editor.setCatalog('catalog_0.1');
     })
     .then(function() {
-      return editor.setCategory(row.category);
+      return editor.setTypeahead('category', row.category);
     })
     .then(function() {
       return editor.save();

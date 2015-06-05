@@ -38,8 +38,8 @@ module.exports = function() {
         return this.click('.tag-add');
       }.bind(this));
     },
-    setCategory: function(value) {
-      return this.typeInto('category', value)
+    setTypeahead: function(field, value) {
+      return this.typeInto(field, value)
       .then(function() {
         return this.click({
           selector: 'strong',
