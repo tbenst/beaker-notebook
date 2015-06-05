@@ -1,3 +1,5 @@
+var util = require('util');
+
 module.exports = function() {
   this.Widgets.DatasetEditor = this.Widget.Form.extend({
     root: 'dataset-editor',
@@ -13,11 +15,19 @@ module.exports = function() {
         value: val
       });
     },
-    typeIntoCategories: function(value) {
-      return this.fill({
-        selector: '.dataset-category-field',
-        value: value
-      });
+    typeInto: function(field, value) {
+      var fields = {
+        'category': '.dataset-category-field'
+      };
+
+      if (field in fields) {
+        return this.fill({
+          selector: fields[field],
+          value: value
+        });
+      } else {
+        throw new Error(util.format('FieldType: %s not found', field));
+      }
     },
     addTag: function(tag) {
       return this.fill({
@@ -29,7 +39,7 @@ module.exports = function() {
       }.bind(this));
     },
     setCategory: function(value) {
-      return this.typeIntoCategories(value)
+      return this.typeInto('category', value)
       .then(function() {
         return this.click({
           selector: 'strong',

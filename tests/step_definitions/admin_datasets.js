@@ -109,7 +109,7 @@ module.exports = function() {
   });
 
   this.When(/^type "([^"]*)" into the category field$/, function(val) {
-    return new this.Widgets.DatasetEditor().typeIntoCategories(val);
+    return new this.Widgets.DatasetEditor().typeInto('category', val);
   });
 
   this.Then(/^I click the "([^"]*)" tag$/, function(tag) {
