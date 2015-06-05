@@ -89,6 +89,8 @@
                     a.move.bunsen-dropdown-toggle.dropright-arrow(notebook-move project-id="project['public-id']" notebook="notebook" projects="projects.list" on-move="loadProject()" on-error="alreadyExistsError(notebook, project)")
                   li
                     a.destroy(confirm="Are you sure you want to delete {{ notebook.name }}?" on-confirm="deleteNotebook(notebook)") Delete
+                  li
+                    a.export(ng-click="exportNotebook(notebook['public-id'])") Export
           .cl
           p.warning(ng-if="notebook.unavailable") This notebook is unavailable. Please contact support.
 

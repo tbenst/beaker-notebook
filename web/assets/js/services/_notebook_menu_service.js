@@ -45,6 +45,15 @@
                 id: "close-menuitem"
               },
               {
+                name: "Export",
+                sortorder: 75,
+                action: function() {
+                  Notebooks.export($scope.notebook.current['public-id']);
+                },
+                tooltip: "Export notebook as file",
+                id: "export-menuitem"
+              },
+              {
                 name: 'Divider',
                 sortorder: 80,
                 action: function() {},

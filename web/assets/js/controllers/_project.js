@@ -82,6 +82,10 @@
       RenameNotebook.openModal($scope, notebook);
     };
 
+    $scope.exportNotebook = function(notebookId) {
+      Notebooks.export(notebookId);
+    };
+
     $scope.deleteNotebook = function(notebook) {
       (notebook.open ? Notebooks.closeNotebook(notebook['public-id']) : resolvedPromise())
       .then(function() { return Notebooks.destroy(notebook['public-id']); })
