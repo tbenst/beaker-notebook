@@ -2,10 +2,11 @@
   (:require [bunsen.provisioner.route :refer [routes]]
             [bunsen.provisioner.resource :refer [resources]]
             [bunsen.common.helper.service :refer [make-handler]]
+            [bunsen.common.middleware.with :refer [wrap-with]]
             [bunsen.common.middleware.datomic :refer [wrap-datomic]]
             [com.stuartsierra.component :as component :refer [start stop]]))
 
-(defrecord Service [config datomic]
+(defrecord Service [config datomic container]
   component/Lifecycle
 
   (start [service]
@@ -13,6 +14,7 @@
       service
       (assoc service
              :handler (-> (make-handler routes resources)
+                          (wrap-with :container container)
                           (wrap-datomic config datomic)))))
 
   (stop [service]
