@@ -39,7 +39,8 @@
                  [clj-time "0.9.0"]
                  [myguidingstar/clansi "1.3.0"]
                  [io.rkn/conformity "0.3.3"]
-                 [clojurewerkz/elastisch "2.1.0"]]
+                 [clojurewerkz/elastisch "2.1.0"]
+                 [docker-client "0.1.4"]]
   :profiles {:uberjar {:aot [bunsen.main]}
              :dev {:source-paths ["src/dev"]
                    :jvm-opts ["-Xmx300m"
