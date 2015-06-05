@@ -19,12 +19,12 @@ module.exports = function() {
   });
 
   this.When(/^I set the category to "([^"]*)"$/, function(category) {
-      var editor = new this.Widgets.DatasetEditor();
+    var editor = new this.Widgets.DatasetEditor();
 
-      return editor.setCategory(category)
-      .then(function() {
-        return editor.save();
-      });
+    return editor.setCategory(category)
+    .then(function() {
+      return editor.save();
+    });
   });
 
   this.When(/^I enter the dataset name as "([^"]*)"$/, function(newName) {
