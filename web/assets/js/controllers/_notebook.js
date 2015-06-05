@@ -47,8 +47,6 @@
     var frame;
     var prjId = $state.params.id;
 
-    var isExistingSession;
-
     LastViewed.set('projects');
 
     $scope.projects.search = '';
@@ -79,41 +77,18 @@
       return _.any($scope.notebooks.list, $scope.otherOpenNotebooks);
     };
 
-
     $scope.beakerReady = function() {
-      var ready = Beaker.isReady() && isExistingSession !== void(0);
-
-      // Apply temporary routing hack if necessary.
-      // (Beaker Notebook directive is currently controlled only
-      // via the state of $route service, which Bunsen isn't using.)
-      if (ready && $route.current === void(0)) {
-
-        // enforce 1 open session per notebook.
-        $routeParams.sessionId = $state.params.notebook_id;
-
-        var currentRoute = {locals: {}, $$route: { resolve: {}}};
-
-        // if loading a new notebook (not an open session), additional
-        // state of $route is necessary to tell Beaker where to find
-        // the notebook contents.
-        if (!isExistingSession) {
-          var baseRest = NotebookRestangular.one('notebooks', $state.params.notebook_id);
-          var notebookLocation = "ajax:"
-              + baseRest.all('contents').getRestangularUrl() + ":"
-              + baseRest.getRestangularUrl();
-          currentRoute.locals.target = {
-            uri: notebookLocation,
-            type: "ajax", // beaker would guess anyway
-            format: "bkr", // beaker would guess anyway
-            readOnly: false // the default anyway
-          };
-          currentRoute.locals.isOpen = true;
-        }
-
-        $route.current = currentRoute;
-      }
-      return ready;
+      return Beaker.isReady() && $scope.isExistingSession !== void(0);
     }
+
+    $scope.beakerSessionId = $state.params.notebook_id;
+
+    var baseRest = NotebookRestangular.one('notebooks', $state.params.notebook_id);
+    $scope.beakerNotebook = {
+      uri: "ajax:" +
+        baseRest.all('contents').getRestangularUrl() + ":" +
+        baseRest.getRestangularUrl()
+    };
 
     var notebookNameTaken = function() {
       return !!_.find($scope.notebooks.list, { name: $scope.saveAsName, projectId: $scope.notebook.current.projectId });
@@ -149,7 +124,7 @@
         TrackingService.measure('BaselineProvisionedNotebookCreate', 'CreateProvisionedNotebook', 'NotebookLoaded');
 
         return bkSession.getSessions().then(function(sessions) {
-          isExistingSession = sessions[$state.params.notebook_id] !== void(0);
+          $scope.isExistingSession = sessions[$state.params.notebook_id] !== void(0);
         });
       });
     });
