@@ -29,9 +29,9 @@
   :handle-created ::publication
 
   :handle-ok (fn [{{db :db params :params} :request}]
-               (let [term (get params "searchTerm")
-                     category-id (get params "category_id")
-                     offset (parse-num-or-default (get params "offset") 0)
-                     limit (parse-num-or-default (get params "limit") Long/MAX_VALUE)]
+               (let [term (get params :searchTerm)
+                     category-id (get params :category_id)
+                     offset (parse-num-or-default (get params :offset) 0)
+                     limit (parse-num-or-default (get params :limit) Long/MAX_VALUE)]
                  (-> (api/find-publications db category-id term)
                      (q/paginate offset limit)))))
