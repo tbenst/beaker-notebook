@@ -6,7 +6,7 @@
             [bunsen.common.middleware.datomic :refer [wrap-datomic]]
             [com.stuartsierra.component :as component :refer [start stop]]))
 
-(defrecord Service [config datomic container]
+(defrecord Service [config datomic container store]
   component/Lifecycle
 
   (start [service]
@@ -14,7 +14,7 @@
       service
       (assoc service
              :handler (-> (make-handler routes resources)
-                          (wrap-with :container container)
+                          (wrap-with :container container :store store)
                           (wrap-datomic config datomic)))))
 
   (stop [service]
