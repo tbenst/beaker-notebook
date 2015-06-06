@@ -3,8 +3,8 @@
             [bunsen.notebook.presenter.publications :as p]
             [bunsen.common.helper.resource :refer [defaults]]))
 
-(defresource seed-publications [config] defaults
-  :allowed? (= "true" (:allow-seed config))
+(defresource seed-publications [_] defaults
+  :allowed? (comp #{"true"} :allow-seed :config :request)
 
   :allowed-methods #{:post}
 
