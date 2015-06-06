@@ -42,10 +42,10 @@
        (into {})))
 
 (defn- container->spec
-  [{:keys [id cmd env image ports volumes]}]
+  [{:keys [id cmd env image ports volumes]} group]
   {:env (container-env->env env)
    :cmd (container-cmd->cmd cmd)
-   :name id
+   :name group
    :image image
    :volumes (container-volumes->volumes volumes)
    :exposed-ports (container-ports->exposed-ports ports)
@@ -72,24 +72,26 @@
   (container/inspect
     [this id]
     (when (try
-            (docker/inspect-container (:client this) id)
+            (docker/inspect-container (:client this) (:container-group config))
             (catch Exception _ nil))
       {:id id}))
 
   (container/create!
     [this container]
     (let [id (:id container)
-          spec (container->spec container)]
+          group (:container-group config)
+          spec (container->spec container group)]
       (when-not (try
-                  (docker/inspect-container (:client this) id)
+                  (docker/inspect-container (:client this) group)
                   (catch Exception _ nil))
         (docker/create-container! (:client this) spec)
-        (docker/start-container! (:client this) id))
+        (docker/start-container! (:client this) group))
       {:id id}))
 
   (container/destroy!
-    [this id]
-    (docker/stop-container! (:client this) id)
-    (docker/remove-container! (:client this) id)))
+    [this _]
+    (let [group (:container-group config)]
+      (docker/stop-container! (:client this) group)
+      (docker/remove-container! (:client this) group))))
 
 (def docker ->Docker)
