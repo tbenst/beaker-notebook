@@ -11,8 +11,8 @@
                       params :params
                       {uid :id} :session
                       {pid :project-id} :route-params} :request}]
-                  (let [name (str/join "." (drop-last (str/split (get-in params ["file" :filename]) #"\.")))
-                        contents (slurp (get-in params ["file" :tempfile]))
+                  (let [name (str/join "." (drop-last (str/split (get-in params [:file :filename]) #"\.")))
+                        contents (slurp (get-in params [:file :tempfile]))
                         params (assoc params :contents contents :name name :pid pid :uid uid)
                         errors (api/validate-imported-notebook db params)]
                     [(empty? errors) {::errors errors}]))
@@ -23,8 +23,8 @@
                params :params
                {uid :id} :session
                {pid :project-id} :route-params} :request}]
-           (let [name (str/join "." (drop-last (str/split (get-in params ["file" :filename]) #"\.")))
-                 contents (slurp (get-in params ["file" :tempfile]))
+           (let [name (str/join "." (drop-last (str/split (get-in params [:file :filename]) #"\.")))
+                 contents (slurp (get-in params [:file :tempfile]))
                  params (assoc params :contents contents :name name :user-id uid)]
              {::notebook (api/create-notebook! conn params)}))
 

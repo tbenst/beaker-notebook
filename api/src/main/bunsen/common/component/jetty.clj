@@ -44,8 +44,8 @@
                               :cookie-name "session"
                               :cookie-attrs {:http-only false}})
                            wrap-cookies
-                           wrap-multipart-params
                            wrap-keyword-params
+                           wrap-multipart-params
                            wrap-params
                            wrap-json-params
                            (wrap-with :config config)
