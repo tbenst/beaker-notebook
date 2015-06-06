@@ -5,6 +5,7 @@
             [liberator.representation :refer [ring-response as-response]]
             [bunsen.provisioner.model.beaker :as b]
             [bunsen.common.helper.resource :refer [defaults]]
+            [bunsen.provisioner.protocol.store :as store]
             [bunsen.provisioner.protocol.container :as container]))
 
 (defresource status [_] defaults
@@ -46,6 +47,28 @@
 
   :available-media-types ["application/json"])
 
+(defresource files [_] defaults
+  :allowed-methods #{:get :post :delete}
+
+  :handle-ok (fn [{{{id :id} :session store :store} :request}]
+               (store/list store id))
+
+  :post! (fn [{{{file :file} :params {id :id} :session store :store} :request}]
+           (when-not (try
+                       (store/put! store id (:filename file) (:tempfile file))
+                       (catch java.io.IOException _ nil))
+             (ring-response {:status 422})))
+
+  :delete! (fn [{{params :params {id :id} :session store :store} :request}]
+             (doseq [[_ filename] params]
+               (store/delete! store id filename))))
+
+(defresource  files-quota [_] defaults
+  :handle-ok (fn [{{{id :id} :session store :store} :request}]
+               (str (store/quota store id))))
+
 (def resources
   {:status status
-   :instance instance})
+   :instance instance
+   :files files
+   :files-quota files-quota})
