@@ -1,17 +1,17 @@
 ;(function(app) {
 
-  app.factory('FilesFactory', ['Restangular', function(R) {
+  app.factory('FilesFactory', ['ProvisionerRestangular', function(PR) {
     return {
       getScratchSpaceFiles: function() {
-        return R.all('files').getList();
+        return PR.all('files').getList();
       },
 
       deleteChecked: function(params) {
-        return R.all('files').customDELETE('', params);
+        return PR.all('files').customDELETE('', params);
       },
 
       quota: function() {
-        return R.all('files').customGET('quota');
+        return PR.all('files').customGET('quota');
       }
     }
   }]);

@@ -45,7 +45,7 @@
       .then(function(quota) {
         F.Files.getScratchSpaceFiles()
         .then(function(files) {
-          var total = _.reduce(files, function(memo, file) {return memo + file.stat.size}, 0);
+          var total = _.reduce(files, function(memo, file) {return memo + parseInt(file.stat.size, 10)}, 0);
           $scope.diskUsage = {
             quota: quota,
             total: total,
