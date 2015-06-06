@@ -18,6 +18,31 @@
           catalogs: '='
         },
         controller: ['$scope', '$state', function($scope, $state) {
+          function vendorIsPresent(dataset) {
+            return _.has(dataset, 'vendor');
+          }
+
+          function getDatasetVendor(dataset) {
+            if (vendorIsPresent(dataset)) {
+              return $scope.dataset.vendor.name;
+            }
+          }
+
+          function setDatasetVendor(dataset) {
+            if (vendorIsPresent(dataset)) {
+              $scope.dataset.vendor = $scope.dataset.vendor.id;
+            }
+          }
+
+          $scope.$watch('dataset', function(newVal) {
+            if (!newVal) {
+              return;
+            }
+
+            $scope.vendorName = getDatasetVendor($scope.dataset);
+            setDatasetVendor($scope.dataset);
+          });
+
           Factories.Formats.getFormats()
           .then(function(formats) {
             $scope.formats = formats.data;
@@ -27,6 +52,11 @@
           .then(function(vendors) {
             $scope.vendors = vendors.data;
           });
+
+          $scope.updateVendor = function(vendor) {
+            $scope.dataset.vendor = vendor['public-id'];
+            $scope.vendorName = vendor.name;
+          };
 
           $scope.deleteEntity = function(dataset) {
             if (!confirm('Are you sure you want to delete this dataset?')) {
