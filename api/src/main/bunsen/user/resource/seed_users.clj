@@ -3,7 +3,7 @@
             [bunsen.user.model.user :as u]
             [bunsen.common.helper.resource :refer [defaults]]))
 
-(defresource seed-users [config] defaults
+(defresource seed-users [_] defaults
   :allowed? (comp #{"true"} :allow-seed :config :request)
 
   :allowed-methods #{:post}
