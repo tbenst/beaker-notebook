@@ -23,6 +23,7 @@
 (defn config
   [config]
   (-> (merge env config)
+      (dissoc :path :java-class-path)
       (update-in [:jetty-http-port] #(and % (Integer. %)))
       (update-in [:jetty-https-port] #(and % (Integer. %)))
       (update-in [:elasticsearch-port] #(and % (Integer. %)))
