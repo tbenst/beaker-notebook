@@ -22,6 +22,7 @@
                  [org.apache.httpcomponents/httpcore "4.3.2"]
                  [org.apache.httpcomponents/httpclient "4.3.2"]
                  [org.apache.httpcomponents/httpmime "4.3.2"]
+                 [org.elasticsearch/elasticsearch "1.3.4"]
                  [com.cemerick/url "0.1.1"]
                  [com.taoensso/timbre "3.3.1"]
                  [commons-io "2.4"]
