@@ -17,7 +17,8 @@ module.exports = function() {
     },
     typeInto: function(field, value) {
       var fields = {
-        'category': '.dataset-category-field'
+        'category': '.dataset-category-field',
+        'vendor': '.dataset-vendor-field'
       };
 
       if (field in fields) {

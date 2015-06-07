@@ -170,6 +170,9 @@ module.exports = function() {
       return editor.setTypeahead('category', row.category);
     })
     .then(function() {
+      return editor.setTypeahead('vendor', row.vendor || 'Some vendor');
+    })
+    .then(function() {
       return editor.save();
     }.bind(this));
   });
