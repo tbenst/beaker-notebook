@@ -2,7 +2,7 @@
   app.service('UsersRestangular', [
     'Restangular',
     function(R) {
-        return R.withConfig(function(config){
+        return R.withConfig(function(config) {
           config.setBaseUrl('user/v1');
         });
       }

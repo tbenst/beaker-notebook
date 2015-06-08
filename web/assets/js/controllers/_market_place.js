@@ -22,9 +22,9 @@
         $scope.marketPlace.categoryPath = $localStorage.lastCatalogPath || '0.1';
       }
 
-      $scope.removeFilter = function(value, model) {
-        var evaluatedModel = $scope.$eval(model);
-        var removeIndex = evaluatedModel.indexOf(value);
+      $scope.removeFilter = function(filter) {
+        var evaluatedModel = $scope.$eval(filter.model);
+        var removeIndex = evaluatedModel.indexOf(filter.name);
 
         if (removeIndex != -1) {
           evaluatedModel.splice(removeIndex, 1);
@@ -39,7 +39,7 @@
         // condense all search filters into a flat list
         var scopes = _.chain($scope.marketPlace.filters).keys().map(function(f) {
           var filterScope = f + 'Scope';
-          return TS.normalizeFilter($scope.marketPlace[filterScope], 'marketPlace.' + filterScope, $scope);
+          return TS.normalizeFilter($scope.marketPlace[filterScope], 'marketPlace.' + filterScope);
         })
         .value();
 

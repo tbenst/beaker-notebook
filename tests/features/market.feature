@@ -302,12 +302,12 @@ As a researcher, I want to be able to use the market place.
   @flaky @broken
   Scenario: Market item vendor in list
     Given I have the following market items:
-      | title                     | description                               | format | vendor            |
+      | title                     | description                               | format | vendor             |
       | crime rates, canada       | yearly crimes reported per 100,000 people | xml    | statistics canada  |
     When I view the market search
     And I filter the market page by "Canada"
     Then I should see the following market results
-      | title                     | description                               | format | vendor            |
+      | title                     | description                               | format | vendor             |
       | crime rates, canada       | yearly crimes reported per 100,000 people | xml    | statistics canada  |
 
   Scenario: Market item file path

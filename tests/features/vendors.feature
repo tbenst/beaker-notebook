@@ -26,7 +26,6 @@ Feature: Vendor Panel
     When I rename the vendor "RC Cola" to "Pepsi"
     Then the vendor should now be named "Pepsi"
 
-  @flaky
   Scenario: Searching for a vendor
     When I search for the vendor "RC Cola"
     Then I should only see the vendor "RC Cola"

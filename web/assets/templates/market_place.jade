@@ -39,7 +39,7 @@
       input.search.full.market-text-search(type="text", ng-model="marketPlace.searchScope", placeholder="Search within results", ng-model-options="{ debounce: {'default': 500, 'blur': 0} }")
 
   ul.current-filters
-    li.tag.filter(ng-repeat="filter in currentFilters", ng-click="removeFilter(filter.name, filter.model)") {{filter.name}}
+    li.tag.filter(ng-repeat="filter in currentFilters", ng-click="removeFilter(filter)") {{filter.name}}
 
   ul.market-list.bunsen-list
     li.bunsen-list-item(ng-repeat="item in marketPlace.data")

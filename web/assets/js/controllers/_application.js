@@ -62,7 +62,7 @@
       $scope.$watch(function() {
         return $sessionStorage.user;
       }, function() {
-        $scope.isUserAdmin = AuthService.isUserAdmin()
+        $scope.isUserAdmin = AuthService.isUserAdmin();
       });
 
       $rootScope.signOut = function() {

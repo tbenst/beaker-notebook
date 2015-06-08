@@ -1,5 +1,6 @@
+// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 ;(function(angular) {
-  angular.module("filterMarketPlace", [])
+  angular.module('filterMarketPlace', [])
   .directive('multiFilter', function() {
     return {
       restrict: 'E',
@@ -14,10 +15,10 @@
           if (scope.filterScope) {
             return scope.filterScope.indexOf(item) != -1;
           }
-        }
+        };
 
         scope.selectItem = function(item) {
-          if(!scope.isItemSelected(item)) {
+          if (!scope.isItemSelected(item)) {
             scope.filterScope = scope.filterScope || [];
             scope.filterScope.push(item);
           } else {
@@ -26,9 +27,9 @@
               scope.filterScope.splice(removeIndex, 1);
             }
           }
-        }
+        };
       }
 
-    }
+    };
   });
 })(angular);
