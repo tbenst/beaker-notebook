@@ -45,9 +45,3 @@
       .loading(ng-if="!beakerReady()")
         bunsen-spinner
       .warning(ng-if="warning") {{warning}}
-
-      bk-main-app.beaker-sandbox(ng-if="beakerReady()"
-        notebook="beakerNotebook"
-        session-id="{{beakerSessionId}}"
-        open="{{!isExistingSession}}"
-      )

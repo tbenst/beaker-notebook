@@ -81,15 +81,6 @@
       return Beaker.isReady() && $scope.isExistingSession !== void(0);
     }
 
-    $scope.beakerSessionId = $state.params.notebook_id;
-
-    var baseRest = NotebookRestangular.one('notebooks', $state.params.notebook_id);
-    $scope.beakerNotebook = {
-      uri: "ajax:" +
-        baseRest.all('contents').getRestangularUrl() + ":" +
-        baseRest.getRestangularUrl()
-    };
-
     var notebookNameTaken = function() {
       return !!_.find($scope.notebooks.list, { name: $scope.saveAsName, projectId: $scope.notebook.current.projectId });
     };
@@ -101,6 +92,19 @@
 
       window.scrollTo(window.pageXOffset, height);
     };
+
+    function broadcastNotebookReady() {
+      var baseRest = NotebookRestangular.one('notebooks', $state.params.notebook_id);
+      $rootScope.$broadcast("notebookReadyToRender", {
+        beakerSessionId: $state.params.notebook_id,
+        beakerNotebook: {
+          uri: "ajax:" +
+            baseRest.all('contents').getRestangularUrl() + ":" +
+            baseRest.getRestangularUrl()
+        },
+        openFromUri: !$scope.isExistingSession
+      });
+    }
 
     function openNotebook(notebook) {
       if (notebook.unavailable) return $state.go('projects.items.item',{id: notebook.projectId});
@@ -125,6 +129,7 @@
 
         return bkSession.getSessions().then(function(sessions) {
           $scope.isExistingSession = sessions[$state.params.notebook_id] !== void(0);
+          broadcastNotebookReady();
         });
       });
     });

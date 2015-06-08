@@ -27,6 +27,10 @@
       BeakerNotebookService) {
       $rootScope.$session = $sessionStorage;
 
+      $scope.showingNotebook = function() {
+        return $state.is("projects.items.item.notebook");
+      }
+
       $scope.$state = $state;
       $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
         $rootScope.referrer = {

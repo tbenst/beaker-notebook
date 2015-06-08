@@ -1,0 +1,5 @@
+.two-sidebars(ng-class="isFullscreen() && 'fullscreen'")
+  bk-main-app.beaker-sandbox.main-content(ng-if="beakerSessionId"
+    notebook="beakerNotebook"
+    session-id="{{beakerSessionId}}"
+    open="{{openFromUri}}")
