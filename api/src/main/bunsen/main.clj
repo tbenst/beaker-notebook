@@ -76,4 +76,7 @@
 
 (defn -main
   [& args]
-  (-> {} config system component/start))
+  (let [s (-> {} config system component/start)]
+    (-> (Runtime/getRuntime)
+        (.addShutdownHook
+          (Thread. (partial component/stop s))))))
