@@ -17,4 +17,4 @@ RUN make compile
 EXPOSE 8081
 
 ENTRYPOINT ["make"]
-CMD ["instrument", "run"]
+CMD ["run"]
