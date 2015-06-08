@@ -48,6 +48,24 @@
                         :port-mappings (container-ports->port-mappings ports)}
                :volumes (container-volumes->volumes volumes)}})
 
+; http://mikerowecode.com/2013/02/clojure-polling-function.html
+(defn- wait-for
+  "Invoke predicate every interval (default 2) seconds until it returns true,
+   or timeout when (default 10) seconds have elapsed.
+   Returns nil if the timeout elapses before the predicate becomes true, otherwise
+   the value of the predicate on its last evaluation."
+  [predicate & {:keys [interval timeout]
+                :or {interval 2
+                     timeout 10}}]
+  (let [end-time (+ (System/currentTimeMillis) (* timeout 1000))]
+    (loop []
+      (if-let [result (predicate)]
+        result
+        (do
+          (Thread/sleep (* interval 1000))
+          (if (< (System/currentTimeMillis) end-time)
+            (recur)))))))
+
 (defrecord Marathon [config]
   Lifecycle
 
@@ -78,6 +96,15 @@
       (when-not (try
                   (marathon/inspect-app (:client this) (scope-id id config))
                   (catch Exception _ nil))
+        (wait-for
+          #(-> (try
+                 (marathon/inspect-app (:client this) (scope-id id config))
+                 (catch Exception _ nil))
+               :app
+               :deployments
+               empty?)
+          :timeout 120)
+
         (marathon/create-app! (:client this) spec))
       {:id id}))
 
