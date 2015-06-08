@@ -1,2 +1,2 @@
 .contents
-  div(ng-include="getOutputType(cell)")
+  bk-output-display(ng-show="true" model="outputDisplayModel" type="{{ getOutputDisplayType() }}")

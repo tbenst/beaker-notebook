@@ -44,7 +44,44 @@
             default:
               return "publication_output_raw";
           }
-        }
+        };
+
+        $scope.getOutputResult = function() {
+          return $scope.cell.output.result;
+        };
+
+        $scope.getOutputDisplayType = function() {
+          if ($scope.cell.output === undefined)
+              return "Text";
+          var type = $scope.cell.output.selectedType;
+          // if BeakerDisplay or UpdatableEvaluationResult, use the inner type instead
+          if (type === "BeakerDisplay") {
+            var result = $scope.getOutputResult();
+            type = result ? result.innertype : "Hidden";
+          }
+          return type;
+        };
+
+        // to be used in bkOutputDisplay
+        $scope.outputDisplayModel = {
+          getCellModel: function() {
+            var result = $scope.getOutputResult();
+            if (result && result.type === "BeakerDisplay") {
+              return result.object;
+            } else if (result && result.type === "UpdatableEvaluationResult") {
+                return result.payload;
+            } else {
+              return result;
+            }
+          },
+          getDumpState: function() {
+            return $scope.cell.output.state;
+          },
+          resetShareMenuItems: function(newItems) {
+            // do nothing...
+          },
+        };
+
       },
       template: templates['publications/publication_cell_code_output']
     }
