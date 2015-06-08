@@ -5,7 +5,21 @@
             (clojure.tools.namespace [file :refer [read-file-ns-decl]]
                                      [repl :refer [refresh refresh-all]])))
 
-(def config {})
+(def config
+  {:allow-seed "true"
+   :cookie-salt "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<"
+   :jetty-http-port 3000
+   :datomic-uri "datomic:mem://bunsen-dev"
+   :datomic-seeds "user/seed.edn:notebook/seed.edn:marketplace/seed.edn"
+   :datomic-migrations "user/migrations.edn:notebook/migrations.edn:marketplace/migrations.edn:provisioner/migrations.edn"
+   :elasticsearch-component :embedded
+   :elasticsearch-uri "http://127.0.0.1:9200"
+   :container-component :docker
+   :container-group "bunsen-dev"
+   :container-defaults "provisioner/container.edn"
+   :store-component :filesystem
+   :store-root "/tmp/bunsen/scratch"
+   :store-quota 10485760})
 
 (def system nil)
 
