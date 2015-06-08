@@ -116,24 +116,29 @@
 
     F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
       openNotebook(notebook);
-      Beaker.whenReady().then(function(result) {
-        if (result === 'timeout') {
-          return $scope.warning = 'Beaker has timed out.  Please refresh to try again.';
-        } else if (result === 'error') {
-          return $scope.warning = 'An Error has occurred';
-        }
-        notebook.location = $sce.trustAsResourceUrl(BeakerNotebookService.notebookLocation(result, prjId, notebook['public-id']));
-        TrackingService.mark('NotebookLoaded');
-        TrackingService.measure('BaselineUnprovisionedNotebookLoad', 'LoadUnprovisionedNotebook', 'NotebookLoaded');
-        TrackingService.measure('BaselineProvisionedNotebookLoad', 'LoadProvisionedNotebook', 'NotebookLoaded');
-        TrackingService.measure('BaselineUnProvisionedNotebookCreate', 'CreateUnProvisionedNotebook', 'NotebookLoaded');
-        TrackingService.measure('BaselineProvisionedNotebookCreate', 'CreateProvisionedNotebook', 'NotebookLoaded');
+      if (notebook['public-id'] == bkSessionManager.getSessionId()) {
+        $scope.isExistingSession = true;
+      }
+      else {
+        Beaker.whenReady().then(function(result) {
+          if (result === 'timeout') {
+            return $scope.warning = 'Beaker has timed out.  Please refresh to try again.';
+          } else if (result === 'error') {
+            return $scope.warning = 'An Error has occurred';
+          }
+          notebook.location = $sce.trustAsResourceUrl(BeakerNotebookService.notebookLocation(result, prjId, notebook['public-id']));
+          TrackingService.mark('NotebookLoaded');
+          TrackingService.measure('BaselineUnprovisionedNotebookLoad', 'LoadUnprovisionedNotebook', 'NotebookLoaded');
+          TrackingService.measure('BaselineProvisionedNotebookLoad', 'LoadProvisionedNotebook', 'NotebookLoaded');
+          TrackingService.measure('BaselineUnProvisionedNotebookCreate', 'CreateUnProvisionedNotebook', 'NotebookLoaded');
+          TrackingService.measure('BaselineProvisionedNotebookCreate', 'CreateProvisionedNotebook', 'NotebookLoaded');
 
-        return bkSession.getSessions().then(function(sessions) {
-          $scope.isExistingSession = sessions[$state.params.notebook_id] !== void(0);
-          broadcastNotebookReady();
+          return bkSession.getSessions().then(function(sessions) {
+            $scope.isExistingSession = sessions[$state.params.notebook_id] !== void(0);
+            broadcastNotebookReady();
+          });
         });
-      });
+      }
     });
 
     $scope.save = function() {
