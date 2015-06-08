@@ -8,6 +8,20 @@
       MarketplaceRestangular,
       Factories) {
 
+      var defaultMeta = [
+        'title',
+        'description',
+        'vendor',
+        'format',
+        'releaseDate',
+        'startDate',
+        'updateFrequency',
+        'tags',
+        'categories',
+        'remoteFile',
+        'dataPreviews'
+      ];
+
       return {
         restrict: 'E',
         template: templates['directives/admin/datasets/editor'],
@@ -52,6 +66,10 @@
           .then(function(vendors) {
             $scope.vendors = vendors.data;
           });
+
+          $scope.datasetHas = function(attr) {
+            return _.contains(defaultMeta, attr);
+          };
 
           $scope.updateVendor = function(vendor) {
             $scope.dataset.vendor = vendor['public-id'];
