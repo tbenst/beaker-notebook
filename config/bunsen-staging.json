@@ -58,7 +58,14 @@
               "containerPort": 3000
             }
           ]
-        }
+        },
+        "volumes" : [
+          {
+            "hostPath": "/mnt/gluster0/bunsen-staging/scratch",
+            "containerPath": "/mnt/gluster0/bunsen-staging/scratch",
+            "mode": "RW"
+          }
+        ]
       },
       "env": {
         "JAVA_OPTS": "-Xmx1792M",
