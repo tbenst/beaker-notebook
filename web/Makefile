@@ -7,7 +7,7 @@ all:
 	npm install
 	node_modules/.bin/bower install --allow-root
 
-watch:  compile
+watch:
 	PORT=8081 node_modules/.bin/roots watch --no-open
 
 # *destructively* instrument the javascript to generate the istanbul coverage report
