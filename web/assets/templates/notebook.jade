@@ -39,7 +39,7 @@
             ul.bunsen-dropdown(ng-if="otherOpenNotebooksExist()")
               li
                 span Other Open Notebooks
-              li(ng-repeat="notebook in notebooks.list | filter:otherOpenNotebooks | orderBy:'name'")
+              li(ng-repeat="notebook in notebooks.list | filter:otherOpenNotebooks | orderBy:'openedAt':true")
                 a(ng-click="openNotebook(notebook)") {{notebook.name}}
           span.status(ng-if="beakerReady() && getLoadingMessage()") ({{getLoadingMessage()}})
       .loading(ng-if="!beakerReady()")
