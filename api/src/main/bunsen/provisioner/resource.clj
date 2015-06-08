@@ -20,7 +20,7 @@
 
   :post! (fn [{{conn :conn {id :id} :session config :config container :container remote-user :remote-user} :request}]
            ; use the same token for all users in test env
-           (let [token (or (:beakerauth-token config) (random/hex 20))
+           (let [token (or (:beaker-token config) (random/hex 20))
                  beaker (b/find-or-create-beaker! conn {:user-id id :token token})]
              (when-let [i (container/create!
                             container
