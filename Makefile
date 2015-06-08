@@ -106,7 +106,7 @@ start-tests:
 #
 
 deploy-%:
-	jq '.apps[].container.docker.image |= "\(.):$(TAG)"' config/$*.json  | bin/marathon --verbose --trace group update -f - /$*
+	jq '.apps[].container.docker.image |= "\(.):$(TAG)"' config/$*.json | bin/marathon --verbose --trace group update -f - /$*
 
 #
 #
