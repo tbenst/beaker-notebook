@@ -48,6 +48,7 @@
                    :jvm-opts ["-Xmx300m"
                               "-Ddatomic.objectCacheMax=64m"
                               "-Ddatomic.memoryIndexMax=128m"]
-                   :dependencies [[hawk "0.2.4"]
-                                  [org.clojure/tools.namespace "0.2.10"]]
-                   :repl-options {:init-ns bunsen.repl}}})
+                   :dependencies [[org.clojure/tools.namespace "0.2.10"]
+                                  [hawk "0.2.4"]]
+                   :repl-options {:init-ns bunsen.repl
+                                  :init (bunsen.repl/start!)}}})
