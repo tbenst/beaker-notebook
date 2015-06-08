@@ -17,7 +17,7 @@
            jetty-https-port
            ssl-keystore
            ssl-keystore-pass]}]
-  (if-not (and jetty-http-port ssl-keystore ssl-keystore-pass)
+  (if-not (and jetty-https-port ssl-keystore ssl-keystore-pass)
     {:ssl? false
      :join? false
      :port jetty-http-port}
@@ -35,25 +35,7 @@
     (if (:server jetty)
       jetty
       (assoc jetty
-             :server (run-jetty
-                       (-> service
-                           :handler
-                           (wrap-session
-                             {:store (cookie-store
-                                       (:cookie-salt config))
-                              :cookie-name "session"
-                              :cookie-attrs {:http-only false}})
-                           wrap-cookies
-                           wrap-keyword-params
-                           wrap-multipart-params
-                           wrap-params
-                           wrap-json-params
-                           (wrap-with :config config)
-                           (kerberos/authenticate
-                             (when (:kerberos? config)
-                               (:kerberos-principal config)))
-                           wrap-logger)
-                       (options config)))))
+             :server (run-jetty (:handler service) (options config)))))
 
   (stop [jetty]
     (when-let [server (:server jetty)]

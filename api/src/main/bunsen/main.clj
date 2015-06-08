@@ -12,6 +12,7 @@
                                           [service :as provisioner])
             (bunsen.common.component [jetty :refer [jetty]]
                                      [datomic :refer [datomic]]
+                                     [service :refer [service]]
                                      [services :refer [services]]
                                      [elasticsearch :refer [elasticsearch]])))
 
@@ -48,13 +49,15 @@
         :elasticsearch (elasticsearch config)
         :store (choose-store config)
         :container (choose-container config)
+        :service (service config)
         :services (services)
         :user-service (user/service config)
         :notebook-service (notebook/service config)
         :provisioner-service (provisioner/service config)
         :marketplace-service (marketplace/service config))
       (component/system-using
-        {:jetty {:service :services}
+        {:jetty [:service]
+         :service [:services]
          :services [:user-service
                     :notebook-service
                     :provisioner-service
