@@ -47,27 +47,3 @@
    (client/post
      (str (or (:uri opts) host-name) route)
      (merge default-options opts))))
-
-(defn drop-all
-  ([] (drop-all (constantly nil)))
-  ([f]
-    (post "/api/seed/drop-all") (f)))
-
-(defn seed [data]
-  (post "/api/seed/data"
-        {:body (json/write-str data)
-         :content-type :json}))
-
-(defn sign-in
-  ([] (sign-in 0))
-  ([role]
-   (let [cookie (cookies/cookie-store)
-         email (get seed-emails role)]
-     (post
-       "/api/seed/sign-up"
-       {:form-params {:data {:name "Bob Jones"
-                             :email (str email)
-                             :password "bob1234"
-                             :role role}}
-        :cookie-store cookie})
-     cookie)))
