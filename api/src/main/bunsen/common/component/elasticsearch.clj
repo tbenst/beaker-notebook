@@ -1,5 +1,6 @@
 (ns bunsen.common.component.elasticsearch
-  (:require [clojure.java.io :as io]
+  (:require [clojure.string :as str]
+            [clojure.java.io :as io]
             [clojurewerkz.elastisch.rest :as es]
             [com.stuartsierra.component :as component :refer [start stop]])
   (:import (java.net URI)
@@ -7,12 +8,14 @@
            (org.elasticsearch.node NodeBuilder)
            (org.elasticsearch.common.settings ImmutableSettings)))
 
-(defn- options
-  [{user :elasticsearch-user
-    pass :elasticsearch-pass}]
-  (if-not (and user pass)
-    {}
-    {:basic-auth [user pass]}))
+(defn- strip-user-info [uri]
+  (URI. (.getScheme uri) nil (.getHost uri) (.getPort uri) nil nil nil))
+
+(defn- extract-user-info [uri]
+  (if-let [credentials (not-empty
+                           (some-> uri .getUserInfo (str/split #":")))]
+    {:basic-auth credentials}
+    {}))
 
 (defrecord Elasticsearch [config]
   component/Lifecycle
@@ -20,17 +23,18 @@
   (start [es]
     (if (:conn es)
       es
-      (assoc es
-             :conn (es/connect
-                     (:elasticsearch-uri config) (options config)))))
+      (let [uri (URI. (:elasticsearch-uri config))]
+        (assoc es
+               :conn (es/connect
+                       (strip-user-info uri) (extract-user-info uri))))))
 
   (stop [es]
     (dissoc es :conn)))
 
-(def logs-dir "target/elasticsearch/logs")
-(def data-dir "target/elasticsearch/data")
+(def ^:private logs-dir "target/elasticsearch/logs")
+(def ^:private data-dir "target/elasticsearch/data")
 
-(defn build-settings [config]
+(defn- build-settings [config]
   (let [uri (URI. (:elasticsearch-uri config))]
     (-> (ImmutableSettings/settingsBuilder)
         (.put "path.logs" logs-dir)
