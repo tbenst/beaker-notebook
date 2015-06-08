@@ -10,15 +10,8 @@ reconfigure_docker() {
   sudo service docker restart
 }
 
-reconfigure_postgres() {
-  # since postgres listens on localhost by default, change config to listen on all interfaces so docker containers can connect
-  echo "listen_addresses = '*'" | sudo tee -a /etc/postgresql/9.4/main/postgresql.conf
-  # since postgres only allows local connections by default, allow access to everyone so docker containers can connect
-  echo "host  all  all  0.0.0.0/0   trust" | sudo tee -a /etc/postgresql/9.4/main/pg_hba.conf
-  sudo service postgresql restart
-}
-
 install_haproxy() {
+  sudo add-apt-repository -y ppa:vbernat/haproxy-1.5
   sudo apt-get update
   sudo apt-get install haproxy
 }
@@ -37,7 +30,6 @@ install_elasticsearch() {
 
 if [[ -n $CIRCLECI ]]; then
   reconfigure_docker
-  reconfigure_postgres
   install_haproxy
   install_jq
   install_elasticsearch
