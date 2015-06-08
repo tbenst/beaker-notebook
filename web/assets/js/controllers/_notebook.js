@@ -55,7 +55,9 @@
 
     $scope.warning = "";
 
-    $scope.getLoadingMessage = bkHelper.getStatus;
+    $scope.getLoadingMessage = function() {
+      return bkHelper.getSessionId() ? bkHelper.getStatus() : null;
+    }
 
     $scope.edited = function() {
       return $scope.notebook.current.edited;
