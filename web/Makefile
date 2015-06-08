@@ -3,8 +3,12 @@ SHELL := /usr/bin/env bash
 
 .PHONY: all copy-beaker watch instrument run compile
 
-all:
+all: node-modules bower-components copy-beaker
+
+node-modules:
 	npm install
+
+bower-components:
 	node_modules/.bin/bower install --allow-root
 
 watch:
