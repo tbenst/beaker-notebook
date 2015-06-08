@@ -1,6 +1,5 @@
 
 SHELL := /usr/bin/env bash
-CONFIG := nginx.conf
 
 .PHONY: all copy-beaker watch instrument run compile
 
@@ -79,7 +78,5 @@ compile-roots:
 
 compile: compile-roots copy-beaker
 
-# it's convinent to allow relative paths for the NGINX_ROOT, but nginx requires an absolute path
-run: export NGINX_ROOT := $(realpath $(NGINX_ROOT))
-run: 	copy-beaker
-	nginx -p . -c $(CONFIG)
+run:
+	nginx -p . -c nginx.conf
