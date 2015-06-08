@@ -14,7 +14,7 @@
                                      [datomic :refer [datomic]]
                                      [service :refer [service]]
                                      [services :refer [services]]
-                                     [elasticsearch :refer [elasticsearch]])))
+                                     [elasticsearch :refer [elasticsearch embedded-elasticsearch]])))
 
 (defn- choose-store
   [config]
@@ -27,6 +27,12 @@
     :docker (docker config)
     :marathon (marathon config)))
 
+(defn- choose-elasticsearch
+  [config]
+  (condp = (:elasticsearch-component config)
+    :embedded (embedded-elasticsearch config)
+    (elasticsearch config)))
+
 (defn config
   [config]
   (-> (merge env config)
@@ -36,6 +42,7 @@
       (update-in [:elasticsearch-port] #(and % (Integer. %)))
       (update-in [:store-component] #(and % (keyword %)))
       (update-in [:container-component] #(and % (keyword %)))
+      (update-in [:elasticsearch-component] #(and % (keyword %)))
       (as-> c
         (assoc c :kerberos? (boolean
                               (:kerberos-principal c)))
@@ -46,7 +53,7 @@
   (-> (component/system-map
         :jetty (jetty config)
         :datomic (datomic config)
-        :elasticsearch (elasticsearch config)
+        :elasticsearch (choose-elasticsearch config)
         :store (choose-store config)
         :container (choose-container config)
         :service (service config)
