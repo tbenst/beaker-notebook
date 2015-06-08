@@ -179,17 +179,6 @@
         "DATOMIC_AWS_TRANSACTOR_ROLE": "cluster_slave_servers",
         "DATOMIC_AWS_PEER_ROLE": "cluster_slave_servers"
       },
-      "healthChecks": [
-        {
-          "protocol": "TCP",
-          "path": ".",
-          "gracePeriodSeconds": 10,
-          "intervalSeconds": 10,
-          "portIndex": 0,
-          "timeoutSeconds": 5,
-          "maxConsecutiveFailures": 3
-        }
-      ],
       "upgradeStrategy": {
         "minimumHealthCapacity": 0.5
       },
