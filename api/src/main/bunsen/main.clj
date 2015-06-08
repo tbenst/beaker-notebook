@@ -76,4 +76,4 @@
 
 (defn -main
   [& args]
-  (-> {} config system))
+  (-> {} config system component/start))
