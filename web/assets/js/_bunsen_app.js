@@ -22,9 +22,7 @@
      'ngSanitize',
      'hljs',
      'hc.marked',
-     'ui.grid',
-     'ui.gravatar',
-     'ui.grid.autoResize'
+     'ui.gravatar'
     ], ['RestangularProvider', function(RestangularProvider) {
       RestangularProvider.setBaseUrl('/api');
     }]);
@@ -34,11 +32,5 @@
     $templateCache.put('publication_cell_code', templates['publications/publication_cell_code']());
     $templateCache.put('publication_cell_text', templates['publications/publication_cell_text']());
     $templateCache.put('publication_cell_section', templates['publications/publication_cell_section']());
-    $templateCache.put('publication_output_html', templates['publications/publication_output_html']());
-    $templateCache.put('publication_output_table', templates['publications/publication_output_table']());
-    $templateCache.put('publication_output_raw', templates['publications/publication_output_raw']());
-    $templateCache.put('publication_output_empty', templates['publications/publication_output_empty']());
-    $templateCache.put('publication_output_error', templates['publications/publication_output_error']());
-    $templateCache.put('publication_output_latex', templates['publications/publication_output_latex']());
   }]);
 })(angular);
