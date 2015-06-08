@@ -1,14 +1,17 @@
 
 SHELL := /usr/bin/env bash
-CONFIG := nginx.conf
 
 .PHONY: all copy-beaker watch instrument run compile
 
-all:
+all: node-modules bower-components copy-beaker
+
+node-modules:
 	npm install
+
+bower-components:
 	node_modules/.bin/bower install --allow-root
 
-watch:  compile
+watch:
 	PORT=8081 node_modules/.bin/roots watch --no-open
 
 # *destructively* instrument the javascript to generate the istanbul coverage report
@@ -79,7 +82,5 @@ compile-roots:
 
 compile: compile-roots copy-beaker
 
-# it's convinent to allow relative paths for the NGINX_ROOT, but nginx requires an absolute path
-run: export NGINX_ROOT := $(realpath $(NGINX_ROOT))
-run: 	copy-beaker
-	nginx -p . -c $(CONFIG)
+run:
+	nginx -p . -c nginx.conf

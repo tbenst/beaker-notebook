@@ -3,11 +3,11 @@ Feature: Vendor Panel
   I want to manage vendors
 
   Background:
-    Given I'm signed in as an administrator
-    And I have the following Vendors:
+    Given I have the following Vendors:
       | name       |
       | MojoTech   |
       | RC Cola    |
+    And I'm signed in as an administrator
     And I go to the vendors page
 
   Scenario: Creating a vendor

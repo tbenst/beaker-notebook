@@ -5,7 +5,7 @@
       "id": "/bunsen-staging/web",
       "cmd": "",
       "cpus": 1,
-      "mem": 512,
+      "mem": 1024,
       "instances": 1,
       "container": {
         "type": "DOCKER",
@@ -14,10 +14,7 @@
           "image": "quay.io/mojotech/bunsen-web",
           "portMappings": [
             {
-              "containerPort": 8081,
-              "hostPort": 0,
-              "servicePort": 8081,
-              "protocol": "tcp"
+              "containerPort": 8081
             }
           ]
         }
@@ -25,7 +22,7 @@
       "env": {
         "WEB_ROOT": "/var/www/public",
         "BAMBOO_HOST": "bunsen-staging.withmojo.com",
-        "BAMBOO_ACLS": "!{ path_beg -i /api } !{ path_beg -i /beaker } !{ path_beg -i /events } !{ path_beg -i /marketplace } !{ path_beg -i /user }"
+        "BAMBOO_ACLS": "!{ path_beg -i /user } !{ path_beg -i /notebook } !{ path_beg -i /provisioner } !{ path_beg -i /marketplace } !{ path_beg -i /beaker } !{ path_beg -i /events }"
       },
       "healthChecks": [
         {
@@ -46,127 +43,51 @@
       ]
     },
     {
-      "id": "/bunsen-staging/provisioner",
+      "id": "/bunsen-staging/api",
       "cmd": "",
-      "cpus": 1,
-      "mem": 512,
+      "cpus": 2,
+      "mem": 2048,
       "instances": 1,
       "container": {
         "type": "DOCKER",
         "docker": {
           "network": "BRIDGE",
-          "image": "quay.io/mojotech/bunsen-provisioner",
+          "image": "quay.io/mojotech/bunsen-api",
           "portMappings": [
             {
-              "containerPort": 3001,
-              "servicePort": 3001,
-              "protocol": "tcp"
+              "containerPort": 3000
             }
           ]
-        }
-      },
-      "ports": [
-        3001
-      ],
-      "env": {
-        "PROVISIONER_PORT": 3001,
-        "PROVISIONER_LIFECYCLE_STRATEGY": "marathon",
-        "PROVISIONER_DATABASE_URI": "datomic:ddb://us-east-1/bunsen-staging/provisioner",
-        "COOKIE_SALT": "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<",
-        "SCRATCH_SPACE_ROOT": "/mnt/gluster0/bunsen-staging/scratch",
-        "BAMBOO_PATH": "/provisioner",
-        "BAMBOO_HOST": "bunsen-staging.withmojo.com",
-        "BAMBOO_URL": "http://cluster-slave.withmojo.com:8000",
-        "MARATHON_URL": "http://cluster-master.withmojo.com:8080",
-        "APP_GROUP": "/bunsen-staging/beaker",
-        "APP_DEFAULTS": {
-          "container": {
-            "type": "DOCKER",
-            "docker": {
-              "image": "beakernotebook/beaker-prerelease:master-0-g95b1538",
-              "network": "BRIDGE",
-              "portMappings": [
-                {
-                  "containerPort": 8801
-                }
-              ]
-            },
-            "volumes": [
-              {
-                "hostPath": "/mnt/bunsen",
-                "containerPath": "/var/s3",
-                "mode": "RO"
-              }
-            ]
-          },
-          "cmd": "su -m beaker -c \"export PATH=$PATH:/usr/sbin && /home/beaker/src/core/beaker.command --listen-interface=*\"",
-          "uris": [
-            "file:///etc/.dockercfg"
-          ],
-          "cpus": 1,
-          "mem": 2048,
-          "instances": 1
         },
-        "SERVICE_HOST": "bunsen-staging.withmojo.com",
-        "SERVICE_PATH": "/beaker"
-      },
-      "healthChecks": [
-        {
-          "protocol": "HTTP",
-          "path": "/provisioner/v1/status",
-          "gracePeriodSeconds": 10,
-          "intervalSeconds": 10,
-          "portIndex": 0,
-          "timeoutSeconds": 5,
-          "maxConsecutiveFailures": 3
-        }
-      ],
-      "upgradeStrategy": {
-        "minimumHealthCapacity": 0
-      },
-      "uris": [
-        "file:///etc/.dockercfg"
-      ],
-      "dependencies": [
-        "/bunsen-staging/datomic"
-      ]
-    },
-    {
-      "id": "/bunsen-staging/marketplace",
-      "cmd": "",
-      "cpus": 1,
-      "mem": 512,
-      "instances": 1,
-      "container": {
-        "type": "DOCKER",
-        "docker": {
-          "network": "BRIDGE",
-          "image": "quay.io/mojotech/bunsen-marketplace",
-          "portMappings": [
-            {
-              "containerPort": 8444
-            }
-          ]
-        }
+        "volumes" : [
+          {
+            "hostPath": "/mnt/gluster0/bunsen-staging/scratch",
+            "containerPath": "/mnt/gluster0/bunsen-staging/scratch",
+            "mode": "RW"
+          }
+        ]
       },
       "env": {
-        "BAMBOO_PATH": "/marketplace",
-        "BAMBOO_HOST": "bunsen-staging.withmojo.com",
-        "MARKETPLACE_PORT": 8444,
-        "MARKETPLACE_DATABASE_URI": "datomic:ddb://us-east-1/bunsen-staging/marketplace",
-        "MARKETPLACE_SEED_FILE": "seed.edn",
-        "DATOMIC_HOST": "172.17.42.1",
-        "DATOMIC_PORT": "4334",
-        "ELASTICSEARCH_HOST": "172.17.42.1",
-        "ELASTICSEARCH_PORT": 9200,
-        "ELASTICSEARCH_USER": "bunsen",
+        "JAVA_OPTS": "-Xmx1792M",
+        "JETTY_HTTP_PORT": 3000,
         "COOKIE_SALT": "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<",
-        "ELASTICSEARCH_PASS": "s6nFTwtbZP3wHh"
+        "DATOMIC_URI": "datomic:ddb://us-east-1/bunsen-staging/api",
+        "DATOMIC_MIGRATIONS": "user/migrations.edn:notebook/migrations.edn:marketplace/migrations.edn:provisioner/migrations.edn",
+        "ELASTICSEARCH_URI": "http://bunsen:s6nFTwtbZP3wHh@172.17.42.1:9200",
+        "CONTAINER_COMPONENT": "marathon",
+        "CONTAINER_GROUP": "bunsen-staging/beaker",
+        "CONTAINER_DEFAULTS": "provisioner/container.edn",
+        "STORE_COMPONENT": "filesystem",
+        "STORE_ROOT": "/mnt/gluster0/bunsen-staging/scratch",
+        "STORE_QUOTA": 10485760,
+        "BAMBOO_HOST": "bunsen-staging.withmojo.com",
+        "BAMBOO_ACLS": "{ path_beg -i /user } || { path_beg -i /notebook } || { path_beg -i /provisioner } || { path_beg -i /marketplace }",
+        "MARATHON_URI": "http://cluster-master.withmojo.com:8080"
       },
       "healthChecks": [
         {
           "protocol": "HTTP",
-          "path": "/marketplace/v1/status",
+          "path": "/user/v1/status",
           "gracePeriodSeconds": 10,
           "intervalSeconds": 10,
           "portIndex": 0,
@@ -188,7 +109,7 @@
       "id": "/bunsen-staging/riemann",
       "cmd": "",
       "cpus": 1,
-      "mem": 512,
+      "mem": 1024,
       "instances": 1,
       "container": {
         "type": "DOCKER",
@@ -197,8 +118,7 @@
           "image": "quay.io/mojotech/bunsen-riemann",
           "portMappings": [
             {
-              "containerPort": 5556,
-              "servicePort": 5556
+              "containerPort": 5556
             }
           ]
         }
@@ -230,7 +150,7 @@
     {
       "id": "/bunsen-staging/datomic",
       "cmd": "",
-      "cpus": 1,
+      "cpus": 2,
       "mem": 2048,
       "instances": 1,
       "container": {
@@ -259,118 +179,11 @@
         "DATOMIC_AWS_TRANSACTOR_ROLE": "cluster_slave_servers",
         "DATOMIC_AWS_PEER_ROLE": "cluster_slave_servers"
       },
-      "healthChecks": [
-        {
-          "protocol": "TCP",
-          "path": ".",
-          "gracePeriodSeconds": 10,
-          "intervalSeconds": 10,
-          "portIndex": 0,
-          "timeoutSeconds": 5,
-          "maxConsecutiveFailures": 3
-        }
-      ],
       "upgradeStrategy": {
         "minimumHealthCapacity": 0.5
       },
       "uris": [
         "file:///etc/.dockercfg"
-      ]
-    },
-    {
-      "id": "/bunsen-staging/user",
-      "cmd": "",
-      "cpus": 1,
-      "mem": 2048,
-      "instances": 1,
-      "container": {
-        "type": "DOCKER",
-        "docker": {
-          "network": "BRIDGE",
-          "image": "quay.io/mojotech/bunsen-user",
-          "portMappings": [
-            {
-              "containerPort": 3004,
-              "servicePort": 3004,
-              "protocol": "tcp"
-            }
-          ]
-        }
-      },
-      "env": {
-        "USER_PORT": 3004,
-        "USER_DATABASE_URI": "datomic:ddb://us-east-1/bunsen-staging/user",
-        "COOKIE_SALT": "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<",
-        "BAMBOO_HOST": "bunsen-staging.withmojo.com",
-        "BAMBOO_PATH": "/user"
-      },
-      "healthChecks": [
-        {
-          "protocol": "HTTP",
-          "path": "/user/v1/status",
-          "gracePeriodSeconds": 10,
-          "intervalSeconds": 10,
-          "portIndex": 0,
-          "timeoutSeconds": 5,
-          "maxConsecutiveFailures": 3
-        }
-      ],
-      "upgradeStrategy": {
-        "minimumHealthCapacity": 0
-      },
-      "uris": [
-        "file:///etc/.dockercfg"
-      ],
-      "dependencies": [
-        "/bunsen-staging/datomic"
-      ]
-    },
-    {
-      "id": "/bunsen-staging/notebook",
-      "cmd": "",
-      "cpus": 1,
-      "mem": 2048,
-      "instances": 1,
-      "container": {
-        "type": "DOCKER",
-        "docker": {
-          "network": "BRIDGE",
-          "image": "quay.io/mojotech/bunsen-notebook",
-          "portMappings": [
-            {
-              "containerPort": 3003,
-              "servicePort": 3003,
-              "protocol": "tcp"
-            }
-          ]
-        }
-      },
-      "env": {
-        "NOTEBOOK_PORT": 3003,
-        "NOTEBOOK_DATABASE_URI": "datomic:ddb://us-east-1/bunsen-staging/notebook",
-        "COOKIE_SALT": "r8T`628DaW90*?30)3qRx,2f8h?8(wG13:64K3=w00-8W7g962gM268D0lTS(Uq;^v15mY3gCj-u59k994_/@}W<",
-        "BAMBOO_HOST": "bunsen-staging.withmojo.com",
-        "BAMBOO_PATH": "/notebook/"
-      },
-      "healthChecks": [
-        {
-          "protocol": "HTTP",
-          "path": "/notebook/v1/status",
-          "gracePeriodSeconds": 10,
-          "intervalSeconds": 10,
-          "portIndex": 0,
-          "timeoutSeconds": 5,
-          "maxConsecutiveFailures": 3
-        }
-      ],
-      "upgradeStrategy": {
-        "minimumHealthCapacity": 0
-      },
-      "uris": [
-        "file:///etc/.dockercfg"
-      ],
-      "dependencies": [
-        "/bunsen-staging/datomic"
       ]
     }
   ]

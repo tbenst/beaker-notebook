@@ -35,14 +35,14 @@
     }
 
     req.onload = function(e) {
-      if (this.status != 200) {
+      if (this.status != 201) {
         return emitter.emit("error", e);
       }
 
       return emitter.emit("end", e);
     };
 
-    req.open("POST", "/api/files", true);
+    req.open("POST", "/provisioner/v1/files", true);
 
     req.upload.onprogress = function(e) {
       return emitter.emit("progress", e);
