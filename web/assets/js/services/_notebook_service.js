@@ -91,6 +91,18 @@
         }.bind(this));
       },
 
+      export: function(notebookId) {
+        return Factories.Notebooks.getNotebook(notebookId)
+        .then(function(notebook) {
+          var anchor = document.createElement('a');
+          var clickEvent = new MouseEvent('click');
+          var filename = notebook.name + '.bkr';
+          anchor.download = filename.split(' ').join('_');
+          anchor.href = "data:text/richtext;," + notebook.contents;
+          anchor.dispatchEvent(clickEvent);
+        });
+      },
+
       destroy: function(notebookId) {
         return Factories.Notebooks.destroy(notebookId).then(function(notebook) {
           closeIfOpen(notebookId);
