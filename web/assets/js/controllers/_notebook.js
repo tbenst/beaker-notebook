@@ -142,10 +142,10 @@
     });
 
     $scope.save = function() {
-      bkHelper.saveNotebook().then(function() {
+      $scope.hideMenu();
+      return bkHelper.saveNotebook().then(function() {
         $rootScope.$broadcast('notebookUpdated', $scope.notebook.current);
       });
-      $scope.hideMenu();
     };
 
     $scope.showStdoutStderr = function() {
