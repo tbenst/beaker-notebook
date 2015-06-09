@@ -329,4 +329,12 @@ module.exports = function() {
   this.Then(/^I should see the project and notebook options$/, function() {
     return new this.Widgets.Notebook().sidebarsVisible().should.eventually.be.true;
   });
+
+  this.When(/^I run "([^"]*)" in the first cell$/, function(code) {
+    return new this.Widgets.BeakerNotebook().runInFirstCell(code);
+  });
+
+  this.Then(/^I should see "([^"]*)" in the first cell output$/, function(output) {
+    return new this.Widgets.BeakerNotebook().firstCellOutput().should.eventually.equal(output);
+  });
 };

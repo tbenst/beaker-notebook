@@ -306,6 +306,12 @@ Feature: Use Notebooks
     Then the modal should be closed
     And I should see the "ghost of tom jones" project detail page
 
+  Scenario: Using a Beaker Notebook
+    When I open the "ghost of tom jones" project
+    And I view the notebook "powderpuff girls"
+    And I run "1+1" in the first cell
+    Then I should see "2" in the first cell output
+
   @flaky @beaker
   Scenario: Saving and closing a notebook with edits
     And I open the "ghost of tom jones" project
