@@ -59,10 +59,6 @@
       return bkHelper.getSessionId() ? bkHelper.getStatus() : null;
     }
 
-    $scope.edited = function() {
-      return $scope.notebook.current.edited;
-    };
-
     $scope.showMenu = function() {
       this.menu = true;
     };
@@ -190,12 +186,6 @@
     $scope.openPublishModal = function() {
       $scope.$emit('openModal', $compile(templates.publish_notebook_modal())($scope), { width: '400px' });
     };
-
-    $rootScope.$on('notebook-edited', function(event, data) {
-      if ($scope.notebook && $scope.notebook.current['public-id'] == data.notebookId) {
-        $scope.notebook.current.edited = data.value;
-      }
-    });
 
     FullscreenState.toggleFullscreen(UserPreferences.get('fullscreenView'));
 
