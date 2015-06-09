@@ -12,7 +12,6 @@
 #= require "../../bower_components/highlightjs/highlight.pack.js"
 #= require "../../bower_components/angular-highlightjs/angular-highlightjs.js"
 #= require "../../bower_components/angular-marked/angular-marked.js"
-#= require "../../bower_components/angular-ui-grid/ui-grid.js"
 #= require "../../bower_components/angular-cookies/angular-cookies.js"
 #= require "../../bower_components/humanize/humanize.js"
 #= require "../../bower_components/angularjs-humanize/src/angular-humanize.js"

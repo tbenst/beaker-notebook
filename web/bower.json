@@ -10,7 +10,6 @@
     "angular-sticky": "mojotech/angular-sticky#v1.7.0-mojo5",
     "angular-tree-control": "mojotech/angular-tree-control#0.2.2-mojo1",
     "angular-truncate": "mojotech/angular-truncate#v0.1.2-mojo1",
-    "angular-ui-grid": "~3.0.0-rc.12",
     "angular-ui-router": "0.2.13",
     "angular-underscore-string": "0.1.1",
     "angularjs-humanize": "grin/angularjs-humanize#v0.0.1",
