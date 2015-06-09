@@ -46,4 +46,5 @@ html(ng-app="bunsen")
       #beaker-container.contain
         #root(ui-view="root")
           != content
+        beakernotebook#beakernotebook(ng-show="showingNotebook()")
       modal(ng-show="modalShown")

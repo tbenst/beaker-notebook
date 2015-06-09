@@ -55,7 +55,9 @@
 
     $scope.warning = "";
 
-    $scope.getLoadingMessage = bkHelper.getStatus;
+    $scope.getLoadingMessage = function() {
+      return bkHelper.getSessionId() ? bkHelper.getStatus() : null;
+    }
 
     $scope.edited = function() {
       return $scope.notebook.current.edited;
@@ -81,15 +83,6 @@
       return Beaker.isReady() && $scope.isExistingSession !== void(0);
     }
 
-    $scope.beakerSessionId = $state.params.notebook_id;
-
-    var baseRest = NotebookRestangular.one('notebooks', $state.params.notebook_id);
-    $scope.beakerNotebook = {
-      uri: "ajax:" +
-        baseRest.all('contents').getRestangularUrl() + ":" +
-        baseRest.getRestangularUrl()
-    };
-
     var notebookNameTaken = function() {
       return !!_.find($scope.notebooks.list, { name: $scope.saveAsName, projectId: $scope.notebook.current.projectId });
     };
@@ -102,6 +95,19 @@
       window.scrollTo(window.pageXOffset, height);
     };
 
+    function broadcastNotebookReady() {
+      var baseRest = NotebookRestangular.one('notebooks', $state.params.notebook_id);
+      $rootScope.$broadcast("notebookReadyToRender", {
+        beakerSessionId: $state.params.notebook_id,
+        beakerNotebook: {
+          uri: "ajax:" +
+            baseRest.all('contents').getRestangularUrl() + ":" +
+            baseRest.getRestangularUrl()
+        },
+        openFromUri: !$scope.isExistingSession
+      });
+    }
+
     function openNotebook(notebook) {
       if (notebook.unavailable) return $state.go('projects.items.item',{id: notebook.projectId});
       Notebooks.update({id: notebook['public-id'], open: true});
@@ -110,23 +116,29 @@
 
     F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
       openNotebook(notebook);
-      Beaker.whenReady().then(function(result) {
-        if (result === 'timeout') {
-          return $scope.warning = 'Beaker has timed out.  Please refresh to try again.';
-        } else if (result === 'error') {
-          return $scope.warning = 'An Error has occurred';
-        }
-        notebook.location = $sce.trustAsResourceUrl(BeakerNotebookService.notebookLocation(result, prjId, notebook['public-id']));
-        TrackingService.mark('NotebookLoaded');
-        TrackingService.measure('BaselineUnprovisionedNotebookLoad', 'LoadUnprovisionedNotebook', 'NotebookLoaded');
-        TrackingService.measure('BaselineProvisionedNotebookLoad', 'LoadProvisionedNotebook', 'NotebookLoaded');
-        TrackingService.measure('BaselineUnProvisionedNotebookCreate', 'CreateUnProvisionedNotebook', 'NotebookLoaded');
-        TrackingService.measure('BaselineProvisionedNotebookCreate', 'CreateProvisionedNotebook', 'NotebookLoaded');
+      if (notebook['public-id'] == bkSessionManager.getSessionId()) {
+        $scope.isExistingSession = true;
+      }
+      else {
+        Beaker.whenReady().then(function(result) {
+          if (result === 'timeout') {
+            return $scope.warning = 'Beaker has timed out.  Please refresh to try again.';
+          } else if (result === 'error') {
+            return $scope.warning = 'An Error has occurred';
+          }
+          notebook.location = $sce.trustAsResourceUrl(BeakerNotebookService.notebookLocation(result, prjId, notebook['public-id']));
+          TrackingService.mark('NotebookLoaded');
+          TrackingService.measure('BaselineUnprovisionedNotebookLoad', 'LoadUnprovisionedNotebook', 'NotebookLoaded');
+          TrackingService.measure('BaselineProvisionedNotebookLoad', 'LoadProvisionedNotebook', 'NotebookLoaded');
+          TrackingService.measure('BaselineUnProvisionedNotebookCreate', 'CreateUnProvisionedNotebook', 'NotebookLoaded');
+          TrackingService.measure('BaselineProvisionedNotebookCreate', 'CreateProvisionedNotebook', 'NotebookLoaded');
 
-        return bkSession.getSessions().then(function(sessions) {
-          $scope.isExistingSession = sessions[$state.params.notebook_id] !== void(0);
+          return bkSession.getSessions().then(function(sessions) {
+            $scope.isExistingSession = sessions[$state.params.notebook_id] !== void(0);
+            broadcastNotebookReady();
+          });
         });
-      });
+      }
     });
 
     $scope.save = function() {
