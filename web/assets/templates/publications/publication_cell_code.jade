@@ -3,7 +3,7 @@
   section-headline {{cell.evaluator}}
   .input-cell(ng-class="{collapsed: cell.input.collapsed}")
     .input
-      .contents(hljs="hljs", source="cell.input.body")
+      .contents(hljs="hljs", source="cell.input.body | bodyToString")
   .output-cell(ng-class="{collapsed: cell.output.collapsed}")
     .toggle-expand.output-toggle(ng-class="{collapsed: cell.output.collapsed}", ng-click="toggleCollapsed('output')")
     .output

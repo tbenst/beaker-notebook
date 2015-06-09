@@ -6,6 +6,7 @@
      'restangular',
      'treeControl',
      'marketPlaceFilters',
+     'publicationFilters',
      'truncate',
      'ngStorage',
      'ngCookies',
