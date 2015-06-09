@@ -3,15 +3,18 @@
     '$timeout',
     '$scope',
     'TrackingService',
+    'bkSessionManager',
     'Factories',
     function(
       $timeout,
       $scope,
       TrackingService,
+      bkSessionManager,
       F) {
 
     var publishType;
     $scope.showButtons = true;
+    $scope.edited = bkSessionManager.isNotebookModelEdited();
 
     if($scope.published) {
       publishType = 'updatePublication';
@@ -49,10 +52,9 @@
 
     $scope.savePublish = function() {
       $scope.showButtons = false;
-      $scope.save();
-      // Currently there is no way to detect if notebook was saved in Bunsen,
-      // so we wait before publishing it
-      $timeout($scope.publish, 1000);
+      $scope.save().then(function() {
+        $scope.publish();
+      });
     };
 
     $scope.cancelPublish = function() {
