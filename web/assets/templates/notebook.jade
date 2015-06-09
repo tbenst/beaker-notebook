@@ -35,6 +35,7 @@
           | /
           span.name(ng-class="otherOpenNotebooksExist() && 'bunsen-dropdown-toggle'")
             {{notebook.current.name}}
+            span(ng-if="edited()") *
             .down-arrow.glyphicon.glyphicon-chevron-down(ng-if="otherOpenNotebooksExist()")
             ul.bunsen-dropdown(ng-if="otherOpenNotebooksExist()")
               li
