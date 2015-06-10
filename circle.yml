@@ -12,7 +12,7 @@ dependencies:
         background: true
     - sudo BEAKER_SERVER="127.0.0.1:8801" make -C haproxy run:
         background: true
-    - make -j2 all
+    - make -j2 all prepare-beaker
 
 test:
   override:
