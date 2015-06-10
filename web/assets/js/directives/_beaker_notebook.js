@@ -12,7 +12,6 @@
       restrict: 'E',
       scope: {
         notebook: "=",
-        height: "@"
       },
       template: templates['directives/beakernotebook'],
       link: function(scope, element) {
