@@ -1,21 +1,11 @@
 (ns bunsen.common.component.elasticsearch
-  (:require [clojure.string :as str]
-            [clojure.java.io :as io]
-            [clojurewerkz.elastisch.rest :as es]
-            [com.stuartsierra.component :as component :refer [start stop]])
+  (:require [clojure.java.io :as io]
+            [com.stuartsierra.component :as component :refer [start stop]]
+            [bunsen.common.helper.elasticsearch :as es])
   (:import (java.net URI)
            (org.apache.commons.io FileUtils)
            (org.elasticsearch.node NodeBuilder)
            (org.elasticsearch.common.settings ImmutableSettings)))
-
-(defn- strip-user-info [uri]
-  (URI. (.getScheme uri) nil (.getHost uri) (.getPort uri) nil nil nil))
-
-(defn- extract-user-info [uri]
-  (if-let [credentials (not-empty
-                           (some-> uri .getUserInfo (str/split #":")))]
-    {:basic-auth credentials}
-    {}))
 
 (defrecord Elasticsearch [config]
   component/Lifecycle
@@ -23,10 +13,7 @@
   (start [es]
     (if (:conn es)
       es
-      (let [uri (URI. (:elasticsearch-uri config))]
-        (assoc es
-               :conn (es/connect
-                       (strip-user-info uri) (extract-user-info uri))))))
+      (assoc es :conn (es/connect (:elasticsearch-uri config)))))
 
   (stop [es]
     (dissoc es :conn)))
@@ -34,8 +21,8 @@
 (def ^:private logs-dir "target/elasticsearch/logs")
 (def ^:private data-dir "target/elasticsearch/data")
 
-(defn- build-settings [config]
-  (let [uri (URI. (:elasticsearch-uri config))]
+(defn- build-settings [uri]
+  (let [uri (URI. uri)]
     (-> (ImmutableSettings/settingsBuilder)
         (.put "path.logs" logs-dir)
         (.put "path.data" data-dir)
@@ -53,11 +40,12 @@
   (start [es]
     (if (:node es)
       es
-      (let [node (-> (NodeBuilder/nodeBuilder)
+      (let [uri (:elasticsearch-uri config)
+            node (-> (NodeBuilder/nodeBuilder)
                      (.local true)
-                     (.settings (build-settings config))
+                     (.settings (build-settings uri))
                      (.node))
-            conn (es/connect (:elasticsearch-uri config))]
+            conn (es/connect uri)]
         (.start node)
         (assoc es :node node :conn conn))))
 

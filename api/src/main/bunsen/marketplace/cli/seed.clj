@@ -2,10 +2,10 @@
   (:require [clojure.java.io :as io]
             [clojure.tools.cli :refer [cli]]
             [environ.core :refer [env]]
+            [bunsen.common.helper.elasticsearch :as es]
             [bunsen.marketplace.api :as api]
             [bunsen.marketplace.cli.seed.simple :as simple]
-            [bunsen.marketplace.cli.seed.two-sigma :as two-sigma]
-            [bunsen.common.helper.elasticsearch :refer [connect-to-es]]))
+            [bunsen.marketplace.cli.seed.two-sigma :as two-sigma]))
 
 (defn seed!
   "Given catalog urls, elasticsearch url, and index name, completely recreates the search index for the catalog"
@@ -45,7 +45,9 @@
       (let [datasets (or (:datasets options) dataset-file)
             categories (or (:categories options) categories-file)
             index-name (or (:index-name options) index-name)
-            es-conn (connect-to-es)]
+            es-conn (if-let [uri (:uri options)]
+                              (es/connect uri)
+                              (es/connect))]
 
         (seed! es-conn
                index-name
