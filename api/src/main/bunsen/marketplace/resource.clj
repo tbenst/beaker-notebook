@@ -19,13 +19,13 @@
 (def get-method (get-* :request-method))
 (def get-session (get-* :session))
 (def get-user (get-* :session :id))
-(def get-role (get-* :session :role))
+(def get-roles (get-* :session :roles))
 
 (def get?
   (comp #{:get} get-method))
 
-(def admin?
-  (comp #{1} get-role))
+(defn admin? [req]
+  (some #{"admin"} (get-roles req)))
 
 (def allow-seed?
   (comp #{"true"} :allow-seed get-config))

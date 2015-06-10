@@ -20,7 +20,7 @@
                    { ::user { :user/public-id id
                               :user/name "Unknown"
                               :user/email "unknown@unknown"
-                              :user/role 0 }})))
+                              :user/roles (u/user-roles)}})))
 
   :handle-ok ::user
 
@@ -37,11 +37,12 @@
   :handle-unprocessable-entity ::errors
 
   :post! (fn [{{conn :conn params :params} :request}]
-           (if-let [user (u/create-user! conn (dissoc params :role))]
-             {::user user}))
+           (when-not (some #{"admin"} (:roles params))
+             (if-let [user (u/create-user! conn params)]
+               {::user user})))
 
   ; write session cookie
   :handle-created (fn [{{params :params} :request user ::user}]
                     (let [session {:id (:user/public-id user)
-                                   :role (:user/role user)}]
+                                   :roles (:user/roles user)}]
                       (ring-response {:session session}))))
