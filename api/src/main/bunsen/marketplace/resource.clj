@@ -24,8 +24,13 @@
 (def get?
   (comp #{:get} get-method))
 
-(defn admin? [req]
-  (some #{"admin"} (get-roles req)))
+(defn bunsen-user? [req]
+  (some #{"bunsen"} (get-roles req)))
+
+(defn bunsen-admin? [req]
+  (and
+    (bunsen-user? req)
+    (some #{"admin"} (get-roles req))))
 
 (def allow-seed?
   (comp #{"true"} :allow-seed get-config))
@@ -34,13 +39,18 @@
   {:allowed-methods #{:get}
    :available-media-types #{"text/plain" "application/json"}})
 
+(def bunsen-defaults
+  {:allowed? bunsen-user?
+   :allowed-methods #{:get}
+   :available-media-types #{"text/plain" "application/json"}})
+
 (def restricted-read-defaults
   "Restricted reads *and* writes."
-  (assoc defaults :allowed? (some-fn admin? allow-seed?)))
+  (assoc defaults :allowed? (some-fn bunsen-admin? allow-seed?)))
 
 (def restricted-write-defaults
   "Public reads, restricted writes."
-  (assoc defaults :allowed? (some-fn get? admin? allow-seed?)))
+  (assoc defaults :allowed? (some-fn get? bunsen-admin? allow-seed?)))
 
 (defresource status [_] defaults
   :handle-ok (constantly "ok"))
@@ -114,25 +124,25 @@
           {::vendor (api/update-vendor! (get-conn ctx) vendor-id params)})
   :handle-created ::vendor)
 
-(defresource subscription [{:keys [index-name dataset-id]}] defaults
+(defresource subscription [{:keys [index-name dataset-id]}] bunsen-defaults
   :allowed-methods #{:put :delete}
   :conflict? #(api/subscribed? (get-db %) index-name dataset-id (get-user %))
   :handle-conflict {:message "You are already subscribed to this dataset"}
   :put! #(api/create-subscription! (get-conn %) index-name dataset-id (get-user %))
   :delete! #(api/retract-subscription! (get-conn %) index-name dataset-id (get-user %)))
 
-(defresource subscriptions [_] defaults
+(defresource subscriptions [_] bunsen-defaults
   :allowed-methods #{:get}
   :handle-ok #(api/list-subscriptions (get-db %) (get-es %) (get-user %)))
 
-(defresource rating [{:keys [dataset-id index-name] :as params}] defaults
+(defresource rating [{:keys [dataset-id index-name] :as params}] bunsen-defaults
   :allowed?  #(or (get? %)
                   (api/subscribed? (get-db %) index-name dataset-id (get-user %)))
   :allowed-methods #{:get :post}
   :post! #(api/create-rating! (get-conn %) index-name dataset-id (get-user %) params)
   :handle-ok #(api/get-rating (get-db %) index-name dataset-id (get-user %)))
 
-(defresource average-rating [{:keys [dataset-id index-name]}] defaults
+(defresource average-rating [{:keys [dataset-id index-name]}] bunsen-defaults
   :handle-ok #(api/get-average-rating (get-db %) index-name dataset-id))
 
 (def resources

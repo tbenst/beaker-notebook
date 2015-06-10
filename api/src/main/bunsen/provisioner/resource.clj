@@ -4,14 +4,14 @@
             [liberator.core :refer [defresource]]
             [liberator.representation :refer [ring-response as-response]]
             [bunsen.provisioner.model.beaker :as b]
-            [bunsen.common.helper.resource :refer [defaults]]
+            [bunsen.common.helper.resource :as resource]
             [bunsen.provisioner.protocol.store :as store]
             [bunsen.provisioner.protocol.container :as container]))
 
-(defresource status [_] defaults
+(defresource status [_] resource/defaults
   :handle-ok (constantly "ok"))
 
-(defresource instance [_] defaults
+(defresource instance [_] resource/bunsen-defaults
   :allowed-methods #{:get :post}
   :exists? (fn [{{container :container} :request}]
              (let [id (get-in request [:session :id])]
@@ -47,7 +47,7 @@
 
   :available-media-types ["application/json"])
 
-(defresource files [_] defaults
+(defresource files [_] resource/bunsen-defaults
   :allowed-methods #{:get :post :delete}
 
   :handle-ok (fn [{{{id :id} :session store :store} :request}]
@@ -63,7 +63,7 @@
              (doseq [[_ filename] params]
                (store/delete! store id filename))))
 
-(defresource  files-quota [_] defaults
+(defresource  files-quota [_] resource/bunsen-defaults
   :handle-ok (fn [{{{id :id} :session store :store} :request}]
                (str (store/quota store id))))
 

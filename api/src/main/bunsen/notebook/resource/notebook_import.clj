@@ -4,7 +4,7 @@
             [bunsen.common.helper.resource :as resource]
             [bunsen.notebook.presenter.notebooks :as api]))
 
-(defresource notebook-import [_] resource/defaults
+(defresource notebook-import [_] resource/bunsen-defaults
   :allowed-methods [:post]
 
   :processable? (fn [{{db :db

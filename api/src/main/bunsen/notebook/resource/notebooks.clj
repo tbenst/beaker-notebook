@@ -8,7 +8,7 @@
       (assoc :contents (:data params))
       (dissoc :data)))
 
-(defresource notebooks [_] resource/defaults
+(defresource notebooks [_] resource/bunsen-defaults
   :allowed-methods [:get :post]
 
   :processable? (fn [{{db :db
