@@ -59,6 +59,10 @@
       return bkHelper.getSessionId() ? bkHelper.getStatus() : null;
     }
 
+    $scope.edited = function() {
+      return bkSessionManager.isNotebookModelEdited();
+    };
+
     $scope.showMenu = function() {
       this.menu = true;
     };
