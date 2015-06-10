@@ -56,4 +56,17 @@
            :db/cardinality :db.cardinality/one
            :db.install/_attribute :db.part/db}
           ]]}
+
+ :users/add-roles
+ {:txes [[
+          {:db/id #db/id[:db.part/db]
+           :db/ident :user/roles
+           :db/valueType :db.type/ref
+           :db/cardinality :db.cardinality/many
+           :db.install/_attribute :db.part/db}
+
+          [:db/add #db/id[:db.part/user] :db/ident :role/bunsen]
+          [:db/add #db/id[:db.part/user] :db/ident :role/beaker]
+          [:db/add #db/id[:db.part/user] :db/ident :role/admin]
+          ]]}
  }
