@@ -1,5 +1,6 @@
 (ns bunsen.common.helper.elasticsearch
-  (:require [clojure.java.io :as io]
+  (:require [clojure.string :as str]
+            [clojure.java.io :as io]
             [clojure.data.json :as json]
             [clojurewerkz.elastisch.rest :as rest]
             [clojurewerkz.elastisch.rest.index :as ind]
@@ -8,19 +9,29 @@
             [clojurewerkz.elastisch.query :as query]
             [clojurewerkz.elastisch.rest.bulk :as bulk]
             [clojurewerkz.elastisch.aggregation :as agg]
-            [bunsen.marketplace.helper.pipeline :as pipe]))
+            [bunsen.marketplace.helper.pipeline :as pipe])
+  (:import (java.net URI)))
 
 (defn json-resource [path]
   (json/read-str (-> path io/resource slurp) :key-fn keyword))
 
-(defn connect-to-es
-  "[] - Connect to default elasticsearch url
-   [config] - Connect to elasticsearch url with options"
-  ([] (rest/connect))
-  ([config]
-   (rest/connect
-     (:elasticsearch-url config)
-     (:elasticsearch-options config))))
+(defn- strip-user-info [uri]
+  (URI. (.getScheme uri) nil (.getHost uri) (.getPort uri) nil nil nil))
+
+(defn- extract-user-info [uri]
+  (if-let [credentials (not-empty
+                         (some-> uri .getUserInfo (str/split #":")))]
+    {:basic-auth credentials}
+    {}))
+
+(defn connect
+  ([] (connect nil))
+  ([uri]
+   (if-not uri
+     (rest/connect)
+     (let [uri (URI. uri)]
+       (rest/connect
+         (strip-user-info uri) (extract-user-info uri))))))
 
 (defn read-results
   "Given params to specify an ES mapping, reads the entire contents into memory"
