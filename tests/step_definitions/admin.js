@@ -7,7 +7,7 @@ module.exports = function() {
     'name': 'john admin',
     'email': 'r@u.edu',
     'password': 'password',
-    'role': this.USER_ROLE['administrator'],
+    'roles': ['bunsen', 'admin'],
     'job-title': 'Admin',
     'company': 'Two Sigma',
     'bio': 'Keeping these parts safe'
