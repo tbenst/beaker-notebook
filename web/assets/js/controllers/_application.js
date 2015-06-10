@@ -32,7 +32,7 @@
       }
 
       $scope.$state = $state;
-      $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+      var stateListener = $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
         $rootScope.referrer = {
           fromState: fromState,
           fromParams: fromParams
@@ -76,6 +76,10 @@
           $state.go('landing');
         });
       };
+
+      $scope.$on('$destroy', function() {
+        stateListener();
+      });
 
     }
   ]);

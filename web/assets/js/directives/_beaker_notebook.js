@@ -24,11 +24,11 @@
 
         scope.isFullscreen = FullscreenState.isFullscreen;
 
-        $rootScope.$on('activeNotebookClosed', clearActiveNotebook);
+        var closeListener = $rootScope.$on('activeNotebookClosed', clearActiveNotebook);
 
         // when switching notebooks, remove active notebook from the
         // page before new one renders
-        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+        var stateListener = $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
           if (toState.name == "projects.items.item.notebook"
               && scope.beakerSessionId !== void(0)
               && scope.beakerSessionId !== toParams.notebook_id) {
@@ -40,6 +40,11 @@
           scope.beakerSessionId = notebookDetails.beakerSessionId;
           scope.beakerNotebook = notebookDetails.beakerNotebook;
           scope.openFromUri = notebookDetails.openFromUri;
+        });
+
+        element.on('$destroy', function() {
+          closeListener();
+          stateListener();
         });
       }
     }
