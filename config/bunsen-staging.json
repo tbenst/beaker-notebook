@@ -179,6 +179,7 @@
         "DATOMIC_AWS_TRANSACTOR_ROLE": "cluster_slave_servers",
         "DATOMIC_AWS_PEER_ROLE": "cluster_slave_servers"
       },
+      "healthChecks": [],
       "upgradeStrategy": {
         "minimumHealthCapacity": 0.5
       },
