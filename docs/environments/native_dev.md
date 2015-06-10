@@ -78,24 +78,19 @@ Bunsen uses postgres and elasticsearch. To make managing theses services easier,
 ### Elasticsearch
 
     # elasticsearch was installed above, but we need to seed it with marketplace data
-    forego run make -C marketplace seed
+    forego run make -C api seed
 
     # the seeder accepts a few options
-    # -h --help       - Print options
-    # -d --datasets   - Datasets file location
-    # -c --categories - Categories file location
-    # -i --index-name - Index name
+    # -h --help                 - Print options
+    # -e --elasticsearch-uri    - Elasticsearch URI
+    # -m --mappings             - Mappings file location
+    # -d --datasets             - Datasets file location
+    # -c --categories           - Categories file location
+    # -i --index-name           - Index name
+    # -s --seeder               - Seeder type (simple [default], or two-sigma)
 
-
-    # want to add your own dataset?
-    forego run make -C marketplace seed -d /path/to/your/json/file.json
-
-    # you've added your own dataset, but you want a different index name?
-    forego run make -C marketplace seed -d /path/to/your/json/file.json -i index_name
-
-    # how about adding your own categories?
-    forego run make -C marketplace seed -c /path/to/your/json/file.json
-
+    # how to seed two sigma data, from the api directory
+    lein run -m bunsen.marketplace.cli.seed -s two-sigma -m marketplace/two_sigma/mappings.json -d http://base/url/for/datasets -c http://base/url/for/categories -i <index-name>
 
 ## Tests
 
