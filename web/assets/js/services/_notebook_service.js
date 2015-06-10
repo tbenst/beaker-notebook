@@ -1,5 +1,10 @@
 ;(function(app) {
-  app.service('Notebooks', function($rootScope, $state, $window, $location, Factories) {
+  app.service('Notebooks', function(
+    $rootScope,
+    $state,
+    $window,
+    $location,
+    Factories) {
 
     function getIFrame(notebookId) {
       return document.getElementById('beaker-frame-' + notebookId);
