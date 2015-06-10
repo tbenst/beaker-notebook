@@ -21,40 +21,40 @@
     (api/update-dataset-mappings! es-conn index-name)))
 
 (defn -main [& args]
-  (let [dataset-file (io/resource "seed/datasets_0.1.json")
-        categories-file (io/resource "seed/categories_0.1.json")
-        index-name "catalog_0.1"
-        mapping-file "seed/mappings.json"
-        [options arguments banner] (cli args
+  (let [[options arguments banner] (cli args
                                         ["-h" "--help" "Print options"
-                                         :default false :flag true]
-                                        ["-d" "--datasets" "Datasets file location"
+                                         :flag true
                                          :default false]
-                                        ["-c" "--categories" "Categories file location"
-                                         :default false]
+                                        ["-e" "--elasticsearch-uri" "Elasticsearch URI"
+                                         :default nil]
                                         ["-i" "--index-name" "Index name"
-                                         :default false]
-                                        ["-o" "--override" "Override default connection and use environment set connection. "
-                                         :default false :flag true])]
+                                         :default "catalag_0.1"]
+                                        ["-m" "--mappings" "Mapping type"
+                                         :default "marketplace/seed/mappings.json"]
+                                        ["-d" "--datasets" "Datasets file location"
+                                         :default (io/resource "marketplace/seed/datasets_0.1.json")]
+                                        ["-c" "--categories" "Categories file location"
+                                         :default (io/resource "marketplace/seed/categories_0.1.json")]
+                                        ["-s" "--seeder" "Seeder type"
+                                         :default "simple"])]
 
     (cond
-      (:help options)
-      (println banner)
+      (:help options) (println banner)
 
-      :else
-      (let [datasets (or (:datasets options) dataset-file)
-            categories (or (:categories options) categories-file)
-            index-name (or (:index-name options) index-name)
-            es-conn (if-let [uri (:uri options)]
-                              (es/connect uri)
-                              (es/connect))]
+      ;; TODO: use a protocol for this
+      :else (let [[index-datasets!
+                   index-categories!] (condp = (:seeder options)
+                                        "simple" [simple/index-datasets!
+                                                  simple/index-categories!]
+                                        "two-sigma" [two-sigma/index-datasets!
+                                                     two-sigma/index-categories!])]
+              (seed! (es/connect
+                       (:elasticsearch-uri options))
+                     (:index-name options)
+                     (:mappings options)
+                     (:datasets options)
+                     (:categories options)
+                     index-datasets!
+                     index-categories!)
 
-        (seed! es-conn
-               index-name
-               mapping-file
-               datasets
-               categories
-               simple/index-datasets!
-               simple/index-categories!)
-
-        (System/exit 0)))))
+              (System/exit 0)))))
