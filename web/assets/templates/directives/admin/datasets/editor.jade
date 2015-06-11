@@ -29,9 +29,15 @@ form.dataset-edit(name="datasetEditForm")
     .dataset-start-date(ng-if="datasetHas('startDate')")
       label Start Date
       input(type="date" placeholder="start date" ng-model="dataset.startDate")
-    .dataset-update-frequency(ng-if="datasetHas('updateFrequency')")
-      label Update Frequency
-      input(placeholder="Update Frequency" ng-model="dataset.updateFrequency")
+    .dataset-created-at(ng-if="datasetHas('createdAt')")
+      label Created At
+      input(type="date" placeholder="Created At" ng-model="dataset.createdAt")
+    .dataset-last-updated(ng-if="datasetHas('lastUpdated')")
+      label Last Updated
+      input(type="date" placeholder="Last Updated" ng-model="dataset.lastUpdated")
+    .dataset-meta-data-changed(ng-if="datasetHas('metaDataChanged')")
+      label Meta Data Changed
+      input(type="date" placeholder="Meta Data Changed" ng-model="dataset.metaDataChanged")
     .dataset-tags(ng-if="datasetHas('tags')")
       label Tags
       tags(dataset-tags="dataset.tags")
@@ -48,6 +54,17 @@ form.dataset-edit(name="datasetEditForm")
       label Remote File Location
       input(placeholder="Location" ng-model="dataset.remoteFile")
   .col-half
+    .dataset-business-owner(ng-if="datasetHas('businessOwner')")
+      label Business Owner
+      input(placeholder="Business Owner" ng-model="dataset.businessOwner")
+    .dataset-public(ng-if="datasetHas('public')")
+      label Public
+      label
+        input(type="radio" ng-model="dataset.public" ng-value="true")
+        | True
+      label
+        input(type="radio" ng-model="dataset.public" ng-value="false")
+        | False
     .dataset-previews(ng-if="datasetHas('dataPreviews')")
       h4 Previews
       ul

@@ -28,14 +28,22 @@
     return query;
   }
 
-  function formatDataset(set) {
-    if (set.startDate) {
-      set.startDate = moment(set.startDate).format('YYYY-MM-DD');
+  function formatDate(set, attr) {
+    if (set[attr]) {
+      set[attr] = moment(set[attr]).format('YYYY-MM-DD');
     }
+  }
 
-    if (set.releaseDate) {
-      set.releaseDate = moment(set.releaseDate).format('YYYY-MM-DD');
-    }
+  function formatDataset(set) {
+    var dateAttrs = [
+      'startDate',
+      'releaseDate',
+      'lastUpdated',
+      'createdAt',
+      'metaDataChanged'
+    ];
+
+    _.each(dateAttrs, _.partial(formatDate, set));
 
     return set;
   }

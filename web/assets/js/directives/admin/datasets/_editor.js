@@ -22,6 +22,19 @@
         'dataPreviews'
       ];
 
+      var twoSigmaMeta = [
+        'title',
+        'categories',
+        'vendor',
+        'description',
+        'remoteFile',
+        'lastUpdated',
+        'createdAt',
+        'businessOwner',
+        'metaDataChanged',
+        'public'
+      ];
+
       return {
         restrict: 'E',
         template: templates['directives/admin/datasets/editor'],
@@ -68,7 +81,13 @@
           });
 
           $scope.datasetHas = function(attr) {
-            return _.contains(defaultMeta, attr);
+            var meta = defaultMeta;
+
+            if ($scope.dataset && $scope.dataset.catalog && $scope.dataset.catalog.name == "Two Sigma") {
+              meta = twoSigmaMeta;
+            }
+
+            return _.contains(meta, attr);
           };
 
           $scope.updateVendor = function(vendor) {
@@ -101,6 +120,7 @@
 
           $scope.setNewCatalog = function(val, dataset) {
             dataset.index = val;
+            dataset.catalog = _.find($scope.catalogs, { index: val });
             delete dataset.categories;
           };
 
