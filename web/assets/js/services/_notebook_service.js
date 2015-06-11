@@ -4,6 +4,8 @@
     $state,
     $window,
     $location,
+    bkSession,
+    bkSessionManager,
     Factories) {
 
     function getIFrame(notebookId) {
@@ -46,13 +48,25 @@
       getIFrame(notebookId).contentWindow.postMessage(payload, uiUrl);
     }
 
-    function closeIfOpen(notebookId) {
-      if (frame = getIFrame(notebookId)) {
-        sendToIFrame(notebookId, { action: 'close' });
-      }
-      if ($state.is("projects.items.item.notebook") && $state.params.notebook_id == notebookId) {
-        $state.go('projects.items.item', {id: $state.params.id});
-      }
+    function leaveActiveSession() {
+      var notebookId = bkSessionManager.getSessionId();
+      bkSessionManager.close().then(function() {
+        return markNotebookClosed(notebookId);
+      }).then(function() {
+        $rootScope.$broadcast('activeNotebookClosed');
+        if ($state.is("projects.items.item.notebook")
+            && $state.params.notebook_id == notebookId) {
+          $state.go('projects.items.item', {id: $state.params.id});
+        }
+      });
+    }
+
+    function markNotebookClosed(notebookId) {
+      return Factories.Notebooks.update({id: notebookId, open: false})
+        .then(function(notebook) {
+          $rootScope.$broadcast('notebookUpdated', notebook);
+          return notebook;
+        }.bind(this));
     }
 
     return {
@@ -83,12 +97,29 @@
         }.bind(this));
       },
 
-      closeNotebook: function(notebookId) {
-        return Factories.Notebooks.update({id: notebookId, open: false}).then(function(notebook) {
-          closeIfOpen(notebookId);
-          $rootScope.$broadcast('notebookUpdated', notebook);
-          return notebook;
-        }.bind(this));
+      closeNotebook: function(notebook) {
+        // Does this notebook happen to be the currently active
+        // notebook that beaker is managing?
+        if (notebook['public-id'] == bkSessionManager.getSessionId()) {
+          if (bkSessionManager.isNotebookModelEdited()) {
+            return bkHelper.show3ButtonModal(
+              "Do you want to save " + notebook.name + "?",
+              "Confirm close",
+              function() {
+                bkHelper.saveNotebook().then(leaveActiveSession);
+              },
+              leaveActiveSession,
+              null, "Save", "Don't save");
+          }
+          else {
+            leaveActiveSession();
+          }
+        }
+        else {
+          bkSession.close(notebook['public-id']);
+          return markNotebookClosed(notebook['public-id'])
+        }
+
       },
 
       export: function(notebookId) {
