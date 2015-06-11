@@ -4,9 +4,29 @@
     $state,
     $window,
     $location,
+    bkEvaluateJobManager,
+    bkHelper,
     bkSession,
     bkSessionManager,
     Factories) {
+
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+      if (toState.name == "projects.items.item.notebook"
+          && bkHelper !== void 0
+          && bkSessionManager.getSessionId()
+          && bkSessionManager.getSessionId() !== toParams.notebook_id
+          && bkEvaluateJobManager.isAnyInProgress()) {
+        event.preventDefault();
+        return bkHelper.show2ButtonModal(
+          "Switching notebooks; all running and pending cells will be cancelled.",
+          "Warning!",
+          function() {
+            bkEvaluateJobManager.cancelAll().then(function() {
+              $state.go(toState, toParams);
+            });
+          });
+      }
+    });
 
     function getIFrame(notebookId) {
       return document.getElementById('beaker-frame-' + notebookId);
