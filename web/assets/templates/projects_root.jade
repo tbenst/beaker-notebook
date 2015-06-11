@@ -10,7 +10,7 @@
           ul.open-notebooks.sidebar-box-list
             li.open-notebook(ng-repeat="notebook in notebooks.list | filter:{open:true} | orderBy:openedAt")
               a.sidebar-box-list-link(ng-class="{active: isViewingNotebook(notebook['public-id'])}", ng-click="openNotebook(notebook)") {{notebook.name}}
-                span.inline-icon-sidebar.inline-close-notebook.close-notebook(ng-click="$event.stopPropagation()" close-notebook="{{notebook['public-id']}}")
+                span.inline-icon-sidebar.inline-close-notebook.close-notebook(ng-click="$event.stopPropagation(); closeNotebook(notebook);")
                   img(src="images/close-white-small.png", width="10", height="10")
             li.recently-used.bunsen-dropdown-toggle(ng-if="notebooks.list.length")
               a.sidebar-box-list-link.dropright-arrow Recently Used

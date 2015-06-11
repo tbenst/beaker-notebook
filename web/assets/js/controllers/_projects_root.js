@@ -6,6 +6,7 @@
     '$state',
     '$rootScope',
     'FullscreenState',
+    'Notebooks',
     'TrackingService',
     function(
       $scope,
@@ -13,6 +14,7 @@
       $state,
       $rootScope,
       FullscreenState,
+      Notebooks,
       TrackingService) {
     var F = Factories;
 
@@ -50,6 +52,8 @@
         });
       });
     }
+
+    $scope.closeNotebook = Notebooks.closeNotebook;
 
     $scope.isViewingNotebook = function (notebookId) {
        return $state.includes('projects.items.item.notebook') && $state.params.notebook_id == notebookId;

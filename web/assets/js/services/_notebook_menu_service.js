@@ -39,7 +39,7 @@
                 name: "Close",
                 sortorder: 70,
                 action: function () {
-                  Notebooks.closeNotebook($scope.notebook.current['public-id']);
+                  Notebooks.closeNotebook($scope.notebook.current);
                 },
                 tooltip: "Close notebook",
                 id: "close-menuitem"
