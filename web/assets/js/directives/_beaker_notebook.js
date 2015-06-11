@@ -2,8 +2,10 @@
   angular.module("beakerNotebook", [])
     .directive('beakernotebook', [
       '$rootScope',
+      'bkSessionManager',
       'FullscreenState',
       function($rootScope,
+               bkSessionManager,
                FullscreenState) {
 
     return {
@@ -30,7 +32,7 @@
           if (toState.name == "projects.items.item.notebook"
               && scope.beakerSessionId !== void(0)
               && scope.beakerSessionId !== toParams.notebook_id) {
-            clearActiveNotebook();
+            bkSessionManager.backup().then(clearActiveNotebook);
           }
         });
 
