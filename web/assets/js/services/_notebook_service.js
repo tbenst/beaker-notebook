@@ -137,7 +137,7 @@
         }
         else {
           bkSession.close(notebook['public-id']);
-          return markNotebookClosed(notebook['public-id'])
+          return markNotebookClosed(notebook['public-id']);
         }
 
       },
