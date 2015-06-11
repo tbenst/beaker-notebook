@@ -4,6 +4,9 @@ As a researcher, I want to be able to browse the market place.
   Background:
     Given I'm signed in as a researcher
     And I have a default catalog
+    And I have the following Vendors:
+      | name              |
+      | Some vendor       |
     And I have the following categories:
       | name       | path  |
       | finance    | 0.1.1 |
@@ -20,6 +23,10 @@ As a researcher, I want to be able to browse the market place.
     And I should see the "Credit Card Complaints" market item on the market list page
 
   Scenario: Reset filters when browsing market items by category
+    Given I have the following Vendors:
+      | name                 |
+      | CFPB                 |
+      | Statistics Canada    |
     Given I have the following market items:
       | title                  | categories | vendor            |
       | Credit Card Complaints | finance    | CFPB              |

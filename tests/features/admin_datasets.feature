@@ -2,6 +2,7 @@ Feature: Admin Datasets
   Background:
     Given I'm signed in as an administrator
     And I have a default catalog
+    And I have a default vendor
     And there is a market item
 
   Scenario: Viewing the marketplace

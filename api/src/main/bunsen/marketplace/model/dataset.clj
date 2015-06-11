@@ -73,6 +73,14 @@
                           :index "not_analyzed"}))}}
        (ind/update-mapping es-conn index-name "datasets" :mapping))))
 
+(defn generate-filters
+  [catalog-filters aggregations]
+  (apply merge (map (fn [catalog-filter]
+                      (hash-map catalog-filter
+                                (map #(:key %)
+                                     (:buckets (catalog-filter aggregations)))))
+                    catalog-filters)))
+
 (defn find-datasets
   [es-conn index-name query catalog]
   (let [category-path (:category-path query)
@@ -86,11 +94,7 @@
                             :sort [{:_score {:order "desc"}} {:raw_title {:order "asc"}}]
                             :aggs (aggregators catalog-filters))
         aggregations (:aggregations results)
-        filters (apply merge (map (fn [catalog-filter]
-                                    (hash-map catalog-filter
-                                              (map #(:key %)
-                                                   (:buckets (catalog-filter aggregations)))))
-                                  catalog-filters))]
+        filters (generate-filters catalog-filters aggregations)]
     (assoc (transform-results results) :filters filters)))
 
 (defn find-datasets-by-ids

@@ -17,17 +17,45 @@
                               % (rating/get-average-rating
                                          datomic-db index-name (:id %))))))
 
+(defn- ->vendor
+  [vendor]
+  {:id (:vendor/public-id vendor)
+   :name (:vendor/name vendor)})
+
+(defn- find-and-transform-vendor
+  [datomic-db vendor-id]
+  (->> vendor-id
+       (vendor/find-vendor datomic-db)
+       ->vendor))
+
+(defn- assoc-dataset-vendor
+  [datomic-db dataset]
+  (update-in dataset [:vendor] (partial find-and-transform-vendor datomic-db)))
+
+(defn- assoc-dataset-vendors
+  [datomic-db datasets]
+  (update-in datasets [:data] (partial mapv (partial assoc-dataset-vendor datomic-db))))
+
+(defn- assoc-dataset-filter-vendors
+  [datomic-db datasets]
+  (-> datasets
+      (update-in [:filters :vendor] (partial mapv (partial find-and-transform-vendor datomic-db)))
+      (update-in [:filters :vendor] (partial sort-by :name))))
+
 (defn find-datasets
   [datomic-db es-conn index-name query]
   (->> (:category-path query)
        (category/get-category es-conn index-name)
        (category/get-category-catalog es-conn index-name)
        (dataset/find-datasets es-conn index-name query)
-       (merge-average-ratings-for-datasets datomic-db index-name)))
+       (merge-average-ratings-for-datasets datomic-db index-name)
+       (assoc-dataset-vendors datomic-db)
+       (assoc-dataset-filter-vendors datomic-db)))
 
 (defn get-dataset
   [datomic-db es-conn index-name dataset-id]
-  (let [dataset (dataset/get-dataset es-conn index-name dataset-id)
+  (let [dataset (assoc-dataset-vendor datomic-db
+                                      (dataset/get-dataset es-conn index-name dataset-id))
         catalog (category/get-category-catalog es-conn index-name (-> dataset :categories first))
         related (->> (dataset/find-datasets
                        es-conn index-name {:from 0
@@ -123,6 +151,10 @@
 (defn create-vendor!
   [datomic-conn vendor]
   (vendor/create-vendor! datomic-conn vendor))
+
+(defn get-vendor
+  [datomic-db vendor-id]
+  (vendor/find-vendor datomic-db vendor-id))
 
 (defn delete-vendor!
   [datomic-conn vendor-id]

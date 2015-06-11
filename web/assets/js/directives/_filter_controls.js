@@ -11,6 +11,8 @@
       },
       link: function(scope, element, attrs) {
 
+        scope.has = _.has;
+
         scope.isItemSelected = function(item) {
           if (scope.filterScope) {
             return scope.filterScope.indexOf(item) != -1;

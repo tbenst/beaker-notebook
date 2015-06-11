@@ -23,8 +23,13 @@
       }
 
       $scope.removeFilter = function(filter) {
+        var removeIndex;
         var evaluatedModel = $scope.$eval(filter.model);
-        var removeIndex = evaluatedModel.indexOf(filter.name);
+        if (_.has(filter, 'id')) {
+          removeIndex = evaluatedModel.indexOf(filter.id);
+        } else {
+          removeIndex = evaluatedModel.indexOf(filter.name);
+        }
 
         if (removeIndex != -1) {
           evaluatedModel.splice(removeIndex, 1);
@@ -39,7 +44,7 @@
         // condense all search filters into a flat list
         var scopes = _.chain($scope.marketPlace.filters).keys().map(function(f) {
           var filterScope = f + 'Scope';
-          return TS.normalizeFilter($scope.marketPlace[filterScope], 'marketPlace.' + filterScope);
+          return TS.normalizeFilter($scope.marketPlace[filterScope], 'marketPlace.' + filterScope, $scope.marketPlace.filters[f]);
         })
         .value();
 

@@ -5,6 +5,10 @@ As a researcher, I want to be able to browse different market place catalogs.
     Given I'm signed in as a researcher
     And I have Two Sigma catalog
     And I have Quandl catalog
+    And I have the following Vendors:
+      | name                 |
+      | Bank of America      |
+      | Some vendor          |
 
   Scenario: Default catalog
     Given index "catalog_0.1" has the following market items:

@@ -5,7 +5,9 @@ var req = require('request');
 var post = Promise.promisify(req.post);
 var put = Promise.promisify(req.put);
 var del = Promise.promisify(req.del);
+var get = Promise.promisify(req.get);
 var util = require('util');
+var uuid = require('node-uuid');
 
 module.exports = function() {
 
@@ -62,10 +64,21 @@ module.exports = function() {
     });
   }
 
+  function getVendorByName(name) {
+    return get(config.marketplaceUrl + '/vendors')
+    .then(function(res) {
+      var vendors = JSON.parse(res[0].body);
+      return _.find(vendors, function(v) {
+        return v.name === name;
+      });
+    });
+  }
+
   this.marketplace = {
     createVendors: function(vendors) {
       return del(config.marketplaceUrl + '/seed').then(function() {
         return Promise.each(vendors, function(vendor) {
+          _.extend(vendor, {'public-id': uuid.v1()});
           return post({
             url: config.marketplaceUrl + '/vendors',
             body: JSON.stringify(vendor),
@@ -100,11 +113,17 @@ module.exports = function() {
     },
 
     createDatasets: function(indexName, datasets) {
-      _.each(datasets, function(set) {
-        set.id = set.id || currentDatasetId;
-        currentDatasetId += 1;
+      return Promise.map(datasets, function(set) {
+        return getVendorByName(set.vendor)
+        .then(function(vendor) {
+          set.vendor = vendor['public-id'];
+          set.id = set.id || currentDatasetId;
+          currentDatasetId += 1;
+          return set;
+        });
+      }).then(function(datasets) {
+        return createRecords(indexName, 'datasets', datasets);
       });
-      return createRecords(indexName, 'datasets', datasets);
     },
 
     deleteSeed: function() {

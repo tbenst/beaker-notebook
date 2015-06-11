@@ -4,6 +4,16 @@ As a researcher, I want to be able to use the market place.
   Background:
     Given I'm signed in as a researcher
     And I have a default catalog
+    And I have the following Vendors:
+      | name              |
+      | Some vendor       |
+      | George data       |
+      | Cicero            |
+      | Tullius           |
+      | Starship Voyager  |
+      | Ratings R Us      |
+      | statistics canada |
+      | Doge industries   |
 
   Scenario: See a market item
     When there is a market item
@@ -291,13 +301,13 @@ As a researcher, I want to be able to use the market place.
 
   Scenario: Market item description in list
     Given I have the following market items:
-      | title                     | description                               | format | vendor |
-      | crime rates, canada       | yearly crimes reported per 100,000 people | xml    |        |
+      | title                     | description                               | format |
+      | crime rates, canada       | yearly crimes reported per 100,000 people | xml    |
     When I view the market search
     And I filter the market page by "crime"
     Then I should see the following market results
-      | title                     | description                               | format | vendor |
-      | crime rates, canada       | yearly crimes reported per 100,000 people | xml    |        |
+      | title                     | description                               | format | vendor      |
+      | crime rates, canada       | yearly crimes reported per 100,000 people | xml    | some vendor |
 
   @flaky @broken
   Scenario: Market item vendor in list
