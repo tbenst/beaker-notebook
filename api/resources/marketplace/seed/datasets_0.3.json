@@ -1,0 +1,34 @@
+[
+  {
+    "id": 5000,
+    "title": "Missile strikes by accuracy",
+    "vendor": "556f3d84-99bc-4d19-85f0-62b6c9eb46ff",
+    "description": "Beginning with the now-iconic phrase Four score and seven years ago—referring to the Declaration of Independence, written at the start of the American Revolution in 1776—Lincoln examined the founding principles of the United States in the context of the Civil War, and memorialized the sacrifices of those who gave their lives at Gettysburg and extolled virtues for the listeners (and the nation) to ensure the survival of America's representative democracy, that government of the people, by the people, for the people, shall not perish from the earth.",
+    "remoteFile": "file://./missile_strikes.xml",
+    "lastUpdated": "2014-08-05T08:15:30-05:00",
+    "createdAt": "1994-11-05T08:15:30-05:00",
+    "businessOwner": "HHE-992282",
+    "metaDataChanged": "2013-11-05T08:15:30-05:00",
+    "public": true,
+    "categoryIds": [
+      3000
+    ],
+    "path": "0.3.1.1"
+  },
+  {
+    "id": 5001,
+    "title": "Tropical Storms Database",
+    "vendor": "556f3d84-99bc-4d19-85f0-62b6c9eb46ff",
+    "lastUpdated": "2013-07-05T18:15:30-05:00",
+    "metaDataChanged": "2012-10-05T18:15:30-05:00",
+    "remoteFile": "file://./tropical_storms.csv",
+    "createdAt": "1993-10-05T18:15:30-05:00",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "businessOwner": "882-HU-BBT",
+    "public": false,
+    "categoryIds": [
+      3000
+    ],
+    "path": "0.3.1.2"
+  }
+]
