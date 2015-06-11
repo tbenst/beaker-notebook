@@ -29,10 +29,15 @@
   }
 
   function formatDataset(set) {
-    return _.extend(set, {
-      startDate: moment(set.startDate).format('YYYY-MM-DD'),
-      releaseDate: moment(set.releaseDate).format('YYYY-MM-DD')
-    });
+    if (set.startDate) {
+      set.startDate = moment(set.startDate).format('YYYY-MM-DD');
+    }
+
+    if (set.releaseDate) {
+      set.releaseDate = moment(set.releaseDate).format('YYYY-MM-DD');
+    }
+
+    return set;
   }
 
   app.factory('DataSetsFactory', [
