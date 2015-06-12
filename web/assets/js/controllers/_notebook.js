@@ -13,7 +13,6 @@
     'Notebooks',
     'UserPreferences',
     'Beaker',
-    'BeakerNotebookService',
     'NotebookMenuService',
     'NotebookRestangular',
     'FullscreenState',
@@ -35,7 +34,6 @@
       Notebooks,
       UserPreferences,
       Beaker,
-      BeakerNotebookService,
       NotebookMenuService,
       NotebookRestangular,
       FullscreenState,
@@ -44,7 +42,6 @@
       bkSessionManager,
       bkHelper) {
 
-    var frame;
     var prjId = $state.params.id;
 
     LastViewed.set('projects');
@@ -126,7 +123,6 @@
           } else if (result === 'error') {
             return $scope.warning = 'An Error has occurred';
           }
-          notebook.location = $sce.trustAsResourceUrl(BeakerNotebookService.notebookLocation(result, prjId, notebook['public-id']));
           TrackingService.mark('NotebookLoaded');
           TrackingService.measure('BaselineUnprovisionedNotebookLoad', 'LoadUnprovisionedNotebook', 'NotebookLoaded');
           TrackingService.measure('BaselineProvisionedNotebookLoad', 'LoadProvisionedNotebook', 'NotebookLoaded');
@@ -146,13 +142,6 @@
       return bkHelper.saveNotebook().then(function() {
         $rootScope.$broadcast('notebookUpdated', $scope.notebook.current);
       });
-    };
-
-    $scope.showStdoutStderr = function() {
-      var data = { action: 'showStdoutStderr' };
-
-      Notebooks.sendToIFrame($scope.notebook.current['public-id'], data);
-      scrollToBottom();
     };
 
     $scope.saveAs = function() {

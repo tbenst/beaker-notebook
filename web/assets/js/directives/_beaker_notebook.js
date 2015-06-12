@@ -2,10 +2,8 @@
   angular.module("beakerNotebook", [])
     .directive('beakernotebook', [
       '$rootScope',
-      'BeakerNotebookService',
       'FullscreenState',
       function($rootScope,
-               BeakerNotebookService,
                FullscreenState) {
 
     return {
