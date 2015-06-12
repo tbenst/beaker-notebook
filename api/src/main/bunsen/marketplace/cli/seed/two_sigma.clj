@@ -68,8 +68,8 @@
 (defn source-page-url
   "Constructs the full url for a source dataset page from base and params"
   [base page-number since]
-  (str base (http/generate-query-string
-              {"page" page-number "since" since})))
+  (str base "?" (http/generate-query-string
+                  {"page" page-number "since" since})))
 
 (defn bulk-index!
   [es-conn index-name mapping-type {:keys [more datasets] :as result}]
