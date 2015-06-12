@@ -6,7 +6,7 @@
 (def root-path "0.")
 
 (defn metadata-for-root []
-  (es/json-resource "two_sigma/category_metadata.json"))
+  (es/json-resource "marketplace/two_sigma/category_metadata.json"))
 
 (def metadata-memo (memoize metadata-for-root))
 
