@@ -155,10 +155,11 @@
       },
 
       destroy: function(notebookId) {
-        return Factories.Notebooks.destroy(notebookId).then(function(notebook) {
-          closeIfOpen(notebookId);
-          $rootScope.$broadcast('notebookDeleted', notebookId);
-          return notebook;
+        return Factories.Notebooks.destroy(notebookId).then(function() {
+          if (notebookId == bkSessionManager.getSessionId()) {
+            bkSessionManager.close();
+          }
+          return $rootScope.$broadcast('notebookDeleted', notebookId);
         }.bind(this));
       }
     }

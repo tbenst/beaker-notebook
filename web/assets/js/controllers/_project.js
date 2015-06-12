@@ -87,8 +87,7 @@
     };
 
     $scope.deleteNotebook = function(notebook) {
-      (notebook.open ? Notebooks.closeNotebook(notebook['public-id']) : resolvedPromise())
-      .then(function() { return Notebooks.destroy(notebook['public-id']); })
+      return Notebooks.destroy(notebook['public-id'])
       .then(function() { $scope.project.notebooks = _.reject($scope.project.notebooks, notebook); })
       .catch(function(response) {
         alert(response.data);
