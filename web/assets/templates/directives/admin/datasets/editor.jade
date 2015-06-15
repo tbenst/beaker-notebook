@@ -7,31 +7,41 @@ form.dataset-edit(name="datasetEditForm")
     select(ng-if="creating" ng-model="tmpCatalog" ng-change="setNewCatalog(tmpCatalog, dataset)")
       option(disabled selected="selected") Select a catalog
       option(ng-repeat="catalog in catalogs" ng-value="catalog.index") {{catalog.name}}
-    label Description
-    textarea(ng-model="dataset.description", placeholder="Enter a description")
-    .dataset-vendor
+    .dataset-description(ng-if="datasetHas('description')")
+      label Description
+      textarea(ng-model="dataset.description", placeholder="Enter a description")
+    .dataset-vendor(ng-if="datasetHas('vendor')")
       label Vendor
       input.dataset-vendor-field(placeholder="vendor"
             ng-model="vendorName"
             typeahead-on-select="updateVendor($item)"
             typeahead="vendor['public-id'] as vendor.name for vendor in vendors | filter:$viewValue"
             typeahead-min-length=3)
-    .dataset-format
+    .dataset-format(ng-if="datasetHas('format')")
       label Format
       input.dataset-format-field(placeholder="format"
             ng-model="dataset.format"
             typeahead="format for format in formats | filter:$viewValue"
             typeahead-min-length=1)
-    label Release Date
-    input(type="date" placeholder="released" ng-model="dataset.releaseDate")
-    label Start Date
-    input(type="date" placeholder="start date" ng-model="dataset.startDate")
-    label Update Frequency
-    input(placeholder="Update Frequency" ng-model="dataset.updateFrequency")
-    .dataset-tags
+    .dataset-release-date(ng-if="datasetHas('releaseDate')")
+      label Release Date
+      input(type="date" placeholder="released" ng-model="dataset.releaseDate")
+    .dataset-start-date(ng-if="datasetHas('startDate')")
+      label Start Date
+      input(type="date" placeholder="start date" ng-model="dataset.startDate")
+    .dataset-created-at(ng-if="datasetHas('createdAt')")
+      label Created At
+      input(type="date" placeholder="Created At" ng-model="dataset.createdAt")
+    .dataset-last-updated(ng-if="datasetHas('lastUpdated')")
+      label Last Updated
+      input(type="date" placeholder="Last Updated" ng-model="dataset.lastUpdated")
+    .dataset-meta-data-changed(ng-if="datasetHas('metaDataChanged')")
+      label Meta Data Changed
+      input(type="date" placeholder="Meta Data Changed" ng-model="dataset.metaDataChanged")
+    .dataset-tags(ng-if="datasetHas('tags')")
       label Tags
       tags(dataset-tags="dataset.tags")
-    .dataset-category
+    .dataset-category(ng-if="datasetHas('categories')")
       label Category
       input.dataset-category-field(placeholder="Category"
             ng-model="dataset.categories[0].name"
@@ -40,15 +50,28 @@ form.dataset-edit(name="datasetEditForm")
             typeahead-on-select="onSelect($item)"
             typeahead-editable="false"
             required)
-    label Remote File Location
-    input(placeholder="Location" ng-model="dataset.remoteFile")
+    .dataset-remote-file-location(ng-if="datasetHas('remoteFile')")
+      label Remote File Location
+      input(placeholder="Location" ng-model="dataset.remoteFile")
   .col-half
-    h4 Previews
-    ul
-      li(ng-repeat="preview in dataset.dataPreviews")
-        img(ng-if="preview.smallPreviewUrl" ng-src="{{preview.smallPreviewUrl}}")
-    label Table preview entry
-    textarea(disabled placeholder="Table preview entry") {{dataset['table-preview']}}
+    .dataset-business-owner(ng-if="datasetHas('businessOwner')")
+      label Business Owner
+      input(placeholder="Business Owner" ng-model="dataset.businessOwner")
+    .dataset-public(ng-if="datasetHas('public')")
+      label Public
+      label
+        input(type="radio" ng-model="dataset.public" ng-value="true")
+        | True
+      label
+        input(type="radio" ng-model="dataset.public" ng-value="false")
+        | False
+    .dataset-previews(ng-if="datasetHas('dataPreviews')")
+      h4 Previews
+      ul
+        li(ng-repeat="preview in dataset.dataPreviews")
+          img(ng-if="preview.smallPreviewUrl" ng-src="{{preview.smallPreviewUrl}}")
+      label Table preview entry
+      textarea(disabled placeholder="Table preview entry") {{dataset['table-preview']}}
     .btn-group
       .btn.submit-dataset-edit.alt(ng-click="onEdit(dataset)" ) {{creating ? 'Create' : 'Update'}}
       .btn.delete-dataset(ng-click="deleteEntity(dataset)" ng-if="!creating") Delete

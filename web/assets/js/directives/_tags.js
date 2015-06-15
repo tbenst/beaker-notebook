@@ -10,8 +10,6 @@
         },
         template: templates['directives/tag_display'],
         controller: ['$scope', function($scope) {
-          $scope.datasetTags = $scope.datasetTags || [];
-
           function getTags() {
             Factories.Tags.getTags()
             .then(function(tags) {
@@ -20,6 +18,8 @@
           }
 
           $scope.add = function() {
+            $scope.datasetTags = $scope.datasetTags || [];
+
             if (_.indexOf($scope.datasetTags, $scope.newTag) !== -1 || !$scope.newTag) {return;}
             $scope.datasetTags.push($scope.newTag);
             $scope.newTag = '';

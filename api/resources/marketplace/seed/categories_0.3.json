@@ -1,0 +1,53 @@
+[
+  {
+    "id": 2,
+    "name": "Two Sigma",
+    "path": "0.3",
+    "metadata": {
+      "title": {
+        "type":"string",
+        "indexes": [
+          "text"
+        ]
+      },
+      "vendor": {
+        "type": "string" ,
+        "indexes": [
+          "filter"
+        ]
+      },
+      "description": {
+        "type": "string",
+        "indexes": [
+          "text"
+        ]
+      },
+      "remoteFile": {
+        "type": "string"
+      },
+      "lastUpdated": {
+        "type": "date"
+      },
+      "createdAt": {
+        "type": "date"
+      },
+      "businessOwner": {
+        "type": "string",
+        "indexes": [
+          "filter"
+        ]
+      },
+      "metaDataChanged": {
+        "type": "date"
+      },
+      "public": {
+        "type": "boolean"
+      }
+    }
+  },
+  {
+    "id": 3000,
+    "name": "Demography",
+    "path": "0.3.1"
+  }
+]

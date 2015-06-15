@@ -8,6 +8,33 @@
       MarketplaceRestangular,
       Factories) {
 
+      var defaultMeta = [
+        'title',
+        'description',
+        'vendor',
+        'format',
+        'releaseDate',
+        'startDate',
+        'updateFrequency',
+        'tags',
+        'categories',
+        'remoteFile',
+        'dataPreviews'
+      ];
+
+      var twoSigmaMeta = [
+        'title',
+        'categories',
+        'vendor',
+        'description',
+        'remoteFile',
+        'lastUpdated',
+        'createdAt',
+        'businessOwner',
+        'metaDataChanged',
+        'public'
+      ];
+
       return {
         restrict: 'E',
         template: templates['directives/admin/datasets/editor'],
@@ -53,6 +80,16 @@
             $scope.vendors = vendors.data;
           });
 
+          $scope.datasetHas = function(attr) {
+            var meta = defaultMeta;
+
+            if ($scope.dataset && $scope.dataset.catalog && $scope.dataset.catalog.name == "Two Sigma") {
+              meta = twoSigmaMeta;
+            }
+
+            return _.contains(meta, attr);
+          };
+
           $scope.updateVendor = function(vendor) {
             $scope.dataset.vendor = vendor['public-id'];
             $scope.vendorName = vendor.name;
@@ -83,6 +120,7 @@
 
           $scope.setNewCatalog = function(val, dataset) {
             dataset.index = val;
+            dataset.catalog = _.find($scope.catalogs, { index: val });
             delete dataset.categories;
           };
 

@@ -2,6 +2,9 @@
   "mappings": {
     "datasets": {
       "properties": {
+        "id": {
+          "type": "string"
+        },
         "title": {
           "type": "multi_field",
           "fields": {
@@ -32,7 +35,7 @@
             "path": {
               "type": "string",
               "index": "not_analyzed"
-            }
+            },
             "count": {
               "type": "integer"
             }

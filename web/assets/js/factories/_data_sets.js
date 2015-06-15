@@ -28,11 +28,24 @@
     return query;
   }
 
+  function formatDate(set, attr) {
+    if (set[attr]) {
+      set[attr] = moment(set[attr]).format('YYYY-MM-DD');
+    }
+  }
+
   function formatDataset(set) {
-    return _.extend(set, {
-      startDate: moment(set.startDate).format('YYYY-MM-DD'),
-      releaseDate: moment(set.releaseDate).format('YYYY-MM-DD')
-    });
+    var dateAttrs = [
+      'startDate',
+      'releaseDate',
+      'lastUpdated',
+      'createdAt',
+      'metaDataChanged'
+    ];
+
+    _.each(dateAttrs, _.partial(formatDate, set));
+
+    return set;
   }
 
   app.factory('DataSetsFactory', [
