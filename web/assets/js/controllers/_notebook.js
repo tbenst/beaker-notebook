@@ -127,9 +127,11 @@
         } else {
           Beaker.whenReady().then(function(result) {
             if (result === 'timeout') {
-              return $scope.warning = 'Beaker has timed out.  Please refresh to try again.';
+              $scope.warning = 'Beaker has timed out.  Please refresh to try again.';
+              return;
             } else if (result === 'error') {
-              return $scope.warning = 'An Error has occurred';
+              $scope.warning = 'An Error has occurred';
+              return;
             }
             TrackingService.mark('NotebookLoaded');
             TrackingService.measure('BaselineUnprovisionedNotebookLoad', 'LoadUnprovisionedNotebook', 'NotebookLoaded');
