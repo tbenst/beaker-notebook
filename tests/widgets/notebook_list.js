@@ -9,7 +9,7 @@ module.exports = function() {
     projectSelectorNames: 'a.project',
 
     clickByName: function(name) {
-      return this.click({ text: name });
+      return this.click({text: name});
     },
 
     findNotebook: function(name) {
@@ -36,7 +36,7 @@ module.exports = function() {
       var _this = this;
       return this.findNotebook(name)
       .then(function(item) {
-        return item.hover({ selector: '.bunsen-dropdown-toggle' })
+        return item.hover({selector: '.bunsen-dropdown-toggle'})
         .then(function() {
           return item.find('.rename')
           .then(function(el) {
@@ -59,7 +59,7 @@ module.exports = function() {
       var _this = this;
       return this.findNotebook(name)
       .then(function(item) {
-        return item.hover({ selector: '.bunsen-dropdown-toggle' })
+        return item.hover({selector: '.bunsen-dropdown-toggle'})
         .then(function() {
           return item.find('.destroy')
           .then(function(el) {
@@ -74,31 +74,31 @@ module.exports = function() {
 
     rename: function(newName) {
       var renameModal = new World.Widgets.Modal;
-      return renameModal.fill({ selector: 'input.name', value: newName })
+      return renameModal.fill({selector: 'input.name', value: newName})
       .then(function() {
         return renameModal.submit();
       });
     },
 
     getProjectNames: function(item) {
-      return this.invoke({ method: 'read', arguments: [this.projectSelectorNames] });
+      return this.invoke({method: 'read', arguments: [this.projectSelectorNames]});
     },
 
     getNames: function() {
-      return this.invoke({ method: 'read', arguments: [{ selector: 'h2 a' }] });
+      return this.invoke({method: 'read', arguments: [{selector: 'h2 a'}]});
     },
 
     move: function(notebook, project) {
       return this.findNotebook(notebook).then(function(item) {
-        return item.hover({ selector: '.bunsen-dropdown-toggle' })
-        .then(function(dropdown){
+        return item.hover({selector: '.bunsen-dropdown-toggle'})
+        .then(function(dropdown) {
           return dropdown.hover('.move');
         })
         .then(function(menuItem) {
           return menuItem.hover({selector: '.project'});
         })
         .then(function(p) {
-          return p.click({ text: project });
+          return p.click({text: project});
         });
       });
     },

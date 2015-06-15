@@ -82,7 +82,7 @@
       };
 
       var notebookNameTaken = function() {
-        return !!_.find($scope.notebooks.list, { name: $scope.saveAsName, projectId: $scope.notebook.current.projectId });
+        return !!_.find($scope.notebooks.list, {name: $scope.saveAsName, projectId: $scope.notebook.current.projectId});
       };
 
       var scrollToBottom = function() {
@@ -107,7 +107,7 @@
       }
 
       function openNotebook(notebook) {
-        if (notebook.unavailable) return $state.go('projects.items.item',{id: notebook.projectId});
+        if (notebook.unavailable) return $state.go('projects.items.item', {id: notebook.projectId});
         Notebooks.update({id: notebook['public-id'], open: true});
         $scope.notebook = {current: notebook};
       }
@@ -116,8 +116,7 @@
         openNotebook(notebook);
         if (notebook['public-id'] == bkSessionManager.getSessionId()) {
           $scope.isExistingSession = true;
-        }
-        else {
+        } else {
           Beaker.whenReady().then(function(result) {
             if (result === 'timeout') {
               return $scope.warning = 'Beaker has timed out.  Please refresh to try again.';
@@ -146,7 +145,7 @@
       };
 
       $scope.showStdoutStderr = function() {
-        var data = { action: 'showStdoutStderr' };
+        var data = {action: 'showStdoutStderr'};
 
         Notebooks.sendToIFrame($scope.notebook.current['public-id'], data);
         scrollToBottom();
@@ -185,7 +184,7 @@
       };
 
       $scope.openPublishModal = function() {
-        $scope.$emit('openModal', $compile(templates.publish_notebook_modal())($scope), { width: '400px' });
+        $scope.$emit('openModal', $compile(templates.publish_notebook_modal())($scope), {width: '400px'});
       };
 
       FullscreenState.toggleFullscreen(UserPreferences.get('fullscreenView'));

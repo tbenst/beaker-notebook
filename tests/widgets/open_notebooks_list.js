@@ -6,7 +6,7 @@ module.exports = function() {
     itemSelector: '.open-notebook',
 
     getNames: function() {
-      return this.invoke({ method: 'read', arguments: ['a'] });
+      return this.invoke({method: 'read', arguments: ['a']});
     },
 
     closeNotebook: function(notebookName) {
@@ -18,7 +18,7 @@ module.exports = function() {
       .then(function(filtered) {
         var item = filtered[0];
 
-        return item.addClass({ className: 'active', selector: '.close-notebook' })
+        return item.addClass({className: 'active', selector: '.close-notebook'})
         .then(function() {
           return item.click('.close-notebook');
         });
@@ -31,4 +31,3 @@ module.exports = function() {
 
   });
 };
-
