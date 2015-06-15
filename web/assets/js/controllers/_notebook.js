@@ -94,9 +94,13 @@
       };
 
       function broadcastNotebookReady() {
+        // jscs: disable requireCamelCaseOrUpperCaseIdentifiers
         var baseRest = NotebookRestangular.one('notebooks', $state.params.notebook_id);
+        // jscs: enable
         $rootScope.$broadcast('notebookReadyToRender', {
+          // jscs: disable requireCamelCaseOrUpperCaseIdentifiers
           beakerSessionId: $state.params.notebook_id,
+          // jscs: enable
           beakerNotebook: {
             uri: 'ajax:' +
               baseRest.all('contents').getRestangularUrl() + ':' +
@@ -112,7 +116,9 @@
         $scope.notebook = {current: notebook};
       }
 
+      // jscs: disable requireCamelCaseOrUpperCaseIdentifiers
       F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
+      // jscs: enable
         openNotebook(notebook);
         if (notebook['public-id'] == bkSessionManager.getSessionId()) {
           $scope.isExistingSession = true;
@@ -130,7 +136,9 @@
             TrackingService.measure('BaselineProvisionedNotebookCreate', 'CreateProvisionedNotebook', 'NotebookLoaded');
 
             return bkSession.getSessions().then(function(sessions) {
+              // jscs: disable requireCamelCaseOrUpperCaseIdentifiers
               $scope.isExistingSession = sessions[$state.params.notebook_id] !== void(0);
+              // jscs: enable
               broadcastNotebookReady();
             });
           });
@@ -153,7 +161,9 @@
 
       $scope.saveAs = function() {
         $scope.saveAsName = $scope.notebook.current.name + ' 2';
+        // jscs: disable requireCamelCaseOrUpperCaseIdentifiers
         $scope.$emit('openModal', $compile(templates.save_as_modal())($scope));
+        // jscs: enable
       };
 
       $scope.checkSaveAs = function() {
@@ -184,7 +194,9 @@
       };
 
       $scope.openPublishModal = function() {
+        // jscs: disable requireCamelCaseOrUpperCaseIdentifiers
         $scope.$emit('openModal', $compile(templates.publish_notebook_modal())($scope), {width: '400px'});
+        // jscs: enable
       };
 
       FullscreenState.toggleFullscreen(UserPreferences.get('fullscreenView'));

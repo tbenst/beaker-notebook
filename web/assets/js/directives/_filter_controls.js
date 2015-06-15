@@ -1,10 +1,11 @@
-// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 ;(function(angular) {
   angular.module('filterMarketPlace', [])
   .directive('multiFilter', function() {
     return {
       restrict: 'E',
+      // jscs: disable requireCamelCaseOrUpperCaseIdentifiers
       template: templates.multi_select,
+      // jscs: enable
       scope: {
         filterScope: '=',
         collection: '='

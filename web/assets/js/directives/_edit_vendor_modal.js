@@ -1,4 +1,3 @@
-// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 ;(function(angular, app) {
   app.directive('editVendorModal', [
     '$compile',
@@ -14,7 +13,9 @@
         element.on('click', function() {
           $scope.$apply(function() {
             $scope.vendorName = $scope.vendor.name;
+            // jscs: disable requireCamelCaseOrUpperCaseIdentifiers
             $scope.$emit('openModal', $compile(templates.edit_vendor())($scope));
+            // jscs: enable
           });
         });
 
