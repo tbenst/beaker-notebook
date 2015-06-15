@@ -1,7 +1,9 @@
 ;(function(angular, app) {
   app.directive('signIn', function() {
     return {
-      scope: {},
+      scope: {
+        role: '='
+      },
       restrict: "E",
       template: templates['auth/sign_in'],
       controller: 'authentication'

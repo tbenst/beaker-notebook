@@ -5,13 +5,9 @@
     ul.header-actions-list.right.auth-controls
       li(ng-show='$session.user')
         span.signed-in Hi, {{$session.user.name}}
-      li
-        span.dropdown-toggle.settings
-          .dropdown-wrapper.settings-dropdown
-            ul.dropdown(ng-show='$session.user')
-              li
-                a.edit-info(ui-sref="userEdit") Edit Information
-              li
-                a.help(ui-sref="help.main.home" target="_blank") Help
-              li
-                a.sign-out(ui-sref="signOut") Sign out
+      li(ng-show='$session.user')
+        a.sign-out(ui-sref="signOut") Sign out
+      li(ng-show='!$session.user')
+        a.sign-in(ui-sref="signIn") Sign in
+      li(ng-show='!$session.user')
+        a.sign-up(ui-sref="signUp") Sign up
