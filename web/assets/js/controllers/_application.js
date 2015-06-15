@@ -26,7 +26,7 @@
       $rootScope.$session = $sessionStorage;
 
       $scope.showingNotebook = function() {
-        return $state.is("projects.items.item.notebook");
+        return $state.is('projects.items.item.notebook');
       }
 
       $scope.$state = $state;

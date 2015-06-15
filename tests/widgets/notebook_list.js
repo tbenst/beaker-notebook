@@ -40,7 +40,7 @@ module.exports = function() {
         .then(function() {
           return item.find('.rename')
           .then(function(el) {
-            return _this.driver.executeScript("arguments[0].scrollIntoView(true);", el)
+            return _this.driver.executeScript('arguments[0].scrollIntoView(true);', el)
             .then(function() {
               return el.click();
             });
@@ -63,7 +63,7 @@ module.exports = function() {
         .then(function() {
           return item.find('.destroy')
           .then(function(el) {
-            return _this.driver.executeScript("arguments[0].scrollIntoView(true);", el)
+            return _this.driver.executeScript('arguments[0].scrollIntoView(true);', el)
             .then(function() {
               return el.click();
             });
@@ -74,7 +74,7 @@ module.exports = function() {
 
     rename: function(newName) {
       var renameModal = new World.Widgets.Modal;
-      return renameModal.fill({ selector: "input.name", value: newName })
+      return renameModal.fill({ selector: 'input.name', value: newName })
       .then(function() {
         return renameModal.submit();
       });

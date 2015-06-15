@@ -51,7 +51,7 @@
 
       $scope.menu = false;
 
-      $scope.warning = "";
+      $scope.warning = '';
 
       $scope.getLoadingMessage = function() {
         return bkHelper.getSessionId() ? bkHelper.getStatus() : null;
@@ -95,11 +95,11 @@
 
       function broadcastNotebookReady() {
         var baseRest = NotebookRestangular.one('notebooks', $state.params.notebook_id);
-        $rootScope.$broadcast("notebookReadyToRender", {
+        $rootScope.$broadcast('notebookReadyToRender', {
           beakerSessionId: $state.params.notebook_id,
           beakerNotebook: {
-            uri: "ajax:" +
-              baseRest.all('contents').getRestangularUrl() + ":" +
+            uri: 'ajax:' +
+              baseRest.all('contents').getRestangularUrl() + ':' +
               baseRest.getRestangularUrl()
           },
           openFromUri: !$scope.isExistingSession

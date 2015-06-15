@@ -3,11 +3,11 @@ module.exports = function() {
     root: '.app-header',
 
     getCurrentUserName: function() {
-      return this.read(".signed-in");
+      return this.read('.signed-in');
     },
 
     ensureSignedIn: function() {
-      return this.find(".signed-in");
+      return this.find('.signed-in');
     },
 
     signOut: function() {

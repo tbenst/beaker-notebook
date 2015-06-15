@@ -11,7 +11,7 @@ module.exports = function() {
 
     closeNotebook: function(notebookName) {
       return this.filter(function(notebook) {
-        return notebook.read("a").then(function(text) {
+        return notebook.read('a').then(function(text) {
           return text === notebookName;
         });
       })
