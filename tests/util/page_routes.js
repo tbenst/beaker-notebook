@@ -7,10 +7,11 @@ module.exports = function() {
   this.route = {
     home: base,
     signIn: base+"#/sign_in",
+    beakerSignIn: base+"publications.html#/sign_in",
     market: base+"#/market_place",
     subscriptions: base+"#/subscriptions",
     publications: base+"#/publications",
-    beakerPublications: base+"/publications.html#/publications",
+    beakerPublications: base+"publications.html#/publications",
     projectDashboard: base + "#/projects",
     userEdit: base + "#/user_edit",
     admin: base + "#/admin",

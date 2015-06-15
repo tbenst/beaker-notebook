@@ -6,13 +6,21 @@ module.exports = function() {
   var userData  = {
     "name": 'joe research',
     "email": 'u@r.edu',
-    "password": 'password'
+    "password": 'password',
+    "roles": ["bunsen"]
   };
 
   var userDetails  = {
     "job-title": 'Researcher',
     "company": 'Two Sigma',
     "bio": 'I got data all around me'
+  };
+
+  var beakerUser  = {
+    "name": 'Beaker user',
+    "email": 'beaker@r.edu',
+    "password": 'password',
+    "roles": ["beaker"]
   };
 
   var projectBase = {
@@ -39,16 +47,41 @@ module.exports = function() {
     });
   });
 
+  this.Given(/^I'm signed in as a Beaker user$/, function() {
+    var _this = this;
+    return u.signUp(userData)
+    .then(function() {
+      return _this.driver.get(_this.route.beakerSignIn).then(function() {
+        return new _this.Widgets.SignInForm().submitWith(_.pick(beakerUser, 'email', 'password'));
+      });
+    })
+    .then(function() {
+      return new _this.Widgets.AppHeader().ensureSignedIn();
+    });
+  });
+
   this.Given(/^I signed up as a researcher$/, function() {
     return u.signUp(userData);
+  });
+
+  this.Given(/^I signed up as a Beaker user$/, function() {
+    return u.signUp(beakerUser);
   });
 
   this.Given(/^I'm not signed in$/, function() {
     return this.driver.get(this.route.home);
   });
 
-  this.When(/^I go to the sign in page$/, function() {
+  this.When(/^I go to the( Bunsen)? sign in page$/, function() {
     return this.driver.get(this.route.signIn);
+  });
+
+  this.When(/^I go to the Beaker sign in page$/, function() {
+    return new this.Widgets.AppHeader().signInToBeaker();
+  });
+
+  this.When(/^I go to the Beaker sign up page$/, function() {
+    return new this.Widgets.AppHeader().signUpToBeaker();
   });
 
   this.When(/^I go to the edit user page$/, function() {
@@ -66,6 +99,14 @@ module.exports = function() {
 
   this.When(/^I fill in the sign in form with:$/, function(table) {
     return new this.Widgets.SignInForm().submitWith(table.hashes()[0]);
+  });
+
+  this.When(/^I fill in the sign up form with:$/, function(table) {
+    return new this.Widgets.SignUpForm().submitWith(table.hashes()[0]);
+  });
+
+  this.Then(/^I should see the sign in error "([^"]*)"$/, function(err) {
+    return new this.Widgets.SignInMessage().getText().should.eventually.eql(err)
   });
 
   this.Then(/^I should see the header greeting "([^"]*)"$/, function(expected) {
