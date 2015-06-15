@@ -11,7 +11,6 @@
     'AuthService',
     'Factories',
     'LastViewed',
-    'BeakerNotebookService',
     function(
       $rootScope,
       $scope,
@@ -23,8 +22,7 @@
       $sessionStorage,
       AuthService,
       F,
-      LastViewed,
-      BeakerNotebookService) {
+      LastViewed) {
       $rootScope.$session = $sessionStorage;
 
       $scope.showingNotebook = function() {
