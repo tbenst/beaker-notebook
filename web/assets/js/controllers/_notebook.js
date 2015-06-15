@@ -1,4 +1,4 @@
-!(function(angular, app) {
+;(function(angular, app) {
   app.controller('notebook', [
     '$scope',
     '$rootScope',
