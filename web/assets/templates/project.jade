@@ -40,7 +40,7 @@
     a.btn.btn-light.update-project-top-btn(ng-show="editMode", ng-click="updateProject()") Save
 
     .right.project-menu
-      span.options.bunsen-dropdown-toggle
+      span.options.bunsen-dropdown-toggle(toggle-menu)
         .bunsen-dropdown-wrapper
           ul.bunsen-dropdown
             li(ng-hide="editMode")
@@ -81,7 +81,7 @@
             span.text-small.notebook-last-used  Last used on
               span.text-green.date {{notebook['updated-at'] | date: 'short'}}
             span.notebook-options
-              span.options.bunsen-dropdown-toggle
+              span.options.bunsen-dropdown-toggle(toggle-menu)
                 ul.bunsen-dropdown
                   li
                     a.rename(ng-click="renameNotebook(notebook)") Rename
@@ -100,4 +100,3 @@
           a.import.btn-light.btn Import
           input.visibility-hidden.import-notebook(type="file" ng-file-select="onFileSelect($files)" multiple)
           notice.error(message="importError")
-

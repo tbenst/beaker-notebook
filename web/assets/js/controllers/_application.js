@@ -78,7 +78,6 @@
       $scope.$on('$destroy', function() {
         stateListener();
       });
-
     }
   ]);
 })(window.bunsen);

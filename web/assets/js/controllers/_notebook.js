@@ -61,14 +61,6 @@
         return bkSessionManager.isNotebookModelEdited();
       };
 
-      $scope.showMenu = function() {
-        this.menu = true;
-      };
-
-      $scope.hideMenu = function() {
-        this.menu = false;
-      };
-
       $scope.otherOpenNotebooks = function(value, index) {
         return value.open && !$scope.isViewingNotebook(value['public-id']);
       };
