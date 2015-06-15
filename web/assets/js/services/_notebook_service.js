@@ -28,46 +28,6 @@
       }
     });
 
-    function getIFrame(notebookId) {
-      return document.getElementById('beaker-frame-' + notebookId);
-    }
-
-    function saveNotebook(data) {
-      var createNotebook = _.partial(Factories.Notebooks.createNotebook, data.projectId);
-      var saveFunction = data.operation == 'create' ?
-        createNotebook : Factories.Notebooks.update;
-      saveFunction(data.notebook).
-        then(function(notebook) {
-          $rootScope.$broadcast('window-message-notebook-'+data.operation, notebook);
-        }, function(response) {
-          $window.alert("Error attempting to " + data.operation + " notebook.");
-        });
-    };
-
-    function removeIFrame(frame) {
-      frame.parentNode.removeChild(frame);
-    }
-
-    function resizeIframe(frame, height) {
-      angular.element(frame).attr('height', height);
-    };
-
-    function receiveWindowMessage(e) {
-      if (new URL(e.origin).hostname !== $location.host()) {
-        throw "message received from unauthorized host " + e.origin.host;
-      }
-      if (e.data.operation == 'close') return removeIFrame(e.source.frameElement);
-      if (e.data.operation == 'resize') return resizeIframe(e.source.frameElement, e.data.height);
-      if (!e.data.notebook) return; // could be a message for a different purpose
-      saveNotebook(e.data);
-    }
-    $window.addEventListener('message', receiveWindowMessage, false);
-
-    var sendToIFrame = function(notebookId, payload) {
-      var uiUrl = $location.absUrl().split("#")[0];
-      getIFrame(notebookId).contentWindow.postMessage(payload, uiUrl);
-    }
-
     function leaveActiveSession() {
       var notebookId = bkSessionManager.getSessionId();
       bkSessionManager.close().then(function() {
@@ -90,8 +50,6 @@
     }
 
     return {
-      sendToIFrame: sendToIFrame,
-
       create: function(projectId, attrs) {
         return Factories.Notebooks.createNotebook(projectId, attrs)
           .then(function(notebook) {
@@ -99,15 +57,6 @@
           }, function(response) {
             $window.alert("Error attempting to create notebook.");
           });
-      },
-
-      save: function(notebookId, newName) {
-        var data = { action: 'save' };
-        if (newName) {
-          data.name = newName;
-        }
-
-        sendToIFrame(notebookId, data);
       },
 
       update: function(attrs) {
@@ -139,7 +88,6 @@
           bkSession.close(notebook['public-id']);
           return markNotebookClosed(notebook['public-id']);
         }
-
       },
 
       export: function(notebookId) {
@@ -155,10 +103,11 @@
       },
 
       destroy: function(notebookId) {
-        return Factories.Notebooks.destroy(notebookId).then(function(notebook) {
-          closeIfOpen(notebookId);
-          $rootScope.$broadcast('notebookDeleted', notebookId);
-          return notebook;
+        return Factories.Notebooks.destroy(notebookId).then(function() {
+          if (notebookId == bkSessionManager.getSessionId()) {
+            bkSessionManager.close();
+          }
+          return $rootScope.$broadcast('notebookDeleted', notebookId);
         }.bind(this));
       }
     }
