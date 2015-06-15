@@ -86,8 +86,8 @@
       };
 
       var scrollToBottom = function() {
-        var body = document.body,
-            html = document.documentElement;
+        var body = document.body;
+        var html = document.documentElement;
         var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
 
         window.scrollTo(window.pageXOffset, height);
