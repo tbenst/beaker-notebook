@@ -111,7 +111,9 @@
       }
 
       function openNotebook(notebook) {
-        if (notebook.unavailable) return $state.go('projects.items.item', {id: notebook.projectId});
+        if (notebook.unavailable) {
+          return $state.go('projects.items.item', {id: notebook.projectId});
+        }
         Notebooks.update({id: notebook['public-id'], open: true});
         $scope.notebook = {current: notebook};
       }
@@ -206,7 +208,9 @@
       });
 
       $scope.$watch('notebook.current', function(newVal) {
-        if (!newVal) return;
+        if (!newVal) {
+          return;
+        }
 
         $scope.published = !_.isEmpty($scope.notebook.current.publication);
       });
