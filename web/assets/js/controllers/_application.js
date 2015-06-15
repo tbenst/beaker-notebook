@@ -27,7 +27,7 @@
 
       $scope.showingNotebook = function() {
         return $state.is('projects.items.item.notebook');
-      }
+      };
 
       $scope.$state = $state;
       var stateListener = $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {

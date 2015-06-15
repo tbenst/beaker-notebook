@@ -15,9 +15,9 @@ module.exports = function() {
         .then(function(menu) {
           return menu.hover({selector: '.sign-out'})
             .then(function(item) {
-              return item.click('.sign-out')
-            })
-        })
+              return item.click('.sign-out');
+            });
+        });
     },
 
     editUserInfo: function() {

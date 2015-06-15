@@ -69,7 +69,7 @@ module.exports = function() {
             });
           });
         });
-      })
+      });
     },
 
     rename: function(newName) {
@@ -95,7 +95,7 @@ module.exports = function() {
           return dropdown.hover('.move');
         })
         .then(function(menuItem) {
-          return menuItem.hover({selector: '.project'})
+          return menuItem.hover({selector: '.project'});
         })
         .then(function(p) {
           return p.click({ text: project });
@@ -119,4 +119,4 @@ module.exports = function() {
       });
     }
   });
-}
+};

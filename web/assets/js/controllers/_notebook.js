@@ -55,7 +55,7 @@
 
       $scope.getLoadingMessage = function() {
         return bkHelper.getSessionId() ? bkHelper.getStatus() : null;
-      }
+      };
 
       $scope.edited = function() {
         return bkSessionManager.isNotebookModelEdited();
@@ -79,7 +79,7 @@
 
       $scope.beakerReady = function() {
         return Beaker.isReady() && $scope.isExistingSession !== void(0);
-      }
+      };
 
       var notebookNameTaken = function() {
         return !!_.find($scope.notebooks.list, { name: $scope.saveAsName, projectId: $scope.notebook.current.projectId });
@@ -170,7 +170,7 @@
 
       $scope.menuItems = function() {
         return NotebookMenuService.menuItems($scope);
-      }
+      };
 
       $scope.saveAsCancel = function() {
         $scope.$emit('closeModal');

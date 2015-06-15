@@ -16,7 +16,7 @@ module.exports = function() {
         });
       })
       .then(function(filtered) {
-        var item = filtered[0]
+        var item = filtered[0];
 
         return item.addClass({ className: 'active', selector: '.close-notebook' })
         .then(function() {
@@ -26,7 +26,7 @@ module.exports = function() {
     },
 
     activeNotebook: function() {
-      return this.read('.active')
+      return this.read('.active');
     }
 
   });
