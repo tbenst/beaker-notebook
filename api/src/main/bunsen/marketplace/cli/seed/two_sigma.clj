@@ -6,7 +6,7 @@
 (def root-path "0.")
 
 (defn metadata-for-root []
-  (es/json-resource "two_sigma/category_metadata.json"))
+  (es/json-resource "marketplace/two_sigma/category_metadata.json"))
 
 (def metadata-memo (memoize metadata-for-root))
 
@@ -68,8 +68,8 @@
 (defn source-page-url
   "Constructs the full url for a source dataset page from base and params"
   [base page-number since]
-  (str base (http/generate-query-string
-              {"page" page-number "since" since})))
+  (str base "?" (http/generate-query-string
+                  {"page" page-number "since" since})))
 
 (defn bulk-index!
   [es-conn index-name mapping-type {:keys [more datasets] :as result}]
