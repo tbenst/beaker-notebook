@@ -112,8 +112,8 @@ module.exports = function() {
 
     waitForBeaker: function() {
       return this.driver.wait(function() {
-        return new World.W({ root: 'iframe.beaker' }).isPresent();
-      }, 360000, 'iframe.beaker not found');
+        return new World.Widgets.BeakerNotebook().isPresent();
+      }, 360000, 'bk-notebook not found');
     },
 
     beakerNotebookCount: function() {

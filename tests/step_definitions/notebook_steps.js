@@ -237,7 +237,7 @@ module.exports = function() {
     var _this = this;
     notebook = new this.Widgets.Notebook();
     return notebook.waitForBeaker().then(function() {
-      return (new _this.Widgets.BeakerFrame()).insertCell();
+      return (new _this.Widgets.BeakerNotebook()).runInFirstCell("10");
     });
   });
 
@@ -291,7 +291,7 @@ module.exports = function() {
   });
 
   this.When(/^my notebook should remain open in the background$/, function() {
-    return new this.Widgets.BeakerFrame().isPresent().should.eventually.equal(true);
+    return new this.Widgets.BeakerNotebook().isPresent().should.eventually.equal(true);
   });
 
   this.Then(/^the "([^"]*)" notebook should be active$/, function(notebook) {
