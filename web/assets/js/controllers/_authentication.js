@@ -1,4 +1,4 @@
-!(function(app) {
+;(function(app) {
   app.controller('authentication', [
     '$rootScope',
     '$scope',
