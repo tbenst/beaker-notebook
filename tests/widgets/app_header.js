@@ -1,5 +1,5 @@
 module.exports = function() {
-  return this.Widgets.AppHeader = this.Widget.extend({
+  var appHeader = this.Widget.extend({
     root: '.app-header',
 
     getCurrentUserName: function() {
@@ -39,4 +39,6 @@ module.exports = function() {
       return this.click('.header-logo');
     },
   });
+  this.Widgets.AppHeader = appHeader;
+  return appHeader;
 };

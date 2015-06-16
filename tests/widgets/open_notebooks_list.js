@@ -1,7 +1,7 @@
 module.exports = function() {
   var World = this;
 
-  return this.Widgets.OpenNotebookList = this.Widget.List.extend({
+  var OpenNotebookList = this.Widget.List.extend({
     root: '.open-notebooks',
     itemSelector: '.open-notebook',
 
@@ -30,4 +30,6 @@ module.exports = function() {
     }
 
   });
+  this.Widgets.OpenNotebookList = OpenNotebookList;
+  return OpenNotebookList;
 };

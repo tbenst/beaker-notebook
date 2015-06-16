@@ -2,7 +2,7 @@ var $ = require('selenium-webdriver').promise;
 
 module.exports = function() {
   var World = this;
-  return this.Widgets.NotebookList = this.Widget.List.extend({
+  var NotebookList = this.Widget.List.extend({
     root: '.notebook-list',
     itemSelector: '.bunsen-list-item',
     otherProjectsDropdownSelector: '.project-selector',
@@ -119,4 +119,6 @@ module.exports = function() {
       });
     }
   });
+  this.Widgets.NotebookList = NotebookList;
+  return NotebookList;
 };
