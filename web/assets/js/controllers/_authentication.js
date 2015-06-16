@@ -60,9 +60,9 @@
           });
       };
 
-      $scope.signUp = function (isValid) {
+      $scope.signUp = function(isValid) {
         TrackingService.mark('SignUp');
-        if(isValid) {
+        if (isValid) {
           $scope.loading = true;
           $scope.user.roles = $scope.roles;
           UsersRestangular.all('users').post($scope.user)
@@ -70,7 +70,7 @@
             .then(createDefaultProject)
             .catch(function(err) {
               $scope.loading = false;
-              if(err.status === 409) {
+              if (err.status === 409) {
                 $scope.message = 'Error: Email is already registered';
               } else {
                 $scope.message = 'Error: Invalid user or password';
@@ -82,7 +82,7 @@
 
       };
 
-      $scope.sendEmail = function () {
+      $scope.sendEmail = function() {
         Restangular.all('forgot_password').post($scope.user)
           .then(function() {
             $scope.message = 'An email with further instruction has been sent';
