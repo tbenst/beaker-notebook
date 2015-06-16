@@ -36,7 +36,7 @@ module.exports = function() {
     },
 
     name: function() {
-      return this.read('.name');
+      return this.read('.name .name-text');
     },
 
     openRenameModal: function() {

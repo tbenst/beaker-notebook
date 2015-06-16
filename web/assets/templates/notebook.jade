@@ -34,7 +34,7 @@
           a.project(ui-sref="projects.items.item({id: notebook.current.project['public-id']})") {{notebook.current.project.name}}
           | /
           span.name(ng-class="otherOpenNotebooksExist() && 'bunsen-dropdown-toggle'", toggle-menu)
-            {{notebook.current.name}}
+            span.name-text {{notebook.current.name}}
             span(ng-if="edited()") *
             .down-arrow.glyphicon.glyphicon-chevron-down(ng-if="otherOpenNotebooksExist()")
             ul.bunsen-dropdown(ng-if="otherOpenNotebooksExist()")
