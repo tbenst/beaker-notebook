@@ -1,6 +1,6 @@
 module.exports = function() {
   return this.Widgets.BeakerNotebook = this.Widget.extend({
-    root: 'beakernotebook',
+    root: 'bk-notebook',
 
     runInFirstCell: function(code) {
       return this.find('bk-code-cell .CodeMirror').then(function(el) {
