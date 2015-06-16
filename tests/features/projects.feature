@@ -228,7 +228,7 @@ As a researcher, I want to manage my projects.
     And I close the notebook
     Then I should see project's last updated as today's date
 
-  @flaky @beaker
+  @flaky @broken
   Scenario: Recently Used Notebooks
     Given I have the following Projects:
       | name              | description                          | updated-at                      |
