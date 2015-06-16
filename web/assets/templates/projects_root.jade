@@ -15,7 +15,7 @@
             li.recently-used.bunsen-dropdown-toggle(ng-if="notebooks.list.length")
               a.sidebar-box-list-link.dropright-arrow Recently Used
               ul.bunsen-dropdown.dropright
-                li.recent-notebook(ng-repeat="notebook in notebooks.list | orderBy:'openedAt':true | limitTo:4")
+                li.recent-notebook(ng-repeat="notebook in notebooks.list | orderBy:-openedAt | limitTo:4")
                   a(ng-click="openNotebook(notebook)") {{notebook.name}}
 
     #app(ui-view="app")
