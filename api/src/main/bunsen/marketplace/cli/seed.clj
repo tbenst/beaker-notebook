@@ -28,7 +28,7 @@
                                         ["-e" "--elasticsearch-uri" "Elasticsearch URI"
                                          :default nil]
                                         ["-i" "--index-name" "Index name"
-                                         :default "catalag_0.1"]
+                                         :default "catalog_0.1"]
                                         ["-m" "--mappings" "Mapping type"
                                          :default "marketplace/seed/mappings.json"]
                                         ["-d" "--datasets" "Datasets file location"
