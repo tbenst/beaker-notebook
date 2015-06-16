@@ -57,6 +57,7 @@
 
 (defn merge-user [user extuser]
   (let [fields (get extuser :fields)
+        extfields (get extuser :extendedFields)
         name (get fields :person_name)
         email (get fields :person_email)]
-    (assoc (dissoc user :user/name :user/email) :user/extdata fields :user/name name :user/email email)))
+    (assoc (dissoc user :user/name :user/email) :user/extdata (merge fields extfields) :user/name name :user/email email)))

@@ -1,6 +1,7 @@
 (ns bunsen.provisioner.resource
   (:require [crypto.random :as random]
             [clojure.data.json :as json]
+            [clojure.string :as str]
             [liberator.core :refer [defresource]]
             [liberator.representation :refer [ring-response as-response]]
             [bunsen.provisioner.model.beaker :as b]
@@ -27,9 +28,13 @@
                             ;; FIXME: refactor to use middleware pattern
                             (-> (container/default container)
                                 (assoc :id id)
+				(assoc :user (if remote-user
+				       	      (first (str/split remote-user #"@"))
+					      (:default-user config)))
                                 (update-in [:env] merge {"BAMBOO_HOST" (:bamboo-host config)
                                                          "BAMBOO_PATH" (str "/beaker/" id "/")
                                                          "BEAKER_COOKIE" token
+							 "USE_SSL" "true"
                                                          "AUTHORIZED_USER" remote-user})
                                 (update-in [:volumes] conj {:mode "RW"
                                                             :host (str (:store-root config) "/" id)
