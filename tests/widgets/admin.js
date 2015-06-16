@@ -4,6 +4,10 @@ module.exports = function() {
 
     getHeader: function() {
       return this.read('h2');
-    }
+    },
+
+    goToVendors: function() {
+      return this.click('a.vendors');
+    },
   });
 };

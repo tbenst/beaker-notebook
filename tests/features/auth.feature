@@ -33,3 +33,29 @@ As a researcher, I need to provide my user identity.
     When I navigate to my projects
     Then I should see the sign in form
     And I shouldn't see navigation
+
+  Scenario: Beaker sign in
+    Given I signed up as a Beaker user
+    And I view the Beaker publications page
+    When I go to the Beaker sign in page
+    And I fill in the sign in form with:
+      | email         | password |
+      | beaker@r.edu  | password |
+    Then I should see the header greeting "Hi, Beaker user"
+
+  Scenario: Beaker sign up
+    When I view the Beaker publications page
+    And I go to the Beaker sign up page
+    And I fill in the sign up form with:
+      | name        | email         | password |
+      | Beaker user | beaker@r.edu  | password|
+    Then I should see the header greeting "Hi, Beaker user"
+
+  Scenario: Sign in to Bunsen with Beaker user
+    Given I signed up as a Beaker user
+    And I'm not signed in
+    When I go to the Bunsen sign in page
+    And I fill in the sign in form with:
+      | email         | password |
+      | beaker@r.edu  | password |
+    Then I should see the sign in error "Error: Invalid user or password"

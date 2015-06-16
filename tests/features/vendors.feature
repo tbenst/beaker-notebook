@@ -8,6 +8,7 @@ Feature: Vendor Panel
       | MojoTech   |
       | RC Cola    |
     And I'm signed in as an administrator
+    And I go to the admin page
     And I go to the vendors page
 
   Scenario: Creating a vendor

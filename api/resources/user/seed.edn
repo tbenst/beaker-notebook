@@ -7,7 +7,7 @@
   :user/job-title "Dr."
   :user/company "Mojotech"
   :user/bio "He was born."
-  :user/role 0}
+  :user/roles [:role/bunsen]}
 
  {:db/id #db/id[:db.part/user]
   :user/public-id #uuid "553686f0-4aac-4570-9023-7ebf539fb7e7"
@@ -16,7 +16,7 @@
   :user/password #bcrypt "password"
   :user/company "Mojotech"
   :user/bio "Quentin was only three years old when his father became president."
-  :user/role 0}
+  :user/roles [:role/bunsen]}
 
  {:db/id #db/id[:db.part/user]
   :user/public-id #uuid "554ba7d8-ad50-4ab9-b231-3dd339315c6d"
@@ -25,5 +25,5 @@
   :user/password #bcrypt "mountainpig"
   :user/company "Mojotech"
   :user/bio "Ω"
-  :user/role 1}
+  :user/roles [:role/bunsen :role/admin]}
  ]

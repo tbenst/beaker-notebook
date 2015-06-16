@@ -1,9 +1,9 @@
 (ns bunsen.notebook.resource.projects
   (:require [liberator.core :refer [defresource]]
             [bunsen.notebook.presenter.project :as p]
-            [bunsen.common.helper.resource :refer [defaults]]))
+            [bunsen.common.helper.resource :refer [bunsen-defaults]]))
 
-(defresource projects [_] defaults
+(defresource projects [_] bunsen-defaults
   :allowed-methods #{:post :get}
 
   :processable? (fn [{{db :db

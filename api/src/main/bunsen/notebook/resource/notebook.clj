@@ -8,7 +8,7 @@
       (assoc :contents (:data params))
       (dissoc :data)))
 
-(defresource notebook [_] resource/defaults
+(defresource notebook [_] resource/bunsen-defaults
   :allowed-methods [:get :put :delete]
   :conflict? (fn [{{db :db
                     params :params

@@ -8,7 +8,7 @@ module.exports = function() {
   });
 
   this.Given(/^I go to the vendors page$/, function() {
-    return this.driver.get(this.route.vendors);
+    return new this.Widgets.Admin().goToVendors();
   });
 
   this.When(/^I create the vendor "([^"]*)"$/, function(vendor) {

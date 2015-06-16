@@ -1,6 +1,6 @@
 div(ng-hide="isState(['forgotPassword'])")
-  sign-in(ng-class="{active: isState(['signIn'])}")
-  sign-up(ng-class="{active: isState(['signUp'])}")
+  sign-in(ng-class="{active: isState(['signIn'])}" role="'bunsen'")
+  sign-up(ng-class="{active: isState(['signUp'])}" roles="['bunsen']")
 forgot-password(ng-if="isState(['forgotPassword'])" ng-class="{active: isState(['forgotPassword'])}")
 .sub-action
   div(ng-show="isState(['signIn','forgotPassword'])")

@@ -3,7 +3,7 @@
             [bunsen.common.helper.resource :as resource]
             [bunsen.notebook.presenter.notebooks :as api]))
 
-(defresource notebook-contents [_] resource/defaults
+(defresource notebook-contents [_] resource/bunsen-defaults
   :allowed-methods [:get]
   :handle-ok (fn [{{db :db
                    {uid :id} :session

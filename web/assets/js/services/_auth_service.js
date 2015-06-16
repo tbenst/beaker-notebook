@@ -12,7 +12,7 @@
         setUserIfLoggedIn: function() {
           return Factories.Users.getCurrentUser()
           .then(function(user) {
-            $sessionStorage.user = _.pick(user, 'name', 'public-id', 'role', 'extdata');
+            $sessionStorage.user = _.pick(user, 'name', 'public-id', 'roles', 'extdata');
             $sessionStorage.user.id = $sessionStorage.user['public-id'];
             return $sessionStorage.user;
           });
@@ -23,7 +23,7 @@
           }
         },
         isUserAdmin: function() {
-          return _.has($sessionStorage.user, 'role') && $sessionStorage.user.role == 1;
+          return _.has($sessionStorage.user, 'roles') && _.contains($sessionStorage.user.roles, "admin");
         }
       };
     }]);
