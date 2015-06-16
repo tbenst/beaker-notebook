@@ -44,6 +44,9 @@ copy-beaker:
 	mkdir -p public/plugins/eval/ipythonPlugins/vendor/ipython3
 	cp bower_components/beaker-notebook/plugin/ipythonPlugins/src/dist/vendor/ipython3/*js  public/plugins/eval/ipythonPlugins/vendor/ipython3/
 
+	mkdir -p public/plugins/eval/ipythonPlugins/python3
+	cp bower_components/beaker-notebook/plugin/ipythonPlugins/src/dist/python3/*js  public/plugins/eval/ipythonPlugins/python3/
+
 	mkdir -p public/plugins/eval/ipythonPlugins/julia/
 	cp bower_components/beaker-notebook/plugin/ipythonPlugins/src/dist/julia/julia.js  public/plugins/eval/ipythonPlugins/julia/
 
