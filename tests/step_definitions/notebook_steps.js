@@ -100,7 +100,7 @@ module.exports = function() {
   this.Then(/^I should see the following open notebooks:$/, function(table, callback) {
     var expected = _.pluck(table.hashes(), 'name');
     return Promise.delay(10000).then(function() {
-      return (new this.Widgets.OpenNotebookList).getNames().then(function(names) {
+      return new this.Widgets.OpenNotebookList().getNames().then(function(names) {
         return assert.deepEqual(names, expected);
       });
     }.bind(this));
@@ -204,7 +204,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the error: "([^"]*)"$/, function(e) {
-    return (new this.Widgets.Error).getMessage().should.eventually.equal(e);
+    return new this.Widgets.Error().getMessage().should.eventually.equal(e);
   });
 
   this.When(/^I make a new notebook$/, function() {
@@ -272,7 +272,7 @@ module.exports = function() {
   });
 
   this.When(/^I search for notebook "([^"]*)"$/, function(searchText) {
-    var notebookSearch = new this.Widgets.ProjectSearch;
+    var notebookSearch = new this.Widgets.ProjectSearch();
     return notebookSearch.search(searchText);
   });
 

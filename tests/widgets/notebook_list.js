@@ -73,7 +73,7 @@ module.exports = function() {
     },
 
     rename: function(newName) {
-      var renameModal = new World.Widgets.Modal;
+      var renameModal = new World.Widgets.Modal();
       return renameModal.fill({selector: 'input.name', value: newName})
       .then(function() {
         return renameModal.submit();
