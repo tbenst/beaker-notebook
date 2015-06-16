@@ -36,15 +36,9 @@ module.exports = function() {
       var _this = this;
       return this.findNotebook(name)
       .then(function(item) {
-        return item.hover({selector: '.bunsen-dropdown-toggle'})
+        return item.click({selector: '.bunsen-dropdown-toggle'})
         .then(function() {
-          return item.find('.rename')
-          .then(function(el) {
-            return _this.driver.executeScript('arguments[0].scrollIntoView(true);', el)
-            .then(function() {
-              return el.click();
-            });
-          });
+          return item.click('.rename');
         });
       });
     },
@@ -59,15 +53,9 @@ module.exports = function() {
       var _this = this;
       return this.findNotebook(name)
       .then(function(item) {
-        return item.hover({selector: '.bunsen-dropdown-toggle'})
+        return item.click({selector: '.bunsen-dropdown-toggle'})
         .then(function() {
-          return item.find('.destroy')
-          .then(function(el) {
-            return _this.driver.executeScript('arguments[0].scrollIntoView(true);', el)
-            .then(function() {
-              return el.click();
-            });
-          });
+          return item.click('.destroy');
         });
       });
     },
@@ -90,9 +78,9 @@ module.exports = function() {
 
     move: function(notebook, project) {
       return this.findNotebook(notebook).then(function(item) {
-        return item.hover({selector: '.bunsen-dropdown-toggle'})
+        return item.click({selector: '.bunsen-dropdown-toggle'})
         .then(function(dropdown) {
-          return dropdown.hover('.move');
+          return item.hover('.move');
         })
         .then(function(menuItem) {
           return menuItem.hover({selector: '.project'});

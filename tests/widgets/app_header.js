@@ -11,20 +11,20 @@ module.exports = function() {
     },
 
     signOut: function() {
-      return this.hover({selector: '.bunsen-dropdown-toggle'})
-        .then(function(menu) {
-          return menu.hover({selector: '.sign-out'})
+      return this.click({selector: '.bunsen-dropdown-toggle'})
+        .then(function() {
+          return this.find({selector: '.sign-out'})
             .then(function(item) {
               return item.click('.sign-out');
             });
-        });
+        }.bind(this));
     },
 
     editUserInfo: function() {
-      return this.hover({selector: '.bunsen-dropdown-toggle'})
+      return this.click({selector: '.bunsen-dropdown-toggle'})
         .then(function(menu) {
-          return menu.click('.edit-info');
-        });
+          return this.click({text: 'Edit User Info'});
+        }.bind(this));
     },
 
     signInToBeaker: function() {
