@@ -38,7 +38,7 @@
       F.Notebooks[publishType]($scope.notebook.current.publication)
       .then(function(publication) {
         F.Notebooks.getNotebook($scope.notebook.current['public-id']).then(function(notebook) {
-          $scope.notebook.current = notebook;          
+          $scope.notebook.current = notebook;
           $scope.$emit('closeModal');
           TrackingService.mark('NotebookPublished');
           TrackingService.measure('BaselineNotebookPublishing', 'PublishNotebook', 'NotebookPublished');
@@ -51,9 +51,9 @@
     }
 
     $scope.savePublish = function() {
-      $scope.showButtons = false;
       $scope.save().then(function() {
         $scope.publish();
+        $scope.showButtons = $scope.error;
       });
     };
 
