@@ -88,7 +88,7 @@
             $scope.message = 'An email with further instruction has been sent';
           })
           .catch(function(err) {
-            $scope.message = "Error: " + err.data;
+            $scope.message = 'Error: ' + err.data;
           })
       };
 
@@ -100,10 +100,10 @@
               $scope.message = 'Your password has been updated'
             })
             .catch(function(err) {
-              $scope.message = "Error: " + err.data;
+              $scope.message = 'Error: ' + err.data;
             })
         } else {
-          $scope.message = "Error: The entered password is too short"
+          $scope.message = 'Error: The entered password is too short'
         }
       };
     }]
