@@ -24,12 +24,12 @@
       TrackingService,
       AuthService) {
 
-      $scope.message = ''
+      $scope.message = '';
       $scope.user = $scope.user || {};
 
       function signIn() {
         return AuthService.setUserIfLoggedIn().then(function(d) {
-          $scope.message = 'You are signed in.'
+          $scope.message = 'You are signed in.';
           $scope.loading = false;
           if ($rootScope.goTo) {
             $state.go($rootScope.goTo);
@@ -37,11 +37,11 @@
           } else {
             $state.go('projects.items');
           }
-        })
+        });
       }
 
       $scope.showPasswordValidationErrorMessage  = function(form) {
-        return form.password.$invalid && !form.password.$pristine
+        return form.password.$invalid && !form.password.$pristine;
       };
 
       function createDefaultProject() {
@@ -77,7 +77,7 @@
               }
             });
         } else {
-          $scope.message = 'Error: Please fill in form completely'
+          $scope.message = 'Error: Please fill in form completely';
         }
 
       };
@@ -89,21 +89,21 @@
           })
           .catch(function(err) {
             $scope.message = 'Error: ' + err.data;
-          })
+          });
       };
 
       $scope.submitPassword = function(isValid) {
         if (isValid) {
-          $scope.user.requestId = $stateParams.id
+          $scope.user.requestId = $stateParams.id;
           Restangular.all('change_password').post($scope.user)
             .then(function() {
-              $scope.message = 'Your password has been updated'
+              $scope.message = 'Your password has been updated';
             })
             .catch(function(err) {
               $scope.message = 'Error: ' + err.data;
-            })
+            });
         } else {
-          $scope.message = 'Error: The entered password is too short'
+          $scope.message = 'Error: The entered password is too short';
         }
       };
     }]
