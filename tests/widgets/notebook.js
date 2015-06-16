@@ -12,14 +12,14 @@ module.exports = function() {
 
     save: function() {
       return this.openOptions().then(function() {
-        return this.click('.save');
+        return this.click('.save-menuitem');
       }.bind(this));
     },
 
     saveAs: function(name) {
       var _this = this;
       return this.openOptions().then(function() {
-        return this.click('.save-as');
+        return this.click('.save-as-menuitem');
       }.bind(this))
       .then(function() {
         var modal = new World.Widgets.Modal();
@@ -31,7 +31,7 @@ module.exports = function() {
 
     close: function() {
       return this.openOptions().then(function() {
-        return this.click('.close-notebook');
+        return this.click('.close-menuitem');
       }.bind(this));
     },
 
@@ -41,7 +41,7 @@ module.exports = function() {
 
     openRenameModal: function() {
       return this.openOptions().then(function() {
-        return this.click('.rename');
+        return this.click('.rename-menuitem');
       }.bind(this));
     },
 
