@@ -1,3 +1,4 @@
+#= require "../../bower_components/performance-poly/performance.js"
 #= require "../../bower_components/angular-ui-router/release/angular-ui-router.js"
 #= require "../../bower_components/restangular/dist/restangular.js"
 #= require "../../bower_components/angular-tree-control/angular-tree-control.js"
@@ -14,3 +15,4 @@
 #= require "../../bower_components/angular-cookies/angular-cookies.js"
 #= require "../../bower_components/humanize/humanize.js"
 #= require "../../bower_components/angularjs-humanize/src/angular-humanize.js"
+#= require "../../bower_components/angular-gravatar/build/angular-gravatar.js"

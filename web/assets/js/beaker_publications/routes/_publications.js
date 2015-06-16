@@ -6,7 +6,7 @@
         views: {
           root: {
             controller: 'publicationsRoot',
-            template: templates['beaker_publications/publications_root']
+            template: templates['publications/publications_root']
           }
         }
       })
@@ -15,11 +15,11 @@
         views: {
           "app@publications": {
             controller: 'publicationsList',
-            template: templates['beaker_publications/publications_list']
+            template: templates['publications/publications_list']
           },
           "nav@publications": {
             controller: 'publicationsNav',
-            template: templates['beaker_publications/publications_nav']
+            template: templates['publications/publications_nav']
           },
         }
       })
@@ -28,7 +28,7 @@
         views: {
           "app@publications": {
             controller: 'publication',
-            template: templates['beaker_publications/publication']
+            template: templates['publications/publication']
           }
         }
       });
