@@ -1,26 +1,26 @@
-var assert  = require("assert"),
-    _       = require('lodash');
+var assert  = require('assert');
+var _ = require('lodash');
 module.exports = function() {
   var u = this.user;
 
   var userData  = {
-    "name": 'joe research',
-    "email": 'u@r.edu',
-    "password": 'password',
-    "roles": ["bunsen"]
+    'name': 'joe research',
+    'email': 'u@r.edu',
+    'password': 'password',
+    'roles': ['bunsen']
   };
 
   var userDetails  = {
-    "job-title": 'Researcher',
-    "company": 'Two Sigma',
-    "bio": 'I got data all around me'
+    'job-title': 'Researcher',
+    'company': 'Two Sigma',
+    'bio': 'I got data all around me'
   };
 
   var beakerUser  = {
-    "name": 'Beaker user',
-    "email": 'beaker@r.edu',
-    "password": 'password',
-    "roles": ["beaker"]
+    'name': 'Beaker user',
+    'email': 'beaker@r.edu',
+    'password': 'password',
+    'roles': ['beaker']
   };
 
   var projectBase = {
@@ -111,7 +111,7 @@ module.exports = function() {
 
   this.Then(/^I should see the header greeting "([^"]*)"$/, function(expected) {
     var appHeader = new this.Widgets.AppHeader();
-    return appHeader.getCurrentUserName().should.eventually.eql(expected)
+    return appHeader.getCurrentUserName().should.eventually.eql(expected);
   });
 
   this.When(/^I click the sign out link$/, function() {
@@ -125,7 +125,7 @@ module.exports = function() {
   });
 
   this.Then(/^I should see the sign in form$/, function() {
-    var signInForm = new this.Widgets.SignInForm()
+    var signInForm = new this.Widgets.SignInForm();
     return signInForm.isPresent().should.eventually.equal(true);
   });
 

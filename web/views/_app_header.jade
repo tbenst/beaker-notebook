@@ -6,7 +6,7 @@
       li(ng-show='$session.user')
         span.signed-in Hi, {{$session.user.name}}
       li
-        span.bunsen-dropdown-toggle.settings
+        span.bunsen-dropdown-toggle.settings(toggle-menu)
           .bunsen-dropdown-wrapper.settings-dropdown
 
             ul.bunsen-dropdown(ng-show='$session.user')

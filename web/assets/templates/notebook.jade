@@ -3,7 +3,7 @@
     .publishing.sidebar-box.light
       h3
         | Publishing
-        span.options.bunsen-dropdown-toggle.light.right
+        span.options.bunsen-dropdown-toggle.light.right(toggle-menu)
           ul.bunsen-dropdown.drop-bottom-left
             li(ng-if="!published")
               a.publish(ng-click="openPublishModal()") Publish notebook
@@ -26,8 +26,8 @@
   .two-sidebars
     .main-content
       .title-bar(sticky)
-        span.options.bunsen-dropdown-toggle.right.expanded.beaker-sandbox(ng-mouseover="showMenu()" ng-mouseleave="hideMenu()")
-            bk-dropdown-menu.bunsen-dropdown.drop-bottom-left(ng-if="menu", menu-items="menuItems()")
+        span.options.bunsen-dropdown-toggle.right.beaker-sandbox(toggle-menu)
+            bk-dropdown-menu.bunsen-dropdown.drop-bottom-left(menu-items="menuItems()")
 
         h2
           fullscreen-toggle

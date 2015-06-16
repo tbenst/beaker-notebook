@@ -1,24 +1,24 @@
 module.exports = function() {
   var World = this;
 
-  return this.Widgets.OpenNotebookList = this.Widget.List.extend({
+  var OpenNotebookList = this.Widget.List.extend({
     root: '.open-notebooks',
     itemSelector: '.open-notebook',
 
     getNames: function() {
-      return this.invoke({ method: 'read', arguments: ['a'] });
+      return this.invoke({method: 'read', arguments: ['a']});
     },
 
     closeNotebook: function(notebookName) {
       return this.filter(function(notebook) {
-        return notebook.read("a").then(function(text) {
+        return notebook.read('a').then(function(text) {
           return text === notebookName;
         });
       })
       .then(function(filtered) {
-        var item = filtered[0]
+        var item = filtered[0];
 
-        return item.addClass({ className: 'active', selector: '.close-notebook' })
+        return item.addClass({className: 'active', selector: '.close-notebook'})
         .then(function() {
           return item.click('.close-notebook');
         });
@@ -26,9 +26,10 @@ module.exports = function() {
     },
 
     activeNotebook: function() {
-      return this.read('.active')
+      return this.read('.active');
     }
 
   });
+  this.Widgets.OpenNotebookList = OpenNotebookList;
+  return OpenNotebookList;
 };
-

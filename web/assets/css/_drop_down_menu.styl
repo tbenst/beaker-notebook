@@ -13,8 +13,8 @@
     &.drop-bottom-left
       left auto
       right 0
-  &:hover, &.expanded
-    > .bunsen-dropdown, > .bunsen-dropdown-wrapper
+  &.expanded, &.active
+    > .bunsen-dropdown, > .bunsen-dropdown-wrapper, .bunsen-dropdown-toggle:hover .bunsen-dropdown-wrapper
       display block
 
 .options
@@ -24,12 +24,12 @@
   display inline-block
   height 30px
   width 30px
-  &:hover
+  &:hover, &.active
     background-color action-blue
     background-image url(unquote('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAANCAQAAADGKxxEAAAAFElEQVQYV2P4DwYMaBQYwinylAAAtj9Bv2dIo9IAAAAASUVORK5CYII='))
   &.light
     background-image url(unquote('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAANCAQAAADGKxxEAAAAFElEQVQYV2P4DwYMaBQYwinylAAAtj9Bv2dIo9IAAAAASUVORK5CYII='))
-    &:hover
+    &:hover, &.active
       background-color transparent
 
 .bunsen-dropdown-toggle .settings-dropdown
@@ -44,10 +44,10 @@
   display inline-block
   background url("../images/header/icon-settings.png") no-repeat center
   background-size 15px
-  &:hover
+  &:hover, &.active
     background-color action-blue
   &.light
-    &:hover
+    &:hover, &.active
       background-color transparent
 
 .bunsen-dropdown, .bunsen-dropdown-menu, .dropdown-menu

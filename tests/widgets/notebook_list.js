@@ -2,14 +2,14 @@ var $ = require('selenium-webdriver').promise;
 
 module.exports = function() {
   var World = this;
-  return this.Widgets.NotebookList = this.Widget.List.extend({
+  var NotebookList = this.Widget.List.extend({
     root: '.notebook-list',
     itemSelector: '.bunsen-list-item',
     otherProjectsDropdownSelector: '.project-selector',
     projectSelectorNames: 'a.project',
 
     clickByName: function(name) {
-      return this.click({ text: name });
+      return this.click({text: name});
     },
 
     findNotebook: function(name) {
@@ -36,15 +36,9 @@ module.exports = function() {
       var _this = this;
       return this.findNotebook(name)
       .then(function(item) {
-        return item.hover({ selector: '.bunsen-dropdown-toggle' })
+        return item.click({selector: '.bunsen-dropdown-toggle'})
         .then(function() {
-          return item.find('.rename')
-          .then(function(el) {
-            return _this.driver.executeScript("arguments[0].scrollIntoView(true);", el)
-            .then(function() {
-              return el.click();
-            });
-          });
+          return item.click('.rename');
         });
       });
     },
@@ -59,46 +53,40 @@ module.exports = function() {
       var _this = this;
       return this.findNotebook(name)
       .then(function(item) {
-        return item.hover({ selector: '.bunsen-dropdown-toggle' })
+        return item.click({selector: '.bunsen-dropdown-toggle'})
         .then(function() {
-          return item.find('.destroy')
-          .then(function(el) {
-            return _this.driver.executeScript("arguments[0].scrollIntoView(true);", el)
-            .then(function() {
-              return el.click();
-            });
-          });
+          return item.click('.destroy');
         });
-      })
+      });
     },
 
     rename: function(newName) {
-      var renameModal = new World.Widgets.Modal;
-      return renameModal.fill({ selector: "input.name", value: newName })
+      var renameModal = new World.Widgets.Modal();
+      return renameModal.fill({selector: 'input.name', value: newName})
       .then(function() {
         return renameModal.submit();
       });
     },
 
     getProjectNames: function(item) {
-      return this.invoke({ method: 'read', arguments: [this.projectSelectorNames] });
+      return this.invoke({method: 'read', arguments: [this.projectSelectorNames]});
     },
 
     getNames: function() {
-      return this.invoke({ method: 'read', arguments: [{ selector: 'h2 a' }] });
+      return this.invoke({method: 'read', arguments: [{selector: 'h2 a'}]});
     },
 
     move: function(notebook, project) {
       return this.findNotebook(notebook).then(function(item) {
-        return item.hover({ selector: '.bunsen-dropdown-toggle' })
-        .then(function(dropdown){
-          return dropdown.hover('.move');
+        return item.click({selector: '.bunsen-dropdown-toggle'})
+        .then(function(dropdown) {
+          return item.hover('.move');
         })
         .then(function(menuItem) {
-          return menuItem.hover({selector: '.project'})
+          return menuItem.hover({selector: '.project'});
         })
         .then(function(p) {
-          return p.click({ text: project });
+          return p.click({text: project});
         });
       });
     },
@@ -119,4 +107,6 @@ module.exports = function() {
       });
     }
   });
-}
+  this.Widgets.NotebookList = NotebookList;
+  return NotebookList;
+};
