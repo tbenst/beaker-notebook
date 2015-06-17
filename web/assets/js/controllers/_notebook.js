@@ -112,7 +112,7 @@
 
       // jscs: disable requireCamelCaseOrUpperCaseIdentifiers
       F.Notebooks.getNotebook($state.params.notebook_id).then(function(notebook) {
-      // jscs: enable
+        // jscs: enable
         openNotebook(notebook);
         if (notebook['public-id'] == bkSessionManager.getSessionId()) {
           $scope.isExistingSession = true;
@@ -142,7 +142,6 @@
       });
 
       $scope.save = function() {
-        $scope.hideMenu();
         return bkHelper.saveNotebook().then(function() {
           $rootScope.$broadcast('notebookUpdated', $scope.notebook.current);
         });
