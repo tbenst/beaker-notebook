@@ -44,6 +44,9 @@ copy-beaker:
 	mkdir -p public/plugins/eval/ipythonPlugins/vendor/ipython3
 	cp bower_components/beaker-notebook/plugin/ipythonPlugins/src/dist/vendor/ipython3/*js  public/plugins/eval/ipythonPlugins/vendor/ipython3/
 
+	mkdir -p public/plugins/eval/ipythonPlugins/python3
+	cp bower_components/beaker-notebook/plugin/ipythonPlugins/src/dist/python3/*js  public/plugins/eval/ipythonPlugins/python3/
+
 	mkdir -p public/plugins/eval/ipythonPlugins/julia/
 	cp bower_components/beaker-notebook/plugin/ipythonPlugins/src/dist/julia/julia.js  public/plugins/eval/ipythonPlugins/julia/
 
@@ -69,10 +72,10 @@ copy-beaker:
 
 	cd bower_components/beaker-notebook/core/ && unzip -ouq ../data/allDeps.zip
 	mkdir -p public/css/bootstrap
-	cp -r bower_components/beaker-notebook/core/src/vendor/bower_components/bootstrap-sass/assets/fonts/bootstrap public/css
+	cp -r bower_components/beaker-notebook/core/src/main/web/vendor/bower_components/bootstrap-sass/assets/fonts/bootstrap public/css
 	mkdir -p public/js/beaker/vendor
-	cp -r bower_components/beaker-notebook/core/src/vendor/bower_components/katex-build public/js/beaker/vendor/katex-build
-	cp -r bower_components/beaker-notebook/core/src/vendor/requirejs public/js/beaker/vendor/requirejs
+	cp -r bower_components/beaker-notebook/core/src/main/web/vendor/bower_components/katex-build public/js/beaker/vendor/katex-build
+	cp -r bower_components/beaker-notebook/core/src/main/web/vendor/requirejs public/js/beaker/vendor/requirejs
 
 	mkdir -p public/css
 	cp bower_components/beaker-notebook/embeddable_assets/*.css public/css/
