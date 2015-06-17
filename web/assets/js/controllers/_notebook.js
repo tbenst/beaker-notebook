@@ -142,7 +142,6 @@
       });
 
       $scope.save = function() {
-        $scope.hideMenu();
         return bkHelper.saveNotebook().then(function() {
           $rootScope.$broadcast('notebookUpdated', $scope.notebook.current);
         });
