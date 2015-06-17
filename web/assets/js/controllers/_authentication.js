@@ -45,7 +45,7 @@
       };
 
       function createDefaultProject() {
-        F.Projects.create({name: 'Sandbox', description: 'Sandbox'});
+        return F.Projects.create({name: 'Sandbox', description: 'Sandbox'});
       }
 
       $scope.submit = function() {
