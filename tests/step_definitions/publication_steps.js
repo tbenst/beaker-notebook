@@ -251,11 +251,11 @@ module.exports = function() {
   });
 
   this.Then(/^I should see that the notebook is not published$/, function() {
-    return new this.Widgets.Notebook().publishStatus().should.eventually.eql('This notebook is currently private');
+    return new this.Widgets.Notebook().isPrivate();
   });
 
   this.When(/^I should see that the notebook is published$/, function() {
-    return new this.Widgets.Notebook().publishStatus().should.eventually.eql('This notebook is published');
+    return new this.Widgets.Notebook().isPublic();
   });
 
   this.Then(/^the notebook updated time should be now$/, function(callback) {
