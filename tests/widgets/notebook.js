@@ -7,7 +7,7 @@ module.exports = function() {
     root: '.notebook',
 
     openOptions: function() {
-      return this.hover('.main-content .options');
+      return this.click('.main-content .options');
     },
 
     save: function() {
