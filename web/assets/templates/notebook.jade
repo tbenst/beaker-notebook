@@ -33,7 +33,7 @@
           fullscreen-toggle
           a.project(ui-sref="projects.items.item({id: notebook.current.project['public-id']})") {{notebook.current.project.name}}
           | /
-          span.name(ng-class="otherOpenNotebooksExist() && 'bunsen-dropdown-toggle'")
+          span.name(ng-class="otherOpenNotebooksExist() && 'bunsen-dropdown-toggle'", toggle-menu)
             {{notebook.current.name}}
             span(ng-if="edited()") *
             .down-arrow.glyphicon.glyphicon-chevron-down(ng-if="otherOpenNotebooksExist()")
