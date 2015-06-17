@@ -27,7 +27,7 @@
             .company Phone: {{author.extdata.person_desk_phone}}
         div.publication-control
           .btn.btn-primary.right.copy-notebook(ng-show="isBunsenUser" ng-click="copyNotebook()") Open in Bunsen
-          a.btn.btn-primary.right.download-notebook(ng-hide="isBunsenUser" ng-href="downloadNotebookUrl()") Download Notebook
+          a.btn.btn-primary.right.download-notebook(ng-hide="isBunsenUser" ng-href="{{downloadNotebookUrl()}}") Download Notebook
           .btn.btn-primary.right.destroy-publication(ng-if="isOwner", ng-click="destroyPublication()") Delete Publication
           .cl
 
