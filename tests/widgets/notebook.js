@@ -69,6 +69,14 @@ module.exports = function() {
       return this.read('.publish-status');
     },
 
+    isPublic: function() {
+      return this.find(".publish-status.public");
+    },
+
+    isPrivate: function() {
+      return this.find(".publish-status.private");
+    },
+
     viewPublished: function() {
       return this.click('.view-published');
     },

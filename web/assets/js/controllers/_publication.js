@@ -14,38 +14,31 @@
 
     var F = Factories;
 
-    var unbindWatcher = $scope.$watch('user', function(v) {
-      if (v) {
-        getPublicationWithRatings();
-        unbindWatcher();
-      }
-    });
+    $scope.ratingAttrs = {
+      rateableId: $state.params.id.toString()
+    };
 
-    function getPublicationWithRatings() {
-      $scope.ratingAttrs = {
-        rateableId: $state.params.id.toString()
-      };
+    F.Publications.getPublication($state.params.id).then(function(publication) {
+      $scope.publication = publication;
+      F.Users.getUser(publication['author-id']).then(function(author) {
+        $scope.author = author;
+        $scope.isOwner = ($sessionStorage.user && author['public-id'] === $sessionStorage.user.id);
+        $scope.isBunsenUser = $sessionStorage.user && _.contains($sessionStorage.user.roles, "bunsen");
+      })
 
-      F.Publications.getPublication($state.params.id).then(function(publication) {
-        $scope.publication = publication;
-        F.Users.getUser(publication['author-id']).then(function(author) {
-          $scope.author = author;
-          $scope.isOwner = (author['public-id'] === $sessionStorage.user.id);
-        })
+      F.Ratings.averagePubRating(publication['public-id'])
+      .then(function(count) {
+        _.extend($scope.publication, {averageRating: parseFloat(count.rating)});
+      });
 
-        F.Ratings.averagePubRating(publication['public-id'])
-        .then(function(count) {
-          _.extend($scope.publication, {averageRating: parseFloat(count.rating)});
-        });
-
+      if ($sessionStorage.user) {
         F.Ratings.userPubRating(publication['public-id'])
         .then(function(rate) {
           score = rate ? rate.score : 0;
           _.extend($scope.publication, {userRating: score});
         });
-      });
-    }
-
+      }
+    });
 
     $scope.copyNotebook = function() {
       $scope.$emit('openModal', $compile(templates.copy_notebook_modal())($scope));
@@ -61,6 +54,10 @@
       F.Publications.destroy($scope.publication['public-id']).then(function() {
         $state.go('^');
       });
+    };
+
+    $scope.downloadNotebookUrl = function() {
+      return F.Publications.publicationNotebookUrl($state.params.id);
     };
   }]);
 })(angular, window.bunsen);

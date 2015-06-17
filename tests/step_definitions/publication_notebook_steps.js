@@ -25,6 +25,10 @@ module.exports = function() {
     return new this.Widgets.PublicationNotebookHero().authorCompany().should.eventually.eql(company);
   });
 
+  this.Then(/^I should see the download link$/, function(company) {
+    return new this.Widgets.PublicationNotebookHero().hasDownloadLink();
+  });
+
   this.Then(/^I should see the gravatar for "([^"]*)"$/, function(email) {
     var hash = require('crypto').createHash('md5').update(email).digest('hex');
     var gravatarLink = 'gravatar.com/avatar/' + hash;
