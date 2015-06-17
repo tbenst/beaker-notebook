@@ -87,6 +87,10 @@ module.exports = function() {
     return seedPublicationsAsOtherUser(count, {project: projectName});
   });
 
+  this.Given(/^there is a publications?$/, function(count, projectName) {
+    return seedPublicationsAsOtherUser(1);
+  });
+
   this.Given(/^there are (\d+) publications in the "([^"]*)" category$/, function(count, categoryName) {
     return seedPublicationsAsOtherUser(count, {category: categoryName});
   });

@@ -35,6 +35,10 @@ module.exports = function() {
       return this.click('.destroy-publication');
     },
 
+    hasDownloadLink: function() {
+      return this.find(".download-notebook");
+    },
+
     publishDate: function() {
       return this.read('.publish-date');
     }
