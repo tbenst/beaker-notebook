@@ -10,7 +10,7 @@ Feature: Use Notebooks
       | powderpuff girls   | ghost of tom jones | 1991-01-01T00:00:00.000+00:00 | false |
     And I view my projects
 
-  Scenario: Notebooks Listing
+  Scenario: Listing notebooks on project detail page.
     When I open the "ghost of tom jones" project
     Then I should see the following notebooks:
       | name               |
@@ -18,7 +18,7 @@ Feature: Use Notebooks
       | top secret         |
 
   @flaky
-  Scenario: Recent Notebooks
+  Scenario: Recent Notebooks ordered with most recent on top
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
     And I view my projects
@@ -34,11 +34,9 @@ Feature: Use Notebooks
       | name             |
       | top secret       |
       | powderpuff girls |
-    When I refresh the page
-    Then 2 notebooks should load in the background
 
   @flaky
-  Scenario: Open Notebooks
+  Scenario: Open Notebooks displayed in sidebar
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
     Then I should see the following open notebooks:
@@ -52,7 +50,7 @@ Feature: Use Notebooks
       | powderpuff girls  |
       | top secret        |
 
-  Scenario: Renaming Notebook from Listing
+  Scenario: Renaming notebook from project detail page
     When I open the "ghost of tom jones" project
     And I rename the "powderpuff girls" notebook to "powerpuff girls"
     Then I should see the following notebooks:
@@ -60,7 +58,7 @@ Feature: Use Notebooks
       | powerpuff girls |
       | top secret      |
 
-  Scenario: Deleting a Notebook
+  Scenario: Deleting a notebook from project detail page
     Given I open the "ghost of tom jones" project
     And the "top secret" notebook is open
     When I delete the "top secret" notebook
@@ -70,7 +68,7 @@ Feature: Use Notebooks
     And I should see 1 recent notebooks
     And I should see 0 open notebooks
 
-  Scenario: Canceling Deleting a Notebook
+  Scenario: Canceling deleting a notebook
     Given I open the "ghost of tom jones" project
     And I go to delete the "top secret" notebook
     When I cancel the dialog
@@ -80,20 +78,20 @@ Feature: Use Notebooks
       | powderpuff girls |
       | top secret       |
 
-  Scenario: Close Rename Modal
+  Scenario: Closing the rename rename modal
     Given I open the "ghost of tom jones" project
     And I open the rename modal for "top secret"
     When I click the modal close button
     Then the modal should be closed
 
-  Scenario: Renaming Notebook from Detail View
+  Scenario: Renaming a notebook from the Notebook view
     Given I open the "ghost of tom jones" project
     And I view the notebook "top secret"
     When I rename the notebook to "top secrete"
     Then I should be in the "top secrete" notebook
 
   @flaky
-  Scenario: Renaming Notebook to Duplicate
+  Scenario: Renaming a notebook to a conflicting name
     When I open the "ghost of tom jones" project
     And I rename the "powderpuff girls" notebook to "top secret"
     Then I should see an error in the modal saying "That name is taken by another notebook in this project."
@@ -102,7 +100,7 @@ Feature: Use Notebooks
     When I open the rename modal for "powerpuff girls"
     Then I shouldn't see an error in the modal
 
-  Scenario: Closing the current notebook
+  Scenario: Closing the current notebook from the notebook detail page
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
     And I close the notebook
@@ -138,7 +136,7 @@ Feature: Use Notebooks
       | powderpuff girls |
       | top secret       |
 
-  Scenario: Importing notebooks
+  Scenario: Importing a notebook
     When I open the "ghost of tom jones" project
     And I import the notebook by uploading the "hello_world.bkr" file
     Then I should see the following notebooks:
@@ -171,7 +169,7 @@ Feature: Use Notebooks
       | name               |
       | top secret         |
 
-  Scenario: Moving an already existing notebook
+  Scenario: Moving a notebook to a project with another notebook of the same name
     Given I have the following Projects:
       | name             | description                          |
       | Finance Research | Researching a theory on stock prices |
@@ -192,7 +190,7 @@ Feature: Use Notebooks
     And I should see the error: "A notebook named 'top secret' already exists in project 'Finance Research'"
 
   @flaky
-  Scenario: Saving a new notebook as another name
+  Scenario: Saving a notebook as another name
     When I open the "ghost of tom jones" project
     And I make a new notebook
     And I ensure the notebook is open
@@ -239,7 +237,7 @@ Feature: Use Notebooks
       | Project: Finance Research   |
 
   @flaky
-  Scenario: Open last used notebook
+  Scenario: Open last used notebook when returning to the projects tab
     When I open the "ghost of tom jones" project
     And I see the project detail page
     And I view the notebook "powderpuff girls"
@@ -249,7 +247,7 @@ Feature: Use Notebooks
 
   @flaky @broken
   #broken because recent notebooks is broken.
-  Scenario: Reopening notebooks
+  Scenario: Reopening notebooks from the recent notebooks list
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
     And I view my projects
@@ -272,7 +270,7 @@ Feature: Use Notebooks
     And I navigate away from the projects tab
     Then my notebook should remain open in the background
 
-  Scenario: Highlight current notebook
+  Scenario: Highlight the current notebook in the open notebooks list
     And I open the "ghost of tom jones" project
     And I view the notebook "top secret"
     Then the "top secret" notebook should be active
@@ -283,7 +281,7 @@ Feature: Use Notebooks
     And I go back to the current notebook's project
     Then I should see the "ghost of tom jones" project detail page
 
-  Scenario: Fullscreen View
+  Scenario: Fullscreen view for notebooks
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
     And I toggle fullscreen mode
@@ -294,7 +292,7 @@ Feature: Use Notebooks
     When I toggle fullscreen mode
     Then I should see the project and notebook options
 
-  Scenario: Warning user when trying to close unsaved notebook
+  Scenario: Closing an edited notebook without saving
     And I open the "ghost of tom jones" project
     And I view the notebook "powderpuff girls"
     And I edit the notebook
@@ -304,13 +302,13 @@ Feature: Use Notebooks
     Then the Beaker dialog should be closed
     And I should see the "ghost of tom jones" project detail page
 
-  Scenario: Using a Beaker Notebook
+  Scenario: Evaluating code in a notebook cell
     When I open the "ghost of tom jones" project
     And I view the notebook "powderpuff girls"
     And I run "1+1" in the first cell
     Then I should see "2" in the first cell output
 
-  Scenario: Saving and closing a notebook with edits
+  Scenario: Saving and Closing an edited notebook
     And I open the "ghost of tom jones" project
     And I view the notebook "powderpuff girls"
     And I edit the notebook
