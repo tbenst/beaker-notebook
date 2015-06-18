@@ -60,7 +60,6 @@ Feature: Use Notebooks
       | powerpuff girls |
       | top secret      |
 
-  @flaky @beaker
   Scenario: Deleting a Notebook
     Given I open the "ghost of tom jones" project
     And the "top secret" notebook is open
@@ -87,7 +86,6 @@ Feature: Use Notebooks
     When I click the modal close button
     Then the modal should be closed
 
-  @flaky @beaker
   Scenario: Renaming Notebook from Detail View
     Given I open the "ghost of tom jones" project
     And I view the notebook "top secret"
@@ -104,7 +102,6 @@ Feature: Use Notebooks
     When I open the rename modal for "powerpuff girls"
     Then I shouldn't see an error in the modal
 
-  @flaky @beaker
   Scenario: Closing the current notebook
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
@@ -123,9 +120,13 @@ Feature: Use Notebooks
     When I close the open notebook "powderpuff girls"
     Then I should see the "ghost of tom jones" project detail page
 
-  @flaky @beaker
+  @flaky @broken
+  # broken because recent notebooks is broken.
   Scenario: Creating a Notebook
     When I open the "ghost of tom jones" project
+    And I view the notebook "powderpuff girls"
+    And I ensure the notebook is open
+    And I close the notebook
     And I make a new notebook
     And I ensure the notebook is open
     And I close the notebook
@@ -205,7 +206,6 @@ Feature: Use Notebooks
       | top secret       |
       | Winter Grasp     |
 
-  @flaky @beaker
   Scenario: Saving changes to an existing notebook
     When I view my projects
     And I open the "ghost of tom jones" project
@@ -213,7 +213,6 @@ Feature: Use Notebooks
     And I save my changes to the notebook
     Then I should be in the "powderpuff girls" notebook
 
-  @flaky @broken
   Scenario: Deleting associated notebooks when deleting a project
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
@@ -248,13 +247,15 @@ Feature: Use Notebooks
     And I ensure the notebook is open
     Then I should be in the "powderpuff girls" notebook
 
-  @flaky @beaker
+  @flaky @broken
+  #broken because recent notebooks is broken.
   Scenario: Reopening notebooks
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
     And I view my projects
     And I open the "ghost of tom jones" project
     And I view the notebook "powderpuff girls"
+    And I ensure the notebook is open
     And I see the following recent notebooks:
       | name              |
       | powderpuff girls  |
@@ -264,7 +265,6 @@ Feature: Use Notebooks
     When I open the recent notebook "powderpuff girls"
     Then I should be in the "powderpuff girls" notebook
 
-  @flaky @beaker
   Scenario: Leaving a notebook open when browsing away from Projects tab
     When I open the "ghost of tom jones" project
     And I view the notebook "top secret"
@@ -272,7 +272,6 @@ Feature: Use Notebooks
     And I navigate away from the projects tab
     Then my notebook should remain open in the background
 
-  @flaky @broken
   Scenario: Highlight current notebook
     And I open the "ghost of tom jones" project
     And I view the notebook "top secret"
@@ -295,15 +294,14 @@ Feature: Use Notebooks
     When I toggle fullscreen mode
     Then I should see the project and notebook options
 
-  @flaky @beaker
   Scenario: Warning user when trying to close unsaved notebook
     And I open the "ghost of tom jones" project
     And I view the notebook "powderpuff girls"
     And I edit the notebook
     And I close the notebook
-    Then I should see a warning in the modal saying "Warning: Your notebook has unsaved changes"
+    Then Beaker should ask me "Do you want to save powderpuff girls?"
     When I click close without saving
-    Then the modal should be closed
+    Then the Beaker dialog should be closed
     And I should see the "ghost of tom jones" project detail page
 
   Scenario: Using a Beaker Notebook
@@ -312,15 +310,14 @@ Feature: Use Notebooks
     And I run "1+1" in the first cell
     Then I should see "2" in the first cell output
 
-  @flaky @beaker
   Scenario: Saving and closing a notebook with edits
     And I open the "ghost of tom jones" project
     And I view the notebook "powderpuff girls"
     And I edit the notebook
     And I close the notebook
-    Then I should see a warning in the modal saying "Warning: Your notebook has unsaved changes"
+    Then Beaker should ask me "Do you want to save powderpuff girls?"
     When I click save and close
-    Then the modal should be closed
+    Then the Beaker dialog should be closed
     And I should see the "ghost of tom jones" project detail page
 
   @flaky
