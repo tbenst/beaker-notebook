@@ -237,7 +237,7 @@ module.exports = function() {
     var _this = this;
     notebook = new this.Widgets.Notebook();
     return notebook.waitForBeaker().then(function() {
-      return (new _this.Widgets.BeakerFrame()).insertCell();
+      return (new _this.Widgets.BeakerNotebook()).runInFirstCell("10");
     });
   });
 
@@ -253,12 +253,20 @@ module.exports = function() {
     return new this.Widgets.Modal().warningMessage().should.eventually.equal(warning);
   });
 
+  this.Then(/^Beaker should ask me "([^"]*)"$/, function(text) {
+    return new this.Widgets.BeakerModal().text().should.eventually.equal(text);
+  });
+
+  this.Then(/^the Beaker dialog should be closed$/, function() {
+    return new this.Widgets.BeakerModal().isVisible().should.eventually.equal(false);
+  });
+
   this.When(/^I click close without saving$/, function() {
-    return new this.Widgets.Modal().cancel();
+    return new this.Widgets.BeakerModal().sayNo();
   });
 
   this.When(/^I click save and close$/, function() {
-    return new this.Widgets.Modal().accept();
+    return new this.Widgets.BeakerModal().sayYes();
   });
 
   this.When(/^I save my changes to the notebook$/, function() {
@@ -291,7 +299,7 @@ module.exports = function() {
   });
 
   this.When(/^my notebook should remain open in the background$/, function() {
-    return new this.Widgets.BeakerFrame().isPresent().should.eventually.equal(true);
+    return new this.Widgets.BeakerNotebook().isPresent().should.eventually.equal(true);
   });
 
   this.Then(/^the "([^"]*)" notebook should be active$/, function(notebook) {

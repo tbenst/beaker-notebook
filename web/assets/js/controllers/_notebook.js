@@ -17,6 +17,7 @@
     'NotebookRestangular',
     'FullscreenState',
     'TrackingService',
+    'bkCoreManager',
     'bkSession',
     'bkSessionManager',
     'bkHelper',
@@ -38,6 +39,7 @@
       NotebookRestangular,
       FullscreenState,
       TrackingService,
+      bkCoreManager,
       bkSession,
       bkSessionManager,
       bkHelper) {
@@ -53,8 +55,12 @@
 
       $scope.warning = '';
 
+      $scope.activeBeakerSession = function() {
+        return bkCoreManager.getBkApp() && bkSessionManager.getSessionId();
+      }
+
       $scope.getLoadingMessage = function() {
-        return bkHelper.getSessionId() ? bkHelper.getStatus() : null;
+        return $scope.activeBeakerSession() ? bkHelper.getStatus() : null;
       };
 
       $scope.edited = function() {

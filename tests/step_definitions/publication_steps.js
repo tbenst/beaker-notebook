@@ -281,7 +281,7 @@ module.exports = function() {
   this.Then(/^the notebook cells should be visible$/, function() {
     var _this = this;
     return new this.Widgets.Notebook().waitForBeaker().then(function() {
-      return new _this.Widgets.NotebookiFrames().hasVisible().should.eventually.eql(true);
+      return new _this.Widgets.BeakerNotebook().isVisible().should.eventually.eql(true);
     });
   });
 

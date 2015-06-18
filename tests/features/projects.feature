@@ -88,7 +88,6 @@ As a researcher, I want to manage my projects.
     Given I search for project "ghost of tom jones"
     Then I should see 0 project results.
 
-  @flaky @beaker
   Scenario: Project list ordering
     Given I have the following Projects:
       | name      | description   |
@@ -213,7 +212,6 @@ As a researcher, I want to manage my projects.
     And I open the "Finance Research" project
     Then I should see the project's last updated date as "4/29/14 9:45 AM"
 
-  @flaky @beaker
   Scenario: Project with notebooks updated date
     Given I have the following Projects:
       | name              | description                          | updated-at                    |
@@ -228,7 +226,7 @@ As a researcher, I want to manage my projects.
     And I close the notebook
     Then I should see project's last updated as today's date
 
-  @flaky @beaker
+  @flaky @broken
   Scenario: Recently Used Notebooks
     Given I have the following Projects:
       | name              | description                          | updated-at                      |

@@ -7,19 +7,19 @@ module.exports = function() {
     root: '.notebook',
 
     openOptions: function() {
-      return this.hover('.main-content .options');
+      return this.click('.main-content .options');
     },
 
     save: function() {
       return this.openOptions().then(function() {
-        return this.click('.save');
+        return this.click('.save-menuitem');
       }.bind(this));
     },
 
     saveAs: function(name) {
       var _this = this;
       return this.openOptions().then(function() {
-        return this.click('.save-as');
+        return this.click('.save-as-menuitem');
       }.bind(this))
       .then(function() {
         var modal = new World.Widgets.Modal();
@@ -31,17 +31,17 @@ module.exports = function() {
 
     close: function() {
       return this.openOptions().then(function() {
-        return this.click('.close-notebook');
+        return this.click('.close-menuitem');
       }.bind(this));
     },
 
     name: function() {
-      return this.read('.name');
+      return this.read('.name .name-text');
     },
 
     openRenameModal: function() {
       return this.openOptions().then(function() {
-        return this.click('.rename');
+        return this.click('.rename-menuitem');
       }.bind(this));
     },
 
@@ -112,8 +112,8 @@ module.exports = function() {
 
     waitForBeaker: function() {
       return this.driver.wait(function() {
-        return new World.W({ root: 'iframe.beaker' }).isPresent();
-      }, 360000, 'iframe.beaker not found');
+        return new World.Widgets.BeakerNotebook().isPresent();
+      }, 360000, 'bk-notebook not found');
     },
 
     beakerNotebookCount: function() {

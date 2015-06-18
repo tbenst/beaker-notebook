@@ -27,14 +27,16 @@
     .main-content
       .title-bar(sticky)
         span.options.bunsen-dropdown-toggle.right.beaker-sandbox(toggle-menu)
-            bk-dropdown-menu.bunsen-dropdown.drop-bottom-left(menu-items="menuItems()")
+            bk-dropdown-menu.bunsen-dropdown.drop-bottom-left(
+                        ng-if="activeBeakerSession()"
+                        menu-items="menuItems()")
 
         h2
           fullscreen-toggle
           a.project(ui-sref="projects.items.item({id: notebook.current.project['public-id']})") {{notebook.current.project.name}}
           | /
           span.name(ng-class="otherOpenNotebooksExist() && 'bunsen-dropdown-toggle'", toggle-menu)
-            {{notebook.current.name}}
+            span.name-text {{notebook.current.name}}
             span(ng-if="edited()") *
             .down-arrow.glyphicon.glyphicon-chevron-down(ng-if="otherOpenNotebooksExist()")
             ul.bunsen-dropdown(ng-if="otherOpenNotebooksExist()")
@@ -42,7 +44,7 @@
                 span Other Open Notebooks
               li(ng-repeat="notebook in notebooks.list | filter:otherOpenNotebooks | orderBy:openedAt")
                 a(ng-click="openNotebook(notebook)") {{notebook.name}}
-          span.status(ng-if="beakerReady() && getLoadingMessage()") ({{getLoadingMessage()}})
+          span.status(ng-if="getLoadingMessage()") ({{getLoadingMessage()}})
       .loading(ng-if="!beakerReady()")
         bunsen-spinner
       .warning(ng-if="warning") {{warning}}
