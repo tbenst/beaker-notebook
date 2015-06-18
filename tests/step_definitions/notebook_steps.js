@@ -235,8 +235,7 @@ module.exports = function() {
 
   this.When(/^I edit the notebook$/, function() {
     var _this = this;
-    notebook = new this.Widgets.Notebook();
-    return notebook.waitForBeaker().then(function() {
+    return new this.Widgets.Notebook().waitForBeaker().then(function() {
       return (new _this.Widgets.BeakerNotebook()).runInFirstCell("10");
     });
   });
