@@ -862,6 +862,7 @@
         _notebookUri.set(notebookUri);
         _notebookModel.set(notebookModel);
         _sessionId = sessionId;
+        console.log('Cookie changed to: ' + sessionId);
         $cookies['beaker_session'] = sessionId;
 
         this.setNotebookModelEdited(_edited);

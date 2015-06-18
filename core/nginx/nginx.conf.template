@@ -74,7 +74,6 @@ http {
 
     # temporary session directories
     location ~ /.*/beaker/notebook/(.*)$ {
-      autoindex on;
       alias "%(nginx_dir)s/web/$cookie_beaker_session/$1";
     }
 
