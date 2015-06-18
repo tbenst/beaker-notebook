@@ -133,8 +133,12 @@ public class DefaultBeakerConfig implements BeakerConfig {
         this.sharing_server = "http://sharing.beakernotebook.com/gist/anonymous";
     this.prefs = obj;
 
+    // Permanent user managed directory
     this.userFolder = this.dotDir + "/web";
     utils.ensureDirectoryExists(userFolder); 
+
+    // Parent directory for session temporary directories
+    utils.ensureDirectoryExists(this.nginxServDir + "/web");
 
     final String prefDefaultNotebookUrl = pref.getDefaultNotebookUrl();
     final String mainDefaultNotebookPath = this.dotDir + "/config/default.bkr";

@@ -19,6 +19,7 @@
 (function() {
   'use strict';
   var module = angular.module('bk.sessionManager',[
+    'ngCookies',
     'bk.utils',
     'bk.session',
     'bk.notebookCellModelManager',
@@ -28,6 +29,7 @@
   ]);
 
   module.factory('bkSessionManager', function(
+      $cookies,
       bkUtils,
       bkSession,
       bkNotebookCellModelManager,
@@ -860,6 +862,7 @@
         _notebookUri.set(notebookUri);
         _notebookModel.set(notebookModel);
         _sessionId = sessionId;
+        $cookies['beaker_session'] = sessionId;
 
         this.setNotebookModelEdited(_edited);
         bkNotebookNamespaceModelManager.init(sessionId, notebookModel);

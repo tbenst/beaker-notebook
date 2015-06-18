@@ -72,6 +72,12 @@ http {
       alias "%(user_folder)s";
     }
 
+    # temporary session directories
+    location ~ /.*/beaker/notebook/(.*)$ {
+      autoindex on;
+      alias "%(nginx_dir)s/web/$cookie_beaker_session/$1";
+    }
+
     # this is the main beaker index page - auto generated via rest call
     location = /beaker/ {
       %(auth_cookie_rule)s

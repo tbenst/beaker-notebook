@@ -51,11 +51,13 @@ public class SessionBackupRest {
 
   private final File backupDirectory;
   private final GeneralUtils utils;
+  private final String nginxServDirectory;
 
   @Inject
   public SessionBackupRest(BeakerConfig bkConfig, GeneralUtils utils) {
     this.backupDirectory = new File(bkConfig.getSessionBackupsDirectory());
     this.utils = utils;
+    this.nginxServDirectory = bkConfig.getNginxServDirectory();
   }
 
   public static class Session {
@@ -117,7 +119,10 @@ public class SessionBackupRest {
     }
     this.sessions.put(sessionId, new Session(
         notebookUri, uriType, readOnly, format, notebookModelJson, edited, date));
+
     try {
+      // Guarantee notebook temp directory
+      utils.ensureDirectoryExists(nginxServDirectory + "/web/" + sessionId);
       recordToFile(sessionId, notebookUri, notebookModelJson);
     } catch (IOException | InterruptedException ex) {
       Logger.getLogger(SessionBackupRest.class.getName()).log(Level.SEVERE, null, ex);
@@ -149,6 +154,8 @@ public class SessionBackupRest {
   @Path("close")
   public void close(
       @FormParam("sessionid") String sessionID) {
+    // Delete notebook temp directory
+    new File(nginxServDirectory + "/web/" + sessionID).delete();
     this.sessions.remove(sessionID);
   }
 
