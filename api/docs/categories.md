@@ -33,24 +33,17 @@ Content:
 [{
   count: 13,
   public-id: 5580599a-b668-4d52-953b-8016c00c946a,
-  index: "catalog_0.1",
-  metadata: {
-    description: {
-      type: "string",
-      indexes: ["text"]
-    },
-    ...
-  },
+  catalog-id: 558059f5-3ec9-4f4f-a8d6-a4ad0e3934c5,
   name: "Misc"
 }, {
   count: 4,
-  description: "foo",
-  public-id: 558059f5-3ec9-4f4f-a8d6-a4ad0e3934c5,
-  index: "catalog_0.1",
+  public-id: 558306f9-2c96-4a97-9bea-46a598be37ff,
+  catalog-id: 558059f5-3ec9-4f4f-a8d6-a4ad0e3934c5,
   name: "Energy",
-  ownerEmail: "quentin@twosigma.com",
-  ownerName: "Quentin",
-  parentId: 0
+  description: "foo",
+  contact-email: "quentin@twosigma.com",
+  contact-name: "Quentin",
+  parent-id: 5580599a-b668-4d52-953b-8016c00c946a
 }]
 ```
 
@@ -69,10 +62,10 @@ Content:
 ```
 {
   name: [string (required, name of the category)],
-  parentId: [integer (required, public-id of the category to which this belongs)],
+  parent-id: [string (required, public-id of the category to which this belongs)],
   description: [string (optional, description on datasets page belonging to category)],
-  contactName: [string (optional, category maintainer's name)],
-  contactEmail: [string (optional, category maintainer's contact email)]
+  contact-name: [string (optional, category maintainer's name)],
+  contact-email: [string (optional, category maintainer's contact email)]
 }
 ```
 
@@ -91,7 +84,7 @@ Code: 400
 
 Content:
 ```
-{ error: "name and parentId are required" }
+{ error: "name and parent-id are required" }
 ```
 
 ## Edit a Category
@@ -113,10 +106,10 @@ Content:
 ```
 {
   name: [string (optional, name of the category)],
-  parentId: [integer (optional, public-id of the category to which this belongs)],
+  parent-id: [string (optional, public-id of the category to which this belongs)],
   description: [string (optional, description on datasets page belonging to category)],
-  contactName: [string (optional, category maintainer's name)],
-  contactEmail: [string (optional, category maintainer's contact email)]
+  contact-name: [string (optional, category maintainer's name)],
+  contact-email: [string (optional, category maintainer's contact email)]
 }
 ```
 
