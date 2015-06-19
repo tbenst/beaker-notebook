@@ -336,6 +336,19 @@ Feature: Use Notebooks
     Then the Beaker dialog should be closed
     And I should be in the "powderpuff girls" notebook
 
+  Scenario: Preserving session state when switching notebooks
+    And I open the "ghost of tom jones" project
+    And I view the notebook "powderpuff girls"
+    And I run "9 / 3" in the first cell
+    Then I should see "3" in the first cell output
+    And I open the "ghost of tom jones" project
+    When I view the notebook "top secret"
+    And I ensure the notebook is open
+    And I open the "ghost of tom jones" project
+    And I view the notebook "powderpuff girls"
+    And I ensure the notebook is open
+    Then I should see "3" in the first cell output
+
   @flaky
   Scenario: Unavailable notebook
     Given my "powderpuff girls" notebook is unavailable
