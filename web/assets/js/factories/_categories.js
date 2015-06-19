@@ -7,7 +7,6 @@
       _.each(categories, function(category) {
         category = Restangular.stripRestangular(category);
         nodes[category.index + '_' + category.path] = _.extend(category, {
-          category: category.name,
           count: +category.count,
           children: []
         });
