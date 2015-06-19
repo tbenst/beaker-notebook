@@ -189,13 +189,15 @@ Feature: Use Notebooks
       | top secret         |
     And I should see the error: "A notebook named 'top secret' already exists in project 'Finance Research'"
 
-  @flaky
   Scenario: Saving a notebook as another name
     When I open the "ghost of tom jones" project
     And I make a new notebook
     And I ensure the notebook is open
+    And I run "2+5" in the first cell
+    Then I should see "7" in the first cell output
     And I save the notebook as "Winter Grasp"
     Then I should be in the "Winter Grasp" notebook
+    And I should see "7" in the first cell output
     When I open the "ghost of tom jones" project
     Then I should see the following notebooks:
       | name             |
