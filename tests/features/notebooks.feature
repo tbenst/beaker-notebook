@@ -349,6 +349,20 @@ Feature: Use Notebooks
     And I ensure the notebook is open
     Then I should see "3" in the first cell output
 
+  Scenario: Each notebook should have its own private language kernels
+    When I open the "ghost of tom jones" project
+    And I view the notebook "powderpuff girls"
+    And I run "a=33; a" in the first cell
+    Then I should see "33" in the first cell output
+    When I open the "ghost of tom jones" project
+    And I view the notebook "top secret"
+    And I run "a" in the first cell
+    Then I should see "+name 'a' is not defined" in the first cell output
+    When I open the "ghost of tom jones" project
+    And I view the notebook "powderpuff girls"
+    And I run "a" in the first cell
+    Then I should see "33" in the first cell output
+
   @flaky
   Scenario: Unavailable notebook
     Given my "powderpuff girls" notebook is unavailable
