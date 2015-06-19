@@ -11,7 +11,7 @@ module.exports = function() {
     },
 
     cancel: function() {
-      return this.click('.cancl');
+      return this.click('.cancel');
     },
 
     heading: function() {

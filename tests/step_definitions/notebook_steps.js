@@ -235,8 +235,7 @@ module.exports = function() {
 
   this.When(/^I edit the notebook$/, function() {
     var _this = this;
-    notebook = new this.Widgets.Notebook();
-    return notebook.waitForBeaker().then(function() {
+    return new this.Widgets.Notebook().waitForBeaker().then(function() {
       return (new _this.Widgets.BeakerNotebook()).runInFirstCell("10");
     });
   });
@@ -258,7 +257,7 @@ module.exports = function() {
   });
 
   this.Then(/^the Beaker dialog should be closed$/, function() {
-    return new this.Widgets.BeakerModal().isVisible().should.eventually.equal(false);
+    return new this.Widgets.BeakerModal().isPresent().should.eventually.equal(false);
   });
 
   this.When(/^I click close without saving$/, function() {
@@ -267,6 +266,10 @@ module.exports = function() {
 
   this.When(/^I click save and close$/, function() {
     return new this.Widgets.BeakerModal().sayYes();
+  });
+  
+  this.When(/^I click cancel$/, function() {
+    return new this.Widgets.BeakerModal().cancel();
   });
 
   this.When(/^I save my changes to the notebook$/, function() {
