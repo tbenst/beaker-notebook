@@ -292,16 +292,6 @@ Feature: Use Notebooks
     When I toggle fullscreen mode
     Then I should see the project and notebook options
 
-  Scenario: Closing an edited notebook without saving
-    And I open the "ghost of tom jones" project
-    And I view the notebook "powderpuff girls"
-    And I edit the notebook
-    And I close the notebook
-    Then Beaker should ask me "Do you want to save powderpuff girls?"
-    When I click close without saving
-    Then the Beaker dialog should be closed
-    And I should see the "ghost of tom jones" project detail page
-
   Scenario: Evaluating code in a notebook cell
     When I open the "ghost of tom jones" project
     And I view the notebook "powderpuff girls"
@@ -311,12 +301,40 @@ Feature: Use Notebooks
   Scenario: Saving and Closing an edited notebook
     And I open the "ghost of tom jones" project
     And I view the notebook "powderpuff girls"
-    And I edit the notebook
+    And I run "1 + 1" in the first cell
     And I close the notebook
     Then Beaker should ask me "Do you want to save powderpuff girls?"
     When I click save and close
     Then the Beaker dialog should be closed
     And I should see the "ghost of tom jones" project detail page
+    When I view the notebook "powderpuff girls"
+    Then I should see "2" in the first cell output
+
+  Scenario: Closing an edited notebook without saving
+    And I open the "ghost of tom jones" project
+    And I view the notebook "powderpuff girls"
+    And I run "1 + 1" in the first cell
+    Then I should see "2" in the first cell output
+    When I save my changes to the notebook
+    And I run "2 + 2" in the first cell
+    Then I should see "4" in the first cell output
+    When I close the notebook
+    Then Beaker should ask me "Do you want to save powderpuff girls?"
+    When I click close without saving
+    Then the Beaker dialog should be closed
+    And I should see the "ghost of tom jones" project detail page
+    When I view the notebook "powderpuff girls"
+    Then I should see "2" in the first cell output
+
+  Scenario: Cancelling closing an unsaved notebook
+    And I open the "ghost of tom jones" project
+    And I view the notebook "powderpuff girls"
+    And I run "1 + 1" in the first cell
+    And I close the notebook
+    Then Beaker should ask me "Do you want to save powderpuff girls?"
+    When I click cancel
+    Then the Beaker dialog should be closed
+    And I should be in the "powderpuff girls" notebook
 
   @flaky
   Scenario: Unavailable notebook
