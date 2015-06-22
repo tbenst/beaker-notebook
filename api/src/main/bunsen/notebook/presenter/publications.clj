@@ -122,7 +122,8 @@
          reverse)))
 
 (defn validate-publication [params]
-  (-> (b/validate (select-keys params [:contents :notebook-id :name])
+  (-> (b/validate (select-keys params [:contents :categoryID :notebook-id :name])
+                  :categoryID v/required
                   :notebook-id [[v/required :pre (comp empty? :contents)]]
                   :name [[v/required :pre (comp empty? :notebook-id)]]
                   :contents [[v/required :pre (comp empty? :notebook-id)]])
