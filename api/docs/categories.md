@@ -99,7 +99,7 @@ Content:
 
 ###### Method
 
-`POST`
+`PUT`
 
 ###### Data Params (JSON)
 
