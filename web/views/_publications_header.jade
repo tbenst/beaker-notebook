@@ -8,6 +8,5 @@
       li(ng-show='$session.user')
         a.sign-out(ui-sref="signOut") Sign out
       li(ng-show='!$session.user')
-        a.sign-in(ui-sref="signIn") Sign in
-      li(ng-show='!$session.user')
-        a.sign-up(ui-sref="signUp") Sign up
+        a.btn.alt.sign-in(ui-sref="signIn") Sign in
+
