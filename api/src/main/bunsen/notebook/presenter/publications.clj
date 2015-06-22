@@ -53,9 +53,9 @@
          (remove nil?)
          distinct)))
 
-(defn create-publication! [conn author-id {:keys [categoryID notebook-id name description]}]
-  (let [n (find-notebook (d/db conn) notebook-id author-id)
-        contents (:notebook/contents n)
+(defn create-publication! [conn author-id {:keys [categoryID notebook-id name description contents]}]
+  (let [n (and notebook-id (find-notebook (d/db conn) notebook-id author-id))
+        contents (if n (:notebook/contents n) contents)
         c (find-category (d/db conn) categoryID)
         p {:db/id (d/tempid :db.part/user)
            :publication/public-id (d/squuid)
@@ -63,7 +63,7 @@
            :publication/category (:db/id c)
            :publication/created-at (utils/now)
            :publication/updated-at (utils/now)
-           :publication/name (:notebook/name n)
+           :publication/name (if n (:notebook/name n) name)
            :publication/description description
            :publication/contents contents
            :publication/languages (notebook-languages contents)
@@ -75,12 +75,13 @@
   (when-let [p (find-publication-by-author (d/db conn) author-id pub-id)]
     (let [category-id (:categoryID params)
           n (:publication/notebook p)
-          contents (:notebook/contents n)
+          contents (if n (:notebook/contents n) (:contents params))
+          name (if n (:notebook/name n) (:name params))
           c (find-category (d/db conn) category-id)
           tx (-> params
                  (dissoc :public-id :pub-id :created-at :updated-at :notebook-id :categoryID)
                  (assoc :category (:db/id c))
-                 (assoc :contents contents :name (:notebook/name n) :languages (notebook-languages contents))
+                 (assoc :contents contents :name name :languages (notebook-languages contents))
                  utils/remove-nils
                  (utils/namespace-keys "publication")
                  (assoc :db/id (:db/id p) :publication/updated-at (utils/now)))]
@@ -121,7 +122,8 @@
          reverse)))
 
 (defn validate-publication [params]
-  (-> (b/validate (select-keys params [:description :notebook-id])
-                  ;:description v/required
-                  :notebook-id v/required)
+  (-> (b/validate (select-keys params [:contents :notebook-id :name])
+                  :notebook-id [[v/required :pre (comp empty? :contents)]]
+                  :name [[v/required :pre (comp empty? :notebook-id)]]
+                  :contents [[v/required :pre (comp empty? :notebook-id)]])
       first))
