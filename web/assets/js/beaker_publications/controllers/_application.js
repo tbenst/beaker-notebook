@@ -12,6 +12,7 @@
       UsersRestangular,
       $sessionStorage) {
       $rootScope.$session = $sessionStorage;
+      $rootScope.$state = $state;
       $state.go('publications.items');
 
       $rootScope.signOut = function() {

@@ -10,8 +10,25 @@ auth-toggle, .auth
 
   &.beaker-publications
     margin-top: 0
+    margin-bottom: 18px
+    background: none
     sign-up, sign-in, forgot-password
+      background-color: white
+      position: relative
       transform: none
+      border: 1px solid base-step5
+      input[type="submit"]
+        margin-top: 25px
+      label
+        display: none
+      .message
+        background-color: rgba(215, 37, 58, 1)
+    a.create-account
+      margin-left: 25px
+      margin-top: -20px
+    .sub-action
+      position: relative
+      top: -50px
 
   sign-up, sign-in, forgot-password
     top: 0

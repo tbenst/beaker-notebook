@@ -8,6 +8,7 @@ module.exports = function() {
     home: base,
     signIn: base+"#/sign_in",
     beakerSignIn: base+"publications.html#/sign_in",
+    beakerSignUp: base+"publications.html#/sign_up",
     market: base+"#/market_place",
     subscriptions: base+"#/subscriptions",
     publications: base+"#/publications",
