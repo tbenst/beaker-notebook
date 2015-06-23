@@ -9,7 +9,8 @@
         return;
       }
 
-      if (!angular.element(e.target).hasClass(containerClass)) {
+      if (!angular.element(e.target).hasClass(containerClass) &&
+          angular.element(e.target).parents(containerSelector).length < 1) {
         angular.element(containerSelector).removeClass('active');
       }
     });
