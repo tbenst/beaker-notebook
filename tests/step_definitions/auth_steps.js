@@ -81,7 +81,7 @@ module.exports = function() {
   });
 
   this.When(/^I go to the Beaker sign up page$/, function() {
-    return new this.Widgets.AppHeader().signUpToBeaker();
+    return this.driver.get(this.route.beakerSignUp);
   });
 
   this.When(/^I go to the edit user page$/, function() {

@@ -31,10 +31,6 @@ module.exports = function() {
       return this.click('a.sign-in');
     },
 
-    signUpToBeaker: function() {
-      return this.click('a.sign-up');
-    },
-
     clickLogo: function() {
       return this.click('.header-logo');
     },
