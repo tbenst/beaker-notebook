@@ -40,7 +40,7 @@ module.exports = function() {
             return n.createPublication({
               'notebook-id': nb['public-id'],
               'name': names.publication || 'test publication ' + i,
-              'categoryID': cat['public-id']
+              'category-id': cat['public-id']
             });
           });
         });
@@ -74,7 +74,7 @@ module.exports = function() {
                 'author-id': user['public-id'],
                 'notebook-id': nb['public-id'],
                 'name': names.publication || 'test publication ' + i,
-                'categoryID': cat['public-id']
+                'category-id': cat['public-id']
               });
             });
           });
@@ -106,7 +106,7 @@ module.exports = function() {
       {"name": name,
        "description": "some published notebook",
        "notebook-id": notebook["public-id"],
-       "categoryID": category['public-id']
+       "category-id": category['public-id']
       });
   });
 

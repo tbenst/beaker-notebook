@@ -53,10 +53,10 @@
          (remove nil?)
          distinct)))
 
-(defn create-publication! [conn author-id {:keys [categoryID notebook-id name description contents]}]
+(defn create-publication! [conn author-id {:keys [category-id notebook-id name description contents]}]
   (let [n (and notebook-id (find-notebook (d/db conn) notebook-id author-id))
         contents (if n (:notebook/contents n) contents)
-        c (find-category (d/db conn) categoryID)
+        c (find-category (d/db conn) category-id)
         p {:db/id (d/tempid :db.part/user)
            :publication/public-id (d/squuid)
            :publication/notebook (:db/id n)
@@ -73,13 +73,13 @@
 
 (defn update-publication! [conn author-id pub-id params]
   (when-let [p (find-publication-by-author (d/db conn) author-id pub-id)]
-    (let [category-id (:categoryID params)
+    (let [category-id (:category-id params)
           n (:publication/notebook p)
           contents (if n (:notebook/contents n) (:contents params))
           name (if n (:notebook/name n) (:name params))
           c (find-category (d/db conn) category-id)
           tx (-> params
-                 (dissoc :public-id :pub-id :created-at :updated-at :notebook-id :categoryID)
+                 (dissoc :public-id :pub-id :created-at :updated-at :notebook-id :category-id)
                  (assoc :category (:db/id c))
                  (assoc :contents contents :name name :languages (notebook-languages contents))
                  utils/remove-nils
@@ -122,8 +122,8 @@
          reverse)))
 
 (defn validate-publication [params]
-  (-> (b/validate (select-keys params [:contents :categoryID :notebook-id :name])
-                  :categoryID v/required
+  (-> (b/validate (select-keys params [:contents :category-id :notebook-id :name])
+                  :category-id v/required
                   :notebook-id [[v/required :pre (comp empty? :contents)]]
                   :name [[v/required :pre (comp empty? :notebook-id)]]
                   :contents [[v/required :pre (comp empty? :notebook-id)]])
