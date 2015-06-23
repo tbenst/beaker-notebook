@@ -30,7 +30,7 @@
     }
 
     $scope.publish = function() {
-      if ($scope.notebook.current.publication.categoryID == 0) {
+      if ($scope.notebook.current.publication['category-id'] == 0) {
         return $scope.error = true;
       }
       TrackingService.mark('PublishNotebook');
@@ -47,7 +47,7 @@
     };
 
     $scope.refresh = function() {
-      $scope.error = ($scope.notebook.current.publication.categoryID == 0);
+      $scope.error = ($scope.notebook.current.publication['category-id'] == 0);
     }
 
     $scope.savePublish = function() {
@@ -64,9 +64,9 @@
     $scope.categoryBase = [{ 'public-id': 0, 'name': 'Select a Category' }];
 
     if ($scope.notebook.current.publication.category) {
-      $scope.notebook.current.publication.categoryID = $scope.notebook.current.publication.category['public-id'];
+      $scope.notebook.current.publication['category-id'] = $scope.notebook.current.publication.category['public-id'];
     } else {
-      $scope.notebook.current.publication.categoryID = 0;
+      $scope.notebook.current.publication['category-id'] = 0;
     }
 
     F.PublicationCategories.getAll().then(function(categories) {

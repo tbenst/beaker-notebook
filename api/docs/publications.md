@@ -17,7 +17,7 @@ This API requires that a user is first authenticated for http://beaker-staging.w
 ```
 {
     "name": [string (required, name of the publication)],
-    "categoryID": [UUID (required, public-id of the category to which this belongs)],
+    "category-id": [UUID (required, public-id of the category to which this belongs)],
     "description": [string (optional, publication description)],
     "contents": [JSON (required, notebook *.bkr file contents)]
 }
@@ -54,8 +54,8 @@ Content:
     "name": [
         "name must be present"
     ],
-    "categoryID": [
-        "categoryID must be present"
+    "category-id": [
+        "category-id must be present"
     ]
 }
 ```
@@ -79,7 +79,7 @@ Content:
 ```
 {
     "name": [string (required, name of the publication)],
-    "categoryID": [UUID (required, public-id of the category to which this belongs)],
+    "category-id": [UUID (required, public-id of the category to which this belongs)],
     "description": [string (optional, publication description)],
     "contents": [JSON (required, notebook *.bkr file contents)]
 }
@@ -114,8 +114,8 @@ Content:
     "name": [
         "name must be present"
     ],
-    "categoryID": [
-        "categoryID must be present"
+    "category-id": [
+        "category-id must be present"
     ]
 }
 ```
