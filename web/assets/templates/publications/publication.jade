@@ -2,7 +2,10 @@
   .main-content
     section.item-hero
       h1.name {{publication.name}}
-      p.description {{publication.description}}
+      .description
+        p {{publication.description}}
+        ul.language-icons
+          language-icon(ng-repeat="language in publication.languages" lang="language")
       summary
         h3 About This Notebook
         .meta
