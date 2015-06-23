@@ -54,6 +54,17 @@
                 id: "export-menuitem"
               },
               {
+                name: function() {
+                  return $scope.published ? "Update published" : "Publish";
+                },
+                sortorder: 77,
+                action: function() {
+                  $scope.openPublishModal();
+                },
+                tooltip: "Publish notebook",
+                id: "publish-menuitem"
+              },
+              {
                 name: 'Divider',
                 sortorder: 80,
                 action: function() {},
