@@ -112,3 +112,6 @@
                           [?p :project/owner-id ?oid]]
                         db project-pattern (utils/uuid-from-str owner-id))]
       (map fix-project-format projects))))
+
+(defn find-projects-in-history [db owner-id]
+  (find-projects (d/history db) owner-id))

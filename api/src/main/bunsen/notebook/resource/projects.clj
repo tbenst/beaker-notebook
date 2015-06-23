@@ -17,8 +17,15 @@
 
   :handle-unprocessable-entity ::errors
 
-  :handle-ok (fn [{{db :db {owner-id :id} :session} :request}]
-               (p/find-projects db owner-id))
+  :handle-ok (fn [{{db :db conn :conn {owner-id :id} :session} :request}]
+               (let [projects (p/find-projects db owner-id)]
+                 (if (or (seq projects)
+                         (seq (p/find-projects-in-history db owner-id)))
+                   projects
+                   [(p/create-project! conn
+                                       owner-id
+                                       {:name "Sandbox"
+                                        :description "Sandbox"})])))
 
   :post! (fn [{{conn :conn
                 {owner-id :id} :session
