@@ -8,11 +8,11 @@
 
   :exists? (fn [{{db :db {pub-id :pub-id} :route-params} :request}]
              (if-let [p (api/find-publication db pub-id)]
-               {::notebook (:publication/contents p)}))
+               {::publication p}))
 
-  :handle-ok ::notebook
+  :handle-ok ::publication
 
-  :as-response (fn [notebook {{{pub-id :pub-id} :route-params} :request}]
-                 (let [attachment (str "attachment; filename=" "notebook-" pub-id ".bkr")]
-                   (-> {:body notebook}
+  :as-response (fn [p _]
+                 (let [attachment (str "attachment; filename=" (:publication/name p) ".bkr")]
+                   (-> {:body (:publication/contents p)}
                        (assoc-in [:headers "Content-Disposition"] attachment)))))
