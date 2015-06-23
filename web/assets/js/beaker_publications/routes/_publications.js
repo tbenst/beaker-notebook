@@ -31,6 +31,16 @@
             template: templates['publications/publication']
           }
         }
+      })
+      .state('createPublication', {
+        url: '/create_publication',
+        skipAuth: true,
+        views: {
+          root: {
+            controller: 'publicationsRoot',
+            template: templates['beaker_publications/create_publication']
+          }
+        }
       });
   }]);
 })(angular, window.bunsen, templates);

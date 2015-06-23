@@ -9,4 +9,6 @@
         a.sign-out(ui-sref="signOut") Sign out
       li(ng-show="!$session.user && !$state.includes('signIn') && !$state.includes('signUp')")
         a.btn.alt.sign-in(ui-sref="signIn") Sign in
+      li(ng-show="!$session.user && !$state.includes('signIn') && !$state.includes('signUp') && !$state.includes('createPublication')")
+        a.btn.alt(ui-sref="createPublication") Create Publication
 
