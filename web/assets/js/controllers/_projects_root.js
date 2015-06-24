@@ -40,8 +40,6 @@
         return moment.utc(notebook['opened-at']).utc().format();
       };
 
-      $scope.isFullscreen = FullscreenState.isFullscreen;
-
       $scope.openNotebook = function(notebook) {
         if (notebook.unavailable) {
           return;

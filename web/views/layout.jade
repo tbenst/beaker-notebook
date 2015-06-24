@@ -42,7 +42,7 @@ html(ng-app="bunsen")
           li(ng-show="isUserAdmin")
             a.nav-item.admin(ui-sref-active='nav-item-active', ui-sref="admin.index") Admin
         .cl
-    #beaker-container.contain
+    #beaker-container.contain(ng-class="{'fullscreen': isFullscreen()}")
       #root(ui-view="root")
         != content
       beakernotebook#beakernotebook(ng-show="showingNotebook()")

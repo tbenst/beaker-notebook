@@ -22,8 +22,6 @@
               scope.openFromUri = void 0;
             }
 
-            scope.isFullscreen = FullscreenState.isFullscreen;
-
             var closeListener = $rootScope.$on('activeNotebookClosed', clearActiveNotebook);
 
             // when switching notebooks, remove active notebook from the
