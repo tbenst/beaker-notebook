@@ -61,10 +61,10 @@
           .then(signIn)
           .catch(function(err) {
             $scope.loading = false;
-            if(err.status === 409) {
-              $scope.message = 'Error: Email is already registered';
+            if(err.status === 422 && err.data.email) {
+              $scope.message = 'Error: ' + err.data.email[0];
             } else {
-              $scope.message = 'Error: Invalid user or password';
+              $scope.message = 'Error: Invalid name or password';
             }
           });
         } else {
