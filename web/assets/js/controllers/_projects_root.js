@@ -43,7 +43,9 @@
       $scope.isFullscreen = FullscreenState.isFullscreen;
 
       $scope.openNotebook = function(notebook) {
-        if (notebook.unavailable) return;
+        if (notebook.unavailable) {
+          return;
+        }
         TrackingService.manageNotebookMarks(notebook)
         .then(function() {
           $state.go('projects.items.item.notebook', {
