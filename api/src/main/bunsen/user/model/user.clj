@@ -22,15 +22,14 @@
        db user-pattern [email role]))
 
 (defn find-user-by-email [{:keys [db email exclude] :as params}]
-  (-> (d/q '[:find [(pull ?user pattern)]
-             :in $ pattern [?email ?exclude]
-             :where
-             [?user :user/email ?e]
-             [?user :user/public-id ?id]
-             [(not= ?id ?exclude)]
-             [(bunsen.user.model.user/emails-equal? ?e ?email)]]
-           db user-pattern [email (if exclude (utils/uuid-from-str exclude) nil)])
-      first))
+  (d/q '[:find (pull ?user pattern) .
+         :in $ pattern [?email ?exclude]
+         :where
+         [?user :user/email ?e]
+         [?user :user/public-id ?id]
+         [(not= ?id ?exclude)]
+         [(bunsen.user.model.user/emails-equal? ?e ?email)]]
+       db user-pattern [email (if exclude (utils/uuid-from-str exclude) nil)]))
 
 (defn find-user-by-id [db id]
   (-> (d/q '[:find [(pull ?user pattern)]
