@@ -18,7 +18,7 @@
       TrackingService) {
       var F = Factories;
 
-      if($rootScope.referrer.fromState.name === "landing") {
+      if ($rootScope.referrer.fromState.name === "landing") {
         TrackingService.mark('Authenticated');
         TrackingService.measure('BaselineAccountCreation', 'SignUp', 'Authenticated');
         TrackingService.measure('BaselineAccountSignIn', 'SignIn', 'Authenticated');
