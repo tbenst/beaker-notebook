@@ -16,6 +16,7 @@
 
     return function(scope, element) {
       element.on('click',  function() {
+        angular.element(containerSelector).removeClass('active');
         if (element.hasClass(containerClass)) {
           element.toggleClass('active');
         }
