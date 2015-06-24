@@ -34,11 +34,11 @@
         return F.Projects.getProjects().then(function(projects) {
           $scope.projects.list = projects;
         });
-      }
+      };
 
       $scope.openedAt = function(notebook) {
-        return moment.utc(notebook['opened-at']).utc().format()
-      }
+        return moment.utc(notebook['opened-at']).utc().format();
+      };
 
       $scope.isFullscreen = FullscreenState.isFullscreen;
 
@@ -55,7 +55,7 @@
             // jscs: enable
           });
         });
-      }
+      };
 
       $scope.closeNotebook = Notebooks.closeNotebook;
 
@@ -67,7 +67,7 @@
 
       $scope.projects = $scope.projects || {};
       $scope.notebooks = $scope.notebooks || {};
-      $scope.searchable = $scope.searchable || {}
+      $scope.searchable = $scope.searchable || {};
 
       $scope.projects.ready = $scope.setProjects().then(setNotebooks);
 
