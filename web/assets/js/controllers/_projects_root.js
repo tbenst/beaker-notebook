@@ -50,7 +50,9 @@
         .then(function() {
           $state.go('projects.items.item.notebook', {
             id: notebook.project['public-id'],
+            // jscs: disable requireCamelCaseOrUpperCaseIdentifiers
             notebook_id: notebook['public-id']
+            // jscs: enable
           });
         });
       }
@@ -58,7 +60,9 @@
       $scope.closeNotebook = Notebooks.closeNotebook;
 
       $scope.isViewingNotebook = function(notebookId) {
+        // jscs: disable requireCamelCaseOrUpperCaseIdentifiers
         return $state.includes('projects.items.item.notebook') && $state.params.notebook_id == notebookId;
+        // jscs: enable
       };
 
       $scope.projects = $scope.projects || {};
