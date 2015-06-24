@@ -59,3 +59,13 @@ As a researcher, I need to provide my user identity.
       | email         | password |
       | beaker@r.edu  | password |
     Then I should see the sign in error "Error: Invalid user or password"
+
+  Scenario: Detect duplicate emails on sign up
+    Given I signed up as a researcher
+    And I'm not signed in
+    When I view the Beaker publications page
+    And I go to the Beaker sign up page
+    And I fill in the sign up form with:
+      | name        | email   | password |
+      | Beaker user | u@r.edu | password |
+    Then I should see the sign up error "Error: email already taken"

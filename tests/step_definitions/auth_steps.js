@@ -81,7 +81,11 @@ module.exports = function() {
   });
 
   this.When(/^I go to the Beaker sign up page$/, function() {
-    return this.driver.get(this.route.beakerSignUp);
+    var _this = this;
+    return new this.Widgets.AppHeader().signInToBeaker()
+    .then(function() {
+      return new _this.Widgets.SignIn().switchToSignUp();
+    });
   });
 
   this.When(/^I go to the edit user page$/, function() {
@@ -107,6 +111,10 @@ module.exports = function() {
 
   this.Then(/^I should see the sign in error "([^"]*)"$/, function(err) {
     return new this.Widgets.SignInMessage().getText().should.eventually.eql(err)
+  });
+
+  this.Then(/^I should see the sign up error "([^"]*)"$/, function(err) {
+    return new this.Widgets.SignUpMessage().getText().should.eventually.eql(err)
   });
 
   this.Then(/^I should see the header greeting "([^"]*)"$/, function(expected) {

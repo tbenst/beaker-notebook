@@ -10,6 +10,17 @@ module.exports = function() {
     fields: ['name', 'email', 'password'],
   });
 
+  this.Widgets.SignUpMessage = this.Widget.extend({
+    root: 'sign-up .message'
+  });
+
+  this.Widgets.SignIn = this.Widget.extend({
+    root: '.auth.sign-in',
+    switchToSignUp: function() {
+      return this.click('.sub-action .create-account');
+    },
+  });
+
   return this.Widgets.SignInMessage= this.Widget.extend({
     root: 'sign-in .message'
   });
