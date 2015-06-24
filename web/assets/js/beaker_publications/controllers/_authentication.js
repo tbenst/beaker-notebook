@@ -59,7 +59,6 @@
         $scope.user.roles = $scope.roles;
         UsersRestangular.all('users').post($scope.user)
           .then(signIn)
-          .then(createDefaultProject)
           .catch(function(err) {
             $scope.loading = false;
             if(err.status === 409) {

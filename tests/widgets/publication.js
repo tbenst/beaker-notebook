@@ -11,7 +11,7 @@ module.exports = function() {
     },
 
     description: function() {
-      return this.read('.description');
+      return this.read('.description p');
     },
 
     goToOpenInBunsen: function() {
