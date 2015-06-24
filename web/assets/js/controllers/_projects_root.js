@@ -18,7 +18,7 @@
       TrackingService) {
       var F = Factories;
 
-      if ($rootScope.referrer.fromState.name === "landing") {
+      if ($rootScope.referrer.fromState.name === 'landing') {
         TrackingService.mark('Authenticated');
         TrackingService.measure('BaselineAccountCreation', 'SignUp', 'Authenticated');
         TrackingService.measure('BaselineAccountSignIn', 'SignIn', 'Authenticated');
@@ -70,7 +70,7 @@
           if (!$state.includes('**.search')) {
             $state.go($state.current.name + '.search');
           }
-        } else if (!$state.includes('**.items') && !$state.is("projects.items.item.notebook")) {
+        } else if (!$state.includes('**.items') && !$state.is('projects.items.item.notebook')) {
           // Empty search term, go back to the parent state
           $state.go('^');
         }

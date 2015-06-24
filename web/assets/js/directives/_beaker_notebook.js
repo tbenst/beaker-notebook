@@ -1,5 +1,5 @@
 ;(function(angular) {
-  angular.module("beakerNotebook", [])
+  angular.module('beakerNotebook', [])
     .directive('beakernotebook', [
       '$rootScope',
       'bkSessionManager',
@@ -11,7 +11,7 @@
         return {
           restrict: 'E',
           scope: {
-            notebook: "=",
+            notebook: '=',
           },
           template: templates['directives/beakernotebook'],
           link: function(scope, element) {
@@ -29,7 +29,7 @@
             // when switching notebooks, remove active notebook from the
             // page before new one renders
             var stateListener = $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-              if (toState.name == "projects.items.item.notebook"
+              if (toState.name == 'projects.items.item.notebook'
                   && scope.beakerSessionId !== void(0)
                   && scope.beakerSessionId !== toParams.notebook_id) {
                 bkSessionManager.backup().then(clearActiveNotebook);
