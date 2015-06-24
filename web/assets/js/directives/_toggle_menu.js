@@ -1,10 +1,9 @@
 ;(function(app) {
+  var containerClass = 'bunsen-dropdown-toggle';
+  var containerSelector = '.' + containerClass;
+
   app.directive('toggleMenu', function() {
-
     angular.element('html').on('click.hideMenus', function(e) {
-      var containerClass = 'bunsen-dropdown-toggle';
-      var containerSelector = '.' + containerClass;
-
       if (!angular.element(containerSelector).length) {
         return;
       }
@@ -17,7 +16,8 @@
 
     return function(scope, element) {
       element.on('click',  function() {
-        if (element.hasClass('bunsen-dropdown-toggle')) {
+        angular.element(containerSelector).removeClass('active');
+        if (element.hasClass(containerClass)) {
           element.toggleClass('active');
         }
       });
