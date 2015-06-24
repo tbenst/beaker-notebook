@@ -63,18 +63,4 @@
     }
   });
 
-  app.directive('publicationLatex', function() {
-    return {
-      scope: {
-        cell: "="
-      },
-      restrict: "E",
-      link: function(scope, el) {
-        katex.render(scope.cell.output.result.object,
-          el[0].firstChild
-        );
-      },
-      template: templates['publications/publication_cell_latex']
-    }
-  });
 })(angular, window.bunsen);
