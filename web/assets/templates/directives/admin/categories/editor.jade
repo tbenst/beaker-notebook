@@ -1,0 +1,12 @@
+.name
+  span(ng-if="!editMode") {{ node.name }}
+  input(ng-if="editMode" type="text" ng-model="updatedNode.name")
+
+.controls.right
+  button(ng-if="!editMode" ng-click="edit()") edit
+  button(ng-if="editMode" ng-click="save()") save
+  button(ng-if="editMode" ng-click="cancel()") cancel
+  button(ng-if="isSaved()" ng-click="remove()") remove
+  button(ng-if="isSaved()" ng-click="add()") +
+
+.cl

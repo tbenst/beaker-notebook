@@ -1,0 +1,18 @@
+.admin-categories
+  width 50%
+
+  .name
+    display inline-block
+    margin-top 2px
+    margin-bottom 2px
+
+  .controls
+    display inline-block
+
+  .tree-selected
+    // Nothing happens when you "select" a tree node in admin
+    // category editor, so hide special styles on selected leaves
+    background-color transparent
+
+    &:hover
+      background-color lighten(action-strong-blue, 5%)
