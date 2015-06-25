@@ -121,7 +121,7 @@
 
           $scope.setNewCatalog = function(val, dataset) {
             dataset.index = val;
-            dataset.catalog = _.find($scope.catalogs, { name: val });
+            dataset.catalog = _.find($scope.catalogs, {name: val});
             delete dataset.categories;
           };
 
