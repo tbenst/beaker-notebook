@@ -23,7 +23,8 @@
      'ngSanitize',
      'hljs',
      'hc.marked',
-     'ui.gravatar'
+     'ui.gravatar',
+     'localytics.directives'
     ], ['RestangularProvider', function(RestangularProvider) {
       RestangularProvider.setBaseUrl('/api');
     }]);

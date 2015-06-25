@@ -62,12 +62,20 @@
             }
           }
 
-          $scope.$watch('dataset', function(newVal) {
-            if (!newVal) {
+          $scope.$watch('dataset + vendors', function(newVal) {
+            if (!newVal || !$scope.vendors) {
               return;
             }
 
-            $scope.selectedVendor = getDatasetVendor($scope.dataset);
+            var name = getDatasetVendor($scope.dataset);
+            var vendor = _.where($scope.vendors, {name: name})[0];
+            if (vendor) {
+              $scope.selectedVendor = {
+                name: name,
+                'public-id': vendor['public-id']
+              };
+            }
+
             setDatasetVendor($scope.dataset);
           });
 
@@ -91,9 +99,10 @@
             return _.contains(meta, attr);
           };
 
-          $scope.updateVendor = function(vendor) {
-            $scope.dataset.vendor = vendor['public-id'];
-            $scope.selectedVendor = vendor.name;
+          $scope.updateVendor = function(id) {
+            var vendor = _.where($scope.vendors, {'public-id': id})[0];
+            $scope.dataset.vendor = id;
+            $scope.selectedVendor = _.pick(vendor, 'id', 'name');
           };
 
           $scope.deleteEntity = function(dataset) {
