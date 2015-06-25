@@ -12,17 +12,24 @@
 (defn emails-equal? [e f]
   (= (lower-case e) (lower-case f)))
 
-(defn find-user-by-email [{:keys [db email role exclude] :as params}]
-  (-> (d/q '[:find [(pull ?user pattern)]
-             :in $ pattern [?email ?role ?exclude]
-             :where
-             [?user :user/email ?e]
-             [?user :user/public-id ?id]
-             [?user :user/roles ?role]
-             [(not= ?id ?exclude)]
-             [(bunsen.user.model.user/emails-equal? ?e ?email)]]
-           db user-pattern [email role (if exclude (utils/uuid-from-str exclude) nil)])
-      first))
+(defn find-user-by-email-role [{:keys [db email role] :as params}]
+  (d/q '[:find (pull ?user pattern) .
+         :in $ pattern [?email ?role]
+         :where
+         [?user :user/email ?e]
+         [?user :user/roles ?role]
+         [(bunsen.user.model.user/emails-equal? ?e ?email)]]
+       db user-pattern [email role]))
+
+(defn find-user-by-email [{:keys [db email exclude] :as params}]
+  (d/q '[:find (pull ?user pattern) .
+         :in $ pattern [?email ?exclude]
+         :where
+         [?user :user/email ?e]
+         [?user :user/public-id ?id]
+         [(not= ?id ?exclude)]
+         [(bunsen.user.model.user/emails-equal? ?e ?email)]]
+       db user-pattern [email (if exclude (utils/uuid-from-str exclude) nil)]))
 
 (defn find-user-by-id [db id]
   (-> (d/q '[:find [(pull ?user pattern)]

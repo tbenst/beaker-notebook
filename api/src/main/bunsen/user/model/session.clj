@@ -6,7 +6,7 @@
             [bunsen.user.model.user :as u]))
 
 (defn new-session [db {:keys [email password role]}]
-  (when-let [user (u/find-user-by-email {:db db :email email :role (keyword "role" role)})]
+  (when-let [user (u/find-user-by-email-role {:db db :email email :role (keyword "role" role)})]
     (when (password/check password (:user/password user))
       {:id (:user/public-id (u/fix-user-format user))
        :roles (:user/roles (u/fix-user-format user))})))
