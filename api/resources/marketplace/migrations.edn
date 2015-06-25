@@ -62,4 +62,69 @@
              :db/cardinality :db.cardinality/one
              :db.install/_attribute :db.part/db}
             ]]}
+
+ :marketplace/make-vendor-public-id-unique-identity
+  {:txes [[
+            {:db/id :vendor/public-id
+             :db/unique :db.unique/identity
+             :db.alter/_attribute :db.part/db}
+            ]]}
+
+ :marketplace/add-dataset-schema
+  {:txes [[
+            {:db/id #db/id[:db.part/db]
+             :db/ident :dataset/public-id
+             :db/valueType :db.type/uuid
+             :db/unique :db.unique/identity
+             :db/cardinality :db.cardinality/one
+             :db.install/_attribute :db.part/db}
+
+            {:db/id #db/id[:db.part/db]
+             :db/ident :dataset/category
+             :db/valueType :db.type/ref
+             :db/cardinality :db.cardinality/one
+             :db.install/_attribute :db.part/db}
+
+            {:db/id #db/id[:db.part/db]
+             :db/ident :dataset/catalog
+             :db/valueType :db.type/ref
+             :db/cardinality :db.cardinality/one
+             :db.install/_attribute :db.part/db}
+
+            {:db/id #db/id[:db.part/db]
+             :db/ident :dataset/vendor
+             :db/valueType :db.type/ref
+             :db/cardinality :db.cardinality/one
+             :db.install/_attribute :db.part/db}
+
+            {:db/id #db/id[:db.part/db]
+             :db/ident :dataset/metadata
+             :db/valueType :db.type/string
+             :db/cardinality :db.cardinality/one
+             :db.install/_attribute :db.part/db}
+
+            {:db/id #db/id[:db.part/db]
+             :db/ident :dataset/title
+             :db/valueType :db.type/string
+             :db/cardinality :db.cardinality/one
+             :db.install/_attribute :db.part/db}
+
+            {:db/id #db/id[:db.part/db]
+             :db/ident :dataset/tags
+             :db/valueType :db.type/string
+             :db/cardinality :db.cardinality/many
+             :db.install/_attribute :db.part/db}
+
+            {:db/id #db/id[:db.part/db]
+             :db/ident :dataset/created-at
+             :db/valueType :db.type/instant
+             :db/cardinality :db.cardinality/one
+             :db.install/_attribute :db.part/db}
+
+            {:db/id #db/id[:db.part/db]
+             :db/ident :dataset/updated-at
+             :db/valueType :db.type/instant
+             :db/cardinality :db.cardinality/one
+             :db.install/_attribute :db.part/db}
+            ]]}
 }
