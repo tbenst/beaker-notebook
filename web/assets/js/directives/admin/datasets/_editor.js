@@ -84,7 +84,7 @@
           $scope.datasetHas = function(attr) {
             var meta = defaultMeta;
 
-            if ($scope.dataset && $scope.dataset.catalog && $scope.dataset.catalog.name == "Two Sigma") {
+            if ($scope.dataset && $scope.dataset.catalog && $scope.dataset.catalog.name == 'Two Sigma') {
               meta = twoSigmaMeta;
             }
 
