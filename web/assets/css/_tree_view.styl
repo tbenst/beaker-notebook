@@ -35,6 +35,9 @@ treecontrol
         display: block
         pointer-events: none
 
+      &:hover::after
+        border-top-color lighten(action-strong-blue, 5%)
+
   .tree-label
     color white
     position relative
@@ -46,14 +49,12 @@ treecontrol
       cursor pointer
 
   .tree-selected
-    background-color action-blue
+    &, &:hover
+      background-color action-blue
     .count
       color white
-    &:hover
-      background-color action-blue
-
-    i
-      border-top: 8px solid red
+    &::after
+      border-top-color action-blue !important
 
   li li
     background-color darken(action-strong-blue, 20%)
