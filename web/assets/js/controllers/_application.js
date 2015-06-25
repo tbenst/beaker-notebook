@@ -11,6 +11,7 @@
     'AuthService',
     'Factories',
     'LastViewed',
+    'FullscreenState',
     function(
       $rootScope,
       $scope,
@@ -22,7 +23,11 @@
       $sessionStorage,
       AuthService,
       F,
-      LastViewed) {
+      LastViewed,
+      FullscreenState) {
+
+      $scope.isFullscreen = FullscreenState.isFullscreen;
+
       $rootScope.$session = $sessionStorage;
 
       $scope.showingNotebook = function() {
