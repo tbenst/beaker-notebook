@@ -62,4 +62,11 @@
              :db/cardinality :db.cardinality/one
              :db.install/_attribute :db.part/db}
             ]]}
+
+ :marketplace/make-vendor-public-id-unique-identity
+  {:txes [[
+            {:db/id :vendor/public-id
+             :db/unique :db.unique/identity
+             :db.alter/_attribute :db.part/db}
+            ]]}
 }
