@@ -185,6 +185,20 @@
   [es-conn index-name categories]
   (category/create-categories! es-conn index-name categories))
 
+(defn create-category!
+  [datomic-db datomic-conn params]
+  (let [catalog (catalog/get-catalog datomic-db (:catalog-id params))
+        params (assoc params :catalog catalog)]
+    (category/create-category! datomic-conn params)))
+
+(defn delete-category!
+  [conn category-id]
+  (category/delete-category! conn category-id))
+
+(defn update-category!
+  [conn params]
+  (category/update-category! conn params))
+
 (defn- assoc-catalog-with-dataset
   [es-conn d]
   (assoc d

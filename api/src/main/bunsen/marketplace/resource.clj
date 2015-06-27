@@ -76,6 +76,11 @@
   :handle-ok #(api/find-categories (get-es %) (get-params %))
   :post! #(api/create-categories! (get-es %) (:indexName params) (:categories params)))
 
+(defresource category [params] restricted-write-defaults
+  :allowed-methods #{:delete :put}
+  :put! #(api/update-category! (get-conn %) params)
+  :delete! #(api/delete-category! (get-conn %) (:category-id params)))
+
 (defresource datasets [{:keys [index-name] :as params}] restricted-write-defaults
   :exists? #(api/index-exists? (get-es %) index-name)
   :allowed-methods #{:get :post}
@@ -156,6 +161,7 @@
 (def resources
   {:status status
    :categories categories
+   :category category
    :catalogs catalogs
    :seed seed
    :seed-datasets seed-datasets
