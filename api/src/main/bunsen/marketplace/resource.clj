@@ -99,6 +99,13 @@
   :handle-ok #(api/list-indices (get-es %))
   :post! #(api/create-index! (get-es %) (:indexName params)))
 
+(defresource catalogs [params] restricted-read-defaults
+  :allowed-methods #{:get :post}
+  :post! (fn [ctx]
+           {::catalog (api/create-catalog! (get-conn ctx) params)})
+  :handle-created ::catalog
+  :handle-ok #(api/list-catalogs (get-db %)))
+
 (defresource refresh-index [params] restricted-read-defaults
   :allowed-methods #{:put}
   :put! #(api/refresh-index! (get-es %) (:indexName params)))
@@ -149,6 +156,7 @@
 (def resources
   {:status status
    :categories categories
+   :catalogs catalogs
    :seed seed
    :seed-datasets seed-datasets
    :seed-subscriptions seed-subscriptions

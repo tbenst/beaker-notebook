@@ -5,6 +5,7 @@
             [bunsen.marketplace.model.vendor :as vendor]
             [bunsen.marketplace.model.format :as format]
             [bunsen.marketplace.model.rating :as rating]
+            [bunsen.marketplace.model.catalog :as catalog]
             [bunsen.marketplace.model.dataset :as dataset]
             [bunsen.marketplace.model.category :as category]
             [bunsen.marketplace.model.subscription :as subscription]))
@@ -167,6 +168,14 @@
 (defn list-categories
   [es-conn index-name]
   (category/list-categories es-conn index-name))
+
+(defn create-catalog!
+  [datomic-conn params]
+  (catalog/create-catalog! datomic-conn params))
+
+(defn list-catalogs
+  [datomic-db]
+  (catalog/list-catalogs datomic-db))
 
 (defn find-categories
   [es-conn query]

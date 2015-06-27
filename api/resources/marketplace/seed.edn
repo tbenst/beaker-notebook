@@ -210,4 +210,120 @@
   {:db/id #db/id[:db.part/user]
    :vendor/public-id #uuid "556f3d84-c59e-4e15-835f-ddd3a868ea83"
    :vendor/name "Zillow Real Estate Research"}
+
+  {:db/id #db/id[:db.part/user -1]
+   :catalog/public-id #uuid "820baa8a-1131-11e5-9493-1697f925ec7b"
+   :catalog/name "misc"
+   :catalog/mapping "{\"title\": {
+                         \"type\": \"string\",
+                         \"indexes\": [
+                           \"text\"
+                         ]
+                       },
+                       \"description\": {
+                         \"type\": \"string\",
+                         \"indexes\": [
+                           \"text\"
+                         ]
+                       },
+                       \"remoteFile\": {
+                         \"type\": \"string\"
+                       },
+                       \"rows\": {
+                         \"type\": \"integer\"
+                       },
+                       \"format\": {
+                         \"type\": \"string\",
+                         \"indexes\": [
+                           \"filter\"
+                         ]
+                       },
+                       \"updateFrequency\": {
+                         \"type\": \"string\"
+                       },
+                       \"startDate\": {
+                         \"type\": \"date\"
+                       },
+                       \"numColumns\": {
+                         \"type\": \"integer\"
+                       },
+                       \"csvPreview\": {
+                         \"type\": \"string\"
+                       },
+                       \"vendor\": {
+                         \"type\": \"string\",
+                         \"indexes\": [
+                           \"filter\"
+                         ]
+                       },
+                       \"tags\": {
+                         \"type\": \"string\",
+                         \"indexes\": [
+                           \"filter\"
+                         ]
+                       },
+                       \"released\": {
+                         \"type\": \"date\"
+                       },
+                       \"lastUpdated\": {
+                         \"type\": \"date\"
+                       }}"}
+
+  {:db/id #db/id[:db.part/user -2]
+   :catalog/public-id #uuid "7b364e13-f82a-41ef-b3eb-93ca7251ec8e"
+   :catalog/name "quandl"
+   :catalog/mapping "{\"title\": {
+                         \"type\": \"string\",
+                         \"indexes\": [
+                           \"text\"
+                         ]
+                       },
+                       \"description\": {
+                         \"type\": \"string\",
+                         \"indexes\": [
+                           \"text\"
+                         ]
+                       },
+                       \"remoteFile\": {
+                         \"type\": \"string\"
+                       },
+                       \"rows\": {
+                         \"type\": \"integer\"
+                       },
+                       \"format\": {
+                         \"type\": \"string\",
+                         \"indexes\": [
+                           \"filter\"
+                         ]
+                       },
+                       \"updateFrequency\": {
+                         \"type\": \"string\"
+                       },
+                       \"startDate\": {
+                         \"type\": \"date\"
+                       },
+                       \"numColumns\": {
+                         \"type\": \"integer\"
+                       },
+                       \"csvPreview\": {
+                         \"type\": \"string\"
+                       },
+                       \"vendor\": {
+                         \"type\": \"string\",
+                         \"indexes\": [
+                           \"filter\"
+                         ]
+                       },
+                       \"tags\": {
+                         \"type\": \"string\",
+                         \"indexes\": [
+                           \"filter\"
+                         ]
+                       },
+                       \"released\": {
+                         \"type\": \"date\"
+                       },
+                       \"lastUpdated\": {
+                         \"type\": \"date\"
+                       }}"}
 ]

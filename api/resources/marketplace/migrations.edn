@@ -127,4 +127,32 @@
              :db/cardinality :db.cardinality/one
              :db.install/_attribute :db.part/db}
             ]]}
+
+  :marketplace/add-catalog-schema
+   {:txes [[
+           {:db/id #db/id[:db.part/db]
+            :db/ident :catalog/public-id
+            :db/valueType :db.type/uuid
+            :db/unique :db.unique/identity
+            :db/cardinality :db.cardinality/one
+            :db.install/_attribute :db.part/db}
+
+           {:db/id #db/id[:db.part/db]
+            :db/ident :catalog/name
+            :db/valueType :db.type/string
+            :db/cardinality :db.cardinality/one
+            :db.install/_attribute :db.part/db}
+
+           {:db/id #db/id[:db.part/db]
+            :db/ident :catalog/mapping
+            :db/valueType :db.type/string
+            :db/cardinality :db.cardinality/one
+            :db.install/_attribute :db.part/db}
+
+           {:db/id #db/id[:db.part/db]
+            :db/ident :catalog/base-path
+            :db/valueType :db.type/string
+            :db/cardinality :db.cardinality/one
+            :db.install/_attribute :db.part/db}
+           ]]}
 }
