@@ -24,6 +24,10 @@
             }
           }
         },
+        "categoryIds": {
+          "index": "not_analyzed",
+          "type": "string"
+        },
         "tags": {
           "index": "not_analyzed",
           "type": "string"

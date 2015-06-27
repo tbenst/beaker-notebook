@@ -15,15 +15,9 @@
 
       var F = Factories;
 
-      // Catalogs are top-level categories, so the catalog path of any category
-      // is going to be the first two segments of the dot-divided path
-      function extractCatalogPath(categoryPath) {
-        return categoryPath.split('.').slice(0, 2).join('.');
-      }
-
       $scope.marketPlace.treeOptions = {
         equality: function(a, b) {
-          return a && b && a.index == b.index && a.path == b.path;
+          return a && b && a['public-id'] == b['public-id']
         },
         nodeChildren: 'children',
         onLabelClick: 'both',
@@ -32,10 +26,12 @@
 
       $scope.onTreeExpansion = function(node, expanded) {
         if (expanded) {
-          F.Categories.getCategories({root: node.path, limit: 2}).then(function(categories) {
+          F.Categories.getCategories({root: node['public-id'], limit: 2}).then(function(categories) {
             _.each(node.children, function(category) {
-              var child = _.find(categories[0].children, {id: category.id});
-              category.children = child.children ;
+              var child = _.find(categories[0].children, function(categoryChild) {
+                return categoryChild['public-id'] == category['public-id'];
+              });
+              category.children = child.children;
             });
           });
         } else {
@@ -45,18 +41,26 @@
         }
       };
 
+      function getRootCategory(node) {
+        if (node.parent) {
+          return getRootCategory(node.parent);
+        } else {
+          return node;
+        }
+      }
+
       $scope.onTreeSelection = function(node) {
         if (node) {
-          $localStorage.lastCatalogPath = extractCatalogPath(node.path);
-          $localStorage.lastIndex = node.index;
-          $scope.newSearch({categoryPath: node.path});
+          $localStorage.lastRootCategoryId = getRootCategory(node)['public-id'];
+          $localStorage.lastCatalogId = node.catalog['public-id'];
+          $scope.newSearch({categoryId: node['public-id']});
         }
       };
 
       $scope.searchByTag = function(tag) {
         $scope.newSearch({
           tagsScope: [tag],
-          categoryPath: extractCatalogPath($scope.marketPlace.categoryPath)
+          categoryId: $scope.marketPlace.categoryId
         });
       };
 
@@ -71,6 +75,11 @@
 
       F.Categories.getCategories({limit: 3}).then(function(treeData) {
         $scope.treeData = treeData;
+
+        if (!$scope.marketPlace.currentCategory) {
+          $scope.marketPlace.currentCategory = treeData[0];
+          $scope.marketPlace.categoryId = treeData[0]['public-id'];
+        }
       });
 
       $scope.$watch('marketPlace.searchTerm', function(v) {
@@ -78,7 +87,8 @@
           TrackingService.mark('UnfilteredMarketPlaceSearch');
           $scope.newSearch({
             searchTerm: $scope.marketPlace.searchTerm,
-            categoryPath: extractCatalogPath($scope.marketPlace.categoryPath)});
+            categoryId: $scope.marketPlace.categoryId
+          })
         }
       });
     }]);

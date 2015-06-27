@@ -5,7 +5,7 @@
       MarketplaceRestangular) {
       return {
         getCatalogs: function() {
-          return MarketplaceRestangular.all('indices').getList();
+          return MarketplaceRestangular.all('catalogs').getList();
         }
       };
     }]);

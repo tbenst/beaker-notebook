@@ -1,6 +1,6 @@
 .col-three-quarters
   h2
-    a.title(ui-sref="marketPlace.items.item({index: item.index, id: item.id})") {{item.title}}
+    a.title(ui-sref="marketPlace.items.item({catalogId: item.catalog, id: item.id})") {{item.title}}
   p.description {{item.description | limitTo:100}} {{item.description.length > 100 ? "..." : ""}}
   .vendor
     | Vendor:&nbsp;
@@ -16,5 +16,5 @@
     li
       ratings(average="item.average" score=0 max=5)
     li(ng-if="isAdmin")
-      a.edit.admin-action(ui-sref="admin.datasets.edit({index: item.index, id: item.id})") Edit Marketplace Item
+      a.edit.admin-action(ui-sref="admin.datasets.edit({catalogId: item.catalog, id: item.id})") Edit Marketplace Items
 .cl

@@ -41,7 +41,7 @@
         }
       })
       .state('admin.datasets.edit', {
-        url: '/admin/datasets/edit/:index/:id',
+        url: '/admin/datasets/edit/:catalogId/:id',
         views: {
           'app@admin': {
             controller: 'datasetsEdit',

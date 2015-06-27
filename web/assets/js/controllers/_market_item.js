@@ -40,11 +40,11 @@
 
       function getItemWithRatings() {
         $scope.ratingAttrs = {
-          index: $state.params.index,
+          catalogId: $state.params.catalogId,
           id: $state.params.id.toString()
         };
 
-        F.DataSets.getDataSet($state.params.index, $state.params.id).then(function(d) {
+        F.DataSets.getDataSet($state.params.catalogId, $state.params.id).then(function(d) {
           $scope.item = Restangular.stripRestangular(d);
           $scope.subscribed = _.contains(d.subscriberIds, $sessionStorage.user.id);
           if ($scope.item.csvPreview) {
@@ -77,7 +77,7 @@
       };
 
       function restangularSubscription() {
-        return MR.all('subscriptions').one($state.params.index, $state.params.id);
+        return MR.all('subscriptions').one($state.params.catalogId, $state.params.id);
       }
 
       $scope.unsubscribe = function() {

@@ -15,7 +15,7 @@
 
       createRating: function(params) {
         return MR
-          .one('indices', params.index)
+          .one('catalogs', params.catalogId)
           .one('datasets', params.id)
           .all('rating')
           .post(params);
@@ -23,7 +23,7 @@
 
       averageRating: function(params) {
         return MR
-          .one('indices', params.index)
+          .one('catalogs', params.catalogId)
           .one('datasets', params.id)
           .one('average-rating').get()
           .then(function(result) {
@@ -33,7 +33,7 @@
 
       userRating: function(params) {
         return MR
-          .one('indices', params.index)
+          .one('catalogs', params.catalogId)
           .one('datasets', params.id)
           .one('rating').get()
           .then(function(result) {

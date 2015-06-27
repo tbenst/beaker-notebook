@@ -35,41 +35,6 @@
        extract-catalog-path
        (get-category es-conn index-name)))
 
-(defn- build-query [params]
-  (cond
-    ; Typeahead
-    (and (:index-name params) (:search-term params))
-    {:multi_match {:query (:search-term params)
-                   :fields ["name"]
-                   :type "phrase_prefix"}}
-    ; Category tree.
-    (or (:root params) (:limit params))
-    {:regexp {:path (format "%s(\\.[0-9]*){0,%s}" (or (:root params) 0) (or (:limit params) 0))}}
-    ; Catch all
-    :else
-    {}))
-
-(defn find-categories
-  "Returns categories based on supplied parameters.
-
-   Typeahead -
-   index-name = index which category belongs to
-   search-term = three or more characters which will search against category name
-
-   Category Tree -
-   root = root of category's path
-   limit = limit length of path"
-  [es-conn params]
-  (let [query (build-query params)
-        search (doc/search
-                 es-conn
-                 (or (:index-name params) "*")
-                 "categories"
-                 :size (or (:size params) 25)
-                 :query query)]
-    (map #(merge (:_source %) {:index (:_index %)})
-         (-> search :hits :hits))))
-
 (defn- prepare-category
   "Adds the _id element (copied from existing 'id') to each category"
   [category]
@@ -165,6 +130,20 @@
                              :hits
                              :total))
         categories))
+
+(defn find-categories
+  [datomic-db es-conn params]
+  (if (:root params)
+    (let [categories (conj (get-children-r datomic-db
+                                           (get-children-categories datomic-db (:root params))
+                                           (Integer. (:limit params)))
+                           (find-category datomic-db (:root params)))]
+
+      (assoc-dataset-count es-conn categories))
+    (let [categories (get-children-r datomic-db
+                                     (base-categories datomic-db)
+                                     (Integer. (:limit params)))]
+      (assoc-dataset-count es-conn categories))))
 
 (defn search-categories
   [datomic-db query]

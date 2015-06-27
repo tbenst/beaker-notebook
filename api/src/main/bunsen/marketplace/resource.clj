@@ -73,27 +73,31 @@
 
 (defresource categories [params] restricted-write-defaults
   :allowed-methods #{:get :post}
-  :handle-ok #(api/find-categories (get-es %) (get-params %))
-  :post! #(api/create-categories! (get-es %) (:indexName params) (:categories params)))
+  :handle-ok #(api/find-categories (get-db %) (get-es %) (get-params %))
+  :post! (fn [ctx]
+           {::category (api/create-category! (get-db ctx) (get-conn ctx) params)})
+  :handle-created ::category)
 
 (defresource category [params] restricted-write-defaults
   :allowed-methods #{:delete :put}
   :put! #(api/update-category! (get-conn %) params)
   :delete! #(api/delete-category! (get-conn %) (:category-id params)))
 
-(defresource datasets [{:keys [index-name] :as params}] restricted-write-defaults
-  :exists? #(api/index-exists? (get-es %) index-name)
+(defresource datasets [{:keys [catalog-id] :as params}] restricted-write-defaults
+  :processable? #(api/index-exists? (get-db %) (get-es %) catalog-id)
+  :handle-unprocessable-entity {:error "Index does not exist"}
   :allowed-methods #{:get :post}
-  :post! #(api/create-dataset! (get-es %) index-name params)
+  :post! #(api/create-dataset! (get-db %) (get-es %) catalog-id params)
   :handle-ok #(api/find-datasets
-                (get-db %) (get-es %) index-name (dissoc params :index-name)))
+                (get-db %) (get-es %) catalog-id (dissoc params :catalog-id)))
 
-(defresource dataset [{:keys [index-name dataset-id] :as params}] restricted-write-defaults
-  :exists? #(api/index-exists? (get-es %) index-name)
+(defresource dataset [{:keys [catalog-id dataset-id] :as params}] restricted-write-defaults
+  :processable? #(api/index-exists? (get-db %) (get-es %) catalog-id)
+  :handle-unprocessable-entity {:error "Index does not exist"}
   :allowed-methods #{:get :put :delete}
-  :delete! #(api/retract-dataset! (get-es %) index-name dataset-id)
-  :put! #(api/update-dataset! (get-es %) index-name dataset-id params)
-  :handle-ok #(api/get-dataset (get-db %) (get-es %) index-name dataset-id))
+  :delete! #(api/retract-dataset! (get-db %) (get-es %) catalog-id dataset-id)
+  :put! #(api/update-dataset! (get-db %) (get-es %) catalog-id dataset-id params)
+  :handle-ok #(api/get-dataset (get-db %) (get-es %) catalog-id dataset-id))
 
 (defresource mappings [params] restricted-read-defaults
   :allowed-methods #{:put}
@@ -137,26 +141,26 @@
   :handle-created ::vendor
   :handle-ok #(api/get-vendor (get-db %) vendor-id))
 
-(defresource subscription [{:keys [index-name dataset-id]}] bunsen-defaults
+(defresource subscription [{:keys [catalog-id dataset-id]}] bunsen-defaults
   :allowed-methods #{:put :delete}
-  :conflict? #(api/subscribed? (get-db %) index-name dataset-id (get-user %))
+  :conflict? #(api/subscribed? (get-db %) catalog-id dataset-id (get-user %))
   :handle-conflict {:message "You are already subscribed to this dataset"}
-  :put! #(api/create-subscription! (get-conn %) index-name dataset-id (get-user %))
-  :delete! #(api/retract-subscription! (get-conn %) index-name dataset-id (get-user %)))
+  :put! #(api/create-subscription! (get-db %) (get-conn %) catalog-id dataset-id (get-user %))
+  :delete! #(api/retract-subscription! (get-db %) (get-conn %) catalog-id dataset-id (get-user %)))
 
 (defresource subscriptions [_] bunsen-defaults
   :allowed-methods #{:get}
   :handle-ok #(api/list-subscriptions (get-db %) (get-es %) (get-user %)))
 
-(defresource rating [{:keys [dataset-id index-name] :as params}] bunsen-defaults
+(defresource rating [{:keys [dataset-id catalog-id] :as params}] bunsen-defaults
   :allowed?  #(or (get? %)
-                  (api/subscribed? (get-db %) index-name dataset-id (get-user %)))
+                  (api/subscribed? (get-db %) catalog-id dataset-id (get-user %)))
   :allowed-methods #{:get :post}
-  :post! #(api/create-rating! (get-conn %) index-name dataset-id (get-user %) params)
-  :handle-ok #(api/get-rating (get-db %) index-name dataset-id (get-user %)))
+  :post! #(api/create-rating! (get-db %) (get-conn %) catalog-id dataset-id (get-user %) params)
+  :handle-ok #(api/get-rating (get-db %) catalog-id dataset-id (get-user %)))
 
-(defresource average-rating [{:keys [dataset-id index-name]}] bunsen-defaults
-  :handle-ok #(api/get-average-rating (get-db %) index-name dataset-id))
+(defresource average-rating [{:keys [dataset-id catalog-id]}] bunsen-defaults
+  :handle-ok #(api/get-average-rating (get-db %) catalog-id dataset-id))
 
 (def resources
   {:status status

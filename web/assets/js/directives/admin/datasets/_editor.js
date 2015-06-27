@@ -17,6 +17,7 @@
         'startDate',
         'updateFrequency',
         'tags',
+        'category',
         'categories',
         'remoteFile',
         'dataPreviews'
@@ -101,7 +102,7 @@
             }
 
             MarketplaceRestangular
-            .one('indices', dataset.index)
+            .one('catalogs', dataset.catalog['public-id'])
             .one('datasets/' +  dataset.id)
             .remove()
             .then(function() {
@@ -111,7 +112,7 @@
 
           $scope.getCategories = function(searchTerm) {
             return Factories.Categories.typeahead({
-              'index-name': $scope.dataset.index,
+              'catalog-id': $scope.dataset.catalog['public-id'],
               'search-term': searchTerm
             }).then(function(categories) {
               return categories.data;
@@ -120,29 +121,22 @@
 
           $scope.setNewCatalog = function(val, dataset) {
             dataset.index = val;
-            dataset.catalog = _.find($scope.catalogs, { index: val });
+            dataset.catalog = _.find($scope.catalogs, { name: val });
             delete dataset.categories;
           };
 
           //This function is used for angular bootstrap typeahead
           //The first return is a guard against trying to access category if it doesn't exist
           //When no input is entered, It returns the current ng-model "category"
-          //When input is entered, it returns the formatted results from the search "name (path)"
+          //When input is entered, it returns the formatted results from the search "name"
           $scope.label = function(category) {
             if (!category) { return; }
             if (!category.name) { return category; }
-            return category.name + ' (' + category.path + ')';
+            return category.name;
           };
 
           $scope.onSelect = function(category) {
-            // When creating a new dataset we need to ensure that
-            // we have the values set to an inital empty array, otherwise
-            // we get an error since we are trying to access [0] of undefined.
-            $scope.dataset.categories = $scope.dataset.categories || [];
-            $scope.dataset.categoryIds = $scope.dataset.categoryIds || [];
-
-            $scope.dataset.categories[0] = _.pick(category, 'id', 'name', 'path');
-            $scope.dataset.categoryIds[0] = category.id;
+            $scope.dataset.categoryId = category['public-id'];
           };
         }]
       };

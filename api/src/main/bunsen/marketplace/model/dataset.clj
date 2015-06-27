@@ -1,5 +1,6 @@
 (ns bunsen.marketplace.model.dataset
-  (:require [clojurewerkz.elastisch.rest.index :as ind]
+  (:require [clojure.data.json :as json]
+            [clojurewerkz.elastisch.rest.index :as ind]
             [clojurewerkz.elastisch.rest.document :as doc]
             [bunsen.common.helper.elasticsearch :as es]))
 
@@ -7,9 +8,9 @@
   [metadata type]
   (keys (filter #(= (-> % second :indexes first) type) metadata)))
 
-(defn- category-path-filter
-  [cat-path]
-  {:bool {:should [{:term {:categories.path cat-path}} {:prefix {:categories.path (str cat-path ".")}}]}})
+(defn- category-id-filter
+  [category-id]
+  {:bool {:should [{:term {:categoryIds category-id}}]}})
 
 (defn- filter-terms
   [k v]
@@ -21,7 +22,7 @@
 
 (defn- must-filters
   [fields params]
-  (let [filters [(category-path-filter (or (:category-path params) "0"))]
+  (let [filters [(category-id-filter (or (:category-id params) "0"))]
         fields-in-params (into {} (map #(when ((keyword %) params)
                                           {(keyword %) ((keyword %) params)})
                                        fields))]
@@ -50,9 +51,9 @@
     []))
 
 (defn- query-builder
-  [catalog params]
-  {:filtered {:query {:bool {:must (must-queries (metadata-indexes (:metadata catalog) "text") params)}}
-              :filter {:bool {:must (must-filters (metadata-indexes (:metadata catalog) "filter") params)
+  [catalog-filter-indexes catalog-text-indexes params]
+  {:filtered {:query {:bool {:must (must-queries catalog-text-indexes params)}}
+              :filter {:bool {:must (must-filters catalog-filter-indexes params)
                               :must_not (must-not-filters params)}}}})
 
 (defn- transform-results
@@ -74,27 +75,30 @@
        (ind/update-mapping es-conn index-name "datasets" :mapping))))
 
 (defn generate-filters
-  [catalog-filters aggregations]
+  [catalog-filter-indexes aggregations]
   (apply merge (map (fn [catalog-filter]
                       (hash-map catalog-filter
                                 (map #(:key %)
                                      (:buckets (catalog-filter aggregations)))))
-                    catalog-filters)))
+                    catalog-filter-indexes)))
 
 (defn find-datasets
-  [es-conn index-name query catalog]
-  (let [category-path (:category-path query)
-        catalog-filters (metadata-indexes (:metadata catalog) "filter")
+  [es-conn catalog-id query catalog]
+  (let [metadata (json/read-str (:catalog/mapping catalog) :key-fn keyword)
+        catalog-filter-indexes (metadata-indexes metadata "filter")
+        catalog-text-indexes (metadata-indexes metadata "text")
         results (doc/search es-conn
-                            index-name
+                            (:catalog/name catalog)
                             "datasets"
                             :size (:size query)
                             :from (:from query)
-                            :query (query-builder catalog query)
+                            :query (query-builder catalog-filter-indexes
+                                                  catalog-text-indexes
+                                                  query)
                             :sort [{:_score {:order "desc"}} {:raw_title {:order "asc"}}]
-                            :aggs (aggregators catalog-filters))
+                            :aggs (aggregators catalog-filter-indexes))
         aggregations (:aggregations results)
-        filters (generate-filters catalog-filters aggregations)]
+        filters (generate-filters catalog-filter-indexes aggregations)]
     (assoc (transform-results results) :filters filters)))
 
 (defn find-datasets-by-ids
