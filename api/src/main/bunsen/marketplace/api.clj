@@ -234,10 +234,6 @@
            (set/rename-keys {:created-at :createdAt}))
       subscriptions)))
 
-(defn retract-subscriptions!
-  [datomic-conn]
-  (subscription/retract-subscriptions! datomic-conn))
-
 (defn create-subscription!
   [datomic-db datomic-conn catalog-id dataset-id user-id]
   (let [catalog (catalog/get-catalog datomic-db catalog-id)

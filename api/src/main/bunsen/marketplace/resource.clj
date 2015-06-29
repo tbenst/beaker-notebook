@@ -67,10 +67,6 @@
   :allowed-methods #{:post}
   :processable? #(api/create-datasets! (get-es %) (:indexName params) (:datasets params)))
 
-(defresource seed-subscriptions [_] restricted-read-defaults
-  :allowed-methods #{:delete}
-  :delete! #(api/retract-subscriptions! (get-conn %)))
-
 (defresource categories [params] restricted-write-defaults
   :allowed-methods #{:get :post}
   :handle-ok #(api/find-categories (get-db %) (get-es %) (get-params %))
@@ -168,7 +164,6 @@
    :catalogs catalogs
    :seed seed
    :seed-datasets seed-datasets
-   :seed-subscriptions seed-subscriptions
    :subscription subscription
    :subscriptions subscriptions
    :dataset dataset
