@@ -67,7 +67,7 @@
               return;
             }
 
-            $scope.vendorName = getDatasetVendor($scope.dataset);
+            $scope.selectedVendor = getDatasetVendor($scope.dataset);
             setDatasetVendor($scope.dataset);
           });
 
@@ -93,7 +93,7 @@
 
           $scope.updateVendor = function(vendor) {
             $scope.dataset.vendor = vendor['public-id'];
-            $scope.vendorName = vendor.name;
+            $scope.selectedVendor = vendor.name;
           };
 
           $scope.deleteEntity = function(dataset) {
