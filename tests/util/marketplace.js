@@ -127,7 +127,7 @@ module.exports = function() {
     },
 
     deleteSeed: function() {
-      return del(config.marketplaceUrl + '/seed/subscriptions');
+      return del(config.marketplaceUrl + '/seed');
     }
   };
 
