@@ -27,8 +27,8 @@ Feature: Admin Datasets
 
   Scenario: Creating a dataset
     Given I have the following categories:
-      | name       | path  |
-      | finance    | 0.1.1 |
+      | name       | parent      |
+      | finance    | catalog_0.1 |
     When I create a new dataset with
       | name   | category |
       | stacy  | finance  |
@@ -37,9 +37,9 @@ Feature: Admin Datasets
 
   Scenario: Changing a datasets category
     Given I have the following categories:
-      | name       | path  |
-      | finance    | 0.1.1 |
-      | beer       | 0.1.2 |
+      | name       | parent      |
+      | finance    | catalog_0.1 |
+      | beer       | catalog_0.1 |
     When I create a new dataset with
       | name   | category |
       | stacy  | finance  |
@@ -58,9 +58,9 @@ Feature: Admin Datasets
 
   Scenario: Dataset category dropdown
     And I have the following categories:
-      | name       | path  |
-      | finance    | 0.1.1 |
-      | canada     | 0.1.2 |
+      | name       | parent      |
+      | finance    | catalog_0.1 |
+      | canada     | catalog_0.1 |
     When I view the market search
     And I edit a dataset
     And type "finance" into the category field
@@ -68,8 +68,8 @@ Feature: Admin Datasets
 
   Scenario: Invalid entry in dataset category
     Given I have the following categories:
-      | name       | path  |
-      | canada     | 0.1.2 |
+      | name       | parent      |
+      | canada     | catalog_0.1 |
     When I view the market search
     And I edit a dataset
     And I enter "fin" into the category field
@@ -107,8 +107,8 @@ Feature: Admin Datasets
 
   Scenario: Adding tags on a new dataset
     Given I have the following categories:
-      | name       | path  |
-      | finance    | 0.1.1 |
+      | name       | parent      |
+      | finance    | catalog_0.1 |
     When I create a new dataset with
       | name   | category | tag  |
       | stacy  | finance  | tank |

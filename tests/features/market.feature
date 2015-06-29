@@ -108,8 +108,8 @@ As a researcher, I want to be able to use the market place.
 
   Scenario: Tags and Category on main market nav are mutually exclusive
     Given I have the following categories:
-      | name       | path   |
-      | Government |  0.1.1 |
+      | name       | parent       |
+      | Government |  catalog_0.1 |
     And there is a market item with the tags "cat,dog,human"
     And I view the market search
     And I filter by search by selecting the "cat" tags
@@ -331,17 +331,17 @@ As a researcher, I want to be able to use the market place.
 
   Scenario: Category with a description
     Given I have the following categories:
-      | name               | description                               | ownerName   | ownerEmail              | path     |
-      | Energy             | Work and heat are two categories.         | Quentin     | quentin@twosigma.com    | 0.1.1    |
-      | Government         | Description here woooo                    | Quentin H   | quentin11@twosigma.com  | 0.1.2    |
+      | name               | description                               | ownerName   | ownerEmail             | parent      |
+      | Energy             | Work and heat are two categories.         | Quentin     | quentin@twosigma.com   | catalog_0.1 |
+      | Government         | Description here woooo                    | Quentin H   | quentin11@twosigma.com | catalog_0.1 |
     When I view the market search
     And I click "Energy"
     Then I should see a category description
 
   Scenario: Category without a description
     Given I have the following categories:
-      | name               | ownerName   | ownerEmail              | path     |
-      | Government         | Quentin     | quentin@twosigma.com    | 0.1.1    |
+      | name               | ownerName   | ownerEmail              | parent      |
+      | Government         | Quentin     | quentin@twosigma.com    | catalog_0.1 |
     When I view the market search
     And I click "Government"
     Then I should not see a category description
