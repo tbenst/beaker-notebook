@@ -136,10 +136,6 @@
   ([es-conn index-name mapping-file]
    (index/create-index! es-conn index-name mapping-file)))
 
-(defn list-indices
-  [es-conn]
-  (index/list-indices es-conn))
-
 (defn list-formats
   [es-conn]
   (format/list-formats es-conn))

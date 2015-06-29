@@ -104,8 +104,7 @@
   :put! #(api/update-dataset-mappings! (get-es %) (:indexName params)))
 
 (defresource indices [params] restricted-read-defaults
-  :allowed-methods #{:get :post}
-  :handle-ok #(api/list-indices (get-es %))
+  :allowed-methods #{:post}
   :post! #(api/create-index! (get-es %) (:indexName params)))
 
 (defresource catalogs [params] restricted-read-defaults

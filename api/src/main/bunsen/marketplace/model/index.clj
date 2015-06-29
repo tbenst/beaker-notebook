@@ -29,14 +29,6 @@
        :categories-applied (partial apply-mapping! es-conn
                                     index-name :categories)})))
 
-(defn list-indices
-  [es-conn]
-  (->>
-    (doc/search es-conn "*" "categories" :query (query/filtered :filter {:regexp {:path {:value ".{0,3}"}}}))
-    :hits
-    :hits
-    (map (fn [m] {:index (:_index m) :name (-> m :_source :name)}))))
-
 (defn refresh-index!
   [es-conn index-name]
   (ind/refresh es-conn index-name))
