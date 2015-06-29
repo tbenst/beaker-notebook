@@ -174,7 +174,7 @@ module.exports = function() {
       return editor.setTypeahead('category', row.category);
     })
     .then(function() {
-      return editor.setTypeahead('vendor', row.vendor || 'Some vendor');
+      return editor.selectVendor(row.vendor || 'Some vendor');
     })
     .then(function() {
       return editor.save();

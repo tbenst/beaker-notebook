@@ -1,4 +1,5 @@
 var util = require('util');
+var Driver = require('selenium-webdriver');
 
 module.exports = function() {
   this.Widgets.DatasetEditor = this.Widget.Form.extend({
@@ -17,8 +18,7 @@ module.exports = function() {
     },
     typeInto: function(field, value) {
       var fields = {
-        'category': '.dataset-category-field',
-        'vendor': '.dataset-vendor-field'
+        'category': '.dataset-category-field'
       };
 
       if (field in fields) {
@@ -58,6 +58,18 @@ module.exports = function() {
         // request finish. We have to do this since there is no visible
         // indicator.
         return this.driver.sleep(2000);
+      }.bind(this));
+    },
+    selectVendor: function(value) {
+      var vendorSelector = 'div.dataset-vendor-field';
+      return this.click(vendorSelector).then(function() {
+        this.sendKeys({
+          selector: '.chosen-search input',
+          keys: [
+            value,
+            Driver.Key.ENTER
+          ]
+        });
       }.bind(this));
     }
   });

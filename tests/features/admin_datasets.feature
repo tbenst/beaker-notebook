@@ -24,6 +24,7 @@ Feature: Admin Datasets
     And I update the dataset
     And I view the market search
     Then I should see a dataset with the name "wow"
+
   @flaky
   Scenario: Creating a dataset
     Given I have the following categories:
@@ -110,8 +111,8 @@ Feature: Admin Datasets
       | name       | parent      |
       | finance    | catalog_0.1 |
     When I create a new dataset with
-      | name   | category | tag  |
-      | stacy  | finance  | tank |
+      | name   | category | tag  | vendor      |
+      | stacy  | finance  | tank | Some vendor |
     And I edit the "stacy" dataset
     Then I should see the "tank" tag
 
