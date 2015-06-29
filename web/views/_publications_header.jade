@@ -6,7 +6,17 @@
       li(ng-show='$session.user')
         span.signed-in Hi, {{$session.user.name}}
       li(ng-show='$session.user')
-        a.sign-out(ui-sref="signOut") Sign out
+        span.bunsen-dropdown-toggle.settings(toggle-menu)
+          .bunsen-dropdown-wrapper.settings-dropdown
+            ul.bunsen-dropdown
+              li(ng-show='!$session.user.extdata')
+                a.edit-info(ui-sref="userEdit") Edit User Info
+              li(ng-show='$session.user.extdata')
+                a.edit-info(ui-sref="userShow") User Info
+              li(ng-show='!$session.user.extdata')
+                a.sign-out(ui-sref="signOut") Sign out
+              li(ng-show='$session.user.extdata')
+                a.sign-out(ui-sref="signOut") Close Window
       li(ng-show="!$session.user && !$state.includes('signIn') && !$state.includes('signUp')")
         a.btn.alt.sign-in(ui-sref="signIn") Sign in
       li(ng-show="!$session.user && !$state.includes('signIn') && !$state.includes('signUp') && !$state.includes('createPublication')")
