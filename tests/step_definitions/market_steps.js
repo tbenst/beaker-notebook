@@ -64,26 +64,42 @@ function seedDataSets(datasets, indexName) {
   return this.marketplace.createDatasets(indexName, setsWithDefaults);
 }
 
-module.exports = function() {
+function createIndexCatalogCategory(name, mapping) {
+  var _this = this;
 
-  this.createCatalog = function(indexName, attrs) {
-    return this.marketplace.createIndex(indexName).then(function() {
-      return this.marketplace.createCategories(indexName, [attrs]);
-    }.bind(this));
-  };
-
+  return this.marketplace.createIndex(name)
+  .then(function() {
+    return _this.marketplace.createCatalog({name: name, mapping: mapping, 'base-path': '/var/s3/'})
+    .then(function(catalog) {
+      _this.currentCatalogs = _this.currentCatalogs || {};
+      _this.currentCatalogs[name] = catalog;
+      return catalog;
+    })
+    .then(function() {
+      var attrs = {'name': name,
+                   'catalog-id': _this.currentCatalogs[name]['public-id']};
+      return _this.marketplace.createCategory(attrs)
+      .then(function(category) {
+        _this.currentCategories = _this.currentCategories || {};
+        _this.currentCategories[category.name] = category;
+        return category;
+      });
     });
   });
+}
+
+module.exports = function() {
 
   this.Given(/^I have a default catalog$/, function() {
-    return this.createCatalog(DEFAULT_INDEX, {
-      name: 'default',
-      path: '0.1',
-      //jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-      base_path: '/var/s3/',
-      //jscs:enable
-      metadata: twoSigmaCatalog
-    });
+    return createIndexCatalogCategory.call(this, DEFAULT_INDEX, twoSigmaCatalog);
+  });
+
+  this.Given(/^I have Two Sigma catalog$/, function() {
+    return createIndexCatalogCategory.call(this, 'two_sigma', twoSigmaCatalog);
+  });
+
+  this.Given(/^I have Quandl catalog$/, function() {
+    return createIndexCatalogCategory.call(this, 'quandl', quandlCatalog);
   });
 
   this.Given(/^I have a default vendor$/, function(callback) {
@@ -91,22 +107,6 @@ module.exports = function() {
       'name': 'Some vendor',
       'public-id': '55705cd9-f788-4a57-aa5d-1b271acd59cb'
     }]);
-  });
-
-  this.Given(/^I have Two Sigma catalog$/, function() {
-    return this.createCatalog(DEFAULT_INDEX, {
-      name: 'Two Sigma',
-      path: '0.1',
-      metadata: twoSigmaCatalog
-    });
-  });
-
-  this.Given(/^I have Quandl catalog$/, function() {
-    return this.createCatalog('catalog_0.2', {
-      name: 'Quandl',
-      path: '0.2',
-      metadata: quandlCatalog
-    });
   });
 
   this.When(/^there is a market item$/, function(callback) {
