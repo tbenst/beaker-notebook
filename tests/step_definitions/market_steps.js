@@ -51,11 +51,6 @@ module.exports = function() {
     }.bind(this));
   };
 
-  this.Given(/^I have a catalog with a duplicate path$/, function() {
-    return this.createCatalog('index_dupe', {
-      name: 'Duplicate Path',
-      path: '0.1',
-      metadata: twoSigmaCatalog
     });
   });
 
