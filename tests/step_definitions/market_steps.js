@@ -43,6 +43,27 @@ var quandlCatalog = {
   company: {type: 'string', indexes: ['filter']},
 };
 
+function seedDataSets(datasets, indexName) {
+  indexName = indexName || DEFAULT_INDEX;
+  var _this = this;
+  var setsWithDefaults = bluebird.map(datasets, function(set) {
+    var transformed = _.omit(set, ['categories', 'tags']);
+    transformed = _.extend(transformed, {'catalog': _this.currentCatalogs[indexName]['public-id'],
+                                         'categoryId': _this.currentCategories[indexName]['public-id'],
+                                         'categoryIds': [_this.currentCategories[indexName]['public-id']]});
+    if (set.tags) {
+      transformed.tags = set.tags.split(',');
+    }
+    if (set.categories) {
+      transformed.categoryId = _this.currentCategories[set.categories]['public-id'];
+      transformed.categoryIds.push(transformed.categoryId);
+    }
+    return _.merge(marketItemBase(), transformed);
+  });
+
+  return this.marketplace.createDatasets(indexName, setsWithDefaults);
+}
+
 module.exports = function() {
 
   this.createCatalog = function(indexName, attrs) {
@@ -100,23 +121,6 @@ module.exports = function() {
     }
     return seedDataSets.call(this, itemSaves);
   });
-
-  function seedDataSets(datasets, indexName) {
-    var setsWithDefaults = _.map(datasets, function(set) {
-      var transformed = _.omit(set, ['categories', 'tags']);
-      if (set.categories) {
-        transformed.categoryIds = _.map(set.categories.split(','), function(catName) {
-          return 'categories_' + catName;
-        });
-      }
-      if (set.tags) {
-        transformed.tags = set.tags.split(',');
-      }
-      return _.merge(marketItemBase(), transformed);
-    });
-    return this.marketplace.createDatasets(indexName || DEFAULT_INDEX,
-                                           setsWithDefaults);
-  }
 
   this.When(/^there is a market item with the tags "([^"]*)"$/, function(tags) {
     return seedDataSets.call(this, [{tags: tags}]);
