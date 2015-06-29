@@ -27,10 +27,10 @@ As a researcher, I want to be able to use the market place.
     Then I should see 0 market items on the market list page
 
   Scenario: Filtering market items by format
-    When there is a market item with the title "Item 1" and the format "MAGIC"
-    And there is a market item with the title "Item 2" and the format "CSV"
+    When there is a market item with the title "Item 1" and the format "magic"
+    And there is a market item with the title "Item 2" and the format "csv"
     And I view the market search
-    And I filter by search by selecting the "MAGIC" formats
+    And I filter by search by selecting the "magic" formats
     Then I should see 1 market item on the market list page
 
   Scenario: Filtering market items by tag
@@ -62,7 +62,7 @@ As a researcher, I want to be able to use the market place.
     And I view the market search
     And I filter by search by selecting the "George data" vendors
     Then I should see 2 market item on the market list page
-    And I filter by search by selecting the "MAGIC" formats
+    And I filter by search by selecting the "magic" formats
     Then I should see 1 market items on the market list page
     And I filter the market page by "Credit"
     Then I should see 0 market items on the market list page
