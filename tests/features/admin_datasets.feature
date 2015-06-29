@@ -64,7 +64,7 @@ Feature: Admin Datasets
     When I view the market search
     And I edit a dataset
     And type "finance" into the category field
-    Then I should see a category autocomplete dropdown with "finance (0.1.1)"
+    Then I should see a category autocomplete dropdown with "finance"
 
   Scenario: Invalid entry in dataset category
     Given I have the following categories:
