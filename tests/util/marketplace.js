@@ -76,21 +76,18 @@ module.exports = function() {
 
   this.marketplace = {
     createVendors: function(vendors) {
-      return del(config.marketplaceUrl + '/seed').then(function() {
-        return Promise.each(vendors, function(vendor) {
-          _.extend(vendor, {'public-id': uuid.v1()});
-          return post({
-            url: config.marketplaceUrl + '/vendors',
-            body: JSON.stringify(vendor),
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          });
+      return Promise.each(vendors, function(vendor) {
+        _.extend(vendor, {'public-id': uuid.v1()});
+        return post({
+          url: config.marketplaceUrl + '/vendors',
+          body: JSON.stringify(vendor),
+          headers: {
+            'Content-Type': 'application/json'
+          }
         });
-      }).catch(function(e) {
-        return console.log(e);
       });
     },
+
     createIndex: function(indexName) {
       var payload = JSON.stringify({indexName: indexName});
       return post({
