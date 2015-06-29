@@ -119,17 +119,6 @@
     ; since the api consumers expect their to be an ID attribute on each dataset.
     (doc/update-with-partial-doc es-conn index-name "datasets" created-id {:id created-id})))
 
-(defn count-datasets-by-category
-  [es-conn index-name category catalog]
-  ;; TODO: implement function that counts without returning data
-  (-> (find-datasets
-        es-conn index-name
-        {:from 0
-         :limit 9999
-         :category-path (:path category)}
-        catalog)
-      :total-items))
-
 (defn get-dataset
   [es-conn index-name dataset-id]
   (-> (doc/get es-conn index-name "datasets" dataset-id)

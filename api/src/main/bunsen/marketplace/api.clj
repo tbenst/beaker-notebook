@@ -77,16 +77,6 @@
            :category category
            :related related)))
 
-(defn update-category-counts!
-  [es-conn index-name]
-  (index/refresh-index! es-conn index-name)
-  (->> (category/list-categories es-conn index-name)
-       (mapv
-         #(->> %
-               (category/get-category-catalog es-conn index-name)
-               (dataset/count-datasets-by-category es-conn index-name %)
-               (category/update-category-count! es-conn index-name %)))))
-
 (defn- get-parent-category-ids
   [datomic-db category-id]
   (loop [category (category/find-category datomic-db category-id)

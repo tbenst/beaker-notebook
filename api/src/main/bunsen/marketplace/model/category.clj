@@ -9,11 +9,6 @@
   [es-conn index-name]
   (es/read-results es-conn index-name "categories"))
 
-(defn update-category-count!
-  [es-conn index-name category n]
-  (doc/update-with-partial-doc
-    es-conn index-name "categories" (str (:id category)) {:count n}))
-
 (defn get-category
   "Fetches a single category within a given catalog and having a matching index"
   [es-conn index-name category-path]
