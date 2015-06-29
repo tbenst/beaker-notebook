@@ -99,6 +99,16 @@ module.exports = function() {
       });
     },
 
+    createCatalog: function(attrs) {
+      var payload = JSON.stringify(attrs);
+      return post({url: config.marketplaceUrl + '/catalogs',
+                   body: payload,
+                   headers: {'Content-type': 'application/json'}})
+      .then(function(response) {
+        return JSON.parse(response[0].body);
+      });
+    },
+
     createCategories: function(indexName, categories) {
       _.each(categories, function(cat) {
         cat.id = cat.id || ('categories_' + cat.name);
