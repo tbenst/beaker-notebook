@@ -47,7 +47,7 @@ form.dataset-edit(name="datasetEditForm")
             ng-model="dataset.category.name"
             typeahead="category as label(category) for category in getCategories($viewValue)"
             typeahead-min-length=2
-            typeahead-on-select="onSelect($item)"
+            typeahead-on-select="updateCategory($item)"
             typeahead-editable="false"
             required)
     .dataset-remote-file-location(ng-if="datasetHas('remoteFile')")
