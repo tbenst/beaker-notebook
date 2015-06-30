@@ -20,8 +20,49 @@
         }
       },
       "env": {
-        "WEB_ROOT": "/var/www/public",
+        "WEB_INDEX": "index.html",
         "BAMBOO_HOST": "bunsen-staging.withmojo.com",
+        "BAMBOO_ACLS": "!{ path_beg -i /user } !{ path_beg -i /notebook } !{ path_beg -i /provisioner } !{ path_beg -i /marketplace } !{ path_beg -i /beaker } !{ path_beg -i /events }"
+      },
+      "healthChecks": [
+        {
+          "protocol": "HTTP",
+          "path": "/",
+          "gracePeriodSeconds": 10,
+          "intervalSeconds": 10,
+          "portIndex": 0,
+          "timeoutSeconds": 5,
+          "maxConsecutiveFailures": 3
+        }
+      ],
+      "upgradeStrategy": {
+        "minimumHealthCapacity": 0
+      },
+      "uris": [
+        "file:///etc/.dockercfg"
+      ]
+    },
+    {
+      "id": "/beaker-staging/web",
+      "cmd": "",
+      "cpus": 1,
+      "mem": 1024,
+      "instances": 1,
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "network": "BRIDGE",
+          "image": "quay.io/mojotech/bunsen-web",
+          "portMappings": [
+            {
+              "containerPort": 8081
+            }
+          ]
+        }
+      },
+      "env": {
+        "WEB_INDEX": "publications.html",
+        "BAMBOO_HOST": "beaker-staging.withmojo.com",
         "BAMBOO_ACLS": "!{ path_beg -i /user } !{ path_beg -i /notebook } !{ path_beg -i /provisioner } !{ path_beg -i /marketplace } !{ path_beg -i /beaker } !{ path_beg -i /events }"
       },
       "healthChecks": [
@@ -80,7 +121,6 @@
         "STORE_COMPONENT": "filesystem",
         "STORE_ROOT": "/mnt/gluster0/bunsen-staging/scratch",
         "STORE_QUOTA": 10485760,
-        "BAMBOO_HOST": "bunsen-staging.withmojo.com",
         "BAMBOO_ACLS": "{ path_beg -i /user } || { path_beg -i /notebook } || { path_beg -i /provisioner } || { path_beg -i /marketplace }",
         "MARATHON_URI": "http://cluster-master.withmojo.com:8080"
       },
