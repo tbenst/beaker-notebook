@@ -323,7 +323,20 @@ module.exports = function() {
   });
 
   this.Given(/^I have the following categories:$/, function(table) {
-    return this.marketplace.createCategories(DEFAULT_INDEX, table.hashes());
+    var _this = this;
+
+    return bluebird.map(table.hashes(), function(category) {
+      var attrs = {'catalog-id': _this.currentCatalogs[DEFAULT_INDEX]['public-id'],
+                   'parent-id': _this.currentCategories[category.parent]['public-id']};
+      attrs = _.extend(category, attrs);
+
+      return _this.marketplace.createCategory(attrs)
+      .then(function(category) {
+        _this.currentCategories = _this.currentCategories || {};
+        _this.currentCategories[category.name] = category;
+        return category;
+      });
+    });
   });
 
   this.When(/^I click "([^"]*)"$/, function(category) {
