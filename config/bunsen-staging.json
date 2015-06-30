@@ -20,7 +20,6 @@
         }
       },
       "env": {
-        "WEB_ROOT": "/var/www/public",
         "BAMBOO_HOST": "bunsen-staging.withmojo.com",
         "BAMBOO_ACLS": "!{ path_beg -i /user } !{ path_beg -i /notebook } !{ path_beg -i /provisioner } !{ path_beg -i /marketplace } !{ path_beg -i /beaker } !{ path_beg -i /events }"
       },
