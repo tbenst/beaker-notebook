@@ -33,5 +33,7 @@
           a.btn.btn-primary.right.download-notebook(ng-hide="isBunsenUser" ng-href="{{downloadNotebookUrl()}}") Download Notebook
           .btn.btn-primary.right.destroy-publication(ng-if="isOwner", ng-click="destroyPublication()") Delete Publication
           .cl
-
+  div.fullscreen-options
+    fullscreen-toggle
+    a.btn.btn-primary(ng-show="isFullscreen()" ng-click="goBack()") back to list
   publication-notebook.main-content(publication="publication")

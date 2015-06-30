@@ -4,15 +4,18 @@
     '$rootScope',
     '$state',
     'UsersRestangular',
+    'FullscreenState',
     '$sessionStorage',
     function(
       $scope,
       $rootScope,
       $state,
       UsersRestangular,
+      FullscreenState,
       $sessionStorage) {
       $rootScope.$session = $sessionStorage;
       $rootScope.$state = $state;
+      $scope.isFullscreen = FullscreenState.isFullscreen;
       $state.go('publications.items');
 
       $rootScope.signOut = function() {
