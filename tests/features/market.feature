@@ -331,17 +331,17 @@ As a researcher, I want to be able to use the market place.
 
   Scenario: Category with a description
     Given I have the following categories:
-      | name               | description                               | ownerName   | ownerEmail             | parent      |
-      | Energy             | Work and heat are two categories.         | Quentin     | quentin@twosigma.com   | catalog_0.1 |
-      | Government         | Description here woooo                    | Quentin H   | quentin11@twosigma.com | catalog_0.1 |
+      | name               | description                               | contact-name | contact-email          | parent      |
+      | Energy             | Work and heat are two categories.         | Quentin      | quentin@twosigma.com   | catalog_0.1 |
+      | Government         | Description here woooo                    | Quentin H    | quentin11@twosigma.com | catalog_0.1 |
     When I view the market search
     And I click "Energy"
     Then I should see a category description
 
   Scenario: Category without a description
     Given I have the following categories:
-      | name               | ownerName   | ownerEmail              | parent      |
-      | Government         | Quentin     | quentin@twosigma.com    | catalog_0.1 |
+      | name               | contact-name | contact-email           | parent      |
+      | Government         | Quentin      | quentin@twosigma.com    | catalog_0.1 |
     When I view the market search
     And I click "Government"
     Then I should not see a category description

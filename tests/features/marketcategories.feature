@@ -65,8 +65,8 @@ As a researcher, I want to be able to browse the market place.
 
   Scenario: Category meta-data owner
 	Given I have the following categories:
-	  | name   | parent      | owner_name | description                    |
-	  | Energy | catalog_0.1 | Paul       | Federal energy policy datasets |
+	  | name   | parent      | contact-name | description                    |
+	  | Energy | catalog_0.1 | Paul         | Federal energy policy datasets |
   When I view the market search
 	And I browse the default catalog by category "Energy"
 	Then I should see the category owner "Paul"
