@@ -165,9 +165,7 @@ module.exports = function() {
       return editor.setTitle(row.name);
     })
     .then(function() {
-      if (!row.tag) {return;}
-
-      return editor.addTag(row.tag);
+      return editor.addTag(row.tag || "Taggie");
     })
     .then(function() {
       return editor.setCatalog('catalog_0.1');
