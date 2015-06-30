@@ -1,0 +1,101 @@
+[
+  {:db/id #db/id[:db.part/user -1]
+   :marketplace.catalog/public-id #uuid "01f35a1d-1abd-4029-9936-640be2f1d3f4"
+   :marketplace.catalog/name "Two Sigma"
+   :marketplace.catalog/mapping "{
+      \"title\": {
+        \"type\": \"string\",
+        \"indexes\": [
+          \"text\"
+        ]
+      },
+      \"vendor\": {
+        \"type\": \"string\" ,
+        \"indexes\": [
+          \"filter\"
+        ]
+      },
+      \"description\": {
+        \"type\": \"string\",
+        \"indexes\": [
+          \"text\"
+        ]
+      },
+      \"remoteFile\": {
+        \"type\": \"string\"
+      },
+      \"lastUpdated\": {
+        \"type\": \"date\"
+      },
+      \"createdAt\": {
+        \"type\": \"date\"
+      },
+      \"businessOwner\": {
+        \"type\": \"string\",
+        \"indexes\": [
+          \"filter\"
+        ]
+      },
+      \"metaDataChanged\": {
+        \"type\": \"date\"
+      },
+      \"public\": {
+        \"type\": \"boolean\"
+      }
+    }"}
+
+  {:db/id #db/id[:db.part/user -2]
+   :marketplace.category/public-id #uuid "01f35a21-8572-497f-b8f9-3920463a33b3"
+   :marketplace.category/name "Two Sigma"
+   :marketplace.category/catalog #db/id[:db.part/user -1]}
+
+  {:db/id #db/id[:db.part/user -3]
+   :marketplace.category/public-id #uuid "01f35a22-7655-4f80-9eb4-4a972f95e6cf"
+   :marketplace.category/name "Demography"
+   :marketplace.category/parent #db/id[:db.part/user -2]
+   :marketplace.category/catalog #db/id[:db.part/user -1]}
+
+  {:db/id #db/id[:db.part/user -4]
+   :marketplace.category/public-id #uuid "01f35a23-d41c-421d-b6d4-ed985cd6805e"
+   :marketplace.category/name "Health"
+   :marketplace.category/parent #db/id[:db.part/user -2]
+   :marketplace.category/catalog #db/id[:db.part/user -1]}
+
+  {:db/id #db/id[:db.part/user -5]
+   :marketplace.category/public-id #uuid "01f35a25-d55a-4fc7-9967-962928821f73"
+   :marketplace.category/name "Mortality"
+   :marketplace.category/parent #db/id[:db.part/user -4]
+   :marketplace.category/catalog #db/id[:db.part/user -1]}
+
+  {:db/id #db/id[:db.part/user]
+   :marketplace.category/public-id #uuid "01f35a28-7724-4b56-8f2f-152558fc806f"
+   :marketplace.category/category #db/id[:db.part/user -3]
+   :marketplace.category/catalog #db/id[:db.part/user -1]
+   :marketplace.category/vendor #uuid "556f3d84-99bc-4d19-85f0-62b6c9eb46ff"
+   :marketplace.category/title "Missile strikes by accuracy"
+   :marketplace.category/metadata "{
+      \"description\": \"Beginning with the now-iconic phrase Four score and seven years ago—referring to the Declaration of Independence, written at the start of the American Revolution in 1776—Lincoln examined the founding principles of the United States in the context of the Civil War, and memorialized the sacrifices of those who gave their lives at Gettysburg and extolled virtues for the listeners (and the nation) to ensure the survival of America's representative democracy, that government of the people, by the people, for the people, shall not perish from the earth.\",
+      \"remoteFile\": \"file://./missile_strikes.xml\",
+      \"lastUpdated\": \"2014-08-05T08:15:30-05:00\",
+      \"createdAt\": \"1994-11-05T08:15:30-05:00\",
+      \"businessOwner\": \"HHE-992282\",
+      \"metaDataChanged\": \"2013-11-05T08:15:30-05:00\",
+      \"public\": true
+    }"}
+
+  {:db/id #db/id[:db.part/user]
+   :marketplace.category/public-id #uuid "01f35a2a-1183-410e-a04d-d0977134b9ec"
+   :marketplace.category/category #db/id[:db.part/user -3]
+   :marketplace.category/catalog #db/id[:db.part/user -1]
+   :marketplace.category/vendor #uuid "556f3d84-99bc-4d19-85f0-62b6c9eb46ff"
+   :marketplace.category/title "Tropical Storms Database"
+   :marketplace.category/metadata "{
+      \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"
+      \"remoteFile\": \"file://./tropical_storms.csv\"
+      \"lastUpdated\": \"2013-07-05T18:15:30-05:00\"
+      \"createdAt\": \"1993-10-05T18:15:30-05:00\"
+      \"businessOwner\": \"882-HU-BBT\"
+      \"metaDataChanged\": \"2012-10-05T18:15:30-05:00\"
+      \"public\": false
+    }"}
+]
