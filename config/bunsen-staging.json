@@ -20,6 +20,7 @@
         }
       },
       "env": {
+        "WEB_INDEX": "index.html",
         "BAMBOO_HOST": "bunsen-staging.withmojo.com",
         "BAMBOO_ACLS": "!{ path_beg -i /user } !{ path_beg -i /notebook } !{ path_beg -i /provisioner } !{ path_beg -i /marketplace } !{ path_beg -i /beaker } !{ path_beg -i /events }"
       },
@@ -60,6 +61,7 @@
         }
       },
       "env": {
+        "WEB_INDEX": "publications.html",
         "BAMBOO_HOST": "beaker-staging.withmojo.com",
         "BAMBOO_ACLS": "!{ path_beg -i /user } !{ path_beg -i /notebook } !{ path_beg -i /provisioner } !{ path_beg -i /marketplace } !{ path_beg -i /beaker } !{ path_beg -i /events }"
       },
