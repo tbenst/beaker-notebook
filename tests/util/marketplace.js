@@ -33,20 +33,6 @@ module.exports = function() {
     });
   }
 
-  function updateMappings(indexName) {
-    var payload = JSON.stringify({indexName: indexName});
-    return put({
-      url: config.marketplaceUrl + '/mappings',
-      body: payload,
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-    .then(function(response) {
-      return ensureSuccess(response, indexName);
-    });
-  }
-
   function createRecords(indexName, recordType, records) {
     var payloadObj = {indexName: indexName};
     payloadObj[recordType] = Array.prototype.concat(records);
@@ -109,14 +95,14 @@ module.exports = function() {
       });
     },
 
-    createCategories: function(indexName, categories) {
-      _.each(categories, function(cat) {
-        cat.id = cat.id || ('categories_' + cat.name);
+    createCategory: function(attrs) {
+      var payload = JSON.stringify(attrs);
+      return post({url: config.marketplaceUrl + '/categories',
+                   body: payload,
+                   headers: {'Content-type': 'application/json'}})
+      .then(function(response) {
+        return JSON.parse(response[0].body);
       });
-      return createRecords(indexName, 'categories', categories)
-        .then(function() {
-          return updateMappings(indexName);
-        });
     },
 
     createDatasets: function(indexName, datasets) {
