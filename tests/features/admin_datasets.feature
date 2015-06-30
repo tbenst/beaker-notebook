@@ -24,7 +24,7 @@ Feature: Admin Datasets
     And I update the dataset
     And I view the market search
     Then I should see a dataset with the name "wow"
-
+  @flaky
   Scenario: Creating a dataset
     Given I have the following categories:
       | name       | parent      |
