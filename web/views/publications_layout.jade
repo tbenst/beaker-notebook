@@ -28,7 +28,7 @@ html(ng-app="publications")
       include _publications_header
       nav.main-nav
 
-      #beaker-container.contain
+      #beaker-container.contain(ng-class="{'fullscreen': isFullscreen()}")
         #root(ui-view="root")
           != content
       modal(ng-show="modalShown")

@@ -4,15 +4,23 @@
     '$state',
     '$compile',
     'Factories',
+    'FullscreenState',
+    'UserPreferences',
+    '$window',
     '$sessionStorage',
     function(
       $scope,
       $state,
       $compile,
       Factories,
+      FullscreenState,
+      UserPreferences,
+      $window,
       $sessionStorage) {
 
     var F = Factories;
+
+    FullscreenState.toggleFullscreen(UserPreferences.get('fullscreenView'));
 
     $scope.ratingAttrs = {
       rateableId: $state.params.id.toString()
@@ -59,5 +67,13 @@
     $scope.downloadNotebookUrl = function() {
       return F.Publications.publicationNotebookUrl($state.params.id);
     };
+
+    $scope.goBack = function() {
+      $window.history.back();
+    }
+
+    $scope.$on('$destroy', function() {
+      FullscreenState.toggleFullscreen(false);
+    });
   }]);
 })(angular, window.bunsen);

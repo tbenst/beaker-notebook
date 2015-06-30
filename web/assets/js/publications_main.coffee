@@ -13,6 +13,7 @@
 #= require "directives/_contributors.js"
 #= require "directives/_language_icon.js"
 #= require "directives/_toggle_menu.js"
+#= require "directives/_fullscreen_toggle.js"
 #= require "controllers/_publications_root.js"
 #= require "controllers/_publications_nav.js"
 #= require "controllers/_publications_list.js"
