@@ -43,7 +43,7 @@
       ]
     },
     {
-      "id": "/beaker-staging/web",
+      "id": "/bunsen-staging/beaker-web",
       "cmd": "",
       "cpus": 1,
       "mem": 1024,
