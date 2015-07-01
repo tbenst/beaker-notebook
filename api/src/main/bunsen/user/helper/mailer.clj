@@ -12,7 +12,7 @@
   (send-message (smtp-conn config)
                 {:from "ops+bunsen@mojotech.com"
                  :to email
-                 :subject "Reset Bunsen Password"
+                 :subject "Reset Beaker/Bunsen Password"
                  :body [{:type "text/html"
-                         :content (str "<p>You recently requested a link to reset your Bunsen password.</br>Please set a new password by following the link below:</br></p>"
-                                       "<a href=http://" (:hostname config) "/#/change_password?id=" token "> Reset Bunsen Password </a>")}]}))
+                         :content (str "<p>You recently requested a link to reset your Beaker/Bunsen password.</br>Please set a new password by following the link below:</br></p>"
+                                       "<a href=http://" (:hostname config) "/#/change_password?id=" token "> Reset Password </a>")}]}))

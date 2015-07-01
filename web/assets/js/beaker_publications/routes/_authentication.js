@@ -32,6 +32,16 @@
                 template: templates['beaker_auth/sign_up']
               }
             }
+          })
+          .state('forgotPassword', {
+            url: '/forgot_password',
+            skipAuth: true,
+            views: {
+              root: {
+                controller: 'authentication',
+                template: templates['beaker_auth/forgot_password']
+              }
+            }
           });
     }]
   );
