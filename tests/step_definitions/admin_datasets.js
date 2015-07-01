@@ -154,7 +154,13 @@ module.exports = function() {
   this.When(/^I create a new dataset with$/, function(table) {
     var editor = new this.Widgets.DatasetEditor();
     var row = table.hashes()[0];
-    return this.driver.get(this.route.datasetCreate)
+
+    //We wait here to ensure the sign in process is complete.
+    //Otherwise the call to get route.datasetCreate is sometimes interrupted.
+    return this.driver.sleep(1500)
+    .then(function() {
+      return this.driver.get(this.route.datasetCreate)
+    }.bind(this))
     .then(function() {
       return editor.setTitle(row.name);
     })
@@ -174,6 +180,6 @@ module.exports = function() {
     })
     .then(function() {
       return editor.save();
-    }.bind(this));
+    });
   });
 };
