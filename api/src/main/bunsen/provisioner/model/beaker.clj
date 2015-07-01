@@ -1,12 +1,12 @@
 (ns bunsen.provisioner.model.beaker
   (:require [datomic.api :as d]
-            [bunsen.common.helper.utils :as utils]
-            [crypto.random :as rnd]))
+            [crypto.random :as random]
+            [bunsen.common.helper.utils :as utils]))
 
-(defn create-beaker! [conn {:keys [user-id token]}]
+(defn create-beaker! [conn {:keys [user-id]}]
   (let [beaker {:db/id (d/tempid :db.part/user)
                 :beaker/user-id (utils/uuid-from-str  user-id)
-                :beaker/token token}]
+                :beaker/token (random/hex 20)}]
     @(d/transact conn [beaker])
     (dissoc beaker :db/id)))
 
