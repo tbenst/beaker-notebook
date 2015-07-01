@@ -44,6 +44,7 @@
                  [io.rkn/conformity "0.3.3"]
                  [clojurewerkz/elastisch "2.1.0"]
                  [docker-client "0.1.4"]
+                 [com.draines/postal "1.11.3"]
                  [marathon-client "0.1.2"]]
   :profiles {:uberjar {:aot [bunsen.main]}
              :dev {:source-paths ["src/dev"]
