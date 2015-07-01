@@ -31,11 +31,13 @@
                                (assoc :user (if remote-user
                                               (first (str/split remote-user #"@"))
                                               (:default-user config)))
-                               (update-in [:env] merge {"BAMBOO_HOST" (:bamboo-host config)
-                                                        "BAMBOO_PATH" (str "/beaker/" id "/")
-                                                        "BEAKER_COOKIE" token
-                                                        "USE_SSL" "true"
-                                                        "AUTHORIZED_USER" remote-user})
+                               (update-in [:env] merge (merge
+                                                        {"BAMBOO_PATH" (str "/beaker/" id "/")
+                                                         "BEAKER_COOKIE" token
+                                                         "USE_SSL" "true"
+                                                         "AUTHORIZED_USER" remote-user}
+                                                        (when-let [h (:bamboo-host config)]
+                                                          {"BAMBOO_HOST" h})))
                                (update-in [:volumes] conj {:mode "RW"
                                                            :host (str (:store-root config) "/" id)
                                                            :container "/mnt/scratch"})))]
