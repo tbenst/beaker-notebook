@@ -8,7 +8,7 @@ Feature: Admin Datasets
   Scenario: Viewing the marketplace
     When I view the market search
     Then I should see the edit indicator
-
+  @flaky
   Scenario: Deleting a dataset
     When I view the market search
     And I edit a dataset
