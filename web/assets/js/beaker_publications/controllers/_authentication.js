@@ -71,5 +71,15 @@
           $scope.message = 'Error: Please fill in form completely'
         }
     };
+
+    $scope.sendEmail = function() {
+      F.Users.resetPassword($scope.user)
+        .then(function() {
+          $scope.message = 'An email with further instruction has been sent';
+        })
+        .catch(function(err) {
+          $scope.message = 'Error: ' + err.data.error;
+        });
+    };
   }]);
 })(window.bunsen);
