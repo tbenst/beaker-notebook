@@ -122,7 +122,11 @@
         "STORE_ROOT": "/mnt/gluster0/bunsen-staging/scratch",
         "STORE_QUOTA": 10485760,
         "BAMBOO_ACLS": "{ path_beg -i /user } || { path_beg -i /notebook } || { path_beg -i /provisioner } || { path_beg -i /marketplace }",
-        "MARATHON_URI": "http://cluster-master.withmojo.com:8080"
+        "MARATHON_URI": "http://cluster-master.withmojo.com:8080",
+        "HOSTNAME": "bunsen-staging.withmojo.com",
+        "MANDRILL_HOST": "smtp.mandrillapp.com",
+        "MANDRILL_USER": "ops+mandrill@mojotech.com",
+        "MANDRILL_PASS": "-QG6MBSWNPR7sPwRali8Jg"
       },
       "healthChecks": [
         {

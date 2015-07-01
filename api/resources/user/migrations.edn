@@ -69,4 +69,19 @@
           [:db/add #db/id[:db.part/user] :db/ident :role/beaker]
           [:db/add #db/id[:db.part/user] :db/ident :role/admin]
           ]]}
+
+ :users/add-reset-token
+ {:txes [[
+          {:db/id #db/id[:db.part/db]
+           :db/ident :user/password-reset-token
+           :db/valueType :db.type/string
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+
+          {:db/id #db/id[:db.part/db]
+           :db/ident :user/password-reset-at
+           :db/valueType :db.type/instant
+           :db/cardinality :db.cardinality/one
+           :db.install/_attribute :db.part/db}
+          ]]}
  }

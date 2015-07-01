@@ -1,9 +1,13 @@
 (ns bunsen.user.model.user
   (:require [datomic.api :as d]
             [bunsen.common.helper.utils :as utils]
+            [bunsen.user.helper.mailer :as mailer]
             [crypto.password.bcrypt :as password]
             [bouncer.core :as b]
             [bouncer.validators :as v]
+            [crypto.random :as random]
+            [clj-time.core :as t]
+            [clj-time.coerce :as c]
             [clojure.string :refer [lower-case]]))
 
 (def user-pattern
@@ -44,6 +48,12 @@
              :where [?user :user/account ?account]]
            db user-pattern account)
       first))
+
+(defn find-user-by [db attr value]
+  (d/q '[:find (pull ?user pattern) .
+         :in $ pattern ?attr ?value
+         :where [?user ?attr ?value]]
+       db user-pattern attr value))
 
 (defn fix-user-format [u]
   (-> (select-keys u [:user/public-id :user/account
@@ -108,3 +118,27 @@
                   :email [v/required v/email [unique-email? id db :message "email already taken"]]
                   :password [v/required [v/min-count 6]])
       first))
+
+(defn reset-password! [conn config {:keys [email]}]
+  (let [user (find-user-by-email {:db (d/db conn) :email email})
+        token (random/hex 20)
+        tx-result @(d/transact conn [{:db/id (:db/id user)
+                                      :user/password-reset-token token
+                                      :user/password-reset-at (utils/now)}])]
+    (when tx-result (do
+                      (mailer/send-password-reset-email config (:user/email user) token)
+                      [tx-result nil]))))
+
+(defn token-valid? [reset-at]
+  (< (t/in-hours (t/interval (c/from-date reset-at) (t/now))) 24)) ; tokens expire after 24h
+
+(defn change-password! [conn {:keys [token password]}]
+  (if-let [user (find-user-by (d/db conn) :user/password-reset-token token)]
+    (if (and (:user/password-reset-at user) (token-valid? (:user/password-reset-at user)))
+      [@(d/transact conn [{:db/id (:db/id user)
+                           :user/password (password/encrypt password)}
+                          [:db/retract (:db/id user) :user/password-reset-token (:user/password-reset-token user)]
+                          [:db/retract (:db/id user) :user/password-reset-at (:user/password-reset-at user)]
+                          ]) nil]
+      [nil "Sorry, your request has expired"])
+    [nil "Password link is invalid or has already been used"]))
