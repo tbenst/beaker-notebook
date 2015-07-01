@@ -22,9 +22,10 @@
       var rootNodes = [];
 
       _.each(categories.reverse(), function(category) {
+        var parentNode;
         category = Restangular.stripRestangular(category);
         if (category.parent) {
-          var parentNode = nodes[category.parent['public-id']];
+          parentNode = nodes[category.parent['public-id']];
         }
         var node = nodes[category['public-id']];
         if (parentNode) {
