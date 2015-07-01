@@ -1,13 +1,11 @@
 (ns bunsen.provisioner.resource
-  (:require [crypto.random :as random]
-            [clojure.data.json :as json]
+  (:require [clojure.data.json :as json]
             [clojure.string :as str]
             [liberator.core :refer [defresource]]
             [liberator.representation :refer [ring-response as-response]]
-            [bunsen.provisioner.model.beaker :as b]
+            [bunsen.provisioner.api :as api]
             [bunsen.common.helper.resource :as resource]
-            [bunsen.provisioner.protocol.store :as store]
-            [bunsen.provisioner.protocol.container :as container]))
+            [bunsen.provisioner.protocol.store :as store]))
 
 (defresource status [_] resource/defaults
   :handle-ok (constantly "ok"))
@@ -16,38 +14,25 @@
   :allowed-methods #{:get :post}
   :exists? (fn [{{container :container} :request}]
              (let [id (get-in request [:session :id])]
-               {::instance (container/inspect container id)}))
+               {::instance (api/inspect-container container id)}))
   :handle-ok ::instance
 
-  :post! (fn [{{conn :conn {id :id} :session config :config container :container remote-user :remote-user} :request}]
-                                        ; use the same token for all users in test env
-           (let [token (or (:beaker-token config) (random/hex 20))
-                 beaker (b/find-or-create-beaker! conn {:user-id id :token token})]
-             (when-let [i (container/create!
-                           container
-                           ;; FIXME: refactor to use middleware pattern
-                           (-> (container/default container)
-                               (assoc :id id)
-                               (assoc :user (if remote-user
-                                              (first (str/split remote-user #"@"))
-                                              (:default-user config)))
-                               (update-in [:env] merge (merge
-                                                        {"BAMBOO_PATH" (str "/beaker/" id "/")
-                                                         "BEAKER_COOKIE" token
-                                                         "USE_SSL" "true"
-                                                         "AUTHORIZED_USER" remote-user}
-                                                        (when-let [h (:bamboo-host config)]
-                                                          {"BAMBOO_HOST" h})))
-                               (update-in [:volumes] conj {:mode "RW"
-                                                           :host (str (:store-root config) "/" id)
-                                                           :container "/mnt/scratch"})))]
-               {::instance i
-                ::token (:beaker/token beaker)})))
+  :post! (fn [{{conn :conn
+                {user-id :id} :session
+                config :config
+                container :container
+                remote-user :remote-user}
+               :request}]
+           {::container (api/create-container! {:conn conn
+                                                :user-id user-id
+                                                :config config
+                                                :container container
+                                                :remote-user remote-user})})
 
-  :handle-created (fn [{instance ::instance token ::token :as ctx}]
-                    ;; write "beakerauth" cookie
-                    (ring-response (assoc (as-response instance ctx)
-                                          :cookies {"beakerauth" {:value token
+  :handle-created (fn [{container ::container :as ctx}]
+                    ; write "beakerauth" cookie
+                    (ring-response (assoc (as-response container ctx)
+                                          :cookies {"beakerauth" {:value (:token container)
                                                                   :http-only true
                                                                   :max-age 2592000 ; 30 days in seconds
                                                                   :path "/"}})))

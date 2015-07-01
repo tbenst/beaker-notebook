@@ -25,7 +25,7 @@
    :store-root "/tmp/bunsen/scratch"
    :store-quota 10485760})
 
-(def system nil)
+(defonce system nil)
 
 (defn start! []
   (alter-var-root #'system (constantly
