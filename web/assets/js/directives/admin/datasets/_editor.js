@@ -62,12 +62,20 @@
             }
           }
 
-          $scope.$watch('dataset', function(newVal) {
-            if (!newVal) {
+          $scope.$watch('dataset + vendors', function(newVal) {
+            if (!newVal || !$scope.vendors) {
               return;
             }
 
-            $scope.vendorName = getDatasetVendor($scope.dataset);
+            var name = getDatasetVendor($scope.dataset);
+            var vendor = _.where($scope.vendors, {name: name})[0];
+            if (vendor) {
+              $scope.selectedVendor = {
+                name: name,
+                'public-id': vendor['public-id']
+              };
+            }
+
             setDatasetVendor($scope.dataset);
           });
 
@@ -84,16 +92,17 @@
           $scope.datasetHas = function(attr) {
             var meta = defaultMeta;
 
-            if ($scope.dataset && $scope.dataset.catalog && $scope.dataset.catalog.name == "Two Sigma") {
+            if ($scope.dataset && $scope.dataset.catalog && $scope.dataset.catalog.name == 'Two Sigma') {
               meta = twoSigmaMeta;
             }
 
             return _.contains(meta, attr);
           };
 
-          $scope.updateVendor = function(vendor) {
-            $scope.dataset.vendor = vendor['public-id'];
-            $scope.vendorName = vendor.name;
+          $scope.updateVendor = function(id) {
+            var vendor = _.where($scope.vendors, {'public-id': id})[0];
+            $scope.dataset.vendor = id;
+            $scope.selectedVendor = _.pick(vendor, 'id', 'name');
           };
 
           $scope.deleteEntity = function(dataset) {
@@ -121,7 +130,7 @@
 
           $scope.setNewCatalog = function(val, dataset) {
             dataset.index = val;
-            dataset.catalog = _.find($scope.catalogs, { name: val });
+            dataset.catalog = _.find($scope.catalogs, {name: val});
             delete dataset.categories;
           };
 

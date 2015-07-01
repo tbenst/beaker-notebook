@@ -12,11 +12,13 @@ form.dataset-edit(name="datasetEditForm")
       textarea(ng-model="dataset.description", placeholder="Enter a description")
     .dataset-vendor(ng-if="datasetHas('vendor')")
       label Vendor
-      input.dataset-vendor-field(placeholder="vendor"
-            ng-model="vendorName"
-            typeahead-on-select="updateVendor($item)"
-            typeahead="vendor['public-id'] as vendor.name for vendor in vendors | filter:$viewValue"
-            typeahead-min-length=3)
+      select(chosen
+        inherit_select_classes="true"
+        class="dataset-vendor-field"
+        ng-change="updateVendor(selectedVendor['public-id'])"
+        data-placeholder='vendor'
+        ng-model="selectedVendor['public-id']"
+        ng-options="vendor['public-id'] as vendor.name for vendor in vendors | filter:$viewValue")
     .dataset-format(ng-if="datasetHas('format')")
       label Format
       input.dataset-format-field(placeholder="format"
@@ -47,7 +49,7 @@ form.dataset-edit(name="datasetEditForm")
             ng-model="dataset.category.name"
             typeahead="category as label(category) for category in getCategories($viewValue)"
             typeahead-min-length=2
-            typeahead-on-select="onSelect($item)"
+            typeahead-on-select="updateCategory($item)"
             typeahead-editable="false"
             required)
     .dataset-remote-file-location(ng-if="datasetHas('remoteFile')")

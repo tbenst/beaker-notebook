@@ -1,0 +1,52 @@
+.chosen-container .chosen-results
+  position: relative
+
+.chosen-container
+  position: relative
+  width: 100%!important
+  &.chosen-container-active
+    .chosen-drop
+      display: block
+
+  .chosen-single
+    background: transparent!important
+    border-radius: 0!important
+    color: base-step3
+    display: block
+    height: auto!important
+    line-height: inherit
+    padding-bottom: 10px
+    padding-top: 11px
+
+  .chosen-drop
+    background-color: white
+    border 1px solid base-step5
+    display: block
+    display: none
+    left: -9999px
+    margin-top: -1px
+    max-height: 200px
+    position: absolute
+    width: 100%
+  &.chosen-with-drop .chosen-drop
+    left: 0
+
+    .chosen-search, .chosen-results
+      margin: auto
+      width: 95%
+
+    .chosen-search
+      padding-top: 10px
+
+    .chosen-results
+      max-height: 120px
+      overflow: scroll
+      padding: 10px 0
+
+      li
+        padding: 5px 5px
+        display: list-item
+        cursor: pointer
+        &.highlighted
+          background-color action-blue
+          color: white

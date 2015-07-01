@@ -165,9 +165,7 @@ module.exports = function() {
       return editor.setTitle(row.name);
     })
     .then(function() {
-      if (!row.tag) {return;}
-
-      return editor.addTag(row.tag);
+      return editor.addTag(row.tag || "Taggie");
     })
     .then(function() {
       return editor.setCatalog('catalog_0.1');
@@ -176,7 +174,7 @@ module.exports = function() {
       return editor.setTypeahead('category', row.category);
     })
     .then(function() {
-      return editor.setTypeahead('vendor', row.vendor || 'Some vendor');
+      return editor.selectVendor(row.vendor || 'Some vendor');
     })
     .then(function() {
       return editor.save();
