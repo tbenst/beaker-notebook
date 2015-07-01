@@ -7,8 +7,8 @@
 (defresource password [_] defaults
   :allowed-methods #{:post :put}
 
-  :post! (fn [{{conn :conn params :params} :request}]
-           {::result (u/reset-password! conn params)})
+  :post! (fn [{{conn :conn params :params config :config} :request}]
+           {::result (u/reset-password! conn config params)})
 
   :put! (fn [{{conn :conn params :params} :request}]
           {::result (u/change-password! conn params)})

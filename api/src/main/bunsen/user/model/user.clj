@@ -1,6 +1,7 @@
 (ns bunsen.user.model.user
   (:require [datomic.api :as d]
             [bunsen.common.helper.utils :as utils]
+            [bunsen.user.helper.mailer :as mailer]
             [crypto.password.bcrypt :as password]
             [bouncer.core :as b]
             [bouncer.validators :as v]
@@ -118,11 +119,15 @@
                   :password [v/required [v/min-count 6]])
       first))
 
-(defn reset-password! [conn {:keys [email]}]
-  (let [user (find-user-by-email {:db (d/db conn) :email email})]
-    [@(d/transact conn [{:db/id (:db/id user)
-                        :user/password-reset-token (random/hex 20)
-                        :user/password-reset-at (utils/now)}]) nil]))
+(defn reset-password! [conn config {:keys [email]}]
+  (let [user (find-user-by-email {:db (d/db conn) :email email})
+        token (random/hex 20)
+        tx-result @(d/transact conn [{:db/id (:db/id user)
+                                      :user/password-reset-token token
+                                      :user/password-reset-at (utils/now)}])]
+    (when tx-result (do
+                      (mailer/send-password-reset-email config (:user/email user) token)
+                      [tx-result nil]))))
 
 (defn token-valid? [reset-at]
   (< (t/in-hours (t/interval (c/from-date reset-at) (t/now))) 24)) ; tokens expire after 24h
