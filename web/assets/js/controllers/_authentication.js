@@ -78,24 +78,24 @@
       };
 
       $scope.sendEmail = function() {
-        Restangular.all('forgot_password').post($scope.user)
+        F.Users.resetPassword($scope.user)
           .then(function() {
             $scope.message = 'An email with further instruction has been sent';
           })
           .catch(function(err) {
-            $scope.message = 'Error: ' + err.data;
+            $scope.message = 'Error: ' + err.data.error;
           });
       };
 
       $scope.submitPassword = function(isValid) {
         if (isValid) {
-          $scope.user.requestId = $stateParams.id;
-          Restangular.all('change_password').post($scope.user)
+          $scope.user.token = $stateParams.id;
+          F.Users.changePassword($scope.user)
             .then(function() {
               $scope.message = 'Your password has been updated';
             })
             .catch(function(err) {
-              $scope.message = 'Error: ' + err.data;
+              $scope.message = 'Error: ' + err.data.error;
             });
         } else {
           $scope.message = 'Error: The entered password is too short';

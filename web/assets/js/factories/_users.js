@@ -22,7 +22,13 @@
       },
       getUser: function(id) {
         return UsersRestangular.one('users', id).get();
-      }
+      },
+      resetPassword: function(attrs) {
+        return UsersRestangular.all('password').post(attrs);
+      },
+      changePassword: function(attrs) {
+        return UsersRestangular.one('password').customPUT(attrs);
+      },
     };
   }]);
 })(angular, window.bunsen);
