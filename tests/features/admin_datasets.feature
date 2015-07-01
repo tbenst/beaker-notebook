@@ -115,7 +115,7 @@ Feature: Admin Datasets
       | stacy  | finance  | tank | Some vendor |
     And I edit the "stacy" dataset
     Then I should see the "tank" tag
-
+  @flaky
   Scenario: Saving a new dataset tag
     When I view the market search
     And I edit a dataset
@@ -124,7 +124,7 @@ Feature: Admin Datasets
     And I update the dataset
     When I refresh the page
     Then I should see the "dog" tag
-
+  @flaky
   Scenario: Deleting a datset tag
     When I view the market search
     And I edit a dataset
