@@ -33,20 +33,6 @@ module.exports = function() {
     });
   }
 
-  function updateMappings(indexName) {
-    var payload = JSON.stringify({indexName: indexName});
-    return put({
-      url: config.marketplaceUrl + '/mappings',
-      body: payload,
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-    .then(function(response) {
-      return ensureSuccess(response, indexName);
-    });
-  }
-
   function createRecords(indexName, recordType, records) {
     var payloadObj = {indexName: indexName};
     payloadObj[recordType] = Array.prototype.concat(records);
@@ -76,21 +62,18 @@ module.exports = function() {
 
   this.marketplace = {
     createVendors: function(vendors) {
-      return del(config.marketplaceUrl + '/seed').then(function() {
-        return Promise.each(vendors, function(vendor) {
-          _.extend(vendor, {'public-id': uuid.v1()});
-          return post({
-            url: config.marketplaceUrl + '/vendors',
-            body: JSON.stringify(vendor),
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          });
+      return Promise.each(vendors, function(vendor) {
+        _.extend(vendor, {'public-id': uuid.v1()});
+        return post({
+          url: config.marketplaceUrl + '/vendors',
+          body: JSON.stringify(vendor),
+          headers: {
+            'Content-Type': 'application/json'
+          }
         });
-      }).catch(function(e) {
-        return console.log(e);
       });
     },
+
     createIndex: function(indexName) {
       var payload = JSON.stringify({indexName: indexName});
       return post({
@@ -102,14 +85,24 @@ module.exports = function() {
       });
     },
 
-    createCategories: function(indexName, categories) {
-      _.each(categories, function(cat) {
-        cat.id = cat.id || ('categories_' + cat.name);
+    createCatalog: function(attrs) {
+      var payload = JSON.stringify(attrs);
+      return post({url: config.marketplaceUrl + '/catalogs',
+                   body: payload,
+                   headers: {'Content-type': 'application/json'}})
+      .then(function(response) {
+        return JSON.parse(response[0].body);
       });
-      return createRecords(indexName, 'categories', categories)
-        .then(function() {
-          return updateMappings(indexName);
-        });
+    },
+
+    createCategory: function(attrs) {
+      var payload = JSON.stringify(attrs);
+      return post({url: config.marketplaceUrl + '/categories',
+                   body: payload,
+                   headers: {'Content-type': 'application/json'}})
+      .then(function(response) {
+        return JSON.parse(response[0].body);
+      });
     },
 
     createDatasets: function(indexName, datasets) {
@@ -127,7 +120,7 @@ module.exports = function() {
     },
 
     deleteSeed: function() {
-      return del(config.marketplaceUrl + '/seed/subscriptions');
+      return del(config.marketplaceUrl + '/seed');
     }
   };
 

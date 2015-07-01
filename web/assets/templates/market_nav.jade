@@ -9,7 +9,7 @@ input.search.full(ng-model="marketPlace.searchTerm", ng-model-options="{ debounc
     options="marketPlace.treeOptions",
     on-node-toggle="onTreeExpansion(node, expanded)")
 
-    item: {{node.category}}
+    item {{node.name}}
     span.count {{node.count}}
 
 .sidebar-box.sidebar-related-tags(ng-if="marketPlace.relatedTags")

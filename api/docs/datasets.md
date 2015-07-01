@@ -4,11 +4,29 @@
 
 ###### URL
 
-`/marketplace/v1/catalogs/:catalog/datasets?category-id=:category-public-id&from=:start-from&limit=:limit`
+`/marketplace/v1/catalogs/:catalog-public-id/datasets?category-id=:category-id&from=:from&limit=:limit`
 
 ###### Method
 
 `GET`
+
+###### Path Params
+
+Required:
+
+`:catalog-public-id` (string, public-id of the catalog)
+
+###### URL Params
+
+Required:
+
+`category-id=[string]` (public-id of category for which to fetch datasets)
+
+Optional:
+
+`from=[integer]` (for pagination, which number to start from)
+
+`limit=[integer]` (number of datasets to return)
 
 ###### Success Response
 
@@ -42,7 +60,7 @@ Content:
     description: "Bar",
     format: "CSV",
     id: 3552,
-    catalog: "catalog_0.2",
+    catalogId: "5584554a-22f1-47ab-b21c-d75d88e8ba14",
     numColumns: 2,
     path: "0.2.4.4.1",
     remoteFile: "afghanistan_adults_ages_15_living_with_hiv.csv",
@@ -57,4 +75,3 @@ Content:
   }]
 }
 ```
-

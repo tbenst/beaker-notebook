@@ -27,10 +27,10 @@ As a researcher, I want to be able to use the market place.
     Then I should see 0 market items on the market list page
 
   Scenario: Filtering market items by format
-    When there is a market item with the title "Item 1" and the format "MAGIC"
-    And there is a market item with the title "Item 2" and the format "CSV"
+    When there is a market item with the title "Item 1" and the format "magic"
+    And there is a market item with the title "Item 2" and the format "csv"
     And I view the market search
-    And I filter by search by selecting the "MAGIC" formats
+    And I filter by search by selecting the "magic" formats
     Then I should see 1 market item on the market list page
 
   Scenario: Filtering market items by tag
@@ -62,7 +62,7 @@ As a researcher, I want to be able to use the market place.
     And I view the market search
     And I filter by search by selecting the "George data" vendors
     Then I should see 2 market item on the market list page
-    And I filter by search by selecting the "MAGIC" formats
+    And I filter by search by selecting the "magic" formats
     Then I should see 1 market items on the market list page
     And I filter the market page by "Credit"
     Then I should see 0 market items on the market list page
@@ -108,8 +108,8 @@ As a researcher, I want to be able to use the market place.
 
   Scenario: Tags and Category on main market nav are mutually exclusive
     Given I have the following categories:
-      | name       | path   |
-      | Government |  0.1.1 |
+      | name       | parent       |
+      | Government |  catalog_0.1 |
     And there is a market item with the tags "cat,dog,human"
     And I view the market search
     And I filter by search by selecting the "cat" tags
@@ -331,17 +331,17 @@ As a researcher, I want to be able to use the market place.
 
   Scenario: Category with a description
     Given I have the following categories:
-      | name               | description                               | ownerName   | ownerEmail              | path     |
-      | Energy             | Work and heat are two categories.         | Quentin     | quentin@twosigma.com    | 0.1.1    |
-      | Government         | Description here woooo                    | Quentin H   | quentin11@twosigma.com  | 0.1.2    |
+      | name               | description                               | contact-name | contact-email          | parent      |
+      | Energy             | Work and heat are two categories.         | Quentin      | quentin@twosigma.com   | catalog_0.1 |
+      | Government         | Description here woooo                    | Quentin H    | quentin11@twosigma.com | catalog_0.1 |
     When I view the market search
     And I click "Energy"
     Then I should see a category description
 
   Scenario: Category without a description
     Given I have the following categories:
-      | name               | ownerName   | ownerEmail              | path     |
-      | Government         | Quentin     | quentin@twosigma.com    | 0.1.1    |
+      | name               | contact-name | contact-email           | parent      |
+      | Government         | Quentin      | quentin@twosigma.com    | catalog_0.1 |
     When I view the market search
     And I click "Government"
     Then I should not see a category description

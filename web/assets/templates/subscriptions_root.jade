@@ -31,13 +31,13 @@
           h4 Recently used datasets
           ul.link-list.recently-used
             li(ng-repeat="subscription in subscriptions | orderBy:'createdAt':true | limitTo:4")
-              a(ui-sref="marketPlace.items.item({index: subscription.dataSet.index, id: subscription.dataSet.id})") {{subscription.dataSet.title}}
+              a(ui-sref="marketPlace.items.item({catalogId: subscription.dataSet.catalog['public-id'], id: subscription.dataSet.id})") {{subscription.dataSet.title}}
 
       ul.subscription-list.bunsen-list
         li.bunsen-list-item(ng-repeat="subscription in subscriptions | orderBy:sort:sortDescending | filter:search")
           .col-three-quarters
             h2
-              a.title(ui-sref="marketPlace.items.item({index: subscription.dataSet.index, id: subscription.dataSet.id})") {{subscription.dataSet.title}}
+              a.title(ui-sref="marketPlace.items.item({catalogId: subscription.dataSet.catalog['public-id'], id: subscription.dataSet.id})") {{subscription.dataSet.title}}
             p.description {{subscription.dataSet.description | words : 30 }}
             ul.property-list.small
               li.purchase-date
@@ -45,5 +45,5 @@
                 .value {{subscription.createdAt | date : 'M/d/yyyy' }}
               li.location
                 .label Location
-                .value {{subscription.dataSet.catalog.base_path + subscription.dataSet.remoteFile}}
+                .value {{subscription.dataSet.catalog['base-path'] + subscription.dataSet.remoteFile}}
           .cl

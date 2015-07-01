@@ -6,9 +6,9 @@ section.properties
       .label {{key | _.str: 'humanize'}}
       .value(ng-class="'dataset-' + (key | _.str: 'dasherize')") {{value}}
 
-    li(ng-if="item.categories")
-      .label categories
-      .value.dataset-categories {{item.categories | names}}
+    li(ng-if="item.category")
+      .label category
+      .value.dataset-categories {{item.category.name}}
 
     li(ng-if="item.tags")
       .label tags

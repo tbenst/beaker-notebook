@@ -6,7 +6,7 @@ form.dataset-edit(name="datasetEditForm")
     input(disabled ng-if="!creating" placeholder="catalog" ng-model="dataset.catalog.name")
     select(ng-if="creating" ng-model="tmpCatalog" ng-change="setNewCatalog(tmpCatalog, dataset)")
       option(disabled selected="selected") Select a catalog
-      option(ng-repeat="catalog in catalogs" ng-value="catalog.index") {{catalog.name}}
+      option(ng-repeat="catalog in catalogs" ng-value="catalog.name") {{catalog.name}}
     .dataset-description(ng-if="datasetHas('description')")
       label Description
       textarea(ng-model="dataset.description", placeholder="Enter a description")
@@ -41,10 +41,10 @@ form.dataset-edit(name="datasetEditForm")
     .dataset-tags(ng-if="datasetHas('tags')")
       label Tags
       tags(dataset-tags="dataset.tags")
-    .dataset-category(ng-if="datasetHas('categories')")
+    .dataset-category(ng-if="datasetHas('category')")
       label Category
       input.dataset-category-field(placeholder="Category"
-            ng-model="dataset.categories[0].name"
+            ng-model="dataset.category.name"
             typeahead="category as label(category) for category in getCategories($viewValue)"
             typeahead-min-length=2
             typeahead-on-select="onSelect($item)"

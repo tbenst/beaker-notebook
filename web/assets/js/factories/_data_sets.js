@@ -14,8 +14,8 @@
       query.searchScope = scope.searchScope;
     }
 
-    if (scope.categoryPath !== void(0)) {
-      query['category-path'] = scope.categoryPath;
+    if (scope.categoryId !== void(0)) {
+      query['category-id'] = scope.categoryId;
     }
 
     _.chain(scope.filters).keys().each(function(f) {
@@ -55,9 +55,9 @@
         TimeoutRestangular,
         MarketplaceRestangular) {
         return {
-          getDataSet: function(index, id) {
+          getDataSet: function(catalog, id) {
             return MarketplaceRestangular
-            .one('indices', index)
+            .one('catalogs', catalog)
             .one('datasets', id).get()
             .then(function(results) {
               return formatDataset(results.data);
@@ -65,23 +65,19 @@
           },
           updateDataSet: function(dataset) {
             return MarketplaceRestangular
-            .one('indices', dataset.index)
+            .one('catalogs', dataset.catalog['public-id'])
             .customPUT(
                 MarketplaceRestangular.stripRestangular(dataset),
                 'datasets/' + dataset.id);
           },
           createDataSet: function(dataset) {
-            // we need to do this because it is an
-            // object with a key of 0, not an array.
-            dataset.categories = [dataset.categories[0]];
-
             return MarketplaceRestangular
-            .one('indices', dataset.index)
-            .post('datasets', _.omit(dataset, 'index'));
+            .one('catalogs', dataset.catalog['public-id'])
+            .post('datasets', _.omit(dataset, 'catalog'));
           },
           getDataSets: function(scope) {
             return MarketplaceRestangular
-            .one('indices', scope.currentCategory.index)
+            .one('catalogs', scope.currentCategory.catalog['public-id'])
             .one('datasets')
             .get(buildQuery(scope))
             .then(function(datasets) {

@@ -25,7 +25,7 @@
         }
       })
       .state('marketPlace.items.item', {
-        url: '/:index/:id',
+        url: '/:catalogId/:id',
         views: {
           "app@marketPlace": {
             controller: 'marketItem',

@@ -43,31 +43,63 @@ var quandlCatalog = {
   company: {type: 'string', indexes: ['filter']},
 };
 
-module.exports = function() {
-
-  this.createCatalog = function(indexName, attrs) {
-    return this.marketplace.createIndex(indexName).then(function() {
-      return this.marketplace.createCategories(indexName, [attrs]);
-    }.bind(this));
-  };
-
-  this.Given(/^I have a catalog with a duplicate path$/, function() {
-    return this.createCatalog('index_dupe', {
-      name: 'Duplicate Path',
-      path: '0.1',
-      metadata: twoSigmaCatalog
-    });
+function seedDataSets(datasets, indexName) {
+  indexName = indexName || DEFAULT_INDEX;
+  var _this = this;
+  var setsWithDefaults = bluebird.map(datasets, function(set) {
+    var transformed = _.omit(set, ['categories', 'tags']);
+    transformed = _.extend(transformed, {'catalog': _this.currentCatalogs[indexName]['public-id'],
+                                         'categoryId': _this.currentCategories[indexName]['public-id'],
+                                         'categoryIds': [_this.currentCategories[indexName]['public-id']]});
+    if (set.tags) {
+      transformed.tags = set.tags.split(',');
+    }
+    if (set.categories) {
+      transformed.categoryId = _this.currentCategories[set.categories]['public-id'];
+      transformed.categoryIds.push(transformed.categoryId);
+    }
+    return _.merge(marketItemBase(), transformed);
   });
 
-  this.Given(/^I have a default catalog$/, function() {
-    return this.createCatalog(DEFAULT_INDEX, {
-      name: 'default',
-      path: '0.1',
-      //jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-      base_path: '/var/s3/',
-      //jscs:enable
-      metadata: twoSigmaCatalog
+  return this.marketplace.createDatasets(indexName, setsWithDefaults);
+}
+
+function createIndexCatalogCategory(name, mapping) {
+  var _this = this;
+
+  return this.marketplace.createIndex(name)
+  .then(function() {
+    return _this.marketplace.createCatalog({name: name, mapping: mapping, 'base-path': '/var/s3/'})
+    .then(function(catalog) {
+      _this.currentCatalogs = _this.currentCatalogs || {};
+      _this.currentCatalogs[name] = catalog;
+      return catalog;
+    })
+    .then(function() {
+      var attrs = {'name': name,
+                   'catalog-id': _this.currentCatalogs[name]['public-id']};
+      return _this.marketplace.createCategory(attrs)
+      .then(function(category) {
+        _this.currentCategories = _this.currentCategories || {};
+        _this.currentCategories[category.name] = category;
+        return category;
+      });
     });
+  });
+}
+
+module.exports = function() {
+
+  this.Given(/^I have a default catalog$/, function() {
+    return createIndexCatalogCategory.call(this, DEFAULT_INDEX, twoSigmaCatalog);
+  });
+
+  this.Given(/^I have Two Sigma catalog$/, function() {
+    return createIndexCatalogCategory.call(this, 'two_sigma', twoSigmaCatalog);
+  });
+
+  this.Given(/^I have Quandl catalog$/, function() {
+    return createIndexCatalogCategory.call(this, 'quandl', quandlCatalog);
   });
 
   this.Given(/^I have a default vendor$/, function(callback) {
@@ -75,22 +107,6 @@ module.exports = function() {
       'name': 'Some vendor',
       'public-id': '55705cd9-f788-4a57-aa5d-1b271acd59cb'
     }]);
-  });
-
-  this.Given(/^I have Two Sigma catalog$/, function() {
-    return this.createCatalog(DEFAULT_INDEX, {
-      name: 'Two Sigma',
-      path: '0.1',
-      metadata: twoSigmaCatalog
-    });
-  });
-
-  this.Given(/^I have Quandl catalog$/, function() {
-    return this.createCatalog('catalog_0.2', {
-      name: 'Quandl',
-      path: '0.2',
-      metadata: quandlCatalog
-    });
   });
 
   this.When(/^there is a market item$/, function(callback) {
@@ -105,23 +121,6 @@ module.exports = function() {
     }
     return seedDataSets.call(this, itemSaves);
   });
-
-  function seedDataSets(datasets, indexName) {
-    var setsWithDefaults = _.map(datasets, function(set) {
-      var transformed = _.omit(set, ['categories', 'tags']);
-      if (set.categories) {
-        transformed.categoryIds = _.map(set.categories.split(','), function(catName) {
-          return 'categories_' + catName;
-        });
-      }
-      if (set.tags) {
-        transformed.tags = set.tags.split(',');
-      }
-      return _.merge(marketItemBase(), transformed);
-    });
-    return this.marketplace.createDatasets(indexName || DEFAULT_INDEX,
-                                           setsWithDefaults);
-  }
 
   this.When(/^there is a market item with the tags "([^"]*)"$/, function(tags) {
     return seedDataSets.call(this, [{tags: tags}]);
@@ -324,7 +323,20 @@ module.exports = function() {
   });
 
   this.Given(/^I have the following categories:$/, function(table) {
-    return this.marketplace.createCategories(DEFAULT_INDEX, table.hashes());
+    var _this = this;
+
+    return bluebird.map(table.hashes(), function(category) {
+      var attrs = {'catalog-id': _this.currentCatalogs[DEFAULT_INDEX]['public-id'],
+                   'parent-id': _this.currentCategories[category.parent]['public-id']};
+      attrs = _.extend(category, attrs);
+
+      return _this.marketplace.createCategory(attrs)
+      .then(function(category) {
+        _this.currentCategories = _this.currentCategories || {};
+        _this.currentCategories[category.name] = category;
+        return category;
+      });
+    });
   });
 
   this.When(/^I click "([^"]*)"$/, function(category) {

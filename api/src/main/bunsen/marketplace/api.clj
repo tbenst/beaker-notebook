@@ -5,6 +5,7 @@
             [bunsen.marketplace.model.vendor :as vendor]
             [bunsen.marketplace.model.format :as format]
             [bunsen.marketplace.model.rating :as rating]
+            [bunsen.marketplace.model.catalog :as catalog]
             [bunsen.marketplace.model.dataset :as dataset]
             [bunsen.marketplace.model.category :as category]
             [bunsen.marketplace.model.subscription :as subscription]))
@@ -43,26 +44,28 @@
       (update-in [:filters :vendor] (partial sort-by :name))))
 
 (defn find-datasets
-  [datomic-db es-conn index-name query]
-  (->> (:category-path query)
-       (category/get-category es-conn index-name)
-       (category/get-category-catalog es-conn index-name)
-       (dataset/find-datasets es-conn index-name query)
-       (merge-average-ratings-for-datasets datomic-db index-name)
-       (assoc-dataset-vendors datomic-db)
-       (assoc-dataset-filter-vendors datomic-db)))
+  [datomic-db es-conn catalog-id query]
+  (let [catalog (catalog/get-catalog datomic-db catalog-id)
+        index-name (:catalog/name catalog)]
+    (->> catalog
+         (dataset/find-datasets es-conn catalog-id query)
+         (merge-average-ratings-for-datasets datomic-db index-name)
+         (assoc-dataset-vendors datomic-db)
+         (assoc-dataset-filter-vendors datomic-db))))
 
 (defn get-dataset
-  [datomic-db es-conn index-name dataset-id]
-  (let [dataset (assoc-dataset-vendor datomic-db
+  [datomic-db es-conn catalog-id dataset-id]
+  (let [catalog (catalog/get-catalog datomic-db catalog-id)
+        index-name (:catalog/name catalog)
+        dataset (assoc-dataset-vendor datomic-db
                                       (dataset/get-dataset es-conn index-name dataset-id))
-        catalog (category/get-category-catalog es-conn index-name (-> dataset :categories first))
+        category (category/find-category datomic-db (:categoryId dataset))
         related (->> (dataset/find-datasets
-                       es-conn index-name {:from 0
+                       es-conn catalog-id {:from 0
                                            :size 5
                                            :exclude dataset-id
                                            :tags (:tags dataset)
-                                           :category-path (:path catalog)} catalog)
+                                           :category-id (str (:marketplace.category/public-id category))} catalog)
                      (merge-average-ratings-for-datasets datomic-db index-name)
                      :data)
         subscriber-ids (subscription/find-subscription-user-ids-by-dataset-id
@@ -71,43 +74,46 @@
            :index index-name
            :catalog catalog
            :subscriberIds subscriber-ids
+           :category category
            :related related)))
 
-(defn update-category-counts!
-  [es-conn index-name]
-  (index/refresh-index! es-conn index-name)
-  (->> (category/list-categories es-conn index-name)
-       (mapv
-         #(->> %
-               (category/get-category-catalog es-conn index-name)
-               (dataset/count-datasets-by-category es-conn index-name %)
-               (category/update-category-count! es-conn index-name %)))))
+(defn- get-parent-category-ids
+  [datomic-db category-id]
+  (loop [category (category/find-category datomic-db category-id)
+         ids [category-id]]
+    (if-not (:marketplace.category/parent category)
+      ids
+      (recur (category/find-category datomic-db (str (get-in category [:marketplace.category/parent :marketplace.category/public-id])))
+             (conj ids (str (get-in category [:marketplace.category/parent :marketplace.category/public-id])))))))
 
 (defn create-dataset!
-  [es-conn index-name dataset]
-  (dataset/create-dataset! es-conn index-name dataset)
-  ;; TODO: move this to a queue instead of spinning up a new thread each time
-  (future
-    (update-category-counts! es-conn index-name)))
+  [datomic-db es-conn catalog-id dataset]
+  (let [catalog (catalog/get-catalog datomic-db catalog-id)
+        index-name (:catalog/name catalog)
+        category-ids (get-parent-category-ids datomic-db (:categoryId dataset))
+        dataset (assoc dataset :categoryIds category-ids
+                               :catalog (:catalog-id dataset))
+        dataset (dissoc dataset :category :catalog-id)]
+    (dataset/create-dataset! es-conn index-name dataset)))
 
 (defn update-dataset!
-  [es-conn index-name dataset-id dataset]
-  (dataset/update-dataset!
-    es-conn index-name dataset-id (dissoc dataset :index :catalog :subscriberIds :related))
-  (future
-    (update-category-counts! es-conn index-name)))
+  [datomic-db es-conn catalog-id dataset-id dataset]
+  (let [catalog (catalog/get-catalog datomic-db catalog-id)
+        category-ids (get-parent-category-ids datomic-db (:categoryId dataset))
+        dataset (assoc dataset :catalog catalog-id
+                               :categoryIds category-ids)]
+    (dataset/update-dataset!
+      es-conn (:catalog/name catalog) dataset-id (dissoc dataset :index :subscriberIds :related :category :dataset-id :category-id))))
 
 (defn retract-dataset!
-  [es-conn index-name dataset-id]
-  (dataset/retract-dataset! es-conn index-name dataset-id)
-  (future
-    (update-category-counts! es-conn index-name)))
+  [datomic-db es-conn catalog-id dataset-id]
+  (let [catalog (catalog/get-catalog datomic-db catalog-id)]
+    (dataset/retract-dataset! es-conn (:catalog/name catalog) dataset-id)))
 
 (defn create-datasets!
   [es-conn index-name datasets]
   (->> (category/list-categories es-conn index-name)
-       (dataset/create-datasets! es-conn index-name datasets))
-  (update-category-counts! es-conn index-name))
+       (dataset/create-datasets! es-conn index-name datasets)))
 
 (defn update-dataset-mappings!
   [es-conn index-name]
@@ -115,8 +121,10 @@
        (dataset/update-dataset-mappings! es-conn index-name)))
 
 (defn index-exists?
-  [es-conn index-name]
-  (index/index-exists? es-conn index-name))
+  [datomic-db es-conn catalog-id]
+  (let [catalog (catalog/get-catalog datomic-db catalog-id)
+        index-name (:catalog/name catalog)]
+    (index/index-exists? es-conn index-name)))
 
 (defn refresh-index!
   [es-conn index-name]
@@ -127,10 +135,6 @@
    (create-index! es-conn index-name "marketplace/seed/mappings.json"))
   ([es-conn index-name mapping-file]
    (index/create-index! es-conn index-name mapping-file)))
-
-(defn list-indices
-  [es-conn]
-  (index/list-indices es-conn))
 
 (defn list-formats
   [es-conn]
@@ -168,20 +172,44 @@
   [es-conn index-name]
   (category/list-categories es-conn index-name))
 
+(defn create-catalog!
+  [datomic-conn params]
+  (catalog/create-catalog! datomic-conn params))
+
+(defn list-catalogs
+  [datomic-db]
+  (catalog/list-catalogs datomic-db))
+
 (defn find-categories
-  [es-conn query]
-  (category/find-categories es-conn query))
+  [datomic-db es-conn query]
+  (if (:catalog-id query)
+    (category/search-categories datomic-db query)
+    (category/find-categories datomic-db es-conn query)))
 
 (defn create-categories!
   [es-conn index-name categories]
   (category/create-categories! es-conn index-name categories))
 
+(defn create-category!
+  [datomic-db datomic-conn params]
+  (let [catalog (catalog/get-catalog datomic-db (:catalog-id params))
+        params (assoc params :catalog catalog)]
+    (category/create-category! datomic-conn params)))
+
+(defn delete-category!
+  [conn category-id]
+  (category/delete-category! conn category-id))
+
+(defn update-category!
+  [conn params]
+  (category/update-category! conn params))
+
 (defn- assoc-catalog-with-dataset
-  [es-conn d]
+  [datomic-db d]
   (assoc d
          :catalog
-         (category/get-category-catalog
-           es-conn (:index d) (-> d :categories first))))
+         (catalog/get-catalog
+           datomic-db (:catalog d))))
 
 (defn- assoc-dataset-with-subscription
   [datasets s]
@@ -200,36 +228,44 @@
                       (dataset/find-datasets-by-ids es-conn)
                       :data
                       (map
-                        (partial assoc-catalog-with-dataset es-conn)))]
+                        (partial assoc-catalog-with-dataset datomic-db)))]
     (map
       #(-> (assoc-dataset-with-subscription datasets %)
            (set/rename-keys {:created-at :createdAt}))
       subscriptions)))
 
-(defn retract-subscriptions!
-  [datomic-conn]
-  (subscription/retract-subscriptions! datomic-conn))
-
 (defn create-subscription!
-  [datomic-conn index-name dataset-id user-id]
-  (subscription/create-subscription! datomic-conn index-name dataset-id user-id))
+  [datomic-db datomic-conn catalog-id dataset-id user-id]
+  (let [catalog (catalog/get-catalog datomic-db catalog-id)
+        index-name (:catalog/name catalog)]
+    (subscription/create-subscription! datomic-conn index-name dataset-id user-id)))
 
 (defn retract-subscription!
-  [datomic-conn index-name dataset-id user-id]
-  (subscription/retract-subscription! datomic-conn index-name dataset-id user-id))
+  [datomic-db datomic-conn catalog-id dataset-id user-id]
+  (let [catalog (catalog/get-catalog datomic-db catalog-id)
+        index-name (:catalog/name catalog)]
+    (subscription/retract-subscription! datomic-conn index-name dataset-id user-id)))
 
 (defn subscribed?
-  [datomic-db index-name dataset-id user-id]
-  (subscription/subscribed? datomic-db index-name dataset-id user-id))
+  [datomic-db catalog-id dataset-id user-id]
+  (let [catalog (catalog/get-catalog datomic-db catalog-id)
+        index-name (:catalog/name catalog)]
+    (subscription/subscribed? datomic-db index-name dataset-id user-id)))
 
 (defn create-rating!
-  [datomic-conn index-name dataset-id user-id rating]
-  (rating/create-rating! datomic-conn index-name dataset-id user-id rating))
+  [datomic-db datomic-conn catalog-id dataset-id user-id rating]
+  (let [catalog (catalog/get-catalog datomic-db catalog-id)
+        index-name (:catalog/name catalog)]
+    (rating/create-rating! datomic-conn index-name dataset-id user-id rating)))
 
 (defn get-rating
-  [datomic-db index-name dataset-id user-id]
-  (rating/get-rating datomic-db index-name dataset-id user-id))
+  [datomic-db catalog-id dataset-id user-id]
+  (let [catalog (catalog/get-catalog datomic-db catalog-id)
+        index-name (:catalog/name catalog)]
+    (rating/get-rating datomic-db index-name dataset-id user-id)))
 
 (defn get-average-rating
-  [datomic-db index-name dataset-id]
-  (rating/get-average-rating datomic-db index-name dataset-id))
+  [datomic-db catalog-id dataset-id]
+  (let [catalog (catalog/get-catalog datomic-db catalog-id)
+        index-name (:catalog/name catalog)]
+    (rating/get-average-rating datomic-db index-name dataset-id)))

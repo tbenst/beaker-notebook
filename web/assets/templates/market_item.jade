@@ -3,7 +3,7 @@
   .item-hero
     h1
       | {{item.title}}
-      a.right.edit.admin-action(ng-if="isAdmin" ui-sref="admin.datasets.edit({index: item.index, id: item.id})") Edit Marketplace Item
+      a.right.edit.admin-action(ng-if="isAdmin" ui-sref="admin.datasets.edit({catalogId: item.catalog['public-id'], id: item.id})") Edit Marketplace Item
     p.description {{item.description}}
     ratings(score="item.userRating" average="item.averageRating" max="5" rating-attrs="ratingAttrs" subscribed="subscribed")
 
@@ -17,7 +17,7 @@
 
   .subscribed-confirm(ng-if="subscribed")
     p Thank you for subscribing. The data is accessible in the file&nbsp;
-      span.file-path {{item.catalog.base_path + item.remoteFile}}
+      span.file-path {{item.catalog['base-path'] + item.remoteFile}}
       &nbsp;
       | from within any Notebook.
 
@@ -29,4 +29,4 @@
     h1 Similar Datasets
     ul.related-items.bunsen-list
       li(ng-repeat="related in item.related")
-        a(ui-sref="marketPlace.items.item({index: item.index, id: related.id})") {{related.title}}
+        a(ui-sref="marketPlace.items.item({catalogId: item.catalog['public-id'], id: related.id})") {{related.title}}

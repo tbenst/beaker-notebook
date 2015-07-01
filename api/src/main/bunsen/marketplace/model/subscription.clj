@@ -13,15 +13,6 @@
          [?s :subscription/user-id ?ids]]
        datomic-db index-name dataset-id))
 
-(defn retract-subscriptions!
-  [datomic-conn]
-  (->> (d/q '[:find [?s ...]
-              :where [?s :subscription/data-set-id]]
-            (d/db datomic-conn))
-       (map (fn [eid] [:db.fn/retractEntity eid]))
-       (d/transact datomic-conn)
-       deref))
-
 (defn find-subscriptions-by-user-id
   [datomic-db user-id]
   (->> (d/q '[:find [?s ...]

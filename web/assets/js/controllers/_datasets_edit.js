@@ -20,7 +20,7 @@
         });
       };
 
-      Factories.DataSets.getDataSet(state.params.index, state.params.id)
+      Factories.DataSets.getDataSet(state.params.catalogId, state.params.id)
       .then(function(v) {
         $scope.dataset = v;
       });

@@ -18,7 +18,8 @@
           'title',
           'dataPreviews',
           'categories',
-          'vendor'
+          'vendor',
+          'category'
         ];
 
         var ignoreAttrs = [
@@ -29,6 +30,7 @@
           'related',
           'catalog',
           'index',
+          'categoryId',
           'categoryIds'
         ];
 

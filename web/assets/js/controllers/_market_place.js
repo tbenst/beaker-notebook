@@ -17,9 +17,14 @@
 
       var F = Factories;
 
-      if (!$scope.marketPlace.currentCategory) {
-        $scope.marketPlace.currentCategory = {path: $localStorage.lastCatalogPath || '0.1', index: $localStorage.lastIndex || 'catalog_0.1'};
-        $scope.marketPlace.categoryPath = $localStorage.lastCatalogPath || '0.1';
+      if (!$scope.marketPlace.currentCategory && $localStorage.lastRootCategoryId && $localStorage.lastCatalogId) {
+        $scope.marketPlace.currentCategory = {
+          'public-id': $localStorage.lastRootCategoryId,
+          catalog: {
+            'public-id': $localStorage.lastCatalogId,
+          }
+        };
+        $scope.marketPlace.categoryId = $localStorage.lastRootCategoryId;
       }
 
       $scope.removeFilter = function(filter) {
@@ -52,9 +57,11 @@
       }
 
       function checkDataSets(newValue, oldValue) {
-        if (newValue !== oldValue || !$scope.marketPlace.data) {
-          getDataSets();
+        if ($scope.marketPlace.data) {
+          return;
         }
+
+        getDataSets();
       }
 
       var previousRequestsAborter;

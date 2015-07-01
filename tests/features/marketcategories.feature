@@ -8,9 +8,9 @@ As a researcher, I want to be able to browse the market place.
       | name              |
       | Some vendor       |
     And I have the following categories:
-      | name       | path  |
-      | finance    | 0.1.1 |
-      | canada     | 0.1.2 |
+      | name       | parent      |
+      | finance    | catalog_0.1 |
+      | canada     | catalog_0.1 |
 
   Scenario: Browse market items by category
     Given I have the following market items:
@@ -57,27 +57,33 @@ As a researcher, I want to be able to browse the market place.
 
   Scenario: Category meta-data description
   Given I have the following categories:
-    | name   | path  | description                    |
-    | Energy | 0.1.3 | Federal energy policy datasets |
+    | name   | parent      | description                    |
+    | Energy | catalog_0.1 | Federal energy policy datasets |
   When I view the market search
   And I browse the default catalog by category "Energy"
   Then I should see the category description "Federal energy policy datasets"
 
   Scenario: Category meta-data owner
 	Given I have the following categories:
-	  | name   | path  | owner_name | description                    |
-	  | Energy | 0.1.3 | Paul       | Federal energy policy datasets |
+	  | name   | parent      | contact-name | description                    |
+	  | Energy | catalog_0.1 | Paul         | Federal energy policy datasets |
   When I view the market search
 	And I browse the default catalog by category "Energy"
 	Then I should see the category owner "Paul"
 
   Scenario: Using category tree
     Given I have the following categories:
-      | name       | path        |
-      | Government | 0.1.1.1     |
-      | Officials  | 0.1.1.1.1   |
-      | Federal    | 0.1.1.1.1.1 |
-      | State      | 0.1.1.1.1.2 |
+      | name       | parent      |
+      | Government | finance     |
+    Given I have the following categories:
+      | name       | parent      |
+      | Officials  | Government  |
+     Given I have the following categories:
+      | name       | parent      |
+      | Federal    | Officials   |
+     Given I have the following categories:
+      | name       | parent      |
+      | State      | Officials   |
     When I view the market search
     And I open the marketplace category "Finance"
     And I open the marketplace category "Government"
@@ -89,8 +95,8 @@ As a researcher, I want to be able to browse the market place.
 
   Scenario: Category meta-data description
     Given I have the following categories:
-      | name   | path  | description                    |
-      | Energy | 0.1.3 | Federal energy policy datasets |
+      | name   | parent      | description                    |
+      | Energy | catalog_0.1 | Federal energy policy datasets |
     And I have the following market items:
       | title                   | categories |
       | Nuclear power in Canada | Energy     |

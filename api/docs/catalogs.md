@@ -38,4 +38,3 @@ Content:
   name: "Quandl",
 }]
 ```
-
