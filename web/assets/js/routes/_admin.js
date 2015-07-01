@@ -28,6 +28,15 @@
           }
         }
       })
+      .state('admin.categories', {
+        url: '/admin/categories',
+        views: {
+          'app@admin': {
+            controller: 'categories',
+            template: templates['admin/categories']
+          }
+        }
+      })
       .state('admin.datasets', {
         abstract: true
       })

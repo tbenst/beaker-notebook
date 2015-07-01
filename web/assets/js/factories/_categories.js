@@ -45,6 +45,16 @@
       },
       typeahead: function(params) {
         return MR.all('categories').getList(params);
+      },
+      remove: function(publicId) {
+        return MR.one('categories', publicId).remove();
+      },
+      createOrUpdate: function(params) {
+        if (params['public-id']) {
+          return MR.one('categories', params['public-id']).customPUT(_.omit(params, 'public-id', 'catalog-id'));
+        } else {
+          return MR.all('categories').post(params);
+        }
       }
     };
   }]);

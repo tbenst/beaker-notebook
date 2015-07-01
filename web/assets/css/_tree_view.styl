@@ -7,6 +7,8 @@ treecontrol
   -webkit-user-select none
   -ms-user-select none
   user-select none
+  background-color action-strong-blue
+  display block
 
   li
     position relative
@@ -21,15 +23,26 @@ treecontrol
       z-index: 1
       display: none
 
-    &.tree-expanded > i
-      border-left: 8px solid transparent
-      border-right: 8px solid transparent
-      border-top: 8px solid #3A556F
-      display: block
-      pointer-events: none
+    &.tree-expanded > .tree-label
+      &::after
+        content: ""
+        width: 0
+        height: 0
+        position: absolute
+        z-index: 1
+        bottom: -8px
+        border-left: 8px solid transparent
+        border-right: 8px solid transparent
+        border-top: 8px solid #3A556F
+        display: block
+        pointer-events: none
+
+      &:hover::after
+        border-top-color lighten(action-strong-blue, 5%)
 
   .tree-label
     color white
+    position relative
     text-transform uppercase
     padding 12px spacing-block spacing-block-small spacing-block
     border-bottom 1px solid darken(action-strong-blue, 5%)
@@ -38,20 +51,18 @@ treecontrol
       cursor pointer
 
   .tree-selected
-    background-color action-blue
+    &, &:hover
+      background-color action-blue
     .count
       color white
-    &:hover
-      background-color action-blue
-
-    i
-      border-top: 8px solid red
+    &::after
+      border-top-color action-blue !important
 
   li li
     background-color darken(action-strong-blue, 20%)
 
-    &.tree-expanded i
-      border-top: 8px solid darken(action-strong-blue, 20%)
+    &.tree-expanded > .tree-label::after
+      border-top-color: darken(action-strong-blue, 20%)
 
     .tree-label
       text-transform capitalize
@@ -63,6 +74,6 @@ treecontrol
         padding-left 36px
         border-bottom 1px solid darken(action-strong-blue, 40%)
 
-      &.tree-expanded i
+      &.tree-expanded > .tree-label::after
         left: 35px
         border-top: 8px solid darken(action-strong-blue, 30%)
