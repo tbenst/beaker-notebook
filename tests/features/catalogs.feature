@@ -10,10 +10,11 @@ As a researcher, I want to be able to browse different market place catalogs.
       | Bank of America      |
       | Some vendor          |
 
+@flaky
   Scenario: Default catalog
     Given index "two_sigma" has the following market items:
-      | title                  | vendor           | format  | tags         |
-      | Credit Card Complaints | Bank of America  | json    | bank,america |
+      | title                  | vendor           | format  | tags         | categories |
+      | Credit Card Complaints | Bank of America  | json    | bank,america | two_sigma  |
     When I view the market search
     Then I should see the following filters:
     | filter | values          |
