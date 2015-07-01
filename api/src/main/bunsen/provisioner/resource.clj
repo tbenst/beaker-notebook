@@ -20,35 +20,37 @@
   :handle-ok ::instance
 
   :post! (fn [{{conn :conn {id :id} :session config :config container :container remote-user :remote-user} :request}]
-           ; use the same token for all users in test env
+                                        ; use the same token for all users in test env
            (let [token (or (:beaker-token config) (random/hex 20))
                  beaker (b/find-or-create-beaker! conn {:user-id id :token token})]
              (when-let [i (container/create!
-                            container
-                            ;; FIXME: refactor to use middleware pattern
-                            (-> (container/default container)
-                                (assoc :id id)
-				(assoc :user (if remote-user
-				       	      (first (str/split remote-user #"@"))
-					      (:default-user config)))
-                                (update-in [:env] merge {"BAMBOO_HOST" (:bamboo-host config)
-                                                         "BAMBOO_PATH" (str "/beaker/" id "/")
+                           container
+                           ;; FIXME: refactor to use middleware pattern
+                           (-> (container/default container)
+                               (assoc :id id)
+                               (assoc :user (if remote-user
+                                              (first (str/split remote-user #"@"))
+                                              (:default-user config)))
+                               (update-in [:env] merge (merge
+                                                        {"BAMBOO_PATH" (str "/beaker/" id "/")
                                                          "BEAKER_COOKIE" token
-							 "USE_SSL" "true"
-                                                         "AUTHORIZED_USER" remote-user})
-                                (update-in [:volumes] conj {:mode "RW"
-                                                            :host (str (:store-root config) "/" id)
-                                                            :container "/mnt/scratch"})))]
+                                                         "USE_SSL" "true"
+                                                         "AUTHORIZED_USER" remote-user}
+                                                        (when-let [h (:bamboo-host config)]
+                                                          {"BAMBOO_HOST" h})))
+                               (update-in [:volumes] conj {:mode "RW"
+                                                           :host (str (:store-root config) "/" id)
+                                                           :container "/mnt/scratch"})))]
                {::instance i
                 ::token (:beaker/token beaker)})))
 
   :handle-created (fn [{instance ::instance token ::token :as ctx}]
-                    ; write "beakerauth" cookie
+                    ;; write "beakerauth" cookie
                     (ring-response (assoc (as-response instance ctx)
-                                     :cookies {"beakerauth" {:value token
-                                                             :http-only true
-                                                             :max-age 2592000 ; 30 days in seconds
-                                                             :path "/"}})))
+                                          :cookies {"beakerauth" {:value token
+                                                                  :http-only true
+                                                                  :max-age 2592000 ; 30 days in seconds
+                                                                  :path "/"}})))
 
   :available-media-types ["application/json"])
 
