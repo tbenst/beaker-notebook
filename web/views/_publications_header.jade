@@ -3,6 +3,8 @@
     a(ui-sref="publications.items"  ui-sref-opts="{inherit: false}")
       img(src="images/header/logo-beaker.png", width="100", height="27", class="header-beaker-logo")
     ul.header-actions-list.right.auth-controls
+      li(ng-show="!$state.includes('signIn') && !$state.includes('signUp') && !$state.includes('createPublication')")
+        a.btn.alt(ui-sref="createPublication") Create Publication
       li(ng-show='$session.user')
         span.signed-in Hi, {{$session.user.name}}
       li(ng-show='$session.user')
@@ -17,7 +19,5 @@
                 a.sign-out(ui-sref="signOut") Sign out
               li(ng-show='$session.user.extdata')
                 a.sign-out(ui-sref="signOut") Close Window
-      li(ng-show="!$state.includes('signIn') && !$state.includes('signUp') && !$state.includes('createPublication')")
-        a.btn.alt(ui-sref="createPublication") Create Publication
       li(ng-show="!$session.user && !$state.includes('signIn') && !$state.includes('signUp')")
         a.btn.alt.sign-in(ui-sref="signIn") Sign in
