@@ -179,6 +179,12 @@
             :db.install/_attribute :db.part/db}
 
            {:db/id #db/id[:db.part/db]
+            :db/ident :marketplace.category/count
+            :db/valueType :db.type/long
+            :db/cardinality :db.cardinality/one
+            :db.install/_attribute :db.part/db}
+
+           {:db/id #db/id[:db.part/db]
             :db/ident :marketplace.category/contact-name
             :db/valueType :db.type/string
             :db/cardinality :db.cardinality/one
