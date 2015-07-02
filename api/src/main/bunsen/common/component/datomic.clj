@@ -11,24 +11,30 @@
 (defn read-resource [path]
   (->> path io/resource slurp))
 
-(defn read-edn-resource [path]
-  (->> path
-       read-resource
-       (edn/read-string
-         {:readers (merge
-                     *data-readers*
-                     {'file read-resource
-                      'bcrypt password/encrypt})})))
+(defn read-file [path]
+  (->> path io/file slurp))
+
+(defn read-edn
+  ([path]
+   (read-edn path read-resource))
+  ([path read-fn]
+   (->> path
+        read-fn
+        (edn/read-string
+          {:readers (merge
+                      *data-readers*
+                      {'file read-resource
+                       'bcrypt password/encrypt})}))))
 
 (defn migrate! [conn migrations]
   (when migrations
     (doseq [migration (str/split migrations #":")]
-      (c/ensure-conforms conn (read-edn-resource migration)))))
+      (c/ensure-conforms conn (read-edn migration)))))
 
 (defn seed! [conn seeds]
   (when seeds
     (doseq [seed (str/split seeds #":")]
-      (d/transact conn (read-edn-resource seed)))))
+      (d/transact conn (read-edn seed read-file)))))
 
 (defrecord Datomic [config]
   component/Lifecycle
@@ -40,7 +46,7 @@
         (d/create-database uri)
         (let [conn (d/connect uri)]
           (migrate! conn (:datomic-migrations config))
-          (seed! conn (:datomic-seeds config))
+          (seed! conn (:datomic-seed-files config))
           (assoc datomic :conn conn)))))
 
   (component/stop [datomic]
