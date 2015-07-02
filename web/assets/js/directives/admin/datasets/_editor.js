@@ -144,7 +144,7 @@
             return category.name;
           };
 
-          $scope.onSelect = function(category) {
+          $scope.updateCategory = function(category) {
             $scope.dataset.categoryId = category['public-id'];
           };
         }]
