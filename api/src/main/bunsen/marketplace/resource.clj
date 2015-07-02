@@ -83,7 +83,7 @@
   :processable? #(api/index-exists? (get-db %) (get-es %) catalog-id)
   :handle-unprocessable-entity {:error "Index does not exist"}
   :allowed-methods #{:get :post}
-  :post! #(api/create-dataset! (get-db %) (get-es %) catalog-id params)
+  :post! #(api/create-dataset! (get-db %) (get-conn %) (get-es %) catalog-id params)
   :handle-ok #(api/find-datasets
                 (get-db %) (get-es %) catalog-id (dissoc params :catalog-id)))
 
@@ -91,8 +91,8 @@
   :processable? #(api/index-exists? (get-db %) (get-es %) catalog-id)
   :handle-unprocessable-entity {:error "Index does not exist"}
   :allowed-methods #{:get :put :delete}
-  :delete! #(api/retract-dataset! (get-db %) (get-es %) catalog-id dataset-id)
-  :put! #(api/update-dataset! (get-db %) (get-es %) catalog-id dataset-id params)
+  :delete! #(api/retract-dataset! (get-db %) (get-conn %) (get-es %) catalog-id dataset-id)
+  :put! #(api/update-dataset! (get-db %) (get-conn %) (get-es %) catalog-id dataset-id params)
   :handle-ok #(api/get-dataset (get-db %) (get-es %) catalog-id dataset-id))
 
 (defresource mappings [params] restricted-read-defaults

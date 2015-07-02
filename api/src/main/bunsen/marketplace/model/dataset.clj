@@ -64,6 +64,15 @@
    :filters {}
    :total-items (:total hits)})
 
+(defn count-by-category
+  [es-conn category]
+  (-> (doc/search es-conn
+                  "*"
+                  "datasets"
+                  :query {:term {:categoryIds (str (:marketplace.category/public-id category))}})
+      :hits
+      :total))
+
 (defn update-dataset-mappings!
   [es-conn index-name categories]
   (let [metadata (apply merge (keep :metadata categories))]
