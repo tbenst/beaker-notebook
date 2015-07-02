@@ -46,7 +46,7 @@ form.dataset-edit(name="datasetEditForm")
     .dataset-category(ng-if="datasetHas('category')")
       label Category
       input.dataset-category-field(placeholder="Category"
-            ng-model="dataset.category.name"
+            ng-model="dataset.category"
             typeahead="category as label(category) for category in getCategories($viewValue)"
             typeahead-min-length=2
             typeahead-on-select="updateCategory($item)"

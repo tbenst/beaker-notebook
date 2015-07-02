@@ -16,7 +16,7 @@ Feature: Admin Datasets
     Then I should see the Admin Panel heading
     When I view the market search
     Then I should see 0 market items on the market list page
-  @flaky
+
   Scenario: Editing a dataset
     When I view the market search
     And I edit a dataset
@@ -25,7 +25,6 @@ Feature: Admin Datasets
     And I view the market search
     Then I should see a dataset with the name "wow"
 
-  @flaky
   Scenario: Creating a dataset
     Given I have the following categories:
       | name       | parent      |
@@ -35,7 +34,7 @@ Feature: Admin Datasets
       | stacy  | finance  |
     And I view the market search
     Then I should see 2 market items on the market list page
-  @flaky
+
   Scenario: Changing a datasets category
     Given I have the following categories:
       | name       | parent      |
@@ -105,7 +104,7 @@ Feature: Admin Datasets
     And I edit the market item from the detail view
     And I enter "dog" into the tags field
     Then I should see a tag-field autocomplete dropdown with "dog"
-  @flaky
+
   Scenario: Adding tags on a new dataset
     Given I have the following categories:
       | name       | parent      |
@@ -115,7 +114,7 @@ Feature: Admin Datasets
       | stacy  | finance  | tank | Some vendor |
     And I edit the "stacy" dataset
     Then I should see the "tank" tag
-  @flaky
+
   Scenario: Saving a new dataset tag
     When I view the market search
     And I edit a dataset
@@ -124,7 +123,7 @@ Feature: Admin Datasets
     And I update the dataset
     When I refresh the page
     Then I should see the "dog" tag
-  @flaky
+
   Scenario: Deleting a datset tag
     When I view the market search
     And I edit a dataset
