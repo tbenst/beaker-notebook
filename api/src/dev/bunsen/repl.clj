@@ -14,7 +14,7 @@
    :mandrill-user "ops+mandrill@mojotech.com"
    :mandrill-pass "-QG6MBSWNPR7sPwRali8Jg"
    :datomic-uri "datomic:mem://bunsen-dev"
-   :datomic-seeds "user/seed.edn:notebook/seed.edn:marketplace/seed.edn:marketplace/seed/two_sigma.edn"
+   :datomic-seed-files "./resources/user/seed.edn:./resources/notebook/seed.edn:./resources/marketplace/seed.edn:./resources/marketplace/seed/two_sigma.edn"
    :datomic-migrations "user/migrations.edn:notebook/migrations.edn:marketplace/migrations.edn:provisioner/migrations.edn"
    :elasticsearch-component :embedded
    :elasticsearch-uri "http://127.0.0.1:9200"
