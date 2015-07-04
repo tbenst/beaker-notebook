@@ -86,29 +86,60 @@
       (recur (category/find-category datomic-db (str (get-in category [:marketplace.category/parent :marketplace.category/public-id])))
              (conj ids (str (get-in category [:marketplace.category/parent :marketplace.category/public-id])))))))
 
+(defn- assoc-dataset-count
+  [es-conn categories]
+  (mapv #(assoc % :count (dataset/count-by-category es-conn %))
+        categories))
+
+(defn refresh-index!
+  [es-conn index-name]
+  (index/refresh-index! es-conn index-name))
+
+(defn- update-category-counts!
+  [conn es-conn]
+  (let [categories (category/list-all-categories conn)
+        categories (assoc-dataset-count es-conn categories)]
+    (doseq [category categories]
+      (category/update-category!
+        conn
+        {:category-id (str (:marketplace.category/public-id category))
+         :count (:count category)}))))
+
 (defn create-dataset!
-  [datomic-db es-conn catalog-id dataset]
+  [datomic-db datomic-conn es-conn catalog-id dataset]
   (let [catalog (catalog/get-catalog datomic-db catalog-id)
         index-name (:catalog/name catalog)
         category-ids (get-parent-category-ids datomic-db (:categoryId dataset))
         dataset (assoc dataset :categoryIds category-ids
                                :catalog (:catalog-id dataset))
-        dataset (dissoc dataset :category :catalog-id)]
-    (dataset/create-dataset! es-conn index-name dataset)))
+        dataset (dissoc dataset :category :catalog-id)
+        created-dataset (dataset/create-dataset! es-conn index-name dataset)]
+    (future
+      (refresh-index! es-conn "*")
+      (update-category-counts! datomic-conn es-conn))
+    created-dataset))
 
 (defn update-dataset!
-  [datomic-db es-conn catalog-id dataset-id dataset]
+  [datomic-db datomic-conn es-conn catalog-id dataset-id dataset]
   (let [catalog (catalog/get-catalog datomic-db catalog-id)
         category-ids (get-parent-category-ids datomic-db (:categoryId dataset))
         dataset (assoc dataset :catalog catalog-id
-                               :categoryIds category-ids)]
-    (dataset/update-dataset!
-      es-conn (:catalog/name catalog) dataset-id (dissoc dataset :index :subscriberIds :related :category :dataset-id :category-id))))
+                               :categoryIds category-ids)
+        updated-dataset (dataset/update-dataset!
+                           es-conn (:catalog/name catalog) dataset-id (dissoc dataset :index :subscriberIds :related :category :dataset-id :category-id))]
+    (future
+      (refresh-index! es-conn "*")
+      (update-category-counts! datomic-conn es-conn))
+    updated-dataset))
 
 (defn retract-dataset!
-  [datomic-db es-conn catalog-id dataset-id]
-  (let [catalog (catalog/get-catalog datomic-db catalog-id)]
-    (dataset/retract-dataset! es-conn (:catalog/name catalog) dataset-id)))
+  [datomic-db datomic-conn es-conn catalog-id dataset-id]
+  (let [catalog (catalog/get-catalog datomic-db catalog-id)
+        result (dataset/retract-dataset! es-conn (:catalog/name catalog) dataset-id)]
+    (future
+      (refresh-index! es-conn "*")
+      (update-category-counts! datomic-conn es-conn))
+    result))
 
 (defn create-datasets!
   [es-conn index-name datasets]
@@ -125,10 +156,6 @@
   (let [catalog (catalog/get-catalog datomic-db catalog-id)
         index-name (:catalog/name catalog)]
     (index/index-exists? es-conn index-name)))
-
-(defn refresh-index!
-  [es-conn index-name]
-  (index/refresh-index! es-conn index-name))
 
 (defn create-index!
   ([es-conn index-name]

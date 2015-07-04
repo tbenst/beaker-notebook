@@ -9,6 +9,13 @@
   [es-conn index-name]
   (es/read-results es-conn index-name "categories"))
 
+(defn list-all-categories
+  [datomic-conn]
+  (d/q '[:find [(pull ?c [*]) ...]
+         :in $
+         :where [?c :marketplace.category/public-id]]
+       (d/db datomic-conn)))
+
 (defn get-category
   "Fetches a single category within a given catalog and having a matching index"
   [es-conn index-name category-path]
@@ -116,29 +123,16 @@
         (recur (dec i) (find-and-merge-children datomic-db results results))
         (recur (dec i) (find-and-merge-children datomic-db results (last results)))))))
 
-(defn- assoc-dataset-count
-  [es-conn categories]
-  (mapv #(assoc % :count (-> (doc/search es-conn
-                                         "*"
-                                         "datasets"
-                                         :query {:term {:categoryIds (str (:marketplace.category/public-id %))}})
-                             :hits
-                             :total))
-        categories))
-
 (defn find-categories
   [datomic-db es-conn params]
   (if (:root params)
-    (let [categories (conj (get-children-r datomic-db
-                                           (get-children-categories datomic-db (:root params))
-                                           (Integer. (:limit params)))
-                           (find-category datomic-db (:root params)))]
-
-      (assoc-dataset-count es-conn categories))
-    (let [categories (get-children-r datomic-db
-                                     (base-categories datomic-db)
-                                     (Integer. (:limit params)))]
-      (assoc-dataset-count es-conn categories))))
+    (conj (get-children-r datomic-db
+                          (get-children-categories datomic-db (:root params))
+                          (Integer. (:limit params)))
+          (find-category datomic-db (:root params)))
+    (get-children-r datomic-db
+                    (base-categories datomic-db)
+                    (Integer. (:limit params)))))
 
 (defn search-categories
   [datomic-db query]
