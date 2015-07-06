@@ -1,4 +1,4 @@
-{:image "beakernotebook/beaker-prerelease:master-0-g95b1538"
+{:image "quay.io/mojotech/bunsen-beaker:21e2d3d"
  :cmd "su -m beaker -c \"export PATH=$PATH:/usr/sbin && /home/beaker/src/core/beaker.command --listen-interface=*\""
  :uris ["file:///etc/.dockercfg"]
  :ports [{:container 8801}]
