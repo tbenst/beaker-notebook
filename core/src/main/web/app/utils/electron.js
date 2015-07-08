@@ -111,6 +111,52 @@
 
         thisWindow: thisWindow,
 
+        saveWithDialog: function(getFileSaver, getSaveData) {
+          var deferred = bkUtils.newDeferred();
+          bkUtils.getWorkingDirectory().then(function(defaultPath) {
+            var options = {
+              title: 'Save Beaker Notebook',
+              defaultPath: defaultPath,
+              filters: [
+                {name: 'Beaker Notebook Files', extensions: ['bkr']}
+              ]
+            };
+            var path = Dialog.showSaveDialog(thisWindow, options);
+            if (path === undefined) {
+              saveFailed('cancelled');
+              return;
+            }
+            bkUtils.httpPost('rest/file-io/setWorkingDirectory', {dir: path});
+            var ret = {
+              uri: path,
+              uriType: 'file'
+            };
+            var fileSaver = getFileSaver(ret.uriType);
+            var saveData = getSaveData();
+            var content = saveData.notebookModelAsString;
+            fileSaver.save(ret.uri, content, true).then(function() {
+              deferred.resolve(ret);
+            }, function(reason) {
+              deferred.reject(reason);
+            });
+          });
+          return deferred.promise;
+        },
+
+        showSaveDialog: function() {
+          return bkUtils.getWorkingDirectory().then(function(defaultPath) {
+            var options = {
+              title: 'Save Beaker Notebook',
+              defaultPath: defaultPath,
+              filters: [
+                {name: 'Beaker Notebook Files', extensions: ['bkr']}
+              ]
+            };
+            var path = Dialog.showSaveDialog(options);
+            return path;
+          });
+        },
+
         updateMenus: function(menus) {
           var makeMenu = function(bkmenu) {
             var menu = [];

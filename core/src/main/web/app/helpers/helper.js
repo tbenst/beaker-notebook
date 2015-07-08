@@ -93,51 +93,6 @@
           window.open(path);
         }
       },
-      // Save file with electron or web dialog
-      saveWithDialog: function(thenable) {
-        if (bkUtils.isElectron) {
-          var BrowserWindow = bkElectron.BrowserWindow;
-          var Dialog = bkElectron.Dialog;
-          var thisWindow = BrowserWindow.getFocusedWindow();
-          var path = showElectronSaveDialog(thisWindow, options).then(function(path) {
-            if (path === undefined) {
-              saveFailed('cancelled');
-              return;
-            }
-            bkUtils.httpPost('rest/file-io/setWorkingDirectory', {dir: path});
-            var ret = {
-              uri: path,
-              uriType: 'file'
-            };
-            bkSessionManager.dumpDisplayStatus();
-            var saveData = bkSessionManager.getSaveData();
-            var fileSaver = bkCoreManager.getFileSaver(ret.uriType);
-            var content = saveData.notebookModelAsString;
-            fileSaver.save(ret.uri, content, true).then(function() {
-              thenable.resolve(ret);
-            }, thenable.reject);
-          });
-          return thenable.promise.then(saveDone, saveFailed);
-        } else {
-          thenable = savePromptChooseUri();
-          return thenable.then(saveDone, saveFailed);
-        }
-      },
-      showElectronSaveDialog: function() {
-        var BrowserWindow = bkElectron.BrowserWindow;
-        var Dialog = bkElectron.Dialog;
-        return bkUtils.getWorkingDirectory().then(function(defaultPath) {
-          var options = {
-            title: 'Save Beaker Notebook',
-            defaultPath: defaultPath,
-            filters: [
-              {name: 'Beaker Notebook Files', extensions: ['bkr']}
-            ]
-          };
-          var path = Dialog.showSaveDialog(options);
-          return path;
-        });
-      },
       // Open file with electron or web dialog
       openWithDialog: function(ext, uriType, readOnly, format) {
         if (bkUtils.isElectron) {

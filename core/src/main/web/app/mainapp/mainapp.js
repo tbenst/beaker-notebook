@@ -652,40 +652,10 @@
                   return deferred.promise;
                 }, 1);
               } else {
-                if (bkUtils.isElectron){
-                  var BrowserWindow = bkElectron.BrowserWindow;
-                  var Dialog = bkElectron.Dialog;
-                  var thisWindow = bkElectron.thisWindow;
-                  var deferred = bkUtils.newDeferred();
-                  bkUtils.getWorkingDirectory().then(function(defaultPath) {
-                    var options = {
-                      title: 'Save Beaker Notebook',
-                      defaultPath: defaultPath,
-                      filters: [
-                        { name: 'Beaker Notebook Files', extensions: ['bkr'] }
-                      ]
-                    };
-                    var path = Dialog.showSaveDialog(thisWindow, options);
-                    if (path === undefined){
-                      saveFailed('cancelled');
-                      return;
-                    }
-                    bkUtils.httpPost('rest/file-io/setWorkingDirectory', { dir: path });
-                    var ret = {
-                      uri: path,
-                      uriType: 'file'
-                    };
-                    bkSessionManager.dumpDisplayStatus();
-                    var saveData = bkSessionManager.getSaveData();
-                    var fileSaver = bkCoreManager.getFileSaver(ret.uriType);
-                    var content = saveData.notebookModelAsString;
-                    fileSaver.save(ret.uri, content, true).then(function() {
-                      deferred.resolve(ret);
-                    }, function(reason) {
-                      deferred.reject(reason);
-                    });
-                  });
-                  thenable = deferred.promise;
+                // Save with Electron dialog
+                if (bkUtils.isElectron) {
+                  bkSessionManager.dumpDisplayStatus();
+                  thenable = bkElectron.saveWithDialog(bkCoreManager.getFileSaver, bkSessionManager.getSaveData);
                 } else {
                   thenable = savePromptChooseUri();
                 }
@@ -1039,6 +1009,7 @@
           if (edited === oldValue) return;
           setDocumentTitle();
         });
+
         $scope.$watch('filename()', function(newVal, oldVal) {
           if (newVal === oldVal) return;
           setDocumentTitle();

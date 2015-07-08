@@ -50,7 +50,7 @@ define(function(require, exports, module) {
           sortorder: 100,
           action: function() {
             if (bkHelper.isElectron){
-              bkHelper.showElectronSaveDialog().then(function(path) {
+              bkHelper.Electron.showSaveDialog().then(function(path) {
                 // Save cancelled
                 if (path == undefined)
                   return;
