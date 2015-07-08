@@ -24,7 +24,7 @@
   var module = angular.module('bk.controlPanel');
 
   module.directive('bkControlPanelSessionItem', function(
-      bkUtils, bkSession, bkCoreManager, bkRecentMenu, bkEvaluatePluginManager) {
+      bkUtils, bkSession, bkCoreManager, bkRecentMenu, bkEvaluatePluginManager, bkElectron) {
     return {
       restrict: 'E',
       template: JST['controlpanel/table'],
@@ -55,42 +55,56 @@
               // close session
               closeSession();
             } else {
+              var doSave = function(pathInfo, deferred) {
+                if (!pathInfo.uri) {
+                  deferred.reject({
+                    cause: 'Save cancelled'
+                  });
+                } else {
+                  var fileSaver = bkCoreManager.getFileSaver(pathInfo.uriType);
+                  var notebookModelAsString = bkUtils.toPrettyJson(notebookModel);
+                  fileSaver.save(pathInfo.uri, notebookModelAsString).then(function() {
+                    bkRecentMenu.recordRecentDocument(angular.toJson({
+                      uri: pathInfo.uri,
+                      type: pathInfo.uriType,
+                      readOnly: false,
+                      format: _.isEmpty(format) ? '' : format
+                    }));
+                    deferred.resolve();
+                  }, function(error) {
+                    deferred.reject({
+                      cause: 'error saving to file',
+                      error: error
+                    });
+                  });
+                }
+              };
               // ask if user want to save first
               bkHelper.show3ButtonModal(
-                  "Do you want to save [" + $scope.getCaption(session) + "]?",
-                  "Confirm close",
+                  'Do you want to save [' + $scope.getCaption(session) + ']?',
+                  'Confirm close',
                   function() { // yes
                     // save session
                     var saveSession = function() {
-                      var notebookModelAsString = bkUtils.toPrettyJson(notebookModel);
                       if (!_.isEmpty(session.notebookUri) && !session.readOnly) {
                         var fileSaver = bkCoreManager.getFileSaver(session.uriType);
+                        var notebookModelAsString = bkUtils.toPrettyJson(notebookModel);
                         return fileSaver.save(session.notebookUri, notebookModelAsString, true);
                       } else {
                         var deferred = bkUtils.newDeferred();
-                        bkCoreManager.showDefaultSavingFileChooser().then(function(pathInfo) {
-                          if (!pathInfo.uri) {
-                            deferred.reject({
-                              cause: "Save cancelled"
-                            });
-                          } else {
-                            var fileSaver = bkCoreManager.getFileSaver(pathInfo.uriType);
-                            fileSaver.save(pathInfo.uri, notebookModelAsString).then(function () {
-                              bkRecentMenu.recordRecentDocument(angular.toJson({
-                                uri: pathInfo.uri,
-                                type: pathInfo.uriType,
-                                readOnly: false,
-                                format: _.isEmpty(format) ? "" : format
-                              }));
-                              deferred.resolve();
-                            }, function (error) {
-                              deferred.reject({
-                                cause: "error saving to file",
-                                error: error
-                              });
-                            });
-                          }
-                        });
+                        if (bkUtils.isElectron) {
+                          bkElectron.showSaveDialog().then(function(path) {
+                            var pathInfo = {
+                              uri: path,
+                              uriType: 'file'
+                            };
+                            doSave(pathInfo, deferred);
+                          });
+                        } else {
+                          bkCoreManager.showDefaultSavingFileChooser().then(function(pathInfo) {
+                            doSave(pathInfo, deferred);
+                          });
+                        }
                         return deferred.promise;
                       }
                     };

@@ -23,7 +23,7 @@
     'bk.commonUtils',
     'bk.angularUtils',
     'bk.cometdUtils',
-    'bk.track',
+    'bk.track'
   ]);
   /**
    * bkUtils
