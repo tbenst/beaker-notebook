@@ -1,23 +1,34 @@
 language: java
+sudo: false
+addons:
+  apt:
+    sources:
+      - ppa:chris-lea/zeromq
+      - ppa:marutter/rrutter
+    packages:
+      - nginx
+      - libzmq3-dbg
+      - libzmq3-dev
+      - libzmq3
+      - python-pip
+      - python-dev
+      - python-matplotlib
+      - python-scipy
+      - python-pandas
+      - r-base
+      - r-base-dev
 jdk:
- - oraclejdk7
+  - oraclejdk7
 before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
 before_script:
-  - sudo add-apt-repository --yes ppa:nginx/stable
-  - sudo add-apt-repository --yes ppa:chris-lea/zeromq
-  - sudo add-apt-repository --yes ppa:marutter/rrutter
-  - sudo apt-get update -q
-  - sudo apt-get install nginx
-  - sudo apt-get install libzmq3-dbg libzmq3-dev libzmq3
-  - sudo apt-get install python-pip python-dev
-  - sudo pip install ipython jinja2 tornado
-  - sudo pip install pyzmq
-  - sudo apt-get install python-matplotlib python-scipy python-pandas
-  - sudo apt-get install r-base r-base-dev
-  - sudo Rscript -e "install.packages('Rserve',,'http://cran.us.r-project.org')"
-  - sudo Rscript -e "install.packages('ggplot2',,'http://cran.us.r-project.org')"
-  - sudo Rscript -e "install.packages('devtools',,'http://cran.us.r-project.org')"
-  - sudo Rscript -e "install.packages('RJSONIO',,'http://cran.us.r-project.org')"
-  - sudo Rscript -e "install.packages('RCurl',,'http://cran.us.r-project.org')"
+  - export PATH=$HOME/.local/bin:$PATH
+  - mkdir ~/rlibs
+  - export R_LIBS=$HOME/rlibs
+  - pip install ipython jinja2 tornado pyzmq --user `whoami`
+  - Rscript -e "install.packages('Rserve',,'http://cran.us.r-project.org')" -l $HOME/rlibs
+  - Rscript -e "install.packages('ggplot2',,'http://cran.us.r-project.org')" -l $HOME/rlibs
+  - Rscript -e "install.packages('devtools',,'http://cran.us.r-project.org')" -l $HOME/rlibs
+  - Rscript -e "install.packages('RJSONIO',,'http://cran.us.r-project.org')" -l $HOME/rlibs
+  - Rscript -e "install.packages('RCurl',,'http://cran.us.r-project.org')" -l $HOME/rlibs
