@@ -385,7 +385,7 @@
 
         newmodel.lodThreshold = (model.lodThreshold) ?
           model.lodThreshold :
-          bkHelper.getBkNotebookViewModel().getLodThreshold();
+          1500;
 
         newmodel.data = [];
 
