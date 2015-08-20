@@ -9,10 +9,16 @@
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>????</string>
+			</array>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>bkr</string>
 			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>notebook</string>
 			<key>CFBundleTypeName</key>
 			<string>DocumentType</string>
 			<key>CFBundleTypeRole</key>
