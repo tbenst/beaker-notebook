@@ -794,7 +794,8 @@ define('ipython3_utils', [
         if(!window.renderMathInElement){
             return;
         }
-        return $el.map(function(){
+        console.log('Rendering math element');
+        return $el.map(function(idx, elem){
             // Katex takes a DOM node: $.map makes `this` the context
             return window.renderMathInElement(this);
         });

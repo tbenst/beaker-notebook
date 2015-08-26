@@ -317,7 +317,13 @@ define(function(require, exports, module) {
                     keyboard_manager: {register_events: function(){}}})) :
                       (new myPython.OutputArea(elem));
                   // twiddle the mime types? XXX
-                  if (ipyVersion == '1') {
+                  if(content.data['text/latex'] !== undefined) {
+                    var evaluateLatex = function() {
+                     oa.append_display_data(content);
+                    };
+                    //need to use timeout because of waiting for output finalization
+                    bkHelper.timeout(evaluateLatex, 300);
+                  } else if (ipyVersion == '1') {
                     oa.append_mime_type(oa.convert_mime_types({}, content.data), elem, true);
                   } else if (ipyVersion == '2') {
                     oa.append_mime_type(content.data, elem);

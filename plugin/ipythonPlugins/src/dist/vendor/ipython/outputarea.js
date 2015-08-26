@@ -244,6 +244,10 @@ var IPython1 = (function (IPython1) {
             json.prompt_number = content.execution_count;
             json = this.convert_mime_types(json, content.data);
             json.metadata = this.convert_mime_types({}, content.metadata);
+        } else if (msg_type === "execute_result") {
+            json.data = content.data;
+            json.metadata = content.metadata;
+            json.execution_count = content.execution_count;
         } else if (msg_type === "pyerr") {
             json.ename = content.ename;
             json.evalue = content.evalue;
