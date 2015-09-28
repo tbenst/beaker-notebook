@@ -61,6 +61,8 @@ import org.apache.batik.transcoder.image.ImageTranscoder;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.TranscoderInput;
 
+import javax.imageio.ImageIO;
+
 public class RServerEvaluator {
   protected static final String BEGIN_MAGIC = "**beaker_begin_magic**";
   protected static final String END_MAGIC = "**beaker_end_magic**";
@@ -262,6 +264,22 @@ public class RServerEvaluator {
         }
       }
       file.delete();
+    }
+    return null;
+  }
+
+  protected Object getPngResults(String name) {
+    File file = new File(name);
+    if (file.length() > 0) {
+      BufferedImage image = new BufferedImage(400, 400, BufferedImage.TYPE_INT_ARGB);
+      try {
+        image = ImageIO.read(file);
+      }
+      catch (IOException e) {
+        logger.log(Level.SEVERE,"ERROR converting PNG results",e);
+      }
+      file.delete();
+      return image;
     }
     return null;
   }
@@ -478,7 +496,9 @@ public class RServerEvaluator {
           outputHandler.reset(j.outputObject);
           errorGobbler.reset(j.outputObject);
 
-          String file = iswindows ? "rplot.svg" : makeTemp("rplot", ".svg");
+          Boolean usePNG = Boolean.valueOf(connection.eval("beaker::saved_use_png").asString());
+          String fileExt = usePNG ? ".png" : ".svg";
+          String file = iswindows ? "rplot" + fileExt : makeTemp("rplot", fileExt);
           try {
             java.nio.file.Path p = java.nio.file.Paths.get(file);
             java.nio.file.Files.deleteIfExists(p);
@@ -495,7 +515,8 @@ public class RServerEvaluator {
           try {
             // direct graphical output
             String tryCode;
-            connection.eval("do.call(svg,c(list('" + file + "'), beaker::saved_svg_options))");
+            String evalStr = "if(beaker::saved_use_png) do.call(png,c(list('" + file + "'), beaker::saved_png_options)) else do.call(svg,c(list('" + file + "'), beaker::saved_svg_options))";
+            connection.eval(evalStr);
             tryCode = "beaker_eval_=withVisible(try({ " + j.codeToBeExecuted + "\n},silent=TRUE))\n"+
                     "list(beaker_eval_, beaker:::convertToJSON(beaker_eval_$value, beaker:::collapse_unit_vectors))";
             REXP result = connection.eval(tryCode);
@@ -508,7 +529,7 @@ public class RServerEvaluator {
             }
             
             if (null == result) {
-              logger.fine("null result");;
+              logger.fine("null result");
               oresult = "";
               resultjson = null;
             } else if (isError(result, j.outputObject)) {
@@ -546,9 +567,9 @@ public class RServerEvaluator {
           }
 
           if (!isfinished) {
-            Object svg = getSvgResults(file);
-            if (svg != null) {
-              j.outputObject.finished(svg);
+            Object img = usePNG ? getPngResults(file) : getSvgResults(file);
+            if (img != null) {
+              j.outputObject.finished(img);
             } else         
               j.outputObject.finished(oresult, resultjson);
           }

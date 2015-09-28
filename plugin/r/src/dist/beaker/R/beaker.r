@@ -576,9 +576,17 @@ get <- function(var) {
 }
 
 saved_svg_options = c()
+saved_png_options = c()
+saved_use_png = FALSE
 
 svg_options <- function(...) {
   saved_svg_options <<- list(...)
+}
+png_options <- function(...) {
+  saved_png_options <<- list(...)
+}
+use_png <- function(val) {
+  saved_use_png <<- val
 }
 
 showProgressUpdate <- function(...) {
