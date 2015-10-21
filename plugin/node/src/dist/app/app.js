@@ -1,18 +1,30 @@
 'use strict';
 
-var express = require('express');
-var http = require('http');
+var express = require('express'),
+    faye = require('faye'),
+    http = require('http');
+
 var uuid = require('node-uuid');
 
-var app = express();
+var app = express(),
+    server = http.createServer(app),
+    bayeux = new faye.NodeAdapter({mount: '/cometd', timeout: 45});
+
+bayeux.attach(server);
+
+bayeux.on('handshake', function(clientId) {
+  console.log('Client connected', clientId);
+});
+
+
+
 var port = process.argv[2];
 var host = process.argv[3];
 
-console.log('Server Starting')
+console.log('Server Starting');
 
 app.use(express.json());       // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
-
 app.use(express.basicAuth('beaker', process.env.beaker_plugin_password));
 
 // route for testing service is alive
@@ -26,16 +38,63 @@ app.post('/shell', function(request, response){
     response.send(JSON.stringify(returnObject));
 });
 
+app.post('/setShellOptions', function(request, response){
+  response.end();
+});
+
+app.post('/exit', function(request, response){
+  console.log('Server exit');
+  response.end();
+});
+
+
+app.get('/ready', function(request, response){
+  response.send('ok');
+  response.end();
+});
+
 app.post('/evaluate', function(request, response){
-    var shellID = request.body.shellID;
-    var code =  decodeURIComponent(request.body.code);
-    var evaluationResult = processCode(code);
-    if (evaluationResult.processed){
-        response.statusCode = 200;
-    } else {
-        response.statusCode = 422;
-    }
-    response.send(evaluationResult.evaluation.toString());
+
+    var Worker = require('webworker-threads').Worker;
+
+    var worker = new Worker(function(){
+      this.onmessage = function(event) {
+        postMessage(event.data);
+        self.close();
+      };
+    });
+    
+    worker.onmessage = function(event) {
+      var shellID = request.body.shellID;
+      var code =  decodeURIComponent(request.body.code);
+      
+      var simpleEvaluationObject = {
+          "type" : "SimpleEvaluationObject",
+          "update_id" : uuid.v4(),
+          "expression" : code,
+          "status" : "RUNNING",
+          "outputdata" : [ ]
+        };
+      
+      response.send(simpleEvaluationObject);
+      bayeux.getClient().publish('/object_update/' + simpleEvaluationObject.update_id, simpleEvaluationObject);
+      
+      var evaluationResult = processCode(code);
+      if (evaluationResult.processed){
+        simpleEvaluationObject.status = "FINISHED";
+      } else {
+        simpleEvaluationObject.status = "ERROR";
+      }
+      
+      simpleEvaluationObject.outputdata = evaluationResult.evaluation;
+      
+      bayeux.getClient().publish('/object_update/' + simpleEvaluationObject.update_id, simpleEvaluationObject);
+      
+      
+      // response.send(evaluationResult.evaluation.toString());
+    };
+
+    worker.postMessage('');    
 });
 
 function processCode(code) {
@@ -55,4 +114,6 @@ function processCode(code) {
     return returnValue;
 }
 
-app.listen(port, host);
+server.listen(port, host);
+
+

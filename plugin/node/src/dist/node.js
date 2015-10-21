@@ -146,11 +146,10 @@ define(function(require, exports, module) {
         }).done(cb);
       },
       updateShell: function (cb) {
-        var p = bkHelper.httpPost(bkHelper.serverUrl(serviceBase + "/setShellOptions"), { //TODO
-          shellId: this.settings.shellID,
-          classPath: this.settings.classPath,
-          imports: this.settings.imports,
-          outdir: this.settings.outdir});
+        var p = bkHelper.httpPost(bkHelper.serverUrl(serviceBase + "/setShellOptions"), {
+
+
+        });
         if (cb) {
           p.success(cb);
         }
@@ -169,7 +168,8 @@ define(function(require, exports, module) {
         recordOutput: "true"
       }).success(function(ret) {
         serviceBase = ret;
-        bkHelper.spinUntilReady(bkHelper.serverUrl(serviceBase + "/ready")).then(function () { //TODO
+        
+        bkHelper.spinUntilReady(bkHelper.serverUrl(serviceBase + "/ready")).then(function () {
           if (window.languageServiceBase == undefined) {
             window.languageServiceBase = {};
           }
@@ -179,7 +179,7 @@ define(function(require, exports, module) {
           }
           window.languageUpdateService[PLUGIN_NAME] = cometdUtil;
           cometdUtil.init(PLUGIN_NAME, serviceBase);
-
+          
           var NodeShell = function(settings, doneCB, ecb) {
             var self = this;
             var setShellIdCB = function(id) {
