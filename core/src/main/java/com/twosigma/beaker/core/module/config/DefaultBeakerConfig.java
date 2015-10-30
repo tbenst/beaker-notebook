@@ -158,6 +158,10 @@ public class DefaultBeakerConfig implements BeakerConfig {
     this.pluginLocations = new HashMap<>();
     this.pluginOptions = pref.getPluginOptions();
     this.pluginEnvps = new HashMap<>();
+    this.pluginEnvps.put("R", new String[] {
+        "jackson_classpath=d:/TMP/json/jackson-mapper-asl-1.9.13.jar;" +
+            "d:/TMP/json/jackson-core-asl-1.9.13.jar;" +
+            "D:\\dev\\work\\beaker\\beaker-notebook\\core\\config\\plugins\\eval\\r\\lib\\r.jar"});
 
     augmentPluginOptions();
 

@@ -14,6 +14,7 @@
 
 library(RCurl, quietly=TRUE)
 library(RJSONIO, quietly=TRUE)
+library(rJava, quietly=TRUE)
 
 require('png', quietly=TRUE)
 require('base64enc', quietly=TRUE)
@@ -21,6 +22,8 @@ require('base64enc', quietly=TRUE)
 options(RCurlOptions = list(httpheader = c(Expect=''), noproxy = '127.0.0.1'))
 
 pwarg = paste('beaker:', Sys.getenv("beaker_core_password"), sep='')
+.jinit(classpath=Sys.getenv("jackson_classpath"), parameters=list("-Xmx512m", "-Xdebug", "-Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"))
+.jengine(TRUE)
 
 session_id = ''
 
@@ -283,8 +286,13 @@ guessType <- function(txt) {
 	  return (txt)
     }))
 } 
-  
+
 convertToJSON <- function(val, collapse) {
+  res <- .jcall("com/twosigma/beaker/r/serializer/RJSONConverter", "S", "toJSON", toJava(val))
+  return (res)
+}
+
+RENAMEDconvertToJSON <- function(val, collapse) {
   if (class(val) == "numeric" || class(val) == "integer" || class(val) == "character" || class(val) == "logical" || class(val) == "factor") {
     if (is.null(names(val))) {
   	  if (collapse && length(val) == 1) {
