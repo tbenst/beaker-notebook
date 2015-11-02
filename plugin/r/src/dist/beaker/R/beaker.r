@@ -13,7 +13,6 @@
 # limitations under the License.
 
 library(RCurl, quietly=TRUE)
-library(RJSONIO, quietly=TRUE)
 library(rJava, quietly=TRUE)
 
 require('png', quietly=TRUE)
@@ -29,12 +28,6 @@ session_id = ''
 
 set_session <- function(id) {
   session_id <<- id
-}
-
-collapse_unit_vectors = FALSE
-
-set_collapse_unit_vectors <- function(val) {
-  collapse_unit_vectors <- val
 }
 
 convertToJSONObject <- function(val) {
@@ -222,11 +215,7 @@ convertToDataTableLoM <- function(val) {
 convertToJSONNoRecurse <- function(val) {
   if (class(val) == "numeric" || class(val) == "integer" || class(val) == "character" || class(val) == "logical" || class(val) == "factor") {
     if (is.null(names(val))) {
-  	  if (length(val) == 1) {
-  	    o = toJSON(val, .level=0L);
-  	  } else {
-   	    o = toJSON(val)
-      }
+  	    o = toJSON(val);
     } else {
       # convert to dictionary     
 	  o = convertToJSONObjectNoRecurse(val)
@@ -242,11 +231,7 @@ convertToJSONNoRecurse <- function(val) {
 	  o = convertToJSONObjectNoRecurse(val) 
 	}
   } else if (class(val) == "complex") {
-    if (collapse && length(val) == 1) {
-      o = toJSON(as.character(val), .level=0L)
-    } else {
       o = toJSON(as.character(val))
-    }
   } else if(class(val) == "POSIXct" || class(val) == "POSIXlt" || class(val) == "Date") {
   	p = "{ \"type\": \"Date\", \"timestamp\": "
   	p = paste(p, as.numeric(as.POSIXct(val, tz = "UTC"))*1000, sep='')
@@ -287,19 +272,15 @@ guessType <- function(txt) {
     }))
 } 
 
-convertToJSON <- function(val, collapse) {
+toJSON <- function(val, level) {
   res <- .jcall("com/twosigma/beaker/r/serializer/RJSONConverter", "S", "toJSON", toJava(val))
   return (res)
 }
 
-RENAMEDconvertToJSON <- function(val, collapse) {
+convertToJSON <- function(val) {
   if (class(val) == "numeric" || class(val) == "integer" || class(val) == "character" || class(val) == "logical" || class(val) == "factor") {
     if (is.null(names(val))) {
-  	  if (collapse && length(val) == 1) {
-  	    o = toJSON(val, .level=0L);
-  	  } else {
-   	    o = toJSON(val)
-      }
+  	    o = toJSON(val);
     } else if (containsOnlyBasicTypes(val)) {
       # convert to datatable dictionary
       o = convertToDataTableDictionary(val)
@@ -327,16 +308,10 @@ RENAMEDconvertToJSON <- function(val, collapse) {
       o = convertToDataTableDictionary(val)
     } else {
       # convert to dictionary     
-	  o = convertToJSONObjectNoRecurse(val) 
-	}
-	
+	    o = convertToJSONObjectNoRecurse(val)
+	  }
   } else if (class(val) == "complex") {
-    if (collapse && length(val) == 1) {
-      o = toJSON(as.character(val), .level=0L)
-    } else {
       o = toJSON(as.character(val))
-    }
-    
   } else if(class(val) == "POSIXct" || class(val) == "POSIXlt" || class(val) == "Date") {
   	p = "{ \"type\": \"Date\", \"timestamp\": "
   	p = paste(p, as.numeric(as.POSIXct(val, tz = "UTC"))*1000, sep='')
@@ -442,7 +417,7 @@ set4 <- function(var, val, unset, sync) {
   if (unset) {
     reply = postForm(req, style='POST', name=var, session=session_id, sync=sync, .opts=opts)
   } else {
-    reply = postForm(req, style='POST', name=var, value=convertToJSON(val, collapse_unit_vectors), session=session_id, sync=sync, .opts=opts)
+    reply = postForm(req, style='POST', name=var, value=convertToJSON(val), session=session_id, sync=sync, .opts=opts)
   }
   if (reply != 'ok') {
     stop(paste(reply))
@@ -461,6 +436,11 @@ unset <- function(var) {
 # returns before it completes
 set_fast <- function(var, val) {
   return (set4(var, val, FALSE, FALSE))
+}
+
+fromJSON <- function(val) {
+  res <- .jcall("com/twosigma/beaker/r/serializer/RJSONConverter", "org/rosuda/REngine/REXP", "fromJSON", toJava(val))
+  return (res)
 }
 
 convertVarFromJSON <- function(res, var) {
