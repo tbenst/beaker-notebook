@@ -48,7 +48,7 @@
       'output-hidden': cellmodel.output.hidden,
       'error': isError()
       }">
-      <h6 ng-if="outputTitle()">{{outputTitle()}}</h6>
+      <h6 ng-if="isError()">Error</h6>
       <bk-code-cell-output
             model="cellmodel.output"
             evaluator-id="{{ cellmodel.evaluator }}"

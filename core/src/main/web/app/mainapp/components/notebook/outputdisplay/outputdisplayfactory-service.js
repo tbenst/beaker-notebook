@@ -27,12 +27,12 @@
 
     var impls = {
         "Text": {
-          template: "<pre>{{getText()}}</pre>",
+          template: "<pre>{{::getText}}</pre>",
           controller: function($scope) {
-            $scope.getText = function() {
+            $scope.getText = (function() {
               var model = $scope.model.getCellModel();
               return (model && model.text) ? model.text : model;
-            };
+            })();
           }
         },
         "DateTime": {

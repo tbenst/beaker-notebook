@@ -132,10 +132,6 @@
           return !(result === undefined || result === null);
         };
 
-        $scope.outputTitle = function() {
-          return $scope.isError() ? 'Error' : null;
-        };
-
         $scope.evaluate = function($event) {
           if ($event) {
             $event.stopPropagation();
