@@ -135,31 +135,30 @@
       },
       replace: true,
       controller: function($scope) {
-        var isItemDisabled = function(item) {
-          if (_.isFunction(item.disabled)) {
-            return item.disabled();
-          }
-          return item.disabled;
-        };
+        var item = $scope.item;
 
-        $scope.getAClass = function(item) {
-          var result = [];
-          if (isItemDisabled(item)) {
-            result.push('disabled-link');
-          } else if (item.items && item.items.length <= 1 && item.autoReduce) {
+        $scope.isItemDisabled = (function() {
+          var itemDisabled = function(i) {
+            if (_.isFunction(i.disabled)) {
+              return i.disabled();
+            }
+            return i.disabled;
+          };
+          if (itemDisabled(item)) {
+            return true;
+          }
+          if (item.items && item.items.length <= 1 && item.autoReduce) {
             if (item.items.length === 0) {
-              result.push('disabled-link');
-            } else if (item.items.length === 1) {
-              if (isItemDisabled(item.items[0])) {
-                result.push('disabled-link');
-              }
+              return true;
+            }
+            if (item.items.length === 1 && itemDisabled(item.items[0])) {
+              return true;
             }
           }
-          result.push(item.id);
-          return result.join(' ');
-        };
+          return false;
+        })();
 
-        $scope.getItemClass = function(item) {
+        $scope.itemClass = (function() {
           var result = [];
           if (item.type === 'divider') {
             result.push('divider');
@@ -180,7 +179,7 @@
             }
           }
           return result.join(' ');
-        };
+        })();
 
         $scope.runAction = function(item) {
           if (item.items && item.items.length === 1 && item.autoReduce) {
@@ -191,15 +190,15 @@
             }
           }
         };
-        $scope.hasCustomMarkup = function(item) {
+        $scope.hasCustomMarkup = (function() {
           return typeof _.result(item, 'markup') !== 'undefined';
-        }
+        })();
 
-        $scope.getCustomMarkup = function(item) {
+        $scope.customMarkup = (function() {
           return $sce.trustAsHtml(_.result(item, 'markup') || '');
-        }
+        })();
 
-        $scope.getName = function(item) {
+        $scope.itemName = (function() {
           var name = '';
           if (item.items && item.items.length === 1 && item.autoReduce) {
             if (item.items[0].reducedName) {
@@ -214,9 +213,9 @@
             name = name();
           }
           return name;
-        };
+        })();
 
-        $scope.isMenuItemChecked = function(item) {
+        $scope.isMenuItemChecked = function() {
           if (item.isChecked) {
             if (_.isFunction(item.isChecked)) {
               return item.isChecked();
