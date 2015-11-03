@@ -299,7 +299,7 @@
   module.directive('bkLanguageMenuItem', function() {
     return {
       restrict: 'E',
-      template: '<span ng-style="style">{{name}}</span>&nbsp;{{key}}',
+      template: '<span ng-style="style">{{name}}</span>&nbsp;{{::key}}',
       scope: {
         key: '@',
         name: '@',
