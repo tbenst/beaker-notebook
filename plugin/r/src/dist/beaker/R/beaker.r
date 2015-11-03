@@ -439,7 +439,7 @@ set_fast <- function(var, val) {
 }
 
 fromJSON <- function(val) {
-  res <- .jcall("com/twosigma/beaker/r/serializer/RJSONConverter", "org/rosuda/REngine/REXP", "fromJSON", toJava(val))
+  res <- .jcall("com/twosigma/beaker/r/serializer/RJSONConverter", "Ljava/lang/Object;", "fromJSON", toJava(val))
   return (res)
 }
 

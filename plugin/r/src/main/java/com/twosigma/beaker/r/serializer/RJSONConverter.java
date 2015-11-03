@@ -22,8 +22,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.REXPMismatchException;
 import org.rosuda.REngine.REXPReference;
-import org.rosuda.REngine.REXPString;
-import org.rosuda.REngine.RList;
 
 import java.io.IOException;
 
@@ -62,12 +60,12 @@ public class RJSONConverter {
     }
   }
 
-  public static REXP fromJSON(REXPReference rexpReference) {
-    REXPString result = null;
+  public static Object fromJSON(REXPReference rexpReference) {
+    Object result = null;
     try {
-      RList rlist = new RList();
-      result = new REXPString(rexpReference.asString());
-    } catch (REXPMismatchException e) {
+      REXP rexp = rexpReference.resolve();
+      result = rexp.asNativeJavaObject();
+    } catch (Exception e) {
       e.printStackTrace();
     } finally {
       return result;
