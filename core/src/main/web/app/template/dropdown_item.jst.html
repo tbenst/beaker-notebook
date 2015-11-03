@@ -14,7 +14,7 @@
     limitations under the License.
 -->
 <li ng-class="itemClass">
-  <i class="glyphicon glyphicon-ok" ng-show="isMenuItemChecked()"></i>
+  <i class="glyphicon glyphicon-ok" ng-if="::canBeChecked" ng-show="isMenuItemChecked()"></i>
   <span ng-if="hasCustomMarkup" ng-bind-html="customMarkup"></span>
   <a href="#"
      tabindex="-1"

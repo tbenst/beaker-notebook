@@ -215,15 +215,13 @@
           return name;
         })();
 
+        $scope.canBeChecked = item.hasOwnProperty('isChecked');
+
         $scope.isMenuItemChecked = function() {
-          if (item.isChecked) {
-            if (_.isFunction(item.isChecked)) {
-              return item.isChecked();
-            } else {
-              return item.isChecked;
-            }
+          if (_.isFunction(item.isChecked)) {
+            return item.isChecked();
           }
-          return false;
+          return item.isChecked;
         };
       },
       link: function(scope, element) {
