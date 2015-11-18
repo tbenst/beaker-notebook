@@ -91,7 +91,15 @@ define(function(require, exports, module) {
           return deferred.promise;
         },
         autocomplete: function (code, cpos, cb) {
-            console.log("Autocomplete Called: Not implemented");
+            debugger
+        
+            $.ajax({
+                type: "POST",
+                datatype: "json",
+                url: bkHelper.serverUrl(serviceBase + "/autocomplete"),
+                data: {shellID: self.settings.shellID, code: code}
+            })
+            
         },
         exit: function (cb) {
             console.log("Exit Called");

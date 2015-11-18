@@ -3,10 +3,12 @@
 var express = require('express');
 var http = require('http');
 var uuid = require('node-uuid');
+var autoCopleteService = require('autoCompleteService.js');
 
 var app = express();
 var port = process.argv[2];
 var host = process.argv[3];
+var beaker = new Object;
 
 console.log('Server Starting')
 
@@ -37,11 +39,17 @@ app.post('/evaluate', function(request, response){
     }
     response.send(evaluationResult.evaluation.toString());
 });
+app.post('/autocomplete', function(request, response){
+    var returnObject = {'shellID':uuid.v4()};
+    response.setHeader('Content-Type', 'application/json');
+    response.send(JSON.stringify(returnObject));
+});
 
 function processCode(code) {
     var returnValue;
     var result;
     try {
+        /*result = eval(code, beaker);*/
         result = eval(code);
         if(typeof result === "undefined"){
             result =  'undefined';
