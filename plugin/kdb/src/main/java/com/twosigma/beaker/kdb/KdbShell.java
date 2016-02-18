@@ -75,6 +75,10 @@ public class KdbShell {
       kdbProcess.getErrorHandler().reset(obj);
       kdbProcess.getOutputHandler().reset(obj);
       Object result = kdbClient.execute(code);
+      char[] proto = {'x'};
+      if (result.getClass() == proto.getClass()) {
+	result = new String((char[]) result);
+      }
       obj.finished(convert(result));
     } catch (Exception e) {
       obj.error(e);
