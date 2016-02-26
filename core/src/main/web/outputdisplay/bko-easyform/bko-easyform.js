@@ -182,18 +182,38 @@
     };
 
     var that = this;
+    var commands = [];
+    var commandsCount = -1;
+    var currVal = undefined;
+    var addCommand = function(oldValue, newValue) {
+      //scope.$apply(function() {
+        commandsCount ++;
+        commands[commandsCount] = {
+          oldval: oldValue,
+          newval: newValue
+        };
+        if( commandsCount < commands.length - 1 ) commands.length = commandsCount + 1;
+
+        //console.log('add command', commands, commands.length, commandsCount);
+      //});
+    };
 
     this.valueChangeHandler = function (newValue, oldValue) {
       if (newValue != undefined && newValue != null) {
         newValue = that.prepareValueForSave(newValue);
         component.value = newValue;
         service.setComponentValue(scope.formId, scope.evaluatorId, component, newValue);
+        if (_.contains(['TextField', 'TextArea'], component.type)) {
+          addCommand(oldValue, newValue);
+        }
       }
     };
 
     this.prepareValueForSave = function(value) {
       return value;
     };
+
+    this.commandThrottled = addCommand;//_.debounce(addCommand, 1000);
 
     this.buildUI = function () {};
 
@@ -202,6 +222,35 @@
       scope.componentId = component.label;
       scope.id = scope.componentId.toLowerCase().replace(/\s/g, '');
       scope.ngModelAttr = utils.getValidNgModelString(component.label);
+
+      scope.undoAction = false;
+      scope.redoAction = false;
+
+      var setter = function(val) {
+        component.value = val;
+        scope.$apply(function() {
+          scope[scope.ngModelAttr] = component.value;
+        });
+      };
+
+      scope.undo = function() {
+        //console.log('UNDO', scope.undoAction, scope[scope.ngModelAttr], commandsCount);
+        if (scope.undoAction) {
+          var cmd = commands[commandsCount];
+          commandsCount -= 1;
+          cmd.oldval = that.prepareValueForSave(cmd.oldval);
+          setter(cmd.oldval);
+        }
+      };
+      scope.redo = function() {
+        //console.log('REDO', scope.redoAction);
+        if (scope.redoAction) {
+          commandsCount += 1;
+          var cmd = commands[commandsCount];
+          cmd.newval = that.prepareValueForSave(cmd.newval);
+          setter(cmd.newval);
+        }
+      };
 
       this.buildUI();
 
@@ -214,8 +263,22 @@
             this.valueChangeHandler,
             this.isWatchByObjectEquality());
       }
+
+      scope.$watch(function() {
+        return commands.length > 0 && commandsCount >= 0;
+      }, function(value) {
+        scope.undoAction = value;
+      });
+
+      scope.$watch(function() {
+        return commands.length > 0 && commandsCount < commands.length - 1;
+      }, function(value) {
+        scope.redoAction = value;
+      });
+
       this.addUpdatedListener();
       this.addValueLoadedListener();
+      this.addKeydownBindings();
     };
 
     this.addListener = function(event, handler) {
@@ -241,6 +304,25 @@
           scope[scope.ngModelAttr] = service.getComponentValue(scope.formId, component);
         });
       });
+    };
+
+    this.addKeydownBindings = function() {
+      var keydownHandler = function(e) {
+        if (e.ctrlKey && e.which === 90) { // Ctrl + z
+          scope.undo();
+          return false;
+        } else if (e.metaKey && !e.ctrlKey && !e.altKey && (e.which === 90)) { // Cmd + z
+          scope.undo();
+          return false;
+        } else if (e.ctrlKey && e.which === 89) { // Ctrl + y
+          scope.redo();
+          return false;
+        } else if (e.metaKey && !e.ctrlKey && !e.altKey && (e.which === 89)) { // Cmd + y
+          scope.redo();
+          return false;
+        }
+      };
+      this.element.bind('keydown', keydownHandler);
     };
   };
 
