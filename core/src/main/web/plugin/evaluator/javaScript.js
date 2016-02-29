@@ -353,7 +353,14 @@ define(function(require, exports, module) {
       JavascriptCancelFunction = null;
     },
     spec: {
-      languageVersion: {type: "settableEnum", name: "JavaScript Version", values: [ES5, ES2015]}
+      languageVersion: {type: "settableEnum", name: "JavaScript Version", values: [ES5, ES2015]},
+      dropdown: {type: "settableSelect", name: "JS Lib", values: ["abcd", "lkjh", "1234", "dfhg"], action: "selectChange", callback: "selectRefresh"}
+    },
+    selectChange: function() {
+      console.log(this.settings.dropdown);
+    },
+    selectRefresh: function(searchQuery) {
+      console.log(searchQuery);
     }
   };
   var JavaScript0 = function(settings) {
@@ -367,9 +374,9 @@ define(function(require, exports, module) {
     settings.view.cm.background = JavaScript_0.background;
     this.settings = settings;
     this.settings.languageVersion = ES2015;
-    this.perform = function(what) {
+    this.perform = function(what, args) {
       var action = this.spec[what].action;
-      this[action]();
+      this[action].apply(this, args);
     };
   };
   JavaScript0.prototype = JavaScript_0;

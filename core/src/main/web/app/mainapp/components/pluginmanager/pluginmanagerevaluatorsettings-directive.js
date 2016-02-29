@@ -40,6 +40,12 @@
           $scope.highlight = true;
         });
 
+        $scope.callback = function(property, args) {
+          if (property.callback) {
+            $scope.evaluator.perform(property.callback, args);
+          }
+        }
+
         $scope.set = function(property) {
           if (property.action) {
             $scope.evaluator.perform(property.key);
