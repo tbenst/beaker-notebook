@@ -21,6 +21,8 @@
   var completionActive = false;
   var currentDocumentation = {};
 
+  var notebookWidget;
+
   var showAutocomplete = function(cm, scope) {
     if (autocompleteParametersService.isActive()) {
       autocompleteParametersService.nextParameter();
@@ -170,7 +172,9 @@
       return;
     }
     _.defer(function() {
-      autocompleteParametersService.startParameterCompletion(cm, currentDocumentation, cursorPosBegin, cursorPosEnd, scope);
+      // if (notebookWidget.getAutocompleteArgumentsSetting()) {
+        autocompleteParametersService.startParameterCompletion(cm, currentDocumentation, cursorPosBegin, cursorPosEnd, scope);
+      // }
     });
   }
 
@@ -179,10 +183,15 @@
     scope.$broadcast('hideDocumentationForAutocomplete');
   }
 
+  function setNotebook(notebook) {
+    notebookWidget = notebook;
+  }
+
   return {
     showAutocomplete: showAutocomplete,
     maybeShowAutocomplete: maybeShowAutocomplete,
-    backspace: backspace
+    backspace: backspace,
+    setNotebookWidget: setNotebook
   };
 
   });

@@ -56,6 +56,7 @@
       codeMirrorExtension,
       GLOBALS) {
 
+
     function isFilePath(path) {
       return path.split('/').pop() !== '';
     }
@@ -1088,6 +1089,7 @@
       console.log(response);
       bkCoreManager._prefs.setTheme(GLOBALS.THEMES.DEFAULT);
     });
+    console.log("CORE MANAGER INSTANTIATED");
 
     return bkCoreManager;
   });

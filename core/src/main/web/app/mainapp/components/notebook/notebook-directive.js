@@ -95,6 +95,12 @@
             },
             setLodThreshold: function (lodThreshold) {
                this._lodThreshold = lodThreshold;
+            },
+            getAutocompleteArgumentsSetting: function () {
+              return this._autocompleteArgumentsSetting;
+            },
+            setAutocompleteArgumentsSetting: function (autocompleteArgumentsSetting) {
+               this._autocompleteArgumentsSetting = autocompleteArgumentsSetting;
             }
           },
           refreshScope: function () {
@@ -301,6 +307,12 @@
           preference: 'lod-threshold'
         }).success(function (lodThreshold) {
           _impl._viewModel.setLodThreshold(lodThreshold);
+        });
+
+        bkUtils.httpGet(bkUtils.serverUrl('beaker/rest/util/getPreference'), {
+          preference: 'autocomplete-arguments'
+        }).success(function (autocompleteArguments) {
+          _impl._viewModel.setAutocompleteArgumentsSetting(autocompleteArguments === 'true');
         });
       },
       link: function (scope, element, attrs) {
