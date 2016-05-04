@@ -739,6 +739,9 @@
       httpGet: function(url, data) {
         return bkUtils.httpGet(url, data);
       },
+      httpGetCached: function(url, data) {
+        return bkUtils.httpGetCached(url, data);
+      },
       httpPost: function(url, data) {
         return bkUtils.httpPost(url, data);
       },

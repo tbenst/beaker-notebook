@@ -45,7 +45,6 @@ define(function(require, exports, module) {
   if (typeof window.loadQueuePromise === 'undefined') {
     window.loadQueuePromise = bkHelper.newPromise();
   }
-  var scriptsLoaded = [];
 
   // Not using the es2015 plugin preset because it includes the "transform-es2015-modules-commonjs" plugin which puts forces strict mode on
   var ES2015Plugins = [
@@ -190,26 +189,29 @@ define(function(require, exports, module) {
   }
 
   function scriptLoaded(scriptUrl) {
-    return _.contains(scriptsLoaded, scriptUrl);
+    return $("#" + CSS.escape("userscript" + scriptUrl)).length > 0;
   }
 
   function loadLibrary(url, cbSuccess, cbError) {
-    jQuery.ajax({
-      type: "GET",
-      url: url,
-      success: function() {
-        scriptsLoaded.push(url);
-        _.defer(function() {cbSuccess(url)});
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        cbError({
-          message: "Script " + url + " failed to load - ",
-          error: errorThrown
-        });
-      },
-      dataType: "script",
-      cache: true
+    bkHelper.httpGetCached(url).then(function(code) {
+      addScriptTag(code.data, url);
+      cbSuccess({
+        url: url,
+        code: code.data
+      });
+    }).catch(function(errorThrown) {
+      cbError({
+        message: "Script " + url + " failed to load",
+        error: errorThrown
+      });
     });
+  }
+
+  function addScriptTag(code, url) {
+    var script = document.createElement('script');
+    script.appendChild(document.createTextNode(code));
+    script.id = CSS.escape("userscript" + url);
+    document.body.appendChild(script);
   }
 
   function getLibraryUrls(libraries) {
@@ -409,7 +411,7 @@ define(function(require, exports, module) {
     loadAllLibraries: function() {
       var scriptsToLoad = this.settings.libraries && this.settings.libraries.length ? getLibraryUrls(this.settings.libraries) : [];
       scriptsToLoad = scriptsToLoad.concat(this.settings.scripts && this.settings.scripts.length ? this.settings.scripts.split("\n") : []);
-
+      var that = this;
       if (scriptsToLoad.length) {
         window.loadQueuePromise = window.loadQueuePromise.then(function() {
           define = void 0;
@@ -417,7 +419,13 @@ define(function(require, exports, module) {
         });
         _.forEach(scriptsToLoad, function(scriptUrl) {
           window.loadQueuePromise = window.loadQueuePromise.then(function() {
-            return loadLibraryIfNotLoaded(scriptUrl);
+            return loadLibraryIfNotLoaded(scriptUrl).then(function(lib) {
+              if (!_.isObject(that.settings.libraryCode)) {
+                that.settings.libraryCode = {};
+              }
+              that.settings.libraryCode[lib.url] = lib.code;
+              return bkHelper.newPromise(lib.url);
+            });
           }).catch(function(e) {console.error(e.message + " - " + e.error);});
         });
         window.loadQueuePromise = window.loadQueuePromise.then(function() {
