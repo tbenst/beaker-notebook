@@ -14,14 +14,14 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<div ng-if='elapsed > 200'>
+<!-- <div ng-if='elapsed > 200'> -->
+<div>
   <div style="float: left">
     <i class='fa fa-refresh fa-spin fa-lg'></i>
     <span> &nbsp; Elapsed: {{getElapsedTime()}} &nbsp; </span>
     <i class='fa fa-times-circle fa-lg text-danger cursor_hand'
        ng-click='cancel()' ng-if='isCancellable()' title='cancel'></i>
   </div>
-  <bk-spark-progress ng-if="isSparkCell()"></bk-spark-progress>
   <div class="progress" style="width: 150px; float: left; margin-left: 30px;" ng-if='hasProgressBar()'>
 	<div class="progress-bar" role="progressbar"
                      aria-valuenow="{{getProgressBar()}}" aria-valuemin="0" aria-valuemax="100"
@@ -30,6 +30,8 @@
 	</div>
   </div>
   <div ng-if='hasMessage()' style="float: left; margin-left: 30px;">{{getMessage()}}</div><br/>
+  <!-- <bk-spark-progress ng-if="isSparkCell()"> -->
+  <bk-spark-progress></bk-spark-progress>
 </div>
 <div ng-if='hasPayload() || hasOutputData()' >
   <hr>
