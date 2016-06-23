@@ -903,6 +903,9 @@
       showLanguageManager: function () {
         return bkCoreManager.showLanguageManager();
       },
+      showSparkConfiguration: function () {
+        return bkCoreManager.showSparkConfiguration();
+      },
       appendCodeCell: function () {
         var newCell = bkSessionManager.getNotebookNewCellFactory().newCodeCell(defaultEvaluator);
         var notebookCellOp = bkSessionManager.getNotebookCellOp();

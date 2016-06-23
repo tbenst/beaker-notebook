@@ -97,6 +97,10 @@
             };
           }
         });
+
+        $scope.isSparkCell = function() {
+          return true;
+        };
       }
     };
   }]);

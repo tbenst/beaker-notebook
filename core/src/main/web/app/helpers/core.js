@@ -1075,6 +1075,24 @@
           return languageManagerInstance.result;
         };
       })(),
+      showSparkConfiguration: (function() {
+        var sparkConfigurationInstance;
+
+        return function() {
+          var options = {
+            windowClass: 'beaker-sandbox',
+            backdropClass: 'beaker-sandbox',
+            backdrop: true,
+            keyboard: true,
+            backdropClick: true,
+            controller: 'sparkConfigurationCtrl',
+            template: JST['mainapp/components/spark/sparkconfiguration']()
+          };
+
+          sparkConfigurationInstance = $uibModal.open(options);
+          return sparkConfigurationInstance.result;
+        };
+      })(),
       showPublishForm: function(nModel, callback) {
         var options = {
           windowClass: 'beaker-sandbox',
