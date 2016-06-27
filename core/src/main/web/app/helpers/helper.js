@@ -94,6 +94,18 @@
         }
         return e.ctrlKey && !e.altKey && e.shiftKey && (e.which === 65);// Cmd + Shift + A
       },
+      isAppendTextCellShortcut: function (e){
+        if (this.isMacOS){
+          return e.metaKey && !e.ctrlKey && !e.altKey && e.shiftKey && (e.which === 89);// Ctrl + Shift + Y
+        }
+        return e.ctrlKey && !e.altKey && e.shiftKey && (e.which === 89);// Cmd + Shift + Y
+      },
+      isInsertCodeCellAboveShortcut: function (e){
+        if (this.isMacOS){
+          return e.metaKey && !e.ctrlKey && !e.altKey && e.shiftKey && (e.which === 85);// Ctrl + Shift + U
+        }
+        return e.ctrlKey && !e.altKey && e.shiftKey && (e.which === 85);// Cmd + Shift + U
+      },
       isSaveNotebookShortcut: function (e){
         if (this.isMacOS){
           return e.metaKey && !e.ctrlKey && !e.altKey && (e.which === 83);// Cmd + s
@@ -690,6 +702,20 @@
           return [];
         }
       },
+      go2FirstCell: function() {
+        if (getCurrentApp() && getCurrentApp().go2FirstCell) {
+          getCurrentApp().go2FirstCell();
+        } else {
+          return [];
+        }
+      },
+      go2Cell: function(cellId) {
+        if (getCurrentApp() && getCurrentApp().go2Cell) {
+          getCurrentApp().go2Cell(cellId);
+        } else {
+          return [];
+        }
+      },
       getCodeCells: function(filter) {
         if (getCurrentApp() && getCurrentApp().getCodeCells) {
           return getCurrentApp().getCodeCells(filter);
@@ -870,6 +896,9 @@
       showModalDialog: function(callback, template, strategy) {
         return bkCoreManager.showModalDialog(callback, template, strategy).result;
       },
+      showErrorModal: function (msgBody, msgHeader, errorDetails, callback) {
+        return bkCoreManager.showErrorModal(msgBody, msgHeader, errorDetails, callback);
+      },
       show1ButtonModal: function(msgBody, msgHeader, callback) {
         return bkCoreManager.show1ButtonModal(msgBody, msgHeader, callback);
       },
@@ -922,18 +951,48 @@
         return bkCoreManager.showLanguageManager();
       },
       appendCodeCell: function () {
-
-        if (document.activeElement &&
-          document.activeElement.parentElement.offsetParent &&
-          document.activeElement.parentElement.offsetParent.classList.value.indexOf('CodeMirror') !== -1)
-          return;
-
-
-        var newCell = bkSessionManager.getNotebookNewCellFactory().newCodeCell(defaultEvaluator);
         var notebookCellOp = bkSessionManager.getNotebookCellOp();
-        notebookCellOp.insertLast(newCell);
+        var currentCellId = $(':focus').parents('bk-cell').attr('cellid');
+        var newCell;
+        if (currentCellId) {
+          var cell = notebookCellOp.getCell(currentCellId);
+          var evaluator = cell.type === 'code' ? cell.evaluator : defaultEvaluator;
+          newCell = bkSessionManager.getNotebookNewCellFactory().newCodeCell(evaluator);
+          notebookCellOp.insertAfter(currentCellId, newCell);
+        } else {
+          newCell = bkSessionManager.getNotebookNewCellFactory().newCodeCell(defaultEvaluator);
+          notebookCellOp.insertLast(newCell);
+        }
         bkUtils.refreshRootScope();
-        this.go2LastCodeCell();
+        this.go2Cell(newCell.id);
+      },
+      appendTextCell: function () {
+        var notebookCellOp = bkSessionManager.getNotebookCellOp();
+        var newCell = bkSessionManager.getNotebookNewCellFactory().newMarkdownCell();
+        var currentCellId = $(':focus').parents('bk-cell').attr('cellid');
+        if (currentCellId) {
+          notebookCellOp.insertAfter(currentCellId, newCell);
+        } else {
+          notebookCellOp.insertLast(newCell);
+        }
+        bkUtils.refreshRootScope();
+        this.go2Cell(newCell.id);
+      },
+      insertCodeCellAbove: function () {
+        var notebookCellOp = bkSessionManager.getNotebookCellOp();
+        var currentCellId = $(':focus').parents('bk-cell').attr('cellid');
+        var newCell;
+        if (currentCellId) {
+          var cell = notebookCellOp.getCell(currentCellId);
+          var evaluator = cell.type === 'code' ? cell.evaluator : defaultEvaluator;
+          newCell = bkSessionManager.getNotebookNewCellFactory().newCodeCell(evaluator);
+          notebookCellOp.insertBefore(currentCellId, newCell);
+        } else {
+          newCell = bkSessionManager.getNotebookNewCellFactory().newCodeCell(defaultEvaluator);
+          notebookCellOp.insertFirst(newCell);
+        }
+        bkUtils.refreshRootScope();
+        this.go2Cell(newCell.id);
       },
       showPublishForm: function() {
         return bkCoreManager.showPublishForm();

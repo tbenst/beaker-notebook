@@ -1322,7 +1322,18 @@
               scope.contextMenuItems[name] = {
                 name: name,
                 callback: function (itemKey, options) {
-                  scope.evaluateTagCell(tag);
+                  var index = scope.table.cell(options.$trigger.get(0)).index();
+                  var params = {
+                    actionType: 'CONTEXT_MENU_CLICK',
+                    contextMenuItem: itemKey,
+                    row: index.row,
+                    col: index.column - 1
+                  };
+                  tableService.setActionDetails(model['update_id'],
+                                                scope.model.getEvaluatorId(),
+                                                params).then(function () {
+                    scope.evaluateTagCell(tag);
+                  });
                 }
               }
             });
@@ -2217,6 +2228,7 @@
               'emptyTable': 'empty table'
             },
             'preDrawCallback': function(settings) {
+              scope.updateTableWidth();
               if(scope.table){
                 //allow cell's text be truncated when column is resized to a very small
                 scope.table.columns().every(function(i){
@@ -2397,8 +2409,8 @@
                 }
               }
 
+              var index = currentCell.indexes()[0];
               if (model.hasDoubleClickAction) {
-                var index = currentCell.indexes()[0];
                 tableService.onDoubleClick(model['update_id'],
                   index.row,
                   index.column - 1,
@@ -2408,7 +2420,16 @@
               }
 
               if (!_.isEmpty(model.doubleClickTag)) {
-                scope.evaluateTagCell(model.doubleClickTag);
+                var params = {
+                  actionType: 'DOUBLE_CLICK',
+                  row: index.row,
+                  col: index.column - 1
+                };
+                tableService.setActionDetails(model['update_id'],
+                                              scope.model.getEvaluatorId(),
+                                              params).then(function () {
+                  scope.evaluateTagCell(model.doubleClickTag);
+                });
               }
 
               e.stopPropagation();
@@ -2469,6 +2490,9 @@
                   scope.updateHeaderLayout();
                   scope.table.draw(false);
                 }, 0);
+              })
+              .on( 'column-sizing.dt', function ( e, settings ) {
+                scope.updateTableWidth();
               });
 
             function updateSize() {
@@ -2506,6 +2530,7 @@
 
             scope.fixcols = new $.fn.dataTable.FixedColumns($(id), inits);
             scope.fixcols.fnRedrawLayout();
+            $rootScope.$emit('beaker.resize');
 
             setTimeout(function(){
               if (!scope.table) { return; }
@@ -2532,6 +2557,7 @@
               if (scope.showFilter) {
                 scope.doShowFilter(null, scope.columnSearchActive);
               }
+              $rootScope.$emit('beaker.resize');
 
             }, 0);
 
@@ -2719,6 +2745,11 @@
             dtRow = node;
           }
           return dtRow;
+        };
+
+        scope.updateTableWidth = function () {
+          var me = $('#' + scope.id);
+          me.css('width', me.outerWidth());
         };
 
       }
