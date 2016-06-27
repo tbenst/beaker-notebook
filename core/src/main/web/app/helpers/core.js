@@ -744,6 +744,10 @@
         var setFullScreen = function (cm) {
           bkHelper.setFullScreen(cm, !bkHelper.isFullScreen(cm));
         };
+        
+        CodeMirror.commands.save = function (){
+	        bkHelper.saveNotebook();
+        };
 
         var keys = {
             "Up" : goUpOrMoveFocusUp,
