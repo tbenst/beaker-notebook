@@ -183,22 +183,73 @@ public class QueryExecutor {
     }
   }
 
-  protected static String setObject(String sql, Object value){
+  protected static String setObject(final String sql, final Object value){
     String ret;
-    int index = sql.indexOf('?');
-    if(index > -1){
-      String begin = sql.substring(0, index);
-      String end = sql.substring(index + 1, sql.length());
-      if(value instanceof String){
-        ret = begin + "\'" + value + "\'" + end;
-      }else{
+    final int index = sql.indexOf('?');
+    // sql has parameters
+    if (index > -1) {
+      final String begin = sql.substring(0, index);
+      final String end = sql.substring(index + 1, sql.length());
+      if (value instanceof String) {
+        ret = begin + "\'" + escapeString((String)value, true) + "\'" + end;
+      } else {
         ret = begin + value + end;
       }
-    }else{
-      ret = sql;
+    } else {
+      ret = escapeString(sql, true);
     }
     return ret;
   }
+
+  protected static String escapeString(final String x, final boolean escapeDoubleQuotes) {
+        final StringBuilder sBuilder = new StringBuilder(x.length() * 11/10);
+
+        final int stringLength = x.length();
+
+        for (int i = 0; i < stringLength; ++i) {
+            final char c = x.charAt(i);
+            switch (c) {
+              case 0: /* Must be escaped for 'mysql' */
+                  sBuilder.append('\\');
+                  sBuilder.append('0');
+                  break;
+              case '\n': /* Must be escaped for logs */
+                  sBuilder.append('\\');
+                  sBuilder.append('n');
+                  break;
+              case '\r':
+                  sBuilder.append('\\');
+                  sBuilder.append('r');
+                  break;
+              case '\\':
+                  sBuilder.append('\\');
+                  sBuilder.append('\\');
+                  break;
+              case '\'':
+                  sBuilder.append('\\');
+                  sBuilder.append('\'');
+                  break;
+              case '"': /* Better safe than sorry */
+                  if (escapeDoubleQuotes) {
+                      sBuilder.append('\\');
+                  }
+                  sBuilder.append('"');
+                  break;
+              case '\032': /* This gives problems on Win32 */
+                  sBuilder.append('\\');
+                  sBuilder.append('Z');
+                  break;
+              case '\u00a5':
+              case '\u20a9':
+                  // escape characters interpreted as backslash by mysql
+                  // fall through
+              default:
+                  sBuilder.append(c);
+            }
+        }
+
+        return sBuilder.toString();
+    }
 
   private QueryResult executeQuery(int currentIterationIndex, BeakerParseResult queryLine, Connection conn, NamespaceClient namespaceClient) throws SQLException, ReadVariableException {
 
