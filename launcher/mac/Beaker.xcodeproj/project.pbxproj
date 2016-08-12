@@ -5313,55 +5313,55 @@
 		427559F1195B40200054E850 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		4DBC5FBE1960EE3C0017B91B /* BeakerAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeakerAppDelegate.h; sourceTree = "<group>"; };
 		4DBC5FBF1960EE3C0017B91B /* BeakerAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeakerAppDelegate.m; sourceTree = "<group>"; };
-		C19223561D3CC60700557F58 /* appletviewer */ = {isa = PBXFileReference; lastKnownFileType = file; path = appletviewer; sourceTree = "<group>"; };
+		C19223561D3CC60700557F58 /* appletviewer */ = {isa = PBXFileReference; lastKnownFileType = text; path = appletviewer; sourceTree = "<group>"; };
 		C19223571D3CC60700557F58 /* ControlPanel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = ControlPanel; sourceTree = "<group>"; };
-		C19223581D3CC60700557F58 /* extcheck */ = {isa = PBXFileReference; lastKnownFileType = file; path = extcheck; sourceTree = "<group>"; };
-		C19223591D3CC60700557F58 /* idlj */ = {isa = PBXFileReference; lastKnownFileType = file; path = idlj; sourceTree = "<group>"; };
-		C192235A1D3CC60700557F58 /* jar */ = {isa = PBXFileReference; lastKnownFileType = file; path = jar; sourceTree = "<group>"; };
-		C192235B1D3CC60700557F58 /* jarsigner */ = {isa = PBXFileReference; lastKnownFileType = file; path = jarsigner; sourceTree = "<group>"; };
-		C192235C1D3CC60700557F58 /* java */ = {isa = PBXFileReference; lastKnownFileType = file; path = java; sourceTree = "<group>"; };
+		C19223581D3CC60700557F58 /* extcheck */ = {isa = PBXFileReference; lastKnownFileType = text; path = extcheck; sourceTree = "<group>"; };
+		C19223591D3CC60700557F58 /* idlj */ = {isa = PBXFileReference; lastKnownFileType = text; path = idlj; sourceTree = "<group>"; };
+		C192235A1D3CC60700557F58 /* jar */ = {isa = PBXFileReference; lastKnownFileType = text; path = jar; sourceTree = "<group>"; };
+		C192235B1D3CC60700557F58 /* jarsigner */ = {isa = PBXFileReference; lastKnownFileType = text; path = jarsigner; sourceTree = "<group>"; };
+		C192235C1D3CC60700557F58 /* java */ = {isa = PBXFileReference; lastKnownFileType = text; path = java; sourceTree = "<group>"; };
 		C192235D1D3CC60700557F58 /* java-rmi.cgi */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "java-rmi.cgi"; sourceTree = "<group>"; };
-		C192235E1D3CC60700557F58 /* javac */ = {isa = PBXFileReference; lastKnownFileType = file; path = javac; sourceTree = "<group>"; };
-		C192235F1D3CC60700557F58 /* javadoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = javadoc; sourceTree = "<group>"; };
+		C192235E1D3CC60700557F58 /* javac */ = {isa = PBXFileReference; lastKnownFileType = text; path = javac; sourceTree = "<group>"; };
+		C192235F1D3CC60700557F58 /* javadoc */ = {isa = PBXFileReference; lastKnownFileType = text; path = javadoc; sourceTree = "<group>"; };
 		C19223601D3CC60700557F58 /* javafxpackager */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = javafxpackager; sourceTree = "<group>"; };
-		C19223611D3CC60700557F58 /* javah */ = {isa = PBXFileReference; lastKnownFileType = file; path = javah; sourceTree = "<group>"; };
-		C19223621D3CC60700557F58 /* javap */ = {isa = PBXFileReference; lastKnownFileType = file; path = javap; sourceTree = "<group>"; };
+		C19223611D3CC60700557F58 /* javah */ = {isa = PBXFileReference; lastKnownFileType = text; path = javah; sourceTree = "<group>"; };
+		C19223621D3CC60700557F58 /* javap */ = {isa = PBXFileReference; lastKnownFileType = text; path = javap; sourceTree = "<group>"; };
 		C19223631D3CC60700557F58 /* javapackager */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = javapackager; sourceTree = "<group>"; };
-		C19223641D3CC60700557F58 /* javaws */ = {isa = PBXFileReference; lastKnownFileType = file; path = javaws; sourceTree = "<group>"; };
-		C19223651D3CC60700557F58 /* jcmd */ = {isa = PBXFileReference; lastKnownFileType = file; path = jcmd; sourceTree = "<group>"; };
-		C19223661D3CC60700557F58 /* jconsole */ = {isa = PBXFileReference; lastKnownFileType = file; path = jconsole; sourceTree = "<group>"; };
+		C19223641D3CC60700557F58 /* javaws */ = {isa = PBXFileReference; lastKnownFileType = text; path = javaws; sourceTree = "<group>"; };
+		C19223651D3CC60700557F58 /* jcmd */ = {isa = PBXFileReference; lastKnownFileType = text; path = jcmd; sourceTree = "<group>"; };
+		C19223661D3CC60700557F58 /* jconsole */ = {isa = PBXFileReference; lastKnownFileType = text; path = jconsole; sourceTree = "<group>"; };
 		C19223671D3CC60700557F58 /* jcontrol */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = jcontrol; sourceTree = "<group>"; };
-		C19223681D3CC60700557F58 /* jdb */ = {isa = PBXFileReference; lastKnownFileType = file; path = jdb; sourceTree = "<group>"; };
-		C19223691D3CC60700557F58 /* jdeps */ = {isa = PBXFileReference; lastKnownFileType = file; path = jdeps; sourceTree = "<group>"; };
-		C192236A1D3CC60700557F58 /* jhat */ = {isa = PBXFileReference; lastKnownFileType = file; path = jhat; sourceTree = "<group>"; };
-		C192236B1D3CC60700557F58 /* jinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = jinfo; sourceTree = "<group>"; };
-		C192236C1D3CC60700557F58 /* jjs */ = {isa = PBXFileReference; lastKnownFileType = file; path = jjs; sourceTree = "<group>"; };
-		C192236D1D3CC60700557F58 /* jmap */ = {isa = PBXFileReference; lastKnownFileType = file; path = jmap; sourceTree = "<group>"; };
-		C192236E1D3CC60700557F58 /* jmc */ = {isa = PBXFileReference; lastKnownFileType = file; path = jmc; sourceTree = "<group>"; };
+		C19223681D3CC60700557F58 /* jdb */ = {isa = PBXFileReference; lastKnownFileType = text; path = jdb; sourceTree = "<group>"; };
+		C19223691D3CC60700557F58 /* jdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = jdeps; sourceTree = "<group>"; };
+		C192236A1D3CC60700557F58 /* jhat */ = {isa = PBXFileReference; lastKnownFileType = text; path = jhat; sourceTree = "<group>"; };
+		C192236B1D3CC60700557F58 /* jinfo */ = {isa = PBXFileReference; lastKnownFileType = text; path = jinfo; sourceTree = "<group>"; };
+		C192236C1D3CC60700557F58 /* jjs */ = {isa = PBXFileReference; lastKnownFileType = text; path = jjs; sourceTree = "<group>"; };
+		C192236D1D3CC60700557F58 /* jmap */ = {isa = PBXFileReference; lastKnownFileType = text; path = jmap; sourceTree = "<group>"; };
+		C192236E1D3CC60700557F58 /* jmc */ = {isa = PBXFileReference; lastKnownFileType = text; path = jmc; sourceTree = "<group>"; };
 		C192236F1D3CC60700557F58 /* jmc.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = jmc.ini; sourceTree = "<group>"; };
-		C19223701D3CC60700557F58 /* jps */ = {isa = PBXFileReference; lastKnownFileType = file; path = jps; sourceTree = "<group>"; };
-		C19223711D3CC60700557F58 /* jrunscript */ = {isa = PBXFileReference; lastKnownFileType = file; path = jrunscript; sourceTree = "<group>"; };
-		C19223721D3CC60700557F58 /* jsadebugd */ = {isa = PBXFileReference; lastKnownFileType = file; path = jsadebugd; sourceTree = "<group>"; };
-		C19223731D3CC60700557F58 /* jstack */ = {isa = PBXFileReference; lastKnownFileType = file; path = jstack; sourceTree = "<group>"; };
-		C19223741D3CC60700557F58 /* jstat */ = {isa = PBXFileReference; lastKnownFileType = file; path = jstat; sourceTree = "<group>"; };
-		C19223751D3CC60700557F58 /* jstatd */ = {isa = PBXFileReference; lastKnownFileType = file; path = jstatd; sourceTree = "<group>"; };
+		C19223701D3CC60700557F58 /* jps */ = {isa = PBXFileReference; lastKnownFileType = text; path = jps; sourceTree = "<group>"; };
+		C19223711D3CC60700557F58 /* jrunscript */ = {isa = PBXFileReference; lastKnownFileType = text; path = jrunscript; sourceTree = "<group>"; };
+		C19223721D3CC60700557F58 /* jsadebugd */ = {isa = PBXFileReference; lastKnownFileType = text; path = jsadebugd; sourceTree = "<group>"; };
+		C19223731D3CC60700557F58 /* jstack */ = {isa = PBXFileReference; lastKnownFileType = text; path = jstack; sourceTree = "<group>"; };
+		C19223741D3CC60700557F58 /* jstat */ = {isa = PBXFileReference; lastKnownFileType = text; path = jstat; sourceTree = "<group>"; };
+		C19223751D3CC60700557F58 /* jstatd */ = {isa = PBXFileReference; lastKnownFileType = text; path = jstatd; sourceTree = "<group>"; };
 		C19223761D3CC60700557F58 /* jvisualvm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = jvisualvm; sourceTree = "<group>"; };
-		C19223771D3CC60700557F58 /* keytool */ = {isa = PBXFileReference; lastKnownFileType = file; path = keytool; sourceTree = "<group>"; };
-		C19223781D3CC60700557F58 /* native2ascii */ = {isa = PBXFileReference; lastKnownFileType = file; path = native2ascii; sourceTree = "<group>"; };
-		C19223791D3CC60700557F58 /* orbd */ = {isa = PBXFileReference; lastKnownFileType = file; path = orbd; sourceTree = "<group>"; };
-		C192237A1D3CC60700557F58 /* pack200 */ = {isa = PBXFileReference; lastKnownFileType = file; path = pack200; sourceTree = "<group>"; };
-		C192237B1D3CC60700557F58 /* policytool */ = {isa = PBXFileReference; lastKnownFileType = file; path = policytool; sourceTree = "<group>"; };
-		C192237C1D3CC60700557F58 /* rmic */ = {isa = PBXFileReference; lastKnownFileType = file; path = rmic; sourceTree = "<group>"; };
-		C192237D1D3CC60700557F58 /* rmid */ = {isa = PBXFileReference; lastKnownFileType = file; path = rmid; sourceTree = "<group>"; };
-		C192237E1D3CC60700557F58 /* rmiregistry */ = {isa = PBXFileReference; lastKnownFileType = file; path = rmiregistry; sourceTree = "<group>"; };
-		C192237F1D3CC60700557F58 /* schemagen */ = {isa = PBXFileReference; lastKnownFileType = file; path = schemagen; sourceTree = "<group>"; };
-		C19223801D3CC60700557F58 /* serialver */ = {isa = PBXFileReference; lastKnownFileType = file; path = serialver; sourceTree = "<group>"; };
-		C19223811D3CC60700557F58 /* servertool */ = {isa = PBXFileReference; lastKnownFileType = file; path = servertool; sourceTree = "<group>"; };
-		C19223821D3CC60700557F58 /* tnameserv */ = {isa = PBXFileReference; lastKnownFileType = file; path = tnameserv; sourceTree = "<group>"; };
-		C19223831D3CC60700557F58 /* unpack200 */ = {isa = PBXFileReference; lastKnownFileType = file; path = unpack200; sourceTree = "<group>"; };
-		C19223841D3CC60700557F58 /* wsgen */ = {isa = PBXFileReference; lastKnownFileType = file; path = wsgen; sourceTree = "<group>"; };
-		C19223851D3CC60700557F58 /* wsimport */ = {isa = PBXFileReference; lastKnownFileType = file; path = wsimport; sourceTree = "<group>"; };
-		C19223861D3CC60700557F58 /* xjc */ = {isa = PBXFileReference; lastKnownFileType = file; path = xjc; sourceTree = "<group>"; };
+		C19223771D3CC60700557F58 /* keytool */ = {isa = PBXFileReference; lastKnownFileType = text; path = keytool; sourceTree = "<group>"; };
+		C19223781D3CC60700557F58 /* native2ascii */ = {isa = PBXFileReference; lastKnownFileType = text; path = native2ascii; sourceTree = "<group>"; };
+		C19223791D3CC60700557F58 /* orbd */ = {isa = PBXFileReference; lastKnownFileType = text; path = orbd; sourceTree = "<group>"; };
+		C192237A1D3CC60700557F58 /* pack200 */ = {isa = PBXFileReference; lastKnownFileType = text; path = pack200; sourceTree = "<group>"; };
+		C192237B1D3CC60700557F58 /* policytool */ = {isa = PBXFileReference; lastKnownFileType = text; path = policytool; sourceTree = "<group>"; };
+		C192237C1D3CC60700557F58 /* rmic */ = {isa = PBXFileReference; lastKnownFileType = text; path = rmic; sourceTree = "<group>"; };
+		C192237D1D3CC60700557F58 /* rmid */ = {isa = PBXFileReference; lastKnownFileType = text; path = rmid; sourceTree = "<group>"; };
+		C192237E1D3CC60700557F58 /* rmiregistry */ = {isa = PBXFileReference; lastKnownFileType = text; path = rmiregistry; sourceTree = "<group>"; };
+		C192237F1D3CC60700557F58 /* schemagen */ = {isa = PBXFileReference; lastKnownFileType = text; path = schemagen; sourceTree = "<group>"; };
+		C19223801D3CC60700557F58 /* serialver */ = {isa = PBXFileReference; lastKnownFileType = text; path = serialver; sourceTree = "<group>"; };
+		C19223811D3CC60700557F58 /* servertool */ = {isa = PBXFileReference; lastKnownFileType = text; path = servertool; sourceTree = "<group>"; };
+		C19223821D3CC60700557F58 /* tnameserv */ = {isa = PBXFileReference; lastKnownFileType = text; path = tnameserv; sourceTree = "<group>"; };
+		C19223831D3CC60700557F58 /* unpack200 */ = {isa = PBXFileReference; lastKnownFileType = text; path = unpack200; sourceTree = "<group>"; };
+		C19223841D3CC60700557F58 /* wsgen */ = {isa = PBXFileReference; lastKnownFileType = text; path = wsgen; sourceTree = "<group>"; };
+		C19223851D3CC60700557F58 /* wsimport */ = {isa = PBXFileReference; lastKnownFileType = text; path = wsimport; sourceTree = "<group>"; };
+		C19223861D3CC60700557F58 /* xjc */ = {isa = PBXFileReference; lastKnownFileType = text; path = xjc; sourceTree = "<group>"; };
 		C19223871D3CC60700557F58 /* COPYRIGHT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYRIGHT; sourceTree = "<group>"; };
 		C19223891D3CC60700557F58 /* 3RDPARTY */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 3RDPARTY; sourceTree = "<group>"; };
 		C192238B1D3CC60700557F58 /* dblook */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dblook; sourceTree = "<group>"; };
@@ -5417,19 +5417,19 @@
 		C19223C01D3CC60700557F58 /* jni_md.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jni_md.h; sourceTree = "<group>"; };
 		C19223C11D3CC60700557F58 /* javafx-src.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "javafx-src.zip"; sourceTree = "<group>"; };
 		C19223C41D3CC60700557F58 /* ControlPanel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = ControlPanel; sourceTree = "<group>"; };
-		C19223C51D3CC60700557F58 /* java */ = {isa = PBXFileReference; lastKnownFileType = file; path = java; sourceTree = "<group>"; };
-		C19223C61D3CC60700557F58 /* javaws */ = {isa = PBXFileReference; lastKnownFileType = file; path = javaws; sourceTree = "<group>"; };
+		C19223C51D3CC60700557F58 /* java */ = {isa = PBXFileReference; lastKnownFileType = text; path = java; sourceTree = "<group>"; };
+		C19223C61D3CC60700557F58 /* javaws */ = {isa = PBXFileReference; lastKnownFileType = text; path = javaws; sourceTree = "<group>"; };
 		C19223C71D3CC60700557F58 /* jcontrol */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = jcontrol; sourceTree = "<group>"; };
-		C19223C81D3CC60700557F58 /* jjs */ = {isa = PBXFileReference; lastKnownFileType = file; path = jjs; sourceTree = "<group>"; };
-		C19223C91D3CC60700557F58 /* keytool */ = {isa = PBXFileReference; lastKnownFileType = file; path = keytool; sourceTree = "<group>"; };
-		C19223CA1D3CC60700557F58 /* orbd */ = {isa = PBXFileReference; lastKnownFileType = file; path = orbd; sourceTree = "<group>"; };
-		C19223CB1D3CC60700557F58 /* pack200 */ = {isa = PBXFileReference; lastKnownFileType = file; path = pack200; sourceTree = "<group>"; };
-		C19223CC1D3CC60700557F58 /* policytool */ = {isa = PBXFileReference; lastKnownFileType = file; path = policytool; sourceTree = "<group>"; };
-		C19223CD1D3CC60700557F58 /* rmid */ = {isa = PBXFileReference; lastKnownFileType = file; path = rmid; sourceTree = "<group>"; };
-		C19223CE1D3CC60700557F58 /* rmiregistry */ = {isa = PBXFileReference; lastKnownFileType = file; path = rmiregistry; sourceTree = "<group>"; };
-		C19223CF1D3CC60700557F58 /* servertool */ = {isa = PBXFileReference; lastKnownFileType = file; path = servertool; sourceTree = "<group>"; };
-		C19223D01D3CC60700557F58 /* tnameserv */ = {isa = PBXFileReference; lastKnownFileType = file; path = tnameserv; sourceTree = "<group>"; };
-		C19223D11D3CC60700557F58 /* unpack200 */ = {isa = PBXFileReference; lastKnownFileType = file; path = unpack200; sourceTree = "<group>"; };
+		C19223C81D3CC60700557F58 /* jjs */ = {isa = PBXFileReference; lastKnownFileType = text; path = jjs; sourceTree = "<group>"; };
+		C19223C91D3CC60700557F58 /* keytool */ = {isa = PBXFileReference; lastKnownFileType = text; path = keytool; sourceTree = "<group>"; };
+		C19223CA1D3CC60700557F58 /* orbd */ = {isa = PBXFileReference; lastKnownFileType = text; path = orbd; sourceTree = "<group>"; };
+		C19223CB1D3CC60700557F58 /* pack200 */ = {isa = PBXFileReference; lastKnownFileType = text; path = pack200; sourceTree = "<group>"; };
+		C19223CC1D3CC60700557F58 /* policytool */ = {isa = PBXFileReference; lastKnownFileType = text; path = policytool; sourceTree = "<group>"; };
+		C19223CD1D3CC60700557F58 /* rmid */ = {isa = PBXFileReference; lastKnownFileType = text; path = rmid; sourceTree = "<group>"; };
+		C19223CE1D3CC60700557F58 /* rmiregistry */ = {isa = PBXFileReference; lastKnownFileType = text; path = rmiregistry; sourceTree = "<group>"; };
+		C19223CF1D3CC60700557F58 /* servertool */ = {isa = PBXFileReference; lastKnownFileType = text; path = servertool; sourceTree = "<group>"; };
+		C19223D01D3CC60700557F58 /* tnameserv */ = {isa = PBXFileReference; lastKnownFileType = text; path = tnameserv; sourceTree = "<group>"; };
+		C19223D11D3CC60700557F58 /* unpack200 */ = {isa = PBXFileReference; lastKnownFileType = text; path = unpack200; sourceTree = "<group>"; };
 		C19223D21D3CC60700557F58 /* COPYRIGHT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYRIGHT; sourceTree = "<group>"; };
 		C19223D61D3CC60700557F58 /* libjli.so */ = {isa = PBXFileReference; lastKnownFileType = file; path = libjli.so; sourceTree = "<group>"; };
 		C19223D71D3CC60700557F58 /* jvm.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = jvm.cfg; sourceTree = "<group>"; };
@@ -5629,7 +5629,7 @@
 		C19224C31D3CC60700557F58 /* javafx.properties */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = javafx.properties; sourceTree = "<group>"; };
 		C19224C41D3CC60700557F58 /* javaws.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = javaws.jar; sourceTree = "<group>"; };
 		C19224C51D3CC60700557F58 /* jce.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = jce.jar; sourceTree = "<group>"; };
-		C19224C61D3CC60700557F58 /* jexec */ = {isa = PBXFileReference; lastKnownFileType = file; path = jexec; sourceTree = "<group>"; };
+		C19224C61D3CC60700557F58 /* jexec */ = {isa = PBXFileReference; lastKnownFileType = text; path = jexec; sourceTree = "<group>"; };
 		C19224C81D3CC60700557F58 /* default.jfc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = default.jfc; sourceTree = "<group>"; };
 		C19224C91D3CC60700557F58 /* profile.jfc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = profile.jfc; sourceTree = "<group>"; };
 		C19224CA1D3CC60700557F58 /* jfr.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = jfr.jar; sourceTree = "<group>"; };
@@ -5670,7 +5670,7 @@
 		C192250C1D3CC60700557F58 /* rt.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = rt.jar; sourceTree = "<group>"; };
 		C192250E1D3CC60700557F58 /* blacklist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = blacklist; sourceTree = "<group>"; };
 		C192250F1D3CC60700557F58 /* blacklisted.certs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = blacklisted.certs; sourceTree = "<group>"; };
-		C19225101D3CC60700557F58 /* cacerts */ = {isa = PBXFileReference; lastKnownFileType = file; path = cacerts; sourceTree = "<group>"; };
+		C19225101D3CC60700557F58 /* cacerts */ = {isa = PBXFileReference; lastKnownFileType = text; path = cacerts; sourceTree = "<group>"; };
 		C19225111D3CC60700557F58 /* java.policy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = java.policy; sourceTree = "<group>"; };
 		C19225121D3CC60700557F58 /* java.security */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = java.security; sourceTree = "<group>"; };
 		C19225131D3CC60700557F58 /* javaws.policy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = javaws.policy; sourceTree = "<group>"; };
@@ -5694,7 +5694,7 @@
 		C192252A1D3CC60700557F58 /* ir.idl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ir.idl; sourceTree = "<group>"; };
 		C192252B1D3CC60700557F58 /* javafx-mx.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = "javafx-mx.jar"; sourceTree = "<group>"; };
 		C192252C1D3CC60700557F58 /* jconsole.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = jconsole.jar; sourceTree = "<group>"; };
-		C192252D1D3CC60700557F58 /* jexec */ = {isa = PBXFileReference; lastKnownFileType = file; path = jexec; sourceTree = "<group>"; };
+		C192252D1D3CC60700557F58 /* jexec */ = {isa = PBXFileReference; lastKnownFileType = text; path = jexec; sourceTree = "<group>"; };
 		C192252F1D3CC60700557F58 /* .eclipseproduct */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .eclipseproduct; sourceTree = "<group>"; };
 		C19225301D3CC60700557F58 /* artifacts.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = artifacts.xml; sourceTree = "<group>"; };
 		C19225321D3CC60700557F58 /* config.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.ini; sourceTree = "<group>"; };
@@ -23519,7 +23519,7 @@
 				427559C8195B401F0054E850 /* Sources */,
 				427559C9195B401F0054E850 /* Frameworks */,
 				427559CA195B401F0054E850 /* Resources */,
-				4258BA29195E3E1600C4F617 /* ShellScript */,
+				4258BA29195E3E1600C4F617 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -24516,13 +24516,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4258BA29195E3E1600C4F617 /* ShellScript */ = {
+		4258BA29195E3E1600C4F617 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
