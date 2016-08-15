@@ -191,12 +191,12 @@ public class QueryExecutor {
       final String begin = sql.substring(0, index);
       final String end = sql.substring(index + 1, sql.length());
       if (value instanceof String) {
-        ret = begin + "\'" + escapeString((String)value, true) + "\'" + end;
+        ret = begin + "'" + escapeString((String)value, false) + "'" + end;
       } else {
         ret = begin + value + end;
       }
     } else {
-      ret = escapeString(sql, true);
+      ret = escapeString(sql, false);
     }
     return ret;
   }
@@ -226,7 +226,7 @@ public class QueryExecutor {
                   sBuilder.append('\\');
                   break;
               case '\'':
-                  sBuilder.append('\\');
+                  sBuilder.append('\'');
                   sBuilder.append('\'');
                   break;
               case '"': /* Better safe than sorry */
