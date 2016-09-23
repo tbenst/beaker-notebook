@@ -474,7 +474,13 @@ define(function(require, exports, module) {
       updateShell: function() {
         this.reset();
       },
+
+      condaEnvironmentAction: function () {
+
+      },
+
       spec: {
+        condaEnvironment: {type: "condaEnvironment", action: "condaEnvironmentAction", name: "Conda Environment"},
         interrupt: {type: "action", action: "interrupt", name: "Interrupt"},
         reset: {type: "action", action: "reset", name: "Restart"},
         setup: {type: "settableString", action: "updateShell", name: "Setup Code"}

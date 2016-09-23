@@ -47,7 +47,8 @@
           STRING: "settableString",
           BOOLEAN: "settableBoolean",
           ENUM: "settableEnum",
-          SELECT: "settableSelect"
+          SELECT: "settableSelect",
+          CONDA_ENV: "condaEnvironment"
         },
         ACTION: "action"
       },

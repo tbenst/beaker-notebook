@@ -15,7 +15,9 @@
 -->
 
 <div ng-repeat="property in properties" class="form-group language-option property clearfix">
-  
+
+  <bk-conda-environment ng-if="property.type === availableProperties.CONDA_ENV" ></bk-conda-environment>
+
   <label ng-if="property.type === availableProperties.STRING">{{ property.name }}</label>
   <textarea ng-if="property.type === availableProperties.STRING" ng-class="{'edited-property': property.edited && highlight}" class="form-control" ng-model="evaluator.settings[property.key]"></textarea>
   <button ng-if="property.type === availableProperties.STRING" class="btn btn-default pull-right set" ng-click="set(property)">Set</button>

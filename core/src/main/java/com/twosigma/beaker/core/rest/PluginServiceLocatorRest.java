@@ -820,6 +820,12 @@ public class PluginServiceLocatorRest {
     return pConfig.password;
   }
 
+  @GET
+  @Path("conda/envs")
+  public List<String> getItems() {
+    return Arrays.asList("1 - env","2 - evn","3 - env");
+  }
+
   private static class PluginConfig {
 
     private final int port;
