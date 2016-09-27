@@ -43,7 +43,7 @@
       "SQL": { url : "./plugins/eval/sqlsh/sqlsh.js", bgColor: "#F8981C", fgColor: "#FFFFFF", borderColor: "", shortName: "Sq" },
       "R": { url : "./plugins/eval/r/r.js", bgColor: "#8495BB", fgColor: "#FFFFFF", borderColor: "", shortName: "R" },
       "Scala": { url : "./plugins/eval/scala/scala.js", bgColor: "#B41703", fgColor: "#FFFFFF", borderColor: "", shortName: "Sc" },
-      "Node": { url : "./plugins/eval/node/node.js", bgColor: "#8EC453", fgColor: "#FFFFFF", borderColor: "", shortName: "N" }
+      "Node": { url : "./plugins/eval/node/node.js", bgColor: "#8EC453", fgColor: "#FFFFFF", borderColor: "", shortName: "N" },
       "WebPPL": { url : "./plugins/eval/webppl/webppl.js", bgColor: "#A52A2A", fgColor: "#FFFFFF", borderColor: "", shortName: "W" }
     };
   };

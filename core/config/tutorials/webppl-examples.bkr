@@ -1,0 +1,265 @@
+{
+    "beaker": "2",
+    "evaluators": [
+        {
+            "name": "HTML",
+            "plugin": "HTML",
+            "view": {
+                "cm": {
+                    "mode": "smartHTMLMode"
+                }
+            }
+        },
+        {
+            "name": "JavaScript",
+            "plugin": "JavaScript",
+            "view": {
+                "cm": {
+                    "mode": "javascript",
+                    "background": "#FFE0F0"
+                }
+            },
+            "languageVersion": "ES2015"
+        },
+        {
+            "name": "Python3",
+            "plugin": "Python3",
+            "setup": "%matplotlib inline\nimport numpy\nimport matplotlib\nfrom matplotlib import pylab, mlab, pyplot\nnp = numpy\nplt = pyplot\nfrom IPython.display import display\nfrom IPython.core.pylabtools import figsize, getfigs\nfrom pylab import *\nfrom numpy import *\n",
+            "view": {
+                "cm": {
+                    "mode": "python"
+                }
+            }
+        },
+        {
+            "name": "WebPPL",
+            "plugin": "WebPPL",
+            "view": {
+                "cm": {
+                    "mode": "javascript"
+                }
+            }
+        },
+        {
+            "name": "R",
+            "plugin": "R",
+            "view": {
+                "cm": {
+                    "mode": "r"
+                }
+            }
+        }
+    ],
+    "cells": [
+        {
+            "id": "sectionBjXlwN",
+            "type": "section",
+            "title": "WebPPL examples",
+            "level": 1,
+            "evaluatorReader": false,
+            "collapsed": false
+        },
+        {
+            "id": "markdowntZabMT",
+            "type": "markdown",
+            "body": [
+                "[webppl](webppl.org) is a small but feature-rich probabilistic programming language embedded in Javascript. Language support for beaker is at proof of concept stage. Passing variables into webppl is supported, as is reading out the result. No visualization support yet.",
+                "",
+                "[webppl globalStore](http://webppl.readthedocs.io/en/master/globalstore.html) is initialized to beaker.initialStore, and the return value is stored at beaker.result."
+            ],
+            "evaluatorReader": false
+        },
+        {
+            "id": "codeDnxyjh",
+            "type": "code",
+            "evaluator": "Python3",
+            "input": {
+                "body": [
+                    "beaker.initialStore = {\"p\": np.random.random()}"
+                ]
+            },
+            "output": {
+                "state": {},
+                "selectedType": "Hidden",
+                "pluginName": "Python3",
+                "shellId": "6522916EB4094D50A03227DB18261CA1",
+                "elapsedTime": 60
+            },
+            "evaluatorReader": true,
+            "lineCount": 1
+        },
+        {
+            "id": "code9wG4ja",
+            "type": "code",
+            "evaluator": "WebPPL",
+            "input": {
+                "body": [
+                    "var geometric = function(p) {",
+                    "  return flip(p) ? 0 : geometric() + 1;",
+                    "}",
+                    "",
+                    "var conditionedGeometric = function() {",
+                    "  var x = geometric(globalStore.p);",
+                    "  factor(x > 2 ? 0 : -Infinity);",
+                    "  return x;",
+                    "}",
+                    "",
+                    "var Test = {Test: 3}",
+                    "var dist = Infer(",
+                    "  {method: 'enumerate', maxExecutions: 10}, ",
+                    "  conditionedGeometric);",
+                    "",
+                    "dist.params.dist"
+                ]
+            },
+            "output": {
+                "state": {},
+                "result": {
+                    "3": {
+                        "val": 3,
+                        "prob": 0.5039370078740159
+                    },
+                    "4": {
+                        "val": 4,
+                        "prob": 0.2519685039370079
+                    },
+                    "5": {
+                        "val": 5,
+                        "prob": 0.12598425196850396
+                    },
+                    "6": {
+                        "val": 6,
+                        "prob": 0.06299212598425195
+                    },
+                    "7": {
+                        "val": 7,
+                        "prob": 0.03149606299212598
+                    },
+                    "8": {
+                        "val": 8,
+                        "prob": 0.01574803149606299
+                    },
+                    "9": {
+                        "val": 9,
+                        "prob": 0.007874015748031494
+                    }
+                },
+                "selectedType": "Text",
+                "height": 72
+            },
+            "evaluatorReader": true,
+            "lineCount": 16
+        },
+        {
+            "id": "codeHGqCXZ",
+            "type": "code",
+            "evaluator": "Python3",
+            "input": {
+                "body": [
+                    "beaker.get(\"result\")"
+                ]
+            },
+            "output": {
+                "state": {},
+                "result": "<div class=\"output_subarea output_text\"><pre>{'3': {'prob': 0.5039370078740159, 'val': 3},\n '4': {'prob': 0.2519685039370079, 'val': 4},\n '5': {'prob': 0.12598425196850396, 'val': 5},\n '6': {'prob': 0.06299212598425195, 'val': 6},\n '7': {'prob': 0.03149606299212598, 'val': 7},\n '8': {'prob': 0.01574803149606299, 'val': 8},\n '9': {'prob': 0.007874015748031494, 'val': 9}}</pre></div>",
+                "selectedType": "Html",
+                "height": 149,
+                "pluginName": "Python3",
+                "shellId": "6522916EB4094D50A03227DB18261CA1",
+                "elapsedTime": 309,
+                "dataresult": {
+                    "3": {
+                        "prob": 0.5039370078740159,
+                        "val": 3
+                    },
+                    "4": {
+                        "prob": 0.2519685039370079,
+                        "val": 4
+                    },
+                    "5": {
+                        "prob": 0.12598425196850396,
+                        "val": 5
+                    },
+                    "6": {
+                        "prob": 0.06299212598425195,
+                        "val": 6
+                    },
+                    "7": {
+                        "prob": 0.03149606299212598,
+                        "val": 7
+                    },
+                    "8": {
+                        "prob": 0.01574803149606299,
+                        "val": 8
+                    },
+                    "9": {
+                        "prob": 0.007874015748031494,
+                        "val": 9
+                    }
+                }
+            },
+            "evaluatorReader": true,
+            "lineCount": 1
+        }
+    ],
+    "namespace": {
+        "globalStore": {
+            "type": "TableDisplay",
+            "subtype": "Dictionary",
+            "values": [
+                [
+                    "p",
+                    0.0121448084026744
+                ]
+            ],
+            "columnNames": [
+                "Key",
+                "Value"
+            ]
+        },
+        "result": {
+            "3": {
+                "val": 3,
+                "prob": 0.5039370078740159
+            },
+            "4": {
+                "val": 4,
+                "prob": 0.2519685039370079
+            },
+            "5": {
+                "val": 5,
+                "prob": 0.12598425196850396
+            },
+            "6": {
+                "val": 6,
+                "prob": 0.06299212598425195
+            },
+            "7": {
+                "val": 7,
+                "prob": 0.03149606299212598
+            },
+            "8": {
+                "val": 8,
+                "prob": 0.01574803149606299
+            },
+            "9": {
+                "val": 9,
+                "prob": 0.007874015748031494
+            }
+        },
+        "initialStore": {
+            "type": "TableDisplay",
+            "subtype": "Dictionary",
+            "values": [
+                [
+                    "p",
+                    0.28774559359295426
+                ]
+            ],
+            "columnNames": [
+                "Key",
+                "Value"
+            ]
+        }
+    }
+}
