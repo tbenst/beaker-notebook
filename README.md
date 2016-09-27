@@ -32,6 +32,8 @@ See the tutorial under help for an example of how to use. To run, first install 
 
 #Screenshots
 
+![webppl-Example](https://raw.githubusercontent.com/tbenst/beaker-webppl/master/doc/webppl-Example.png)
+
 ![screenshots](https://raw.githubusercontent.com/twosigma/beaker-notebook/master/doc/screenshots.png)
 
 #Publication Server
@@ -89,14 +91,4 @@ plugins](https://github.com/twosigma/beaker-notebook/wiki/OutputDisplay-spec)
 
 Beaker's full source code and documentation is available under the
 Apache 2.0 license.
-
-##Contributing
-
-We welcome developers to extend and improve Beaker in ways that can
-benefit everyone. In order for us to accept your code or pull request,
-we need for you to fill out and email back to us a scan of a signed copy of the
-[Contributor License Agreement](http://beakernotebook.com/cla.zip).
-
-We're also looking to expand our full-time, NYC-based engineering team
-with a [full-stack web developer](https://careers.twosigma.com/careers/JobDetail/New-York-New-York-United-States-Beaker-Full-Stack-Web-Developer/361).
 
