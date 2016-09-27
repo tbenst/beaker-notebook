@@ -131,8 +131,16 @@ app.listen(port, host);
 function processCode(code, shell) {
   var returnValue;
   var result;
+  var preparedCode = "var result; \
+                      beaker.get('initialStore').then(function (initialStore) { \
+                        webppl.run(code, function(s,x) {result = x}, \
+                          {initialStore: initialStore}); \
+                        beaker.set('result', result); \
+                        return result \
+                      });"
   try {
-    webppl.run(code, function(s,x) {result = x})
+    shell.context.code = code
+    result = vm.runInContext(preparedCode, shell.context);
     if (typeof result === "undefined") {
       result = 'undefined';
     }
@@ -154,6 +162,7 @@ var createSandbox = function () {
     require: require,
     http: http,
     Q: Q,
+    webppl: webppl,
 
     DataFrame: require('./transformation.js').DataFrame,
 
