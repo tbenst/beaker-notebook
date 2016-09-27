@@ -13,12 +13,6 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-# WebPPL support
-[webppl](webppl.org) is a small but feature-rich probabilistic programming language embedded in Javascript. Language support for beaker is at proof of concept stage. Passing variables into webppl is supported, as is reading out the result. No visualization support yet.
-
-[webppl globalStore](http://webppl.readthedocs.io/en/master/globalstore.html) is initialized to beaker.initialStore, and the return value is stored at beaker.result.
-
-See the tutorial under help for an example of how to use.
 
 #Beaker - the data scientist's laboratory
 
@@ -28,6 +22,13 @@ Beaker is both a server that you can run in the cloud, an application that you c
 a [Docker container](https://hub.docker.com/r/beakernotebook/beaker/) that you can run anywhere.
 
 This page is for developers.  If you want to use or learn more about Beaker, see the [home page](http://beakernotebook.com).
+
+# WebPPL support
+[webppl](webppl.org) is a small but feature-rich probabilistic programming language embedded in Javascript. Language support for beaker is at proof of concept stage. Passing variables into webppl is supported, as is reading out the result. No visualization support yet.
+
+[webppl globalStore](http://webppl.readthedocs.io/en/master/globalstore.html) is initialized to beaker.initialStore, and the return value is stored at beaker.result.
+
+See the tutorial under help for an example of how to use.
 
 #Screenshots
 
