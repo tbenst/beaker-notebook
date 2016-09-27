@@ -27,7 +27,9 @@ include 'shared',
         'plugin:clojure',
         'plugin:kdb',
         'plugin:cpp',
-        'plugin:sqlsh'
+        'plugin:sqlsh',
+        'plugin:webppl'
+
 
 project(':shared').projectDir = file("../shared")
 project(':plugin:jvm').projectDir = file("./jvm")
@@ -44,3 +46,4 @@ project(':plugin:clojure').projectDir = file("./clojure")
 project(':plugin:kdb').projectDir = file("./kdb")
 project(':plugin:cpp').projectDir = file("./cpp")
 project(':plugin:sqlsh').projectDir = file("./sqlsh")
+project(':plugin:webppl').projectDir = file("./webppl")
