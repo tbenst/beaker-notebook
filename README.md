@@ -28,7 +28,7 @@ This page is for developers.  If you want to use or learn more about Beaker, see
 
 [webppl globalStore](http://webppl.readthedocs.io/en/master/globalstore.html) is initialized to beaker.initialStore, and the return value is stored at beaker.result.
 
-See the tutorial under help for an example of how to use.
+See the tutorial under help for an example of how to use. To run, first install Docker. THen, ` sudo docker run -it -p 8800:8800 tbenst/beaker-webppl`
 
 #Screenshots
 
