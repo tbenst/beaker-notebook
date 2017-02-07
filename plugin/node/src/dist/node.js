@@ -21,6 +21,7 @@
  */
 define(function(require, exports, module) {
     'use strict';
+    var PLUGIN_ID = "Node";
     var PLUGIN_NAME = "Node";
     var COMMAND = "node/nodePlugin";
 
@@ -43,24 +44,17 @@ define(function(require, exports, module) {
             }
             //verify server is up and running before a new shell call is attempted
             function checkNodeServerRunning() {
-                $.ajax({
-                    type: "GET",
-                    datatype: "json",
-                    url: bkHelper.serverUrl(serviceBase + "/pulse")
-                }).fail(function(){
+              bkHelper.httpGet(bkHelper.serverUrl(serviceBase + "/pulse"))
+                .error(function(){
                     setTimeout(function () {
                         checkNodeServerRunning();
                     }, 2000)
-                }).done(function(){
-                    $.ajax({
-                        type: "POST",
-                        datatype: "json",
-                        url: bkHelper.serverUrl(serviceBase + "/shell"),
-                        data: {shellid: shellID}
-                    }).done(function(response){
+                }).success(function(){
+                  bkHelper.httpPost(bkHelper.serverUrl(serviceBase + "/shell"), {shellid: shellID})
+                    .success(function(response){
                         shellID = response.shellID;
                         cb(shellID);
-                    }).fail(function () {
+                    }).error(function () {
                         console.log("failed to create shell", arguments);
                         ecb("failed to create shell");
                     });
@@ -72,23 +66,20 @@ define(function(require, exports, module) {
           var deferred = Q.defer();
             var self = this;
             bkHelper.setupProgressOutput(modelOutput);
-            $.ajax({
-                type: "POST",
-                datatype: "json",
-                url: bkHelper.serverUrl(serviceBase + "/evaluate"),
-                data: {shellID: self.settings.shellID, code: encodeURIComponent(code)}
-            }).done(function(ret) {
-                modelOutput.result = JSON.parse(ret);
+            bkHelper.httpPost(bkHelper.serverUrl(serviceBase + "/evaluate"), {shellID: self.settings.shellID, code: encodeURIComponent(code)})
+            .success(function(ret) {
+                modelOutput.result = ret;
                 bkHelper.refreshRootScope();
                 deferred.resolve(ret);
-            }).fail(function(xhr, textStatus, error) {
-              var errorText = xhr.status !== 502 ? xhr.responseText : error;
+            }).error(function(xhr, textStatus, error, config) {
+              var errorText = xhr.status !== 502 ? JSON.parse(xhr) : error;
+              var errors = errorText.split(/\r?\n/)
               modelOutput.result = {
-                    type: "BeakerDisplay",
-                    innertype: "Error",
-                    object: errorText
-                };
-                deferred.reject(errorText);
+                  type: "BeakerDisplay",
+                  innertype: "Error",
+                  object: errors
+              };
+              deferred.reject(errorText);
             });
           return deferred.promise;
         },
@@ -129,12 +120,8 @@ define(function(require, exports, module) {
         exit: function (cb) {
             console.log("Exit Called");
             var self = this;
-            $.ajax({
-                type: "POST",
-                datatype: "json",
-                url: bkHelper.serverUrl(serviceBase + "/rest/node/exit"),
-                data: { shellID: self.settings.shellID }
-            }).done(cb);
+            bkHelper.httpPost(bkHelper.serverUrl(serviceBase + "/rest/node/exit"), { shellID: self.settings.shellID })
+            .success(cb);
         },
         spec: {
           modulePath: {type: 'settableString', action: 'addModulePath', name: 'Modules path'}
@@ -143,7 +130,7 @@ define(function(require, exports, module) {
 
     var shellReadyDeferred = bkHelper.newDeferred();
     var init = function () {
-      bkHelper.locatePluginService(PLUGIN_NAME, {
+      bkHelper.locatePluginService(PLUGIN_ID, {
         command: COMMAND,
         startedIndicator: "Server Starting",
         recordOutput: "true"

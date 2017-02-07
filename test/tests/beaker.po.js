@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-var _ = require('underscore');
+//var _ = require('underscore');
 var path = require('path');
 var fs = require('fs');
 
@@ -103,13 +103,18 @@ var BeakerPageObject = function() {
 
   this.setNormalEditMode = function() {
     var self = this;
-    element(by.css('.notebook-menu')).click()
-        .then(function(){self.activateEditModeMenuItem();})
-        .then(function(){browser.wait(self.EC.visibilityOf(element(by.css('#edit-mode-menuitem'))), 5000);})
-        .then(function(){browser.actions().mouseMove(element(by.css('#edit-mode-menuitem'))).perform(); browser.sleep(1000);})
-        .then(function(){self.activateNormalEditModeMenuItem(); browser.sleep(1000);})
-        .then(function(){browser.wait(self.EC.visibilityOf(element(by.css('#normal-edit-mode-menuitem'))), 5000);})
-        .then(function(){console.log('normal-edit-mode-menuitem is visible'); element(by.css('#normal-edit-mode-menuitem')).click();});
+    this.setEditMode();
+    $('#normal-edit-mode-menuitem').click().then(
+        function(resolve){
+          return true;
+        },
+        function(reject){
+          console.log("normal-edit-mode-menuitem hasn't displayed");
+          self.createScreenshot('errorSetEditMode');
+          browser.actions().mouseMove(element(by.css('#edit-mode-menuitem'))).perform();
+          $('#normal-edit-mode-menuitem').click();
+        }
+    );
   };
 
   this.setEmacsEditMode = function() {
@@ -119,47 +124,19 @@ var BeakerPageObject = function() {
 
   this.setVimEditMode = function () {
     var self = this;
-    element(by.css('.notebook-menu')).click()
-        .then(function(){self.activateEditModeMenuItem();})
-        .then(function(){browser.wait(self.EC.visibilityOf(element(by.css('#edit-mode-menuitem'))), 5000);})
-        .then(function(){browser.actions().mouseMove(element(by.css('#edit-mode-menuitem'))).perform(); browser.sleep(1000);})
-        .then(function(){self.activateVimEditModeMenuItem(); browser.sleep(1000);})
-        .then(function(){browser.wait(self.EC.visibilityOf(element(by.css('#vim-edit-mode-menuitem'))), 5000);})
-        .then(function(){console.log('vim-edit-mode-menuitem is visible'); element(by.css('#vim-edit-mode-menuitem')).click();});
-  };
+    this.setEditMode();
+    $('#vim-edit-mode-menuitem').click().then(
+        function(resolve){
+          return true;
+        },
+        function(reject){
+          console.log("vim-edit-mode-menuitem hasn't displayed");
+          self.createScreenshot('errorSetEditMode');
+          browser.actions().mouseMove(element(by.css('#edit-mode-menuitem'))).perform();
+          $('#vim-edit-mode-menuitem').click();
+        }
+    );
 
-  this.activateEditModeMenuItem = function() {
-    element(by.css('#edit-mode-menuitem')).isDisplayed()
-        .then(function(isVisible) {
-          console.log('EditModeMenuItem dislayed - ' + isVisible);
-          if (!isVisible) {
-            return element(by.css('.notebook-menu')).click();
-          }
-        }.bind(this));
-  };
-
-  this.activateVimEditModeMenuItem = function() {
-    var self = this;
-    element(by.css('#vim-edit-mode-menuitem')).isDisplayed()
-        .then(function(isVisible) {
-          console.log('VimEditModeMenuItem dislayed - ' + isVisible);
-          if (!isVisible) {
-            self.activateEditModeMenuItem();
-            return browser.actions().mouseMove(element(by.css('#edit-mode-menuitem'))).perform();
-          }
-        }.bind(this));
-  };
-
-  this.activateNormalEditModeMenuItem = function() {
-    var self = this;
-    element(by.css('#normal-edit-mode-menuitem')).isDisplayed()
-        .then(function(isVisible) {
-          console.log('NormalEditModeMenuItem dislayed - ' + isVisible);
-          if (!isVisible) {
-            self.activateEditModeMenuItem();
-            return browser.actions().mouseMove(element(by.css('#edit-mode-menuitem'))).perform();
-          }
-        }.bind(this));
   };
 
   this.setSublimeEditMode = function() {
@@ -167,8 +144,8 @@ var BeakerPageObject = function() {
   };
 
   this.setEditMode = function() {
-    element(by.css('.notebook-menu')).click();
-    return browser.actions().mouseMove(element(by.css('#edit-mode-menuitem'))).perform();
+    $('.notebook-menu').click();
+    return browser.actions().mouseMove($('#edit-mode-menuitem')).perform();
   };
 
   this.isCellMenuOpen = function(opts) {
@@ -183,21 +160,18 @@ var BeakerPageObject = function() {
     });
   };
 
-  this.createMarkdownCell = function(text) {
-    return element(by.css('bk-new-cell-menu .dropdown-toggle'))
-    .click()
-    .then(function() {
-      return element(by.css('.insert-text'));
-    })
-    .then(function(el) {
-      return el.click();
-    })
-    .then(function() {
-      return this.setCellInput(text);
-    }.bind(this));
-  }.bind(this);
+  this.newEmptyNotebook = element(by.css('a.new-empty-notebook'));
+  this.newEmptyNotebookClick = function() {
+    this.clickElementWithHandlingError($('a.new-empty-notebook'), 'newEmptyNotebook');
+  };
 
-  this.newEmptyNotebook = element(by.className('new-empty-notebook'));
+  this.logLocationElement = function(elem, name){
+    elem.getLocation().then(
+        function(locat){
+          console.log(name + " x : " + locat.x + " y : " + locat.y);
+        }
+    );
+  }
 
   this.fileMenu = element(by.className('file-menu'));
   this.viewMenu = element(by.className('view-menu'));
@@ -217,10 +191,6 @@ var BeakerPageObject = function() {
     });
   }.bind(this);
 
-  this.codeCell = function(index) {
-    return _.extend(element.all(by.css('.bkcell.code')).get(index),
-                    require('./mixins/cell.js'));
-  };
   this.waitForPlugin = function(plugin) {
     var self = this;
     browser.wait(function() {
@@ -266,6 +236,12 @@ var BeakerPageObject = function() {
       .then(function(){ browser.wait(self.EC.visibilityOf(self.cellEvaluatorMenuItem(language)), 10000)})
       .then(function(){ console.log('cellEvaluatorMenuItem is visible');
         self.cellEvaluatorMenuItem(language).click();});
+  };
+
+  this.insertCellByLanguage = function(language) {
+    var self = this;
+    this.getCellEvaluatorMenu().click()
+        .then(function(){ self.cellEvaluatorMenuItem(language).click(); });
   };
 
   this.activateCellEvaluatorMenu = function(language) {
@@ -498,6 +474,7 @@ var BeakerPageObject = function() {
   };
 
   this.scrollHeaderElement = function(){
+    var self = this;
     element(by.css('header')).getCssValue('height').then(function(height){
       browser.executeScript("window.scrollBy(0, -" + parseInt(height) + ");");
     });
@@ -554,7 +531,7 @@ var BeakerPageObject = function() {
   }
 
   this.getDataTablesTBodyByIdCell = function (idCell) {
-    return this.getDataTablesScrollBodyByIdCell(idCell).all(By.css('tbody > tr'));
+    return this.getDataTablesScrollBodyByIdCell(idCell).$$('tbody > tr');
   }
 
   this.getDataTablesColumnByIdCell = function (cellId, colIndex) {
@@ -776,12 +753,11 @@ var BeakerPageObject = function() {
   }
 
   this.checkEditBkCellByIdCell = function(idCell){
-    this.getBkCellByIdCell(idCell).element(by.css('[ng-click="edit($event)"]')).click();
+    this.clickElementWithHandlingError(this.getBkCellByIdCell(idCell).$('[ng-click="edit($event)"]'), 'editBkCell');
     browser.wait(this.EC.visibilityOf($('bk-cell[cellid=' + idCell + '] div[ng-show="mode==\'edit\'"'), 10000));
-    var elemEdit = this.getEditBkCellByIdCell(idCell);
     expect(this.getPreviewBkCellByIdCell(idCell).isDisplayed()).toBe(false);
-    expect(elemEdit.isDisplayed()).toBe(true);
-    return elemEdit;
+    expect(this.getEditBkCellByIdCell(idCell).isDisplayed()).toBe(true);
+    return this.getEditBkCellByIdCell(idCell);
   }
 
   this.getFormulaSubElement = function(elemPromise, subIndex){
@@ -854,7 +830,7 @@ var BeakerPageObject = function() {
 
   this.runCellWithoutDisplayResultByIdCell = function(idCell, timeOut){
     if(!timeOut){
-      timeOut = 25000;
+      timeOut = 60000;
     }
     this.scrollToBkCellByIdCell(idCell);
     this.runBkCellDefaultButtonByIdCell(idCell);
@@ -885,7 +861,7 @@ var BeakerPageObject = function() {
   }
 
   this.clickCellMenuSavePlotAs = function(idCell, fileExt){
-    this.getCodeCellOutputByIdCell(idCell).element(by.css('.cell-menu-item.cell-dropdown.dropdown-toggle')).click();
+    this.clickElementWithHandlingError(this.getCodeCellOutputByIdCell(idCell).$('.cell-menu-item.cell-dropdown.dropdown-toggle'), 'cellMenuDropdown');
     browser.wait(this.EC.presenceOf(element.all(by.css('bk-notebook > ul.dropdown-menu')).get(0)), 10000);
     var savePlotAs = element.all(by.css('bk-notebook > ul.dropdown-menu')).get(0).element(by.cssContainingText('li', 'Save Plot As'));
     browser.actions().mouseMove(savePlotAs).perform();
@@ -902,9 +878,10 @@ var BeakerPageObject = function() {
         .then(self.getCodeCellOutputByIdCell(idCell).element(by.css('a[ng-click="doCSVExport(false)"]')).click);
     this.checkSaveTableAsCsv(self, dir, filename + "All.csv");
     // Save Selected as csv
-    this.getDataTablesTBodyByIdCell(idCell).get(0).all(by.css('td')).get(0).click();
-    this.getCodeCellOutputByIdCell(idCell).element(by.css('a[ng-click="menuToggle()"]')).click()
-        .then(self.getCodeCellOutputByIdCell(idCell).element(by.css('a[ng-click="doCSVExport(true)"]')).click);
+    this.clickElementWithHandlingError(this.getDataTablesTBodyByIdCell(idCell).first(), 'trElement');
+    this.clickElementWithHandlingError(this.getCodeCellOutputByIdCell(idCell).element(by.css('a[ng-click="menuToggle()"]')), 'menuToggle');
+    browser.sleep(1000);
+    this.clickElementWithHandlingError(this.getCodeCellOutputByIdCell(idCell).element(by.css('a[ng-click="doCSVExport(true)"]')), 'saveSelectedMenu');
     this.checkSaveTableAsCsv(self, dir, filename + "Selected.csv");
   }
 
@@ -917,7 +894,13 @@ var BeakerPageObject = function() {
           element(by.cssContainingText('span', item)).isPresent().then(function(present){
             self.hasClass(element(by.cssContainingText('span', item)), 'elfinder-navbar-expanded').then(function(expand){
               if(present && !expand){
-                element(by.cssContainingText('span', item)).click();
+                element(by.cssContainingText('span', item)).click().then(null,
+                  function(error){
+                    console.log('error click span ' + item);
+                    browser.sleep(1000);
+                    element(by.cssContainingText('span', item)).click();
+                  }
+                );
               }
             })
           })
@@ -949,16 +932,38 @@ var BeakerPageObject = function() {
   }
 
   this.runBkCellDefaultButtonByIdCell = function(idCell){
-    this.getBkCellByIdCell(idCell).element(by.css('[ng-click="evaluate($event)"].btn-default')).click();
+    this.clickElementWithHandlingError(this.getBkCellByIdCell(idCell).$('[ng-click="evaluate($event)"].btn-default'), 'CellDefaultButton');
+  }
+
+  this.clickElementWithHandlingError = function(elem, name){
+    var self = this;
+    elem.click().then(null,
+        function(error){
+          self.scrollHeaderElement();
+          elem.click().then(null,
+              function(error){
+                self.logLocationElement(elem, 'error click ' + name);
+                self.createScreenshot('error' + name);
+                browser.executeScript('return arguments[0].click()', elem.getWebElement());
+              });
+        }
+    );
+  }
+
+  this.doubleClickElementWithHandlingError = function(elem, name){
+    var self = this;
+    browser.actions().doubleClick(elem).perform().then(null,
+        function(error){
+          self.logLocationElement(elem, 'error doubleClick ' + name);
+          self.createScreenshot('errorDoubleClick' + name);
+          self.scrollHeaderElement();
+          browser.actions().doubleClick(elem).perform();
+        }
+    );
   }
 
   this.collapseCellMenuByIdCell = function(idCell){
-    var self = this;
-    element(by.css('div[ng-click="collapseCellMenu[cellmodel.type].click()"].collapsed')).isPresent().then(function(collapsed){
-      if(collapsed){
-        self.getBkCellByIdCell(idCell).element(by.css('div[ng-click="collapseCellMenu[cellmodel.type].click()"]')).click();
-      }
-    });
+    this.clickElementWithHandlingError(this.getBkCellByIdCell(idCell).$('div[ng-click="collapseCellMenu[cellmodel.type].click()"]'), 'collapseCellMenu');
   }
 
   this.checkEvaluatorByIdCell = function(idCell, langName){
@@ -970,13 +975,12 @@ var BeakerPageObject = function() {
   }
 
   this.checkAutocomplete = function(nameHint) {
-    browser.actions().sendKeys(protractor.Key.chord(protractor.Key.CONTROL, protractor.Key.SPACE)).perform().then(function(){
-      expect(element(by.cssContainingText('li.CodeMirror-hint', nameHint)).isPresent()).toBe(true);
-    });
+    browser.actions().sendKeys(protractor.Key.chord(protractor.Key.CONTROL, protractor.Key.SPACE)).perform();
+    browser.wait(this.EC.presenceOf(element(by.cssContainingText('li.CodeMirror-hint', nameHint))), 10000);
   };
 
   this.insertNewDefaultCell = function(language){
-    element.all(by.css('button[ng-click="newDefaultCodeCell()"]')).get(0).click();
+    this.clickElementWithHandlingError($$('button[ng-click="newDefaultCodeCell()"]').first(), 'newDefaultCode');
     this.insertCellOfType(language);
     var bkcell = element.all(by.css('bk-cell')).get(0);
     bkcell.element(by.css('div.CodeMirror-code')).click();
@@ -985,8 +989,22 @@ var BeakerPageObject = function() {
 
   this.selectItem = function(itemName){
     var item = element(by.cssContainingText('li.CodeMirror-hint', itemName));
-    item.click();
-    browser.actions().doubleClick(item).perform();
+    this.clickElementWithHandlingError(item, 'codeMirrorHint');
+    this.doubleClickElementWithHandlingError(item, 'codeMirrorHint');
   }
+
+  this.checkDownloadCSV = function(idCell){
+    var self = this;
+    var dir = this.clearTmpDir();
+    this.getCodeCellOutputByIdCell(idCell).element(by.css('a[ng-click="menuToggle()"]')).click()
+        .then(self.getCodeCellOutputByIdCell(idCell).element(by.css('a[ng-click="doCSVDownload(false)"]')).click);
+    var filename = path.join(dir, "tableRows.csv");
+    browser.driver.wait(fs.existsSync.bind(this, filename), 20000).then(
+        function() {
+          expect(fs.readFileSync(filename, { encoding: 'utf8' }).replace(/[\n\r]/g,'')).toEqual('"col1","col2","col3""This & that","This / that","This > that"');
+        }
+    );
+  }
+
 };
 module.exports = BeakerPageObject;

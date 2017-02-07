@@ -36,9 +36,15 @@
       controller: function($scope) {
         var notebookCellOp = bkSessionManager.getNotebookCellOp();
 
+        var getBkNotebookWidget = function() {
+          return bkCoreManager.getBkApp().getBkNotebookWidget();
+        };
+        
+        $scope.bkNotebook = getBkNotebookWidget();
+        
         $scope.cellmodel.collapsed = $scope.cellmodel.collapsed || false;
 
-        bkCoreManager.getBkApp().getBkNotebookWidget().registerSectioncell($scope.cellmodel.id, $scope);
+        $scope.bkNotebook.registerSectioncell($scope.cellmodel.id, $scope);
         
         $scope.toggleShowChildren = function() {
           $scope.cellmodel.collapsed = !$scope.cellmodel.collapsed;
@@ -69,7 +75,12 @@
           return !$scope.cellmodel.collapsed;
         };
         $scope.getChildren = function() {
-          return notebookCellOp.getChildren($scope.cellmodel.id);
+          var children = notebookCellOp.getChildren($scope.cellmodel.id),
+            childrenError = checkChildrenErrors(children);
+
+          $scope.cellmodel.isError = childrenError;
+
+          return children;
         };
         $scope.resetTitle = function(newTitle) {
           $scope.cellmodel.title = newTitle;
@@ -298,8 +309,14 @@
         $scope.cellview.menu.addSeparator("Run all");
         
         $scope.$on('$destroy', function() {
-          bkCoreManager.getBkApp().getBkNotebookWidget().unregisterSectioncell($scope.cellmodel.id);
+          $scope.bkNotebook.unregisterSectioncell($scope.cellmodel.id);
         });
+
+        function checkChildrenErrors(list) {
+          return list.some(function(item) {
+            return item.isError;
+          });
+        }
 
       }
     };

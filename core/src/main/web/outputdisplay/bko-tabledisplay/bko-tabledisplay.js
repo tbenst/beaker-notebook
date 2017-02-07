@@ -323,7 +323,7 @@
           $scope.model.resetShareMenuItems(newItems);
         });
 
-        $scope.exportTo = function(rows, format) {        
+        $scope.exportTo = function(rows, format) {
           var data = rows.data();
           var settings = $scope.table.settings()[0];
           var rowIndexes = rows[0];
@@ -382,12 +382,10 @@
               }
               var d = row[j];
               if ($scope.columns[order].render !== undefined) {
-                d = $scope.columns[order].render(d, 'display', null,
-                  {
-                    settings: settings,
-                    row: rowIndexes[i],
-                    col: order
-                  });
+                d = $scope.columns[order].render(d, 'csv', null,
+                                                 {settings: settings,
+                                                  row: rowIndexes[i],
+                                                  col: order});
               }
               if (d == null) {
                 d = '';
@@ -414,15 +412,22 @@
             });
           }
           return $scope.exportTo(data, 'csv');
-        }
+        };
         
         $scope.doCSVDownload = function(selectedRows) {
-          var anchor = angular.element('<a/>');
-          anchor.attr({
-            href: 'data:attachment/csv;charset=utf-8,' + encodeURI($scope.getCSV(selectedRows)),
-            target: '_blank',
-            download: 'tableRows.csv'
-          })[0].click();  
+          var href = 'data:attachment/csv;charset=utf-8,' + encodeURI($scope.getCSV(selectedRows));
+          var target = '_black';
+          var filename = 'tableRows.csv';
+          var anchor = document.createElement('a');
+          anchor.href = href;
+          anchor.target = target;
+          anchor.download = filename;
+          var event = document.createEvent("MouseEvents");
+          event.initEvent(
+            "click", true, false
+          );
+          anchor.dispatchEvent(event);
+
         };
 
         $scope.doCSVExport = function(selectedRows) {
@@ -552,13 +557,24 @@
           return $scope.table.column(index);
         };
 
-        $scope.showColumn = function (initialIndex, event) {
+        $scope.showColumn = function(initialIndex, event) {
           var column = $scope.getColumnByInitialIndex(initialIndex);
           column.visible(!column.visible());
-          if(event){
+          if (event){
             event.stopPropagation();
           }
+
+          if (column.visible()){
+            var table = $('#' + $scope.id).DataTable();
+            angular.element(document.getElementById($scope.id)).parent().scrollLeft(0);
+            window.setTimeout(function() {
+              var distance = $(table.column(initialIndex).header()).offset().left;
+              var width = angular.element(document.getElementById($scope.id)).parent().width() / 2;
+              angular.element(document.getElementById($scope.id)).parent().scrollLeft(distance - width);
+            }, 0)
+          }
         };
+
         $scope.isColumnVisible = function (initialIndex) {
           var column = $scope.getColumnByInitialIndex(initialIndex);
           return column && column.visible();
@@ -853,7 +869,7 @@
             if ($scope.timeStrings) {
               return $scope.timeStrings[meta.row];
             }
-            if (type === 'display') {
+            if (type === 'display' || type === 'csv') {
               var format = _.isEmpty($scope.formatForTimes) ?
                 TIME_UNIT_FORMATS.DATETIME.format : TIME_UNIT_FORMATS[$scope.formatForTimes].format;
               if (_.isObject(value) && value.type === 'Date') {
@@ -1992,9 +2008,34 @@
               var container = el.closest('.bko-header-menu');
               var colIdx = container.data('columnIndex');
 
+              //table variables
+              var table = $('#' + scope.id).DataTable();
+              var bodyColumn = table.column(colIdx).nodes().to$();
+              var headerColumn = $(table.column(colIdx).header());
+              //remove align class
+              bodyColumn.removeClass('dtleft').removeClass('dtcenter').removeClass('dtright');
+              headerColumn.removeClass('dtleft').removeClass('dtcenter').removeClass('dtright');
+
+              //add align class
+              switch (key){
+                case 'L':
+                  bodyColumn.addClass('dtleft');
+                  headerColumn.addClass('dtleft');
+                  break;
+                case 'C':
+                  bodyColumn.addClass('dtcenter');
+                  headerColumn.addClass('dtcenter');
+                  break;
+                case 'R':
+                  bodyColumn.addClass('dtright');
+                  headerColumn.addClass('dtright');
+                  break;
+              }
+
+              //update align
               scope.getCellAlign[scope.colorder[colIdx] - 1] = key;
               scope.actualalign[scope.colorder[colIdx] - 1] = key;
-              scope.applyChanges();
+              bkSessionManager.setNotebookModelEdited(true);
             },
             checkAlignment: function(container, key) {
               var colIdx = container.data('columnIndex');
@@ -2215,13 +2256,17 @@
             cols.push({'title': '    ', 'className': 'dtright', 'render': converter, createdCell: createdCell});
           }
 
+          var beakerObj = bkHelper.getBeakerObject().beakerObj;
+          scope.outputColumnLimit = beakerObj.prefs && beakerObj.prefs.outputColumnLimit
+            ? beakerObj.prefs.outputColumnLimit : scope.columnNames.length;
+
           for (i = 0; i < scope.columnNames.length; i++) {
             var type = scope.actualtype[i];
             var al = scope.actualalign[i];
             var col = {
               'title' : '<span class="header-text">' + scope.columnNames[i] +'</span>',
               'header': { 'menu': headerMenuItems },
-              'visible': i<50,
+              'visible': i<scope.outputColumnLimit,
             };
             col.createdCell = function (td, cellData, rowData, row, col) {
               if(!_.isEmpty(scope.tooltips)){
@@ -2637,7 +2682,8 @@
             queryCommandEnabled = false;
           }
 
-          if ((!bkUtils.isElectron) && (scope.clipclient === undefined) && !queryCommandEnabled) {
+          if (((!bkUtils.isElectron) && (scope.clipclient === undefined) && !queryCommandEnabled)
+            || bkHelper.isSafari) {
             scope.clipclient = new ZeroClipboard();
             var d = document.getElementById(scope.id + '_dt_copy');
             scope.clipclient.clip(d);

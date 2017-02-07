@@ -82,6 +82,7 @@ public class DefaultBeakerConfig implements BeakerConfig {
   private final String useHttpsKey;
   private final Boolean requirePassword;
   private final String listenInterface;
+  private final String connectHost;
   private SecureRandom random;
   private Boolean showZombieLogging;
 
@@ -128,8 +129,13 @@ public class DefaultBeakerConfig implements BeakerConfig {
     String configDir = this.dotDir + "/config";
     utils.ensureDirectoryExists(configDir);
 
-    final String defaultConfigFile = this.installDir + "/config/beaker.conf.json";
-    this.configFileUrl = defaultConfigFile;
+    String cffile = System.getenv("BEAKER_CONFIG_FILE");
+    if (cffile == null) {
+      final String defaultConfigFile = this.installDir + "/config/beaker.conf.json";
+      this.configFileUrl = defaultConfigFile;
+    } else {
+      this.configFileUrl = cffile;
+    }
 
     final String defaultPreferenceFile = this.installDir + "/config/beaker.pref.json";
     final String preferenceFile = configDir + "/beaker.pref.json";
@@ -181,6 +187,7 @@ public class DefaultBeakerConfig implements BeakerConfig {
     this.useHttpsKey = pref.getUseHttpsKey();
     this.requirePassword = pref.getRequirePassword();
     this.listenInterface = pref.getListenInterface();
+    this.connectHost = pref.getConnectHost();
     this.showZombieLogging = pref.getShowZombieLogging();
     
     this.random = new SecureRandom();
@@ -295,6 +302,11 @@ public class DefaultBeakerConfig implements BeakerConfig {
   }
 
   @Override
+  public String getConnectHost() {
+    return connectHost;
+  }
+
+  @Override
   public Integer getPortBase() {
     return this.portBase;
   }
@@ -387,12 +399,14 @@ public class DefaultBeakerConfig implements BeakerConfig {
   {
     String initUrl;
     String hostname;
-    if (this.listenInterface != null) {
+    if (this.connectHost != null) {
+      hostname = this.connectHost;
+    } else if (this.listenInterface != null) {
       if (this.listenInterface.equals("*"))
         hostname = InetAddress.getLocalHost().getHostName();
       else
         hostname = this.listenInterface;
-    } else if(this.publicServer)
+    } else if (this.publicServer)
       hostname = InetAddress.getLocalHost().getHostName();
     else
       hostname = "127.0.0.1";

@@ -36,8 +36,10 @@
           plotSize: {
             "width": model.init_width != null ? model.init_width : 1200,
             "height": model.init_height != null ? model.init_height : 350
-          }
-        };
+          },
+          customStyles: model.custom_styles ? model.custom_styles : '',
+          elementStyles: model.element_styles ? model.element_styles : ''
+        }
       } else {
         newmodel = {
           showLegend: model.showLegend,
@@ -205,10 +207,10 @@
         }
         // map focus region
         var focus = model.userFocus;
-        if (focus.xl != null) { focus.xl = xAxis.getPercent(focus.xl); }
-        if (focus.xr != null) { focus.xr = xAxis.getPercent(focus.xr); }
-        if (focus.yl != null) { focus.yl = yAxis.getPercent(focus.yl); }
-        if (focus.yr != null) { focus.yr = yAxis.getPercent(focus.yr); }
+        if (focus.xl != null) { focus.xl = model.xAxis.getPercent(focus.xl); }
+        if (focus.xr != null) { focus.xr = model.xAxis.getPercent(focus.xr); }
+        if (focus.yl != null) { focus.yl = model.yAxis.getPercent(focus.yl); }
+        if (focus.yr != null) { focus.yr = model.yAxis.getPercent(focus.yr); }
       },
 
       formatTreeMapModel: function (newmodel) {

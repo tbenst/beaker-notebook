@@ -226,17 +226,17 @@
         sel.data(scope.rpipeGridlines, function(d) { return d.id; }).enter().append("line")
           .attr("id", function(d) { return d.id; })
           .attr("class", function(d) { return d.class; })
-          .attr("x1", function(d) { return d.x1; })
-          .attr("x2", function(d) { return d.x2; })
-          .attr("y1", function(d) { return d.y1; })
-          .attr("y2", function(d) { return d.y2; })
+          .attr("x1", function(d) {return d.x1;})
+          .attr("x2", function(d) {return d.x2;})
+          .attr("y1", function(d) {return d.y1;})
+          .attr("y2", function(d) {return d.y2;})
           .style("stroke", function(d) { return d.stroke; })
           .style("stroke-dasharray", function(d) { return d.stroke_dasharray; });
         sel.data(scope.rpipeGridlines, function(d) { return d.id; })
-          .attr("x1", function(d) { return d.x1; })
-          .attr("x2", function(d) { return d.x2; })
-          .attr("y1", function(d) { return d.y1; })
-          .attr("y2", function(d) { return d.y2; });
+          .attr("x1", function(d) {return d.x1;})
+          .attr("x2", function(d) {return d.x2;})
+          .attr("y1", function(d) {return d.y1;})
+          .attr("y2", function(d) {return d.y2;});
       },
       plotTicks: function(scope){
         scope.labelg.selectAll("line").remove();
@@ -244,10 +244,10 @@
           .data(scope.rpipeTicks, function(d) { return d.id; }).enter().append("line")
           .attr("id", function(d) { return d.id; })
           .attr("class", function(d) { return d.class; })
-          .attr("x1", function(d) { return d.x1; })
-          .attr("x2", function(d) { return d.x2; })
-          .attr("y1", function(d) { return d.y1; })
-          .attr("y2", function(d) { return d.y2; });
+          .attr("x1", function(d) {return d.x1;})
+          .attr("x2", function(d) {return d.x2;})
+          .attr("y1", function(d) {return d.y1;})
+          .attr("y2", function(d) {return d.y2;});
       },
       plotLabels: function(scope) {   // redraw
         var pipe = scope.rpipeTexts;
@@ -544,7 +544,8 @@
       },
 
       getHighlightedSize: function(size, highlighted) {
-        return size + this.getHighlightedDiff(highlighted);
+        var newSize = size + this.getHighlightedDiff(highlighted);
+        return newSize.toString();
       },
 
       getHighlightDuration: function() {
@@ -574,7 +575,7 @@
         return elementStyles;
       },
 
-      addInlineStyles: function(element) {
+      addInlineStyles: function(element, extraStyles) {
         var styleEl = document.createElement('style');
         styleEl.setAttribute('type', 'text/css');
         var elementStyles = this.getElementStyles(element);
@@ -590,8 +591,13 @@
           fontWeight: 'bold',
           fontStyle: 'normal'
         });
+        
+        var extraStylesCss = '';
+        if(extraStyles) {
+            extraStylesCss = extraStyles.join('\n');
+        }
 
-        styleEl.innerHTML = '<![CDATA[\n' + elementStyles + '\n]]>';
+        styleEl.innerHTML = '<![CDATA[\n' + elementStyles + '\n' + extraStylesCss + '\n]]>';
         var defsEl = document.createElement('defs');
         defsEl.appendChild(styleEl);
         element.insertBefore(defsEl, element.firstChild);
@@ -630,13 +636,24 @@
       },
 
       addTitleToSvg: function(svg, jqtitle, titleSize) {
+        var title = jqtitle.clone();
+        title.find('style').remove();
         d3.select(svg).insert("text", "g")
           .attr("id", jqtitle.attr("id"))
           .attr("class", jqtitle.attr("class"))
           .attr("x", titleSize.width / 2)
           .attr("y", titleSize.height)
           .style("text-anchor", "middle")
-          .text(jqtitle.text());
+          .text(title.text());
+      },
+
+      adjustStyleForSvg: function(styleString) {
+        var colorArr = styleString.match(/color:(.*)\;/g);
+        if (colorArr && colorArr.length) {
+          var fill = colorArr[0].replace('color:', 'fill:');
+          styleString += fill;
+        }
+        return styleString;
       },
 
       drawPng: function(canvas, imgsrc, fileName) {

@@ -143,7 +143,10 @@
             type = $scope.cellmodel.output.result.payload.innertype;
           }
 
-          return type == 'Error';
+          var isError = type === 'Error';
+          $scope.cellmodel.isError = isError;
+
+          return isError;
         };
 
         $scope.isShowInput = function() {
@@ -170,11 +173,19 @@
 
         $scope.prepareForSearch = function() {
           delete $scope.cellmodel.output.hidden;
-          $scope.cm.off('change', $scope.changeHandler);
         };
         
         $scope.afterSearchActions = function() {
+          //nothing to do
+        };
+        
+        $scope.prepareForSearchCellActions = function() {
+          $scope.cm.off('change', $scope.changeHandler);
+        };
+        
+        $scope.doPostSearchCellActions = function() {
           $scope.cm.on('change', $scope.changeHandler);
+          $scope.changeHandler($scope.cm, null);
         };
 
         $scope.isHiddenOutput = function() {
@@ -202,14 +213,24 @@
           // Even better would be to detect left/right and move to
           // beginning or end of line, but we can live with this for now.
           var cm = $scope.cm;
-          setTimeout(function(){
-            if (event.pageY < (top + bottom) / 2) {
-              cm.setCursor(0, 0);
+          setTimeout(function() {
+            // click-shiftKey handling - select from current position to the end
+            if (event.shiftKey) {
+              var cursor = cm.lastPositon || {"line" : 0, "ch" : 0};
+              var lastPosition = {
+                "line" : cm.lineCount() - 1,
+                "ch" : cm.getLine(cm.lastLine()).length
+              };
+              cm.setSelection(cursor, lastPosition);
             } else {
-              cm.setCursor(cm.lineCount() - 1,
-                cm.getLine(cm.lastLine()).length);
+              if (event.pageY < (top + bottom) / 2) {
+                cm.setCursor(0, 0);
+              } else {
+                cm.setCursor(cm.lineCount() - 1,
+                    cm.getLine(cm.lastLine()).length);
+              }
+              cm.focus();
             }
-            cm.focus();
           }, 0);
 
         };
@@ -459,6 +480,35 @@
           name: "Publish...",
           sortorder: 170
         });
+
+        var getElapsedTimeString = function() {
+          var elapsedTime = $scope.cellmodel.output.elapsedTime;
+          if (_.isNumber(elapsedTime) && !$scope.hasOutput()) {
+            return "Elapsed time: " + bkUtils.formatTimeString(elapsedTime);
+          }
+          return '';
+        };
+
+        $scope.cellmenu.addItem({
+          name: getElapsedTimeString,
+          sortorder: 300,
+          action: null,
+          separator: true
+        });
+
+        var getEvaluationSequenceNumber = function() {
+          var seqNo = $scope.cellmodel.output.evaluationSequenceNumber;
+          if (seqNo && !$scope.hasOutput()) {
+            return "Run Sequence: " + seqNo;
+          }
+          return '';
+        };
+
+        $scope.cellmenu.addItem({
+          name: getEvaluationSequenceNumber,
+          sortorder: 310,
+          action: null
+        });
         
         $scope.cellmenu.addSeparator("Cut");
 
@@ -535,7 +585,6 @@
             //override default behaviour of codemirror control
             //do nothing
           }
-
         });
 
         var initCodeMirror = function() {
@@ -555,6 +604,7 @@
               //codecomplete is up, skip
               return;
             }
+            scope.cm.lastPositon = scope.cm.getCursor('anchor');
             if(document.hasFocus()){
               // This is involved in issue #4397, but we do not have a good fix.
               scope.cm.setSelection({line: 0, ch: 0 }, {line: 0, ch: 0 }, {scroll: false});
@@ -692,7 +742,7 @@
           if (scope.cm) {
             scope.cm.off();
           }
-          CodeMirror.off('gutterClick', onGutterClick);
+          CodeMirror.off('gutterClick', scope.onGutterClick);
           scope.bkNotebook.unregisterFocusable(scope.cellmodel.id);
           scope.bkNotebook.unregisterCM(scope.cellmodel.id);
           scope.bkNotebook = null;

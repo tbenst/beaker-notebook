@@ -37,19 +37,6 @@ RUN add-apt-repository -y ppa:webupd8team/java && \
 
 RUN apt-get update && apt-get install -y nginx gradle-3.0 python g++ make git
 
-##########
-#  C++   #
-##########
-
-RUN apt-get install -y clang
-
-##########
-#  Java  #
-##########
-
-RUN echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
-RUN apt-get install -y oracle-java8-installer
-
 ############
 #  Python  #
 ############
@@ -58,7 +45,7 @@ RUN apt-get install -y libzmq3-dbg libzmq3-dev libzmq3 \
                        python-pip python-dev python-yaml \
                        python-matplotlib python-scipy
 
-RUN pip install ipython jinja2 tornado pyzmq pandas jsonschema jupyter && \
+RUN pip install ipython jinja2 tornado pyzmq cython pandas pandas-datareader jsonschema jupyter && \
     ipython kernel install
 
 #############
@@ -70,8 +57,15 @@ RUN apt-get install -y python-virtualenv python3-dev pkgconf libfreetype6-dev li
     	    libxft-dev libblas-dev liblapack-dev gfortran libyaml-dev && \
     virtualenv /home/beaker/py3k -p python3 && \
     /home/beaker/py3k/bin/pip install ipython[notebook] jupyter && \
-    /home/beaker/py3k/bin/pip install numpy matplotlib scipy jinja2 tornado pyzmq pandas pyaml && \
+    /home/beaker/py3k/bin/pip install numpy matplotlib scipy jinja2 tornado pyzmq cython pandas pandas-datareader pyaml && \
     /home/beaker/py3k/bin/ipython kernel install
+
+##########
+#  Java  #
+##########
+
+RUN echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
+RUN apt-get install -y oracle-java8-installer
 
 #######
 #  R  #
@@ -99,6 +93,12 @@ RUN apt-get install -y julia cmake && \
     julia --eval 'Pkg.add("Gadfly")'
 
 ##########
+#  C++   #
+##########
+
+RUN apt-get install -y clang
+
+##########
 #  Ruby  #
 ##########
 
@@ -113,8 +113,8 @@ RUN apt-get install -y ruby2.1 ruby2.1-dev libtool && \
 
 RUN apt-get install curl
 
-# Note the new setup script name for Node.js v0.12
-RUN curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash - 
+# Note the new setup script name for Node.js
+RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo bash - 
 RUN sudo apt-get install -y nodejs
 
 ###################

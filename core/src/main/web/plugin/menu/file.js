@@ -74,12 +74,23 @@ define(function(require, exports, module) {
       }
     },
     {
-      name: "Save As",
-      shortcut: ["Ctrl-Shift-S", "Shift-Cmd-S"],
+      name: "Save as... (File)",
+      shortcut: ["Ctrl-Shift-S", "Cmd-Shift-S"],
       id: "save-as-menuitem",
       sortorder: 140,
-      autoReduce: true,
-      items: []
+      tooltip: "Save a file to file system",
+      action: function() {
+        if (bkHelper.isElectron){
+          bkHelper.showElectronSaveDialog().then(function(path) {
+            // Save cancelled
+            if (path == undefined)
+              return;
+            return bkHelper.saveNotebookAsUri(path, 'file');
+          })
+        } else {
+          return bkHelper.saveNotebookAs();
+        }
+      }
     },
     {
       name: "Publish...",

@@ -91,4 +91,3 @@ plugins](https://github.com/twosigma/beaker-notebook/wiki/OutputDisplay-spec)
 
 Beaker's full source code and documentation is available under the
 Apache 2.0 license.
-

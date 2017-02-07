@@ -28,9 +28,14 @@ ADD . /home/beaker/src
 
 ENV HOME /home/beaker
 
-RUN chown -R beaker:beaker /home/beaker
-
-RUN su -m beaker -c "cd /home/beaker/src  && gradle build"
+RUN chown -R beaker:beaker  /home/beaker && \
+    su -m beaker -c "cd     /home/beaker/src && gradle realclean && gradle build" && \
+    su -m beaker -c "rm -f  /home/beaker/src/core/beaker-notebook*.zip" && \
+    su -m beaker -c "cd     /home/beaker/src/core/config/builds/dist && gradle makeDist" && \
+    su -m beaker -c "mkdir  /home/beaker/bin" && \
+    su -m beaker -c "unzip  /home/beaker/src/core/beaker-notebook*.zip -d /home/beaker/bin/" && \
+    su -m beaker -c "mv     /home/beaker/bin/beaker-notebook* /home/beaker/bin/beaker_notebook" && \
+    su -m beaker -c "rm -rf /home/beaker/src"
 
 ###################
 #      Setup      #
@@ -44,7 +49,7 @@ RUN su -m beaker -c "julia --eval 'Pkg.rm(\"IJulia\")'" && \
     su -m beaker -c "julia --eval 'import ZMQ'" && \
     su -m beaker -c "julia --eval 'import Nettle'"
 
-RUN cp -r /home/beaker/.local/share/jupyter/kernels/julia-0.4 \
+RUN cp -r /home/beaker/.local/share/jupyter/kernels/julia-0.5 \
           /usr/local/share/jupyter/kernels/
 
 RUN mkdir -p /home/beaker/.beaker/v1/config && \
@@ -58,4 +63,4 @@ RUN chown -R beaker:beaker /home/beaker/.beaker
 
 EXPOSE 8800
 WORKDIR /home/beaker/src
-CMD su -m beaker -c "export PATH=$PATH:/usr/sbin && /home/beaker/src/core/beaker.command --public-server"
+CMD su -m beaker -c "export PATH=$PATH:/usr/sbin && /home/beaker/bin/beaker_notebook/beaker.command --public-server"

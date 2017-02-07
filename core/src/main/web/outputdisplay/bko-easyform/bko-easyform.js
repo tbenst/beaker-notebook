@@ -43,6 +43,7 @@
             .val(value)
             .attr("title", "")
             .attr("ng-model", this.element.attr('ng-model'))
+            .attr("ng-model-options", '{debounce: 300}')
             .addClass("custom-combobox-input ui-widget ui-widget-content ui-corner-left")
             .autocomplete({
               delay: 0,
@@ -197,6 +198,12 @@
 
     this.buildUI = function () {};
 
+    this.initValue = function (component) {
+      if (component.value) {
+        scope[scope.ngModelAttr] = component.value;
+      }
+    };
+
     this.init = function() {
       component = scope.component;
       scope.componentId = component.label;
@@ -205,9 +212,7 @@
 
       this.buildUI();
 
-      if (component.value) {
-        scope[scope.ngModelAttr] = component.value;
-      }
+      this.initValue(component);
 
       if (scope.evaluatorExist) {
         scope.$watch(this.watchedExpression,
@@ -223,12 +228,14 @@
     };
 
     this.addUpdatedListener = function() {
+      var self = this;
       this.addListener(constants.Events.UPDATED, function(event, args) {
         args.components.forEach(function(component) {
           if (component.label === scope.componentId) {
-            scope.$apply(function() {
-              scope[scope.ngModelAttr] = component.value;
-              scope.component.enabled = component.enabled;
+            var newValue = component.value;
+            self.setModelValue(newValue, {
+              componentStatus: component.enabled,
+              externalChange: true
             });
           }
         });
@@ -236,12 +243,38 @@
     };
 
     this.addValueLoadedListener = function() {
+      var self = this;
       this.addListener(constants.Events.VALUE_LOADED, function(event, args) {
-        scope.$apply(function() {
-          scope[scope.ngModelAttr] = service.getComponentValue(scope.formId, component);
+        var newValue = service.getComponentValue(scope.formId, component);
+        self.setModelValue(newValue, {
+          externalChange: true
         });
       });
     };
+  };
+
+  EasyFormComponent.prototype.setModelValue = function(newValue, opts) {
+    opts = opts || {};
+
+    var self = this,
+      applyValue = !_.isEqual(this.scope[this.scope.ngModelAttr], newValue);
+
+    if (applyValue) {
+      if (opts.externalChange) {
+        this.scope.$apply(function() {
+          self._setModelValue(newValue, opts);
+        });
+      } else {
+        self._setModelValue(newValue, opts);
+      }
+    }
+  };
+
+  EasyFormComponent.prototype._setModelValue = function(newValue, opts) {
+    this.scope[this.scope.ngModelAttr] = newValue;
+    if (opts.componentStatus !== undefined) {
+      this.scope.component.enabled = opts.componentStatus;
+    }
   };
 
   module.directive("easyFormTextField",
@@ -253,7 +286,7 @@
                 "<div class='easyform-container'>" +
                   "<label class='easyform-label'/>" +
                   "<div class='easyform-component-container'>" +
-                    "<input type='text' class='text-field' ng-disabled='!component.enabled'/>" +
+                    "<input type='text' class='text-field' ng-model-options='{debounce: 300}' ng-disabled='!component.enabled'/>" +
                   "</div>" +
                 "</div>",
             link: function (scope, element, attrs) {
@@ -294,7 +327,7 @@
                 "<div class='easyform-container'>" +
                   "<label class='easyform-label'/>" +
                   "<div class='easyform-component-container'>" +
-                    "<textarea class='text-area' ng-disabled='!component.enabled'/>" +
+                    "<textarea class='text-area' ng-model-options='{debounce: 300}' ng-disabled='!component.enabled'/>" +
                   "</div>" +
                 "</div>",
             link: function (scope, element, attrs) {
@@ -367,9 +400,10 @@
                 efc.addListener(efc.constants.Events.UPDATED, function(event, args) {
                   args.components.forEach(function(component) {
                     if (component.label === scope.componentId) {
-                      scope.$apply(function() {
-                        scope[scope.ngModelAttr] = component.value === 'true' ? true : false;
-                        scope.component.enabled = component.enabled;
+                      var newValue = component.value === 'true' ? true : false;
+                      efc.setModelValue(newValue, {
+                        componentStatus: component.enabled,
+                        externalChange: true
                       });
                     }
                   });
@@ -444,14 +478,15 @@
                 efc.addListener(efc.constants.Events.UPDATED, function(event, args) {
                   args.components.forEach(function(component) {
                     if (component.label === scope.componentId && component.value) {
-                      var selectedValues = component.value.substring(1, component.value.length - 1)
+                      var newValue = component.value,
+                        selectedValues = component.value.substring(1, component.value.length - 1)
                           .split(', ');
                       scope.values.forEach(function(value) {
                         value.selected = selectedValues.indexOf(value.name) != -1
                       });
-                      scope.$apply(function() {
-                        scope[scope.ngModelAttr] = component.value;
-                        scope.component.enabled = component.enabled;
+                      efc.setModelValue(newValue, {
+                        componentStatus: component.enabled,
+                        externalChange: true
                       });
                     }
                   });
@@ -526,9 +561,10 @@
                 efc.addListener(efc.constants.Events.UPDATED, function(event, args) {
                   args.components.forEach(function(component) {
                     if (component.label === scope.componentId) {
-                      scope.$apply(function() {
-                        scope[scope.ngModelAttr] = component.value;
-                        scope.component.enabled = component.enabled;
+                      var newValue = component.value;
+                      efc.setModelValue(newValue, {
+                        componentStatus: component.enabled,
+                        externalChange: true
                       });
                     }
                   });
@@ -537,12 +573,11 @@
 
               efc.addValueLoadedListener = function() {
                 efc.addListener(efc.constants.Events.VALUE_LOADED, function(event, args) {
-                  var loadedValue = efc.service.getComponentValue(scope.formId, efc.getComponent());
-                  if (loadedValue) {
-                    scope.$apply(function() {
-                      scope[scope.ngModelAttr] = JSON.parse(loadedValue);
-                    });
-                  }
+                  var loadedValue = efc.service.getComponentValue(scope.formId, efc.getComponent()),
+                    parsedValue = JSON.parse(loadedValue);
+                  efc.setModelValue(parsedValue, {
+                    externalChange: true
+                  });
                 });
               };
 
@@ -568,8 +603,23 @@
                 "</div>",
             link: function (scope, element, attrs) {
 
+              var getListComponentValue = function(component) {
+                var res = null;
+                if (component.value) {
+                  res = 'true' === efc.getComponent().multipleSelection
+                    ? component.value.substring(1, component.value.length - 1).split(', ')
+                    : component.value;
+                }
+                return res;
+              };
+
               var efc = new EasyFormComponent(
                   scope, element, EasyFormConstants, EasyFormService, bkUtils);
+
+              efc.initValue = function (component) {
+                var newValue = getListComponentValue(component);
+                efc.setModelValue(newValue);
+              };
 
               efc.buildUI = function() {
                 element.find('.easyform-label').text(efc.getComponent().label);
@@ -615,14 +665,10 @@
                 efc.addListener(efc.constants.Events.UPDATED, function(event, args) {
                   args.components.forEach(function(component) {
                     if (component.label === scope.componentId) {
-                      scope.$apply(function() {
-                        if (component.value) {
-                          scope[scope.ngModelAttr] =
-                                  'true' === efc.getComponent().multipleSelection
-                              ? component.value.substring(1, component.value.length - 1).split(', ')
-                              : component.value;
-                        }
-                        scope.component.enabled = component.enabled;
+                      var newValue = getListComponentValue(component);
+                      efc.setModelValue(newValue, {
+                        componentStatus: component.enabled,
+                        externalChange: true
                       });
                     }
                   });
@@ -709,7 +755,7 @@
                 "<div class='easyform-container'>" +
                   "<label class='easyform-label'/>" +
                   "<div class='easyform-component-container datepicker-container'>" +
-                    "<input type='text' class='date-picker' ng-disabled='!component.enabled'/>" +
+                    "<input type='text' class='date-picker' ng-model-options='{debounce: 300}' ng-disabled='!component.enabled'/>" +
                     "<a tabindex='-1' title='Select date' class='date-picker-button ui-button ui-widget ui-state-default ui-button-icon-only custom-combobox-toggle ui-corner-right' role='button' aria-disabled='false'>" +
                       "<span class='ui-button-icon-primary ui-icon ui-icon-triangle-1-s'></span><span class='ui-button-text'></span>" +
                     "</a>" +
@@ -1072,7 +1118,10 @@
           return;
         }
         if (this.easyForms[formId][component.label]) {
-          this.easyForms[formId][component.label].currentValue = value;
+          var elem = this.easyForms[formId][component.label];
+          if (!(_.isEqual(elem.currentValue, value))) {
+            elem.currentValue = value;
+          }
         }
         if (window.languageServiceBase && window.languageServiceBase[evaluatorId]) {
           var req = $.ajax({

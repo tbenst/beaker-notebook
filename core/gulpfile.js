@@ -346,6 +346,12 @@ gulp.task("watch", function() {
   gulp.watch(["**/*.scss", "**/*.jst.html", rootPath + "template/index_template.html"], ["compile"]);
 });
 
+gulp.task("watchClient", function() {
+  gulp.watch([srcPath+"outputdisplay/**/*.js"], ["buildOutputDisplayTemplate"]);
+  gulp.watch([srcPath+"app/**/*.js", "!"+srcPath+"app/dist/**/*.js"], ["buildIndexTemplate"]);
+  gulp.watch([rootPath+ "/**/*.jst.html",root2Path+ "/**/*.jst.html"], ["compileBeakerTemplates"]);
+});
+
 gulp.task('default', ['compile', 'watch']);
 
 gulp.task("namespaceCss", function(cb) {

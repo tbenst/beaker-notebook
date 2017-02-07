@@ -20,7 +20,7 @@
  */
 (function() {
   'use strict';
-  var module = angular.module('bk.helper', ['bk.utils', 'bk.core', 'bk.debug', 'bk.electron', 'bk.publication']);
+  var module = angular.module('bk.helper', ['bk.utils', 'bk.core', 'bk.debug', 'bk.electron', 'bk.publication','bk.katexhelper']);
   /**
    * bkHelper
    * - should be the only thing plugins depend on to interact with general beaker stuffs (other than
@@ -30,7 +30,7 @@
    *   plugins dynamically
    * - it mostly should just be a subset of bkUtil
    */
-  module.factory('bkHelper', function($location, $rootScope, $httpParamSerializer, $uibModal,  bkUtils, bkCoreManager, bkSessionManager, bkEvaluatorManager, bkDebug, bkElectron, bkPublicationAuth, GLOBALS) {
+  module.factory('bkHelper', function($location, $rootScope, $httpParamSerializer, $uibModal,  bkUtils, bkCoreManager, bkSessionManager, bkEvaluatorManager, bkDebug, bkElectron, bkPublicationAuth, katexhelper, GLOBALS) {
     var getCurrentApp = function() {
       return bkCoreManager.getBkApp();
     };
@@ -95,13 +95,15 @@
       defaultEvaluator = data;
     });
 
-
-
       var bkHelper = {
 
       isNewNotebookShortcut: function (e){
         if (this.isMacOS){
-          return e.ctrlKey && (e.which === 78);// Ctrl + n
+          if(this.getInputCellKeyMapMode() === "emacs"){
+            return false; //issue #4722 
+          }else{
+            return e.ctrlKey && (e.which === 78);// Ctrl + n
+          }
         }
         return e.altKey && (e.which === 78);// Alt + n
       },
@@ -129,11 +131,17 @@
         }
         return e.ctrlKey && !e.altKey && e.shiftKey && (e.which === 85);// Cmd + Shift + U
       },
+      isSaveNotebookAsShortcut: function (e){
+        if (this.isMacOS){
+          return e.shiftKey && e.metaKey && !e.ctrlKey && !e.altKey && (e.which === 83);// Cmd + shift + s
+        }
+        return e.ctrlKey && e.shiftKey && e.altKey && (e.which === 83);// Ctrl + shift + s
+      },
       isSaveNotebookShortcut: function (e){
         if (this.isMacOS){
-          return e.metaKey && !e.ctrlKey && !e.altKey && (e.which === 83);// Cmd + s
+          return e.metaKey && !e.shiftKey && !e.ctrlKey && !e.altKey && (e.which === 83);// Cmd + s
         }
-        return e.ctrlKey && !e.altKey && (e.which === 83);// Ctrl + s
+        return e.ctrlKey && !e.shiftKey && !e.altKey && (e.which === 83);// Ctrl + s
       },
       isLanguageManagerShortcut: function (e) {
         if (this.isMacOS) {
@@ -162,14 +170,18 @@
       isInsertAfterSectionShortcut: function(e) {
         if (this.isMacOS){
           return e.metaKey && !e.ctrlKey && !e.altKey && e.shiftKey &&
-            ((e.which>=49) && (e.which<=50));// alt + Shift + 1...2
+            ((e.which>=49) && (e.which<=50));// cmd + Shift + 1...2
         }
         return e.ctrlKey && !e.altKey && e.shiftKey &&
-          ((e.which>=49) && (e.which<=50));// alt + Shift + 1...2
+          ((e.which>=49) && (e.which<=50));// ctrl + Shift + 1...2
       },
       isSearchReplace: function (e){
         if (this.isMacOS){
-          return e.ctrlKey && (e.which === 70);// Ctrl + f
+          if(this.getInputCellKeyMapMode() === "emacs"){
+            return e.ctrlKey && (e.which === 83);// Ctrl + s
+          }else{
+            return e.ctrlKey && (e.which === 70);// Ctrl + f
+          }
         }
         return e.altKey && (e.which === 70);// Alt + f
       },
@@ -280,6 +292,9 @@
       },
       getBaseUrl: function () {
         return bkUtils.getBaseUrl();
+      },
+      getNotebookUri: function() {
+        return bkSessionManager.getNotebookUri();
       },
       openNotebookInNewWindow: function (notebookUri, uriType, readOnly, format) {
         var params = {
@@ -456,7 +471,7 @@
         beakerObj.setupBeakerObject({});
         beakerObj.notebookToBeakerObject();
         var beaker = beakerObj.beakerObj;
-        beaker.prefs = {useOutputPanel: false, outputLineLimit: 1000};
+        beaker.prefs = {useOutputPanel: false, outputLineLimit: 1000, outputColumnLimit: 50};
         beaker.client = {
           mac: navigator.appVersion.indexOf("Mac") != -1,
           windows: navigator.appVersion.indexOf("Win") != -1,
@@ -508,9 +523,16 @@
           return false;
         }
       },
-      saveNotebookAs: function(notebookUri, uriType) {
+      saveNotebookAs: function() {
         if (getCurrentApp() && getCurrentApp().saveNotebookAs) {
-          return getCurrentApp().saveNotebookAs(notebookUri, uriType);
+          return getCurrentApp().saveNotebookAs();
+        } else {
+          return false;
+        }
+      },
+      saveNotebookAsUri: function(notebookUri, uriType) {
+        if (getCurrentApp() && getCurrentApp().saveNotebookAsUri) {
+          return getCurrentApp().saveNotebookAsUri(notebookUri, uriType);
         } else {
           return false;
         }
@@ -571,9 +593,15 @@
           return false;
         }
       },        
+      backupNotebook: function() {
+        return bkSessionManager.backup();
+      },
+      isNotebookModelEdited: function () {
+        return bkSessionManager.isNotebookModelEdited();
+      },
       typeset: function(element) {
         try {
-          renderMathInElement(element[0], {
+          katexhelper.renderElem(element[0], {
             delimiters: [
               {left: "$$", right: "$$", display: true},
               {left: "$", right:  "$", display: false},
@@ -594,9 +622,35 @@
         if (!evaluateFn) {
           evaluateFn = this.evaluateCode;
         }
+
+        var omitContentInsideBackquotsFromKatexTransformation = function(content) {
+          var contentCopy = angular.copy(content);
+          var result = "";
+          var contentList = contentCopy.match(/`.*?\$.*?`/g);
+          if (contentList) {
+            for (var i = 0; i < contentList.length; i++) {
+              var matchContent = contentList[i];
+              var indexOf = contentCopy.indexOf(matchContent);
+              var contentForKatexTransformation = contentCopy.substring(0, indexOf);
+              var contentInsideBackquots = contentCopy.substring(indexOf, indexOf + matchContent.length);
+              var contentForKatexTransformationDiv = $('<div>' + contentForKatexTransformation + '</div>');
+              bkHelper.typeset(contentForKatexTransformationDiv);
+              result += contentForKatexTransformationDiv.html() + contentInsideBackquots;
+              contentCopy = contentCopy.substring(indexOf + matchContent.length, contentCopy.length);
+            }
+            var contentCopyDiv = $('<div>' + contentCopy + '</div>');
+            bkHelper.typeset(contentCopyDiv);
+            result += contentCopyDiv.html();
+          } else {
+            var markdownFragment = $('<div>' + contentCopy + '</div>');
+            bkHelper.typeset(markdownFragment);
+            result = markdownFragment.html();
+          }
+          return result;
+        };
+
         var markIt = function(content) {
-          var markdownFragment = $('<div>' + content + '</div>');
-          bkHelper.typeset(markdownFragment);
+          var markdownFragment = $('<div>' + omitContentInsideBackquotsFromKatexTransformation(content) + '</div>');
           var escapedHtmlContent = angular.copy(markdownFragment.html());
           markdownFragment.remove();
           var unescapedGtCharacter = escapedHtmlContent.replace(/&gt;/g, '>');
@@ -1190,6 +1244,11 @@
           if (_.isObject(evaluator)) delete evaluator.shellID;
         });
 
+        // apply hooks
+        if (window.beakerRegister !== undefined && window.beakerRegister.hooks !== undefined && window.beakerRegister.hooks.preSave !== undefined) {
+          notebookModelCopy = window.beakerRegister.hooks.preSave(notebookModelCopy);
+        }
+        
         // generate pretty JSON
         var prettyJson = bkUtils.toPrettyJson(notebookModelCopy);
         return prettyJson;
@@ -1295,13 +1354,17 @@
         }
 
         // now update payload (if needed)
-        if (evaluation.payload !== undefined && modelOutput.result !== undefined && modelOutput.result.object !== undefined) {
+        if (evaluation.payload !== undefined &&
+            modelOutput.result !== undefined &&
+            modelOutput.result.object !== undefined &&
+            typeof modelOutput.result.object !== 'string') {
+
           modelOutput.result.object.payload = evaluation.payload;
         }
 
         if (modelOutput.result.object !== undefined) {
           if (modelOutput.result.object.payload === undefined) {
-            if (modelOutput.result.object.outputdata.length > 0) {
+            if (modelOutput.result.object.outputdata && modelOutput.result.object.outputdata.length > 0) {
               modelOutput.result.object.payload = { type : "Results", outputdata : modelOutput.result.object.outputdata, payload : undefined };
             }
           } else if (modelOutput.result.object.payload.type === "Results") {
@@ -1320,7 +1383,7 @@
           }
           modelOutput.elapsedTime = new Date().getTime() - modelOutput.result.object.startTime;
 
-          if (modelOutput.result.object.outputdata.length === 0) {
+          if (modelOutput.result.object.outputdata && modelOutput.result.object.outputdata.length === 0) {
             // single output display
             modelOutput.result = evaluation.payload;
           } else {
@@ -1342,7 +1405,7 @@
           }
           modelOutput.elapsedTime = new Date().getTime() - modelOutput.result.object.startTime;
 
-          if (modelOutput.result.object.outputdata.length === 0) {
+          if (modelOutput.result.object.outputdata && modelOutput.result.object.outputdata.length === 0) {
             // single output display
             modelOutput.result = {
               type: "BeakerDisplay",
@@ -1607,7 +1670,7 @@
         function getFileContextMenuItems() {
           var items = [
             'copy', 'copypath', 'cut', 'paste', 'duplicate', '|',
-            'rm'
+            'rm', 'rename'
           ];
           if(!bkUtils.serverOS.isWindows()) {
             items.push('|', 'editpermissions');

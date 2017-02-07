@@ -15,6 +15,7 @@
  */
 package com.twosigma.beaker.core.rest;
 
+import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.sun.jersey.api.Responses;
@@ -22,6 +23,7 @@ import com.twosigma.beaker.core.module.config.BeakerConfig;
 import com.twosigma.beaker.shared.module.config.WebServerConfig;
 import com.twosigma.beaker.shared.module.util.GeneralUtils;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
@@ -41,7 +43,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.*;
 import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.URI;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
@@ -127,8 +128,13 @@ public class PluginServiceLocatorRest {
     "  proxy_pass http://127.0.0.1:%(port)s/api/sessions;\n" +
     "  proxy_set_header Origin \"http://127.0.0.1:%(port)s\";\n" +
     "}\n" +
-    "location ~ %(base_url)s/api/kernels/[0-9a-f-]+/ {\n" +
-    IPYTHON_RULES_BASE;
+    "location ~ %(base_url)s/api/kernels/[0-9a-f-]+/channels {\n" +
+    IPYTHON_RULES_BASE+
+    "location ~ %(base_url)s/api/kernels/[0-9a-f-]+ {\n" +
+    "  rewrite ^%(base_url)s/(.*)$ /$1 break;\n" +
+    "  proxy_pass http://127.0.0.1:%(port)s;\n" +
+    "  proxy_set_header Origin \"http://127.0.0.1:%(port)s\";\n" +
+    "}\n" ;
 
   private static final String CATCH_OUTDATED_REQUESTS_RULE =
       "location ~ /%(urlhash)s[a-z0-9]+\\.\\d+/cometd/ {\n" +
@@ -166,12 +172,12 @@ public class PluginServiceLocatorRest {
   private final String useHttpsKey;
   private final Boolean requirePassword;
   private final String listenInterface;
-  
+
   private final String nginxTemplate;
   private final String ipythonTemplate;
   private final Map<String, PluginConfig> plugins = new HashMap<>();
   private Process nginxProc;
-  private int portSearchStart;
+  private BeakerPorts beakerPorts;
   private BeakerConfig config;
   private String authToken;
 
@@ -221,7 +227,7 @@ public class PluginServiceLocatorRest {
                             "c.NotebookApp.open_browser = False\n" +
                             "c.NotebookApp.password = u'%(hash)s'\n");
     this.nginxCommand = new String[7];
-    
+
     this.nginxCommand[0] = this.nginxBinDir + (this.nginxBinDir.isEmpty() ? "nginx" : "/nginx");
     this.nginxCommand[1] = "-p";
     this.nginxCommand[2] = this.nginxServDir;
@@ -229,7 +235,7 @@ public class PluginServiceLocatorRest {
     this.nginxCommand[4] = this.nginxServDir + "/conf/nginx.conf";
     this.nginxCommand[5] = "-g";
     this.nginxCommand[6] = "error_log stderr;";
-    
+
     this.nginxRestartCommand = new String [9];
     this.nginxRestartCommand[0] = this.nginxBinDir + (this.nginxBinDir.isEmpty() ? "nginx" : "/nginx");
     this.nginxRestartCommand[1] = "-p";
@@ -240,7 +246,7 @@ public class PluginServiceLocatorRest {
     this.nginxRestartCommand[6] = "error_log stderr;";
     this.nginxRestartCommand[7] = "-s";
     this.nginxRestartCommand[8] = "reload";
-    
+
     this.corePassword = webServerConfig.getPassword();
     this.showZombieLogging = bkConfig.getShowZombieLogging();
 
@@ -261,7 +267,7 @@ public class PluginServiceLocatorRest {
       }
     });
 
-    portSearchStart = this.portBase + this.reservedPortCount;
+    this.beakerPorts= new BeakerPorts(this.portBase + this.reservedPortCount);
 
     // on MacOS add library search path
     if (macosx()) {
@@ -285,7 +291,7 @@ public class PluginServiceLocatorRest {
     String base = this.pluginLocations.containsKey(pluginId) ?
       this.pluginLocations.get(pluginId) : this.pluginDir;
     result.add(base + "/" + command);
-    
+
     if (windows()) {
 	String python = this.config.getInstallDirectory() + "\\python\\python";
 	result.add(0, python);
@@ -305,16 +311,30 @@ public class PluginServiceLocatorRest {
     return System.getProperty("os.name").contains("Windows");
   }
 
-  public void start() throws InterruptedException, IOException {
+  public void start() throws InterruptedException, IOException, ExecutionException {
     startReverseProxy();
   }
 
-  private void startReverseProxy() throws InterruptedException, IOException {
+  private void startReverseProxy() throws InterruptedException, IOException, ExecutionException {
+    createPluginConfigs();
     generateNginxConfig();
     logger.info("starting nginx instance (" + this.nginxDir +")");
     Process proc = Runtime.getRuntime().exec(this.nginxCommand, this.nginxEnv);
     startGobblers(proc, "nginx", null, null);
     this.nginxProc = proc;
+  }
+
+  private void createPluginConfigs() throws IOException, InterruptedException, ExecutionException {
+    String pluginsconfiguration = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("pluginsconfiguration.config"));
+    Gson gson = new Gson();
+    PluginConfigDescriptions pluginConfigDescriptions = gson.fromJson(pluginsconfiguration, PluginConfigDescriptions.class);
+    for (PluginConfigDescription pcd: pluginConfigDescriptions.getPlugins() ) {
+      String nginxRules = pcd.getNginxRules();
+      if (pcd.getNginxRules().startsWith("ipython")){
+        nginxRules = "ipython2";
+      }
+      createPluginConfig(pcd.getPluginId(), pcd.getCommand(), nginxRules, beakerPorts.getNextAvailablePort());
+    }
   }
 
   private void shutdown() {
@@ -413,47 +433,41 @@ public class PluginServiceLocatorRest {
       @QueryParam("recordOutput") @DefaultValue("false") boolean recordOutput,
       @QueryParam("waitfor") String waitfor)
     throws InterruptedException, IOException, ExecutionException {
-      
+
     PluginConfig pConfig = this.plugins.get(pluginId);
     if (pConfig != null && pConfig.isStarted()) {
       logger.info("plugin service " + pluginId + " already started at" + pConfig.getBaseUrl());
       return buildResponse(pConfig.getBaseUrl(), false);
     }
 
-    String password = RandomStringUtils.random(40, true, true);
     Process proc = null;
     String restartId = "";
 
+    boolean isNginxRestarted;
     /*
      * Only one plugin can be started at a given time since we need to find a free port.
      * We serialize starting of plugins and we parallelize nginx configuration reload with the actual plugin
      * evaluator start.
      */
     synchronized (this) {
-      // find a port to use for proxypass between nginx and the plugin
-      final int port = getNextAvailablePort(this.portSearchStart);
-      final String baseUrl = generatePrefixedRandomString(pluginId, 12).replaceAll("[\\s]", "");
-      pConfig = new PluginConfig(port, nginxRules, baseUrl, password);
-      this.portSearchStart = pConfig.port + 1;
-      this.plugins.put(pluginId, pConfig);
-
-      if (nginxRules.startsWith("ipython")) {
-        generateIPythonConfig(pluginId, port, password, command);
-
-        if (isIPython4OrNewer(getIPythonVersion(pluginId, command))) {
-          new JupyterWidgetsExtensionProcessor(pluginId, this.pluginDir).copyJupyterExtensionIfExists();
-        }
+      isNginxRestarted = false;
+      if (pConfig == null) {
+        pConfig = createPluginConfig(pluginId, command, nginxRules, beakerPorts.getNextAvailablePort());
+        // reload nginx config
+        restartId = generateNginxConfig();
+        isNginxRestarted = true;
+        logger.warn("restarting nginx");
+        Process restartproc = Runtime.getRuntime().exec(this.nginxRestartCommand, this.nginxEnv);
+        startGobblers(restartproc, "restart-nginx-" + pluginId, null, null);
+        restartproc.waitFor();
       }
 
-      // reload nginx config
-      restartId = generateNginxConfig();
-      Process restartproc = Runtime.getRuntime().exec(this.nginxRestartCommand, this.nginxEnv);
-      startGobblers(restartproc, "restart-nginx-" + pluginId, null, null);
-      restartproc.waitFor();
+      if (nginxRules.startsWith("ipython")) {
+        generateIPythonConfig(pluginId, pConfig.getPort(), pConfig.getPassword(), command);
+      }
 
       ArrayList<String> fullCommand =
         new ArrayList<String>(Arrays.asList(command.split("\\s+")));
-      String args;
 
       fullCommand.set(0, (this.pluginLocations.containsKey(pluginId) ?
                           this.pluginLocations.get(pluginId) : this.pluginDir)
@@ -470,7 +484,7 @@ public class PluginServiceLocatorRest {
 
       fullCommand.add(Integer.toString(pConfig.port));
 
-      String[] env = buildEnv(pluginId, password);
+      String[] env = buildEnv(pluginId, pConfig.getPassword());
 
       if (windows()) {
         String python = this.config.getInstallDirectory() + "\\python\\python";
@@ -482,7 +496,7 @@ public class PluginServiceLocatorRest {
       }
       proc = Runtime.getRuntime().exec(listToArray(fullCommand), env);
     }
-    
+
     if (startedIndicator != null && !startedIndicator.isEmpty()) {
       InputStream is = startedIndicatorStream.equals("stderr") ?
         proc.getErrorStream() : proc.getInputStream();
@@ -503,7 +517,17 @@ public class PluginServiceLocatorRest {
     }
 
     startGobblers(proc, pluginId, recordOutput ? this.outputLogService : null, waitfor);
+    if (isNginxRestarted) {
+      checkThatNginxDidActuallyRestart(pluginId, proc, restartId);
+    }
 
+    pConfig.setProcess(proc);
+    logger.info("Done starting " + pluginId);
+
+    return buildResponse(pConfig.getBaseUrl(), true);
+  }
+
+  private void checkThatNginxDidActuallyRestart(final String pluginId, final Process proc, final String restartId) {
     // check that nginx did actually restart
     String url = "http://127.0.0.1:" + this.restartPort + "/restart." + restartId + "/present.html";
     try {
@@ -518,11 +542,15 @@ public class PluginServiceLocatorRest {
       }
       throw new NginxRestartFailedException("nginx restart failed.\n" + "url=" + url + "\n" + "message=" + t.getMessage());
     }
+  }
 
-    pConfig.setProcess(proc);
-    logger.info("Done starting " + pluginId);
-
-    return buildResponse(pConfig.getBaseUrl(), true);
+  private PluginConfig createPluginConfig(final String pluginId, final String command, final String nginxRules, final int port) throws IOException, InterruptedException, ExecutionException {
+    String password = RandomStringUtils.random(40, true, true);
+    PluginConfig pConfig;// find a port to use for proxypass between nginx and the plugin
+    final String baseUrl = generatePrefixedRandomString(pluginId, 12).replaceAll("[\\s]", "");
+    pConfig = new PluginConfig(port, nginxRules, baseUrl, password);
+    this.plugins.put(pluginId, pConfig);
+    return pConfig;
   }
 
   @GET
@@ -530,7 +558,7 @@ public class PluginServiceLocatorRest {
   public int getAvailablePort() {
     int port;
     synchronized (this) {
-      port = getNextAvailablePort(this.portSearchStart++);
+      port = beakerPorts.getNextAvailablePort();
     }
     return port;
   }
@@ -549,7 +577,7 @@ public class PluginServiceLocatorRest {
 
     int interval = RESTART_ENSURE_RETRY_INTERVAL;
     int totalTime = 0;
-    
+
     while (totalTime < RESTART_ENSURE_RETRY_MAX_WAIT) {
       Request get = Request.Get(url);
       if (get.execute().returnResponse().getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
@@ -707,7 +735,7 @@ public class PluginServiceLocatorRest {
     if (this.listenInterface != null && !this.listenInterface.equals("*")) {
       hostName = this.listenInterface;
     }
-    
+
     if (this.publicServer) {
       if (this.listenInterface != null && !this.listenInterface.equals("*")) {
         listenSection = "listen " + this.listenInterface + ":"+ this.portBase + " ssl;\n";
@@ -715,7 +743,7 @@ public class PluginServiceLocatorRest {
         listenSection = "listen " + this.portBase + " ssl;\n";
       }
       listenSection += "server_name " + hostName + ";\n";
-      
+
       if (this.useHttpsCert==null || this.useHttpsKey==null) {
         listenSection += "ssl_certificate " + this.nginxServDir + "/ssl_cert.pem;\n";
         listenSection += "ssl_certificate_key " + this.nginxServDir + "/ssl_cert.pem;\n";
@@ -728,7 +756,7 @@ public class PluginServiceLocatorRest {
     } else {
       if (this.listenInterface != null) {
         if(this.listenInterface.equals("*")) {
-          listenSection = "listen " + this.servPort + ";\n";          
+          listenSection = "listen " + this.servPort + ";\n";
         } else {
           listenSection = "listen "+this.listenInterface+":" + this.servPort + ";\n";
         }
@@ -769,17 +797,6 @@ public class PluginServiceLocatorRest {
     java.nio.file.Path targetFile = Paths.get(this.nginxServDir, "conf/nginx.conf");
     writePrivateFile(targetFile, nginxConfig);
     return restartId;
-  }
-
-  private static int getNextAvailablePort(int start) {
-    final int SEARCH_LIMIT = 100;
-    for (int p = start; p < start + SEARCH_LIMIT; ++p) {
-      if (isPortAvailable(p)) {
-        return p;
-      }
-    }
-
-    throw new RuntimeException("out of ports error");
   }
 
   private static String generatePrefixedRandomString(String prefix, int randomPartLength) {
@@ -871,28 +888,6 @@ public class PluginServiceLocatorRest {
 
   }
 
-  private static boolean isPortAvailable(int port) {
-
-    ServerSocket ss = null;
-    try {
-      InetAddress address = InetAddress.getByName("127.0.0.1");
-      ss = new ServerSocket(port, 1, address);
-      // ss = new ServerSocket(port);
-      ss.setReuseAddress(true);
-      return true;
-    } catch (IOException e) {
-    } finally {
-      if (ss != null) {
-        try {
-          ss.close();
-        } catch (IOException e) {
-          /* should not be thrown */
-        }
-      }
-    }
-    return false;
-  }
-
   private static void startGobblers(
       Process proc,
       String name,
@@ -909,147 +904,28 @@ public class PluginServiceLocatorRest {
     outputGobbler.start();
   }
 
-  private boolean isIPython4OrNewer(String iPythonVersion) {
-    return iPythonVersion != null && (iPythonVersion.startsWith("4.") || iPythonVersion.startsWith("5."));
+  private static class PluginConfigDescriptions {
+    private List<PluginConfigDescription> plugins;
+    public List<PluginConfigDescription> getPlugins() {
+      return plugins;
+    }
   }
 
-  private class JupyterWidgetsExtensionProcessor {
+  private static class PluginConfigDescription {
     private String pluginId;
-    private String pluginDir;
+    private String command;
+    private String nginxRules;
 
-    JupyterWidgetsExtensionProcessor(String pluginId, String pluginDir) {
-      this.pluginId = pluginId;
-      this.pluginDir = pluginDir;
+    public String getPluginId() {
+      return pluginId;
     }
 
-    void copyJupyterExtensionIfExists() throws IOException, InterruptedException {
-      boolean fileProcessed = copyExtensionFileFromPythonDist();
-
-      if (!fileProcessed) {
-        try {
-          Files.copy(Paths.get(getDefaultExtensionPath()), Paths.get(getTargetExtensionPath()), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-          //e.printStackTrace();
-        }
-      }
-    }
-
-    private boolean copyExtensionFileFromPythonDist() {
-      try {
-        String plugPath = config.getPluginPath(pluginId);
-        Process jupyterPathsProcess = Runtime.getRuntime().exec(new String[]{getJupyterCommand(plugPath), "--paths"}, buildEnv(pluginId, null));
-        jupyterPathsProcess.waitFor();
-        List<String> jupyterDataPaths = parseJupyterDataPaths(jupyterPathsProcess);
-        for (String jupyterDataPath : jupyterDataPaths) {
-          java.nio.file.Path jupyterExtensionJsPath = getJupyterExtensionPath(jupyterDataPath);
-          if (jupyterExtensionJsPath != null) {
-            copyExtension(jupyterExtensionJsPath);
-            return true;
-          }
-        }
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-      return false;
-    }
-
-    private String getJupyterCommand(String plugPath) {
-      String command = "jupyter";
-      if (!StringUtils.isBlank(plugPath)) {
-        if (windows()) {
-          plugPath += "/Scripts";
-        }
-        command = plugPath + '/' + command;
-      }
+    public String getCommand() {
       return command;
     }
 
-    private java.nio.file.Path getJupyterExtensionPath(String jupyterDataPath) {
-      java.nio.file.Path jupyterPath = Paths.get(jupyterDataPath);
-      if (Files.exists(jupyterPath)) {
-        java.nio.file.Path jupyterExtensionJsPath = jupyterPath.resolve("nbextensions/jupyter-js-widgets/extension.js");
-        if (Files.exists(jupyterExtensionJsPath)) {
-          return jupyterExtensionJsPath;
-        }
-      }
-      return null;
-    }
-
-    private void copyExtension(java.nio.file.Path jupyterExtensionJsPath) throws IOException {
-      try (
-          final BufferedReader bufferedReader = new BufferedReader(new FileReader(jupyterExtensionJsPath.toFile()));
-          BufferedWriter writer = new BufferedWriter(new FileWriter(getTargetExtensionPath()));
-      ) {
-        String line;
-        for (int lineIndex = 0; (line = bufferedReader.readLine()) != null; lineIndex++) {
-          writer.write(processLine(line, lineIndex));
-          writer.newLine();
-        }
-      }
-    }
-
-    private String getTargetExtensionPath() {
-      return getExtensionPath(false);
-    }
-
-    private String getDefaultExtensionPath() {
-      return getExtensionPath(true);
-    }
-
-    private String getExtensionPath(boolean defaultFile) {
-      String fileName = "extension.js";
-      if (defaultFile) {
-        fileName = "_" + fileName;
-      }
-      return this.pluginDir + "/ipythonPlugins/vendor/ipython4/" +
-          fileName;
-    }
-
-    private String processLine(String line, int lineIndex) {
-      if (lineIndex == 0 && line.startsWith("define(")) {
-        line = line.replace("define(", "define('nbextensions/jupyter-js-widgets/extension', ");
-      } else if (line.contains("this._init_menu();")) {
-        line = "//" + line;
-      } else if (line.contains("this.state_change = this.state_change.then(function() {")) {
-        line = "            var elem = $(document.createElement(\"div\"));\n" +
-               "            elem.addClass('ipy-output');\n" +
-               "            elem.attr('data-msg-id', msg.parent_header.msg_id);\n" +
-               "            var widget_area = $(document.createElement(\"div\"));\n" +
-               "            widget_area.addClass('widget-area');\n" +
-               "            var widget_subarea = $(document.createElement(\"div\"));\n" +
-               "            widget_subarea.addClass('widget-subarea');\n" +
-               "            widget_subarea.appendTo(widget_area);\n" +
-               "            widget_area.appendTo(elem);\n" +
-               "            var kernel = this.widget_manager.comm_manager.kernel;\n" +
-               "            if (kernel) {\n" +
-               "              //This cause fail on plot display\n" +
-               "              //kernel.appendToWidgetOutput = true;\n" +
-               "              var callbacks = kernel.get_callbacks_for_msg(msg.parent_header.msg_id);\n" +
-               "              if (callbacks && callbacks.iopub) {\n" +
-               "                msg.content.data['text/html'] = elem[0].outerHTML;\n" +
-               "                callbacks.iopub.output(msg);\n" +
-               "              }\n" +
-               "            }\n" +
-               "            " + line;
-      }
-      return line;
-    }
-
-    private List<String> parseJupyterDataPaths(Process jupyterPathsProcess) throws IOException {
-      BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(jupyterPathsProcess.getInputStream()));
-      boolean data = false;
-      String line;
-      List<String> jupyterDataPaths = new ArrayList<>();
-      while ((line = bufferedReader.readLine()) != null) {
-        if (line.startsWith("data:")) {
-          data = true;
-        } else if (line.startsWith("runtime:")) {
-          break;
-        } else if (data) {
-          jupyterDataPaths.add(line.trim());
-        }
-      }
-      return jupyterDataPaths;
+    public String getNginxRules() {
+      return nginxRules;
     }
   }
 }

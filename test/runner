@@ -22,6 +22,7 @@ import urllib2
 import signal
 
 # make sure everything is properly installed
+os.system("rm -rf ./node_modules/*")
 os.system("npm install")
 os.system("node_modules/protractor/bin/webdriver-manager update");
 
@@ -39,6 +40,8 @@ result = os.system("./node_modules/protractor/bin/protractor protractorConf.js")
 result2 = 1
 if not result:
     result2 = os.system("./node_modules/protractor/bin/protractor protractorWithoutRestartBrowserConf.js");
+if not result2:
+    result2 = os.system("./node_modules/protractor/bin/protractor protractorOneInstanceConf.js");
 
 # Skipping memory tests because they hang on Jenkins
 # os.system("node memory-tests.js")
